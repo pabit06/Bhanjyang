@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fixed Deposits - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<section class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 overflow-hidden">
+  <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+  <div class="container mx-auto px-6 text-center relative z-10">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat">Fixed Deposits</h1>
+    <p class="text-xl text-blue-100 max-w-3xl mx-auto">Secure your future with stable returns and flexible payout options</p>
+  </div>
+</section>
+
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-800 font-montserrat">Deposit Rates</h2>
+      <p class="text-gray-600">Compare monthly, quarterly, and lump sum options</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+      <div class="overflow-x-auto">
+        <table class="w-full text-center">
+          <thead>
+            <tr class="border-b-2 border-gray-200">
+              <th class="py-3 px-4 text-left text-gray-800 font-semibold">Duration</th>
+              <th class="py-3 px-4 text-gray-800 font-semibold">Monthly</th>
+              <th class="py-3 px-4 text-gray-800 font-semibold">Quarterly</th>
+              <th class="py-3 px-4 text-gray-800 font-semibold">Lump Sum</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for deposit in fixed_deposits %}
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+              <td class="py-3 px-4 text-left font-medium">{{ deposit.get_duration_months_display }}</td>
+              <td class="py-3 px-4 text-gray-600">
+                {% if deposit.payment_frequency == 'monthly' %}
+                  <span class="text-deuraligreen font-bold">{{ deposit.interest_rate }}%</span>
+                {% else %}-{% endif %}
+              </td>
+              <td class="py-3 px-4 text-gray-600">
+                {% if deposit.payment_frequency == 'quarterly' %}
+                  <span class="text-deuraligreen font-bold">{{ deposit.interest_rate }}%</span>
+                {% else %}-{% endif %}
+              </td>
+              <td class="py-3 px-4 text-gray-600">
+                {% if deposit.payment_frequency == 'lump_sum' %}
+                  <span class="text-deuraligreen font-bold">{{ deposit.interest_rate }}%</span>
+                {% else %}-{% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="py-8 text-center text-gray-600">No fixed deposit options available at the moment.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">Open a Fixed Deposit</h2>
+    <p class="text-lg text-gray-600 mb-8">Talk to our team to choose the best plan for you.</p>
+    <a href="{% url 'contact:contact_view' %}" class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">Contact Us</a>
+  </div>
+</section>
+{% endblock content %}

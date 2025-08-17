@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* ---------------------------------
+   Theme Custom Variables (Colors)
+---------------------------------- */
+@theme {
+  --color-bhanjyangred: #DC3545;
+  --color-danger: #DC3545;
+  --color-deuraligreen: #28A745;
+  --color-success: #28A745;
+  --color-rupablue: #1976D2;
+  --color-himalwhite: #F9F9F9;
+  --color-light: #f8f9fa;
+  --color-patrikaslate: #2D3748;
+
+  --animate-in-up: in-up 0.5s ease-out forwards;
+}
+/* -------------------------------
+   Navigation Link Underline Hover
+------------------------------- */
+.nav-link-underline {
+  position: relative;
+}
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--color-bhanjyangred);
+  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+.nav-link-underline:hover::after {
+  width: 100%;
+  background-color: var(--color-deuraligreen);
+}
+
+.animate-in-up {
+  animation: var(--animate-in-up);
+}
+
+@keyframes in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

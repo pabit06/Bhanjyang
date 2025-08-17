@@ -1,0 +1,117 @@
+{% load static %}
+<!-- Loading Animation Component -->
+<div id="loading-overlay" class="fixed inset-0 z-50 bg-white bg-opacity-90 flex items-center justify-center transition-opacity duration-300">
+    <div class="text-center">
+        <!-- Spinning Logo -->
+        <div class="mb-4">
+            <img src="{% static 'main/images/logo.png' %}" alt="Bhanjyang Cooperative" class="w-16 h-16 mx-auto animate-spin">
+        </div>
+        
+        <!-- Loading Text -->
+        <h3 class="text-xl font-semibold text-deuraligreen mb-2">Loading...</h3>
+        <p class="text-gray-600">Please wait while we prepare your experience</p>
+        
+        <!-- Progress Bar -->
+        <div class="w-64 bg-gray-200 rounded-full h-2 mt-4 overflow-hidden">
+            <div class="bg-deuraligreen h-2 rounded-full animate-progress"></div>
+        </div>
+        
+        <!-- Loading Dots -->
+        <div class="flex justify-center mt-4 space-x-2">
+            <div class="w-2 h-2 bg-deuraligreen rounded-full animate-pulse"></div>
+            <div class="w-2 h-2 bg-deuraligreen rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+            <div class="w-2 h-2 bg-deuraligreen rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Skeleton Loading Component -->
+<div class="skeleton-loading hidden">
+    <div class="animate-pulse">
+        <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+        <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
+        <div class="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
+        <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+    </div>
+</div>
+
+<!-- Card Skeleton -->
+<div class="card-skeleton hidden">
+    <div class="bg-white rounded-lg shadow-md p-6 animate-pulse">
+        <div class="flex items-center space-x-4">
+            <div class="rounded-full bg-gray-200 h-12 w-12"></div>
+            <div class="flex-1 space-y-2">
+                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image Skeleton -->
+<div class="image-skeleton hidden">
+    <div class="bg-gray-200 rounded-lg animate-pulse" style="height: 200px;"></div>
+</div>
+
+<script>
+// Loading functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    
+    // Hide loading overlay after page loads
+    setTimeout(() => {
+        if (loadingOverlay) {
+            loadingOverlay.style.opacity = '0';
+            setTimeout(() => {
+                loadingOverlay.style.display = 'none';
+            }, 300);
+        }
+    }, 1500);
+    
+    // Show loading for navigation
+    document.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && e.target.href && !e.target.href.includes('#')) {
+            loadingOverlay.style.display = 'flex';
+            loadingOverlay.style.opacity = '1';
+        }
+    });
+});
+
+// Show skeleton loading
+function showSkeleton(container, type = 'default') {
+    const skeleton = document.querySelector(`.${type}-skeleton`);
+    if (skeleton && container) {
+        const clone = skeleton.cloneNode(true);
+        clone.classList.remove('hidden');
+        container.appendChild(clone);
+    }
+}
+
+// Hide skeleton loading
+function hideSkeleton(container) {
+    const skeletons = container.querySelectorAll('[class*="skeleton"]');
+    skeletons.forEach(skeleton => {
+        skeleton.remove();
+    });
+}
+
+// Show loading overlay
+function showLoading() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.style.display = 'flex';
+        loadingOverlay.style.opacity = '1';
+    }
+}
+
+// Hide loading overlay
+function hideLoading() {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.style.opacity = '0';
+        setTimeout(() => {
+            loadingOverlay.style.display = 'none';
+        }, 300);
+    }
+}
+</script>

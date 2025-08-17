@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Past Events Archive - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'main/images/pattern-light.png' %}');"></div>
+        <div class="container mx-auto text-center z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">Past Events Archive</h1>
+            <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">A record of our previously held community programs, workshops, and meetings.</p>
+        </div>
+    </section>
+
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-12">
+                <a href="{% url 'updates:event-list' %}" class="text-deuraligreen hover:underline font-semibold">
+                    <i class="fas fa-calendar-check mr-2"></i>View Upcoming Events
+                </a>
+            </div>
+
+            <div class="space-y-8">
+                {% for event in page_obj %}
+                <div class="bg-white rounded-lg shadow-lg p-6 opacity-80 hover:opacity-100 transition-opacity duration-300 flex flex-col md:flex-row items-center gap-6">
+                    <div class="text-center md:text-left">
+                        <div class="bg-gray-400 text-white rounded-lg w-24 h-24 flex flex-col justify-center items-center font-bold">
+                            <span class="text-4xl leading-none">{{ event.event_date|date:"d" }}</span>
+                            <span class="text-lg uppercase">{{ event.event_date|date:"M" }} '{{ event.event_date|date:"y" }}</span>
+                        </div>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h3 class="text-2xl font-bold font-montserrat mb-2 text-gray-700">{{ event.title }}</h3>
+                        <div class="text-gray-500 text-sm mb-2 flex flex-wrap justify-center md:justify-start gap-x-4">
+                            <span><i class="fas fa-map-marker-alt mr-1"></i>{{ event.location }}</span>
+                        </div>
+                        <p class="text-gray-600">{{ event.description }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center py-12">
+                    <p class="text-gray-600 text-xl">There are no past events recorded yet.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if page_obj.has_other_pages %}
+               {% include 'partials/_pagination.html' %}
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}

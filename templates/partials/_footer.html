@@ -1,0 +1,81 @@
+{% load static %}
+
+{# Main Footer Section #}
+{# मुख्य फुटर खण्ड #}
+<footer class="bg-himalwhite text-patrikaslate py-16 mt-1 shadow-inner">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 px-6 text-center md:text-left">
+        
+        {# Cooperative Info #}
+        <div class="flex flex-col items-center md:items-start lg:col-span-2">
+            <img src="{% static 'main/images/logo.png' %}" alt="Bhanjyang Cooperative Logo" class="h-16 mb-4" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/200x60/eeeeee/333333?text=Logo+Not+Found';">
+            <p class="text-sm leading-relaxed mb-6 text-justify">
+                Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski.
+            </p>
+            <div class="flex space-x-4">
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110" aria-label="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110" aria-label="Twitter"><i class="fab fa-twitter text-xl"></i></a>
+                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110" aria-label="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
+            </div>
+        </div>
+
+        {# Quick Links #}
+        <div>
+            <h3 class="text-xl font-bold mb-5 text-deuraligreen font-montserrat border-b border-gray-300 pb-2">Quick Links</h3>
+            <ul class="text-sm space-y-3">
+                <li><a href="/" class="hover:text-deuraligreen transition-colors duration-300">Home</a></li>
+                <li><a href="/about" class="hover:text-deuraligreen transition-colors duration-300">About Us</a></li>
+                <li><a href="/services" class="hover:text-deuraligreen transition-colors duration-300">Services</a></li>
+                <li><a href="/contact" class="hover:text-deuraligreen transition-colors duration-300">Contact Us</a></li>
+            </ul>
+        </div>
+
+        {# Contact Information #}
+        <div>
+            <h3 class="text-xl font-bold mb-5 text-deuraligreen font-montserrat border-b border-gray-300 pb-2">Get in Touch</h3>
+            <address class="not-italic">
+                <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
+                    <i class="fas fa-map-marker-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
+                    <span>Rupa R.M.-5, Deurali Bazar, Kaski</span>
+                </p>
+                <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
+                    <i class="fas fa-phone-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
+                    <a href="tel:+9779856083101" class="hover:underline">+977-9856083101</a>
+                </p>
+                <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
+                        <i class="fas fa-envelope text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
+                        <a href="mailto:info@bhanjyang.coop.np" class="hover:underline">info@bhanjyang.coop.np</a>
+                </p>
+                <p class="text-sm flex items-start justify-center md:justify-start">
+                        <i class="fas fa-clock text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
+                        <span>Sun-Fri: 10 AM - 4 PM</span>
+                </p>
+            </address>
+        </div>
+        
+        {# Google Maps Location #}
+        <div class="w-full">
+            <h4 class="text-md font-semibold mb-3 text-deuraligreen font-montserrat">Locate Us:</h4>
+            <iframe 
+                title="Bhanjyang Cooperative Location on Google Maps"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3516.141529184581!2d84.11693747513835!3d28.20404397598805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a570533eb321%3A0x6335669a2327e02!2sDeurali%2C%20Rupa%2033700!5e0!3m2!1sen!2snp!4v1718210356193!5m2!1sen!2snp"
+                class="w-full h-[180px] rounded-lg shadow-md border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+</footer>
+
+{# Slanted Bottom Bar #}
+{# This section uses `clip-path` to create the angled separation effect. #}
+{# यो खण्डले एङ्गल छुट्याउने प्रभाव सिर्जना गर्न `clip-path` प्रयोग गर्दछ। #}
+<div class="relative w-full flex text-white overflow-hidden h-16">
+    <div class="relative bg-bhanjyangred flex items-center px-6 sm:px-8 z-10" style="width: 45%; clip-path: polygon(0 0, 100% 0, calc(100% - 32px) 100%, 0 100%);">
+        <span class="flex-shrink-0 text-xs sm:text-sm md:text-base whitespace-nowrap">
+            &copy; {% now "Y" %} Bhanjyang Cooperative. All rights reserved.
+        </span>
+    </div>
+    <div class="relative bg-deuraligreen flex items-center px-6 sm:px-8 z-0 -ml-8 justify-end text-right" style="width: 60%; clip-path: polygon(32px 0, 100% 0, 100% 100%, 0% 100%);">
+        <span class="text-xs sm:text-sm md:text-base leading-snug">
+            Crafted by Prem Bhandari
+        </span>
+    </div>
+</div>

@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bhanjyang Cooperative - Contact Us{% endblock title %}
+
+{% block extra_head %}
+    {# SEO Optimization: Meta Description for Contact Us page #}
+    <meta name="description" content="Get in touch with Bhanjyang Saving & Credit Cooperative Society Ltd. Find our main office and service center addresses, phone numbers, email, and send us a message directly. We're here to help!">
+    <meta name="keywords" content="Bhanjyang Cooperative Contact, Contact Details, Cooperative Office, Service Center, Rupa-3, Phone Number, Email Address, Send Message, Kaski, Rupa Rural Municipality, Customer Support, Get Directions">
+{% endblock extra_head %}
+
+{% block content %}
+
+    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+
+        <div class="container mx-auto text-center z-10 animated-element animate-in-up delay-500 ">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 drop-shadow-lg">
+                Get in Touch
+            </h1>
+            <p class="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto opacity-90 leading-relaxed">
+                We're here to assist you. Reach out to us through any of our offices or channels below.
+            </p>
+        </div>
+    </section>
+
+    <section id="contact-info" class="py-16 px-4 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-10 border-b-2 border-deuraligreen pb-3 inline-block mx-auto animated-element animate-in-up delay-100">
+                Our Contact Information & Locations
+            </h2>
+            <p class="text-center text-lg text-gray-700 mb-12">
+                Whether you have a query, feedback, or need assistance, our dedicated team at both our Main Office and Service Center is ready to help.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                {# Main Office Address Card #}
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-200">
+                    <i class="fas fa-building text-5xl text-deuraligreen mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3 font-montserrat">Main Office</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Bhanjyang Saving & Credit Cooperative Ltd.<br>
+                        Rupa Rural Municipality-5, Deurali, Kaski<br>
+                        Gandaki Province, Nepal
+                    </p>
+                    {# NOTE: Remember to replace '#' with the actual Google Maps link for the Main Office #}
+                    <a href="#" target="_blank" class="block mt-4 text-bhanjyangred hover:underline font-semibold">Get Directions <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+
+                {# Service Center Address Card #}
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-300">
+                    <i class="fas fa-map-marked-alt text-5xl text-bhanjyangred mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3 font-montserrat">Service Center</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Bhanjyang SACCOS, Polyang Service Center<br>
+                        Rupa Rural Municipality-3, Polyang, Kaski<br>
+                        Gandaki Province, Nepal
+                    </p>
+                     {# NOTE: Remember to replace '#' with the actual Google Maps link for the Service Center #}
+                    <a href="#" target="_blank" class="block mt-4 text-deuraligreen hover:underline font-semibold">Get Directions <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+
+                {# Phone Card - UPDATED FOR CONSISTENCY #}
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-400">
+                    <i class="fas fa-phone-alt text-5xl text-deuraligreen mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3 font-montserrat">Call Us</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Main Office: <a href="tel:+9779856083101" class="text-blue-600 hover:underline">+977-9856083101</a><br>
+                        Service Center: <a href="tel:+9779846242424" class="text-blue-600 hover:underline">+977-9846242424</a>
+                    </p>
+                    <p class="text-sm text-gray-600 mt-2">Available during business hours.</p>
+                </div>
+
+                {# Email Card #}
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-500">
+                    <i class="fas fa-envelope text-5xl text-bhanjyangred mb-4"></i>
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-3 font-montserrat">Email Us</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        General Inquiries: <a href="mailto:info@bhanjyang.coop.np" class="text-blue-600 hover:underline">info@bhanjyang.coop.np</a><br>
+                        Support: <a href="mailto:support@bhanjyang.coop.np" class="text-blue-600 hover:underline">support@bhanjyang.coop.np</a>
+                    </p>
+                    <p class="text-sm text-gray-600 mt-2">We aim to respond within 24-48 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-feedback-form" class="py-16 px-4 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                {# Column 1: Engaging Text and Quick Info #}
+                <div class="text-center lg:text-left animated-element animate-in-up delay-100">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-deuraligreen font-montserrat mb-6">
+                        We'd Love to Hear From You
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                        Whether you have a question, a suggestion, or feedback on our services, we're here to listen. Your insights are invaluable to us as we strive to improve. Please use the form to get in touch, or contact us directly.
+                    </p>
+                    <div class="space-y-4 inline-block text-left">
+                        <div class="flex items-center gap-4 text-gray-800">
+                            <i class="fas fa-phone-alt text-xl text-deuraligreen"></i>
+                            <a href="tel:+9779856083101" class="hover:underline">+977-9856083101</a>
+                        </div>
+                        <div class="flex items-center gap-4 text-gray-800">
+                            <i class="fas fa-envelope text-xl text-deuraligreen"></i>
+                            <a href="mailto:info@bhanjyang.coop.np" class="hover:underline">info@bhanjyang.coop.np</a>
+                        </div>
+                    </div>
+                </div>
+
+                {# Column 2: The Contact Form #}
+                <div class="animated-element animate-in-up delay-200">
+                    <!-- I have corrected the form action to point to our named URL -->
+                    <form id="contactForm" method="POST" action="{% url 'contact:contact_view' %}" class="space-y-6 bg-white border border-gray-200 p-8 rounded-lg shadow-xl">
+                        {% csrf_token %}
+                        
+                        {# This div will be populated by our JavaScript with success or error messages #}
+                        <div id="form-messages" class="min-h-[2rem]"></div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="{{ form.name.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Your Name <span class="text-red-500">*</span></label>
+                                {{ form.name }}
+                                <div class="text-red-500 text-sm mt-1">{{ form.name.errors }}</div>
+                            </div>
+                            <div>
+                                <label for="{{ form.email.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Your Email <span class="text-red-500">*</span></label>
+                                {{ form.email }}
+                                <div class="text-red-500 text-sm mt-1">{{ form.email.errors }}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="{{ form.phone.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Phone Number (Optional)</label>
+                            {{ form.phone }}
+                            <div class="text-red-500 text-sm mt-1">{{ form.phone.errors }}</div>
+                        </div>
+                        <div>
+                            <label for="{{ form.subject.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Subject <span class="text-red-500">*</span></label>
+                            {{ form.subject }}
+                            <div class="text-red-500 text-sm mt-1">{{ form.subject.errors }}</div>
+                        </div>
+                        <div>
+                            <label for="{{ form.message.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Your Message <span class="text-red-500">*</span></label>
+                            {{ form.message }}
+                            <div class="text-red-500 text-sm mt-1">{{ form.message.errors }}</div>
+                        </div>
+                        <div class="text-center">
+                            <button id="submitButton" type="submit" class="w-full bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out flex items-center justify-center gap-2">
+                                <span id="buttonText">Send Message</span>
+                                <i id="buttonIcon" class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="our-locations-map" class="py-16 px-4 bg-white">
+        <div class="text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-10 border-b-2 border-deuraligreen pb-3 inline-block animated-element animate-in-up delay-100">
+                    Find Our Locations on the Map
+                </h2>
+            </div>
+            <p class="text-center text-lg text-gray-700 mb-12">
+                Visit our Main Office in Rupa Rural Municipality-5 or our Service Center in Rupa Rural Municipality-3.
+            </p>
+
+            <div class="rounded-lg shadow-xl overflow-hidden border-4 border-deuraligreen animated-element animate-in-up delay-200">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3514.898894103138!2d84.14811007425132!3d28.241011801556064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995965a33990619%3A0x6c6377cc2956f897!2sBhanjyang%20SACCOS!5e0!3m2!1sen!2snp!4v1718311548232!5m2!1sen!2snp" 
+                        class="w-full h-96 md:h-[500px]"
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                <a href="#" target="_blank"
+                   class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out text-center">
+                    Main Office on Map <i class="fas fa-map-pin ml-2"></i>
+                </a>
+                <a href="#" target="_blank"
+                   class="inline-block bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out text-center">
+                    Service Center on Map <i class="fas fa-map-pin ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="social-media" class="py-16 px-4 bg-white text-center">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-deuraligreen font-montserrat mb-6 animated-element animate-in-up delay-100">
+                Connect With Us
+            </h2>
+            <p class="text-lg mb-8 leading-relaxed">
+                Follow us on social media to stay updated and join our online community.
+            </p>
+            <div class="flex justify-center space-x-6 animated-element animate-in-up delay-200">
+                <a href="https://www.facebook.com/cooperativebhanjyang" target="_blank" class="text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                    <i class="fab fa-facebook-square text-5xl"></i>
+                </a>
+                <a href="#" target="_blank" class="text-blue-400 hover:text-blue-600 transition-colors duration-200">
+                    <i class="fab fa-twitter-square text-5xl"></i>
+                </a>
+                <a href="#" target="_blank" class="text-pink-600 hover:text-pink-800 transition-colors duration-200">
+                    <i class="fab fa-instagram-square text-5xl"></i>
+                </a>
+                <a href="#" target="_blank" class="text-red-600 hover:text-red-800 transition-colors duration-200">
+                    <i class="fab fa-youtube-square text-5xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contactForm');
+        const submitButton = document.getElementById('submitButton');
+        const buttonText = document.getElementById('buttonText');
+        const buttonIcon = document.getElementById('buttonIcon');
+        const formMessages = document.getElementById('form-messages');
+
+        if (!form) return;
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            submitButton.disabled = true;
+            buttonText.textContent = 'Sending...';
+            buttonIcon.className = 'fas fa-spinner fa-spin';
+            formMessages.innerHTML = '';
+
+            const formData = new FormData(form);
+            const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    formMessages.innerHTML = `<div class="p-3 rounded-lg text-center font-semibold text-sm bg-green-100 text-green-800">${data.message}</div>`;
+                    form.reset();
+                } else {
+                    let errorHtml = '<ul class="list-disc pl-5 text-left">';
+                    if (data.errors) {
+                        for (const field in data.errors) {
+                            data.errors[field].forEach(error => {
+                                errorHtml += `<li>${error}</li>`;
+                            });
+                        }
+                    } else if (data.message) {
+                        errorHtml += `<li>${data.message}</li>`;
+                    }
+                    errorHtml += '</ul>';
+                    formMessages.innerHTML = `<div class="p-3 rounded-lg font-semibold text-sm bg-red-100 text-red-800">${errorHtml}</div>`;
+                }
+            })
+            .catch(error => {
+                formMessages.innerHTML = `<div class="p-3 rounded-lg text-center font-semibold text-sm bg-red-100 text-red-800">An unexpected error occurred. Please try again later.</div>`;
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                buttonText.textContent = 'Send Message';
+                buttonIcon.className = 'fas fa-paper-plane';
+            });
+        });
+    });
+</script>
+{% endblock extra_js %}

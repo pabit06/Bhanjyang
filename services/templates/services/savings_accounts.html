@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Savings Accounts - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-green-600 via-green-700 to-green-800 text-white py-20 overflow-hidden hero-section">
+    <div class="parallax absolute inset-0 bg-gradient-to-br from-green-600 via-green-700 to-green-800" data-speed="0.3"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-ping"></div>
+        <div class="absolute bottom-20 left-20 w-12 h-12 bg-white bg-opacity-10 rounded-full animate-bounce"></div>
+    </div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat typing-effect scroll-animate glitch" data-text="Savings Accounts">
+            <span class="block">Savings Accounts</span>
+        </h1>
+        <p class="text-xl text-green-100 max-w-4xl mx-auto scroll-animate stagger-1">
+            Choose from our range of savings accounts with competitive interest rates and flexible terms
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4 scroll-animate stagger-2">
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                <i class="fas fa-percentage mr-2"></i>Up to 8% Interest
+            </div>
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                <i class="fas fa-shield-alt mr-2"></i>Secure & Reliable
+            </div>
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                <i class="fas fa-mobile-alt mr-2"></i>Mobile Banking
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Savings Accounts -->
+{% if featured_accounts %}
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Featured Savings Accounts</h2>
+            <p class="text-lg text-gray-600">Our most popular and recommended savings options</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for account in featured_accounts %}
+            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-t-4 border-{{ account.color }} group">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-{{ account.color }} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="{{ account.icon }} text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">{{ account.nepali_name }}</h3>
+                    <p class="text-sm text-gray-600 mb-3">{{ account.english_name }}</p>
+                    <div class="text-4xl font-bold text-{{ account.color }} mb-2">{{ account.interest_rate }}%</div>
+                    <p class="text-xs text-gray-500">Annual Interest Rate</p>
+                </div>
+                {% if account.features %}
+                <div class="text-sm text-gray-600 mb-4">
+                    {{ account.features|linebreaks }}
+                </div>
+                {% endif %}
+                <div class="text-center">
+                    <span class="inline-block bg-{{ account.color }} bg-opacity-10 text-{{ account.color }} text-xs px-3 py-1 rounded-full font-semibold">
+                        Featured Product
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- All Savings Accounts -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">All Savings Account Types</h2>
+            <p class="text-lg text-gray-600">Complete overview of our savings products and features</p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for account in savings_accounts %}
+            <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-{{ account.color }} group">
+                <div class="text-center mb-4">
+                    <div class="w-16 h-16 bg-{{ account.color }} rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                        <i class="{{ account.icon }} text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">{{ account.nepali_name }}</h3>
+                    <p class="text-sm text-gray-600 mb-2">{{ account.english_name }}</p>
+                    <div class="text-2xl font-bold text-{{ account.color }}">{{ account.interest_rate }}%</div>
+                    <p class="text-xs text-gray-500">Annual Interest Rate</p>
+                </div>
+                
+                {% if account.minimum_balance %}
+                <div class="text-center mb-3">
+                    <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+                        Min: NPR {{ account.minimum_balance|floatformat:0 }}
+                    </span>
+                </div>
+                {% endif %}
+                
+                {% if account.description %}
+                <p class="text-sm text-gray-600 mb-4 text-center">{{ account.description }}</p>
+                {% endif %}
+                
+                {% if account.features %}
+                <div class="text-xs text-gray-500 mb-4">
+                    {{ account.features|linebreaks }}
+                </div>
+                {% endif %}
+                
+                {% if account.is_featured %}
+                <div class="text-center">
+                    <span class="inline-block bg-{{ account.color }} bg-opacity-10 text-{{ account.color }} text-xs px-2 py-1 rounded-full font-semibold">
+                        Featured
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center text-gray-600">
+                <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-piggy-bank text-3xl text-gray-400"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">No Savings Accounts Available</h3>
+                <p>We're currently setting up our savings products. Please check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Our Savings -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Why Choose Our Savings Accounts?</h2>
+            <p class="text-lg text-gray-600">Benefits that make us the preferred choice for your savings</p>
+        </div>
+        
+        <div class="grid md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-percentage text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Competitive Rates</h3>
+                <p class="text-gray-600">Highest interest rates in the region up to 8% annually</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-shield-alt text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Secure & Safe</h3>
+                <p class="text-gray-600">Government-regulated cooperative with member protection</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-mobile-alt text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">24/7 Access</h3>
+                <p class="text-gray-600">Mobile banking and online access anytime, anywhere</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-users text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Community Focus</h3>
+                <p class="text-gray-600">Member-owned cooperative serving the local community</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gradient-to-r from-deuraligreen to-green-600 text-white">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-6 font-montserrat">Ready to Start Saving?</h2>
+        <p class="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+            Open your savings account today and start building your financial future with competitive returns.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:contact_view' %}" class="bg-white text-deuraligreen font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 hover:bg-gray-100">
+                <i class="fas fa-phone mr-2"></i>Open Account Today
+            </a>
+            <a href="{% url 'services:overview' %}" class="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-deuraligreen transition-all duration-300">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Services
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Removed duplicate inline animation CSS; using global utilities in animations.css -->
+{% endblock content %}

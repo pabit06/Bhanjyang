@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ article.title }} - Bhanjyang Cooperative News{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="{{ article.content|striptags|truncatewords:25 }}">
+    <meta name="keywords" content="Bhanjyang Cooperative, News, {{ article.title }}">
+{% endblock extra_head %}
+
+{% block content %}
+<section class="py-12 md:py-20 bg-gray-50 font-sans">
+    <div class="container mx-auto px-6 max-w-4xl">
+        <nav class="text-sm mb-8" aria-label="Breadcrumb">
+            <ol class="list-none p-0 inline-flex">
+                <li class="flex items-center"><a href="{% url 'main:index' %}" class="text-gray-600 hover:text-bhanjyangred">Home</a><span class="mx-2 text-gray-400">/</span></li>
+                <li class="flex items-center"><a href="{% url 'updates:list' %}" class="text-gray-600 hover:text-bhanjyangred">News & Events</a><span class="mx-2 text-gray-400">/</span></li>
+                <li class="flex items-center"><span class="text-deuraligreen font-medium truncate max-w-xs block">{{ article.title }}</span></li>
+            </ol>
+        </nav>
+        <article class="bg-white rounded-lg shadow-xl p-6 md:p-10 lg:p-12">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-montserrat leading-tight mb-4 text-bhanjyangred">{{ article.title }}</h1>
+            <div class="text-gray-600 text-sm mb-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <span class="flex items-center"><i class="fas fa-calendar-alt mr-2 text-deuraligreen"></i>Published: {{ article.published_date|date:"F d, Y" }}</span>
+                <span class="flex items-center"><i class="fas fa-user mr-2 text-deuraligreen"></i>By: {{ article.author.get_full_name|default:article.author.username }}</span>
+                {% if article.read_time_minutes %}<span class="flex items-center"><i class="fas fa-clock mr-2 text-deuraligreen"></i>~{{ article.read_time_minutes }} min read</span>{% endif %}
+                <span class="flex items-center"><i class="fas fa-folder-open mr-2 text-deuraligreen"></i>Category: <a href="{{ article.category.get_absolute_url }}" class="ml-1 font-semibold hover:underline">{{ article.category.name }}</a></span>
+            </div>
+            {% if article.image %}<figure class="mb-8 overflow-hidden rounded-lg"><img src="{{ article.image.url }}" alt="{{ article.title }}" class="w-full h-auto object-cover max-h-[500px]"></figure>{% endif %}
+            <div class="prose max-w-none text-gray-800 text-lg text-justify leading-relaxed">{{ article.content|safe }}</div>
+        </article>
+
+        <div class="mt-16 pt-8 border-t">
+            <h3 class="text-2xl font-bold font-montserrat mb-8 text-deuraligreen text-center">Related Articles</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {% for related_article in related_articles %}
+                    <a href="{{ related_article.get_absolute_url }}" class="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                        <h4 class="text-xl font-bold font-montserrat mb-2 hover:text-deuraligreen">{{ related_article.title }}</h4>
+                        <p class="text-gray-600 text-sm mb-3">{{ related_article.published_date|date:"F d, Y" }}</p>
+                    </a>
+                {% empty %}
+                    <p class="col-span-full text-center text-gray-500">No related articles found in this category.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

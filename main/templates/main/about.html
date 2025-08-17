@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bhanjyang Cooperative - About Us{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="Learn about Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our establishment, vision, mission, values, team, historical timeline, regulatory compliance, and messages from our leadership.">
+    <meta name="keywords" content="Bhanjyang Cooperative, Savings and Credit Cooperative, Our Story, Vision, Mission, Values, Team, Kaski, Rupa Rural Municipality, Cooperative Society, Timeline, Chairman, Manager, Leadership, Regulation, Compliance, Affiliations, NEFSCUN">
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+
+    <section class="relative bg-white text-deuraligreen py-20 px-6 flex items-center justify-center overflow-hidden">
+        <div class="parallax absolute inset-0 z-0 opacity-10 bg-cover bg-center" data-speed="0.2" style="background-image: url('{% static 'main/images/pattern-light.png' %}');"></div>
+        <div class="container mx-auto text-center z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 drop-shadow-lg text-reveal scroll-animate">About 'Bhanjyang SACCOS'</h1>
+            <p class="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto opacity-90 leading-relaxed scroll-animate stagger-1">Empowering communities, fostering growth, and building a sustainable future together.</p>
+        </div>
+    </section>
+
+    <section id="our-story" class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto scroll-animate">Our Story</h2>
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 order-2 md:order-1 space-y-6 scroll-animate stagger-1">
+                    <p class="text-gray-700 leading-relaxed text-lg text-justify">Established in <strong>2069 B.S.</strong>, Bhanjyang Saving & Credit Cooperative Society Ltd. was founded with a clear vision: to empower the local communities of Rupa Rural Municipality, Kaski. We began our journey with a handful of dedicated members, committed to the principles of mutual cooperation and sustainable development.</p>
+                    <p class="text-gray-700 leading-relaxed text-lg text-justify">Over the years, we have grown steadily, adapting to the evolving needs of our members and the region. Our focus has always been on providing accessible, reliable, and fair financial services that contribute directly to the economic well-being and social upliftment of our community.</p>
+                </div>
+                <div class="md:w-1/2 order-1 md:order-2 scroll-animate stagger-2">
+                    <div class="image-reveal">
+                        <img src="{% static 'main/images/pattern-light.png' %}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/28A745/FFFFFF?text=Our+Journey';" alt="Our Cooperative Story" class="rounded-lg shadow-2xl w-full h-auto object-cover hover-scale hover-lift">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="our-journey" class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto animate-in-up delay-100">Our Journey: A Timeline</h2>
+            <div class="relative">
+                <div class="absolute left-1/2 -ml-0.5 w-1 bg-deuraligreen h-full hidden md:block"></div>
+                <div class="space-y-16 md:space-y-0">
+                    <!-- Timeline Items will be listed here -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Other Sections -->
+    <section id="vision-mission-values" class="py-20 px-6 bg-gray-50">
+        <!-- Vision, Mission, Values content -->
+    </section>
+    
+    <section id="team" class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto">Our Leadership Team</h2>
+            <p class="text-center text-lg text-gray-700 mb-10">Our success is driven by the dedication and experience of our esteemed leadership.</p>
+
+            {% if board_members %}
+            <h3 class="text-2xl font-bold text-deuraligreen font-montserrat text-center mb-6">Board of Directors</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mb-12">
+                {% for member in board_members %}
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300 transform hover:scale-105 animate-in-up">
+                    <img src="{% if member.person.photo %}{{ member.person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="{{ member.person.full_name }}" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-deuraligreen shadow-lg">
+                    <h4 class="text-xl font-semibold text-gray-900 font-montserrat">{{ member.person.full_name }}</h4>
+                    <p class="text-bhanjyangred mb-2">{{ member.position }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Repeat for other committees like account_supervisor_committee, etc. -->
+
+        </div>
+    </section>
+
+    <section id="leadership-messages" class="py-20 px-6 bg-gray-50 text-gray-800">
+        <div class="container mx-auto max-w-7xl">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-center mb-16 border-b-4 border-deuraligreen pb-4 mx-auto">Message from Our Leadership</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {% if chairman %}
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <img src="{% if chairman.photo %}{{ chairman.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="Chairman's Photo" class="w-36 h-36 rounded-full mx-auto mb-6 object-cover border-4 border-bhanjyangred shadow-lg">
+                    <h3 class="text-2xl font-semibold font-montserrat text-deuraligreen mb-1">{{ chairman.full_name }}</h3>
+                    <p class="text-sm text-bhanjyangred mb-4">Chairman</p>
+                    <p class="text-base leading-relaxed text-justify mb-6">“Dear Esteemed Members and Valued Community... Your trust and active participation have been the cornerstone of our success.”</p>
+                    <p class="font-bold text-lg italic">Sincerely,<br> {{ chairman.full_name }}</p>
+                </div>
+                {% endif %}
+
+                {% if manager %}
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <img src="{% if manager.photo %}{{ manager.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="Manager's Photo" class="w-36 h-36 rounded-full mx-auto mb-6 object-cover border-4 border-deuraligreen shadow-lg">
+                    <h3 class="text-2xl font-semibold font-montserrat text-bhanjyangred mb-1">{{ manager.full_name }}</h3>
+                    <p class="text-sm text-deuraligreen mb-4">Manager</p>
+                    <p class="text-base leading-relaxed text-justify mb-6">“To our dear members and the community... We pledge to uphold the trust you place in us and work tirelessly to contribute to the economic development and social betterment of our community.”</p>
+                    <p class="font-bold text-lg italic">Best Regards,<br> {{ manager.full_name }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Other sections like testimonials, compliance, etc. -->
+
+{% endblock content %}

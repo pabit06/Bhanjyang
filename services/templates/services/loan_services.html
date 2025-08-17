@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Loan Services - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<section class="relative bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white py-20 overflow-hidden hero-section">
+  <div class="parallax absolute inset-0 bg-gradient-to-br from-red-600 via-red-700 to-red-800" data-speed="0.3"></div>
+  <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+  <div class="container mx-auto px-6 text-center relative z-10">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat typing-effect scroll-animate glitch" data-text="Loan Services">Loan Services</h1>
+    <p class="text-xl text-red-100 max-w-3xl mx-auto scroll-animate stagger-1">Flexible loan options for business, agriculture, education, and more</p>
+  </div>
+</section>
+
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for loan in loan_types %}
+      <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-t-4 border-{{ loan.color }} group">
+        <div class="text-center mb-6">
+          <div class="w-20 h-20 bg-{{ loan.color }} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+            <i class="{{ loan.icon }} text-3xl text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">{{ loan.nepali_name }}</h3>
+          <p class="text-sm text-gray-600 mb-2">{{ loan.english_name }}</p>
+        </div>
+        <div class="space-y-3 text-sm mb-4">
+          <div class="flex justify-between">
+            <span class="text-gray-600">Monthly Installment:</span>
+            <span class="font-bold text-deuraligreen">{{ loan.monthly_installment_rate }}%</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Quarterly Installment:</span>
+            <span class="font-bold text-deuraligreen">{{ loan.quarterly_installment_rate }}%</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600">Monthly Interest:</span>
+            <span class="font-bold text-deuraligreen">{{ loan.monthly_interest_rate }}%</span>
+          </div>
+        </div>
+        {% if loan.benefits %}
+        <div class="text-sm text-gray-600 mb-4">
+          {{ loan.benefits|linebreaks }}
+        </div>
+        {% endif %}
+      </div>
+      {% empty %}
+      <div class="col-span-full text-center text-gray-600">
+        <p>No loan services available at the moment.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">Need Help Choosing?</h2>
+    <p class="text-lg text-gray-600 mb-8">Our team will help you pick the right loan option for your needs.</p>
+    <a href="{% url 'contact:contact_view' %}" class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">Talk to Us</a>
+  </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+{# The lang attribute is set to Nepali, which is great for SEO and accessibility. #}
+<html lang="ne" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}भञ्ज्याङ सहकारी{% endblock title %}</title>
+    
+    {# SEO, Favicon and other meta tags #}
+    <meta name="description" content="भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।">
+    <meta name="keywords" content="cooperative, savings, credit, nepal, kaski, rupa">
+    <link rel="icon" href="{% static 'main/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{% static 'main/images/logo.png' %}">
+
+    {# Compiled Tailwind CSS from your project's static files #}
+    <link href="{% static 'dist/output.css' %}" rel="stylesheet">
+    
+    {# Custom Animations CSS #}
+    <link href="{% static 'src/animations.css' %}" rel="stylesheet">
+
+    {# Google Fonts & Font Awesome from CDN for performance #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {% block extra_head %}{% endblock extra_head %}
+</head>
+<body class="bg-himalwhite text-patrikaslate font-poppins flex flex-col min-h-screen antialiased">
+
+    {# Header partial is included here. #}
+    {% include 'partials/_header.html' %}
+
+    <main id="main-content" class="flex-grow">
+        {% block content %}
+            {# Each page's unique content will be rendered here. #}
+            {# हरेक पेजको आफ्नो content यहाँ आउँछ #}
+        {% endblock content %}
+    </main>
+
+    {# Footer partial is included here. #}
+    {% include 'partials/_footer.html' %}
+    
+    {# Fallback for users with JavaScript disabled #}
+    <noscript>
+        <div class="fixed bottom-0 left-0 w-full bg-red-800 text-white text-center p-4 z-[100]">
+            Please enable JavaScript for the best experience on our site, including menu navigation.
+        </div>
+    </noscript>
+
+    {# All page-specific or additional JavaScript should go in this block. #}
+    {% block extra_js %}
+    {# Custom Animations JavaScript #}
+    <script src="{% static 'src/animations.js' %}"></script>
+    
+    <script>
+    // This script handles the toggling of the mobile navigation menu.
+    // यो स्क्रिप्टले मोबाइल नेभिगेसन मेनुको टगल व्यवस्थापन गर्छ।
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', () => {
+                const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                
+                // Toggle ARIA attribute for accessibility
+                menuButton.setAttribute('aria-expanded', !isExpanded);
+                
+                // Toggle visibility of the menu
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('flex');
+
+                // Optional: Toggle body scroll to prevent scrolling when menu is open
+                document.body.classList.toggle('overflow-hidden');
+            });
+        }
+    });
+    </script>
+    {% endblock extra_js %}
+</body>
+</html>

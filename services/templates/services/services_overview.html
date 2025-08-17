@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Financial Services - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<!-- Hero Section with Animation -->
+<section class="relative bg-gradient-to-br from-deuraligreen via-green-600 to-green-700 text-white py-20 overflow-hidden hero-section">
+    <div class="parallax absolute inset-0 bg-gradient-to-br from-deuraligreen via-green-600 to-green-700" data-speed="0.3"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-ping"></div>
+        <div class="absolute bottom-20 left-20 w-12 h-12 bg-white bg-opacity-10 rounded-full animate-bounce"></div>
+    </div>
+    <div class="container mx-auto px-6 text-center relative z-10 flex flex-col md:flex-row items-center justify-center gap-10">
+        <div class="md:w-1/2 mb-8 md:mb-0">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat typing-effect scroll-animate glitch" data-text="Our Financial Services">
+                <span class="block">Our Financial Services</span>
+            </h1>
+            <p class="text-xl text-green-100 max-w-4xl mx-auto scroll-animate stagger-1">
+                Comprehensive financial solutions designed for the Rupa community with competitive rates, flexible terms, and member-focused support programs
+            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4 scroll-animate stagger-2">
+                <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                    <i class="fas fa-shield-alt mr-2"></i>Secure & Reliable
+                </div>
+                <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                    <i class="fas fa-chart-line mr-2"></i>Competitive Rates
+                </div>
+                <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                    <i class="fas fa-users mr-2"></i>Member-Focused
+                </div>
+            </div>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+            <!-- Hero Illustration Image -->
+            <div class="image-reveal scroll-animate stagger-3 w-full max-w-md rounded-2xl shadow-lg border-4 border-white bg-white bg-opacity-30">
+                <img src="{% static 'images/hero_services_illustration.png' %}" alt="Financial Services Illustration" class="w-full rounded-2xl" loading="lazy">
+            </div>
+            <!-- Replace the src above with your own illustration in static/images/hero_services_illustration.png -->
+        </div>
+    </div>
+</section>
+
+<!-- Featured Services Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Featured Services</h2>
+            <p class="text-lg text-gray-600">Our most popular and recommended financial products</p>
+        </div>
+        
+        <!-- Featured Savings -->
+        {% if featured_savings %}
+        <div class="mb-20">
+            <h3 class="text-2xl font-bold text-center text-deuraligreen mb-12 font-montserrat">Featured Savings Accounts</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                {% for account in featured_savings %}
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-t-4 border-{{ account.color }} group">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 bg-{{ account.color }} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="{{ account.icon }} text-3xl text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">{{ account.nepali_name }}</h4>
+                        <p class="text-sm text-gray-600 mb-3">{{ account.english_name }}</p>
+                        <div class="text-4xl font-bold text-{{ account.color }} mb-2">{{ account.interest_rate }}%</div>
+                        <p class="text-xs text-gray-500">Annual Interest Rate</p>
+                    </div>
+                    {% if account.features %}
+                    <div class="text-sm text-gray-600 mb-4">
+                        {{ account.features|linebreaks }}
+                    </div>
+                    {% endif %}
+                    <div class="text-center">
+                        <span class="inline-block bg-{{ account.color }} bg-opacity-10 text-{{ account.color }} text-xs px-3 py-1 rounded-full font-semibold">
+                            Featured Product
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Featured Loans -->
+        {% if featured_loans %}
+        <div class="mb-20">
+            <h3 class="text-2xl font-bold text-center text-bhanjyangred mb-12 font-montserrat">Featured Loan Services</h3>
+            <div class="grid md:grid-cols-3 gap-8">
+                {% for loan in featured_loans %}
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-t-4 border-{{ loan.color }} group">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 bg-{{ loan.color }} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="{{ loan.icon }} text-3xl text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-2">{{ loan.nepali_name }}</h4>
+                        <p class="text-sm text-gray-600 mb-3">{{ loan.english_name }}</p>
+                    </div>
+                    <div class="space-y-3 text-sm mb-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Monthly Installment:</span>
+                            <span class="font-bold text-deuraligreen">{{ loan.monthly_installment_rate }}%</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Quarterly Installment:</span>
+                            <span class="font-bold text-deuraligreen">{{ loan.quarterly_installment_rate }}%</span>
+                        </div>
+                    </div>
+                    {% if loan.benefits %}
+                    <div class="text-sm text-gray-600 mb-4">
+                        {{ loan.benefits|linebreaks }}
+                    </div>
+                    {% endif %}
+                    <div class="text-center">
+                        <span class="inline-block bg-{{ loan.color }} bg-opacity-10 text-{{ loan.color }} text-xs px-3 py-1 rounded-full font-semibold">
+                            Featured Product
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- All Services Overview -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Complete Service Portfolio</h2>
+            <p class="text-lg text-gray-600">Explore all our financial products and services</p>
+        </div>
+        
+        <!-- Service Categories Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+            <!-- Savings -->
+            <a href="{% url 'services:savings' %}" class="group cursor-pointer block">
+                <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-piggy-bank text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Savings Accounts</h3>
+                    <p class="text-gray-600 mb-4">Multiple savings options with competitive interest rates up to 8%</p>
+                    <div class="text-deuraligreen font-semibold group-hover:text-bhanjyangred transition-colors">
+                        View All Options →
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Fixed Deposits -->
+            <a href="{% url 'services:fixed_deposits' %}" class="group cursor-pointer block">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-certificate text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Fixed Deposits</h3>
+                    <p class="text-gray-600 mb-4">Secure your future with rates up to 7% for 1+ year terms</p>
+                    <div class="text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
+                        View Rates →
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Loans -->
+            <a href="{% url 'services:loans' %}" class="group cursor-pointer block">
+                <div class="bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-2xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-hand-holding-usd text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Loan Services</h3>
+                    <p class="text-gray-600 mb-4">Flexible loan options from 10.5% for all your financial needs</p>
+                    <div class="text-bhanjyangred font-semibold group-hover:text-red-800 transition-colors">
+                        Explore Loans →
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Member Relief -->
+            <a href="{% url 'services:member_relief' %}" class="group cursor-pointer block">
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-2xl text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-heart text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Member Relief</h3>
+                    <p class="text-gray-600 mb-4">Support programs for medical, education, and disaster relief</p>
+                    <div class="text-purple-600 font-semibold group-hover:text-purple-800 transition-colors">
+                        Learn More →
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- Member Relief Programs Preview -->
+        {% if member_reliefs %}
+        <div class="mb-20">
+            <h3 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">Member Relief & Support Programs</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {% for relief in member_reliefs %}
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-{{ relief.color }} group">
+                    {% if relief.image %}
+                    <div class="mb-4">
+                        <img src="{{ relief.image.url }}" alt="{{ relief.title }}" class="w-full h-40 object-cover rounded-lg">
+                    </div>
+                    {% endif %}
+                    <div class="text-center mb-4">
+                        <div class="w-16 h-16 bg-{{ relief.color }} rounded-full flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                            <i class="{{ relief.icon }} text-2xl text-white"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-800 mb-2">{{ relief.title }}</h4>
+                        <p class="text-sm text-gray-600 mb-3">{{ relief.nepali_title }}</p>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">{{ relief.description }}</p>
+                    <div class="text-center">
+                        <a href="{% url 'services:relief_detail' relief.id %}" class="text-{{ relief.color }} hover:text-{{ relief.color }} font-semibold text-sm group-hover:underline">
+                            Learn More →
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gradient-to-r from-deuraligreen to-green-600 text-white">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-6 font-montserrat">Ready to Get Started?</h2>
+        <p class="text-xl text-green-100 mb-8 max-w-3xl mx-auto">
+            Contact our team to learn more about our services and start your financial journey with Bhanjyang Cooperative.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:contact_view' %}" class="bg-white text-deuraligreen font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 hover:bg-gray-100">
+                <i class="fas fa-phone mr-2"></i>Contact Us Today
+            </a>
+            <a href="{% url 'main:index' %}" class="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-deuraligreen transition-all duration-300">
+                <i class="fas fa-home mr-2"></i>Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Custom CSS for animations -->
+<style>
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .animation-delay-200 { animation-delay: 0.2s; }
+    .animation-delay-400 { animation-delay: 0.4s; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .group:hover .group-hover\:scale-110 { transform: scale(1.1); }
+</style>
+{% endblock content %}

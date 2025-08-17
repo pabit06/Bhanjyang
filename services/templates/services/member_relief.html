@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Member Relief Programs - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 text-white py-20 overflow-hidden hero-section">
+    <div class="parallax absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800" data-speed="0.3"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-ping"></div>
+        <div class="absolute bottom-20 left-20 w-12 h-12 bg-white bg-opacity-10 rounded-full animate-bounce"></div>
+    </div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat typing-effect scroll-animate glitch" data-text="Member Relief Programs">
+            <span class="block">Member Relief Programs</span>
+        </h1>
+        <p class="text-xl text-purple-100 max-w-4xl mx-auto scroll-animate stagger-1">
+            Supporting our valued members through comprehensive relief and assistance programs
+        </p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4 scroll-animate stagger-2">
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                <i class="fas fa-heart mr-2"></i>Medical Support
+            </div>
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                <i class="fas fa-graduation-cap mr-2"></i>Education Assistance
+            </div>
+            <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-2 text-sm">
+                <i class="fas fa-shield-alt mr-2"></i>Disaster Relief
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Relief Programs by Category -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        {% for relief_type, reliefs in reliefs_by_type.items %}
+        <div class="mb-20">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">
+                {{ relief_type }}
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for relief in reliefs %}
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border-t-4 border-{{ relief.color }} group">
+                    <!-- Relief Header -->
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 bg-{{ relief.color }} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                            <i class="{{ relief.icon }} text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">{{ relief.title }}</h3>
+                        <p class="text-sm text-gray-600 mb-3">{{ relief.nepali_title }}</p>
+                    </div>
+                    
+                    <!-- Relief Description -->
+                    <p class="text-gray-600 mb-6 text-center">{{ relief.description }}</p>
+                    
+                    <!-- Relief Details -->
+                    <div class="space-y-4 mb-6">
+                        {% if relief.eligibility %}
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>Eligibility
+                            </h4>
+                            <div class="text-sm text-gray-600">{{ relief.eligibility|linebreaks }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if relief.benefits %}
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <i class="fas fa-gift text-blue-500 mr-2"></i>Benefits
+                            </h4>
+                            <div class="text-sm text-gray-600">{{ relief.benefits|linebreaks }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Application Process -->
+                    {% if relief.application_process %}
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-clipboard-list text-yellow-600 mr-2"></i>Application Process
+                        </h4>
+                        <div class="text-sm text-gray-600">{{ relief.application_process|linebreaks }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Required Documents -->
+                    {% if relief.required_documents %}
+                    <div class="bg-purple-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-file-alt text-purple-600 mr-2"></i>Required Documents
+                        </h4>
+                        <div class="text-sm text-gray-600">{{ relief.required_documents|linebreaks }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Contact Information -->
+                    {% if relief.contact_info %}
+                    <div class="bg-green-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                            <i class="fas fa-phone text-green-600 mr-2"></i>Contact Information
+                        </h4>
+                        <div class="text-sm text-gray-600">{{ relief.contact_info|linebreaks }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Action Button -->
+                    <div class="text-center">
+                        <a href="{% url 'services:relief_detail' relief.id %}" class="inline-block bg-{{ relief.color }} hover:bg-{{ relief.color }} text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
+                            <i class="fas fa-info-circle mr-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center text-gray-600">
+            <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-heart text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">No Relief Programs Available</h3>
+            <p>We're currently setting up our member relief programs. Please check back soon!</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- How to Apply Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">How to Apply for Relief</h2>
+            <p class="text-lg text-gray-600">Simple steps to access our member support programs</p>
+        </div>
+        
+        <div class="grid md:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold text-white">1</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Contact Us</h3>
+                <p class="text-gray-600">Reach out to our relief committee or visit our office</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold text-white">2</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Submit Application</h3>
+                <p class="text-gray-600">Complete the application form with required documents</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold text-white">3</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Committee Review</h3>
+                <p class="text-gray-600">Our committee will review your application</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl font-bold text-white">4</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Get Support</h3>
+                <p class="text-gray-600">Receive assistance and ongoing support</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gradient-to-r from-purple-600 to-purple-700 text-white">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-6 font-montserrat">Need Immediate Assistance?</h2>
+        <p class="text-xl text-purple-100 mb-8 max-w-3xl mx-auto">
+            Our relief committee is available 24/7 for emergency situations. Don't hesitate to reach out.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:contact_view' %}" class="bg-white text-purple-600 font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 hover:bg-gray-100">
+                <i class="fas fa-phone mr-2"></i>Contact Relief Committee
+            </a>
+            <a href="{% url 'services:overview' %}" class="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-purple-600 transition-all duration-300">
+                <i class="fas fa-arrow-left mr-2"></i>Back to Services
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Removed duplicate inline animation CSS; using global utilities in animations.css -->
+{% endblock content %}

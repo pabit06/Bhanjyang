@@ -1,0 +1,89 @@
+{% load static %}
+<div class="bg-white text-gray-700 py-2 px-4 sm:px-20 text-xs sm:text-sm shadow-md">
+    <div class="container mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-x-2 gap-y-1">
+        <div class="flex items-center space-x-2">
+            <a href="tel:+9779856083101" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
+                <i class="fas fa-phone-alt mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">+977-9856083101</span>
+            </a>
+            <span class="hidden sm:inline-block">|</span> 
+            <a href="mailto:info@bhanjyang.coop.np" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
+                <i class="fas fa-envelope mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">info@bhanjyang.coop.np</span>
+            </a>
+        </div>
+        <div class="flex items-center space-x-2">
+            <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
+                <i class="fas fa-headset mr-1 text-bhanjyangred"></i> Support
+            </a>
+            <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
+                <i class="fas fa-user-circle mr-1 text-bhanjyangred"></i> Login
+            </a>
+        </div>
+    </div>
+</div>
+<hr class="border-t border-gray-200">
+<header class="sticky top-0 z-50 bg-white shadow-lg">
+    <nav class="container mx-auto px-4 md:px-20 py-4 flex justify-between items-center relative">
+        <a href="{% url 'main:index' %}" class="flex items-center space-x-3 group py-2">
+            <img src="{% static 'main/images/logo.png' %}" alt="Bhanjyang Cooperative Logo"
+                 class="h-9 w-auto object-contain hover-scale hover-rotate md:h-12" 
+                 loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/150x50/27ae60/ffffff?text=Logo';">
+            <div class="flex flex-col justify-center">
+                <span class="text-2xl font-extrabold text-bhanjyangred group-hover:text-deuraligreen transition-colors duration-300 font-montserrat md:text-4xl hover-glow">BHANJYANG</span>
+                <span class="text-xs text-deuraligreen group-hover:text-bhanjyangred transition-colors duration-300 tracking-wider uppercase md:text-xs">Saving & Credit Cooperative Ltd.</span>
+            </div>
+        </a>
+        <div class="hidden md:flex items-center space-x-4 font-semibold text-md">
+            {% with request.resolver_match.url_name as url_name %}
+            {% with request.resolver_match.app_name as app_name %}
+            
+            <a href="{% url 'main:index' %}" class="nav-link nav-link-underline hover-lift {% if url_name == 'index' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Home</a>
+            
+            <!-- About Us Dropdown Menu -->
+            <div class="group relative">
+                <a href="{% url 'main:about' %}" class="nav-link nav-link-underline {% if url_name == 'about' or app_name == 'team' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred flex items-center">
+                    About Us <i class="fas fa-chevron-down ml-2 text-sm group-hover:rotate-180 transition-transform duration-300"></i>
+                </a>
+                <div class="absolute hidden group-hover:block bg-white shadow-lg rounded-md mt-2 py-2 w-56 transition-all duration-300 opacity-0 group-hover:opacity-100 transform -translate-y-2 group-hover:translate-y-0">
+                    <a href="{% url 'main:about' %}#our-story" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred">Our Story</a>
+                    <a href="{% url 'main:about' %}#vision-mission" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred">Vision & Mission</a>
+                    <a href="{% url 'team:list' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred">Our Team</a>
+                    <a href="{% url 'main:about' %}#testimonials" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred">Member Testimonials</a>
+                </div>
+            </div>
+            
+            <a href="{% url 'team:list'%}" class="nav-link nav-link-underline hover-lift text-deuraligreen hover:text-bhanjyangred">Team</a>
+            <a href="{% url 'services:overview' %}" class="nav-link nav-link-underline hover-lift {% if app_name == 'services' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Services</a>
+            <a href="{% url 'updates:list' %}" class="nav-link nav-link-underline hover-lift {% if app_name == 'updates' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">News & Events</a>
+            <a href="{% url 'downloads:download_center' %}" class="nav-link nav-link-underline hover-lift text-deuraligreen hover:text-bhanjyangred">Downloads</a>
+            <a href="{% url 'contact:contact_view' %}" class="nav-link nav-link-underline hover-lift {% if app_name == 'contact' %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Contact Us</a>
+
+            {% endwith %}
+            {% endwith %}
+        </div>
+        <div class="md:hidden">
+            <button id="mobile-menu-button" type="button" class="text-deuraligreen hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded-md p-2 hover-scale" aria-label="Toggle main menu">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-black bg-opacity-50">
+        <div class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
+            <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900">Menu</h3>
+                <button id="mobile-menu-close" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <nav class="px-4 py-6 space-y-4">
+                <a href="{% url 'main:index' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 hover-lift">Home</a>
+                <a href="{% url 'main:about' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 hover-lift">About Us</a>
+                <a href="{% url 'team:list' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 hover-lift">Team</a>
+                <a href="{% url 'services:overview' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 hover-lift">Services</a>
+                <a href="{% url 'updates:list' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 hover-lift">News & Events</a>
+                <a href="{% url 'downloads:download_center' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 hover-lift">Downloads</a>
+                <a href="{% url 'contact:contact_view' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 hover-lift">Contact Us</a>
+            </nav>
+        </div>
+    </div>
+</header>

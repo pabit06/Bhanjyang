@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<section class="relative bg-white text-deuraligreen py-16 px-4">
+    <div class="container mx-auto text-center z-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4">{{ page_title }}</h1>
+        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700">A historical record of our past leadership and teams.</p>
+    </div>
+</section>
+
+<section class="py-16 bg-gray-50 px-4">
+    <div class="container mx-auto">
+        {% for committee in committees %}
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold font-montserrat text-center mb-8 text-bhanjyangred">{{ committee.name }} <span class="text-deuraligreen">({{ committee.tenure_bs }})</span></h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
+                    
+                    {% for membership in committee.memberships.all %}
+                    <div class="bg-white text-center rounded-lg shadow-md p-4">
+                        <h3 class="text-lg font-bold text-gray-800">{{ membership.person.full_name }}</h3>
+                        <p class="text-deuraligreen font-semibold text-sm">{{ membership.position }}</p>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center text-gray-600 text-xl">No past committee information is available.</p>
+        {% endfor %}
+
+        <!-- Link back to Current Team -->
+        <div class="text-center mt-12">
+            <a href="{% url 'team:list' %}" class="text-lg text-deuraligreen hover:underline font-semibold">
+                <i class="fas fa-users mr-1"></i> View Current Team
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

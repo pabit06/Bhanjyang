@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bhanjyang Cooperative - Home{% endblock title %}
+
+{% block content %}
+<!-- Hero Section with Photo Slideshow Background -->
+<section class="text-white relative overflow-hidden hero-section">
+    <div class="hero-slideshow z-0">
+        <div class="hero-slide active"><img src="{% static 'main/images/hero1.jpg' %}" alt="" /></div>
+        <div class="hero-slide"><img src="{% static 'main/images/hero2.jpg' %}" alt="" /></div>
+        <div class="hero-slide"><img src="{% static 'main/images/hero3.jpg' %}" alt="" /></div>
+    </div>
+    <div class="absolute inset-0 bg-black/40 z-10"></div>
+    <div class="container mx-auto px-6 py-24 text-center relative z-10">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 font-montserrat typing-effect scroll-animate glitch" data-text="Welcome to Bhanjyang Cooperative">Welcome to Bhanjyang Cooperative</h1>
+        <p class="text-lg md:text-xl text-green-200 mb-8 scroll-animate stagger-1">Your Trusted Financial Partner</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#services" class="bg-white text-deuraligreen font-bold py-3 px-8 rounded-full hover:bg-green-100 transition-all duration-300 btn-animate hover-lift scroll-animate stagger-2 ripple">Learn More</a>
+            <a href="{% url 'contact:contact_view' %}" class="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-deuraligreen transition-all duration-300 btn-animate hover-lift scroll-animate stagger-3 ripple">Get Started</a>
+        </div>
+    </div>
+    
+    <!-- Floating Elements with Enhanced Animations -->
+    <div class="absolute top-20 left-10 text-white/20 floating-element z-10">
+        <i class="fas fa-coins text-6xl animate-float hover-tada"></i>
+    </div>
+    <div class="absolute top-32 right-20 text-white/20 floating-element z-10" style="animation-delay: 1s;">
+        <i class="fas fa-chart-line text-4xl animate-float hover-pulse"></i>
+    </div>
+    <div class="absolute bottom-20 left-1/4 text-white/20 floating-element z-10" style="animation-delay: 2s;">
+        <i class="fas fa-handshake text-5xl animate-float hover-wiggle"></i>
+    </div>
+    <div class="absolute top-1/2 left-1/3 text-white/10 floating-element z-10" style="animation-delay: 3s;">
+        <i class="fas fa-shield-alt text-3xl animate-float hover-heart-beat"></i>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section id="services" class="py-20 bg-himalwhite">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Our Key Services</h2>
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-1 news-card interactive-element">
+                <div class="icon-container mb-4">
+                    <i class="fas fa-piggy-bank text-4xl text-bhanjyangred hover-scale hover-tada"></i>
+                </div>
+                <h3 class="text-xl font-bold text-deuraligreen mb-2">Savings Accounts</h3>
+                <p class="text-gray-600">Various types of savings accounts with competitive interest rates up to 8% annually.</p>
+                <div class="mt-4">
+                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full animate-pulse">Up to 8%</span>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'services:savings' %}" class="text-deuraligreen hover:text-bhanjyangred font-semibold text-sm">
+                        View All Savings Options →
+                    </a>
+                </div>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-2 news-card interactive-element">
+                <div class="icon-container mb-4">
+                    <i class="fas fa-hand-holding-usd text-4xl text-bhanjyangred hover-scale hover-wiggle"></i>
+                </div>
+                <h3 class="text-xl font-bold text-deuraligreen mb-2">Loan Services</h3>
+                <p class="text-gray-600">Affordable loans for business, agriculture, and home construction with flexible terms.</p>
+                <div class="mt-4">
+                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full animate-pulse">From 10.5%</span>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'services:loans' %}" class="text-deuraligreen hover:text-bhanjyangred font-semibold text-sm">
+                        Explore Loan Options →
+                    </a>
+                </div>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-3 news-card interactive-element">
+                <div class="icon-container mb-4">
+                    <i class="fas fa-comments-dollar text-4xl text-bhanjyangred hover-scale hover-heart-beat"></i>
+                </div>
+                <h3 class="text-xl font-bold text-deuraligreen mb-2">Fixed Deposits</h3>
+                <p class="text-gray-600">Secure your future with fixed deposits offering up to 7% interest for 1+ year terms.</p>
+                <div class="mt-4">
+                    <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full animate-pulse">Up to 7%</span>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'services:fixed_deposits' %}" class="text-deuraligreen hover:text-bhanjyangred font-semibold text-sm">
+                        View Deposit Rates →
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Call to Action for Services -->
+        <div class="text-center mt-12">
+            <a href="{% url 'services:overview' %}" class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-list-ul mr-2"></i>View All Services & Rates
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section with Enhanced Animations -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8 text-center stats-landscape">
+            <div class="scroll-animate stagger-1 interactive-element">
+                <div class="text-4xl font-bold text-bhanjyangred mb-2 counter" data-target="5000">0</div>
+                <p class="text-gray-600">Happy Members</p>
+                <div class="mt-2">
+                    <i class="fas fa-smile text-2xl text-yellow-500 animate-pulse"></i>
+                </div>
+            </div>
+            <div class="scroll-animate stagger-2 interactive-element">
+                <div class="text-4xl font-bold text-deuraligreen mb-2 counter" data-target="25">0</div>
+                <p class="text-gray-600">Years of Service</p>
+                <div class="mt-2">
+                    <i class="fas fa-award text-2xl text-blue-500 animate-pulse"></i>
+                </div>
+            </div>
+            <div class="scroll-animate stagger-3 interactive-element">
+                <div class="text-4xl font-bold text-bhanjyangred mb-2 counter" data-target="100">0</div>
+                <p class="text-gray-600">Million NPR Assets</p>
+                <div class="mt-2">
+                    <i class="fas fa-chart-line text-2xl text-green-500 animate-pulse"></i>
+                </div>
+            </div>
+            <div class="scroll-animate stagger-4 interactive-element">
+                <div class="text-4xl font-bold text-deuraligreen mb-2 counter" data-target="98">0</div>
+                <p class="text-gray-600">% Satisfaction</p>
+                <div class="mt-2">
+                    <i class="fas fa-heart text-2xl text-red-500 animate-heart-beat"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section with Morphing Elements -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Why Choose Us?</h2>
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="scroll-animate">
+                <h3 class="text-2xl font-bold text-deuraligreen mb-4">Trusted by Thousands</h3>
+                <p class="text-gray-600 mb-6">With over 25 years of experience, we've built a reputation for trust, transparency, and excellent service.</p>
+                <ul class="space-y-3">
+                    <li class="flex items-center text-gray-600 hover-lift interactive-element">
+                        <i class="fas fa-check-circle text-green-500 mr-3 animate-pulse"></i>
+                        Secure and reliable financial services
+                    </li>
+                    <li class="flex items-center text-gray-600 hover-lift interactive-element" style="animation-delay: 0.5s;">
+                        <i class="fas fa-check-circle text-green-500 mr-3 animate-pulse"></i>
+                        Competitive interest rates
+                    </li>
+                    <li class="flex items-center text-gray-600 hover-lift interactive-element" style="animation-delay: 1s;">
+                        <i class="fas fa-check-circle text-green-500 mr-3 animate-pulse"></i>
+                        Personalized customer support
+                    </li>
+                </ul>
+            </div>
+            <div class="scroll-animate">
+                <div class="image-reveal morphing-element">
+                    <img src="{% static 'main/images/pattern-light.png' %}" alt="Trust and Security" class="w-full h-64 object-cover rounded-lg shadow-lg hover-scale">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Interactive Features Grid -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Our Features</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="text-center p-6 rounded-lg bg-gradient-to-br from-green-50 to-green-100 hover-lift interactive-element">
+                <div class="w-16 h-16 mx-auto mb-4 bg-deuraligreen rounded-full flex items-center justify-center text-white text-2xl animate-morphing">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Mobile Banking</h3>
+                <p class="text-sm text-gray-600">Bank anywhere, anytime</p>
+            </div>
+            <div class="text-center p-6 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 hover-lift interactive-element">
+                <div class="w-16 h-16 mx-auto mb-4 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl animate-morphing" style="animation-delay: 0.5s;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Secure</h3>
+                <p class="text-sm text-gray-600">Bank-level security</p>
+            </div>
+            <div class="text-center p-6 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 hover-lift interactive-element">
+                <div class="w-16 h-16 mx-auto mb-4 bg-purple-500 rounded-full flex items-center justify-center text-white text-2xl animate-morphing" style="animation-delay: 1s;">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">24/7 Support</h3>
+                <p class="text-sm text-gray-600">Always here for you</p>
+            </div>
+            <div class="text-center p-6 rounded-lg bg-gradient-to-br from-red-50 to-red-100 hover-lift interactive-element">
+                <div class="w-16 h-16 mx-auto mb-4 bg-red-500 rounded-full flex items-center justify-center text-white text-2xl animate-morphing" style="animation-delay: 1.5s;">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Rewards</h3>
+                <p class="text-sm text-gray-600">Earn while you save</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="py-16 bg-bhanjyangred text-white">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold mb-4 font-montserrat scroll-animate">Ready to Get Started?</h2>
+        <p class="text-xl mb-8 text-red-100 scroll-animate stagger-1">Join thousands of satisfied members today!</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:contact_view' %}" class="bg-white text-bhanjyangred font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-all duration-300 btn-animate hover-lift ripple">Contact Us</a>
+            <a href="#" class="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-bhanjyangred transition-all duration-300 btn-animate hover-lift ripple">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Testimonials Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">What Our Members Say</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow-lg hover-lift interactive-element">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center text-white font-bold text-lg animate-morphing">A</div>
+                    <div class="ml-3">
+                        <h4 class="font-semibold text-gray-800">Amit Sharma</h4>
+                        <p class="text-sm text-gray-500">Member since 2018</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"Excellent service and very helpful staff. Highly recommended!"</p>
+                <div class="flex text-yellow-400 mt-3">
+                    <i class="fas fa-star animate-pulse"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.1s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.2s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.3s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.4s;"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg hover-lift interactive-element">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-bhanjyangred rounded-full flex items-center justify-center text-white font-bold text-lg animate-morphing" style="animation-delay: 0.5s;">S</div>
+                    <div class="ml-3">
+                        <h4 class="font-semibold text-gray-800">Sita Devi</h4>
+                        <p class="text-sm text-gray-500">Member since 2020</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"Best cooperative in the region. Trustworthy and reliable."</p>
+                <div class="flex text-yellow-400 mt-3">
+                    <i class="fas fa-star animate-pulse"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.1s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.2s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.3s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.4s;"></i>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg hover-lift interactive-element">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg animate-morphing" style="animation-delay: 1s;">R</div>
+                    <div class="ml-3">
+                        <h4 class="font-semibold text-gray-800">Rajesh Kumar</h4>
+                        <p class="text-sm text-gray-500">Member since 2019</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"Great interest rates and flexible loan options."</p>
+                <div class="flex text-yellow-400 mt-3">
+                    <i class="fas fa-star animate-pulse"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.1s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.2s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.3s;"></i>
+                    <i class="fas fa-star animate-pulse" style="animation-delay: 0.4s;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

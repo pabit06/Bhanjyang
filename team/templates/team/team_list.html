@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<section class="relative bg-white text-deuraligreen py-16 px-4 hero-section">
+    <div class="container mx-auto text-center z-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate glitch" data-text="{{ page_title }}">{{ page_title }}</h1>
+        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">Meet the dedicated individuals who drive our cooperative forward.</p>
+    </div>
+    
+    <!-- Floating decorative elements -->
+    <div class="absolute top-20 left-10 text-deuraligreen/20 floating-element">
+        <i class="fas fa-users text-6xl animate-float"></i>
+    </div>
+    <div class="absolute top-32 right-20 text-deuraligreen/20 floating-element" style="animation-delay: 1s;">
+        <i class="fas fa-handshake text-4xl animate-float"></i>
+    </div>
+    <div class="absolute bottom-20 left-1/4 text-deuraligreen/20 floating-element" style="animation-delay: 2s;">
+        <i class="fas fa-star text-5xl animate-float"></i>
+    </div>
+</section>
+
+<section class="py-16 bg-gray-50 px-4">
+    <div class="container mx-auto">
+        <!-- Loop through elected committees -->
+        {% for committee in committees %}
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold font-montserrat text-center mb-10 text-bhanjyangred scroll-animate">
+                    {{ committee.name }} <span class="text-deuraligreen">({{ committee.tenure_bs }})</span>
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 justify-center">
+                    {% for membership in committee.memberships.all %}
+                    <div class="bg-white text-center rounded-lg shadow-lg p-6 team-card hover-lift hover-rotate-3d interactive-element">
+                        <div class="relative w-32 h-32 mx-auto mb-4 photo-container">
+                            <img class="rounded-full w-full h-full object-cover border-4 border-deuraligreen hover-scale" 
+                                 src="{% if membership.person.photo %}{{ membership.person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                                 alt="Photo of {{ membership.person.full_name }}">
+                            <!-- Hover overlay effect -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-deuraligreen/20 to-transparent rounded-full opacity-0 transition-opacity duration-300 hover:opacity-100"></div>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">{{ membership.person.full_name }}</h3>
+                        <p class="text-deuraligreen font-semibold">{{ membership.position }}</p>
+                        
+                        <!-- Interactive hover info -->
+                        <div class="mt-3 opacity-0 transition-all duration-300 transform translate-y-2 hover:opacity-100 hover:translate-y-0">
+                            <div class="text-sm text-gray-500">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                <span class="animate-pulse">Active Member</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% empty %}
+             <p class="text-center text-gray-600 text-xl scroll-animate">No active committee information is available for this section.</p>
+        {% endfor %}
+
+        <!-- NEW: Section for Management Team (Staff) -->
+        {% if management_team %}
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold font-montserrat text-center mb-10 text-bhanjyangred scroll-animate">Management Team</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-center">
+                {% for staff_member in management_team %}
+                <div class="bg-white text-center rounded-lg shadow-lg p-6 team-card hover-lift hover-rotate-3d interactive-element">
+                    <div class="relative w-32 h-32 mx-auto mb-4 photo-container">
+                        <img class="rounded-full w-full h-full object-cover border-4 border-deuraligreen hover-scale" 
+                             src="{% if staff_member.person.photo %}{{ staff_member.person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                             alt="Photo of {{ staff_member.person.full_name }}">
+                        <!-- Hover overlay effect -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-deuraligreen/20 to-transparent rounded-full opacity-0 transition-opacity duration-300 hover:opacity-100"></div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">{{ staff_member.person.full_name }}</h3>
+                    <p class="text-deuraligreen font-semibold">{{ membership.position }}</p>
+                    
+                    <!-- Interactive hover info -->
+                    <div class="mt-3 opacity-0 transition-all duration-300 transform translate-y-2 hover:opacity-100 hover:translate-y-0">
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-briefcase mr-1"></i>
+                            <span class="animate-pulse">Staff Member</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Link to Past Committees Archive -->
+        <div class="text-center mt-12">
+             <a href="{% url 'team:archive' %}" class="text-lg text-deuraligreen hover:underline font-semibold animated-underline ripple interactive-element">
+                <i class="fas fa-history mr-1"></i> View Past Committees
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Interactive Team Stats Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Team Highlights</h2>
+        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <div class="bg-gradient-to-br from-deuraligreen to-green-600 text-white p-8 rounded-lg shadow-lg hover-lift interactive-element">
+                <div class="text-5xl font-bold mb-4 counter" data-target="15">0</div>
+                <p class="text-xl">Committee Members</p>
+                <div class="mt-4">
+                    <i class="fas fa-users text-4xl animate-pulse"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-br from-bhanjyangred to-red-600 text-white p-8 rounded-lg shadow-lg hover-lift interactive-element">
+                <div class="text-5xl font-bold mb-4 counter" data-target="25">0</div>
+                <p class="text-xl">Years of Experience</p>
+                <div class="mt-4">
+                    <i class="fas fa-clock text-4xl animate-pulse"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-8 rounded-lg shadow-lg hover-lift interactive-element">
+                <div class="text-5xl font-bold mb-4 counter" data-target="100">0</div>
+                <p class="text-xl">% Dedication</p>
+                <div class="mt-4">
+                    <i class="fas fa-heart text-4xl animate-heart-beat"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW: Team Values Section with Morphing Elements -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Our Values</h2>
+        <div class="grid md:grid-cols-4 gap-8">
+            <div class="text-center morphing-element">
+                <div class="w-24 h-24 mx-auto mb-4 bg-deuraligreen rounded-full flex items-center justify-center text-white text-3xl animate-morphing">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Trust</h3>
+                <p class="text-gray-600">Building lasting relationships through transparency</p>
+            </div>
+            <div class="text-center morphing-element">
+                <div class="w-24 h-24 mx-auto mb-4 bg-bhanjyangred rounded-full flex items-center justify-center text-white text-3xl animate-morphing" style="animation-delay: 1s;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Community</h3>
+                <p class="text-gray-600">Supporting local development and growth</p>
+            </div>
+            <div class="text-center morphing-element">
+                <div class="w-24 h-24 mx-auto mb-4 bg-green-600 rounded-full flex items-center justify-center text-white text-3xl animate-morphing" style="animation-delay: 2s;">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Sustainability</h3>
+                <p class="text-gray-600">Ensuring long-term financial stability</p>
+            </div>
+            <div class="text-center morphing-element">
+                <div class="w-24 h-24 mx-auto mb-4 bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl animate-morphing" style="animation-delay: 3s;">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Excellence</h3>
+                <p class="text-gray-600">Striving for the highest quality service</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

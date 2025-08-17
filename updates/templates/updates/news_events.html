@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bhanjyang Cooperative - News & Events{% endblock title %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'main/images/pattern-light.png' %}');"></div>
+        <div class="container mx-auto text-center z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">News & Events</h1>
+            <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Stay connected with the latest happenings from Bhanjyang Cooperative.</p>
+        </div>
+    </section>
+
+    <!-- Latest News Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-12 text-deuraligreen text-center">Our Latest News</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for article in news_articles %}
+                <article class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 flex flex-col">
+                    <a href="{{ article.get_absolute_url }}">
+                        {% if article.image %}
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}" class="rounded-t-lg w-full h-56 object-cover">
+                        {% else %}
+                        <img src="{% static 'images/default-news-placeholder.png' %}" alt="Placeholder" class="rounded-t-lg w-full h-56 object-cover">
+                        {% endif %}
+                    </a>
+                    <div class="p-6 text-left flex flex-col flex-grow">
+                        <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+                            <span>{{ article.published_date|date:"F d, Y" }}</span>
+                            <a href="{{ article.category.get_absolute_url }}" class="font-semibold text-deuraligreen hover:underline">{{ article.category.name }}</a>
+                        </div>
+                        <h3 class="text-xl font-bold font-montserrat mb-3 flex-grow">
+                            <a href="{{ article.get_absolute_url }}" class="hover:text-deuraligreen transition-colors">{{ article.title }}</a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ article.content|striptags|truncatewords:20 }}</p>
+                        <div class="flex justify-between items-center mt-auto">
+                           <span class="text-xs text-gray-500"><i class="fas fa-user mr-1"></i>{{ article.author.get_full_name|default:article.author.username }}</span>
+                           <a href="{{ article.get_absolute_url }}" class="text-deuraligreen hover:underline font-semibold text-sm flex items-center">Read More <i class="fas fa-angle-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                    <p class="col-span-full text-center text-gray-600">No news articles have been published yet.</p>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-12">
+                <a href="{% url 'updates:news-all-list' %}" class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform">View All News <i class="fas fa-newspaper ml-2"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-12 text-bhanjyangred text-center">Upcoming Events</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for event in upcoming_events %}
+                <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1 flex flex-col items-center text-center">
+                    <div class="text-bhanjyangred text-5xl mb-4"><i class="fas fa-calendar-check"></i></div>
+                    <h3 class="text-xl font-bold font-montserrat mb-2 text-deuraligreen">{{ event.title }}</h3>
+                    <p class="text-gray-600 mb-1 font-semibold">{{ event.event_date|date:"F d, Y" }} at {{ event.event_date|time:"g:i A" }}</p>
+                    <p class="text-gray-500 text-sm mb-3"><i class="fas fa-map-marker-alt mr-1"></i>{{ event.location }}</p>
+                    <p class="text-gray-700 text-sm">{{ event.description|truncatewords:20 }}</p>
+                </div>
+                {% empty %}
+                    <p class="col-span-full text-center text-gray-600">There are no upcoming events at the moment.</p>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-12">
+                <a href="{% url 'updates:event-list' %}" class="inline-block bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform">View All Events <i class="fas fa-calendar-day ml-2"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Subscription Section -->
+    <section id="newsletter-section" class="py-16 px-4 bg-gray-50 text-deuraligreen text-center">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-6">Never Miss an Update!</h2>
+            <p class="text-lg mb-8 leading-relaxed">Subscribe to our newsletter to receive the latest news and important announcements directly in your inbox.</p>
+            
+            <form id="subscriptionForm" method="POST" action="{% url 'updates:subscribe' %}" class="max-w-lg mx-auto">
+                {% csrf_token %}
+                <div class="flex items-center shadow-lg">
+                    {{ subscription_form.email }}
+                    <button type="submit" id="subscribeButton" class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-6 rounded-r-lg transition-colors duration-300 flex-shrink-0">
+                        <span id="subscribeButtonText">Subscribe</span>
+                        <i id="subscribeButtonIcon" class="fas fa-envelope-open-text ml-2"></i>
+                    </button>
+                </div>
+            </form>
+            <div id="subscription-messages" class="mt-4 text-sm font-semibold h-6"></div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const subForm = document.getElementById('subscriptionForm');
+    if (subForm) {
+        const subMessages = document.getElementById('subscription-messages');
+        const subButton = document.getElementById('subscribeButton');
+        const subButtonText = document.getElementById('subscribeButtonText');
+        const subButtonIcon = document.getElementById('subscribeButtonIcon');
+
+        subForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            subButton.disabled = true;
+            subButtonText.textContent = 'Subscribing...';
+            subButtonIcon.className = 'fas fa-spinner fa-spin ml-2';
+            subMessages.innerHTML = '';
+
+            const formData = new FormData(subForm);
+            const csrftoken = subForm.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            fetch(subForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-CSRFToken': csrftoken, 'X-Requested-With': 'XMLHttpRequest' },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    subMessages.innerHTML = `<span class="text-green-600">${data.message}</span>`;
+                    subForm.reset();
+                } else {
+                    subMessages.innerHTML = `<span class="text-red-600">${data.message}</span>`;
+                }
+            })
+            .catch(error => {
+                subMessages.innerHTML = `<span class="text-red-600">An error occurred. Please try again.</span>`;
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    subButton.disabled = false;
+                    subButtonText.textContent = 'Subscribe';
+                    subButtonIcon.className = 'fas fa-envelope-open-text ml-2';
+                }, 1500);
+            });
+        });
+    }
+});
+</script>
+{% endblock extra_js %}
