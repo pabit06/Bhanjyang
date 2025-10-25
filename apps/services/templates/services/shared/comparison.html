@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}{{ page_description }}{% endblock meta_description %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 text-white py-20 overflow-hidden hero-section">
+    <div class="parallax absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800" data-speed="0.3"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-ping"></div>
+        <div class="absolute bottom-20 left-20 w-12 h-12 bg-white bg-opacity-10 rounded-full animate-bounce"></div>
+    </div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat typing-effect scroll-animate glitch" data-text="Service Comparison">
+            <span class="block">Service Comparison</span>
+        </h1>
+        <p class="text-xl text-purple-100 max-w-4xl mx-auto scroll-animate stagger-1">
+            Compare different service options and choose the best one for your needs
+        </p>
+    </div>
+</section>
+
+<!-- Comparison Form Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
+                        <i class="fas fa-balance-scale text-purple-600 mr-3"></i>
+                        Compare Services
+                    </h2>
+                    <p class="text-lg text-gray-600">
+                        Select the services you want to compare side by side
+                    </p>
+                </div>
+                
+                <form method="post" id="comparison-form">
+                    {% csrf_token %}
+                    
+                    <div class="space-y-6">
+                        <!-- Service Type Selection -->
+                        <div>
+                            <label for="{{ form.service_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                Service Type
+                            </label>
+                            {{ form.service_type }}
+                            {% if form.service_type.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.service_type.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Service Selection -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Select Services to Compare (Choose 2-4 services)
+                            </label>
+                            <div id="service-options" class="grid md:grid-cols-2 gap-4">
+                                <!-- Services will be loaded dynamically based on service type -->
+                            </div>
+                            {% if form.services.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.services.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Compare Button -->
+                        <div class="text-center pt-6">
+                            <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg transition duration-300 transform hover:scale-105 text-lg">
+                                <i class="fas fa-balance-scale mr-2"></i>
+                                Compare Services
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Results -->
+{% if comparison_data %}
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Comparison Results</h2>
+            <p class="text-lg text-gray-600">Side-by-side comparison of selected services</p>
+        </div>
+        
+        {% if service_type == 'savings' %}
+        <!-- Savings Accounts Comparison -->
+        <div class="overflow-x-auto">
+            <table class="w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                <thead class="bg-purple-600 text-white">
+                    <tr>
+                        <th class="px-6 py-4 text-left">Service</th>
+                        <th class="px-6 py-4 text-center">Interest Rate</th>
+                        <th class="px-6 py-4 text-center">Minimum Balance</th>
+                        <th class="px-6 py-4 text-center">Features</th>
+                        <th class="px-6 py-4 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for account in comparison_data.accounts %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <i class="{{ account.icon }} text-2xl {{ account.color }} mr-3"></i>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">{{ account.name }}</h3>
+                                    <p class="text-sm text-gray-600">{{ account.nepali_name }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-2xl font-bold text-green-600">{{ account.interest_rate }}%</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-lg font-semibold text-gray-800">NPR {{ account.minimum_balance|floatformat:0 }}</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                {% for feature in account.features %}
+                                <li>• {{ feature }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <a href="{{ account.url }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Best Options Highlight -->
+        <div class="mt-8 grid md:grid-cols-2 gap-6">
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+                <h3 class="text-xl font-semibold text-green-800 mb-2">
+                    <i class="fas fa-trophy mr-2"></i>
+                    Best Interest Rate
+                </h3>
+                <p class="text-green-700">{{ comparison_data.best_interest_rate }}%</p>
+            </div>
+            
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                <h3 class="text-xl font-semibold text-blue-800 mb-2">
+                    <i class="fas fa-piggy-bank mr-2"></i>
+                    Lowest Minimum Balance
+                </h3>
+                <p class="text-blue-700">NPR {{ comparison_data.lowest_minimum_balance|floatformat:0 }}</p>
+            </div>
+        </div>
+        
+        {% elif service_type == 'loans' %}
+        <!-- Loans Comparison -->
+        <div class="overflow-x-auto">
+            <table class="w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                <thead class="bg-purple-600 text-white">
+                    <tr>
+                        <th class="px-6 py-4 text-left">Loan Type</th>
+                        <th class="px-6 py-4 text-center">Interest Rate</th>
+                        <th class="px-6 py-4 text-center">Max Amount</th>
+                        <th class="px-6 py-4 text-center">Max Tenure</th>
+                        <th class="px-6 py-4 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in comparison_data.loans %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <i class="{{ loan.icon }} text-2xl {{ loan.color }} mr-3"></i>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800">{{ loan.name }}</h3>
+                                    <p class="text-sm text-gray-600">{{ loan.nepali_name }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-2xl font-bold text-red-600">{{ loan.monthly_interest_rate }}%</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-lg font-semibold text-gray-800">NPR {{ loan.maximum_amount|floatformat:0 }}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-lg font-semibold text-gray-800">{{ loan.max_tenure_years }} years</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <a href="{{ loan.url }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Best Options Highlight -->
+        <div class="mt-8 grid md:grid-cols-2 gap-6">
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+                <h3 class="text-xl font-semibold text-green-800 mb-2">
+                    <i class="fas fa-percentage mr-2"></i>
+                    Lowest Interest Rate
+                </h3>
+                <p class="text-green-700">{{ comparison_data.lowest_interest_rate }}%</p>
+            </div>
+            
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                <h3 class="text-xl font-semibold text-blue-800 mb-2">
+                    <i class="fas fa-money-bill-wave mr-2"></i>
+                    Highest Loan Amount
+                </h3>
+                <p class="text-blue-700">NPR {{ comparison_data.highest_maximum_amount|floatformat:0 }}</p>
+            </div>
+        </div>
+        
+        {% elif service_type == 'fixed_deposits' %}
+        <!-- Fixed Deposits Comparison -->
+        <div class="overflow-x-auto">
+            <table class="w-full bg-white rounded-xl shadow-lg overflow-hidden">
+                <thead class="bg-purple-600 text-white">
+                    <tr>
+                        <th class="px-6 py-4 text-left">Deposit Type</th>
+                        <th class="px-6 py-4 text-center">Duration</th>
+                        <th class="px-6 py-4 text-center">Interest Rate</th>
+                        <th class="px-6 py-4 text-center">Payment Frequency</th>
+                        <th class="px-6 py-4 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for deposit in comparison_data.deposits %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">{{ deposit.duration_display }}</h3>
+                                <p class="text-sm text-gray-600">{{ deposit.payment_frequency_display }}</p>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-lg font-semibold text-gray-800">{{ deposit.duration_months }} months</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-2xl font-bold text-green-600">{{ deposit.interest_rate }}%</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="text-lg font-semibold text-gray-800">{{ deposit.payment_frequency_display }}</span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <a href="/services/fixed-deposits/{{ deposit.id }}/" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Best Options Highlight -->
+        <div class="mt-8 grid md:grid-cols-3 gap-6">
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+                <h3 class="text-xl font-semibold text-green-800 mb-2">
+                    <i class="fas fa-trophy mr-2"></i>
+                    Best Interest Rate
+                </h3>
+                <p class="text-green-700">{{ comparison_data.highest_interest_rate }}%</p>
+            </div>
+            
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                <h3 class="text-xl font-semibold text-blue-800 mb-2">
+                    <i class="fas fa-clock mr-2"></i>
+                    Shortest Duration
+                </h3>
+                <p class="text-blue-700">{{ comparison_data.shortest_duration }} months</p>
+            </div>
+            
+            <div class="bg-purple-50 rounded-xl p-6 border border-purple-200">
+                <h3 class="text-xl font-semibold text-purple-800 mb-2">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    Longest Duration
+                </h3>
+                <p class="text-purple-700">{{ comparison_data.longest_duration }} months</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Features Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Compare Services?</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Make informed decisions by comparing different service options side by side
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-balance-scale text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy Comparison</h3>
+                <p class="text-gray-600">Compare multiple services side by side with all key details</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-bar text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Best Options</h3>
+                <p class="text-gray-600">Identify the best options based on your specific needs</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Informed Decisions</h3>
+                <p class="text-gray-600">Make better financial decisions with complete information</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const serviceTypeSelect = document.getElementById('comparison-service-type');
+    const serviceOptionsDiv = document.getElementById('service-options');
+    
+    // Load services based on service type
+    function loadServices(serviceType) {
+        serviceOptionsDiv.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i></div>';
+        
+        // This would typically be an AJAX call to get services
+        // For now, we'll simulate with static data
+        setTimeout(() => {
+            let services = [];
+            
+            if (serviceType === 'savings') {
+                services = [
+                    {id: 1, name: 'General Savings'},
+                    {id: 2, name: 'Child Savings'},
+                    {id: 3, name: 'Senior Citizen Savings'},
+                    {id: 4, name: 'Monthly Savings'},
+                    {id: 5, name: 'Daily Savings'},
+                    {id: 6, name: 'Institutional Savings'}
+                ];
+            } else if (serviceType === 'loans') {
+                services = [
+                    {id: 1, name: 'Business Loan'},
+                    {id: 2, name: 'Agricultural Loan'},
+                    {id: 3, name: 'House Construction Loan'},
+                    {id: 4, name: 'Vehicle Purchase Loan'},
+                    {id: 5, name: 'Education Loan'}
+                ];
+            } else if (serviceType === 'fixed_deposits') {
+                services = [
+                    {id: 1, name: '3 Months - Lump Sum'},
+                    {id: 2, name: '6 Months - Monthly'},
+                    {id: 3, name: '6 Months - Quarterly'},
+                    {id: 4, name: '12 Months - Monthly'},
+                    {id: 5, name: '12 Months - Quarterly'},
+                    {id: 6, name: '12 Months - Lump Sum'}
+                ];
+            }
+            
+            let html = '';
+            services.forEach(service => {
+                html += `
+                    <div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <input type="checkbox" name="services" value="${service.id}" class="form-check-input">
+                        <label class="text-gray-700">${service.name}</label>
+                    </div>
+                `;
+            });
+            
+            serviceOptionsDiv.innerHTML = html;
+        }, 500);
+    }
+    
+    // Load services when service type changes
+    serviceTypeSelect.addEventListener('change', function() {
+        if (this.value) {
+            loadServices(this.value);
+        } else {
+            serviceOptionsDiv.innerHTML = '<div class="text-center py-8 text-gray-500">Select a service type to see available options</div>';
+        }
+    });
+    
+    // Form validation
+    const form = document.getElementById('comparison-form');
+    form.addEventListener('submit', function(e) {
+        const selectedServices = form.querySelectorAll('input[name="services"]:checked');
+        
+        if (selectedServices.length < 2) {
+            e.preventDefault();
+            alert('Please select at least 2 services to compare.');
+        } else if (selectedServices.length > 4) {
+            e.preventDefault();
+            alert('Please select maximum 4 services to compare.');
+        }
+    });
+});
+</script>
+{% endblock extra_js %}

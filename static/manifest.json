@@ -1,0 +1,117 @@
+{
+  "name": "Bhanjyang Cooperative",
+  "short_name": "Bhanjyang Coop",
+  "description": "Bhanjyang Cooperative - Empowering communities through financial services",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#059669",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["finance", "business", "cooperative"],
+  "icons": [
+    {
+      "src": "/static/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/favicon/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/favicon/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/favicon/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/images/pwa-screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Bhanjyang Cooperative Desktop View"
+    },
+    {
+      "src": "/static/images/pwa-screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Bhanjyang Cooperative Mobile View"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "About Us",
+      "short_name": "About",
+      "description": "Learn about Bhanjyang Cooperative",
+      "url": "/about/",
+      "icons": [
+        {
+          "src": "/static/favicon/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
+    },
+    {
+      "name": "Team",
+      "short_name": "Team",
+      "description": "Meet our team members",
+      "url": "/about/team/",
+      "icons": [
+        {
+          "src": "/static/favicon/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch with us",
+      "url": "/about/contact/",
+      "icons": [
+        {
+          "src": "/static/favicon/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
+    },
+    {
+      "name": "Gallery",
+      "short_name": "Gallery",
+      "description": "View our photo gallery",
+      "url": "/about/gallery/",
+      "icons": [
+        {
+          "src": "/static/favicon/favicon-32x32.png",
+          "sizes": "32x32"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}

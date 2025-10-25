@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load about_extras %}
+
+{% block title %}Contact Us - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="Contact Bhanjyang Multipurpose Cooperative Ltd. for inquiries about membership, loans, savings, or any other services. We're here to help!">
+    <meta name="keywords" content="Contact, Bhanjyang Cooperative, Inquiry, Membership, Loans, Savings, Customer Service">
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about-animations.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
+        <div class="container mx-auto text-center max-w-4xl">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-montserrat mb-4 sm:mb-6">
+                Contact Us
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl opacity-90 leading-relaxed px-4">
+                Have questions? We're here to help! Get in touch with our team for any inquiries about our services.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-white">
+        <div class="container mx-auto max-w-4xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+                <!-- Contact Form -->
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-6">Send us a Message</h2>
+                    
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="mb-6 p-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    {{ form.name.label }}
+                                </label>
+                                {{ form.name }}
+                                {% if form.name.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div>
+                                <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    {{ form.email.label }}
+                                </label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    {{ form.phone.label }}
+                                </label>
+                                {{ form.phone }}
+                                {% if form.phone.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div>
+                                <label for="{{ form.inquiry_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                    {{ form.inquiry_type.label }}
+                                </label>
+                                {{ form.inquiry_type }}
+                                {% if form.inquiry_type.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.inquiry_type.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.subject.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                {{ form.subject.label }}
+                            </label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.subject.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <label for="{{ form.message.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                {{ form.message.label }}
+                            </label>
+                            {{ form.message }}
+                            {% if form.message.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.message.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 btn-animated">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="order-1 lg:order-2">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-6">Get in Touch</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Address</h3>
+                                <p class="text-gray-600">
+                                    Rupa Rural Municipality<br>
+                                    Kaski District, Nepal
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-phone text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Phone</h3>
+                                <p class="text-gray-600">+977-61-XXXXXXX</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Email</h3>
+                                <p class="text-gray-600">info@bhanjyangcoop.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-clock text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Office Hours</h3>
+                                <p class="text-gray-600">
+                                    Sunday - Friday: 9:00 AM - 5:00 PM<br>
+                                    Saturday: 9:00 AM - 1:00 PM
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div class="mt-8 p-6 bg-himalwhite rounded-lg">
+                        <h3 class="font-semibold text-gray-900 mb-4">Quick Links</h3>
+                        <div class="space-y-2">
+                            <a href="{% url 'about:team' %}" class="block text-deuraligreen hover:text-bhanjyangred transition-colors">
+                                <i class="fas fa-users mr-2"></i>Meet Our Team
+                            </a>
+                            <a href="{% url 'about:affiliations' %}" class="block text-deuraligreen hover:text-bhanjyangred transition-colors">
+                                <i class="fas fa-handshake mr-2"></i>Our Affiliations
+                            </a>
+                            <a href="{% url 'about:timeline' %}" class="block text-deuraligreen hover:text-bhanjyangred transition-colors">
+                                <i class="fas fa-history mr-2"></i>Our History
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup Section -->
+    <section class="py-12 sm:py-16 bg-gradient-to-r from-deuraligreen to-bhanjyangred text-white">
+        <div class="container mx-auto max-w-4xl text-center px-4 sm:px-6">
+            <h2 class="text-2xl sm:text-3xl font-bold mb-4">Stay Updated</h2>
+            <p class="text-lg mb-8 opacity-90">Subscribe to our newsletter for the latest news and updates</p>
+            
+            <form id="newsletter-form" class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" id="newsletter-email" placeholder="Enter your email" 
+                           class="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-white focus:outline-none">
+                    <button type="submit" class="bg-white text-deuraligreen font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
+                        Subscribe
+                    </button>
+                </div>
+                <div id="newsletter-message" class="mt-4 text-sm"></div>
+            </form>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+        // Newsletter signup
+        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('newsletter-email').value;
+            const messageDiv = document.getElementById('newsletter-message');
+            
+            if (!email) {
+                messageDiv.innerHTML = '<span class="text-red-300">Please enter your email address.</span>';
+                return;
+            }
+            
+            fetch('{% url "about:newsletter_signup" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    interests: ['news', 'services', 'events']
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageDiv.innerHTML = '<span class="text-green-300">✓ ' + data.message + '</span>';
+                    document.getElementById('newsletter-email').value = '';
+                } else {
+                    messageDiv.innerHTML = '<span class="text-red-300">✗ ' + (data.message || 'An error occurred') + '</span>';
+                }
+            })
+            .catch(error => {
+                messageDiv.innerHTML = '<span class="text-red-300">✗ An error occurred. Please try again.</span>';
+            });
+        });
+    </script>
+{% endblock extra_js %}

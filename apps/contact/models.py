@@ -1,0 +1,132 @@
+from django.db import models
+from django.utils import timezone
+import os
+
+
+def contact_attachment_path(instance, filename):
+    """Generate secure upload path for contact form attachments"""
+    import uuid
+    import os
+    from django.utils.text import slugify
+    
+    # Sanitize filename
+    name, ext = os.path.splitext(filename)
+    sanitized_name = slugify(name)
+    unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext}"
+    
+    timestamp = timezone.now().strftime('%Y/%m/%d')
+    return f'contact_attachments/{timestamp}/{unique_filename}'
+
+
+class ContactSubmission(models.Model):
+    """
+    Model to store contact form submissions for better record keeping and management.
+    """
+    STATUS_CHOICES = [
+        ('new', 'New'),
+        ('in_progress', 'In Progress'),
+        ('resolved', 'Resolved'),
+        ('spam', 'Spam'),
+    ]
+    
+    name = models.CharField(max_length=100, help_text="Full name of the person submitting the form")
+    email = models.EmailField(help_text="Email address for response")
+    phone = models.CharField(max_length=20, blank=True, help_text="Optional phone number")
+    subject = models.CharField(max_length=200, help_text="Subject of the inquiry")
+    message = models.TextField(help_text="Detailed message content")
+    attachment = models.FileField(
+        upload_to=contact_attachment_path,
+        blank=True,
+        null=True,
+        help_text="Optional file attachment"
+    )
+    
+    # Technical tracking fields
+    ip_address = models.GenericIPAddressField(help_text="IP address of the submitter")
+    user_agent = models.TextField(blank=True, help_text="Browser user agent string")
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True, help_text="When the submission was created")
+    updated_at = models.DateTimeField(auto_now=True, help_text="When the submission was last updated")
+    
+    # Management fields
+    status = models.CharField(
+        max_length=20, 
+        choices=STATUS_CHOICES, 
+        default='new',
+        help_text="Current status of the submission"
+    )
+    admin_notes = models.TextField(blank=True, help_text="Internal notes for admin use")
+    resolved_at = models.DateTimeField(null=True, blank=True, help_text="When the submission was resolved")
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Contact Submission'
+        verbose_name_plural = 'Contact Submissions'
+        indexes = [
+            models.Index(fields=['status', 'created_at']),
+            models.Index(fields=['email']),
+            models.Index(fields=['created_at']),
+            models.Index(fields=['ip_address']),
+            models.Index(fields=['status']),
+            models.Index(fields=['resolved_at']),
+        ]
+    
+    def __str__(self):
+        return f"{self.name} - {self.subject} ({self.created_at.strftime('%Y-%m-%d')})"
+    
+    def get_status_display_color(self):
+        """Return CSS color class for status display"""
+        colors = {
+            'new': 'text-blue-600',
+            'in_progress': 'text-yellow-600',
+            'resolved': 'text-green-600',
+            'spam': 'text-red-600',
+        }
+        return colors.get(self.status, 'text-gray-600')
+    
+    def is_recent(self):
+        """Check if submission is from the last 24 hours"""
+        return (timezone.now() - self.created_at).total_seconds() < 86400
+    
+    def mark_as_resolved(self):
+        """Mark submission as resolved"""
+        self.status = 'resolved'
+        self.resolved_at = timezone.now()
+        self.save()
+    
+    def mark_as_spam(self):
+        """Mark submission as spam"""
+        self.status = 'spam'
+        self.save()
+    
+    def has_attachment(self):
+        """Check if submission has an attachment"""
+        return bool(self.attachment and self.attachment.name)
+    
+    def get_attachment_filename(self):
+        """Get the filename of the attachment"""
+        if self.has_attachment():
+            return os.path.basename(self.attachment.name)
+        return None
+    
+    def get_attachment_size(self):
+        """Get the size of the attachment in bytes"""
+        if self.has_attachment():
+            try:
+                return self.attachment.size
+            except (OSError, ValueError):
+                return 0
+        return 0
+    
+    def get_attachment_size_display(self):
+        """Get human-readable attachment size"""
+        size = self.get_attachment_size()
+        if size == 0:
+            return "No attachment"
+        
+        for unit in ['B', 'KB', 'MB', 'GB']:
+            if size < 1024.0:
+                return f"{size:.1f} {unit}"
+            size /= 1024.0
+        return f"{size:.1f} TB"

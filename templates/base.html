@@ -3,34 +3,148 @@
 {# The lang attribute is set to Nepali, which is great for SEO and accessibility. #}
 <html lang="ne" class="scroll-smooth">
 <head>
+    {# CSRF Token for AJAX requests #}
+    {% csrf_token %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}भञ्ज्याङ सहकारी{% endblock title %}</title>
     
-    {# SEO, Favicon and other meta tags #}
-    <meta name="description" content="भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।">
-    <meta name="keywords" content="cooperative, savings, credit, nepal, kaski, rupa">
-    <link rel="icon" href="{% static 'main/images/favicon.ico' %}" type="image/x-icon">
-    <link rel="apple-touch-icon" href="{% static 'main/images/logo.png' %}">
+    {# Enhanced SEO Meta Tags #}
+    <meta name="description" content="{% block meta_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार। हामीले बचत खाता, ऋण सेवा, र अन्य वित्तीय सेवाहरू प्रदान गर्छौं।{% endblock meta_description %}">
+    <meta name="keywords" content="{% block meta_keywords %}cooperative, savings, credit, nepal, kaski, rupa, bhanjyang, financial services, banking, microfinance, community banking{% endblock meta_keywords %}">
+    <meta name="author" content="Bhanjyang Saving & Credit Cooperative Society Ltd.">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="ne">
+    <meta name="revisit-after" content="7 days">
+    
+    {# Open Graph Meta Tags for Social Media #}
+    <meta property="og:title" content="{% block og_title %}भञ्ज्याङ सहकारी{% endblock og_title %}">
+    <meta property="og:description" content="{% block og_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।{% endblock og_description %}">
+    <meta property="og:image" content="{% block og_image %}{% static 'images/Logo.png' %}{% endblock og_image %}">
+    <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock og_url %}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}">
+    <meta property="og:site_name" content="Bhanjyang Cooperative">
+    <meta property="og:locale" content="ne_NP">
+    
+    {# Twitter Card Meta Tags #}
+    <meta name="twitter:card" content="{% block twitter_card %}summary_large_image{% endblock twitter_card %}">
+    <meta name="twitter:title" content="{% block twitter_title %}भञ्ज्याङ सहकारी{% endblock twitter_title %}">
+    <meta name="twitter:description" content="{% block twitter_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।{% endblock twitter_description %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% static 'images/Logo.png' %}{% endblock twitter_image %}">
+    
+    {# Additional SEO Meta Tags #}
+    <meta name="theme-color" content="#059669">
+    <meta name="msapplication-TileColor" content="#059669">
+    <meta name="msapplication-TileImage" content="{% static 'images/Logo.png' %}">
+    
+    {# PWA Meta Tags #}
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Bhanjyang Coop">
+    <meta name="application-name" content="Bhanjyang Coop">
+    <meta name="msapplication-starturl" content="/">
+    <meta name="msapplication-navbutton-color" content="#059669">
+    <meta name="msapplication-TileColor" content="#059669">
+    
+    {# PWA Manifest #}
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    
+    {# Favicon and Touch Icons #}
+    <link rel="icon" href="{% static 'images/Logo.png' %}" type="image/png">
+    <link rel="apple-touch-icon" href="{% static 'images/Logo.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/Logo.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/Logo.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/Logo.png' %}">
+    
+    {# Canonical URL #}
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock canonical_url %}">
 
     {# Compiled Tailwind CSS from your project's static files #}
     <link href="{% static 'dist/output.css' %}" rel="stylesheet">
     
     {# Custom Animations CSS #}
-    <link href="{% static 'src/animations.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animations.css' %}" rel="stylesheet">
+    
+    {# Advanced Features CSS #}
+    <link href="{% static 'css/about-animations.css' %}" rel="stylesheet">
+    <link href="{% static 'css/advanced-animations.css' %}" rel="stylesheet">
+    <link href="{% static 'css/dark-mode.css' %}" rel="stylesheet">
+    <link href="{% static 'css/gallery-lightbox.css' %}" rel="stylesheet">
 
     {# Google Fonts & Font Awesome from CDN for performance #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    {# Alpine.js for interactive components #}
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    {# Structured Data (JSON-LD) #}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "{% block schema_type %}FinancialService{% endblock schema_type %}",
+        "name": "{% block schema_name %}Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock schema_name %}",
+        "description": "{% block schema_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।{% endblock schema_description %}",
+        "url": "{% block schema_url %}{{ request.build_absolute_uri }}{% endblock schema_url %}",
+        "logo": "{% static 'images/Logo.png' %}",
+        "image": "{% block schema_image %}{% static 'images/Logo.png' %}{% endblock schema_image %}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rupa Rural Municipality",
+            "addressLocality": "Kaski",
+            "addressRegion": "Gandaki Province",
+            "addressCountry": "NP"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+977-9856083101",
+            "contactType": "customer service",
+            "availableLanguage": ["Nepali", "English"]
+        },
+        "sameAs": [
+            "{% block schema_same_as %}{% endblock schema_same_as %}"
+        ],
+        "serviceType": "Financial Services",
+        "areaServed": "Nepal"
+    }
+    </script>
 
     {% block extra_head %}{% endblock extra_head %}
 </head>
 <body class="bg-himalwhite text-patrikaslate font-poppins flex flex-col min-h-screen antialiased">
 
+    {# Sticky Notice Toast System #}
+    {% if notice_message %}
+    <div 
+      x-data="{ show: true }" 
+      x-show="show"
+      x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 translate-y-2"
+      x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 translate-y-2"
+      class="fixed top-6 left-1/2 transform -translate-x-1/2
+             bg-gradient-to-r from-bhanjyangred/10 to-bhanjyangred/20
+             text-bhanjyangred border-l-4 border-bhanjyangred
+             shadow-2xl px-6 py-4 rounded-xl flex items-center space-x-4 z-50
+             max-w-xl w-full backdrop-blur-sm"
+    >
+      <div class="text-2xl animate-pulse">📢</div>
+      <p class="text-sm font-medium">{{ notice_message|safe }}</p>
+      <button @click="show = false" class="ml-auto font-bold text-lg hover:text-bhanjyangred-dark transition" aria-label="Dismiss">&times;</button>
+    </div>
+    {% endif %}
+
     {# Header partial is included here. #}
     {% include 'partials/_header.html' %}
+
+    {# Breadcrumb Navigation #}
+    {% block breadcrumbs %}{% endblock breadcrumbs %}
 
     <main id="main-content" class="flex-grow">
         {% block content %}
@@ -51,8 +165,11 @@
 
     {# All page-specific or additional JavaScript should go in this block. #}
     {% block extra_js %}
+    {# Performance Monitoring JavaScript #}
+    <script src="{% static 'js/performance-monitor.js' %}"></script>
+    
     {# Custom Animations JavaScript #}
-    <script src="{% static 'src/animations.js' %}"></script>
+    <script src="{% static 'js/animations.js' %}"></script>
     
     <script>
     // This script handles the toggling of the mobile navigation menu.
@@ -78,6 +195,19 @@
         }
     });
     </script>
+        <!-- GSAP CDN for pro-level animations -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <!-- GSAP Animation Initializer -->
+        <script src="{% static 'js/gsap-init.js' %}"></script>
+        
+        <!-- PWA Installer -->
+        <script src="{% static 'js/pwa-installer.js' %}"></script>
+        
+        <!-- Dark Mode -->
+        <script src="{% static 'js/dark-mode.js' %}"></script>
+        
+        <!-- Advanced Animations -->
+        <script src="{% static 'js/advanced-animations.js' %}"></script>
     {% endblock extra_js %}
 </body>
 </html>

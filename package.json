@@ -3,25 +3,35 @@
   "version": "1.0.0",
   "description": "Bhanjyang Cooperative website with Django and Tailwind CSS",
   "scripts": {
-    "dev": "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/dist/output.css --watch",
-    "build": "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/dist/output.css --minify",
-    "build:watch": "npx @tailwindcss/cli -i ./static/src/input.css -o ./static/dist/output.css --watch --minify",
+    "dev": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/dist/output.css --watch",
+    "build": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/dist/output.css --minify",
+    "build:watch": "npx @tailwindcss/cli -i ./static/css/input.css -o ./static/dist/output.css --watch --minify",
     "clean": "rimraf ./static/dist",
     "start": "python manage.py runserver",
     "migrate": "python manage.py migrate",
     "makemigrations": "python manage.py makemigrations",
     "collectstatic": "python manage.py collectstatic --noinput",
     "test": "python manage.py test",
-    "shell": "python manage.py shell"
+    "shell": "python manage.py shell",
+    "install": "npm install",
+    "build:prod": "npm run build && npm run collectstatic"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.10",
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
-    "rimraf": "^5.0.0"
+    "rimraf": "^6.0.1"
   },
-  "keywords": ["django", "tailwindcss", "cooperative", "nepal"],
+  "keywords": [
+    "django",
+    "tailwindcss",
+    "cooperative",
+    "nepal"
+  ],
   "author": "Bhanjyang Cooperative",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

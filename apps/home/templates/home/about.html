@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bhanjyang Cooperative - About Us{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="Learn about Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our establishment, vision, mission, values, team, historical timeline, regulatory compliance, and messages from our leadership.">
+    <meta name="keywords" content="Bhanjyang Cooperative, Savings and Credit Cooperative, Our Story, Vision, Mission, Values, Team, Kaski, Rupa Rural Municipality, Cooperative Society, Timeline, Chairman, Manager, Leadership, Regulation, Compliance, Affiliations, NEFSCUN">
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+
+    <section class="relative bg-white text-deuraligreen py-20 px-6 flex items-center justify-center overflow-hidden">
+        <div class="parallax absolute inset-0 z-0 opacity-10 bg-cover bg-center" data-speed="0.2"></div>
+        <div class="container mx-auto text-center z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 drop-shadow-lg text-reveal scroll-animate">About 'Bhanjyang SACCOS'</h1>
+            <p class="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto opacity-90 leading-relaxed scroll-animate stagger-1">Empowering communities, fostering growth, and building a sustainable future together.</p>
+        </div>
+    </section>
+
+    <section id="our-story" class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto scroll-animate">Our Story</h2>
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 order-2 md:order-1 space-y-6 scroll-animate stagger-1">
+                    <p class="text-gray-700 leading-relaxed text-lg text-justify">Established in <strong>2069 B.S.</strong>, Bhanjyang Saving & Credit Cooperative Society Ltd. was founded with a clear vision: to empower the local communities of Rupa Rural Municipality, Kaski. We began our journey with a handful of dedicated members, committed to the principles of mutual cooperation and sustainable development.</p>
+                    <p class="text-gray-700 leading-relaxed text-lg text-justify">Over the years, we have grown steadily, adapting to the evolving needs of our members and the region. Our focus has always been on providing accessible, reliable, and fair financial services that contribute directly to the economic well-being and social upliftment of our community.</p>
+                </div>
+                <div class="md:w-1/2 order-1 md:order-2 scroll-animate stagger-2">
+                    <div class="image-reveal">
+                        <img src="{% static 'images/pattern-light.png' %}" onerror="this.onerror=null;this.src='https://placehold.co/600x400/28A745/FFFFFF?text=Our+Journey';" alt="Our Cooperative Story" class="rounded-lg shadow-2xl w-full h-auto object-cover hover-scale hover-lift">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- सहकारीको इतिहास (Detailed History) -->
+    <section id="detailed-history" class="py-20 px-6 bg-gray-50">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto animate-in-up delay-100">सहकारीको इतिहास (Our Detailed History)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="animate-in-up delay-200">
+                    <img src="{% static 'images/hero1.jpg' %}" alt="Bhanjyang Cooperative building" class="rounded-xl shadow-lg w-full h-auto object-cover">
+                </div>
+                <div class="animate-in-up delay-300">
+                    <h3 class="text-2xl font-bold text-deuraligreen mb-4">Building Community Through Cooperation</h3>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लि. को स्थापना २०६८ सालमा स्थानीय स्तरमा वित्तीय पहुँच अभिवृद्धि गर्ने उद्देश्यका साथ गरिएको हो। सामूहिक प्रयास, पारदर्शिता र मर्यादित सहकारी मूल्यको आधारमा यस संस्थाको औपचारिक सञ्चालन २०६९ साल जेठ ६ गतेबाट प्रारम्भ गरिएको हो।
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        संस्थापक अध्यक्ष काशिराम घिमिरेज्यूको अगुवाइमा जम्मा २५ जना अग्रसर व्यक्तिहरूको सहभागिताबाट सुरु गरिएको यस सहकारी संस्था, आजको दिनमा रूपा गाउँपालिका–५, देउराली क्षेत्रको अग्रणी वित्तीय संस्था बन्न सफल भएको छ।
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        सुरुका दिनहरूमा सीमित स्रोत, साना सदस्य संख्या र न्यून सेवा सुविधाबाट अघि बढेको यस संस्था हाल सयौं सदस्यहरू, विविध वित्तीय सेवाहरू र व्यवस्थित प्रशासनिक संरचनासहित ग्रामीण वित्तीय सशक्तिकरणमा महत्वपूर्ण योगदान पुर्‍याउँदै आएको छ।
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- अध्यक्षको सन्देश (Chairman's Message) -->
+    <section id="chairman-message" class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto animate-in-up delay-100">अध्यक्षको सन्देश (Chairman's Message)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-1 animate-in-up delay-200">
+                    <img src="/media/team_photos/additional/rabiraj_ghimire.JPG" alt="Chairperson" class="rounded-xl shadow-md w-full max-w-sm mx-auto" />
+                </div>
+                <div class="md:col-span-2 animate-in-up delay-300">
+                    <h3 class="text-2xl font-bold text-deuraligreen mb-4">अध्यक्षको सन्देश</h3>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        "मर्यादित सहकार्यः समुन्नत समाज" भन्ने मूल नाराका साथ, भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लि. ले स्थानीय आर्थिक विकास, सदस्यहरूको समृद्धि र वित्तीय पहुँच विस्तार गर्ने लक्ष्यसहित आफ्नो यात्रा अगाडि बढाइरहेको छ।
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        स्थापना कालखण्डमा केही अग्रसर सोंच र २५ जना सदस्यको सानो पहलबाट सुरु भएको यो संस्था, आज सयौं सदस्यहरूको विश्वास, समर्पण र सहकार्यबाट रूपा गाउँपालिका–५ देउराली क्षेत्रको एक सशक्त र अनुकरणीय सहकारी संस्थाको रूपमा स्थापित भएको छ।
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        हामीले पारदर्शिता, जवाफदेहिता, नियमित सेवा, र सदस्य केन्द्रित रणनीतिलाई हाम्रो कार्यशैलीको मूल मर्म बनाएका छौं। नियमित बचत, सजिलो कर्जा पहुँच, आपतकालीन कोष, वित्तीय साक्षरता, र सामाजिक उत्तरदायित्वका कार्यहरूमार्फत हामी "सिर्जनशील सहकार्य" को अभ्यास गरिरहेका छौं।
+                    </p>
+                    <p class="text-sm text-gray-600 mt-4 italic">
+                        - रविराज घिमिरे, अध्यक्ष<br>
+                        भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लि.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="our-journey" class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto animate-in-up delay-100">Our Journey: A Timeline</h2>
+            <div class="relative">
+                <div class="absolute left-1/2 -ml-0.5 w-1 bg-deuraligreen h-full hidden md:block"></div>
+                <div class="space-y-16 md:space-y-0">
+                    <!-- Timeline Items will be listed here -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Vision, Mission, Values Section -->
+    <section id="vision-mission-values" class="py-20 px-6 bg-gray-50">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto">Our Vision, Mission & Values</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Vision Card -->
+                <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-bhanjyangred to-red-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-eye text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-deuraligreen font-montserrat mb-4">Our Vision</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        To be the leading cooperative society in Nepal, empowering communities through innovative financial solutions and sustainable development practices.
+                    </p>
+                </div>
+
+                <!-- Mission Card -->
+                <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-deuraligreen to-green-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-bullseye text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-deuraligreen font-montserrat mb-4">Our Mission</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        To provide accessible, reliable, and innovative financial services that promote economic growth, social development, and financial inclusion in our communities.
+                    </p>
+                </div>
+
+                <!-- Values Card -->
+                <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-center">
+                    <div class="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-heart text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-deuraligreen font-montserrat mb-4">Our Values</h3>
+                    <p class="text-gray-700 leading-relaxed">
+                        Integrity, transparency, trust, community service, and sustainable growth guide everything we do for our members and stakeholders.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Core Values Detail -->
+            <div class="mt-16 bg-white p-8 rounded-lg shadow-lg">
+                <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat text-center mb-8">Our Core Values</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="text-center p-4">
+                        <i class="fas fa-shield-alt text-4xl text-deuraligreen mb-3"></i>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Integrity</h4>
+                        <p class="text-gray-600 text-sm">We maintain the highest ethical standards in all our operations.</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <i class="fas fa-eye text-4xl text-deuraligreen mb-3"></i>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Transparency</h4>
+                        <p class="text-gray-600 text-sm">We believe in open communication and clear processes.</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <i class="fas fa-handshake text-4xl text-deuraligreen mb-3"></i>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Trust</h4>
+                        <p class="text-gray-600 text-sm">Building lasting relationships through reliability and consistency.</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <i class="fas fa-users text-4xl text-deuraligreen mb-3"></i>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Community Service</h4>
+                        <p class="text-gray-600 text-sm">Serving our community with dedication and commitment.</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <i class="fas fa-chart-line text-4xl text-deuraligreen mb-3"></i>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Sustainable Growth</h4>
+                        <p class="text-gray-600 text-sm">Promoting long-term prosperity for all stakeholders.</p>
+                    </div>
+                    <div class="text-center p-4">
+                        <i class="fas fa-lightbulb text-4xl text-deuraligreen mb-3"></i>
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Innovation</h4>
+                        <p class="text-gray-600 text-sm">Embracing new technologies and methods for better service.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="team" class="py-20 px-6 bg-white">
+        <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat text-center mb-12 border-b-2 border-deuraligreen pb-3 mx-auto">Our Leadership Team</h2>
+            <p class="text-center text-lg text-gray-700 mb-10">Our success is driven by the dedication and experience of our esteemed leadership.</p>
+
+            {% if board_members %}
+            <h3 class="text-2xl font-bold text-deuraligreen font-montserrat text-center mb-6">Board of Directors</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 mb-12">
+                {% for member in board_members %}
+                <div class="bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300 transform hover:scale-105 animate-in-up">
+                    <img src="{% if member.person.photo %}{{ member.person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="{{ member.person.full_name }}" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-deuraligreen shadow-lg">
+                    <h4 class="text-xl font-semibold text-gray-900 font-montserrat">{{ member.person.full_name }}</h4>
+                    <p class="text-bhanjyangred mb-2">{{ member.position }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Repeat for other committees like account_supervisor_committee, etc. -->
+
+        </div>
+    </section>
+
+    <section id="leadership-messages" class="py-20 px-6 bg-gray-50 text-gray-800">
+        <div class="container mx-auto max-w-7xl">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-center mb-16 border-b-4 border-deuraligreen pb-4 mx-auto">Message from Our Leadership</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {% if chairman %}
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <img src="{% if chairman.photo %}{{ chairman.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="Chairman's Photo" class="w-36 h-36 rounded-full mx-auto mb-6 object-cover border-4 border-bhanjyangred shadow-lg">
+                    <h3 class="text-2xl font-semibold font-montserrat text-deuraligreen mb-1">{{ chairman.full_name }}</h3>
+                    <p class="text-sm text-bhanjyangred mb-4">Chairman</p>
+                    <p class="text-base leading-relaxed text-justify mb-6">“Dear Esteemed Members and Valued Community... Your trust and active participation have been the cornerstone of our success.”</p>
+                    <p class="font-bold text-lg italic">Sincerely,<br> {{ chairman.full_name }}</p>
+                </div>
+                {% endif %}
+
+                {% if manager %}
+                <div class="bg-white rounded-xl shadow-md p-8 text-center">
+                    <img src="{% if manager.photo %}{{ manager.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="Manager's Photo" class="w-36 h-36 rounded-full mx-auto mb-6 object-cover border-4 border-deuraligreen shadow-lg">
+                    <h3 class="text-2xl font-semibold font-montserrat text-bhanjyangred mb-1">{{ manager.full_name }}</h3>
+                    <p class="text-sm text-deuraligreen mb-4">Manager</p>
+                    <p class="text-base leading-relaxed text-justify mb-6">“To our dear members and the community... We pledge to uphold the trust you place in us and work tirelessly to contribute to the economic development and social betterment of our community.”</p>
+                    <p class="font-bold text-lg italic">Best Regards,<br> {{ manager.full_name }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    
+    <!-- Other sections like testimonials, compliance, etc. -->
+
+{% endblock content %}

@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bhanjyang Cooperative - Complete Your KYM Form{% endblock title %}
+
+{% block extra_head %}
+    <!-- SEO Optimization: Meta Description for KYM Form page -->
+    <meta name="description" content="Securely complete your Know Your Member (KYM) form online for Bhanjyang Saving & Credit Cooperative Society Ltd. Submit your personal, contact, family, and occupation details, along with required documents for verification.">
+    <meta name="keywords" content="KYM Form, Online KYM, Know Your Member Form, KYM Submission, Member Verification Form, KYC Form, Submit Documents, Personal Details, Contact Details, Family Details, Occupation Details, Document Upload, Kaski, Rupa Rural Municipality">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+{% endblock extra_head %}
+
+{% block content %}
+
+    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+
+        <div class="container mx-auto text-center z-10 animated-element animate-in-up delay-500">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 drop-shadow-lg">
+                Complete Your KYM Form
+            </h1>
+            <p class="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto opacity-90 leading-relaxed">
+                Help us know you better for secure and personalized services.
+            </p>
+        </div>
+    </section>
+
+    <section id="kym_form-section" class="py-16 px-4 bg-gray-50 flex items-center justify-center">
+        <div class="container mx-auto max-w-4xl bg-white p-8 rounded-lg shadow-xl border-t-4 border-bhanjyangred animated-element animate-in-up delay-200">
+            <div class="text-center mb-8">
+                <i class="fas fa-clipboard-check text-6xl text-deuraligreen mb-4"></i>
+                <h2 class="text-3xl font-bold text-gray-900 font-montserrat">Your KYM Details</h2>
+                <p class="text-gray-600 mt-2">Please fill out all required fields accurately. This information helps us comply with regulations and serve you better.</p>
+                <p class="text-sm text-red-600 mt-2"><i class="fas fa-asterisk text-xs"></i> Required fields are marked.</p>
+            </div>
+
+            <form action="{% url 'contact:kym_form' %}" method="POST" enctype="multipart/form-data" class="space-y-8">
+                {% csrf_token %}
+
+                <!-- Section 1: Personal Details -->
+                <div class="border-b-2 border-gray-200 pb-6">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                        <i class="fas fa-user-circle mr-3"></i> Personal Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.full_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Full Name <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-user text-gray-400"></i></span>
+                                {{ form.full_name }}
+                            </div>
+                            {% if form.full_name.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.full_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.dob.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Date of Birth <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-calendar-alt text-gray-400"></i></span>
+                                {{ form.dob }}
+                            </div>
+                            {% if form.dob.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.dob.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.gender.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Gender <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-venus-mars text-gray-400"></i></span>
+                                {{ form.gender }}
+                            </div>
+                            {% if form.gender.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.gender.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.marital_status.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Marital Status <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-ring text-gray-400"></i></span>
+                                {{ form.marital_status }}
+                            </div>
+                            {% if form.marital_status.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.marital_status.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.nationality.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Nationality <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-globe text-gray-400"></i></span>
+                                {{ form.nationality }}
+                            </div>
+                            {% if form.nationality.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.nationality.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Contact Information -->
+                <div class="border-b-2 border-gray-200 pb-6 pt-4">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                        <i class="fas fa-address-book mr-3"></i> Contact Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.phone.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Phone Number <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-phone text-gray-400"></i></span>
+                                {{ form.phone }}
+                            </div>
+                            {% if form.phone.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.email.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Email Address <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-envelope text-gray-400"></i></span>
+                                {{ form.email }}
+                            </div>
+                            {% if form.email.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.permanent_address.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Permanent Address <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-map-marker-alt text-gray-400"></i></span>
+                                {{ form.permanent_address }}
+                            </div>
+                            {% if form.permanent_address.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.permanent_address.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.district.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">District <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-city text-gray-400"></i></span>
+                                {{ form.district }}
+                            </div>
+                            {% if form.district.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.district.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.province.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Province <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-map text-gray-400"></i></span>
+                                {{ form.province }}
+                            </div>
+                            {% if form.province.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.province.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Family Details -->
+                <div class="border-b-2 border-gray-200 pb-6 pt-4">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                        <i class="fas fa-users mr-3"></i> Family Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.father_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Father's Name <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-male text-gray-400"></i></span>
+                                {{ form.father_name }}
+                            </div>
+                            {% if form.father_name.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.father_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.mother_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Mother's Name <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-female text-gray-400"></i></span>
+                                {{ form.mother_name }}
+                            </div>
+                            {% if form.mother_name.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.mother_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.spouse_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Spouse's Name (if married)</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-heart text-gray-400"></i></span>
+                                {{ form.spouse_name }}
+                            </div>
+                            {% if form.spouse_name.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.spouse_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.grand_father_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Grand Father's Name <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-user-tie text-gray-400"></i></span>
+                                {{ form.grand_father_name }}
+                            </div>
+                            {% if form.grand_father_name.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.grand_father_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.nominee_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Nominee Name (Optional)</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-hand-holding-heart text-gray-400"></i></span>
+                                {{ form.nominee_name }}
+                            </div>
+                            {% if form.nominee_name.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.nominee_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Occupation & Income Details -->
+                <div class="border-b-2 border-gray-200 pb-6 pt-4">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                        <i class="fas fa-briefcase mr-3"></i> Occupation & Income
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.occupation.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Occupation <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-hard-hat text-gray-400"></i></span>
+                                {{ form.occupation }}
+                            </div>
+                            {% if form.occupation.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.occupation.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.income_source.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Source of Income <span class="text-red-600">*</span></label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-sack-dollar text-gray-400"></i></span>
+                                {{ form.income_source }}
+                            </div>
+                            {% if form.income_source.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.income_source.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.estimated_income.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Estimated Annual Income (NPR)</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-money-bill-trend-up text-gray-400"></i></span>
+                                {{ form.estimated_income }}
+                            </div>
+                            {% if form.estimated_income.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.estimated_income.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Document Uploads -->
+                <div class="pb-6 pt-4">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                        <i class="fas fa-cloud-upload-alt mr-3"></i> Document Uploads
+                    </h3>
+                    <p class="text-gray-600 mb-4">Please upload clear copies of the following required documents. Max file size: 5MB per file. Accepted formats: PDF, JPG, PNG.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.citizenship_front.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Citizenship/ID Card (Front) <span class="text-red-600">*</span></label>
+                            {{ form.citizenship_front }}
+                            {% if form.citizenship_front.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.citizenship_front.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.citizenship_back.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Citizenship/ID Card (Back) <span class="text-red-600">*</span></label>
+                            {{ form.citizenship_back }}
+                            {% if form.citizenship_back.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.citizenship_back.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.passport_photo_upload.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Passport-sized Photo <span class="text-red-600">*</span></label>
+                            {{ form.passport_photo_upload }}
+                            {% if form.passport_photo_upload.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.passport_photo_upload.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <label for="{{ form.address_proof_upload.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Address Proof (e.g., Utility Bill) <span class="text-red-600">*</span></label>
+                            {{ form.address_proof_upload }}
+                            {% if form.address_proof_upload.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.address_proof_upload.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="{{ form.income_proof_upload.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Occupation/Income Proof (Optional)</label>
+                            {{ form.income_proof_upload }}
+                            {% if form.income_proof_upload.errors %}
+                                <div class="text-red-600 text-sm mt-1">{{ form.income_proof_upload.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <button type="submit"
+                            class="inline-block w-full bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                        Submit KYM Form <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div id="submission-message" class="hidden mt-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
+                <p class="font-bold">KYM Form Submitted Successfully!</p>
+                <p>Thank you for completing your KYM. Your details are now under review. You will be notified via email once the verification process is complete.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 px-4 bg-white text-deuraligreen text-center">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-6">
+                Need Assistance with Your KYM?
+            </h2>
+            <p class="text-lg mb-8 leading-relaxed">
+                If you have any questions about the KYM process or need help filling out the form, please don't hesitate to contact our support team.
+            </p>
+            <a href="{% url 'contact:contact_view' %}"
+               class="inline-block bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                Contact Support <i class="fas fa-headset ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const kymForm = document.querySelector('#kym_form-section form');
+            const submissionMessage = document.getElementById('submission-message');
+
+            if (kymForm) {
+                kymForm.addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent actual form submission
+
+                    // In a real application, you would collect form data and
+                    // send it to your backend using fetch() or XMLHttpRequest.
+                    // For demonstration, we'll just show the success message.
+
+                    // Simulate form submission success
+                    submissionMessage.classList.remove('hidden');
+                    kymForm.reset(); // Clear the form after "submission"
+
+                    // Optional: Hide message after a few seconds
+                    setTimeout(() => {
+                        submissionMessage.classList.add('hidden');
+                    }, 7000); // Message visible for 7 seconds
+                });
+            }
+        });
+    </script>
+{% endblock extra_js %}

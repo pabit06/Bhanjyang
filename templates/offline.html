@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Offline - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="You're currently offline. Some features may not be available.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about-animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/advanced-animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+    <div class="min-h-screen bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 flex items-center justify-center px-4">
+        <div class="max-w-md w-full text-center">
+            <!-- Offline Icon -->
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-8">
+                <i class="fas fa-wifi-slash text-gray-400 text-3xl"></i>
+            </div>
+            
+            <!-- Offline Message -->
+            <h1 class="text-3xl font-bold text-deuraligreen mb-4">You're Offline</h1>
+            <p class="text-gray-600 mb-8 leading-relaxed">
+                It looks like you're not connected to the internet. Don't worry, you can still browse some of our content that's been saved for offline viewing.
+            </p>
+            
+            <!-- Available Offline Content -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-xl font-semibold text-deuraligreen mb-4">Available Offline</h2>
+                <div class="space-y-3">
+                    <a href="/about/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex items-center">
+                            <i class="fas fa-info-circle text-deuraligreen mr-3"></i>
+                            <span class="font-medium">About Us</span>
+                        </div>
+                    </a>
+                    <a href="/about/team/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex items-center">
+                            <i class="fas fa-users text-deuraligreen mr-3"></i>
+                            <span class="font-medium">Our Team</span>
+                        </div>
+                    </a>
+                    <a href="/about/contact/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-deuraligreen mr-3"></i>
+                            <span class="font-medium">Contact Us</span>
+                        </div>
+                    </a>
+                    <a href="/about/gallery/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex items-center">
+                            <i class="fas fa-images text-deuraligreen mr-3"></i>
+                            <span class="font-medium">Photo Gallery</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Retry Connection -->
+            <div class="space-y-4">
+                <button id="retry-connection" class="w-full bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-refresh mr-2"></i>Try Again
+                </button>
+                
+                <p class="text-sm text-gray-500">
+                    Check your internet connection and try again
+                </p>
+            </div>
+            
+            <!-- Connection Status -->
+            <div id="connection-status" class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
+                    <span class="text-yellow-800 text-sm">Checking connection...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'js/dark-mode.js' %}"></script>
+    <script>
+        // Offline page functionality
+        class OfflinePage {
+            constructor() {
+                this.retryButton = document.getElementById('retry-connection');
+                this.statusDiv = document.getElementById('connection-status');
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.checkConnection();
+            }
+
+            bindEvents() {
+                this.retryButton.addEventListener('click', () => {
+                    this.checkConnection();
+                });
+
+                // Listen for online/offline events
+                window.addEventListener('online', () => {
+                    this.handleOnline();
+                });
+
+                window.addEventListener('offline', () => {
+                    this.handleOffline();
+                });
+            }
+
+            async checkConnection() {
+                this.showStatus('Checking connection...', 'yellow');
+                this.retryButton.disabled = true;
+
+                try {
+                    // Try to fetch a small resource to test connection
+                    const response = await fetch('/static/favicon/favicon-32x32.png', {
+                        method: 'HEAD',
+                        cache: 'no-cache'
+                    });
+
+                    if (response.ok) {
+                        this.handleOnline();
+                    } else {
+                        this.handleOffline();
+                    }
+                } catch (error) {
+                    this.handleOffline();
+                }
+
+                this.retryButton.disabled = false;
+            }
+
+            handleOnline() {
+                this.showStatus('Connection restored! Redirecting...', 'green');
+                
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            }
+
+            handleOffline() {
+                this.showStatus('Still offline. Please check your internet connection.', 'red');
+            }
+
+            showStatus(message, type) {
+                const statusDiv = this.statusDiv;
+                const icon = type === 'green' ? 'fa-check-circle' : 
+                           type === 'red' ? 'fa-times-circle' : 'fa-exclamation-triangle';
+                
+                const bgColor = type === 'green' ? 'bg-green-50 border-green-200' :
+                               type === 'red' ? 'bg-red-50 border-red-200' : 'bg-yellow-50 border-yellow-200';
+                
+                const textColor = type === 'green' ? 'text-green-800' :
+                                 type === 'red' ? 'text-red-800' : 'text-yellow-800';
+
+                statusDiv.className = `mt-8 p-4 ${bgColor} border rounded-lg`;
+                statusDiv.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas ${icon} ${textColor} mr-2"></i>
+                        <span class="${textColor} text-sm">${message}</span>
+                    </div>
+                `;
+                statusDiv.classList.remove('hidden');
+            }
+        }
+
+        // Initialize offline page when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            window.offlinePage = new OfflinePage();
+        });
+    </script>
+{% endblock extra_js %}

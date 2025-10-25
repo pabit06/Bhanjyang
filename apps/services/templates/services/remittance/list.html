@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Remittance Services - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-rupablue via-blue-700 to-blue-800 text-white py-24 overflow-hidden">
+    <div class="absolute inset-0 bg-black bg-opacity-30"></div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 font-montserrat">Remittance Services</h1>
+        <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+            Fast, reliable, and secure money transfers, both domestically and internationally.
+        </p>
+    </div>
+</section>
+
+<!-- "How It Works" Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">How It Works</h2>
+            <p class="text-lg text-gray-600">Sending money is as easy as 1-2-3.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-12 text-center">
+            <!-- Step 1 -->
+            <div class="flex flex-col items-center">
+                <div class="w-24 h-24 bg-rupablue text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4">1</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Visit a Branch</h3>
+                <p class="text-gray-600">Come to any of our service centers with the required documents and funds.</p>
+            </div>
+            <!-- Step 2 -->
+            <div class="flex flex-col items-center">
+                <div class="w-24 h-24 bg-rupablue text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4">2</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Provide Details</h3>
+                <p class="text-gray-600">Fill out the remittance form with the recipient's information and the transfer amount.</p>
+            </div>
+            <!-- Step 3 -->
+            <div class="flex flex-col items-center">
+                <div class="w-24 h-24 bg-rupablue text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4">3</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Secure Transfer</h3>
+                <p class="text-gray-600">We'll handle the rest, ensuring your money is transferred securely and quickly.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Detailed Service Cards Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Our Remittance Partners</h2>
+            <p class="text-lg text-gray-600">We partner with leading services to give you the best options.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for service in remittance_services %}
+            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-rupablue group">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-rupablue rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="{{ service.icon }} text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ service.english_name }}</h3>
+                    <p class="text-sm font-semibold text-rupablue">{{ service.get_service_type_display }}</p>
+                </div>
+                <p class="text-gray-600 text-center mb-6">{{ service.description }}</p>
+                <div class="space-y-3 text-sm border-t border-gray-200 pt-4">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 font-medium">Processing Time:</span>
+                        <span class="font-bold text-gray-800">{{ service.processing_time|default:"N/A" }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600 font-medium">Fees & Charges:</span>
+                        <span class="font-bold text-gray-800">{{ service.fees|default:"Varies" }}</span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center text-gray-600 py-12">
+                <p class="text-lg">No remittance services are currently listed. Please check back soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- "Why Choose Us" Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Why Choose Bhanjyang for Remittance?</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-10 text-center">
+            <div class="p-6">
+                <i class="fas fa-shield-alt text-5xl text-deuraligreen mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Secure & Reliable</h3>
+                <p class="text-gray-600">Your funds are protected with industry-standard security measures.</p>
+            </div>
+            <div class="p-6">
+                <i class="fas fa-hand-holding-usd text-5xl text-bhanjyangred mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Competitive Fees</h3>
+                <p class="text-gray-600">We offer some of the most competitive rates for sending money.</p>
+            </div>
+            <div class="p-6">
+                <i class="fas fa-globe-asia text-5xl text-rupablue mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Wide Network</h3>
+                <p class="text-gray-600">Our network of partners ensures your money can be sent where it needs to go.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-20 bg-gray-100">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Ready to Send Money?</h2>
+        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Visit one of our branches today to use our remittance services, or contact us if you have any questions.
+        </p>
+        <a href="{% url 'contact:contact_view' %}" class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-10 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out">
+            Find Our Branches
+        </a>
+    </div>
+</section>
+{% endblock content %}

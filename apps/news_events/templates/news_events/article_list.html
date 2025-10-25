@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}News Articles - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Browse all news articles and updates from Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock meta_description %}
+{% block meta_keywords %}Bhanjyang Cooperative, News Articles, Updates, Cooperative News{% endblock meta_keywords %}
+
+{% block content %}
+    <!-- Header Section -->
+    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+        <div class="container mx-auto text-center z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">News Articles</h1>
+            <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Stay updated with the latest news and announcements.</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="py-8 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <form method="get" class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-1">
+                        <input type="text" name="search" value="{{ request.GET.search }}" 
+                               placeholder="Search articles..." 
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
+                    </div>
+                    <div class="sm:w-48">
+                        <select name="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
+                            <option value="">All Categories</option>
+                            {% for category in categories %}
+                                <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>
+                                    {{ category.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="sm:w-48">
+                        <select name="sort" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
+                            <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>Newest First</option>
+                            <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>Oldest First</option>
+                            <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>Most Popular</option>
+                            <option value="featured" {% if request.GET.sort == 'featured' %}selected{% endif %}>Featured Only</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="bg-bhanjyangred text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Articles Grid -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                {% if articles %}
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {% for article in articles %}
+                        <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                            {% if article.image %}
+                            <div class="relative">
+                                <img src="{{ article.image.url }}" alt="{{ article.image_alt|default:article.title }}" 
+                                     class="w-full h-48 object-cover">
+                                {% if article.is_featured %}
+                                <div class="absolute top-2 left-2">
+                                    <span class="px-2 py-1 bg-yellow-500 text-white text-xs font-semibold rounded">
+                                        Featured
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            <div class="p-6">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="px-2 py-1 bg-bhanjyangred text-white text-xs font-semibold rounded">
+                                        {{ article.category.name }}
+                                    </span>
+                                    <span class="text-sm text-gray-600">{{ article.published_date|date:"M d, Y" }}</span>
+                                </div>
+                                <h3 class="text-lg font-semibold text-deuraligreen mb-3 line-clamp-2">
+                                    <a href="{% url 'news_events:article-detail' article.slug %}" class="hover:text-bhanjyangred transition-colors">
+                                        {{ article.title }}
+                                    </a>
+                                </h3>
+                                <p class="text-gray-600 text-sm line-clamp-3 mb-4">{{ article.excerpt|default:article.content|truncatewords:20 }}</p>
+                                <div class="flex items-center justify-between text-sm text-gray-600">
+                                    <div class="flex items-center space-x-4">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-user mr-1"></i>
+                                            {{ article.author.get_full_name|default:article.author.username }}
+                                        </span>
+                                        <span class="flex items-center">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            {{ article.view_count }}
+                                        </span>
+                                    </div>
+                                    <span class="flex items-center">
+                                        <i class="fas fa-clock mr-1"></i>
+                                        {{ article.read_time }} min
+                                    </span>
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if articles.has_other_pages %}
+                    <div class="mt-12 flex justify-center">
+                        <nav class="flex items-center space-x-2">
+                            {% if articles.has_previous %}
+                                <a href="?page={{ articles.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
+                                   class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            {% endif %}
+
+                            {% for num in articles.paginator.page_range %}
+                                {% if articles.number == num %}
+                                    <span class="px-3 py-2 bg-bhanjyangred text-white rounded-lg">{{ num }}</span>
+                                {% elif num > articles.number|add:'-3' and num < articles.number|add:'3' %}
+                                    <a href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
+                                       class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if articles.has_next %}
+                                <a href="?page={{ articles.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
+                                   class="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            {% endif %}
+                        </nav>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-16">
+                        <i class="fas fa-newspaper text-6xl text-gray-400 mb-4"></i>
+                        <h3 class="text-2xl font-semibold text-gray-600 mb-2">No Articles Found</h3>
+                        <p class="text-gray-600 mb-6">We couldn't find any articles matching your criteria.</p>
+                        <a href="{% url 'news_events:article-list' %}" class="bg-bhanjyangred text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                            View All Articles
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Subscription -->
+    <section class="py-16 bg-gradient-to-r from-deuraligreen to-bhanjyangred">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold text-white mb-4">Stay Updated</h3>
+            <p class="text-white mb-6">Subscribe to our newsletter for the latest news and updates.</p>
+            <form method="post" action="{% url 'news_events:subscribe' %}" class="max-w-md mx-auto flex">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Enter your email" required 
+                       class="flex-1 px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-white">
+                <button type="submit" class="bg-white text-bhanjyangred px-6 py-2 rounded-r-lg font-semibold hover:bg-gray-100 transition-colors">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extra_css %}
+<style>
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
+{% endblock extra_css %}

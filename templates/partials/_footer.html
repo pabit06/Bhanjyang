@@ -7,14 +7,17 @@
         
         {# Cooperative Info #}
         <div class="flex flex-col items-center md:items-start lg:col-span-2 h-full gsap-fade-in">
-            <img src="{% static 'main/images/logo.png' %}" alt="Bhanjyang Cooperative Logo" class="block mx-auto h-16 mb-4 gsap-slide-up" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/200x60/eeeeee/333333?text=Logo+Not+Found';">
+            <img src="{% static 'images/Logo.png' %}" alt="Bhanjyang Cooperative Logo" class="block mx-auto h-16 mb-4 gsap-slide-up" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/200x60/eeeeee/333333?text=Logo+Not+Found';">
             <p class="text-sm leading-relaxed mb-6 text-justify gsap-fade-in">
                 Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski.
             </p>
+            <p class="text-sm text-gray-600 mb-4 text-center md:text-left gsap-fade-in font-semibold">
+                Follow us on social media to stay updated and join our online community.
+            </p>
             <div class="flex items-center justify-center md:justify-start gap-4 mt-6 md:mt-auto self-center md:self-start">
-                <a href="https://facebook.com/cooperativebhanjyang" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="Facebook"><i class="fab fa-facebook-f text-xl static"></i></a>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="Twitter"><i class="fab fa-twitter text-xl static"></i></a>
-                <a href="https://tiktok.com/@bhanjyangsaccos" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="TikTok"><i class="fab fa-tiktok text-xl static"></i></a>
+                <a href="https://facebook.com/cooperativebhanjyang" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="Facebook"><i class="fab fa-facebook-f text-xl static" aria-hidden="true"></i></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="Twitter"><i class="fab fa-twitter text-xl static" aria-hidden="true"></i></a>
+                <a href="https://tiktok.com/@bhanjyangsaccos" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="TikTok"><i class="fab fa-tiktok text-xl static" aria-hidden="true"></i></a>
             </div>
         </div>
 
@@ -22,10 +25,11 @@
         <div>
             <h3 class="text-xl font-bold mb-5 text-deuraligreen font-montserrat border-b border-gray-300 pb-2">Quick Links</h3>
             <ul class="text-sm space-y-3">
-                <li><a href="/" class="hover:text-deuraligreen transition-colors duration-300">Home</a></li>
-                <li><a href="/about" class="hover:text-deuraligreen transition-colors duration-300">About Us</a></li>
-                <li><a href="/services" class="hover:text-deuraligreen transition-colors duration-300">Services</a></li>
-                <li><a href="/contact" class="hover:text-deuraligreen transition-colors duration-300">Contact Us</a></li>
+                <li><a href="{% url 'home:index' %}" class="hover:text-deuraligreen transition-colors duration-300">Home</a></li>
+                <li><a href="{% url 'home:about' %}" class="hover:text-deuraligreen transition-colors duration-300">About Us</a></li>
+                <li><a href="{% url 'services:overview' %}" class="hover:text-deuraligreen transition-colors duration-300">Services</a></li>
+                <li><a href="{% url 'contact:contact_view' %}" class="hover:text-deuraligreen transition-colors duration-300">Contact Us</a></li>
+                <li><a href="{% url 'contact:privacy_policy' %}" class="hover:text-deuraligreen transition-colors duration-300">Privacy Policy</a></li>
             </ul>
         </div>
 
@@ -57,8 +61,12 @@
             <h4 class="text-md font-semibold mb-3 text-deuraligreen font-montserrat">Locate Us:</h4>
             <iframe 
                 title="Bhanjyang Cooperative Location on Google Maps"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3516.141529184581!2d84.11693747513835!3d28.20404397598805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a570533eb321%3A0x6335669a2327e02!2sDeurali%2C%20Rupa%2033700!5e0!3m2!1sen!2snp!4v1718210356193!5m2!1sen!2snp"
-                class="w-full h-[180px] rounded-lg shadow-md border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1479.4716431181132!2d84.15020580099485!3d28.12223403479238!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760603879669!5m2!1sen!2snp"
+                class="w-full h-[180px] rounded-lg shadow-md"
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
             </iframe>
         </div>
     </div>
@@ -68,12 +76,12 @@
 {# This section uses `clip-path` to create the angled separation effect. #}
 {# यो खण्डले एङ्गल छुट्याउने प्रभाव सिर्जना गर्न `clip-path` प्रयोग गर्दछ। #}
 <div class="relative w-full flex text-white overflow-hidden h-16">
-    <div class="relative bg-bhanjyangred flex items-center px-6 sm:px-8 z-10" style="width: 45%; clip-path: polygon(0 0, 100% 0, calc(100% - 32px) 100%, 0 100%);">
+    <div class="relative bg-bhanjyangred flex items-center px-6 sm:px-8 z-10" style="width: 45%; clip-path: polygon(0 0, 100% 0, calc(100% - 2rem) 100%, 0 100%);">
         <span class="flex-shrink-0 text-xs sm:text-sm md:text-base whitespace-nowrap">
             &copy; {% now "Y" %} Bhanjyang Cooperative. All rights reserved.
         </span>
     </div>
-    <div class="relative bg-deuraligreen flex items-center px-6 sm:px-8 z-0 -ml-8 justify-end text-right" style="width: 60%; clip-path: polygon(32px 0, 100% 0, 100% 100%, 0% 100%);">
+    <div class="relative bg-deuraligreen flex items-center px-6 sm:px-8 z-0 -ml-8 justify-end text-right" style="width: 60%; clip-path: polygon(2rem 0, 100% 0, 100% 100%, 0% 100%);">
         <span class="text-xs sm:text-sm md:text-base leading-snug">
             Crafted by Prem Bhandari
         </span>

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ cooperative.cooperative_name }} - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}{{ cooperative.description|truncatewords:20 }}{% endblock meta_description %}
+
+{% block breadcrumbs %}
+{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<section class="relative bg-white text-deuraligreen py-16 px-4">
+    <div class="container mx-auto text-center z-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">{{ cooperative.cooperative_name }}</h1>
+        {% if cooperative.cooperative_name_nepali %}
+            <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">{{ cooperative.cooperative_name_nepali }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<section class="py-16 bg-gray-50 px-4">
+    <div class="container mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div>
+                <h2 class="text-3xl font-bold text-deuraligreen mb-6">About {{ cooperative.cooperative_name }}</h2>
+                <div class="prose prose-lg max-w-none">
+                    <p class="text-gray-600 leading-relaxed mb-6">{{ cooperative.description }}</p>
+                    {% if cooperative.description_nepali %}
+                        <p class="text-gray-600 leading-relaxed mb-6">{{ cooperative.description_nepali }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- Mission, Vision, Values -->
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-deuraligreen mb-3 flex items-center">
+                            <i class="fas fa-bullseye mr-3"></i>Mission
+                        </h3>
+                        <p class="text-gray-600">{{ cooperative.mission }}</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-deuraligreen mb-3 flex items-center">
+                            <i class="fas fa-eye mr-3"></i>Vision
+                        </h3>
+                        <p class="text-gray-600">{{ cooperative.vision }}</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold text-deuraligreen mb-3 flex items-center">
+                            <i class="fas fa-heart mr-3"></i>Values
+                        </h3>
+                        <p class="text-gray-600">{{ cooperative.values }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <!-- Cooperative Details -->
+                <div class="bg-white p-8 rounded-lg shadow-lg mb-8">
+                    <h3 class="text-2xl font-bold text-deuraligreen mb-6">Cooperative Details</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="font-semibold text-gray-700">Established</span>
+                            <span class="text-gray-600">{{ cooperative.established_date|date:"F d, Y" }}</span>
+                        </div>
+                        
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="font-semibold text-gray-700">Registration Number</span>
+                            <span class="text-gray-600">{{ cooperative.registration_number }}</span>
+                        </div>
+                        
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="font-semibold text-gray-700">License Number</span>
+                            <span class="text-gray-600">{{ cooperative.license_number }}</span>
+                        </div>
+                        
+                        {% if cooperative.website %}
+                        <div class="flex justify-between py-3 border-b border-gray-200">
+                            <span class="font-semibold text-gray-700">Website</span>
+                            <a href="{{ cooperative.website }}" target="_blank" class="text-deuraligreen hover:underline">{{ cooperative.website }}</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h3 class="text-2xl font-bold text-deuraligreen mb-6">Contact Information</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-deuraligreen mr-3 mt-1"></i>
+                            <div>
+                                <span class="font-semibold text-gray-700 block">Address</span>
+                                <span class="text-gray-600">{{ cooperative.address }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-deuraligreen mr-3"></i>
+                            <div>
+                                <span class="font-semibold text-gray-700 block">Phone</span>
+                                <a href="tel:{{ cooperative.phone }}" class="text-gray-600 hover:text-deuraligreen">{{ cooperative.phone }}</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-deuraligreen mr-3"></i>
+                            <div>
+                                <span class="font-semibold text-gray-700 block">Email</span>
+                                <a href="mailto:{{ cooperative.email }}" class="text-gray-600 hover:text-deuraligreen">{{ cooperative.email }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Featured Image -->
+        {% if cooperative.featured_image %}
+        <div class="mt-12">
+            <img src="{{ cooperative.featured_image.url }}" alt="{{ cooperative.cooperative_name }}" class="w-full h-96 object-cover rounded-lg shadow-lg">
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

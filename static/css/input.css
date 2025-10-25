@@ -1,0 +1,439 @@
+@import "tailwindcss";
+
+/* ---------------------------------
+   Theme Custom Variables (Colors)
+---------------------------------- */
+@theme {
+  --color-bhanjyangred: #DC3545;
+  --color-danger: #DC3545;
+  --color-deuraligreen: #28A745;
+  --color-success: #28A745;
+  --color-rupablue: #1976D2;
+  --color-himalwhite: #F9F9F9;
+  --color-light: #f8f9fa;
+  --color-patrikaslate: #2D3748;
+  --color-gradient-primary: linear-gradient(135deg, #DC3545 0%, #28A745 100%);
+  --color-gradient-secondary: linear-gradient(135deg, #28A745 0%, #1976D2 100%);
+  --color-gradient-accent: linear-gradient(135deg, #1976D2 0%, #DC3545 100%);
+
+  --animate-in-up: in-up 0.5s ease-out forwards;
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-slide-left: slide-left 0.7s ease-out forwards;
+  --animate-slide-right: slide-right 0.7s ease-out forwards;
+  --animate-scale-in: scale-in 0.5s ease-out forwards;
+  --animate-bounce-in: bounce-in 0.8s ease-out forwards;
+  --animate-morphing: morphing 3s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-pulse-slow: pulse-slow 2s ease-in-out infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+}
+
+/* -------------------------------
+   Advanced Animation Classes
+------------------------------- */
+.animate-in-up { animation: var(--animate-in-up); }
+.animate-fade-in { animation: var(--animate-fade-in); }
+.animate-slide-left { animation: var(--animate-slide-left); }
+.animate-slide-right { animation: var(--animate-slide-right); }
+.animate-scale-in { animation: var(--animate-scale-in); }
+.animate-bounce-in { animation: var(--animate-bounce-in); }
+.animate-morphing { animation: var(--animate-morphing); }
+.animate-glow { animation: var(--animate-glow); }
+.animate-float { animation: var(--animate-float); }
+.animate-pulse-slow { animation: var(--animate-pulse-slow); }
+.animate-shimmer { animation: var(--animate-shimmer); }
+
+/* -------------------------------
+   Keyframe Animations
+------------------------------- */
+@keyframes in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bounce-in {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 1; transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes morphing {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.05) rotate(1deg); }
+  50% { transform: scale(1.1) rotate(0deg); }
+  75% { transform: scale(1.05) rotate(-1deg); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); }
+  to { box-shadow: 0 0 20px rgba(40, 167, 69, 0.8), 0 0 30px rgba(40, 167, 69, 0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* -------------------------------
+   Navigation Link Underline Hover
+------------------------------- */
+.nav-link-underline {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--color-gradient-primary);
+  transition: width 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.nav-link-underline:hover::after {
+  width: 100%;
+}
+
+/* -------------------------------
+   Interactive Elements
+------------------------------- */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-rotate {
+  transition: transform 0.3s ease;
+}
+
+.hover-rotate:hover {
+  transform: rotate(5deg);
+}
+
+.hover-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+}
+
+/* -------------------------------
+   Advanced Button Styles
+------------------------------- */
+.btn-gradient {
+  background: var(--color-gradient-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-gradient:hover::before {
+  left: 100%;
+}
+
+.btn-gradient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* -------------------------------
+   Card Styles
+------------------------------- */
+.card-modern {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-color: rgba(40, 167, 69, 0.2);
+}
+
+/* -------------------------------
+   Glass Morphism Effect
+------------------------------- */
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+}
+
+/* -------------------------------
+   Gradient Text
+------------------------------- */
+.gradient-text {
+  background: var(--color-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* -------------------------------
+   Loading States
+------------------------------- */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* -------------------------------
+   Scroll Animations
+------------------------------- */
+.scroll-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.scroll-animate.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* -------------------------------
+   Interactive Elements
+------------------------------- */
+.interactive-element {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive-element:hover {
+  transform: translateY(-2px);
+}
+
+.interactive-element:active {
+  transform: translateY(0);
+}
+
+/* -------------------------------
+   News Card Styles
+------------------------------- */
+.news-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* -------------------------------
+   Morphing Elements
+------------------------------- */
+.morphing-element {
+  transition: all 0.5s ease;
+}
+
+.morphing-element:hover {
+  transform: scale(1.02) rotate(1deg);
+}
+
+/* -------------------------------
+   Image Reveal Effect
+------------------------------- */
+.image-reveal {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image-reveal img {
+  transition: transform 0.5s ease;
+}
+
+.image-reveal:hover img {
+  transform: scale(1.1);
+}
+
+/* -------------------------------
+   Button Animations
+------------------------------- */
+.btn-animate {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-animate::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-animate:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* -------------------------------
+   Ripple Effect
+------------------------------- */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* -------------------------------
+   Stagger Animation Delays
+------------------------------- */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* -------------------------------
+   Responsive Typography
+------------------------------- */
+.text-responsive-xs { font-size: clamp(0.75rem, 2vw, 0.875rem); }
+.text-responsive-sm { font-size: clamp(0.875rem, 2.5vw, 1rem); }
+.text-responsive-base { font-size: clamp(1rem, 3vw, 1.125rem); }
+.text-responsive-lg { font-size: clamp(1.125rem, 3.5vw, 1.25rem); }
+.text-responsive-xl { font-size: clamp(1.25rem, 4vw, 1.5rem); }
+.text-responsive-2xl { font-size: clamp(1.5rem, 5vw, 2rem); }
+.text-responsive-3xl { font-size: clamp(1.875rem, 6vw, 2.5rem); }
+.text-responsive-4xl { font-size: clamp(2.25rem, 7vw, 3rem); }
+.text-responsive-5xl { font-size: clamp(3rem, 8vw, 4rem); }
+
+/* -------------------------------
+   Custom Scrollbar
+------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-deuraligreen);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-bhanjyangred);
+}
+
+/* -------------------------------
+   Focus States
+------------------------------- */
+.focus-ring:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3);
+}
+
+/* -------------------------------
+   Print Styles
+------------------------------- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-break {
+    page-break-before: always;
+  }
+}
+

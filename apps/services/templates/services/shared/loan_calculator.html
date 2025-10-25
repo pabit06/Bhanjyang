@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}{{ page_description }}{% endblock meta_description %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 overflow-hidden hero-section">
+    <div class="parallax absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800" data-speed="0.3"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+    <div class="absolute inset-0">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-ping"></div>
+        <div class="absolute bottom-20 left-20 w-12 h-12 bg-white bg-opacity-10 rounded-full animate-bounce"></div>
+    </div>
+    <div class="container mx-auto px-6 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat typing-effect scroll-animate glitch" data-text="Loan Calculator">
+            <span class="block">Loan Calculator</span>
+        </h1>
+        <p class="text-xl text-blue-100 max-w-4xl mx-auto scroll-animate stagger-1">
+            Calculate your loan EMI and total amount with our easy-to-use calculator
+        </p>
+    </div>
+</section>
+
+<!-- Calculator Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Calculator Form -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                            <i class="fas fa-calculator text-blue-600 mr-3"></i>
+                            Calculate Your Loan
+                        </h2>
+                        
+                        <form method="post" id="loan-calculator-form">
+                            {% csrf_token %}
+                            
+                            <div class="space-y-6">
+                                <!-- Loan Type -->
+                                <div>
+                                    <label for="{{ form.loan_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Loan Type
+                                    </label>
+                                    {{ form.loan_type }}
+                                    {% if form.loan_type.errors %}
+                                        <div class="text-red-600 text-sm mt-1">{{ form.loan_type.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Principal Amount -->
+                                <div>
+                                    <label for="{{ form.principal_amount.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Loan Amount (NPR)
+                                    </label>
+                                    {{ form.principal_amount }}
+                                    {% if form.principal_amount.errors %}
+                                        <div class="text-red-600 text-sm mt-1">{{ form.principal_amount.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Tenure -->
+                                <div>
+                                    <label for="{{ form.tenure_years.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Loan Tenure (Years)
+                                    </label>
+                                    {{ form.tenure_years }}
+                                    {% if form.tenure_years.errors %}
+                                        <div class="text-red-600 text-sm mt-1">{{ form.tenure_years.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Payment Frequency -->
+                                <div>
+                                    <label for="{{ form.payment_frequency.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Payment Frequency
+                                    </label>
+                                    {{ form.payment_frequency }}
+                                    {% if form.payment_frequency.errors %}
+                                        <div class="text-red-600 text-sm mt-1">{{ form.payment_frequency.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <!-- Calculate Button -->
+                                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                                    <i class="fas fa-calculator mr-2"></i>
+                                    Calculate EMI
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Results Display -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                            <i class="fas fa-chart-line text-green-600 mr-3"></i>
+                            Calculation Results
+                        </h2>
+                        
+                        {% if calculation %}
+                        <div class="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-6 space-y-4">
+                            <!-- EMI Amount -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800">Monthly EMI</h3>
+                                        <p class="text-sm text-gray-600">{{ calculation.payment_frequency|title }} Payment</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-2xl font-bold text-green-600">
+                                            NPR {{ calculation.emi|floatformat:0 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Total Amount -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800">Total Amount</h3>
+                                        <p class="text-sm text-gray-600">Principal + Interest</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl font-bold text-blue-600">
+                                            NPR {{ calculation.total_amount|floatformat:0 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Total Interest -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800">Total Interest</h3>
+                                        <p class="text-sm text-gray-600">Interest to be paid</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl font-bold text-red-600">
+                                            NPR {{ calculation.total_interest|floatformat:0 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Loan Details -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">Loan Details</h3>
+                                <div class="space-y-2 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Principal Amount:</span>
+                                        <span class="font-medium">NPR {{ calculation.principal|floatformat:0 }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Interest Rate:</span>
+                                        <span class="font-medium">{{ calculation.rate_per_period|floatformat:2 }}% {{ calculation.payment_frequency }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Total Payments:</span>
+                                        <span class="font-medium">{{ calculation.tenure_periods }} {{ calculation.payment_frequency }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Apply Button -->
+                            {% if loan_type %}
+                            <div class="pt-4">
+                                <a href="{% url 'services:service_application' %}?service_type=loan&service_id={{ loan_type.id }}" 
+                                   class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 text-center block">
+                                    <i class="fas fa-file-alt mr-2"></i>
+                                    Apply for {{ loan_type.english_name }}
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="bg-gray-100 rounded-xl p-8 text-center">
+                            <i class="fas fa-calculator text-gray-400 text-4xl mb-4"></i>
+                            <p class="text-gray-600">Fill in the form to see your loan calculation results</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Use Our Loan Calculator?</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Make informed decisions about your loan with accurate calculations and transparent information
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+                <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-calculator text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Accurate Calculations</h3>
+                <p class="text-gray-600">Get precise EMI calculations based on current interest rates and terms</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Financial Planning</h3>
+                <p class="text-gray-600">Plan your finances better with detailed breakdown of payments and interest</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-file-alt text-purple-600 text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy Application</h3>
+                <p class="text-gray-600">Apply directly for the loan after calculating your EMI</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Services -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore Our Loan Services</h2>
+            <p class="text-lg text-gray-600">Choose from our range of loan products</p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="{% url 'services:loans' %}" class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+                <div class="text-center">
+                    <i class="fas fa-briefcase text-blue-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Business Loans</h3>
+                    <p class="text-gray-600">Grow your business with our flexible business loan options</p>
+                </div>
+            </a>
+            
+            <a href="{% url 'services:loans' %}" class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+                <div class="text-center">
+                    <i class="fas fa-home text-green-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Home Loans</h3>
+                    <p class="text-gray-600">Build your dream home with our competitive home loan rates</p>
+                </div>
+            </a>
+            
+            <a href="{% url 'services:loans' %}" class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition duration-300 transform hover:scale-105">
+                <div class="text-center">
+                    <i class="fas fa-car text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Vehicle Loans</h3>
+                    <p class="text-gray-600">Get your vehicle with our easy vehicle loan process</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-calculate on form change
+    const form = document.getElementById('loan-calculator-form');
+    const inputs = form.querySelectorAll('input, select');
+    
+    inputs.forEach(input => {
+        input.addEventListener('change', function() {
+            // Auto-submit form when all fields are filled
+            const loanType = document.getElementById('loan-type').value;
+            const principal = document.getElementById('principal-amount').value;
+            const tenure = document.getElementById('tenure-years').value;
+            const frequency = document.getElementById('payment-frequency').value;
+            
+            if (loanType && principal && tenure && frequency) {
+                // Optional: Auto-submit after a delay
+                // setTimeout(() => form.submit(), 1000);
+            }
+        });
+    });
+});
+</script>
+{% endblock extra_js %}

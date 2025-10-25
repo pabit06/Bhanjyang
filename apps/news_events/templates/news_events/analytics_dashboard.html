@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Analytics Dashboard - Bhanjyang Cooperative{% endblock title %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_TRACKING_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ GA_TRACKING_ID }}', {
+            'custom_map': {
+                'custom_parameter_1': 'content_type',
+                'custom_parameter_2': 'content_category',
+                'custom_parameter_3': 'content_author'
+            }
+        });
+    </script>
+    
+    <!-- Chart.js for analytics visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom analytics CSS -->
+    <link rel="stylesheet" href="{% static 'css/analytics_dashboard.css' %}">
+{% endblock extrahead %}
+
+{% block content %}
+    <!-- Analytics Header -->
+    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+        <div class="container mx-auto text-center z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">Analytics Dashboard</h1>
+            <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Real-time insights into your content performance</p>
+        </div>
+    </section>
+
+    <!-- Real-time Metrics -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-2xl font-bold text-deuraligreen mb-8">Real-time Metrics</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Active Users</p>
+                                <p class="text-2xl font-bold text-bhanjyangred" id="active-users">0</p>
+                            </div>
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-users text-red-600"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-sm text-green-600" id="active-users-change">+0%</span>
+                            <span class="text-sm text-gray-600">from last hour</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Page Views</p>
+                                <p class="text-2xl font-bold text-deuraligreen" id="page-views">0</p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-eye text-green-600"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-sm text-green-600" id="page-views-change">+0%</span>
+                            <span class="text-sm text-gray-600">from last hour</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Bounce Rate</p>
+                                <p class="text-2xl font-bold text-yellow-600" id="bounce-rate">0%</p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-chart-line text-yellow-600"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-sm text-red-600" id="bounce-rate-change">+0%</span>
+                            <span class="text-sm text-gray-600">from last hour</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600">Avg. Session</p>
+                                <p class="text-2xl font-bold text-blue-600" id="avg-session">0m</p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-clock text-blue-600"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-sm text-green-600" id="avg-session-change">+0%</span>
+                            <span class="text-sm text-gray-600">from last hour</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Charts -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- Traffic Sources -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-deuraligreen mb-4">Traffic Sources</h3>
+                        <canvas id="trafficSourcesChart"></canvas>
+                    </div>
+
+                    <!-- Content Performance -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-deuraligreen mb-4">Content Performance</h3>
+                        <canvas id="contentPerformanceChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    <!-- User Demographics -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-deuraligreen mb-4">User Demographics</h3>
+                        <canvas id="userDemographicsChart"></canvas>
+                    </div>
+
+                    <!-- Device Usage -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-deuraligreen mb-4">Device Usage</h3>
+                        <canvas id="deviceUsageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Content -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-2xl font-bold text-deuraligreen mb-8">Top Performing Content</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Top Articles -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-deuraligreen mb-4">Top Articles</h3>
+                        <div class="space-y-4" id="top-articles">
+                            <!-- Articles will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Top Events -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-deuraligreen mb-4">Top Events</h3>
+                        <div class="space-y-4" id="top-events">
+                            <!-- Events will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Export Options -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-2xl font-bold text-deuraligreen mb-8">Export Analytics Data</h2>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="exportAnalytics('csv')" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-file-csv mr-2"></i>Export CSV
+                    </button>
+                    <button onclick="exportAnalytics('pdf')" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                        <i class="fas fa-file-pdf mr-2"></i>Export PDF
+                    </button>
+                    <button onclick="exportAnalytics('excel')" class="bg-green-700 text-white px-6 py-3 rounded-lg hover:bg-green-800 transition-colors">
+                        <i class="fas fa-file-excel mr-2"></i>Export Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'js/analytics_dashboard.js' %}"></script>
+    <script>
+        // Initialize analytics dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAnalyticsDashboard();
+            startRealTimeUpdates();
+        });
+
+        // Google Analytics event tracking
+        function trackAnalyticsEvent(action, category, label, value) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', action, {
+                    'event_category': category,
+                    'event_label': label,
+                    'value': value
+                });
+            }
+        }
+
+        // Track page view
+        trackAnalyticsEvent('page_view', 'analytics_dashboard', 'dashboard_view', 1);
+
+        // Export analytics data
+        function exportAnalytics(format) {
+            trackAnalyticsEvent('export', 'analytics', format, 1);
+            
+            const url = `/analytics/export/?format=${format}`;
+            window.open(url, '_blank');
+        }
+    </script>
+{% endblock extra_js %}

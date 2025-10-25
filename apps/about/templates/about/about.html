@@ -1,0 +1,447 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load about_extras %}
+
+{% block title %}About Us - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="Learn about Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our establishment, vision, mission, values, team, historical timeline, regulatory compliance, and messages from our leadership.">
+    <meta name="keywords" content="Bhanjyang Cooperative, Savings and Credit Cooperative, Our Story, Vision, Mission, Values, Team, Kaski, Rupa Rural Municipality, Cooperative Society, Timeline, Chairman, Manager, Leadership, Regulation, Compliance, Affiliations, NEFSCUN">
+    <meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="About Us - Bhanjyang Cooperative">
+    <meta property="og:description" content="Learn about Bhanjyang Saving & Credit Cooperative Society Ltd. Empowering communities, fostering growth, and building a sustainable future together.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Bhanjyang Cooperative">
+    {% if cooperative_info.featured_image %}
+    <meta property="og:image" content="{{ request|build_absolute_uri:cooperative_info.featured_image.url }}">
+    {% endif %}
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Us - Bhanjyang Cooperative">
+    <meta name="twitter:description" content="Learn about Bhanjyang Saving & Credit Cooperative Society Ltd. Empowering communities, fostering growth, and building a sustainable future together.">
+    {% if cooperative_info.featured_image %}
+    <meta name="twitter:image" content="{{ request|build_absolute_uri:cooperative_info.featured_image.url }}">
+    {% endif %}
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Bhanjyang Multipurpose Cooperative Ltd.",
+        "alternateName": "Bhanjyang SACCOS",
+        "description": "A savings and credit cooperative society serving the community with financial services and community development initiatives.",
+        "url": "{{ request.build_absolute_uri }}",
+        "logo": "{% if cooperative_info.featured_image %}{{ request|build_absolute_uri:cooperative_info.featured_image.url }}{% endif %}",
+        "foundingDate": "{% if cooperative_info %}{{ cooperative_info.established_date|date:'Y-m-d' }}{% endif %}",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Rupa Rural Municipality",
+            "addressRegion": "Kaski",
+            "addressCountry": "NP"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service",
+            "telephone": "+977-61-XXXXXX"
+        },
+        "sameAs": [
+            "https://www.nefscun.org.np/",
+            "https://ruparuralmun.gov.np"
+        ],
+        "memberOf": {
+            "@type": "Organization",
+            "name": "NEFSCUN"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about-animations.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" defer></script>
+{% endblock extra_head %}
+
+{% block content %}
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6 flex items-center justify-center overflow-hidden">
+        <div class="parallax absolute inset-0 z-0 opacity-10 bg-cover bg-center" data-speed="0.2"></div>
+        <div class="container mx-auto text-center z-10 max-w-6xl">
+            <div class="animate-fade-in-up">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 sm:mb-6 drop-shadow-lg text-reveal scroll-animate">
+                    About Bhanjyang SACCOS
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto opacity-90 leading-relaxed scroll-animate stagger-1 px-4">
+                    Empowering communities, fostering growth, and building a sustainable future together.
+                </p>
+            </div>
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <div class="w-6 h-10 border-2 border-deuraligreen rounded-full flex justify-center">
+                    <div class="w-1 h-3 bg-deuraligreen rounded-full mt-2 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Information Section -->
+    {% if cooperative_info %}
+    <section id="company-info" class="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-white">
+        <div class="container mx-auto max-w-7xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <div class="order-2 lg:order-1">
+                    <span class="text-bhanjyangred font-semibold uppercase text-sm mb-2 block animated-element animate-in-up delay-100">Our Story</span>
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold font-montserrat leading-tight mb-4 sm:mb-6 text-deuraligreen animated-element animate-in-up delay-300">
+                        {{ cooperative_info.cooperative_name }}
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base animated-element animate-in-up delay-500">
+                        {{ cooperative_info.description }}
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8 animated-element animate-in-up delay-700">
+                        <div class="bg-himalwhite p-3 sm:p-4 rounded-lg hover:shadow-md transition-shadow duration-300">
+                            <h4 class="font-semibold text-deuraligreen mb-1 sm:mb-2 text-sm sm:text-base">Established</h4>
+                            <p class="text-gray-600 text-sm sm:text-base">{{ cooperative_info.established_date|date:"F d, Y" }}</p>
+                        </div>
+                        <div class="bg-himalwhite p-3 sm:p-4 rounded-lg hover:shadow-md transition-shadow duration-300">
+                            <h4 class="font-semibold text-deuraligreen mb-1 sm:mb-2 text-sm sm:text-base">Registration</h4>
+                            <p class="text-gray-600 text-sm sm:text-base">{{ cooperative_info.registration_number }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    {% if cooperative_info.featured_image %}
+                        <img src="{{ cooperative_info.featured_image.url }}" alt="{{ cooperative_info.cooperative_name }}" class="w-full h-auto rounded-lg shadow-lg animated-element animate-in-up delay-300">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Mission, Vision, Values Section -->
+    <section id="mission-vision" class="py-20 px-6 bg-himalwhite">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-deuraligreen mb-4">Our Foundation</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">The principles that guide our commitment to community development and financial excellence.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Mission -->
+                <div class="bg-white p-8 rounded-lg shadow-lg text-center animated-element animate-in-up delay-100">
+                    <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-bullseye text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-deuraligreen mb-4">Our Mission</h3>
+                    <p class="text-gray-600 leading-relaxed">{{ cooperative_info.mission|default:"To provide exceptional financial services and support community development through cooperative principles." }}</p>
+                </div>
+                
+                <!-- Vision -->
+                <div class="bg-white p-8 rounded-lg shadow-lg text-center animated-element animate-in-up delay-300">
+                    <div class="w-16 h-16 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-eye text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-deuraligreen mb-4">Our Vision</h3>
+                    <p class="text-gray-600 leading-relaxed">{{ cooperative_info.vision|default:"To be the leading cooperative society that empowers communities and fosters sustainable development." }}</p>
+                </div>
+                
+                <!-- Values -->
+                <div class="bg-white p-8 rounded-lg shadow-lg text-center animated-element animate-in-up delay-500">
+                    <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-heart text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-deuraligreen mb-4">Our Values</h3>
+                    <p class="text-gray-600 leading-relaxed">{{ cooperative_info.values|default:"Integrity, transparency, member focus, community service, and sustainable growth." }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="statistics" class="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 bg-gradient-to-br from-himalwhite to-white">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-12 sm:mb-16">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold font-montserrat text-deuraligreen mb-3 sm:mb-4">Our Impact</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto text-sm sm:text-base px-4">Numbers that reflect our commitment to community development and financial inclusion.</p>
+            </div>
+            
+            {% if statistics %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8">
+                    {% for stat in statistics %}
+                    <div class="text-center animated-element animate-in-up delay-{{ forloop.counter|add:"0" }}00 group hover:scale-105 transition-transform duration-300">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-{{ stat.color|default:'deuraligreen' }} to-{{ stat.color|default:'deuraligreen' }}/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            {% if stat.icon %}
+                                <i class="{{ stat.icon }} text-white text-xl sm:text-2xl lg:text-3xl"></i>
+                            {% else %}
+                                <i class="fas fa-chart-line text-white text-xl sm:text-2xl lg:text-3xl"></i>
+                            {% endif %}
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-1 sm:mb-2">{{ stat.value }}</h3>
+                        {% if stat.unit %}
+                            <p class="text-sm sm:text-base text-gray-500 mb-1">{{ stat.unit }}</p>
+                        {% endif %}
+                        <p class="text-gray-600 font-semibold text-sm sm:text-base">{{ stat.title }}</p>
+                        {% if stat.description %}
+                            <p class="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2 leading-tight">{{ stat.description }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <!-- Default Statistics when no data is available -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+                    <div class="text-center animated-element animate-in-up delay-100 group hover:scale-105 transition-transform duration-300">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-deuraligreen to-deuraligreen/80 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            <i class="fas fa-users text-white text-xl sm:text-2xl lg:text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-1 sm:mb-2">500+</h3>
+                        <p class="text-gray-600 font-semibold text-sm sm:text-base">Active Members</p>
+                        <p class="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2 leading-tight">Growing community of members</p>
+                    </div>
+                    
+                    <div class="text-center animated-element animate-in-up delay-200">
+                        <div class="w-20 h-20 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-calendar-alt text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-deuraligreen mb-2">25+</h3>
+                        <p class="text-gray-600 font-semibold">Years of Service</p>
+                        <p class="text-sm text-gray-500 mt-2">Serving our community since 1998</p>
+                    </div>
+                    
+                    <div class="text-center animated-element animate-in-up delay-300">
+                        <div class="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-handshake text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-deuraligreen mb-2">100%</h3>
+                        <p class="text-gray-600 font-semibold">Member Satisfaction</p>
+                        <p class="text-sm text-gray-500 mt-2">Committed to member success</p>
+                    </div>
+                    
+                    <div class="text-center animated-element animate-in-up delay-400">
+                        <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shield-alt text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-deuraligreen mb-2">100%</h3>
+                        <p class="text-gray-600 font-semibold">Regulatory Compliance</p>
+                        <p class="text-sm text-gray-500 mt-2">Fully compliant with regulations</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    {% if timeline_events %}
+    <section id="timeline" class="py-20 px-6 bg-himalwhite">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-deuraligreen mb-4">Our Journey</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Key milestones in our growth and development as a trusted financial institution.</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                {% for event in timeline_events %}
+                <div class="flex items-start mb-8 animated-element animate-in-up delay-{{ forloop.counter|add:"0" }}00">
+                    <div class="flex-shrink-0 w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center mr-6">
+                        <i class="fas fa-calendar text-white"></i>
+                    </div>
+                    <div class="flex-grow bg-white p-6 rounded-lg shadow-lg">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-bold text-deuraligreen">{{ event.title }}</h3>
+                            <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">{{ event.event_date|date:"M Y" }}</span>
+                        </div>
+                        <p class="text-gray-600 leading-relaxed">{{ event.description }}</p>
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="mt-4 w-full h-48 object-cover rounded-lg">
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="{% url 'about:timeline' %}" class="inline-flex items-center px-6 py-3 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors duration-300">
+                    View Complete Timeline
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Leadership Messages Section -->
+    {% if leadership_messages %}
+    <section id="leadership" class="py-20 px-6 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-deuraligreen mb-4">Leadership Messages</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Words from our leaders who guide our vision and mission.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {% for message in leadership_messages %}
+                <div class="bg-himalwhite p-8 rounded-lg shadow-lg animated-element animate-in-up delay-{{ forloop.counter|add:"0" }}00">
+                    <div class="flex items-center mb-6">
+                        {% if message.author_photo %}
+                            <img src="{{ message.author_photo.url }}" alt="{{ message.author_name }}" class="w-16 h-16 rounded-full object-cover mr-4">
+                        {% else %}
+                            <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                        {% endif %}
+                        <div>
+                            <h3 class="text-xl font-bold text-deuraligreen">{{ message.author_name }}</h3>
+                            <p class="text-gray-600">{{ message.author_position }}</p>
+                        </div>
+                    </div>
+                    <h4 class="text-lg font-semibold text-deuraligreen mb-4">{{ message.title }}</h4>
+                    <p class="text-gray-600 leading-relaxed">{{ message.content|truncatewords:50 }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="{% url 'about:leadership' %}" class="inline-flex items-center px-6 py-3 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors duration-300">
+                    Read All Messages
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Affiliations Section -->
+    {% if affiliations %}
+    <section id="affiliations" class="py-20 px-6 bg-himalwhite">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-deuraligreen mb-4">Our Affiliations</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We are proud to be associated with these organizations and regulatory bodies, including our local regulatory authority Rupa Rural Municipality.</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {% for affiliation in affiliations %}
+                <div class="text-center animated-element animate-in-up delay-{{ forloop.counter|add:"0" }}00">
+                    {% if affiliation.logo %}
+                        <div class="mb-4">
+                            <img src="{{ affiliation.logo.url }}" alt="{{ affiliation.name }}" class="w-24 h-24 object-contain mx-auto rounded-lg border border-gray-200 p-2 hover:shadow-lg transition-shadow">
+                        </div>
+                    {% else %}
+                        <div class="w-24 h-24 bg-gray-200 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-building text-gray-400 text-2xl"></i>
+                        </div>
+                    {% endif %}
+                    <h3 class="text-sm font-semibold text-deuraligreen mb-2">{{ affiliation.name }}</h3>
+                    <div class="mb-2">
+                        <span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+                            {{ affiliation.get_affiliation_type_display }}
+                        </span>
+                    </div>
+                    {% if affiliation.website %}
+                        <a href="{{ affiliation.website }}" target="_blank" rel="noopener noreferrer" class="text-xs text-gray-500 hover:text-deuraligreen transition-colors">
+                            <i class="fas fa-external-link-alt mr-1"></i>Visit Website
+                        </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="{% url 'about:affiliations' %}" class="inline-flex items-center px-6 py-3 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors duration-300">
+                    View All Affiliations
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Contact Information Section -->
+    {% if cooperative_info %}
+    <section id="contact-info" class="py-20 px-6 bg-white">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-deuraligreen mb-4">Get In Touch</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We're here to help you with your financial needs. Contact us today.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center animated-element animate-in-up delay-100">
+                    <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-deuraligreen mb-4">Address</h3>
+                    <p class="text-gray-600">{{ cooperative_info.address }}</p>
+                </div>
+                
+                <div class="text-center animated-element animate-in-up delay-300">
+                    <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-deuraligreen mb-4">Phone</h3>
+                    <p class="text-gray-600">{{ cooperative_info.phone }}</p>
+                </div>
+                
+                <div class="text-center animated-element animate-in-up delay-500">
+                    <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-deuraligreen mb-4">Email</h3>
+                    <p class="text-gray-600">{{ cooperative_info.email }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Team Section -->
+    <section id="team" class="py-20 px-6 bg-white">
+        <div class="container mx-auto text-center">
+            <span class="text-bhanjyangred font-semibold uppercase text-sm mb-2 block animated-element animate-in-up delay-100">Our People</span>
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat leading-tight mb-12 text-deuraligreen animated-element animate-in-up delay-300">
+                Meet Our Team
+            </h2>
+            <p class="text-lg text-gray-600 mb-12 max-w-3xl mx-auto animated-element animate-in-up delay-500">
+                Our cooperative is powered by dedicated individuals who work tirelessly to serve our members and community. 
+                From our board of directors to our management team, each person plays a vital role in our success.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-himalwhite p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift animated-element animate-in-up delay-700">
+                    <i class="fas fa-users-cog text-5xl text-deuraligreen mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Board of Directors</h3>
+                    <p class="text-gray-600 mb-4">Elected members who provide strategic direction and governance for our cooperative.</p>
+                    <a href="{% url 'about:team' %}" class="text-deuraligreen hover:underline font-semibold">
+                        View Board Members <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                <div class="bg-himalwhite p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift animated-element animate-in-up delay-900">
+                    <i class="fas fa-briefcase text-5xl text-bhanjyangred mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Management Team</h3>
+                    <p class="text-gray-600 mb-4">Professional staff members who handle day-to-day operations and member services.</p>
+                    <a href="{% url 'about:team' %}" class="text-deuraligreen hover:underline font-semibold">
+                        View Management Team <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="{% url 'about:team' %}" class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-users mr-2"></i>Meet Our Complete Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'js/about-interactive.js' %}" defer></script>
+{% endblock extra_js %}

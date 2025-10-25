@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Remittance Services - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Send money home safely and affordably with our trusted remittance partners including eSewa, Khalti, IME, Western Union, and more.{% endblock meta_description %}
+{% block meta_keywords %}Remittance, Money Transfer, eSewa, Khalti, IME, Western Union, Bhanjyang Cooperative{% endblock meta_keywords %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-r from-green-700 to-green-900 text-white py-20 px-6">
+    <div class="container mx-auto text-center">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 drop-shadow-lg">
+            सहकारीको शक्ति - Remittance Services
+        </h1>
+        <p class="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto opacity-90 leading-relaxed mb-8">
+            सदस्यको सशक्तिकरण र आर्थिक समृद्धि। Send money home safely and affordably with our trusted partners.
+        </p>
+        <a href="{% url 'contact:contact_view' %}" class="inline-block bg-white text-green-800 font-semibold px-8 py-3 rounded-full hover:bg-gray-100 transition-all duration-300">
+            Contact Us for Remittance Services
+        </a>
+    </div>
+</section>
+
+<!-- Remittance Partners Section -->
+<section class="py-20 px-6 bg-white">
+    <div class="container mx-auto max-w-6xl">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat mb-4">Our Remittance Partners</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                We partner with Nepal's most trusted remittance service providers to offer you secure, fast, and affordable money transfer options.
+            </p>
+        </div>
+
+        <!-- Partners Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-16">
+            <!-- eSewa -->
+            <div class="text-center group">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img src="/media/remit_logos/esewa.png" alt="eSewa" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">eSewa</h3>
+                    <p class="text-sm text-gray-600">Digital wallet and payment services</p>
+                </div>
+            </div>
+
+            <!-- Khalti -->
+            <div class="text-center group">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img src="/media/remit_logos/khalti.png" alt="Khalti" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Khalti</h3>
+                    <p class="text-sm text-gray-600">Mobile payment platform</p>
+                </div>
+            </div>
+
+            <!-- IME -->
+            <div class="text-center group">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img src="/media/remit_logos/ime.png" alt="IME" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">IME</h3>
+                    <p class="text-sm text-gray-600">International money exchange</p>
+                </div>
+            </div>
+
+            <!-- IME Pay -->
+            <div class="text-center group">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img src="/media/remit_logos/imepay.png" alt="IME Pay" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">IME Pay</h3>
+                    <p class="text-sm text-gray-600">Digital payment solution</p>
+                </div>
+            </div>
+
+            <!-- Himal Remit -->
+            <div class="text-center group">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img src="/media/remit_logos/himalremit.png" alt="Himal Remit" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Himal Remit</h3>
+                    <p class="text-sm text-gray-600">Remittance services</p>
+                </div>
+            </div>
+
+            <!-- Western Union -->
+            <div class="text-center group">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img src="/media/remit_logos/westernunion.png" alt="Western Union" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Western Union</h3>
+                    <p class="text-sm text-gray-600">Global money transfer</p>
+                </div>
+            </div>
+
+            <!-- City Express -->
+            <div class="text-center group">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <img src="/media/remit_logos/cityexpress.jpg" alt="City Express" class="w-24 h-24 mx-auto mb-4 object-contain">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">City Express</h3>
+                    <p class="text-sm text-gray-600">Express money transfer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="py-20 px-6 bg-gray-50">
+    <div class="container mx-auto max-w-6xl">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat mb-4">Why Choose Our Remittance Services?</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                We provide secure, fast, and affordable money transfer services through trusted partners.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Security -->
+            <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                <div class="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-shield-alt text-2xl text-green-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Secure Transactions</h3>
+                <p class="text-gray-600">All transactions are encrypted and secure, ensuring your money reaches safely.</p>
+            </div>
+
+            <!-- Speed -->
+            <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                <div class="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-bolt text-2xl text-blue-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Fast Transfer</h3>
+                <p class="text-gray-600">Quick money transfer with same-day or next-day delivery options.</p>
+            </div>
+
+            <!-- Affordable -->
+            <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                <div class="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                    <i class="fas fa-dollar-sign text-2xl text-purple-600"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">Competitive Rates</h3>
+                <p class="text-gray-600">Low fees and competitive exchange rates for maximum value.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-20 px-6 bg-white">
+    <div class="container mx-auto max-w-6xl">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat mb-4">How It Works</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Sending money through our remittance services is simple and straightforward.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Step 1 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-bhanjyangred rounded-full flex items-center justify-center text-white text-2xl font-bold">1</div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Visit Our Office</h3>
+                <p class="text-gray-600 text-sm">Come to our cooperative office with your documents.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-bhanjyangred rounded-full flex items-center justify-center text-white text-2xl font-bold">2</div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Choose Service</h3>
+                <p class="text-gray-600 text-sm">Select your preferred remittance service provider.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-bhanjyangred rounded-full flex items-center justify-center text-white text-2xl font-bold">3</div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Complete Transaction</h3>
+                <p class="text-gray-600 text-sm">Provide recipient details and complete the transfer.</p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-bhanjyangred rounded-full flex items-center justify-center text-white text-2xl font-bold">4</div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Confirmation</h3>
+                <p class="text-gray-600 text-sm">Receive confirmation and tracking details.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-20 px-6 bg-gray-50">
+    <div class="container mx-auto max-w-4xl text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat mb-4">Ready to Send Money?</h2>
+        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Contact us today to learn more about our remittance services and get started with secure money transfers.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:contact_view' %}" class="bg-bhanjyangred hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300">
+                Contact Us Now
+            </a>
+            <a href="{% url 'home:about' %}" class="bg-transparent border-2 border-bhanjyangred text-bhanjyangred hover:bg-bhanjyangred hover:text-white font-semibold py-3 px-8 rounded-full transition-all duration-300">
+                Learn More About Us
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

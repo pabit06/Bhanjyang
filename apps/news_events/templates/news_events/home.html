@@ -1,0 +1,331 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bhanjyang Cooperative - News & Events{% endblock title %}
+
+{% block meta_description %}Stay updated with the latest news, events, and announcements from Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock meta_description %}
+{% block meta_keywords %}Bhanjyang Cooperative, News, Events, Updates, Announcements, Cooperative News{% endblock meta_keywords %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+        <div class="container mx-auto text-center z-10">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">News & Events</h1>
+            <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Stay connected with the latest happenings from Bhanjyang Cooperative.</p>
+        </div>
+    </section>
+
+    <!-- Featured Content Section -->
+    {% if featured_content.articles or featured_content.events %}
+    <section class="py-16 bg-gradient-to-r from-bhanjyangred to-deuraligreen">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-12 text-white text-center">Featured Content</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Featured Articles -->
+                {% if featured_content.articles %}
+                <div class="bg-white rounded-lg shadow-xl p-6">
+                    <h3 class="text-2xl font-bold text-bhanjyangred mb-6 flex items-center">
+                        <i class="fas fa-newspaper mr-3"></i>Featured Articles
+                    </h3>
+                    <div class="space-y-4">
+                        {% for article in featured_content.articles %}
+                        <div class="border-l-4 border-deuraligreen pl-4 py-2 hover:bg-gray-50 transition-colors">
+                            <h4 class="font-semibold text-gray-800 mb-1">
+                                <a href="{{ article.get_absolute_url }}" class="hover:text-deuraligreen transition-colors">
+                                    {{ article.title }}
+                                </a>
+                            </h4>
+                            <p class="text-sm text-gray-600">{{ article.excerpt|truncatewords:15 }}</p>
+                            <div class="flex items-center text-xs text-gray-500 mt-2">
+                                <span>{{ article.published_date|date:"M d, Y" }}</span>
+                                <span class="mx-2">•</span>
+                                <span>{{ article.read_time }} min read</span>
+                                <span class="mx-2">•</span>
+                                <span>{{ article.view_count }} views</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Featured Events -->
+                {% if featured_content.events %}
+                <div class="bg-white rounded-lg shadow-xl p-6">
+                    <h3 class="text-2xl font-bold text-bhanjyangred mb-6 flex items-center">
+                        <i class="fas fa-calendar-alt mr-3"></i>Featured Events
+                    </h3>
+                    <div class="space-y-4">
+                        {% for event in featured_content.events %}
+                        <div class="border-l-4 border-bhanjyangred pl-4 py-2 hover:bg-gray-50 transition-colors">
+                            <h4 class="font-semibold text-gray-800 mb-1">
+                                <a href="{{ event.get_absolute_url }}" class="hover:text-bhanjyangred transition-colors">
+                                    {{ event.title }}
+                                </a>
+                            </h4>
+                            <p class="text-sm text-gray-600">{{ event.short_description|truncatewords:15 }}</p>
+                            <div class="flex items-center text-xs text-gray-500 mt-2">
+                                <i class="fas fa-calendar mr-1"></i>
+                                <span>{{ event.event_date|date:"M d, Y" }}</span>
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>{{ event.location }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Latest News Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-deuraligreen">Latest News</h2>
+                <a href="{% url 'news_events:article-list' %}" class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
+                    View All Articles <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for article in recent_articles %}
+                <article class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col">
+                    <a href="{{ article.get_absolute_url }}">
+                        {% if article.optimized_image_url %}
+                        <img src="{{ article.optimized_image_url }}" alt="{{ article.image_alt|default:article.title }}" class="rounded-t-lg w-full h-56 object-cover" loading="lazy">
+                        {% else %}
+                        <img src="{% static 'images/default-news-placeholder.png' %}" alt="News placeholder" class="rounded-t-lg w-full h-56 object-cover" loading="lazy">
+                        {% endif %}
+                    </a>
+                    <div class="p-6 text-left flex flex-col flex-grow">
+                        <div class="flex justify-between items-center text-xs text-gray-500 mb-2">
+                            <span>{{ article.published_date|date:"F d, Y" }}</span>
+                            <a href="{{ article.category.get_absolute_url }}" class="font-semibold text-deuraligreen hover:underline">{{ article.category.name }}</a>
+                        </div>
+                        <h3 class="text-xl font-bold font-montserrat mb-3 flex-grow">
+                            <a href="{{ article.get_absolute_url }}" class="hover:text-deuraligreen transition-colors">{{ article.title }}</a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ article.excerpt|default:article.content|striptags|truncatewords:20 }}</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <div class="flex items-center text-xs text-gray-500">
+                                <i class="fas fa-user mr-1"></i>
+                                <span>{{ article.author.get_full_name|default:article.author.username }}</span>
+                                <span class="mx-2">•</span>
+                                <i class="fas fa-clock mr-1"></i>
+                                <span>{{ article.read_time }} min</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-xs text-gray-500">
+                                <span><i class="fas fa-eye mr-1"></i>{{ article.view_count }}</span>
+                                <span><i class="fas fa-share mr-1"></i>{{ article.share_count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <div class="text-6xl text-gray-300 mb-4">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">No Articles Yet</h3>
+                    <p class="text-gray-500">Check back soon for the latest news and updates.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-bhanjyangred">Upcoming Events</h2>
+                <a href="{% url 'news_events:event-list' %}" class="bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
+                    View All Events <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for event in upcoming_events %}
+                <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-t-4 border-bhanjyangred">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-bhanjyangred text-white text-xs font-bold px-3 py-1 rounded-full">
+                                {{ event.get_event_type_display }}
+                            </span>
+                            <span class="text-sm text-gray-500">{{ event.event_date|date:"M d" }}</span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold font-montserrat mb-3">
+                            <a href="{{ event.get_absolute_url }}" class="hover:text-bhanjyangred transition-colors">{{ event.title }}</a>
+                        </h3>
+                        
+                        <p class="text-gray-600 text-sm mb-4">{{ event.short_description|default:event.description|truncatewords:20 }}</p>
+                        
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <i class="fas fa-map-marker-alt mr-2 text-deuraligreen"></i>
+                            <span>{{ event.location }}</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center text-xs text-gray-500">
+                                <i class="fas fa-calendar mr-1"></i>
+                                <span>{{ event.event_date|date:"F d, Y" }}</span>
+                                {% if event.end_date %}
+                                <span class="mx-1">-</span>
+                                <span>{{ event.end_date|date:"F d, Y" }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <i class="fas fa-eye mr-1"></i>
+                                <span>{{ event.view_count }}</span>
+                            </div>
+                        </div>
+                        
+                        {% if event.registration_required %}
+                        <div class="mt-4">
+                            <a href="{{ event.registration_url|default:'#' }}" class="bg-deuraligreen hover:bg-bhanjyangred text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors">
+                                Register Now
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <div class="text-6xl text-gray-300 mb-4">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">No Upcoming Events</h3>
+                    <p class="text-gray-500">Check back soon for upcoming events and activities.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Subscription Section -->
+    <section class="py-16 bg-gradient-to-r from-bhanjyangred to-deuraligreen">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-6 text-white">Stay Updated</h2>
+            <p class="text-lg text-white mb-8 max-w-2xl mx-auto">Subscribe to our newsletter and never miss important updates, news, and events from Bhanjyang Cooperative.</p>
+            
+            <form id="newsletter-form" class="max-w-md mx-auto">
+                {% csrf_token %}
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="email" name="email" placeholder="Enter your email address" required
+                           class="flex-1 px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white focus:outline-none">
+                    <button type="submit" class="bg-white text-deuraligreen font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+                        Subscribe <i class="fas fa-paper-plane ml-2"></i>
+                    </button>
+                </div>
+                <div id="newsletter-message" class="mt-4 text-white"></div>
+            </form>
+            
+            <div class="mt-8 text-white text-sm">
+                <p><i class="fas fa-shield-alt mr-2"></i>We respect your privacy and never share your email address.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-12 text-center text-deuraligreen">Our Impact</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <i class="fas fa-newspaper text-5xl text-deuraligreen mb-4"></i>
+                    <h3 class="text-3xl font-bold text-gray-900 font-montserrat mb-2">{{ article_stats.published_articles|default:0 }}</h3>
+                    <p class="text-gray-600 font-semibold">Published Articles</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <i class="fas fa-calendar-alt text-5xl text-bhanjyangred mb-4"></i>
+                    <h3 class="text-3xl font-bold text-gray-900 font-montserrat mb-2">{{ event_stats.upcoming_events|default:0 }}</h3>
+                    <p class="text-gray-600 font-semibold">Upcoming Events</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <i class="fas fa-eye text-5xl text-deuraligreen mb-4"></i>
+                    <h3 class="text-3xl font-bold text-gray-900 font-montserrat mb-2">{{ article_stats.total_views|default:0 }}</h3>
+                    <p class="text-gray-600 font-semibold">Total Views</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    <i class="fas fa-users text-5xl text-bhanjyangred mb-4"></i>
+                    <h3 class="text-3xl font-bold text-gray-900 font-montserrat mb-2">24/7</h3>
+                    <p class="text-gray-600 font-semibold">Community Access</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Newsletter subscription
+    const newsletterForm = document.getElementById('newsletter-form');
+    const messageDiv = document.getElementById('newsletter-message');
+    
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const email = formData.get('email');
+            
+            if (!email) {
+                showMessage('Please enter your email address.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Subscribing...';
+            submitBtn.disabled = true;
+            
+            fetch('{% url "news_events:subscribe" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showMessage(data.message, 'success');
+                    this.reset();
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                showMessage('Subscription failed. Please try again later.', 'error');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    }
+    
+    function showMessage(message, type) {
+        messageDiv.innerHTML = message;
+        messageDiv.className = `mt-4 text-sm ${type === 'success' ? 'text-green-200' : 'text-red-200'}`;
+        
+        setTimeout(() => {
+            messageDiv.innerHTML = '';
+            messageDiv.className = 'mt-4';
+        }, 5000);
+    }
+});
+</script>
+{% endblock extra_js %}

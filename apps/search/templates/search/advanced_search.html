@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load about_extras %}
+{% load search_extras %}
+
+{% block title %}Advanced Search - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="Search through all Bhanjyang Cooperative content including team members, events, achievements, and more.">
+    <meta name="keywords" content="Search, Bhanjyang Cooperative, Team, Events, Achievements, Timeline">
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about-animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/advanced-animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
+        <div class="container mx-auto text-center max-w-4xl">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-montserrat mb-4 sm:mb-6">
+                Advanced Search
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl opacity-90 leading-relaxed px-4">
+                Find exactly what you're looking for across all our content
+            </p>
+        </div>
+    </section>
+
+    <!-- Search Form -->
+    <section class="py-8 px-4 sm:px-6 bg-white">
+        <div class="container mx-auto max-w-4xl">
+            <form method="get" class="search-form">
+                <div class="relative mb-6">
+                    <input type="text" 
+                           name="q" 
+                           value="{{ query }}" 
+                           placeholder="Search for anything..." 
+                           class="w-full px-6 py-4 pl-12 pr-4 text-lg border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent transition-all duration-300"
+                           id="search-input"
+                           autocomplete="off">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
+                    <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-deuraligreen hover:bg-bhanjyangred text-white px-6 py-2 rounded-lg transition-colors">
+                        Search
+                    </button>
+                </div>
+                
+                <!-- Search Filters -->
+                <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                    <div class="flex-1">
+                        <label for="search-type" class="block text-sm font-medium text-gray-700 mb-2">Search Type</label>
+                        <select name="type" id="search-type" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
+                            <option value="all" {% if search_type == 'all' %}selected{% endif %}>All Content</option>
+                            <option value="team" {% if search_type == 'team' %}selected{% endif %}>Team Members</option>
+                            <option value="events" {% if search_type == 'events' %}selected{% endif %}>Timeline Events</option>
+                            <option value="achievements" {% if search_type == 'achievements' %}selected{% endif %}>Achievements</option>
+                            <option value="affiliations" {% if search_type == 'affiliations' %}selected{% endif %}>Affiliations</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex-1">
+                        <label for="sort-by" class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                        <select name="sort" id="sort-by" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
+                            <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>Relevance</option>
+                            <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Date</option>
+                            <option value="title" {% if sort_by == 'title' %}selected{% endif %}>Title</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Search Suggestions -->
+            <div id="search-suggestions" class="hidden bg-white border border-gray-300 rounded-lg shadow-lg mt-2 max-h-60 overflow-y-auto">
+                <!-- Suggestions will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Results -->
+    {% if query %}
+    <section class="py-8 px-4 sm:px-6 bg-gray-50">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Results Header -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-deuraligreen mb-2">Search Results</h2>
+                    <p class="text-gray-600">
+                        Found {{ total_results }} result{{ total_results|pluralize }} for "<strong>{{ query }}</strong>"
+                    </p>
+                </div>
+                
+                <!-- Search Tips -->
+                <div class="mt-4 sm:mt-0">
+                    <button id="search-tips-btn" class="text-deuraligreen hover:text-bhanjyangred text-sm font-medium">
+                        <i class="fas fa-lightbulb mr-1"></i>Search Tips
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search Tips Modal -->
+            <div id="search-tips-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                <div class="bg-white rounded-lg max-w-md w-full p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold">Search Tips</h3>
+                        <button id="close-tips-modal" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Use specific keywords for better results</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Try different search types</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Use quotes for exact phrases</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Check spelling if no results found</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Results List -->
+            {% if results %}
+                <div class="space-y-6">
+                    {% for result in results %}
+                        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <!-- Result Icon -->
+                                <div class="flex-shrink-0">
+                                    <div class="w-12 h-12 bg-deuraligreen rounded-lg flex items-center justify-center">
+                                        {% if result|model_name == 'cooperativeinfo' %}
+                                            <i class="fas fa-building text-white"></i>
+                                        {% elif result|model_name == 'cooperativetimeline' %}
+                                            <i class="fas fa-calendar text-white"></i>
+                                        {% elif result|model_name == 'cooperativeachievement' %}
+                                            <i class="fas fa-trophy text-white"></i>
+                                        {% elif result|model_name == 'cooperativeaffiliation' %}
+                                            <i class="fas fa-handshake text-white"></i>
+                                        {% elif result|model_name == 'leadershipmessage' %}
+                                            <i class="fas fa-quote-left text-white"></i>
+                                        {% elif result|model_name == 'person' %}
+                                            <i class="fas fa-user text-white"></i>
+                                        {% else %}
+                                            <i class="fas fa-file text-white"></i>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Result Content -->
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-deuraligreen mb-2">
+                                        {% if result.title %}
+                                            {{ result.title }}
+                                        {% elif result.cooperative_name %}
+                                            {{ result.cooperative_name }}
+                                        {% elif result.full_name %}
+                                            {{ result.full_name }}
+                                        {% elif result.name %}
+                                            {{ result.name }}
+                                        {% endif %}
+                                    </h3>
+                                    
+                                    <p class="text-gray-600 mb-3">
+                                        {% if result.description %}
+                                            {{ result.description|truncatewords:30 }}
+                                        {% elif result.content %}
+                                            {{ result.content|truncatewords:30 }}
+                                        {% elif result.bio %}
+                                            {{ result.bio|truncatewords:30 }}
+                                        {% endif %}
+                                    </p>
+                                    
+                                    <!-- Result Meta -->
+                                    <div class="flex flex-wrap gap-4 text-sm text-gray-500">
+                                        <span class="flex items-center">
+                                            <i class="fas fa-tag mr-1"></i>
+                                            {% if result|model_name == 'cooperativeinfo' %}
+                                                Cooperative Info
+                                            {% elif result|model_name == 'cooperativetimeline' %}
+                                                Timeline Event
+                                            {% elif result|model_name == 'cooperativeachievement' %}
+                                                Achievement
+                                            {% elif result|model_name == 'cooperativeaffiliation' %}
+                                                Affiliation
+                                            {% elif result|model_name == 'leadershipmessage' %}
+                                                Leadership Message
+                                            {% elif result|model_name == 'person' %}
+                                                Team Member
+                                            {% endif %}
+                                        </span>
+                                        
+                                        {% if result.created_at %}
+                                            <span class="flex items-center">
+                                                <i class="fas fa-calendar mr-1"></i>
+                                                {{ result.created_at|date:"M d, Y" }}
+                                            </span>
+                                        {% elif result.event_date %}
+                                            <span class="flex items-center">
+                                                <i class="fas fa-calendar mr-1"></i>
+                                                {{ result.event_date|date:"M d, Y" }}
+                                            </span>
+                                        {% elif result.received_date %}
+                                            <span class="flex items-center">
+                                                <i class="fas fa-calendar mr-1"></i>
+                                                {{ result.received_date|date:"M d, Y" }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Result Actions -->
+                                <div class="flex-shrink-0">
+                                    <a href="#" class="text-deuraligreen hover:text-bhanjyangred font-medium">
+                                        View Details <i class="fas fa-arrow-right ml-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                    <div class="mt-8 flex justify-center">
+                        <nav class="flex space-x-2">
+                            {% if page_obj.has_previous %}
+                                <a href="?q={{ query }}&type={{ search_type }}&sort={{ sort_by }}&page={{ page_obj.previous_page_number }}" 
+                                   class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <span class="px-4 py-2 bg-deuraligreen text-white rounded-lg">{{ num }}</span>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <a href="?q={{ query }}&type={{ search_type }}&sort={{ sort_by }}&page={{ num }}" 
+                                       class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                        {{ num }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <a href="?q={{ query }}&type={{ search_type }}&sort={{ sort_by }}&page={{ page_obj.next_page_number }}" 
+                                   class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            {% endif %}
+                        </nav>
+                    </div>
+                {% endif %}
+            {% else %}
+                <!-- No Results -->
+                <div class="text-center py-12">
+                    <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-search text-gray-400 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">No results found</h3>
+                    <p class="text-gray-600 mb-6">Try adjusting your search terms or filters</p>
+                    
+                    <!-- Search Suggestions -->
+                    {% if suggestions %}
+                        <div class="max-w-md mx-auto">
+                            <h4 class="font-medium text-gray-700 mb-3">Did you mean:</h4>
+                            <div class="space-y-2">
+                                {% for suggestion in suggestions %}
+                                    <a href="?q={{ suggestion }}" class="block text-deuraligreen hover:text-bhanjyangred">
+                                        {{ suggestion }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'js/advanced-animations.js' %}"></script>
+    <script src="{% static 'js/dark-mode.js' %}"></script>
+    <script>
+        // Advanced Search Functionality
+        class AdvancedSearch {
+            constructor() {
+                this.searchInput = document.getElementById('search-input');
+                this.suggestionsContainer = document.getElementById('search-suggestions');
+                this.searchForm = document.querySelector('.search-form');
+                this.debounceTimer = null;
+                
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.setupAutocomplete();
+            }
+
+            bindEvents() {
+                // Search input events
+                this.searchInput.addEventListener('input', (e) => {
+                    this.handleSearchInput(e.target.value);
+                });
+
+                this.searchInput.addEventListener('focus', () => {
+                    this.showSuggestions();
+                });
+
+                this.searchInput.addEventListener('blur', () => {
+                    // Delay hiding to allow clicking on suggestions
+                    setTimeout(() => this.hideSuggestions(), 200);
+                });
+
+                // Form submission
+                this.searchForm.addEventListener('submit', (e) => {
+                    this.trackSearch();
+                });
+
+                // Search tips modal
+                const tipsBtn = document.getElementById('search-tips-btn');
+                const tipsModal = document.getElementById('search-tips-modal');
+                const closeTipsBtn = document.getElementById('close-tips-modal');
+
+                if (tipsBtn && tipsModal) {
+                    tipsBtn.addEventListener('click', () => {
+                        tipsModal.classList.remove('hidden');
+                    });
+
+                    closeTipsBtn.addEventListener('click', () => {
+                        tipsModal.classList.add('hidden');
+                    });
+
+                    tipsModal.addEventListener('click', (e) => {
+                        if (e.target === tipsModal) {
+                            tipsModal.classList.add('hidden');
+                        }
+                    });
+                }
+            }
+
+            handleSearchInput(query) {
+                clearTimeout(this.debounceTimer);
+                
+                if (query.length < 2) {
+                    this.hideSuggestions();
+                    return;
+                }
+
+                this.debounceTimer = setTimeout(() => {
+                    this.fetchSuggestions(query);
+                }, 300);
+            }
+
+            async fetchSuggestions(query) {
+                try {
+                    const response = await fetch(`/search/api/?q=${encodeURIComponent(query)}&limit=5`);
+                    const data = await response.json();
+                    
+                    if (data.suggestions) {
+                        this.displaySuggestions(data.suggestions);
+                    }
+                } catch (error) {
+                    console.error('Error fetching suggestions:', error);
+                }
+            }
+
+            displaySuggestions(suggestions) {
+                if (suggestions.length === 0) {
+                    this.hideSuggestions();
+                    return;
+                }
+
+                const html = suggestions.map(suggestion => `
+                    <div class="suggestion-item p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0" 
+                         data-suggestion="${suggestion.text}">
+                        <div class="flex items-center">
+                            <i class="fas fa-search text-gray-400 mr-3"></i>
+                            <div>
+                                <div class="font-medium">${suggestion.text}</div>
+                                <div class="text-sm text-gray-500">${suggestion.type}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                this.suggestionsContainer.innerHTML = html;
+                this.showSuggestions();
+
+                // Bind suggestion clicks
+                this.suggestionsContainer.querySelectorAll('.suggestion-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const suggestion = item.dataset.suggestion;
+                        this.searchInput.value = suggestion;
+                        this.hideSuggestions();
+                        this.searchForm.submit();
+                    });
+                });
+            }
+
+            showSuggestions() {
+                this.suggestionsContainer.classList.remove('hidden');
+            }
+
+            hideSuggestions() {
+                this.suggestionsContainer.classList.add('hidden');
+            }
+
+            trackSearch() {
+                const query = this.searchInput.value.trim();
+                if (query) {
+                    // Track search analytics
+                    console.log('Search tracked:', query);
+                }
+            }
+        }
+
+        // Initialize search when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            window.advancedSearch = new AdvancedSearch();
+        });
+    </script>
+{% endblock extra_js %}

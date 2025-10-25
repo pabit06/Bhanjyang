@@ -1,0 +1,387 @@
+/* Downloads Admin Custom Styles */
+
+/* Enhanced Admin Interface Styling */
+.downloads-admin {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* File Type Icons */
+.file-type-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.file-type-pdf { background-color: #EF4444; color: white; }
+.file-type-doc, .file-type-docx { background-color: #3B82F6; color: white; }
+.file-type-xls, .file-type-xlsx { background-color: #10B981; color: white; }
+.file-type-ppt, .file-type-pptx { background-color: #F59E0B; color: white; }
+.file-type-jpg, .file-type-jpeg, .file-type-png { background-color: #8B5CF6; color: white; }
+.file-type-txt { background-color: #6B7280; color: white; }
+
+/* Priority Badges */
+.priority-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.priority-urgent {
+    background-color: #FEE2E2;
+    color: #DC2626;
+    border: 1px solid #FECACA;
+}
+
+.priority-high {
+    background-color: #FEF3C7;
+    color: #D97706;
+    border: 1px solid #FDE68A;
+}
+
+.priority-medium {
+    background-color: #DBEAFE;
+    color: #2563EB;
+    border: 1px solid #BFDBFE;
+}
+
+.priority-low {
+    background-color: #F3F4F6;
+    color: #6B7280;
+    border: 1px solid #E5E7EB;
+}
+
+/* Category Badges */
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-form {
+    background-color: #DBEAFE;
+    color: #2563EB;
+    border: 1px solid #BFDBFE;
+}
+
+.category-report {
+    background-color: #D1FAE5;
+    color: #059669;
+    border: 1px solid #A7F3D0;
+}
+
+.category-policy {
+    background-color: #FEF3C7;
+    color: #D97706;
+    border: 1px solid #FDE68A;
+}
+
+.category-publication {
+    background-color: #EDE9FE;
+    color: #7C3AED;
+    border: 1px solid #DDD6FE;
+}
+
+.category-manual {
+    background-color: #FEE2E2;
+    color: #DC2626;
+    border: 1px solid #FECACA;
+}
+
+.category-certificate {
+    background-color: #E0F2FE;
+    color: #0891B2;
+    border: 1px solid #BAE6FD;
+}
+
+.category-brochure {
+    background-color: #FFF7ED;
+    color: #EA580C;
+    border: 1px solid #FED7AA;
+}
+
+.category-other {
+    background-color: #F3F4F6;
+    color: #6B7280;
+    border: 1px solid #E5E7EB;
+}
+
+/* Status Indicators */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background-color: #D1FAE5;
+    color: #059669;
+}
+
+.status-inactive {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+.status-featured {
+    background-color: #FEF3C7;
+    color: #D97706;
+}
+
+.status-login-required {
+    background-color: #DBEAFE;
+    color: #2563EB;
+}
+
+.status-expired {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+/* File Statistics */
+.file-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.stat-item i {
+    margin-right: 4px;
+    color: #9CA3AF;
+}
+
+/* Enhanced List Display */
+.downloads-list .field-title {
+    font-weight: 600;
+    color: #374151;
+}
+
+.downloads-list .field-category {
+    margin: 4px 0;
+}
+
+.downloads-list .field-priority {
+    margin: 4px 0;
+}
+
+.downloads-list .field-status {
+    margin: 4px 0;
+}
+
+.downloads-list .field-file-info {
+    font-size: 12px;
+    color: #6B7280;
+    margin-top: 4px;
+}
+
+.downloads-list .field-statistics {
+    font-size: 12px;
+    color: #6B7280;
+    margin-top: 4px;
+}
+
+/* Action Buttons */
+.downloads-actions {
+    margin-bottom: 16px;
+    padding: 16px;
+    background-color: #F9FAFB;
+    border-radius: 8px;
+    border: 1px solid #E5E7EB;
+}
+
+.downloads-actions .action-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    background-color: white;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.downloads-actions .action-button:hover {
+    background-color: #F3F4F6;
+    border-color: #9CA3AF;
+    color: #111827;
+}
+
+.downloads-actions .action-button.featured {
+    background-color: #FEF3C7;
+    border-color: #FDE68A;
+    color: #D97706;
+}
+
+.downloads-actions .action-button.featured:hover {
+    background-color: #FDE68A;
+    border-color: #F59E0B;
+}
+
+.downloads-actions .action-button.urgent {
+    background-color: #FEE2E2;
+    border-color: #FECACA;
+    color: #DC2626;
+}
+
+.downloads-actions .action-button.urgent:hover {
+    background-color: #FECACA;
+    border-color: #EF4444;
+}
+
+/* Analytics Dashboard */
+.analytics-dashboard {
+    background-color: #F9FAFB;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.analytics-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.analytics-subtitle {
+    font-size: 14px;
+    color: #6B7280;
+    margin-top: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .file-stats {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .downloads-actions .action-button {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .analytics-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .downloads-admin {
+        background-color: #1F2937;
+        color: #F9FAFB;
+    }
+    
+    .priority-badge, .category-badge, .status-indicator {
+        opacity: 0.9;
+    }
+    
+    .downloads-actions {
+        background-color: #374151;
+        border-color: #4B5563;
+    }
+    
+    .downloads-actions .action-button {
+        background-color: #4B5563;
+        border-color: #6B7280;
+        color: #F9FAFB;
+    }
+    
+    .downloads-actions .action-button:hover {
+        background-color: #6B7280;
+        border-color: #9CA3AF;
+    }
+}
+
+/* Animation Effects */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.downloads-list .row {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+/* Loading States */
+.loading-skeleton {
+    background: linear-gradient(90deg, #F3F4F6 25%, #E5E7EB 50%, #F3F4F6 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Custom Scrollbar */
+.downloads-admin ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.downloads-admin ::-webkit-scrollbar-track {
+    background: #F3F4F6;
+    border-radius: 4px;
+}
+
+.downloads-admin ::-webkit-scrollbar-thumb {
+    background: #D1D5DB;
+    border-radius: 4px;
+}
+
+.downloads-admin ::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF;
+}

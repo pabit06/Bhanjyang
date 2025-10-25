@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ service.english_name }} - Bhanjyang Cooperative{% endblock %}
+
+{% block meta_description %}{{ service.description|truncatewords:20 }}{% endblock meta_description %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-bhanjyangred to-red-600 py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
+        <div class="absolute top-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-ping"></div>
+        <div class="absolute bottom-20 left-20 w-12 h-12 bg-white bg-opacity-10 rounded-full animate-bounce"></div>
+        
+        <div class="container mx-auto px-6 text-center text-white relative z-10">
+            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="{{ service.icon }} text-4xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ service.nepali_name }}</h1>
+            <p class="text-xl opacity-90 mb-6">{{ service.english_name }}</p>
+            
+            <!-- Quick Stats -->
+            <div class="flex flex-wrap justify-center gap-6 mb-8">
+                <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3">
+                    <div class="text-3xl font-bold">{{ service.monthly_installment_rate }}%</div>
+                    <div class="text-sm opacity-90">Monthly Rate</div>
+                </div>
+                {% if service.minimum_amount %}
+                <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3">
+                    <div class="text-lg font-bold">NPR {{ service.minimum_amount|floatformat:0 }}</div>
+                    <div class="text-sm opacity-90">Min Amount</div>
+                </div>
+                {% endif %}
+                {% if service.maximum_amount %}
+                <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3">
+                    <div class="text-lg font-bold">NPR {{ service.maximum_amount|floatformat:0 }}</div>
+                    <div class="text-sm opacity-90">Max Amount</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#calculator" class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3 hover:bg-opacity-30 transition duration-300">
+                    <i class="fas fa-calculator mr-2"></i>Calculate EMI
+                </a>
+                <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ service.slug }}" class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3 hover:bg-opacity-30 transition duration-300">
+                    <i class="fas fa-file-alt mr-2"></i>Apply Now
+                </a>
+                <a href="{% url 'services:service_comparison' %}" class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-6 py-3 hover:bg-opacity-30 transition duration-300">
+                    <i class="fas fa-balance-scale mr-2"></i>Compare
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Details -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Loan Details</h2>
+                        {% if service.description %}
+                        <div class="prose max-w-none mb-6">
+                            {{ service.description|linebreaks }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.requirements %}
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Requirements</h3>
+                            <div class="prose max-w-none">
+                                {{ service.requirements|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.benefits %}
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Benefits</h3>
+                            <div class="prose max-w-none">
+                                {{ service.benefits|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Loan Calculator -->
+                    <div id="calculator" class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                            <i class="fas fa-calculator text-red-600 mr-3"></i>
+                            Calculate Your EMI
+                        </h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <!-- Calculator Form -->
+                            <div>
+                                <form id="loan-calculator-form">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                Loan Amount (NPR)
+                                            </label>
+                                            <input type="number" id="loan-amount" class="form-control" 
+                                                   placeholder="Enter loan amount" min="1000" step="1000">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                Loan Tenure (Years)
+                                            </label>
+                                            <input type="number" id="loan-tenure" class="form-control" 
+                                                   placeholder="Enter loan tenure" min="1" max="{{ service.max_tenure_years|default:20 }}" step="1">
+                                        </div>
+                                        
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                Payment Frequency
+                                            </label>
+                                            <select id="payment-frequency" class="form-control">
+                                                <option value="monthly">Monthly</option>
+                                                <option value="quarterly">Quarterly</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button type="button" id="calculate-loan" 
+                                                class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                                            <i class="fas fa-calculator mr-2"></i>Calculate EMI
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Results Display -->
+                            <div>
+                                <div id="calculation-results" class="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl p-6 hidden">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-4">EMI Calculation Results</h3>
+                                    
+                                    <div class="space-y-4">
+                                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                                            <div class="flex justify-between items-center">
+                                                <div>
+                                                    <h4 class="font-semibold text-gray-800">EMI Amount</h4>
+                                                    <p class="text-sm text-gray-600" id="emi-frequency-text">Monthly payment</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-2xl font-bold text-red-600" id="emi-amount">NPR 0</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                                            <div class="flex justify-between items-center">
+                                                <div>
+                                                    <h4 class="font-semibold text-gray-800">Total Amount</h4>
+                                                    <p class="text-sm text-gray-600">Total amount to be paid</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xl font-bold text-blue-600" id="total-amount">NPR 0</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                                            <div class="flex justify-between items-center">
+                                                <div>
+                                                    <h4 class="font-semibold text-gray-800">Interest Amount</h4>
+                                                    <p class="text-sm text-gray-600">Total interest to be paid</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xl font-bold text-purple-600" id="interest-amount">NPR 0</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="no-results" class="bg-gray-100 rounded-xl p-8 text-center">
+                                    <i class="fas fa-calculator text-gray-400 text-4xl mb-4"></i>
+                                    <p class="text-gray-600">Fill in the form to see your EMI calculation results</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Loan Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Monthly Installment</span>
+                                <span class="font-bold text-bhanjyangred text-lg">{{ service.monthly_installment_rate }}%</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Quarterly Installment</span>
+                                <span class="font-bold text-bhanjyangred text-lg">{{ service.quarterly_installment_rate }}%</span>
+                            </div>
+                            
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Monthly Interest</span>
+                                <span class="font-bold text-bhanjyangred text-lg">{{ service.monthly_interest_rate }}%</span>
+                            </div>
+                            
+                            {% if service.minimum_amount %}
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Minimum Amount</span>
+                                <span class="font-semibold">NPR {{ service.minimum_amount|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if service.maximum_amount %}
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Maximum Amount</span>
+                                <span class="font-semibold">NPR {{ service.maximum_amount|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if service.max_tenure_years %}
+                            <div class="flex justify-between items-center py-3">
+                                <span class="text-gray-600">Max Tenure</span>
+                                <span class="font-semibold">{{ service.max_tenure_years }} years</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mt-8 space-y-3">
+                            <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ service.slug }}" 
+                               class="w-full bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                                <i class="fas fa-file-alt mr-2"></i>Apply for Loan
+                            </a>
+                            
+                            <a href="{% url 'services:service_comparison' %}" 
+                               class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                                <i class="fas fa-balance-scale mr-2"></i>Compare Loans
+                            </a>
+                            
+                            <a href="{% url 'contact:contact_view' %}" 
+                               class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                                <i class="fas fa-phone mr-2"></i>Contact Us
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Benefits -->
+                    <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-lg p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">
+                            <i class="fas fa-star text-yellow-500 mr-2"></i>
+                            Why Choose This Loan?
+                        </h3>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                                <span class="text-sm text-gray-700">Competitive {{ service.monthly_installment_rate }}% monthly rate</span>
+                            </div>
+                            
+                            {% if service.minimum_amount %}
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                                <span class="text-sm text-gray-700">Low minimum amount requirement</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if service.maximum_amount %}
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                                <span class="text-sm text-gray-700">High maximum amount available</span>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                                <span class="text-sm text-gray-700">Flexible repayment options</span>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                                <span class="text-sm text-gray-700">Quick approval process</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Services -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Other Loan Services</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- This would be populated with related services -->
+                <div class="text-center text-gray-600">
+                    <p>Explore our other loan options</p>
+                    <a href="{% url 'services:loan_list' %}" class="text-bhanjyangred hover:underline">
+                        View All Loan Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const calculateBtn = document.getElementById('calculate-loan');
+    const loanAmountInput = document.getElementById('loan-amount');
+    const loanTenureInput = document.getElementById('loan-tenure');
+    const paymentFrequencySelect = document.getElementById('payment-frequency');
+    const resultsDiv = document.getElementById('calculation-results');
+    const noResultsDiv = document.getElementById('no-results');
+    
+    const monthlyRate = {{ service.monthly_installment_rate }};
+    const quarterlyRate = {{ service.quarterly_installment_rate }};
+    
+    calculateBtn.addEventListener('click', function() {
+        const loanAmount = parseFloat(loanAmountInput.value);
+        const loanTenureYears = parseInt(loanTenureInput.value);
+        const paymentFrequency = paymentFrequencySelect.value;
+        
+        if (!loanAmount || !loanTenureYears) {
+            alert('Please fill in all fields');
+            return;
+        }
+        
+        // Calculate EMI
+        let interestRate, tenureMonths;
+        
+        if (paymentFrequency === 'monthly') {
+            interestRate = monthlyRate;
+            tenureMonths = loanTenureYears * 12;
+        } else {
+            interestRate = quarterlyRate;
+            tenureMonths = loanTenureYears * 4; // quarters
+        }
+        
+        const monthlyInterestRate = interestRate / 100;
+        const emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, tenureMonths)) / 
+                    (Math.pow(1 + monthlyInterestRate, tenureMonths) - 1);
+        
+        const totalAmount = emi * tenureMonths;
+        const interestAmount = totalAmount - loanAmount;
+        
+        // Update results
+        document.getElementById('emi-amount').textContent = 'NPR ' + emi.toLocaleString('en-IN', {maximumFractionDigits: 0});
+        document.getElementById('total-amount').textContent = 'NPR ' + totalAmount.toLocaleString('en-IN', {maximumFractionDigits: 0});
+        document.getElementById('interest-amount').textContent = 'NPR ' + interestAmount.toLocaleString('en-IN', {maximumFractionDigits: 0});
+        
+        // Update frequency text
+        const frequencyText = paymentFrequency === 'monthly' ? 'Monthly payment' : 'Quarterly payment';
+        document.getElementById('emi-frequency-text').textContent = frequencyText;
+        
+        // Show results
+        resultsDiv.classList.remove('hidden');
+        noResultsDiv.classList.add('hidden');
+        
+        // Track calculator usage
+        fetch('{% url "services:calculator_api" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({
+                type: 'loan',
+                loan_amount: loanAmount,
+                interest_rate: interestRate,
+                tenure_years: loanTenureYears,
+                payment_frequency: paymentFrequency
+            })
+        });
+    });
+    
+    // Auto-calculate on input change
+    [loanAmountInput, loanTenureInput, paymentFrequencySelect].forEach(input => {
+        input.addEventListener('input', function() {
+            if (loanAmountInput.value && loanTenureInput.value) {
+                calculateBtn.click();
+            }
+        });
+    });
+});
+</script>
+{% endblock extra_js %}

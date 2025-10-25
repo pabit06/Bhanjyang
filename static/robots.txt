@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://bhanjyangcooperative.com/static/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /media/
+Disallow: /static/admin/
+Disallow: /static/rest_framework/
+
+# Allow important static files
+Allow: /static/main/images/
+Allow: /static/images/
+Allow: /static/dist/
+Allow: /static/src/
+
+# Crawl delay (optional)
+Crawl-delay: 1

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Past Committees - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}भञ्ज्याङ सहकारीको पुराना कमिटीहरूको ऐतिहासिक रेकर्ड। हाम्रो पूर्व नेतृत्व र टोलीहरूको जानकारी।{% endblock meta_description %}
+
+{% block meta_keywords %}bhanjyang cooperative past committees, historical leadership, previous team members, cooperative history{% endblock meta_keywords %}
+
+{% block og_title %}Past Committees - Bhanjyang Cooperative{% endblock og_title %}
+
+{% block og_description %}भञ्ज्याङ सहकारीको पुराना कमिटीहरूको ऐतिहासिक रेकर्ड। हाम्रो पूर्व नेतृत्व र टोलीहरूको जानकारी।{% endblock og_description %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}Past Committees - Bhanjyang Cooperative{% endblock twitter_title %}
+
+{% block twitter_description %}भञ्ज्याङ सहकारीको पुराना कमिटीहरूको ऐतिहासिक रेकर्ड। हाम्रो पूर्व नेतृत्व र टोलीहरूको जानकारी।{% endblock twitter_description %}
+
+{% block schema_type %}AboutPage{% endblock schema_type %}
+
+{% block schema_name %}Past Committees - Bhanjyang Cooperative{% endblock schema_name %}
+
+{% block schema_description %}भञ्ज्याङ सहकारीको पुराना कमिटीहरूको ऐतिहासिक रेकर्ड। हाम्रो पूर्व नेतृत्व र टोलीहरूको जानकारी।{% endblock schema_description %}
+
+{% block breadcrumbs %}
+{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<section class="relative bg-white text-deuraligreen py-16 px-4">
+    <div class="container mx-auto text-center z-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">Past Committees</h1>
+        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">A historical record of our past leadership and teams.</p>
+    </div>
+    
+    <!-- Floating decorative elements -->
+    <div class="absolute top-20 left-10 text-deuraligreen/20 floating-element">
+        <i class="fas fa-history text-6xl animate-float"></i>
+    </div>
+    <div class="absolute top-32 right-20 text-deuraligreen/20 floating-element" style="animation-delay: 1s;">
+        <i class="fas fa-book text-4xl animate-float"></i>
+    </div>
+    <div class="absolute bottom-20 left-1/4 text-deuraligreen/20 floating-element" style="animation-delay: 2s;">
+        <i class="fas fa-trophy text-5xl animate-float"></i>
+    </div>
+</section>
+
+<section class="py-16 bg-gray-50 px-4">
+    <div class="container mx-auto">
+        {% for committee in committees %}
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold font-montserrat text-center mb-8 text-bhanjyangred scroll-animate">
+                    {{ committee.name }} <span class="text-deuraligreen">({{ committee.tenure_bs }})</span>
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
+                    
+                    {% for membership in committee.memberships.all %}
+                    <div class="bg-white text-center rounded-lg shadow-md p-4 hover-lift interactive-element">
+                        <div class="relative w-24 h-24 mx-auto mb-3 photo-container">
+                            <img class="rounded-full w-full h-full object-cover border-3 border-gray-300 hover-scale" 
+                                 src="{% if membership.person.photo %}{{ membership.person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                                 alt="Photo of {{ membership.person.full_name }}" loading="lazy">
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800">{{ membership.person.full_name }}</h3>
+                        <p class="text-deuraligreen font-semibold text-sm">{{ membership.position }}</p>
+                        
+                        <!-- Historical badge -->
+                        <div class="mt-2">
+                            <span class="inline-block bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+                                <i class="fas fa-clock mr-1"></i>Past Member
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        {% empty %}
+            <div class="text-center py-16">
+                <i class="fas fa-archive text-6xl text-gray-300 mb-4"></i>
+                <p class="text-gray-600 text-xl scroll-animate">No past committee information is available.</p>
+                <p class="text-gray-500 mt-2">Historical records will be added as they become available.</p>
+            </div>
+        {% endfor %}
+
+        <!-- Link back to Current Team -->
+        <div class="text-center mt-12">
+            <a href="{% url 'about:team' %}" class="text-lg text-deuraligreen hover:underline font-semibold animated-underline ripple interactive-element">
+                <i class="fas fa-users mr-1"></i> View Current Team
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Historical Timeline Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Our Journey Through Time</h2>
+        <div class="relative">
+            <!-- Timeline line -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-deuraligreen to-bhanjyangred h-full"></div>
+            
+            <!-- Timeline items -->
+            <div class="space-y-12">
+                {% for committee in committees|slice:":5" %}
+                <div class="relative flex items-center {% cycle 'flex-row' 'flex-row-reverse' %}">
+                    <div class="w-1/2 {% cycle 'pr-8 text-right' 'pl-8 text-left' %}">
+                        <div class="bg-white p-6 rounded-lg shadow-lg hover-lift interactive-element">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ committee.name }}</h3>
+                            <p class="text-deuraligreen font-semibold mb-2">{{ committee.tenure_bs }}</p>
+                            <p class="text-gray-600 text-sm">{{ committee.memberships.count }} members</p>
+                        </div>
+                    </div>
+                    <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-deuraligreen rounded-full border-4 border-white shadow-lg"></div>
+                    <div class="w-1/2"></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

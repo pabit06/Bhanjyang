@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Affiliations - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, professional associations, and partnerships that ensure our compliance and excellence.{% endblock meta_description %}
+
+{% block meta_keywords %}bhanjyang cooperative affiliations, regulatory bodies, professional associations, partnerships, compliance, NEFSCUN{% endblock meta_keywords %}
+
+{% block breadcrumbs %}
+{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<section class="relative bg-white text-deuraligreen py-16 px-4">
+    <div class="container mx-auto text-center z-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">Our Affiliations</h1>
+        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">We are proud to be associated with these organizations and regulatory bodies, including our local regulatory authority Rupa Rural Municipality.</p>
+    </div>
+</section>
+
+<section class="py-16 bg-gray-50 px-4">
+    <div class="container mx-auto">
+        {% if affiliations %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for affiliation in affiliations %}
+                <div class="bg-white rounded-lg shadow-lg p-8 text-center hover-lift animated-element animate-in-up delay-{{ forloop.counter|add:"0" }}00">
+                    {% if affiliation.logo %}
+                        <div class="mb-6">
+                            <img src="{{ affiliation.logo.url }}" alt="{{ affiliation.name }}" class="w-32 h-32 object-contain mx-auto rounded-lg border border-gray-200 p-4">
+                        </div>
+                    {% else %}
+                        <div class="w-32 h-32 bg-gradient-to-br from-deuraligreen to-green-600 rounded-lg flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-building text-white text-3xl"></i>
+                        </div>
+                    {% endif %}
+                    
+                    <h3 class="text-xl font-bold text-deuraligreen mb-4">{{ affiliation.name }}</h3>
+                    
+                    <div class="mb-4">
+                        <span class="inline-block bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">
+                            {{ affiliation.get_affiliation_type_display }}
+                        </span>
+                    </div>
+                    
+                    <p class="text-gray-600 leading-relaxed mb-6 text-sm">{{ affiliation.description }}</p>
+                    
+                    {% if affiliation.website %}
+                        <a href="{{ affiliation.website }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-external-link-alt mr-2"></i>
+                            Visit Website
+                        </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-16">
+                <i class="fas fa-handshake text-6xl text-gray-300 mb-4"></i>
+                <p class="text-gray-600 text-xl scroll-animate">No affiliations are available yet.</p>
+                <p class="text-gray-500 mt-2">Affiliation information will be added as it becomes available.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Affiliation Types Section -->
+<section class="py-16 bg-white px-4">
+    <div class="container mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-deuraligreen mb-4">Types of Affiliations</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Understanding our various partnerships and regulatory relationships.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-gavel text-white text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">Regulatory Bodies</h3>
+                <p class="text-gray-600 text-sm">Government agencies that oversee cooperative operations and ensure compliance.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-users text-white text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">Professional Associations</h3>
+                <p class="text-gray-600 text-sm">Industry organizations that promote best practices and professional development.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-handshake text-white text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">Partnerships</h3>
+                <p class="text-gray-600 text-sm">Strategic collaborations that enhance our services and community impact.</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-certificate text-white text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">Certification Bodies</h3>
+                <p class="text-gray-600 text-sm">Organizations that provide certifications and quality assurance standards.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

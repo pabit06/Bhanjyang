@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ service.name }} - Bhanjyang Cooperative{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-purple-600 to-purple-800 py-20">
+        <div class="container mx-auto px-6 text-center text-white">
+            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="{{ service.icon }} text-4xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ service.name }}</h1>
+            <p class="text-xl opacity-90">{{ service.get_service_type_display }}</p>
+        </div>
+    </section>
+
+    <!-- Service Details -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Service Details</h2>
+                        {% if service.description %}
+                        <div class="prose max-w-none mb-6">
+                            {{ service.description|linebreaks }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.features %}
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Features</h3>
+                            <div class="prose max-w-none">
+                                {{ service.features|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.fees %}
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Fees & Charges</h3>
+                            <div class="prose max-w-none">
+                                {{ service.fees|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">Service Information</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Service Type</span>
+                                <span class="font-semibold">{{ service.get_service_type_display }}</span>
+                            </div>
+                            
+                            {% if service.transfer_limit_min %}
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Min Transfer</span>
+                                <span class="font-semibold">NPR {{ service.transfer_limit_min|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if service.transfer_limit_max %}
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">Max Transfer</span>
+                                <span class="font-semibold">NPR {{ service.transfer_limit_max|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                            
+                            {% if service.processing_time %}
+                            <div class="flex justify-between items-center py-3">
+                                <span class="text-gray-600">Processing Time</span>
+                                <span class="font-semibold">{{ service.processing_time }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mt-8">
+                            <a href="{% url 'contact:contact_view' %}" 
+                               class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                                Get Started
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Services -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Other Remittance Services</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- This would be populated with related services -->
+                <div class="text-center text-gray-600">
+                    <p>Explore our other remittance options</p>
+                    <a href="{% url 'services:remittance_list' %}" class="text-purple-600 hover:underline">
+                        View All Remittance Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

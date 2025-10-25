@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Timeline - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our key milestones, achievements, and growth journey over the years.{% endblock meta_description %}
+
+{% block meta_keywords %}bhanjyang cooperative timeline, milestones, history, achievements, growth, development, cooperative journey{% endblock meta_keywords %}
+
+{% block breadcrumbs %}
+{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<section class="relative bg-white text-deuraligreen py-16 px-4">
+    <div class="container mx-auto text-center z-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">Our Timeline</h1>
+        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">Key milestones in our journey of growth and community service.</p>
+    </div>
+</section>
+
+<section class="py-16 bg-gray-50 px-4">
+    <div class="container mx-auto">
+        {% if page_obj %}
+            <div class="max-w-4xl mx-auto">
+                {% for event in page_obj %}
+                <div class="flex items-start mb-12 animated-element animate-in-up delay-{{ forloop.counter|add:"0" }}00">
+                    <div class="flex-shrink-0 w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mr-8">
+                        <i class="fas fa-calendar text-white text-xl"></i>
+                    </div>
+                    <div class="flex-grow bg-white p-8 rounded-lg shadow-lg hover-lift">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-2xl font-bold text-deuraligreen">{{ event.title }}</h3>
+                            <span class="text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">{{ event.event_date|date:"F d, Y" }}</span>
+                        </div>
+                        <div class="mb-4">
+                            <span class="inline-block bg-{{ event.event_type|default:'deuraligreen' }} text-white text-xs px-3 py-1 rounded-full mb-3">
+                                {{ event.get_event_type_display }}
+                            </span>
+                        </div>
+                        <p class="text-gray-600 leading-relaxed mb-4">{{ event.description }}</p>
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-64 object-cover rounded-lg">
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+            <div class="flex justify-center mt-12">
+                <nav class="flex items-center space-x-2">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    {% endif %}
+                    
+                    <span class="px-4 py-2 text-gray-600">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-16">
+                <i class="fas fa-history text-6xl text-gray-300 mb-4"></i>
+                <p class="text-gray-600 text-xl scroll-animate">No timeline events are available yet.</p>
+                <p class="text-gray-500 mt-2">Timeline events will be added as they become available.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}

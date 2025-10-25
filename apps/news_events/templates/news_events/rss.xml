@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>{{ site_name }} - News &amp; Events</title>
+    <link>{{ site_url }}/news-events/</link>
+    <description>Latest news and events from {{ site_name }}</description>
+    <language>en-us</language>
+    <lastBuildDate>{% now "r" %}</lastBuildDate>
+    <atom:link href="{{ site_url }}/news-events/rss/" rel="self" type="application/rss+xml" />
+    
+    {% for article in articles %}
+    <item>
+        <title>{{ article.title }}</title>
+        <link>{{ site_url }}{{ article.get_absolute_url }}</link>
+        <description>{{ article.excerpt|default:article.content|truncatewords:50|striptags }}</description>
+        <author>{{ article.author.email }} ({{ article.author.get_full_name|default:article.author.username }})</author>
+        <category>{{ article.category.name }}</category>
+        <pubDate>{{ article.published_date|date:"r" }}</pubDate>
+        <guid>{{ site_url }}{{ article.get_absolute_url }}</guid>
+    </item>
+    {% endfor %}
+    
+    {% for event in events %}
+    <item>
+        <title>{{ event.title }} (Event)</title>
+        <link>{{ site_url }}{{ event.get_absolute_url }}</link>
+        <description>{{ event.short_description|default:event.description|truncatewords:50|striptags }} - Event Date: {{ event.event_date|date:"F d, Y" }}</description>
+        <category>{{ event.get_event_type_display }}</category>
+        <pubDate>{{ event.created_at|date:"r" }}</pubDate>
+        <guid>{{ site_url }}{{ event.get_absolute_url }}</guid>
+    </item>
+    {% endfor %}
+</channel>
+</rss>
+

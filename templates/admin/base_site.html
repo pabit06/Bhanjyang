@@ -1,0 +1,101 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Bhanjyang Cooperative Admin{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="{% static 'images/Logo.png' %}" alt="Bhanjyang Cooperative Logo" style="height: 45px; margin-right: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(255, 255, 255, 0.3);">
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+            <span style="color: #DC3545; font-weight: 800; font-size: 24px; font-family: 'Montserrat', sans-serif; text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8), 0 0 8px rgba(255, 255, 255, 0.5);">BHANJYANG</span>
+            <span style="color: #28A745; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8), 0 0 4px rgba(255, 255, 255, 0.5);">Admin Panel</span>
+        </div>
+    </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+<div class="brand-nav">
+    <a href="{% url 'home:index' %}" class="nav-link" target="_blank">
+        <i class="fas fa-home"></i> Website
+    </a>
+    <a href="{% url 'dashboard:dashboard' %}" class="nav-link" target="_blank">
+        <i class="fas fa-chart-line"></i> Dashboard
+    </a>
+    <a href="{% url 'downloads:download_center' %}" class="nav-link" target="_blank">
+        <i class="fas fa-download"></i> Downloads
+    </a>
+    <a href="{% url 'contact:contact_view' %}" class="nav-link" target="_blank">
+        <i class="fas fa-envelope"></i> Contact
+    </a>
+    <a href="{% url 'services:overview' %}" class="nav-link" target="_blank">
+        <i class="fas fa-hand-holding-usd"></i> Services
+    </a>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/brand_admin.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
+
+{% block footer %}
+<div id="footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                <img src="{% static 'images/Logo.png' %}" alt="Bhanjyang Cooperative Logo" style="height: 40px; margin-right: 12px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.4);">
+                <div>
+                    <p style="margin: 0; font-weight: 700; color: white; font-size: 16px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 8px rgba(0, 0, 0, 0.5);">Bhanjyang Cooperative</p>
+                    <p style="margin: 0; font-size: 12px; color: rgba(255,255,255,0.8); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8), 0 0 4px rgba(0, 0, 0, 0.5);">Saving & Credit Cooperative Society Ltd.</p>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; color: rgba(255,255,255,0.9); font-size: 14px;">
+                    <i class="fas fa-map-marker-alt" style="color: #28A745; margin-right: 8px; width: 16px;"></i>
+                    Rupa R.M.-5, Deurali Bazar, Kaski
+                </div>
+                <div style="display: flex; align-items: center; color: rgba(255,255,255,0.9); font-size: 14px;">
+                    <i class="fas fa-phone-alt" style="color: #28A745; margin-right: 8px; width: 16px;"></i>
+                    <a href="tel:+9779856083101" style="color: rgba(255,255,255,0.9); text-decoration: none;">+977-9856083101</a>
+                </div>
+                <div style="display: flex; align-items: center; color: rgba(255,255,255,0.9); font-size: 14px;">
+                    <i class="fas fa-envelope" style="color: #28A745; margin-right: 8px; width: 16px;"></i>
+                    <a href="mailto:info@bhanjyang.coop.np" style="color: rgba(255,255,255,0.9); text-decoration: none;">info@bhanjyang.coop.np</a>
+                </div>
+            </div>
+            <div style="display: flex; gap: 12px; margin-bottom: 15px;">
+                <a href="https://facebook.com/cooperativebhanjyang" target="_blank" style="color: rgba(255,255,255,0.8); font-size: 18px; transition: color 0.3s;">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com" target="_blank" style="color: rgba(255,255,255,0.8); font-size: 18px; transition: color 0.3s;">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://tiktok.com/@bhanjyangsaccos" target="_blank" style="color: rgba(255,255,255,0.8); font-size: 18px; transition: color 0.3s;">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-links">
+                <a href="{% url 'home:index' %}" target="_blank">Website</a>
+                <a href="{% url 'dashboard:dashboard' %}" target="_blank">Dashboard</a>
+                <a href="{% url 'downloads:download_center' %}" target="_blank">Downloads</a>
+                <a href="{% url 'contact:contact_view' %}" target="_blank">Contact</a>
+                <a href="{% url 'services:overview' %}" target="_blank">Services</a>
+            </div>
+            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2);">
+                <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 12px;">
+                    &copy; {% now "Y" %} Bhanjyang Saving & Credit Cooperative Society Ltd.
+                </p>
+                <p style="margin: 5px 0 0 0; color: #28A745; font-size: 11px; font-weight: 500;">
+                    Empowering communities through cooperative values
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

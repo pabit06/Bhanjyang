@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-9wzh28q+91-ngv^=f(h&*^oa40^ref4+y@*=t*yca89^@qkcdx')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,192.168.1.84,localhost').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,192.168.1.82,localhost').split(',')
 
 
 # Application definition
@@ -38,26 +38,52 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    
+    # Third-party apps
+    'rest_framework',
+    'django_filters',
+    # 'corsheaders',  # Commented out until installed
+    # 'drf_spectacular',  # Commented out until installed
+    # 'django_extensions',  # Commented out until installed
+    
+    # Local apps (before staticfiles to override runserver command)
+    'apps.core',  # Core utilities and shared functionality
+    'apps.home',
+    'apps.about',  # About Us app (includes team functionality)
+    'apps.contact',
+    'apps.news_events',
+    'apps.downloads',
+    'apps.services',
+    'apps.search',
+    'apps.dashboard',
+    
     'django.contrib.staticfiles',
-    'main',
-    'templates',
-    'contact',
-    'updates',
-    'team',
-    'downloads',
-    'services',
 ]
+
+# Add debug toolbar for development
+# if DEBUG:
+#     INSTALLED_APPS += ['debug_toolbar']  # Commented out until installed
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',  # CORS middleware (early) - Commented out until installed
+    'apps.core.middleware.SecurityHeadersMiddleware',  # Security headers (before static files)
     'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'apps.core.middleware.RateLimitMiddleware',  # Rate limiting (after auth)
+    'apps.core.middleware.InputValidationMiddleware',  # Input validation
+    'apps.core.middleware.BruteForceProtectionMiddleware',  # Brute force protection
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'apps.dashboard.middleware.PerformanceMonitoringMiddleware',
 ]
+
+# Add debug toolbar middleware for development
+# if DEBUG:
+#     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']  # Commented out until installed
 
 ROOT_URLCONF = 'coop.urls'
 
@@ -71,6 +97,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.downloads.context_processors.admin_stats',
             ],
         },
     },
@@ -99,6 +126,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 12,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -134,6 +164,19 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Celery Configuration
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
+CELERY_TASK_SOFT_TIME_LIMIT = 60  # 1 minute
+CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+CELERY_TASK_ALWAYS_EAGER = True  # Set to True for testing
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -152,19 +195,212 @@ SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # CSRF Settings
-CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://127.0.0.1:8000,http://localhost:8000').split(',')
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://127.0.0.1:8000,http://localhost:8000,http://127.0.0.1:5555,http://localhost:5555,http://192.168.1.82:5555,http://192.168.1.82:8000').split(',')
 
 # Session Settings
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
 CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
+SESSION_COOKIE_AGE = 1209600  # 2 weeks
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_NAME = 'bhanjyang_sessionid'
+CSRF_COOKIE_NAME = 'bhanjyang_csrftoken'
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Additional Security Settings
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
+SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
+
+# File Upload Security
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880   # 5MB
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+
+# Cache Configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 300,  # 5 minutes
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+            'CULL_FREQUENCY': 3,
+        }
+    },
+    'sessions': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'django_cache_sessions',
+        'TIMEOUT': 1209600,  # 2 weeks
+    },
+    'performance': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'performance-cache',
+        'TIMEOUT': 600,  # 10 minutes
+    }
+}
+
+# Cache Settings
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 300  # 5 minutes
+CACHE_MIDDLEWARE_KEY_PREFIX = 'bhanjyang'
 
 # Static Files Configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+        'detailed': {
+            'format': '[{asctime}] {levelname} {name} {process:d} {thread:d} {pathname}:{lineno:d} {funcName}() {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'django.log',
+            'maxBytes': 1024*1024*5,  # 5MB
+            'backupCount': 5,
+            'formatter': 'detailed',
+        },
+        'error_file': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'django_error.log',
+            'maxBytes': 1024*1024*5,  # 5MB
+            'backupCount': 5,
+            'formatter': 'detailed',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'performance': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'performance.log',
+            'maxBytes': 1024*1024*10,  # 10MB
+            'backupCount': 3,
+            'formatter': 'verbose',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['error_file', 'console', 'mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.security': {
+            'handlers': ['error_file', 'console', 'mail_admins'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'coop': {
+            'handlers': ['file', 'console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'performance': {
+            'handlers': ['performance', 'console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
+
+# --- DEVELOPMENT SERVER SETTINGS ---
+# Default port for Django development server
+DEFAULT_PORT = 5555
+
 # Securely load the SEND_REAL_EMAILS flag, defaulting to False if not set
 SEND_REAL_EMAILS = config('SEND_REAL_EMAILS', default=False, cast=bool)
+
+# --- REST FRAMEWORK SETTINGS ---
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # Commented out until installed
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/hour',
+        'user': '1000/hour'
+    }
+}
+
+# API Documentation Settings (commented out until drf_spectacular is installed)
+# SPECTACULAR_SETTINGS = {
+#     'TITLE': 'Bhanjyang Cooperative API',
+#     'DESCRIPTION': 'API for Bhanjyang Cooperative website',
+#     'VERSION': '1.0.0',
+#     'SERVE_INCLUDE_SCHEMA': False,
+#     'COMPONENT_SPLIT_REQUEST': True,
+#     'SCHEMA_PATH_PREFIX': '/api/v1/',
+# }
+
+# CORS Settings (commented out until corsheaders is installed)
+# CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000').split(',')
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only allow all origins in development
+
+# Debug Toolbar Settings (Development only)
+if DEBUG:
+    INTERNAL_IPS = [
+        '127.0.0.1',
+        'localhost',
+        '192.168.1.82',
+    ]
 
 if SEND_REAL_EMAILS:
     # --- PRODUCTION EMAIL SETTINGS ---
@@ -179,7 +415,16 @@ if SEND_REAL_EMAILS:
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
     
     DEFAULT_FROM_EMAIL = f"Bhanjyang Cooperative <{EMAIL_HOST_USER}>"
-    ADMINS = [('Your Name', 'your_personal_email@example.com')]
+    
+    # Error Reporting Configuration
+    ADMINS = [
+        ('Admin', config('ADMIN_EMAIL', default='admin@bhanjyang.coop.np')),
+        ('Developer', config('DEVELOPER_EMAIL', default='developer@bhanjyang.coop.np')),
+    ]
+    
+    # Additional email settings for error reporting
+    SERVER_EMAIL = EMAIL_HOST_USER
+    EMAIL_SUBJECT_PREFIX = '[Bhanjyang Coop Error] '
 
 else:
     # --- DEVELOPMENT EMAIL SETTINGS ---

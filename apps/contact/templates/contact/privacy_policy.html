@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Privacy Policy - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Read the privacy policy for Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock meta_description %}
+
+{% block breadcrumbs %}
+{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<section class="py-16 px-4 bg-white">
+    <div class="container mx-auto max-w-4xl">
+        <h1 class="text-3xl sm:text-4xl font-extrabold font-montserrat text-bhanjyangred mb-6">Privacy Policy</h1>
+        <p class="text-gray-700 mb-6">Last updated: {% now "F j, Y" %}</p>
+
+        <div class="prose max-w-none">
+            <h2>1. Introduction</h2>
+            <p>Bhanjyang Saving & Credit Cooperative Society Ltd. ("we", "our", "us") respects your privacy and is committed to protecting your personal information.</p>
+
+            <h2>2. Information We Collect</h2>
+            <ul>
+                <li>Contact details (name, email, phone) when you submit our contact form.</li>
+                <li>Technical data (IP address, user agent) for security and performance monitoring.</li>
+                <li>Optional files or attachments you provide for service-related purposes.</li>
+            </ul>
+
+            <h2>3. How We Use Your Information</h2>
+            <ul>
+                <li>Respond to your inquiries and provide customer support.</li>
+                <li>Improve website performance and security.</li>
+                <li>Comply with legal and regulatory obligations.</li>
+            </ul>
+
+            <h2>4. Sharing of Information</h2>
+            <p>We do not sell your personal information. We share data only with trusted service providers (e.g., email services) strictly for operational purposes, or when required by law.</p>
+
+            <h2>5. Data Retention</h2>
+            <p>We retain your information only as long as necessary for the purposes set out in this policy or as required by law.</p>
+
+            <h2>6. Cookies and Tracking</h2>
+            <p>We use essential cookies for session management and security. Analytics may be used to improve our services. You can control cookies through your browser settings.</p>
+
+            <h2>7. Your Rights</h2>
+            <p>You may request access, correction, or deletion of your personal data subject to legal limitations. Contact us at <a href="mailto:info@bhanjyang.coop.np">info@bhanjyang.coop.np</a>.</p>
+
+            <h2>8. Security</h2>
+            <p>We implement reasonable administrative, technical, and physical safeguards to protect your information. However, no method of transmission over the Internet is 100% secure.</p>
+
+            <h2>9. Third-Party Links</h2>
+            <p>Our site may contain links to third-party sites. We are not responsible for their content or privacy practices.</p>
+
+            <h2>10. Contact Us</h2>
+            <p>If you have questions about this policy, please contact us at <a href="mailto:info@bhanjyang.coop.np">info@bhanjyang.coop.np</a> or call <a href="tel:+9779856083101">+977-9856083101</a>.</p>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+

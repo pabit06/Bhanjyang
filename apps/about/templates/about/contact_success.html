@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Message Sent - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+    <meta name="description" content="Thank you for contacting Bhanjyang Cooperative. We have received your message and will respond soon.">
+    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+{% endblock extra_head %}
+
+{% block content %}
+    <!-- Success Section -->
+    <section class="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 bg-white">
+        <div class="container mx-auto max-w-2xl text-center">
+            <div class="mb-8">
+                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-check text-green-600 text-4xl"></i>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-bold text-deuraligreen mb-4">Message Sent Successfully!</h1>
+                <p class="text-lg text-gray-600 mb-8">
+                    Thank you for contacting Bhanjyang Multipurpose Cooperative Ltd. We have received your message and will respond to you within 24 hours.
+                </p>
+            </div>
+            
+            <div class="bg-himalwhite p-6 rounded-lg mb-8">
+                <h2 class="text-xl font-semibold text-deuraligreen mb-4">What happens next?</h2>
+                <div class="space-y-3 text-left">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-deuraligreen rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span class="text-white text-sm font-bold">1</span>
+                        </div>
+                        <p class="text-gray-700">We review your inquiry and categorize it based on your needs</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-deuraligreen rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span class="text-white text-sm font-bold">2</span>
+                        </div>
+                        <p class="text-gray-700">Our team prepares a detailed response with relevant information</p>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 bg-deuraligreen rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <span class="text-white text-sm font-bold">3</span>
+                        </div>
+                        <p class="text-gray-700">We send you a comprehensive reply via email</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{% url 'about:home' %}" class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-home mr-2"></i>Back to About Us
+                </a>
+                <a href="{% url 'about:contact' %}" class="border border-deuraligreen text-deuraligreen hover:bg-deuraligreen hover:text-white font-bold py-3 px-6 rounded-lg transition-colors">
+                    <i class="fas fa-envelope mr-2"></i>Send Another Message
+                </a>
+            </div>
+            
+            <div class="mt-12 p-6 bg-blue-50 rounded-lg">
+                <h3 class="font-semibold text-blue-900 mb-2">Need immediate assistance?</h3>
+                <p class="text-blue-800 mb-4">If you have urgent questions, please call us directly:</p>
+                <a href="tel:+977-61-XXXXXXX" class="text-blue-600 hover:text-blue-800 font-semibold">
+                    <i class="fas fa-phone mr-2"></i>+977-61-XXXXXXX
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

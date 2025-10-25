@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Search through Bhanjyang Cooperative's news articles, services, and team members. Find exactly what you're looking for quickly and easily.{% endblock meta_description %}
+
+{% block meta_keywords %}search, bhanjyang cooperative, news search, services search, team search, find information{% endblock meta_keywords %}
+
+{% block og_title %}Search Results - Bhanjyang Cooperative{% endblock og_title %}
+
+{% block og_description %}Search through Bhanjyang Cooperative's news articles, services, and team members.{% endblock og_description %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}Search Results - Bhanjyang Cooperative{% endblock twitter_title %}
+
+{% block twitter_description %}Search through Bhanjyang Cooperative's news articles, services, and team members.{% endblock twitter_description %}
+
+{% block schema_type %}SearchResultsPage{% endblock schema_type %}
+
+{% block schema_name %}Search Results - Bhanjyang Cooperative{% endblock schema_name %}
+
+{% block schema_description %}Search through Bhanjyang Cooperative's news articles, services, and team members.{% endblock schema_description %}
+
+{% block breadcrumbs %}
+{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+<section class="py-12 md:py-20 bg-gray-50">
+    <div class="container mx-auto px-6 max-w-6xl">
+        <!-- Search Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 text-deuraligreen">
+                Search Results
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                {% if query %}
+                    Found {{ total_results }} result{{ total_results|pluralize }} for "{{ query }}"
+                {% else %}
+                    Search through our news articles, services, and team members
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Search Form -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+            <form method="GET" action="{% url 'search:advanced_search' %}" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="md:col-span-3">
+                        {{ form.query }}
+                        {% if form.query.errors %}
+                            <div class="text-red-600 text-sm mt-1">{{ form.query.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {{ form.content_type }}
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="bg-deuraligreen hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search Results -->
+        {% if query %}
+            {% if page_obj %}
+                <div class="space-y-6">
+                    {% for result in page_obj %}
+                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 p-6">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-deuraligreen text-white">
+                                            {{ result.type }}
+                                        </span>
+                                        {% if result.category %}
+                                            <span class="text-sm text-gray-500">{{ result.category }}</span>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <h3 class="text-xl font-semibold text-deuraligreen mb-2 hover:text-bhanjyangred transition-colors">
+                                        <a href="{{ result.url }}">{{ result.title }}</a>
+                                    </h3>
+                                    
+                                    <p class="text-gray-600 mb-3 leading-relaxed">
+                                        {{ result.description }}
+                                    </p>
+                                    
+                                    {% if result.date %}
+                                        <div class="text-sm text-gray-500">
+                                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                            </svg>
+                                            {{ result.date|date:"F d, Y" }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="ml-4">
+                                    <a href="{{ result.url }}" class="inline-flex items-center text-deuraligreen hover:text-bhanjyangred transition-colors">
+                                        <span class="text-sm font-medium mr-1">View</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                    <div class="mt-12 flex justify-center">
+                        <nav class="flex items-center space-x-2">
+                            {% if page_obj.has_previous %}
+                                <a href="?query={{ query }}&content_type={{ content_type }}&page={{ page_obj.previous_page_number }}" 
+                                   class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                    Previous
+                                </a>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <span class="px-3 py-2 text-sm font-medium text-white bg-deuraligreen border border-deuraligreen rounded-md">
+                                        {{ num }}
+                                    </span>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <a href="?query={{ query }}&content_type={{ content_type }}&page={{ num }}" 
+                                       class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                        {{ num }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <a href="?query={{ query }}&content_type={{ content_type }}&page={{ page_obj.next_page_number }}" 
+                                   class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
+                                    Next
+                                </a>
+                            {% endif %}
+                        </nav>
+                    </div>
+                {% endif %}
+            {% else %}
+                <!-- No Results -->
+                <div class="text-center py-12">
+                    <div class="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">No results found</h3>
+                    <p class="text-gray-600 mb-6">
+                        We couldn't find any results for "{{ query }}". Try adjusting your search terms or browse our content categories.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="{% url 'news_events:article-list' %}" class="px-6 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-600 transition-colors">
+                            Browse News
+                        </a>
+                        <a href="{% url 'services:overview' %}" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                            Browse Services
+                        </a>
+                        <a href="{% url 'about:team' %}" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+                            Browse Team
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <!-- Search Tips -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-2xl font-semibold text-deuraligreen mb-6">Search Tips</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-900 mb-3">What you can search:</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                News articles and announcements
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Financial services and products
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Team members and staff
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Member relief programs
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-900 mb-3">Search suggestions:</h4>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Use specific keywords
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Try different content types
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Check spelling
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-4 h-4 text-deuraligreen mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Browse categories if needed
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}
