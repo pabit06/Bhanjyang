@@ -1,11 +1,11 @@
-from celery import shared_task
+# from celery import shared_task  # Commented out until celery is installed
 from django.core.mail import send_mail
 from django.conf import settings
 import logging
 
 logger = logging.getLogger(__name__)
 
-@shared_task(bind=True, max_retries=3)
+# @shared_task(bind=True, max_retries=3)  # Commented out until celery is installed
 def send_contact_email(self, submission_data):
     """
     Send contact form email to admin asynchronously
@@ -25,7 +25,7 @@ def send_contact_email(self, submission_data):
         # Retry the task
         raise self.retry(exc=exc, countdown=60, max_retries=3)
 
-@shared_task(bind=True, max_retries=3)
+# @shared_task(bind=True, max_retries=3)  # Commented out until celery is installed
 def send_auto_response_email(self, user_email, user_name, subject, submission_id):
     """
     Send auto-response email to user asynchronously
@@ -63,7 +63,7 @@ Bhanjyang Cooperative Team
         # Retry the task
         raise self.retry(exc=exc, countdown=60, max_retries=3)
 
-@shared_task
+# @shared_task  # Commented out until celery is installed
 def cleanup_old_contact_submissions():
     """
     Clean up old contact submissions (older than 1 year)

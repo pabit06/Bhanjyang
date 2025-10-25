@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 from django.utils import timezone
 from .models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, GalleryImage, NewsletterSubscriber,
+    ServiceHighlight, NewsletterSubscriber,
     ContactInquiry, PageView
 )
 
@@ -137,31 +137,6 @@ class ServiceHighlightAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(GalleryImage)
-class GalleryImageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'category', 'image_preview', 'is_featured', 'is_active']
-    list_filter = ['category', 'is_featured', 'is_active', 'created_at']
-    search_fields = ['title', 'description']
-    list_editable = ['is_featured', 'is_active']
-    ordering = ['order', '-created_at']
-    
-    fieldsets = (
-        ('Image Information', {
-            'fields': ('title', 'description', 'image', 'category')
-        }),
-        ('Display Settings', {
-            'fields': ('is_featured', 'is_active', 'order')
-        }),
-    )
-    
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html(
-                '<img src="{}" width="50" height="50" style="border-radius: 5px;" />',
-                obj.image.url
-            )
-        return "No Image"
-    image_preview.short_description = "Preview"
 
 
 @admin.register(NewsletterSubscriber)

@@ -1,0 +1,549 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Smart Collections - Bhanjyang Cooperative{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/gallery-lightbox.css' %}">
+<link rel="stylesheet" href="{% static 'css/advanced-animations.css' %}">
+<style>
+    .smart-collections-hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+    }
+    
+    .smart-collections-hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .smart-collections-hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .featured-collections {
+        padding: 4rem 0;
+        background: #f8fafc;
+    }
+    
+    .featured-collection-card {
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .featured-collection-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        border-color: #667eea;
+    }
+    
+    .collection-icon {
+        width: 4rem;
+        height: 4rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .collection-stats {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+    
+    .stat-item {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #667eea;
+    }
+    
+    .stat-label {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 0.25rem;
+    }
+    
+    .collections-grid {
+        padding: 4rem 0;
+    }
+    
+    .collection-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+    
+    .collection-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        border-color: #667eea;
+    }
+    
+    .collection-preview {
+        height: 200px;
+        background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .collection-preview-images {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 2px;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .preview-image {
+        background: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #9ca3af;
+        font-size: 0.875rem;
+    }
+    
+    .collection-info {
+        padding: 1.5rem;
+    }
+    
+    .collection-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.5rem;
+    }
+    
+    .collection-description {
+        color: #6b7280;
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+    
+    .collection-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+    }
+    
+    .collection-count {
+        background: #667eea;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .collection-update-btn {
+        background: #10b981;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .collection-update-btn:hover {
+        background: #059669;
+        transform: scale(1.05);
+    }
+    
+    .ai-criteria {
+        background: #f8fafc;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .ai-criteria h4 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+    
+    .ai-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+    
+    .ai-tag {
+        background: #e0e7ff;
+        color: #3730a3;
+        padding: 0.125rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+    }
+    
+    .smart-features {
+        background: linear-gradient(135deg, #1e293b, #334155);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+    }
+    
+    .smart-features h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .feature-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #60a5fa;
+    }
+    
+    .feature-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-description {
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+        .smart-collections-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .featured-collections {
+            padding: 2rem 0;
+        }
+        
+        .collections-grid {
+            padding: 2rem 0;
+        }
+        
+        .collection-preview {
+            height: 150px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="smart-collections-hero">
+    <div class="container mx-auto px-4">
+        <h1 class="fade-in-up">Smart Collections</h1>
+        <p class="fade-in-up" style="animation-delay: 0.2s;">
+            AI-powered collections that automatically organize your gallery images based on content, 
+            objects, scenes, and sentiment analysis.
+        </p>
+    </div>
+</section>
+
+<!-- Featured Collections -->
+<section class="featured-collections">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Featured Collections</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Discover our most popular AI-curated collections, automatically updated with new images
+            </p>
+        </div>
+        
+        {% if featured_collections %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for collection in featured_collections %}
+            <div class="featured-collection-card fade-in-up" style="animation-delay: {{ forloop.counter0|add:0.1 }}s;">
+                <div class="collection-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ collection.name }}</h3>
+                <p class="text-gray-600 mb-4">{{ collection.description }}</p>
+                
+                <div class="collection-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">{{ collection.get_image_count }}</div>
+                        <div class="stat-label">Images</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ collection.ai_tags|length }}</div>
+                        <div class="stat-label">AI Tags</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ collection.min_quality_score|floatformat:1 }}</div>
+                        <div class="stat-label">Min Quality</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="{% url 'gallery:smart_collection_detail' collection.id %}" 
+                       class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        View Collection
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <div class="text-gray-400 text-6xl mb-4">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">No Featured Collections Yet</h3>
+            <p class="text-gray-500">Create your first smart collection in the admin panel</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- All Collections -->
+<section class="collections-grid">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">All Smart Collections</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Browse all AI-powered collections and see how they automatically categorize your images
+            </p>
+        </div>
+        
+        {% if collections %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for collection_data in collections %}
+            {% with collection=collection_data.collection %}
+            <div class="collection-card fade-in-up" style="animation-delay: {{ forloop.counter0|add:0.1 }}s;">
+                <div class="collection-preview">
+                    {% if collection_data.images %}
+                    <div class="collection-preview-images">
+                        {% for image in collection_data.images|slice:":4" %}
+                        <div class="preview-image">
+                            <img src="{{ image.get_thumbnail_url }}" alt="{{ image.title }}" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center text-gray-400">
+                        <i class="fas fa-images text-4xl mb-2"></i>
+                        <p>No images yet</p>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="collection-info">
+                    <h3 class="collection-title">{{ collection.name }}</h3>
+                    <p class="collection-description">{{ collection.description }}</p>
+                    
+                    {% if collection.ai_tags %}
+                    <div class="ai-criteria">
+                        <h4>AI Criteria:</h4>
+                        <div class="ai-tags">
+                            {% for tag in collection.ai_tags %}
+                            <span class="ai-tag">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="collection-meta">
+                        <span class="collection-count">{{ collection_data.image_count }} images</span>
+                        <button class="collection-update-btn" 
+                                onclick="updateCollection({{ collection.id }})">
+                            <i class="fas fa-sync-alt mr-1"></i>
+                            Update
+                        </button>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <a href="{% url 'gallery:smart_collection_detail' collection.id %}" 
+                           class="text-blue-600 hover:text-blue-800 font-medium">
+                            View Collection →
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <div class="text-gray-400 text-6xl mb-4">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">No Smart Collections Yet</h3>
+            <p class="text-gray-500">Create your first smart collection in the admin panel</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Smart Features -->
+<section class="smart-features">
+    <div class="container mx-auto px-4">
+        <h2 class="fade-in-up">How Smart Collections Work</h2>
+        <p class="text-xl opacity-90 max-w-3xl mx-auto fade-in-up" style="animation-delay: 0.2s;">
+            Our AI analyzes your images to automatically create intelligent collections based on content, 
+            objects, scenes, and emotional sentiment.
+        </p>
+        
+        <div class="features-grid">
+            <div class="feature-item fade-in-up" style="animation-delay: 0.1s;">
+                <div class="feature-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h3 class="feature-title">AI Tag Analysis</h3>
+                <p class="feature-description">
+                    Automatically detect and categorize images based on AI-generated tags 
+                    like "meeting", "celebration", "team", and more.
+                </p>
+            </div>
+            
+            <div class="feature-item fade-in-up" style="animation-delay: 0.2s;">
+                <div class="feature-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3 class="feature-title">Object Detection</h3>
+                <p class="feature-description">
+                    Identify objects in images such as people, laptops, trophies, 
+                    decorations, and group them accordingly.
+                </p>
+            </div>
+            
+            <div class="feature-item fade-in-up" style="animation-delay: 0.3s;">
+                <div class="feature-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="feature-title">Sentiment Analysis</h3>
+                <p class="feature-description">
+                    Analyze the emotional tone of images to create collections 
+                    based on positive, professional, celebratory sentiments.
+                </p>
+            </div>
+            
+            <div class="feature-item fade-in-up" style="animation-delay: 0.4s;">
+                <div class="feature-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3 class="feature-title">Auto Updates</h3>
+                <p class="feature-description">
+                    Collections automatically update when new images are added, 
+                    ensuring your galleries stay organized without manual work.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/advanced-animations.js' %}"></script>
+<script>
+function updateCollection(collectionId) {
+    const button = event.target;
+    const originalText = button.innerHTML;
+    
+    // Show loading state
+    button.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i>Updating...';
+    button.disabled = true;
+    
+    fetch(`{% url 'gallery:update_smart_collection_api' 0 %}`.replace('0', collectionId), {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Show success message
+            button.innerHTML = '<i class="fas fa-check mr-1"></i>Updated!';
+            button.style.background = '#10b981';
+            
+            // Update the image count
+            const countElement = button.parentElement.querySelector('.collection-count');
+            if (countElement) {
+                countElement.textContent = `${data.image_count} images`;
+            }
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = '#10b981';
+                button.disabled = false;
+            }, 2000);
+        } else {
+            throw new Error(data.message || 'Update failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error updating collection:', error);
+        button.innerHTML = '<i class="fas fa-exclamation-triangle mr-1"></i>Error';
+        button.style.background = '#ef4444';
+        
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.style.background = '#10b981';
+            button.disabled = false;
+        }, 3000);
+    });
+}
+
+// Initialize animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Trigger fade-in animations
+    const elements = document.querySelectorAll('.fade-in-up');
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+});
+</script>
+{% endblock %}

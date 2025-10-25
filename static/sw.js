@@ -9,7 +9,7 @@ const STATIC_FILES = [
     '/about/',
     '/about/team/',
     '/about/contact/',
-    '/about/gallery/',
+    '/gallery/',
     '/static/css/dist/output.css',
     '/static/css/about-animations.css',
     '/static/css/advanced-animations.css',

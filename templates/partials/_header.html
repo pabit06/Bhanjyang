@@ -14,7 +14,7 @@
             <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
                 <i class="fas fa-headset mr-1 text-bhanjyangred"></i> Support
             </a>
-            <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
+            <a href="{% url 'members:member_login' %}" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
                 <i class="fas fa-user-circle mr-1 text-bhanjyangred"></i> Login
             </a>
         </div>
@@ -58,7 +58,7 @@
             <a href="{% url 'services:overview' %}" class="nav-link nav-link-underline hover-lift {% if app_name == 'services' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Services</a>
             <a href="{% url 'news_events:home' %}" class="nav-link nav-link-underline hover-lift {% if app_name == 'news_events' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">News & Events</a>
             <a href="{% url 'downloads:download_center' %}" class="nav-link nav-link-underline hover-lift text-deuraligreen hover:text-bhanjyangred">Downloads</a>
-            <a href="{% url 'home:gallery' %}" class="nav-link nav-link-underline hover-lift {% if url_name == 'gallery' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Gallery</a>
+            <a href="{% url 'gallery:gallery' %}" class="nav-link nav-link-underline hover-lift {% if url_name == 'gallery' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Gallery</a>
             <a href="{% url 'contact:contact_view' %}" class="nav-link nav-link-underline hover-lift {% if app_name == 'contact' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Contact Us</a>
 
             {% endwith %}
@@ -110,7 +110,7 @@
                 <a href="{% url 'services:overview' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Services</a>
                 <a href="{% url 'news_events:home' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">News & Events</a>
                 <a href="{% url 'downloads:download_center' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Downloads</a>
-                <a href="{% url 'home:gallery' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Gallery</a>
+                <a href="{% url 'gallery:gallery' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Gallery</a>
                 <a href="{% url 'contact:contact_view' %}" class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Contact Us</a>
             </nav>
         </div>

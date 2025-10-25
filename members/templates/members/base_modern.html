@@ -1,0 +1,262 @@
+{% load static %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}Bhanjyang Cooperative Member Portal{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}cooperative, member portal, banking, Nepal{% endblock %}">
+    
+    <title>{% block title %}Member Portal{% endblock %} - Bhanjyang Cooperative</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="{% static 'css/design-system/tokens.css' %}">
+    <link rel="stylesheet" href="{% static 'css/design-system/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/cards.css' %}">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/member-portal.css' %}">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="member-portal" x-data="memberPortal()">
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" x-show="loading" x-transition>
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container toast-top-right"></div>
+
+    <!-- Header -->
+    <header class="portal-header">
+        <div class="container">
+            <div class="header-content">
+                <!-- Logo -->
+                <div class="logo">
+                    <a href="{% url 'members:dashboard' %}">
+                        <img src="{% static 'images/logo.png' %}" alt="Bhanjyang Cooperative" class="logo-img">
+                        <span class="logo-text">Bhanjyang Cooperative</span>
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="main-nav" x-show="!mobileMenuOpen" x-transition>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="{% url 'members:dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                                <span class="nav-icon">📊</span>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'members:accounts' %}" class="nav-link {% if request.resolver_match.url_name == 'accounts' %}active{% endif %}">
+                                <span class="nav-icon">💳</span>
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'members:transactions' %}" class="nav-link {% if request.resolver_match.url_name == 'transactions' %}active{% endif %}">
+                                <span class="nav-icon">📋</span>
+                                Transactions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'members:loan_application' %}" class="nav-link {% if request.resolver_match.url_name == 'loan_application' %}active{% endif %}">
+                                <span class="nav-icon">💰</span>
+                                Loans
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'members:profile' %}" class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                                <span class="nav-icon">👤</span>
+                                Profile
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- User Menu -->
+                <div class="user-menu">
+                    <!-- Notifications -->
+                    <div class="notification-dropdown" x-data="{ open: false }">
+                        <button class="notification-btn" @click="open = !open" :class="{ 'has-notifications': unreadNotifications > 0 }">
+                            <span class="notification-icon">🔔</span>
+                            <span class="notification-badge" x-show="unreadNotifications > 0" x-text="unreadNotifications"></span>
+                        </button>
+                        
+                        <div class="notification-panel" x-show="open" @click.away="open = false" x-transition>
+                            <div class="notification-header">
+                                <h3>Notifications</h3>
+                                <button class="btn btn-sm btn-ghost" @click="markAllAsRead()">Mark all read</button>
+                            </div>
+                            <div class="notification-list">
+                                <template x-for="notification in notifications" :key="notification.id">
+                                    <div class="notification-item" :class="{ 'unread': !notification.is_read }">
+                                        <div class="notification-content">
+                                            <h4 x-text="notification.title"></h4>
+                                            <p x-text="notification.message"></p>
+                                            <span class="notification-time" x-text="notification.created_at"></span>
+                                        </div>
+                                        <button class="notification-close" @click="markAsRead(notification.id)">×</button>
+                                    </div>
+                                </template>
+                                <div class="notification-empty" x-show="notifications.length === 0">
+                                    <p>No notifications</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dark Mode Toggle -->
+                    <button class="theme-toggle" @click="toggleTheme()" :title="darkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+                        <span x-show="!darkMode">🌙</span>
+                        <span x-show="darkMode">☀️</span>
+                    </button>
+
+                    <!-- User Profile Dropdown -->
+                    <div class="user-dropdown" x-data="{ open: false }">
+                        <button class="user-btn" @click="open = !open">
+                            <div class="user-avatar">
+                                <img :src="user.profile_photo || '/static/images/default-avatar.png'" :alt="user.first_name">
+                            </div>
+                            <span class="user-name" x-text="user.first_name"></span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        
+                        <div class="user-panel" x-show="open" @click.away="open = false" x-transition>
+                            <div class="user-info">
+                                <div class="user-avatar-large">
+                                    <img :src="user.profile_photo || '/static/images/default-avatar.png'" :alt="user.first_name">
+                                </div>
+                                <div class="user-details">
+                                    <h3 x-text="user.first_name + ' ' + user.last_name"></h3>
+                                    <p x-text="user.email"></p>
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <a href="{% url 'members:profile' %}" class="user-action">
+                                    <span class="action-icon">👤</span>
+                                    Profile Settings
+                                </a>
+                                <a href="{% url 'members:password_change' %}" class="user-action">
+                                    <span class="action-icon">🔒</span>
+                                    Change Password
+                                </a>
+                                <a href="{% url 'members:contact_support' %}" class="user-action">
+                                    <span class="action-icon">💬</span>
+                                    Contact Support
+                                </a>
+                                <hr class="user-divider">
+                                <a href="{% url 'members:logout' %}" class="user-action logout">
+                                    <span class="action-icon">🚪</span>
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" @click="mobileMenuOpen = !mobileMenuOpen">
+                        <span class="hamburger"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="portal-main">
+        <div class="container">
+            <!-- Breadcrumb -->
+            {% block breadcrumb %}
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'members:dashboard' %}">Dashboard</a>
+                    </li>
+                    {% block breadcrumb_items %}{% endblock %}
+                </ol>
+            </nav>
+            {% endblock %}
+
+            <!-- Page Header -->
+            {% block page_header %}
+            <div class="page-header">
+                <h1 class="page-title">{% block page_title %}Member Portal{% endblock %}</h1>
+                {% block page_subtitle %}{% endblock %}
+            </div>
+            {% endblock %}
+
+            <!-- Messages -->
+            {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" x-data x-init="Toast.{{ message.tags }}('{{ message|escapejs }}')">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Page Content -->
+            <div class="page-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="portal-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>&copy; {% now "Y" %} Bhanjyang Cooperative. All rights reserved.</p>
+                    <p>Member Portal v2.0 | <a href="{% url 'about:home' %}">About Us</a> | <a href="{% url 'contact:contact' %}">Contact</a></p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'js/components/Component.js' %}"></script>
+    <script src="{% static 'js/components/forms/FormField.js' %}"></script>
+    <script src="{% static 'js/components/forms/FileUpload.js' %}"></script>
+    <script src="{% static 'js/components/cards/StatCard.js' %}"></script>
+    <script src="{% static 'js/components/feedback/Toast.js' %}"></script>
+    <script src="{% static 'js/components/feedback/Modal.js' %}"></script>
+    <script src="{% static 'js/components/index.js' %}"></script>
+    
+    <!-- Member Portal JavaScript -->
+    <script src="{% static 'js/member-portal.js' %}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

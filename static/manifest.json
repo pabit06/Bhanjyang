@@ -97,7 +97,7 @@
       "name": "Gallery",
       "short_name": "Gallery",
       "description": "View our photo gallery",
-      "url": "/about/gallery/",
+      "url": "/gallery/",
       "icons": [
         {
           "src": "/static/favicon/favicon-32x32.png",

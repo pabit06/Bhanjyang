@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class TimeStampedModel(models.Model):
@@ -158,35 +158,6 @@ class ServiceHighlight(TimeStampedModel):
         return self.title
 
 
-class GalleryImage(TimeStampedModel):
-    """Images for the gallery section"""
-    title = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='gallery/')
-    category = models.CharField(
-        max_length=20,
-        choices=[
-            ('events', 'Events'),
-            ('team', 'Team'),
-            ('office', 'Office'),
-            ('community', 'Community'),
-            ('awards', 'Awards'),
-        ],
-        default='events'
-    )
-    is_featured = models.BooleanField(default=False, help_text="Show on home page")
-    is_active = models.BooleanField(default=True)
-    order = models.PositiveIntegerField(default=0)
-    
-    class Meta:
-        ordering = ['order', '-created_at']
-        verbose_name = "Gallery Image"
-        verbose_name_plural = "Gallery Images"
-    
-    def __str__(self):
-        return self.title
-
-
 class NewsletterSubscriber(TimeStampedModel):
     """Newsletter subscribers"""
     email = models.EmailField(unique=True)
@@ -224,7 +195,7 @@ class ContactInquiry(TimeStampedModel):
     )
     is_resolved = models.BooleanField(default=False)
     resolved_at = models.DateTimeField(blank=True, null=True)
-    resolved_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    resolved_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     response = models.TextField(blank=True, help_text="Response to the inquiry")
     
     class Meta:

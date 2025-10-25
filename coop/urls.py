@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import render
 # These two imports are necessary for serving media files during development
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,6 +15,12 @@ urlpatterns = [
     path('downloads/', include('apps.downloads.urls')),
     path('services/', include('apps.services.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
+    
+    # Gallery app
+    path('gallery/', include('gallery.urls')),
+    
+    # Member management system
+    path('members/', include('members.urls')),
     
     # API URLs (commented out until dependencies are installed)
     # path('api/v1/', include('apps.services.api_urls')),

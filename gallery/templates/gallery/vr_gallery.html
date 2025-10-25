@@ -1,0 +1,606 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}VR Gallery - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Experience our gallery in virtual reality with immersive 360° photo viewing{% endblock meta_description %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/advanced-animations.css' %}">
+<style>
+    /* VR Gallery Styles */
+    .vr-gallery-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #000;
+        z-index: 9999;
+        display: none;
+    }
+    
+    .vr-gallery-container.active {
+        display: block;
+        animation: vrFadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes vrFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .vr-viewport {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        perspective: 1000px;
+        overflow: hidden;
+    }
+    
+    .vr-image-sphere {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 200%;
+        height: 200%;
+        transform: translate(-50%, -50%);
+        background-size: cover;
+        background-position: center;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+    }
+    
+    .vr-controls {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 1rem;
+        z-index: 10000;
+    }
+    
+    .vr-control-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 1rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+    }
+    
+    .vr-control-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.1);
+    }
+    
+    .vr-info {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        max-width: 300px;
+        z-index: 10000;
+    }
+    
+    .vr-exit {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 1rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        z-index: 10000;
+    }
+    
+    .vr-exit:hover {
+        background: rgba(255, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+    
+    .vr-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 1.5rem;
+        z-index: 10000;
+    }
+    
+    .vr-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid white;
+        border-radius: 50%;
+        animation: vrSpin 1s linear infinite;
+        margin: 0 auto 1rem;
+    }
+    
+    @keyframes vrSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Mobile VR Styles */
+    @media (max-width: 768px) {
+        .vr-controls {
+            bottom: 1rem;
+            gap: 0.5rem;
+        }
+        
+        .vr-control-btn {
+            padding: 0.75rem;
+        }
+        
+        .vr-info {
+            top: 1rem;
+            left: 1rem;
+            padding: 0.75rem 1rem;
+            max-width: 250px;
+        }
+        
+        .vr-exit {
+            top: 1rem;
+            right: 1rem;
+            padding: 0.75rem;
+        }
+    }
+    
+    /* Gyroscope indicator */
+    .gyroscope-indicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 100px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .gyroscope-indicator.active {
+        opacity: 1;
+    }
+    
+    .gyroscope-dot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 10px;
+        background: white;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- VR Gallery Container -->
+<div class="vr-gallery-container" id="vr-gallery">
+    <div class="vr-viewport" id="vr-viewport">
+        <div class="vr-image-sphere" id="vr-image-sphere"></div>
+        
+        <!-- Gyroscope indicator -->
+        <div class="gyroscope-indicator" id="gyroscope-indicator">
+            <div class="gyroscope-dot" id="gyroscope-dot"></div>
+        </div>
+        
+        <!-- Loading spinner -->
+        <div class="vr-loading" id="vr-loading">
+            <div class="vr-spinner"></div>
+            <div>Loading VR Experience...</div>
+        </div>
+        
+        <!-- Image info -->
+        <div class="vr-info" id="vr-info">
+            <h3 id="vr-title">Image Title</h3>
+            <p id="vr-description">Image description</p>
+            <div id="vr-meta">
+                <small>Category: <span id="vr-category"></span></small><br>
+                <small>Album: <span id="vr-album"></span></small>
+            </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="vr-controls">
+            <button class="vr-control-btn" id="vr-prev" title="Previous Image">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="vr-control-btn" id="vr-play-pause" title="Play/Pause">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="vr-control-btn" id="vr-next" title="Next Image">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="vr-control-btn" id="vr-fullscreen" title="Fullscreen">
+                <i class="fas fa-expand"></i>
+            </button>
+        </div>
+        
+        <!-- Exit button -->
+        <button class="vr-exit" id="vr-exit" title="Exit VR">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+<!-- VR Gallery Button -->
+<div class="fixed bottom-6 right-6 z-50">
+    <button class="btn-advanced ripple" id="enter-vr-btn">
+        <i class="fas fa-vr-cardboard mr-2"></i>
+        Enter VR Gallery
+    </button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/advanced-animations.js' %}"></script>
+<script>
+class VRGallery {
+    constructor() {
+        this.isActive = false;
+        this.currentImageIndex = 0;
+        this.images = [];
+        this.isPlaying = false;
+        this.playInterval = null;
+        this.deviceOrientation = { alpha: 0, beta: 0, gamma: 0 };
+        this.isGyroscopeSupported = false;
+        
+        this.init();
+    }
+    
+    init() {
+        this.loadImages();
+        this.setupEventListeners();
+        this.checkGyroscopeSupport();
+    }
+    
+    loadImages() {
+        // Load images from Django context
+        this.images = [
+            {% for image in gallery_images %}
+            {
+                id: {{ image.id }},
+                src: '{{ image.image.url }}',
+                title: '{{ image.title|escapejs }}',
+                description: '{{ image.description|escapejs }}',
+                category: '{{ image.category }}',
+                album: '{% if image.album %}{{ image.album.name|escapejs }}{% else %}No Album{% endif %}'
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+    }
+    
+    setupEventListeners() {
+        // Enter VR button
+        document.getElementById('enter-vr-btn').addEventListener('click', () => {
+            this.enterVR();
+        });
+        
+        // Exit VR button
+        document.getElementById('vr-exit').addEventListener('click', () => {
+            this.exitVR();
+        });
+        
+        // Navigation controls
+        document.getElementById('vr-prev').addEventListener('click', () => {
+            this.previousImage();
+        });
+        
+        document.getElementById('vr-next').addEventListener('click', () => {
+            this.nextImage();
+        });
+        
+        // Play/Pause
+        document.getElementById('vr-play-pause').addEventListener('click', () => {
+            this.togglePlayPause();
+        });
+        
+        // Fullscreen
+        document.getElementById('vr-fullscreen').addEventListener('click', () => {
+            this.toggleFullscreen();
+        });
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (!this.isActive) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    this.exitVR();
+                    break;
+                case 'ArrowLeft':
+                    this.previousImage();
+                    break;
+                case 'ArrowRight':
+                    this.nextImage();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    this.togglePlayPause();
+                    break;
+                case 'f':
+                case 'F':
+                    this.toggleFullscreen();
+                    break;
+            }
+        });
+        
+        // Mouse/touch controls for image rotation
+        this.setupMouseControls();
+        this.setupTouchControls();
+    }
+    
+    setupMouseControls() {
+        const viewport = document.getElementById('vr-viewport');
+        let isMouseDown = false;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        
+        viewport.addEventListener('mousedown', (e) => {
+            isMouseDown = true;
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+        });
+        
+        viewport.addEventListener('mousemove', (e) => {
+            if (!isMouseDown || !this.isActive) return;
+            
+            const deltaX = e.clientX - lastMouseX;
+            const deltaY = e.clientY - lastMouseY;
+            
+            this.rotateImage(deltaX, deltaY);
+            
+            lastMouseX = e.clientX;
+            lastMouseY = e.clientY;
+        });
+        
+        viewport.addEventListener('mouseup', () => {
+            isMouseDown = false;
+        });
+        
+        viewport.addEventListener('mouseleave', () => {
+            isMouseDown = false;
+        });
+    }
+    
+    setupTouchControls() {
+        const viewport = document.getElementById('vr-viewport');
+        let lastTouchX = 0;
+        let lastTouchY = 0;
+        
+        viewport.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            lastTouchX = touch.clientX;
+            lastTouchY = touch.clientY;
+        });
+        
+        viewport.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!this.isActive) return;
+            
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - lastTouchX;
+            const deltaY = touch.clientY - lastTouchY;
+            
+            this.rotateImage(deltaX, deltaY);
+            
+            lastTouchX = touch.clientX;
+            lastTouchY = touch.clientY;
+        });
+    }
+    
+    checkGyroscopeSupport() {
+        if (typeof DeviceOrientationEvent !== 'undefined' && 
+            typeof DeviceOrientationEvent.requestPermission === 'function') {
+            this.isGyroscopeSupported = true;
+        }
+    }
+    
+    async enterVR() {
+        if (this.images.length === 0) {
+            alert('No images available for VR gallery');
+            return;
+        }
+        
+        // Request gyroscope permission on iOS
+        if (this.isGyroscopeSupported) {
+            try {
+                const permission = await DeviceOrientationEvent.requestPermission();
+                if (permission !== 'granted') {
+                    console.warn('Gyroscope permission denied');
+                }
+            } catch (error) {
+                console.warn('Error requesting gyroscope permission:', error);
+            }
+        }
+        
+        this.isActive = true;
+        document.getElementById('vr-gallery').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Show loading
+        document.getElementById('vr-loading').style.display = 'block';
+        
+        // Load first image
+        await this.loadImage(0);
+        
+        // Hide loading
+        document.getElementById('vr-loading').style.display = 'none';
+        
+        // Start gyroscope if supported
+        this.startGyroscope();
+        
+        // Show notification
+        if (window.advancedAnimations) {
+            window.advancedAnimations.showNotification('VR Gallery activated! Use mouse/touch to look around', 'info', 3000);
+        }
+    }
+    
+    exitVR() {
+        this.isActive = false;
+        this.stopPlayPause();
+        this.stopGyroscope();
+        
+        document.getElementById('vr-gallery').classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Show notification
+        if (window.advancedAnimations) {
+            window.advancedAnimations.showNotification('Exited VR Gallery', 'info', 2000);
+        }
+    }
+    
+    async loadImage(index) {
+        if (index < 0 || index >= this.images.length) return;
+        
+        this.currentImageIndex = index;
+        const image = this.images[index];
+        
+        // Update image sphere
+        const sphere = document.getElementById('vr-image-sphere');
+        sphere.style.backgroundImage = `url('${image.src}')`;
+        
+        // Update info
+        document.getElementById('vr-title').textContent = image.title;
+        document.getElementById('vr-description').textContent = image.description;
+        document.getElementById('vr-category').textContent = image.category;
+        document.getElementById('vr-album').textContent = image.album;
+        
+        // Reset rotation
+        sphere.style.transform = 'translate(-50%, -50%) rotateX(0deg) rotateY(0deg)';
+    }
+    
+    previousImage() {
+        const newIndex = this.currentImageIndex > 0 ? this.currentImageIndex - 1 : this.images.length - 1;
+        this.loadImage(newIndex);
+    }
+    
+    nextImage() {
+        const newIndex = this.currentImageIndex < this.images.length - 1 ? this.currentImageIndex + 1 : 0;
+        this.loadImage(newIndex);
+    }
+    
+    togglePlayPause() {
+        if (this.isPlaying) {
+            this.stopPlayPause();
+        } else {
+            this.startPlayPause();
+        }
+    }
+    
+    startPlayPause() {
+        this.isPlaying = true;
+        document.getElementById('vr-play-pause').innerHTML = '<i class="fas fa-pause"></i>';
+        
+        this.playInterval = setInterval(() => {
+            this.nextImage();
+        }, 3000); // Change image every 3 seconds
+    }
+    
+    stopPlayPause() {
+        this.isPlaying = false;
+        document.getElementById('vr-play-pause').innerHTML = '<i class="fas fa-play"></i>';
+        
+        if (this.playInterval) {
+            clearInterval(this.playInterval);
+            this.playInterval = null;
+        }
+    }
+    
+    rotateImage(deltaX, deltaY) {
+        const sphere = document.getElementById('vr-image-sphere');
+        const currentTransform = sphere.style.transform;
+        
+        // Extract current rotation values
+        const rotateXMatch = currentTransform.match(/rotateX\(([^)]+)\)/);
+        const rotateYMatch = currentTransform.match(/rotateY\(([^)]+)\)/);
+        
+        let rotateX = rotateXMatch ? parseFloat(rotateXMatch[1]) : 0;
+        let rotateY = rotateYMatch ? parseFloat(rotateYMatch[1]) : 0;
+        
+        // Update rotation
+        rotateY += deltaX * 0.5;
+        rotateX -= deltaY * 0.5;
+        
+        // Clamp rotation
+        rotateX = Math.max(-90, Math.min(90, rotateX));
+        
+        sphere.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+    
+    startGyroscope() {
+        if (!this.isGyroscopeSupported) return;
+        
+        window.addEventListener('deviceorientation', this.handleOrientation.bind(this));
+        document.getElementById('gyroscope-indicator').classList.add('active');
+    }
+    
+    stopGyroscope() {
+        window.removeEventListener('deviceorientation', this.handleOrientation.bind(this));
+        document.getElementById('gyroscope-indicator').classList.remove('active');
+    }
+    
+    handleOrientation(event) {
+        if (!this.isActive) return;
+        
+        this.deviceOrientation = {
+            alpha: event.alpha,
+            beta: event.beta,
+            gamma: event.gamma
+        };
+        
+        // Update gyroscope indicator
+        const dot = document.getElementById('gyroscope-dot');
+        const x = (event.gamma + 90) / 180 * 100; // Convert to percentage
+        const y = (event.beta + 90) / 180 * 100;
+        
+        dot.style.transform = `translate(${x - 50}px, ${y - 50}px)`;
+        
+        // Rotate image based on device orientation
+        const sphere = document.getElementById('vr-image-sphere');
+        const rotateY = event.gamma * 0.5;
+        const rotateX = event.beta * 0.5;
+        
+        sphere.style.transform = `translate(-50%, -50%) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+    
+    toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                console.warn('Error attempting to enable fullscreen:', err);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+}
+
+// Initialize VR Gallery when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    window.vrGallery = new VRGallery();
+});
+</script>
+{% endblock %}

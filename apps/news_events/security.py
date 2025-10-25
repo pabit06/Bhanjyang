@@ -9,8 +9,8 @@ import re
 from django.core.exceptions import ValidationError
 from django.core.cache import cache
 from django.utils import timezone
-from django_ratelimit.decorators import ratelimit
-from django_ratelimit.exceptions import Ratelimited
+# from django_ratelimit.decorators import ratelimit  # Commented out until installed
+# from django_ratelimit.exceptions import Ratelimited  # Commented out until installed
 from django.core.mail import send_mail
 from django.conf import settings
 import logging

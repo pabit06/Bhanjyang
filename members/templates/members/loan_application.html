@@ -1,0 +1,516 @@
+{% extends "members/base_member.html" %}
+{% load static %}
+
+{% block page_title %}Loan Application{% endblock %}
+
+{% block breadcrumb %}
+<li>
+    <div class="flex items-center">
+        <svg class="w-4 h-4 text-gray-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <span class="text-sm font-medium text-gray-500">Loan Application</span>
+    </div>
+</li>
+{% endblock %}
+
+{% block page_content %}
+<!-- Page Header -->
+<div class="mb-8">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900">Apply for Loan</h1>
+            <p class="mt-2 text-gray-600">Get the financial support you need with competitive rates</p>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button class="bg-primary-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                </svg>
+                Save Draft
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Application Progress -->
+<div class="mb-8">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-primary-600 text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
+                <span class="ml-2 text-sm font-medium text-primary-600">Loan Calculator</span>
+            </div>
+            <div class="w-16 h-0.5 bg-gray-300"></div>
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">2</div>
+                <span class="ml-2 text-sm font-medium text-gray-500">Application Form</span>
+            </div>
+            <div class="w-16 h-0.5 bg-gray-300"></div>
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">3</div>
+                <span class="ml-2 text-sm font-medium text-gray-500">Document Upload</span>
+            </div>
+            <div class="w-16 h-0.5 bg-gray-300"></div>
+            <div class="flex items-center">
+                <div class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-medium">4</div>
+                <span class="ml-2 text-sm font-medium text-gray-500">Review & Submit</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Loan Calculator -->
+    <div class="bg-white rounded-xl shadow-soft border border-gray-200 p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Loan Calculator</h2>
+        
+        <!-- Loan Type Selection -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-3">Loan Type</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <button class="loan-type-btn p-4 border border-gray-300 rounded-lg hover:border-primary-300 hover:bg-primary-50 transition-colors duration-200 text-left" data-type="personal">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-4 h-4 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">Personal Loan</div>
+                            <div class="text-sm text-gray-500">Up to Rs. 5,00,000</div>
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="loan-type-btn p-4 border border-gray-300 rounded-lg hover:border-primary-300 hover:bg-primary-50 transition-colors duration-200 text-left" data-type="home">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-success-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-4 h-4 text-success-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">Home Loan</div>
+                            <div class="text-sm text-gray-500">Up to Rs. 50,00,000</div>
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="loan-type-btn p-4 border border-gray-300 rounded-lg hover:border-primary-300 hover:bg-primary-50 transition-colors duration-200 text-left" data-type="business">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-warning-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-4 h-4 text-warning-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">Business Loan</div>
+                            <div class="text-sm text-gray-500">Up to Rs. 25,00,000</div>
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="loan-type-btn p-4 border border-gray-300 rounded-lg hover:border-primary-300 hover:bg-primary-50 transition-colors duration-200 text-left" data-type="education">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-info-100 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-4 h-4 text-info-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="font-medium text-gray-900">Education Loan</div>
+                            <div class="text-sm text-gray-500">Up to Rs. 10,00,000</div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Loan Amount -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Loan Amount</label>
+            <div class="relative">
+                <input type="number" id="loan-amount" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter amount" value="500000">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 text-sm">Rs.</span>
+                </div>
+            </div>
+            <div class="mt-2 flex justify-between text-sm text-gray-500">
+                <span>Rs. 50,000</span>
+                <span>Rs. 5,00,000</span>
+            </div>
+        </div>
+        
+        <!-- Loan Tenure -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Loan Tenure</label>
+            <div class="relative">
+                <input type="number" id="loan-tenure" class="w-full pr-12 pl-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter tenure" value="36">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 text-sm">months</span>
+                </div>
+            </div>
+            <div class="mt-2 flex justify-between text-sm text-gray-500">
+                <span>12 months</span>
+                <span>60 months</span>
+            </div>
+        </div>
+        
+        <!-- Interest Rate -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Interest Rate</label>
+            <div class="relative">
+                <input type="number" id="interest-rate" class="w-full pr-12 pl-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter rate" value="15.0" step="0.1">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 text-sm">% p.a.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calculate Button -->
+        <button id="calculate-btn" class="w-full bg-primary-600 text-white py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200 mb-6">
+            Calculate EMI
+        </button>
+        
+        <!-- EMI Calculation Results -->
+        <div id="emi-results" class="bg-gray-50 rounded-lg p-4 space-y-3">
+            <div class="flex justify-between">
+                <span class="text-sm text-gray-600">Monthly EMI</span>
+                <span class="text-lg font-semibold text-gray-900" id="monthly-emi">Rs. 17,332</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-sm text-gray-600">Total Interest</span>
+                <span class="text-sm font-medium text-gray-900" id="total-interest">Rs. 1,23,952</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-sm text-gray-600">Total Amount</span>
+                <span class="text-sm font-medium text-gray-900" id="total-amount">Rs. 6,23,952</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Eligibility Checker -->
+    <div class="bg-white rounded-xl shadow-soft border border-gray-200 p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Eligibility Checker</h2>
+        
+        <!-- Monthly Income -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Income</label>
+            <div class="relative">
+                <input type="number" id="monthly-income" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter income" value="50000">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 text-sm">Rs.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Monthly Expenses -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Expenses</label>
+            <div class="relative">
+                <input type="number" id="monthly-expenses" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter expenses" value="20000">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 text-sm">Rs.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Existing Loans -->
+        <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Existing Loan EMIs</label>
+            <div class="relative">
+                <input type="number" id="existing-emis" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Enter existing EMIs" value="5000">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500 text-sm">Rs.</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Check Eligibility Button -->
+        <button id="check-eligibility-btn" class="w-full bg-success-600 text-white py-3 rounded-lg font-medium hover:bg-success-700 transition-colors duration-200 mb-6">
+            Check Eligibility
+        </button>
+        
+        <!-- Eligibility Results -->
+        <div id="eligibility-results" class="bg-gray-50 rounded-lg p-4 space-y-3">
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600">Eligible Amount</span>
+                <span class="text-lg font-semibold text-success-600" id="eligible-amount">Rs. 3,00,000</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600">Eligibility Score</span>
+                <span class="text-sm font-medium text-gray-900" id="eligibility-score">85%</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600">Status</span>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-success-100 text-success-800" id="eligibility-status">Eligible</span>
+            </div>
+        </div>
+        
+        <!-- Eligibility Tips -->
+        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+            <h4 class="text-sm font-medium text-blue-900 mb-2">Tips to Improve Eligibility</h4>
+            <ul class="text-sm text-blue-800 space-y-1">
+                <li>• Maintain a good credit score</li>
+                <li>• Reduce existing debt</li>
+                <li>• Increase monthly income</li>
+                <li>• Provide additional collateral</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Loan Comparison -->
+<div class="mt-8 bg-white rounded-xl shadow-soft border border-gray-200 p-6">
+    <h2 class="text-xl font-semibold text-gray-900 mb-6">Loan Comparison</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Personal Loan -->
+        <div class="border border-gray-200 rounded-lg p-4 hover:border-primary-300 hover:shadow-md transition-all duration-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-gray-900">Personal Loan</h3>
+                <span class="text-sm text-gray-500">15% p.a.</span>
+            </div>
+            <div class="space-y-2 mb-4">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">EMI</span>
+                    <span class="font-medium">Rs. 17,332</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Total Interest</span>
+                    <span class="font-medium">Rs. 1,23,952</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Processing Fee</span>
+                    <span class="font-medium">2%</span>
+                </div>
+            </div>
+            <button class="w-full bg-primary-600 text-white py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200">
+                Select This Loan
+            </button>
+        </div>
+        
+        <!-- Home Loan -->
+        <div class="border border-gray-200 rounded-lg p-4 hover:border-primary-300 hover:shadow-md transition-all duration-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-gray-900">Home Loan</h3>
+                <span class="text-sm text-gray-500">12% p.a.</span>
+            </div>
+            <div class="space-y-2 mb-4">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">EMI</span>
+                    <span class="font-medium">Rs. 16,607</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Total Interest</span>
+                    <span class="font-medium">Rs. 97,852</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Processing Fee</span>
+                    <span class="font-medium">1.5%</span>
+                </div>
+            </div>
+            <button class="w-full bg-primary-600 text-white py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200">
+                Select This Loan
+            </button>
+        </div>
+        
+        <!-- Business Loan -->
+        <div class="border border-gray-200 rounded-lg p-4 hover:border-primary-300 hover:shadow-md transition-all duration-200">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-gray-900">Business Loan</h3>
+                <span class="text-sm text-gray-500">18% p.a.</span>
+            </div>
+            <div class="space-y-2 mb-4">
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">EMI</span>
+                    <span class="font-medium">Rs. 18,057</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Total Interest</span>
+                    <span class="font-medium">Rs. 1,50,052</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Processing Fee</span>
+                    <span class="font-medium">2.5%</span>
+                </div>
+            </div>
+            <button class="w-full bg-primary-600 text-white py-2 rounded-lg font-medium hover:bg-primary-700 transition-colors duration-200">
+                Select This Loan
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Next Steps -->
+<div class="mt-8 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl p-6 text-white">
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="text-lg font-semibold mb-2">Ready to Apply?</h3>
+            <p class="text-primary-100">Complete your loan application in just a few simple steps</p>
+        </div>
+        <button class="bg-white text-primary-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200">
+            Start Application
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Initialize loan application page functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize loan calculator
+        initializeLoanCalculator();
+        
+        // Initialize eligibility checker
+        initializeEligibilityChecker();
+        
+        // Initialize loan type selection
+        initializeLoanTypeSelection();
+        
+        // Initialize loan comparison
+        initializeLoanComparison();
+    });
+    
+    function initializeLoanCalculator() {
+        const calculateBtn = document.getElementById('calculate-btn');
+        const loanAmount = document.getElementById('loan-amount');
+        const loanTenure = document.getElementById('loan-tenure');
+        const interestRate = document.getElementById('interest-rate');
+        
+        calculateBtn.addEventListener('click', function() {
+            calculateEMI();
+        });
+        
+        // Auto-calculate on input change
+        [loanAmount, loanTenure, interestRate].forEach(input => {
+            input.addEventListener('input', function() {
+                calculateEMI();
+            });
+        });
+        
+        // Initial calculation
+        calculateEMI();
+    }
+    
+    function calculateEMI() {
+        const principal = parseFloat(document.getElementById('loan-amount').value) || 0;
+        const tenure = parseFloat(document.getElementById('loan-tenure').value) || 0;
+        const rate = parseFloat(document.getElementById('interest-rate').value) || 0;
+        
+        if (principal > 0 && tenure > 0 && rate > 0) {
+            const monthlyRate = rate / (12 * 100);
+            const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenure)) / 
+                       (Math.pow(1 + monthlyRate, tenure) - 1);
+            
+            const totalAmount = emi * tenure;
+            const totalInterest = totalAmount - principal;
+            
+            document.getElementById('monthly-emi').textContent = `Rs. ${Math.round(emi).toLocaleString()}`;
+            document.getElementById('total-interest').textContent = `Rs. ${Math.round(totalInterest).toLocaleString()}`;
+            document.getElementById('total-amount').textContent = `Rs. ${Math.round(totalAmount).toLocaleString()}`;
+        }
+    }
+    
+    function initializeEligibilityChecker() {
+        const checkBtn = document.getElementById('check-eligibility-btn');
+        const monthlyIncome = document.getElementById('monthly-income');
+        const monthlyExpenses = document.getElementById('monthly-expenses');
+        const existingEmis = document.getElementById('existing-emis');
+        
+        checkBtn.addEventListener('click', function() {
+            checkEligibility();
+        });
+        
+        // Auto-check on input change
+        [monthlyIncome, monthlyExpenses, existingEmis].forEach(input => {
+            input.addEventListener('input', function() {
+                checkEligibility();
+            });
+        });
+        
+        // Initial check
+        checkEligibility();
+    }
+    
+    function checkEligibility() {
+        const income = parseFloat(document.getElementById('monthly-income').value) || 0;
+        const expenses = parseFloat(document.getElementById('monthly-expenses').value) || 0;
+        const existingEmis = parseFloat(document.getElementById('existing-emis').value) || 0;
+        
+        if (income > 0) {
+            const disposableIncome = income - expenses - existingEmis;
+            const eligibleAmount = disposableIncome * 40; // 40% of disposable income
+            const eligibilityScore = Math.min(100, Math.round((disposableIncome / income) * 100));
+            
+            document.getElementById('eligible-amount').textContent = `Rs. ${Math.round(eligibleAmount).toLocaleString()}`;
+            document.getElementById('eligibility-score').textContent = `${eligibilityScore}%`;
+            
+            const statusElement = document.getElementById('eligibility-status');
+            if (eligibilityScore >= 70) {
+                statusElement.textContent = 'Eligible';
+                statusElement.className = 'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-success-100 text-success-800';
+            } else if (eligibilityScore >= 50) {
+                statusElement.textContent = 'Conditional';
+                statusElement.className = 'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-warning-100 text-warning-800';
+            } else {
+                statusElement.textContent = 'Not Eligible';
+                statusElement.className = 'inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-danger-100 text-danger-800';
+            }
+        }
+    }
+    
+    function initializeLoanTypeSelection() {
+        const loanTypeButtons = document.querySelectorAll('.loan-type-btn');
+        
+        loanTypeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                loanTypeButtons.forEach(btn => {
+                    btn.classList.remove('border-primary-500', 'bg-primary-50');
+                    btn.classList.add('border-gray-300');
+                });
+                
+                // Add active class to clicked button
+                this.classList.remove('border-gray-300');
+                this.classList.add('border-primary-500', 'bg-primary-50');
+                
+                // Update interest rate based on loan type
+                const loanType = this.dataset.type;
+                updateInterestRate(loanType);
+            });
+        });
+    }
+    
+    function updateInterestRate(loanType) {
+        const interestRateInput = document.getElementById('interest-rate');
+        const rates = {
+            'personal': 15.0,
+            'home': 12.0,
+            'business': 18.0,
+            'education': 14.0
+        };
+        
+        if (rates[loanType]) {
+            interestRateInput.value = rates[loanType];
+            calculateEMI();
+        }
+    }
+    
+    function initializeLoanComparison() {
+        const selectButtons = document.querySelectorAll('.loan-comparison button');
+        
+        selectButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const loanType = this.closest('.border').querySelector('h3').textContent;
+                console.log('Selected loan type:', loanType);
+                
+                // Update the main calculator with selected loan details
+                // This would typically update the form or proceed to next step
+            });
+        });
+    }
+</script>
+{% endblock %}

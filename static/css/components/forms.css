@@ -1,0 +1,340 @@
+/**
+ * Form Components
+ * 
+ * Professional form styles with validation states,
+ * accessibility features, and modern design for Bhanjyang Cooperative
+ */
+
+/* Form Field Container */
+.form-field {
+  margin-bottom: var(--space-6);
+}
+
+.form-field.field-focused {
+  position: relative;
+}
+
+.form-field.field-error {
+  --input-border-color: var(--color-error);
+  --input-border-color-focus: var(--color-error);
+}
+
+.form-field.field-success {
+  --input-border-color: var(--color-success);
+  --input-border-color-focus: var(--color-success);
+}
+
+.form-field.field-required label::after {
+  content: ' *';
+  color: var(--color-error);
+}
+
+.form-field.field-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Labels */
+.form-field label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  margin-bottom: var(--space-2);
+}
+
+.form-field label.required::after {
+  content: ' *';
+  color: var(--color-error);
+}
+
+/* Input Fields */
+.form-field input[type="text"],
+.form-field input[type="email"],
+.form-field input[type="password"],
+.form-field input[type="tel"],
+.form-field input[type="url"],
+.form-field input[type="search"],
+.form-field input[type="number"],
+.form-field textarea,
+.form-field select {
+  display: block;
+  width: 100%;
+  height: var(--input-height);
+  padding: var(--input-padding-y) var(--input-padding-x);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: 1.5;
+  color: var(--input-color);
+  background-color: var(--input-bg);
+  background-clip: padding-box;
+  border: var(--input-border-width) solid var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--input-border-color-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--input-placeholder-color);
+  opacity: 1;
+}
+
+.form-field input:disabled,
+.form-field textarea:disabled,
+.form-field select:disabled {
+  background-color: var(--color-gray-100);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Textarea */
+.form-field textarea {
+  height: auto;
+  min-height: 6rem;
+  resize: vertical;
+}
+
+/* Select */
+.form-field select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Checkbox and Radio */
+.form-field input[type="checkbox"],
+.form-field input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  margin-right: var(--space-2);
+  vertical-align: middle;
+}
+
+.form-field .checkbox-label,
+.form-field .radio-label {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+  cursor: pointer;
+}
+
+/* File Upload */
+.file-upload {
+  position: relative;
+  display: block;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.file-upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 8rem;
+  padding: var(--space-6);
+  border: 2px dashed var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-gray-50);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.file-upload-dropzone:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  background-color: rgba(37, 99, 235, 0.05);
+}
+
+.file-upload-drag-over {
+  border-color: var(--color-primary);
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.file-upload-icon {
+  font-size: var(--font-size-3xl);
+  color: var(--color-gray-400);
+  margin-bottom: var(--space-2);
+}
+
+.file-upload-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  text-align: center;
+}
+
+.file-upload-hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-top: var(--space-1);
+}
+
+/* File Upload Preview */
+.file-upload-preview {
+  margin-top: var(--space-4);
+}
+
+.file-upload-preview-image {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.file-upload-preview-file {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--color-gray-50);
+  border-radius: var(--radius-md);
+}
+
+.file-icon {
+  font-size: var(--font-size-xl);
+}
+
+.file-info {
+  flex: 1;
+}
+
+.file-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-900);
+}
+
+.file-size {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+/* Progress Bar */
+.file-upload-progress {
+  margin-top: var(--space-2);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 0.5rem;
+  background-color: var(--color-gray-200);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width var(--transition-base);
+}
+
+.progress-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  text-align: center;
+  margin-top: var(--space-1);
+}
+
+/* Error and Success Messages */
+.field-error-message {
+  display: none;
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+  margin-top: var(--space-1);
+}
+
+.field-help {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-top: var(--space-1);
+}
+
+/* Form Groups */
+.form-group {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.form-group .form-field {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-gray-200);
+}
+
+.form-actions .btn {
+  min-width: 6rem;
+}
+
+/* Form Validation States */
+.form-field.field-error .field-error-message {
+  display: block;
+}
+
+.form-field.field-success .field-success-message {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-success);
+  margin-top: var(--space-1);
+}
+
+/* Responsive Forms */
+@media (max-width: 768px) {
+  .form-group {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .form-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    border: 1px solid #000;
+    background-color: transparent;
+  }
+  
+  .file-upload-dropzone {
+    border: 1px solid #000;
+    background-color: transparent;
+  }
+}

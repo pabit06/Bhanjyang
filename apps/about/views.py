@@ -377,7 +377,7 @@ def gallery_view(request):
         'breadcrumbs': [
             {'name': 'Home', 'url': '/'},
             {'name': 'About Us', 'url': '/about/'},
-            {'name': 'Gallery', 'url': '/about/gallery/'}
+            {'name': 'Gallery', 'url': '/gallery/'}
         ],
     }
     return render(request, 'about/gallery.html', context)

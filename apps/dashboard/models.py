@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.conf import settings
 import json
 
 class PerformanceMetric(models.Model):
@@ -24,7 +24,7 @@ class PerformanceMetric(models.Model):
     user_agent = models.TextField(blank=True, null=True)
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     session_id = models.CharField(max_length=100, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     timestamp = models.DateTimeField(default=timezone.now)
     additional_data = models.JSONField(default=dict, blank=True)
     
@@ -48,7 +48,7 @@ class PageView(models.Model):
     user_agent = models.TextField(blank=True, null=True)
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     session_id = models.CharField(max_length=100, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     referrer = models.URLField(max_length=500, blank=True, null=True)
     timestamp = models.DateTimeField(default=timezone.now)
     is_mobile = models.BooleanField(default=False)
@@ -85,7 +85,7 @@ class ErrorLog(models.Model):
     user_agent = models.TextField(blank=True, null=True)
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     session_id = models.CharField(max_length=100, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     timestamp = models.DateTimeField(default=timezone.now)
     stack_trace = models.TextField(blank=True, null=True)
     additional_data = models.JSONField(default=dict, blank=True)
@@ -106,7 +106,7 @@ class UserSession(models.Model):
     """Model to track user sessions and behavior"""
     
     session_id = models.CharField(max_length=100, unique=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     ip_address = models.GenericIPAddressField()
     user_agent = models.TextField()
     start_time = models.DateTimeField(default=timezone.now)
@@ -144,7 +144,7 @@ class PerformanceReport(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     generated_at = models.DateTimeField(default=timezone.now)
-    generated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    generated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     report_data = models.JSONField()
     summary = models.TextField(blank=True)
     
@@ -178,7 +178,7 @@ class PerformanceAlert(models.Model):
     is_active = models.BooleanField(default=True)
     description = models.TextField(blank=True, help_text="Description of the alert")
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     
     class Meta:
         ordering = ['-created_at']
@@ -199,7 +199,7 @@ class AlertLog(models.Model):
     message = models.TextField()
     is_resolved = models.BooleanField(default=False)
     resolved_at = models.DateTimeField(null=True, blank=True)
-    resolved_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='resolved_alerts')
+    resolved_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='resolved_alerts')
     
     class Meta:
         ordering = ['-triggered_at']
@@ -227,7 +227,7 @@ class DashboardWidget(models.Model):
     config = models.JSONField(default=dict, help_text="Widget configuration")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     
     class Meta:
         ordering = ['position_y', 'position_x']
@@ -238,7 +238,7 @@ class DashboardWidget(models.Model):
 class UserDashboardPreference(models.Model):
     """Model to store user-specific dashboard preferences"""
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     theme = models.CharField(max_length=20, default='light', choices=[
         ('light', 'Light'),
         ('dark', 'Dark'),
@@ -266,7 +266,7 @@ class AuditLog(models.Model):
         ('suspicious_activity', 'Suspicious Activity'),
     ]
     
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     action_type = models.CharField(max_length=30, choices=ACTION_TYPES)
     description = models.TextField()
     ip_address = models.GenericIPAddressField()

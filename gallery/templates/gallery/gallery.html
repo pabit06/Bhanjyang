@@ -1,0 +1,908 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}Explore our stunning photo gallery showcasing events, activities, and community moments from Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock meta_description %}
+{% block meta_keywords %}Bhanjyang Cooperative, Gallery, Events, Activities, Community, Photos, Visual Stories{% endblock meta_keywords %}
+
+<!-- Gallery Hero Section Styles -->
+<style>
+/* Gallery Hero Section Styles */
+.gallery-hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #dc2626 100%) !important;
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+}
+
+.gallery-hero h1,
+.gallery-hero p,
+.gallery-hero div,
+.gallery-hero span,
+.gallery-hero i {
+    color: white !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+.gallery-hero h1 {
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
+}
+
+.gallery-hero p {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+}
+</style>
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/gallery-advanced.css' %}?v={{ timestamp }}">
+<style>
+/* Animation classes */
+.animate-fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Gallery Search Container */
+.gallery-search-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    margin-top: -3rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Masonry Grid */
+.masonry-grid {
+    column-count: 3;
+    column-gap: 1rem;
+    margin: 2rem 0;
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-width: 100%;
+}
+
+.masonry-item:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.masonry-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.4s ease;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .masonry-grid {
+        column-count: 2;
+        column-gap: 0.75rem;
+    }
+    
+    .masonry-item img {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .masonry-grid {
+        column-count: 1;
+        column-gap: 0.5rem;
+    }
+    
+    .masonry-item img {
+        max-height: 250px;
+    }
+}
+
+/* Featured Albums Section */
+.py-16 {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+}
+
+.bg-gray-50 {
+    background-color: #f9fafb !important;
+}
+
+.text-bhanjyangred {
+    color: #dc2626 !important;
+}
+
+.font-montserrat {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.grid {
+    display: grid !important;
+}
+
+.grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+
+.gap-8 {
+    gap: 2rem !important;
+}
+
+@media (min-width: 768px) {
+    .md\\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .lg\\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Album Cards - Matching Contact Card Design */
+.album-card {
+    cursor: pointer;
+}
+
+.animate-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.bg-white {
+    background-color: white !important;
+}
+
+.rounded-xl {
+    border-radius: 0.75rem !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.hover\\:shadow-xl:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+.transition-all {
+    transition-property: all !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-duration: 300ms !important;
+}
+
+.transform {
+    transform: translateZ(0) !important;
+}
+
+.hover\\:-translate-y-2:hover {
+    transform: translateY(-0.5rem) !important;
+}
+
+.h-48 {
+    height: 12rem !important;
+}
+
+.bg-gradient-to-br {
+    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important;
+}
+
+.from-bhanjyangred {
+    --tw-gradient-from: #dc2626 !important;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(220, 38, 38, 0)) !important;
+}
+
+.to-red-700 {
+    --tw-gradient-to: #b91c1c !important;
+}
+
+.text-white {
+    color: white !important;
+}
+
+.text-4xl {
+    font-size: 2.25rem !important;
+    line-height: 2.5rem !important;
+}
+
+.font-bold {
+    font-weight: 700 !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-12 {
+    margin-bottom: 3rem !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-gray-600 {
+    color: #4b5563 !important;
+}
+
+.max-w-2xl {
+    max-width: 42rem !important;
+}
+
+.mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Additional Album Card Styles */
+.p-6 {
+    padding: 1.5rem !important;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem !important;
+}
+
+.shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+}
+
+.hover\\:shadow-lg:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.transition-shadow {
+    transition-property: box-shadow !important;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-duration: 300ms !important;
+}
+
+.border-t-4 {
+    border-top-width: 4px !important;
+}
+
+.border-bhanjyangred {
+    border-color: #dc2626 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
+
+.h-32 {
+    height: 8rem !important;
+}
+
+.hover\\:scale-105:hover {
+    transform: scale(1.05) !important;
+}
+
+.font-semibold {
+    font-weight: 600 !important;
+}
+
+.text-gray-900 {
+    color: #111827 !important;
+}
+
+.text-gray-700 {
+    color: #374151 !important;
+}
+
+.text-gray-600 {
+    color: #4b5563 !important;
+}
+
+.leading-relaxed {
+    line-height: 1.625 !important;
+}
+
+.hover\\:underline:hover {
+    text-decoration: underline !important;
+}
+
+.text-xs {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+}
+
+.mr-1 {
+    margin-right: 0.25rem !important;
+}
+
+.ml-1 {
+    margin-left: 0.25rem !important;
+}
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Advanced Hero Section -->
+<section class="gallery-hero py-20 px-4 text-white relative" style="background: linear-gradient(135deg, #1e3a8a 0%, #dc2626 100%) !important; background-color: #1e3a8a !important;">
+    <div class="container mx-auto text-center relative z-10">
+        <div class="animate-fade-in-up">
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 drop-shadow-2xl">
+                Our Visual Story
+            </h1>
+            <p class="text-xl sm:text-2xl leading-relaxed max-w-4xl mx-auto mb-8 opacity-90">
+                Capturing moments of community, growth, and celebration through the lens of our cooperative journey.
+            </p>
+            <div class="flex justify-center items-center gap-4 text-lg">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-images text-2xl"></i>
+                    <span>{{ gallery_images|length }} Photos</span>
+                </div>
+                <div class="w-1 h-1 bg-white rounded-full opacity-50"></div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-folder text-2xl"></i>
+                    <span>{{ albums|length }} Albums</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Advanced Search and Filter Container -->
+<div class="container mx-auto px-4">
+    <div class="gallery-search-container">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Discover Our Gallery</h2>
+            <p class="text-gray-600">Search and filter through our collection of memories</p>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="relative mb-8">
+            <input type="text" id="gallery-search" class="search-input search-input-advanced" placeholder="Search photos, albums, or categories...">
+            <button id="clear-search" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab filter-tab-advanced ripple active" data-filter="all">
+                <i class="fas fa-th-large mr-2"></i>All Photos
+            </button>
+            <button class="filter-tab filter-tab-advanced ripple" data-filter="events">
+                <i class="fas fa-calendar mr-2"></i>Events
+            </button>
+            <button class="filter-tab filter-tab-advanced ripple" data-filter="team">
+                <i class="fas fa-users mr-2"></i>Team
+            </button>
+            <button class="filter-tab filter-tab-advanced ripple" data-filter="office">
+                <i class="fas fa-building mr-2"></i>Office
+            </button>
+            <button class="filter-tab filter-tab-advanced ripple" data-filter="community">
+                <i class="fas fa-heart mr-2"></i>Community
+            </button>
+            <button class="filter-tab filter-tab-advanced ripple" data-filter="activities">
+                <i class="fas fa-trophy mr-2"></i>Activities
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Albums Section -->
+<section class="py-16 px-6 bg-gray-50">
+    <div class="container mx-auto max-w-7xl">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-bhanjyangred font-montserrat mb-4">Featured Albums</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Explore our curated collections of memorable moments</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for album in albums %}
+                {% if album.is_featured %}
+                <div class="album-card animated-element animate-in-up delay-{{ forloop.counter0|add:1 }}" data-album-id="{{ album.id }}" onclick="showAlbum('{{ album.id }}')">
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred cursor-pointer">
+                        {% if album.cover_image %}
+                        <div class="mb-4 rounded-lg overflow-hidden">
+                            <img src="{{ album.cover_image.url }}" alt="{{ album.name }}" class="w-full h-32 object-cover transition-transform duration-300 hover:scale-105">
+                        </div>
+                        {% else %}
+                        <div class="mb-4 h-32 bg-gradient-to-br from-bhanjyangred to-red-700 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-images text-white text-3xl"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat">{{ album.name }}</h3>
+                        <div class="text-gray-700 leading-relaxed mb-4">
+                            {{ album.description|truncatewords:15|default:"Explore our collection of memorable moments and special events." }}
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">
+                                <i class="fas fa-images mr-1"></i>
+                                {{ album.images.count }} photos
+                            </span>
+                            <span class="text-bhanjyangred hover:underline font-semibold">
+                                View Album <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Advanced Masonry Gallery -->
+<section class="py-16 px-6 bg-white">
+    <div class="container mx-auto max-w-7xl">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-bhanjyangred font-montserrat mb-4">Photo Gallery</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Browse through our collection with advanced filtering and search</p>
+        </div>
+        
+        <!-- Masonry Grid -->
+        <div class="masonry-grid" id="masonry-gallery">
+            <!-- Images will be dynamically loaded here -->
+        </div>
+        
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loading-spinner">
+            <div class="spinner"></div>
+            <p class="mt-4 text-gray-600">Loading more photos...</p>
+        </div>
+        
+        <!-- Gallery Action Buttons -->
+        <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+            <a href="{% url 'gallery:analytics' %}" class="btn-advanced ripple">
+                <i class="fas fa-chart-line mr-2"></i>
+                Analytics
+            </a>
+            <a href="{% url 'gallery:smart_collections' %}" class="btn-advanced ripple">
+                <i class="fas fa-brain mr-2"></i>
+                Smart Collections
+            </a>
+            <a href="{% url 'gallery:vr_gallery' %}" class="btn-advanced ripple">
+                <i class="fas fa-vr-cardboard mr-2"></i>
+                Enter VR Gallery
+            </a>
+        </div>
+        
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button id="load-more-btn" class="bg-gradient-to-r from-bhanjyangred to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <i class="fas fa-plus mr-2"></i>Load More Photos
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Advanced Lightbox -->
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+        <button class="lightbox-nav lightbox-close" id="lightbox-close">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="lightbox-nav lightbox-next" id="lightbox-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <img class="lightbox-image" id="lightbox-image" alt="">
+        <div class="lightbox-info">
+            <h3 class="lightbox-title" id="lightbox-title"></h3>
+            <p class="lightbox-description" id="lightbox-description"></p>
+        </div>
+    </div>
+</div>
+
+<!-- Gallery Data -->
+<script type="application/json" id="gallery-data">
+{
+    "images": [
+        {% for image in gallery_images %}
+        {
+            "id": {{ image.id }},
+            "src": "{{ image.image.url }}",
+            "mobileSrc": "{{ image.get_mobile_image_url }}",
+            "tabletSrc": "{{ image.get_mobile_image_url }}",
+            "thumbnailSrc": "{{ image.get_thumbnail_url }}",
+            "alt": "{{ image.title|escapejs }}",
+            "caption": "{{ image.caption|escapejs }}",
+            "title": "{{ image.title|escapejs }}",
+            "category": "{{ image.category }}",
+            "album": {{ image.album.id }},
+            "albumName": "{{ image.album.name|escapejs }}",
+            "isFeatured": {{ image.is_featured|yesno:"true,false" }},
+            "fileSize": {{ image.get_file_size_mb }},
+            "dimensions": [{{ image.get_image_dimensions.0 }}, {{ image.get_image_dimensions.1 }}]
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "albums": {
+        {% for album in albums %}
+        "{{ album.id }}": {
+            "id": {{ album.id }},
+            "name": "{{ album.name|escapejs }}",
+            "description": "{{ album.description|escapejs }}",
+            "imageCount": {{ album.images.count }},
+            "isFeatured": {{ album.is_featured|yesno:"true,false" }}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    }
+}
+</script>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/advanced-animations.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Gallery page loaded');
+    
+    // Parse gallery data from JSON
+    const galleryDataElement = document.getElementById('gallery-data');
+    if (!galleryDataElement) {
+        console.error('Gallery data element not found!');
+        return;
+    }
+    
+    let galleryData;
+    try {
+        galleryData = JSON.parse(galleryDataElement.textContent);
+        console.log('Gallery data parsed successfully');
+        console.log('Images count:', galleryData.images.length);
+        console.log('Albums count:', Object.keys(galleryData.albums).length);
+    } catch (error) {
+        console.error('Error parsing gallery data:', error);
+        return;
+    }
+
+    // Advanced Gallery Manager
+    class AdvancedGalleryManager {
+        constructor() {
+            console.log('AdvancedGalleryManager constructor called');
+            this.currentFilter = 'all';
+            this.currentAlbum = null;
+            this.currentSearch = '';
+            this.currentIndex = 0;
+            this.imagesPerLoad = 12;
+            this.filteredImages = [...galleryData.images];
+            this.currentLightboxIndex = 0;
+            this.lightboxImages = [];
+            
+            console.log('filteredImages initialized with', this.filteredImages.length, 'images');
+            this.init();
+        }
+        
+        init() {
+            console.log('init() called - Version: {{ timestamp }}');
+            this.setupElements();
+            this.setupEventListeners();
+            this.renderGallery();
+            this.setupIntersectionObserver();
+            console.log('init() completed');
+        }
+        
+        setupIntersectionObserver() {
+            // Setup intersection observer for album cards animation
+            const animatedElements = document.querySelectorAll('.animated-element');
+            
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                });
+                
+                animatedElements.forEach(el => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px)';
+                    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    observer.observe(el);
+                });
+            } else {
+                // Fallback for browsers without IntersectionObserver
+                animatedElements.forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }
+        }
+        
+        setupElements() {
+            console.log('setupElements called');
+            this.masonryGrid = document.getElementById('masonry-gallery');
+            this.searchInput = document.getElementById('gallery-search');
+            this.clearSearchBtn = document.getElementById('clear-search');
+            this.loadMoreBtn = document.getElementById('load-more-btn');
+            this.loadingSpinner = document.getElementById('loading-spinner');
+            this.lightbox = document.getElementById('lightbox');
+            this.lightboxImage = document.getElementById('lightbox-image');
+            this.lightboxTitle = document.getElementById('lightbox-title');
+            this.lightboxDescription = document.getElementById('lightbox-description');
+            this.lightboxClose = document.getElementById('lightbox-close');
+            this.lightboxPrev = document.getElementById('lightbox-prev');
+            this.lightboxNext = document.getElementById('lightbox-next');
+            this.filterTabs = document.querySelectorAll('.filter-tab');
+            
+            console.log('masonryGrid found:', this.masonryGrid);
+            console.log('loadMoreBtn found:', this.loadMoreBtn);
+        }
+        
+        setupEventListeners() {
+            // Search functionality
+            this.searchInput.addEventListener('input', (e) => {
+                this.currentSearch = e.target.value.toLowerCase();
+                this.filterImages();
+            });
+            
+            // Clear search
+            this.clearSearchBtn.addEventListener('click', () => {
+                this.searchInput.value = '';
+                this.currentSearch = '';
+                this.filterImages();
+            });
+            
+            // Filter tabs
+            this.filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    this.filterTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    this.currentFilter = tab.dataset.filter;
+                    this.filterImages();
+                });
+            });
+            
+            // Load more button
+            this.loadMoreBtn.addEventListener('click', () => {
+                this.renderGallery();
+            });
+            
+            // Lightbox events
+            this.lightboxClose.addEventListener('click', () => {
+                this.closeLightbox();
+            });
+            
+            this.lightboxPrev.addEventListener('click', () => {
+                this.previousImage();
+            });
+            
+            this.lightboxNext.addEventListener('click', () => {
+                this.nextImage();
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (this.lightbox.classList.contains('active')) {
+                    if (e.key === 'Escape') this.closeLightbox();
+                    if (e.key === 'ArrowLeft') this.previousImage();
+                    if (e.key === 'ArrowRight') this.nextImage();
+                }
+            });
+        }
+        
+        filterImages() {
+            this.filteredImages = galleryData.images.filter(image => {
+                const matchesFilter = this.currentFilter === 'all' || image.category === this.currentFilter;
+                const matchesSearch = this.currentSearch === '' || 
+                    image.title.toLowerCase().includes(this.currentSearch) ||
+                    image.caption.toLowerCase().includes(this.currentSearch) ||
+                    image.albumName.toLowerCase().includes(this.currentSearch) ||
+                    image.category.toLowerCase().includes(this.currentSearch);
+                return matchesFilter && matchesSearch;
+            });
+            
+            this.currentIndex = 0;
+            this.masonryGrid.innerHTML = '';
+            this.renderGallery();
+        }
+        
+        renderGallery() {
+            console.log('renderGallery called');
+            console.log('masonryGrid element:', this.masonryGrid);
+            console.log('filteredImages length:', this.filteredImages.length);
+            console.log('currentIndex:', this.currentIndex);
+            
+            const endIndex = Math.min(this.currentIndex + this.imagesPerLoad, this.filteredImages.length);
+            console.log('Rendering from', this.currentIndex, 'to', endIndex);
+            
+            for (let i = this.currentIndex; i < endIndex; i++) {
+                const item = this.createMasonryItem(this.filteredImages[i], i);
+                this.masonryGrid.appendChild(item);
+                console.log('Added item', i, ':', this.filteredImages[i].title);
+            }
+            
+            this.currentIndex = endIndex;
+            console.log('Updated currentIndex to:', this.currentIndex);
+            
+            // Update load more button
+            if (this.currentIndex >= this.filteredImages.length) {
+                this.loadMoreBtn.style.display = 'none';
+            } else {
+                this.loadMoreBtn.style.display = 'block';
+            }
+            
+            // Trigger masonry layout
+            this.initMasonry();
+        }
+        
+        createMasonryItem(image, index) {
+            const item = document.createElement('div');
+            item.className = 'masonry-item gallery-item-advanced magnetic ripple fade-in-up';
+            item.dataset.index = index;
+            
+            item.innerHTML = `
+                <picture>
+                    <source media="(max-width: 480px)" srcset="${image.mobileSrc}">
+                    <source media="(max-width: 768px)" srcset="${image.tabletSrc}">
+                    <img src="${image.src}" alt="${image.alt}" loading="lazy">
+                </picture>
+                <div class="image-overlay">
+                    <h3 class="image-title">${image.title}</h3>
+                    <p class="image-category">${image.category}</p>
+                </div>
+            `;
+            
+            item.addEventListener('click', () => {
+                this.openLightbox(index);
+            });
+            
+            return item;
+        }
+        
+        initMasonry() {
+            // Simple masonry layout using CSS columns
+            // The CSS already handles the layout
+        }
+        
+        openLightbox(index) {
+            this.currentLightboxIndex = index;
+            this.lightboxImages = this.filteredImages;
+            this.updateLightboxImage();
+            this.lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        closeLightbox() {
+            this.lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        previousImage() {
+            this.currentLightboxIndex = (this.currentLightboxIndex - 1 + this.lightboxImages.length) % this.lightboxImages.length;
+            this.updateLightboxImage();
+        }
+        
+        nextImage() {
+            this.currentLightboxIndex = (this.currentLightboxIndex + 1) % this.lightboxImages.length;
+            this.updateLightboxImage();
+        }
+        
+        updateLightboxImage() {
+            const image = this.lightboxImages[this.currentLightboxIndex];
+            this.lightboxImage.src = image.src;
+            this.lightboxImage.alt = image.alt;
+            this.lightboxTitle.textContent = image.title;
+            this.lightboxDescription.textContent = image.caption || 'No description available';
+        }
+    }
+    
+    // Album functionality
+    function showAlbum(albumId) {
+        console.log('showAlbum called with:', albumId);
+        const galleryManager = window.galleryManager;
+        if (!galleryManager) {
+            console.error('Gallery manager not found');
+            return;
+        }
+        galleryManager.currentAlbum = parseInt(albumId);
+        galleryManager.currentFilter = 'all';
+        
+        // Update UI
+        document.querySelectorAll('.album-card').forEach(card => {
+            card.classList.remove('ring-2', 'ring-bhanjyangred');
+        });
+        
+        const selectedCard = document.querySelector(`[data-album-id="${albumId}"]`);
+        if (selectedCard) {
+            selectedCard.classList.add('ring-2', 'ring-bhanjyangred');
+        }
+        
+        // Filter images by album
+        galleryManager.filteredImages = galleryData.images.filter(image => image.album == albumId);
+        galleryManager.currentIndex = 0;
+        galleryManager.masonryGrid.innerHTML = '';
+        galleryManager.renderGallery();
+    }
+    
+    // Initialize gallery manager
+    window.galleryManager = new AdvancedGalleryManager();
+    
+    // Initialize album card animations
+    const albumCards = document.querySelectorAll('.album-card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in-up');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    albumCards.forEach(card => {
+        observer.observe(card);
+    });
+});
+
+// Load GSAP and ScrollTrigger first, then advanced animations
+const gsapScript = document.createElement('script');
+gsapScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js';
+gsapScript.onload = function() {
+    // Load ScrollTrigger after GSAP
+    const scrollTriggerScript = document.createElement('script');
+    scrollTriggerScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js';
+    scrollTriggerScript.onload = function() {
+        // Register ScrollTrigger plugin
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Now load advanced animations
+        const advancedAnimationsScript = document.createElement('script');
+        advancedAnimationsScript.src = '{% static "js/advanced-animations.js" %}?v=' + Date.now();
+        advancedAnimationsScript.onload = function() {
+            console.log('Advanced animations loaded successfully');
+        };
+        document.head.appendChild(advancedAnimationsScript);
+    };
+    document.head.appendChild(scrollTriggerScript);
+};
+document.head.appendChild(gsapScript);
+</script>
+{% endblock extra_js %}

@@ -23,10 +23,11 @@ logger = logging.getLogger(__name__)
 from apps.about.models import Committee, Membership, Person
 from .models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, GalleryImage, NewsletterSubscriber,
+    ServiceHighlight, NewsletterSubscriber,
     ContactInquiry, PageView
 )
 from .forms import ContactForm, NewsletterSignupForm
+from gallery.models import GalleryImage
 
 
 def track_page_view(request, page_url, page_title=""):
@@ -220,48 +221,6 @@ def about_view(request):
     return render(request, 'home/about.html', context)
 
 
-@cache_page(900)  # Cache for 15 minutes
-def gallery_view(request):
-    """
-    Enhanced gallery view with dynamic images
-    """
-    track_page_view(request, request.build_absolute_uri(), "Gallery - Bhanjyang Cooperative")
-    
-    cache_key = f'gallery_data_{request.user.is_staff}'
-    cached_data = cache.get(cache_key)
-    
-    if cached_data and not request.user.is_staff:
-        return render(request, 'home/gallery.html', cached_data)
-    
-    try:
-        gallery_images = GalleryImage.objects.filter(
-            is_active=True
-        ).order_by('order', '-created_at')
-        
-        # Group by category
-        categories = {}
-        for image in gallery_images:
-            if image.category not in categories:
-                categories[image.category] = []
-            categories[image.category].append(image)
-        
-    except Exception as e:
-        logger.error(f"Error fetching gallery data: {e}", exc_info=True)
-        categories = {}
-    
-    context = {
-        'breadcrumbs': [
-            {'name': 'Home', 'url': '/'},
-            {'name': 'Gallery', 'url': '/gallery/'}
-        ],
-        'categories': categories,
-        'gallery_images': gallery_images,
-    }
-    
-    # Cache for 15 minutes
-    cache.set(cache_key, context, 900)
-    
-    return render(request, 'home/gallery.html', context)
 
 
 def remittance_view(request):

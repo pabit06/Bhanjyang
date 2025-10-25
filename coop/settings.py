@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     
     # Third-party apps
-    'rest_framework',
-    'django_filters',
+    # 'rest_framework',  # Commented out until installed
+    # 'django_filters',  # Commented out until installed
     # 'corsheaders',  # Commented out until installed
     # 'drf_spectacular',  # Commented out until installed
     # 'django_extensions',  # Commented out until installed
@@ -57,12 +57,18 @@ INSTALLED_APPS = [
     'apps.search',
     'apps.dashboard',
     
+    'gallery.apps.GalleryConfig',  # Dedicated gallery app
+    'members',  # Re-enabled for template access
+    
     'django.contrib.staticfiles',
 ]
 
 # Add debug toolbar for development
 # if DEBUG:
 #     INSTALLED_APPS += ['debug_toolbar']  # Commented out until installed
+
+# Custom User Model
+# AUTH_USER_MODEL = 'members.MemberUser'  # Temporarily disabled for migration conflicts
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,6 +82,9 @@ MIDDLEWARE = [
     'apps.core.middleware.RateLimitMiddleware',  # Rate limiting (after auth)
     'apps.core.middleware.InputValidationMiddleware',  # Input validation
     'apps.core.middleware.BruteForceProtectionMiddleware',  # Brute force protection
+    # 'members.middleware.MemberAuthenticationMiddleware',  # Member authentication - Commented out until custom user model is active
+    # 'members.middleware.MemberActivityMiddleware',  # Member activity tracking - Commented out until custom user model is active
+    # 'members.middleware.MemberSecurityMiddleware',  # Member security - Commented out until custom user model is active
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'apps.dashboard.middleware.PerformanceMonitoringMiddleware',
@@ -181,6 +190,11 @@ CELERY_TASK_ALWAYS_EAGER = True  # Set to True for testing
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Authentication Settings
+LOGIN_URL = '/members/login/'
+LOGIN_REDIRECT_URL = '/members/dashboard/'
+LOGOUT_REDIRECT_URL = '/members/login/'
 
 # Security Settings
 SECURE_BROWSER_XSS_FILTER = True
@@ -343,7 +357,7 @@ LOGGING = {
 
 # --- DEVELOPMENT SERVER SETTINGS ---
 # Default port for Django development server
-DEFAULT_PORT = 5555
+DEFAULT_PORT = 8000
 
 # Securely load the SEND_REAL_EMAILS flag, defaulting to False if not set
 SEND_REAL_EMAILS = config('SEND_REAL_EMAILS', default=False, cast=bool)
@@ -393,6 +407,14 @@ REST_FRAMEWORK = {
 # CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000').split(',')
 # CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only allow all origins in development
+
+# CBS Integration Settings
+CBS_API_URL = config('CBS_API_URL', default='https://mock-cbs-api.com/api/v1')
+CBS_API_KEY = config('CBS_API_KEY', default='mock-api-key')
+CBS_API_SECRET = config('CBS_API_SECRET', default='mock-api-secret')
+CBS_API_TIMEOUT = config('CBS_API_TIMEOUT', default=30, cast=int)
+CBS_API_RETRY_ATTEMPTS = config('CBS_API_RETRY_ATTEMPTS', default=3, cast=int)
+CBS_ENCRYPTION_KEY = config('CBS_ENCRYPTION_KEY', default='mock-encryption-key')
 
 # Debug Toolbar Settings (Development only)
 if DEBUG:

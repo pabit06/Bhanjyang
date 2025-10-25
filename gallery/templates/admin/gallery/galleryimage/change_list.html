@@ -1,0 +1,156 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .bulk-upload-banner {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .bulk-upload-banner h3 {
+        margin: 0 0 1rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+    
+    .bulk-upload-banner p {
+        margin: 0 0 1rem 0;
+        opacity: 0.9;
+    }
+    
+    .bulk-upload-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        display: inline-block;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0.25rem;
+    }
+    
+    .bulk-upload-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+    
+    .admin-actions {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .admin-actions h4 {
+        margin: 0 0 0.5rem 0;
+        color: #495057;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+    
+    .action-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .action-link {
+        background: #007bff;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+    }
+    
+    .action-link:hover {
+        background: #0056b3;
+        color: white;
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+    
+    .action-link.drag-drop {
+        background: #28a745;
+    }
+    
+    .action-link.drag-drop:hover {
+        background: #1e7e34;
+    }
+    
+    .action-link.batch {
+        background: #6f42c1;
+    }
+    
+    .action-link.batch:hover {
+        background: #5a32a3;
+    }
+    
+    .action-link.smart {
+        background: #fd7e14;
+    }
+    
+    .action-link.smart:hover {
+        background: #e55a00;
+    }
+    
+    .action-link.auto {
+        background: #20c997;
+    }
+    
+    .action-link.auto:hover {
+        background: #17a085;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if show_bulk_upload %}
+<!-- Bulk Upload Banner -->
+<div class="bulk-upload-banner">
+    <h3><i class="fas fa-cloud-upload-alt mr-2"></i>Bulk Upload Images</h3>
+    <p>Upload multiple images at once with our advanced drag-and-drop interface</p>
+    <a href="{{ bulk_upload_url }}" class="bulk-upload-btn">
+        <i class="fas fa-upload mr-2"></i>Start Bulk Upload
+    </a>
+</div>
+
+<!-- Admin Actions -->
+<div class="admin-actions">
+    <h4><i class="fas fa-tools mr-2"></i>Quick Actions</h4>
+    <div class="action-links">
+        <a href="{{ bulk_upload_url }}" class="action-link">
+            <i class="fas fa-upload mr-1"></i>Bulk Upload
+        </a>
+        <a href="{{ drag_drop_url }}" class="action-link drag-drop">
+            <i class="fas fa-hand-paper mr-1"></i>Drag & Drop
+        </a>
+        <a href="{{ batch_operations_url }}" class="action-link batch">
+            <i class="fas fa-cogs mr-1"></i>Batch Operations
+        </a>
+        <a href="{% url 'admin:gallery_smartcollection_changelist' %}" class="action-link smart">
+            <i class="fas fa-brain mr-1"></i>Smart Collections
+        </a>
+        <a href="{% url 'admin:gallery_autocategorizationrule_changelist' %}" class="action-link auto">
+            <i class="fas fa-magic mr-1"></i>Auto Categorization
+        </a>
+    </div>
+</div>
+{% endif %}
+
+{{ block.super }}
+{% endblock %}

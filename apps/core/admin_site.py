@@ -60,3 +60,27 @@ class BhanjyangAdminSite(AdminSite):
 
 # Create custom admin site instance
 admin_site = BhanjyangAdminSite(name='bhanjyang_admin')
+
+# Register gallery models with custom admin site
+def register_gallery_models():
+    """Register gallery models with the custom admin site"""
+    try:
+        from gallery.models import GalleryImage, GalleryAlbum
+        from gallery.admin import GalleryImageAdmin, GalleryAlbumAdmin
+        
+        # Unregister from default admin site if already registered
+        from django.contrib import admin
+        if GalleryImage in admin.site._registry:
+            admin.site.unregister(GalleryImage)
+        if GalleryAlbum in admin.site._registry:
+            admin.site.unregister(GalleryAlbum)
+        
+        # Register with custom admin site
+        admin_site.register(GalleryImage, GalleryImageAdmin)
+        admin_site.register(GalleryAlbum, GalleryAlbumAdmin)
+        
+    except ImportError:
+        pass  # Gallery app not available
+
+# Register gallery models
+register_gallery_models()

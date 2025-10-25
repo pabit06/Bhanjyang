@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
-from django_ratelimit.decorators import ratelimit
-from django_ratelimit.exceptions import Ratelimited
+# from django_ratelimit.decorators import ratelimit  # Commented out until installed
+# from django_ratelimit.exceptions import Ratelimited  # Commented out until installed
 from .forms import ContactForm, KYMForm
 from .models import ContactSubmission
 from .tasks import send_contact_email, send_auto_response_email
@@ -24,8 +24,8 @@ def get_email_from_request(request):
             return None
     return None
 
-@ratelimit(key='ip', rate='5/m', method='POST', block=True)
-@ratelimit(key=get_email_from_request, rate='3/h', method='POST', block=True)
+# @ratelimit(key='ip', rate='5/m', method='POST', block=True)  # Commented out until installed
+# @ratelimit(key=get_email_from_request, rate='3/h', method='POST', block=True)  # Commented out until installed
 def contact_view(request):
     """
     Handles displaying the contact form and processing submitted data via Fetch API.

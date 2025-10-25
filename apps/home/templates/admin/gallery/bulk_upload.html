@@ -1,0 +1,344 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin-gallery.css' %}">
+<style>
+    .upload-area {
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 40px;
+        text-align: center;
+        background-color: #f9f9f9;
+        transition: all 0.3s ease;
+        margin: 20px 0;
+    }
+    
+    .upload-area.dragover {
+        border-color: #007cba;
+        background-color: #e7f3ff;
+    }
+    
+    .upload-area:hover {
+        border-color: #007cba;
+        background-color: #f0f8ff;
+    }
+    
+    .file-list {
+        margin-top: 20px;
+    }
+    
+    .file-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 5px 0;
+        background-color: white;
+    }
+    
+    .file-preview {
+        width: 50px;
+        height: 50px;
+        margin-right: 15px;
+        border-radius: 5px;
+        object-fit: cover;
+    }
+    
+    .file-info {
+        flex: 1;
+    }
+    
+    .file-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .file-size {
+        color: #666;
+        font-size: 0.9em;
+    }
+    
+    .remove-file {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 20px;
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background-color: #007cba;
+        transition: width 0.3s ease;
+    }
+    
+    .upload-status {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        display: none;
+    }
+    
+    .upload-status.success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+    }
+    
+    .upload-status.error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <h1>{{ title }}</h1>
+    
+    <form id="bulk-upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <div class="field-box">
+                <label for="album">Album:</label>
+                <select name="album" id="album">
+                    <option value="">No Album</option>
+                    {% for album in albums %}
+                        <option value="{{ album.id }}">{{ album.get_path }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="field-box">
+                <label for="category">Category:</label>
+                <select name="category" id="category">
+                    <option value="events">Events</option>
+                    <option value="team">Team</option>
+                    <option value="office">Office</option>
+                    <option value="community">Community</option>
+                    <option value="awards">Awards</option>
+                </select>
+            </div>
+            
+            <div class="field-box">
+                <label>
+                    <input type="checkbox" name="is_featured" id="is_featured">
+                    Mark as Featured
+                </label>
+            </div>
+        </div>
+        
+        <div class="upload-area" id="upload-area">
+            <div class="upload-content">
+                <i class="icon-upload" style="font-size: 48px; color: #ccc; margin-bottom: 20px;">📁</i>
+                <h3>Drag & Drop Images Here</h3>
+                <p>or <button type="button" id="select-files-btn" class="button">Browse Files</button></p>
+                <p class="help-text">Supports JPG, PNG, GIF, WebP formats</p>
+            </div>
+            <input type="file" id="file-input" name="images" multiple accept="image/*" style="display: none;">
+        </div>
+        
+        <div class="file-list" id="file-list" style="display: none;">
+            <h3>Selected Files:</h3>
+            <div id="files-container"></div>
+        </div>
+        
+        <div class="progress-bar" id="progress-bar" style="display: none;">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        
+        <div class="upload-status" id="upload-status"></div>
+        
+        <div class="submit-row">
+            <button type="submit" class="default" id="upload-btn" disabled>Upload Images</button>
+            <a href="{% url 'admin:home_galleryimage_changelist' %}" class="button">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('file-input');
+    const selectFilesBtn = document.getElementById('select-files-btn');
+    const fileList = document.getElementById('file-list');
+    const filesContainer = document.getElementById('files-container');
+    const uploadBtn = document.getElementById('upload-btn');
+    const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
+    const uploadStatus = document.getElementById('upload-status');
+    const form = document.getElementById('bulk-upload-form');
+    
+    let selectedFiles = [];
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+    
+    // File selection
+    selectFilesBtn.addEventListener('click', function() {
+        fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', function() {
+        handleFiles(this.files);
+    });
+    
+    function handleFiles(files) {
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+                selectedFiles.push(file);
+                displayFile(file);
+            }
+        });
+        
+        if (selectedFiles.length > 0) {
+            fileList.style.display = 'block';
+            uploadBtn.disabled = false;
+        }
+    }
+    
+    function displayFile(file) {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        
+        const preview = document.createElement('img');
+        preview.className = 'file-preview';
+        preview.src = URL.createObjectURL(file);
+        
+        const fileInfo = document.createElement('div');
+        fileInfo.className = 'file-info';
+        
+        const fileName = document.createElement('div');
+        fileName.className = 'file-name';
+        fileName.textContent = file.name;
+        
+        const fileSize = document.createElement('div');
+        fileSize.className = 'file-size';
+        fileSize.textContent = formatFileSize(file.size);
+        
+        fileInfo.appendChild(fileName);
+        fileInfo.appendChild(fileSize);
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-file';
+        removeBtn.textContent = 'Remove';
+        removeBtn.type = 'button';
+        removeBtn.addEventListener('click', function() {
+            fileItem.remove();
+            selectedFiles = selectedFiles.filter(f => f !== file);
+            if (selectedFiles.length === 0) {
+                fileList.style.display = 'none';
+                uploadBtn.disabled = true;
+            }
+        });
+        
+        fileItem.appendChild(preview);
+        fileItem.appendChild(fileInfo);
+        fileItem.appendChild(removeBtn);
+        
+        filesContainer.appendChild(fileItem);
+    }
+    
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+    
+    // Form submission with progress
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (selectedFiles.length === 0) {
+            showStatus('Please select files to upload.', 'error');
+            return;
+        }
+        
+        const formData = new FormData();
+        
+        // Add form fields
+        formData.append('album', document.getElementById('album').value);
+        formData.append('category', document.getElementById('category').value);
+        formData.append('is_featured', document.getElementById('is_featured').checked);
+        
+        // Add files
+        selectedFiles.forEach(file => {
+            formData.append('images', file);
+        });
+        
+        // Show progress bar
+        progressBar.style.display = 'block';
+        uploadBtn.disabled = true;
+        
+        // Upload with progress
+        const xhr = new XMLHttpRequest();
+        
+        xhr.upload.addEventListener('progress', function(e) {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                progressFill.style.width = percentComplete + '%';
+            }
+        });
+        
+        xhr.addEventListener('load', function() {
+            if (xhr.status === 200) {
+                showStatus('Images uploaded successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '{% url "admin:home_galleryimage_changelist" %}';
+                }, 2000);
+            } else {
+                showStatus('Error uploading images. Please try again.', 'error');
+                uploadBtn.disabled = false;
+            }
+        });
+        
+        xhr.addEventListener('error', function() {
+            showStatus('Error uploading images. Please try again.', 'error');
+            uploadBtn.disabled = false;
+        });
+        
+        xhr.open('POST', form.action);
+        xhr.send(formData);
+    });
+    
+    function showStatus(message, type) {
+        uploadStatus.textContent = message;
+        uploadStatus.className = 'upload-status ' + type;
+        uploadStatus.style.display = 'block';
+    }
+});
+</script>
+{% endblock %}

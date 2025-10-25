@@ -4,8 +4,22 @@ from . import views
 app_name = 'dashboard'
 
 urlpatterns = [
+    # Main Dashboard
     path('', views.DashboardView.as_view(), name='dashboard'),
+    
+    # Specialized Dashboard Sections
+    path('performance/', views.PerformanceDashboardView.as_view(), name='performance'),
+    path('analytics/', views.AnalyticsDashboardView.as_view(), name='analytics'),
+    path('errors/', views.ErrorDashboardView.as_view(), name='errors'),
+    path('reports/', views.ReportsDashboardView.as_view(), name='reports'),
+    
+    # API Endpoints
     path('api/', views.dashboard_api, name='api'),
+    path('api/performance/', views.performance_api, name='performance_api'),
+    path('api/analytics/', views.analytics_api, name='analytics_api'),
+    path('api/errors/', views.errors_api, name='errors_api'),
+    
+    # Tracking Endpoints
     path('track/page-view/', views.track_page_view, name='track_page_view'),
     path('track/error/', views.track_error, name='track_error'),
     path('track/image-load/', views.track_page_view, name='track_image_load'),
@@ -15,6 +29,8 @@ urlpatterns = [
     path('track/session-health/', views.track_page_view, name='track_session_health'),
     path('track/session-end/', views.track_page_view, name='track_session_end'),
     path('track/visibility/', views.track_page_view, name='track_visibility'),
+    
+    # Management Endpoints
     path('report/generate/', views.generate_dashboard_report, name='generate_report'),
     path('alerts/', views.get_alerts, name='get_alerts'),
     path('alerts/<int:alert_id>/resolve/', views.resolve_alert, name='resolve_alert'),

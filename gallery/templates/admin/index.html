@@ -1,0 +1,102 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .gallery-quick-actions {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .gallery-quick-actions h2 {
+        margin: 0 0 1rem 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+    
+    .gallery-quick-actions p {
+        margin: 0 0 1.5rem 0;
+        opacity: 0.9;
+        font-size: 1rem;
+    }
+    
+    .quick-action-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .quick-action-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .quick-action-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+        text-decoration: none;
+        transform: translateY(-2px);
+    }
+    
+    .quick-action-btn i {
+        font-size: 1.2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .quick-action-buttons {
+            flex-direction: column;
+        }
+        
+        .quick-action-btn {
+            justify-content: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Gallery Quick Actions -->
+<div class="gallery-quick-actions">
+    <h2><i class="fas fa-images mr-2"></i>Gallery Management</h2>
+    <p>Quick access to advanced gallery features and bulk operations</p>
+    <div class="quick-action-buttons">
+        <a href="{% url 'admin:gallery_bulk_upload' %}" class="quick-action-btn">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span>Bulk Upload Images</span>
+        </a>
+        <a href="{% url 'admin:gallery_drag_drop_upload' %}" class="quick-action-btn">
+            <i class="fas fa-hand-paper"></i>
+            <span>Drag & Drop Upload</span>
+        </a>
+        <a href="{% url 'admin:gallery_batch_operations' %}" class="quick-action-btn">
+            <i class="fas fa-cogs"></i>
+            <span>Batch Operations</span>
+        </a>
+        <a href="{% url 'admin:gallery_smartcollection_changelist' %}" class="quick-action-btn">
+            <i class="fas fa-brain"></i>
+            <span>Smart Collections</span>
+        </a>
+        <a href="{% url 'admin:gallery_autocategorizationrule_changelist' %}" class="quick-action-btn">
+            <i class="fas fa-magic"></i>
+            <span>Auto Categorization</span>
+        </a>
+    </div>
+</div>
+
+{{ block.super }}
+{% endblock %}

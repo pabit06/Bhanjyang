@@ -401,7 +401,7 @@ class HomeViewsTest(TestCase):
     
     def test_gallery_view(self):
         """Test gallery view"""
-        response = self.client.get(reverse('home:gallery'))
+        response = self.client.get(reverse('gallery:gallery'))
         self.assertEqual(response.status_code, 200)
     
     def test_remittance_view(self):

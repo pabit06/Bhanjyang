@@ -1,0 +1,380 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/admin-gallery.css' %}">
+<style>
+    .bulk-upload-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    .upload-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .upload-header h1 {
+        color: #2c3e50;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .upload-header p {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .upload-area {
+        border: 3px dashed #3498db;
+        border-radius: 15px;
+        padding: 60px 40px;
+        text-align: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        transition: all 0.3s ease;
+        margin: 2rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .upload-area::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(52, 152, 219, 0.1) 50%, transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+    
+    .upload-area:hover::before {
+        transform: translateX(100%);
+    }
+    
+    .upload-area.dragover {
+        border-color: #27ae60;
+        background: linear-gradient(135deg, #d5f4e6 0%, #c8e6c9 100%);
+        transform: scale(1.02);
+    }
+    
+    .upload-icon {
+        font-size: 4rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .upload-area.dragover .upload-icon {
+        color: #27ae60;
+        transform: scale(1.1);
+    }
+    
+    .upload-text {
+        font-size: 1.2rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    .upload-subtext {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+    
+    .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    .file-input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
+    
+    .file-input-btn {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    }
+    
+    .file-input-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+    
+    .upload-form {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        margin-top: 2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    
+    .form-check {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .form-check-input {
+        margin-right: 0.5rem;
+    }
+    
+    .form-check-label {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+    
+    .submit-btn {
+        background: linear-gradient(135deg, #27ae60, #229954);
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        width: 100%;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+    }
+    
+    .submit-btn:disabled {
+        background: #95a5a6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .drag-drop-hint {
+        background: #e8f4fd;
+        border: 1px solid #bee5eb;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+        color: #0c5460;
+    }
+    
+    .drag-drop-hint h4 {
+        margin: 0 0 0.5rem 0;
+        color: #0c5460;
+    }
+    
+    .drag-drop-hint ul {
+        margin: 0;
+        padding-left: 1.5rem;
+    }
+    
+    .drag-drop-hint li {
+        margin-bottom: 0.25rem;
+    }
+    
+    @media (max-width: 768px) {
+        .bulk-upload-container {
+            padding: 1rem;
+        }
+        
+        .upload-header h1 {
+            font-size: 2rem;
+        }
+        
+        .upload-area {
+            padding: 40px 20px;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bulk-upload-container">
+    <!-- Header -->
+    <div class="upload-header">
+        <h1><i class="fas fa-cloud-upload-alt mr-2"></i>{{ title }}</h1>
+        <p>Upload multiple images at once with our advanced drag-and-drop interface. Select images or drag them directly into the upload area.</p>
+    </div>
+
+    <!-- Upload Area -->
+    <div class="upload-area" id="upload-area">
+        <div class="upload-icon">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <div class="upload-text">Drop your images here</div>
+        <div class="upload-subtext">or click to select files</div>
+        
+        <div class="file-input-wrapper">
+            <input type="file" name="images" id="file-input" class="file-input" multiple accept="image/*">
+            <button type="button" class="file-input-btn" onclick="document.getElementById('file-input').click()">
+                <i class="fas fa-folder-open mr-2"></i>Choose Images
+            </button>
+        </div>
+    </div>
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data" class="upload-form">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="album" class="form-label">
+                <i class="fas fa-folder mr-2"></i>Album (Optional)
+            </label>
+            <select name="album" id="album" class="form-control">
+                <option value="">No Album</option>
+                {% for album in albums %}
+                <option value="{{ album.id }}">{{ album.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="category" class="form-label">
+                <i class="fas fa-tags mr-2"></i>Category
+            </label>
+            <select name="category" id="category" class="form-control">
+                <option value="events">Events</option>
+                <option value="team">Team</option>
+                <option value="office">Office</option>
+                <option value="community">Community</option>
+                <option value="awards">Awards</option>
+            </select>
+        </div>
+        
+        <div class="form-check">
+            <input type="checkbox" name="is_featured" id="is_featured" class="form-check-input">
+            <label for="is_featured" class="form-check-label">
+                <i class="fas fa-star mr-2"></i>Mark as Featured
+            </label>
+        </div>
+        
+        <button type="submit" class="submit-btn" id="submit-btn">
+            <i class="fas fa-upload mr-2"></i>Upload Images
+        </button>
+    </form>
+
+    <!-- Drag & Drop Hint -->
+    <div class="drag-drop-hint">
+        <h4><i class="fas fa-info-circle mr-2"></i>Tips for Best Results:</h4>
+        <ul>
+            <li>Supported formats: JPG, PNG, GIF, WebP</li>
+            <li>Maximum file size: 10MB per image</li>
+            <li>Images will be automatically optimized for web</li>
+            <li>AI analysis will be applied to categorize images</li>
+            <li>Mobile-optimized versions will be created automatically</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const uploadArea = document.getElementById('upload-area');
+    const fileInput = document.getElementById('file-input');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    // Drag and drop functionality
+    uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+    
+    uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+    });
+    
+    uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        fileInput.files = files;
+        updateFileCount();
+    });
+    
+    // File input change
+    fileInput.addEventListener('change', function() {
+        updateFileCount();
+    });
+    
+    // Update file count display
+    function updateFileCount() {
+        const files = fileInput.files;
+        if (files.length > 0) {
+            uploadArea.querySelector('.upload-text').textContent = `${files.length} file(s) selected`;
+            uploadArea.querySelector('.upload-subtext').textContent = 'Ready to upload';
+            submitBtn.disabled = false;
+        } else {
+            uploadArea.querySelector('.upload-text').textContent = 'Drop your images here';
+            uploadArea.querySelector('.upload-subtext').textContent = 'or click to select files';
+            submitBtn.disabled = true;
+        }
+    }
+    
+    // Form submission
+    document.querySelector('.upload-form').addEventListener('submit', function(e) {
+        const files = fileInput.files;
+        if (files.length === 0) {
+            e.preventDefault();
+            alert('Please select at least one image to upload.');
+            return;
+        }
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Uploading...';
+    });
+});
+</script>
+{% endblock %}

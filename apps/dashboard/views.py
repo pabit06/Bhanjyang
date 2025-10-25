@@ -4,7 +4,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Avg, Count, Q, F
+from django.db.models import Avg, Count, Q, F, Max, Min
 from django.utils import timezone
 from datetime import datetime, timedelta
 import json
@@ -715,3 +715,653 @@ def update_user_preferences(request):
             return JsonResponse({'error': 'Internal server error'}, status=500)
     
     return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+
+# Specialized Dashboard Views
+
+@method_decorator(staff_member_required, name='dispatch')
+class PerformanceDashboardView(TemplateView):
+    """Dedicated Performance Monitoring Dashboard"""
+    template_name = 'dashboard/performance.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        try:
+            now = timezone.now()
+            today = now.date()
+            week_ago = now - timedelta(days=7)
+            month_ago = now - timedelta(days=30)
+            
+            # Performance Metrics
+            context['performance_metrics'] = {
+                'avg_load_time_today': PageView.objects.filter(
+                    timestamp__date=today
+                ).aggregate(avg=Avg('load_time'))['avg'] or 0,
+                'avg_load_time_week': PageView.objects.filter(
+                    timestamp__gte=week_ago
+                ).aggregate(avg=Avg('load_time'))['avg'] or 0,
+                'avg_load_time_month': PageView.objects.filter(
+                    timestamp__gte=month_ago
+                ).aggregate(avg=Avg('load_time'))['avg'] or 0,
+            }
+            
+            # Database Performance
+            context['db_performance'] = PerformanceMetric.objects.filter(
+                metric_type='database_query',
+                timestamp__gte=week_ago
+            ).aggregate(
+                avg_time=Avg('value'),
+                max_time=Max('value'),
+                min_time=Min('value')
+            )
+            
+            # API Performance
+            context['api_performance'] = PerformanceMetric.objects.filter(
+                metric_type='api_response',
+                timestamp__gte=week_ago
+            ).aggregate(
+                avg_time=Avg('value'),
+                max_time=Max('value'),
+                min_time=Min('value')
+            )
+            
+            # Memory Usage
+            context['memory_usage'] = PerformanceMetric.objects.filter(
+                metric_type='memory_usage',
+                timestamp__gte=week_ago
+            ).aggregate(
+                avg_usage=Avg('value'),
+                max_usage=Max('value'),
+                min_usage=Min('value')
+            )
+            
+            # Slowest Pages
+            context['slowest_pages'] = PageView.objects.filter(
+                timestamp__gte=week_ago
+            ).values('page_url', 'page_title').annotate(
+                avg_load_time=Avg('load_time'),
+                count=Count('id')
+            ).order_by('-avg_load_time')[:10]
+            
+            # Performance Thresholds
+            context['performance_thresholds'] = {
+                'excellent_load_time': 1000,
+                'good_load_time': 2000,
+                'poor_load_time': 3000,
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in performance dashboard: {e}")
+            context.update({
+                'performance_metrics': {'avg_load_time_today': 0, 'avg_load_time_week': 0, 'avg_load_time_month': 0},
+                'db_performance': {'avg_time': 0, 'max_time': 0, 'min_time': 0},
+                'api_performance': {'avg_time': 0, 'max_time': 0, 'min_time': 0},
+                'memory_usage': {'avg_usage': 0, 'max_usage': 0, 'min_usage': 0},
+                'slowest_pages': [],
+                'performance_thresholds': {'excellent_load_time': 1000, 'good_load_time': 2000, 'poor_load_time': 3000}
+            })
+        
+        context['breadcrumbs'] = [
+            {'name': 'Home', 'url': '/'},
+            {'name': 'Dashboard', 'url': '/dashboard/'},
+            {'name': 'Performance', 'url': '/dashboard/performance/'}
+        ]
+        
+        return context
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class AnalyticsDashboardView(TemplateView):
+    """Dedicated Analytics Dashboard"""
+    template_name = 'dashboard/analytics.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        try:
+            now = timezone.now()
+            today = now.date()
+            week_ago = now - timedelta(days=7)
+            month_ago = now - timedelta(days=30)
+            
+            # Page Views Analytics
+            context['page_views'] = {
+                'today': PageView.objects.filter(timestamp__date=today).count(),
+                'week': PageView.objects.filter(timestamp__gte=week_ago).count(),
+                'month': PageView.objects.filter(timestamp__gte=month_ago).count(),
+            }
+            
+            # Most Visited Pages
+            context['most_visited'] = PageView.objects.filter(
+                timestamp__gte=week_ago
+            ).values('page_url', 'page_title').annotate(
+                count=Count('id'),
+                avg_load_time=Avg('load_time')
+            ).order_by('-count')[:10]
+            
+            # Device Statistics
+            context['device_stats'] = PageView.objects.filter(
+                timestamp__gte=week_ago
+            ).values('is_mobile').annotate(
+                count=Count('id')
+            )
+            
+            # Browser Statistics
+            context['browser_stats'] = PageView.objects.filter(
+                timestamp__gte=week_ago
+            ).values('browser').annotate(
+                count=Count('id')
+            ).order_by('-count')[:10]
+            
+            # User Sessions
+            context['user_sessions'] = UserSession.objects.filter(
+                start_time__gte=week_ago
+            ).aggregate(
+                total_sessions=Count('id'),
+                avg_duration=Avg('duration'),
+                unique_users=Count('user', distinct=True)
+            )
+            
+            # Traffic Trends
+            context['traffic_trends'] = PageView.objects.filter(
+                timestamp__gte=week_ago
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                count=Count('id')
+            ).order_by('day')
+            
+        except Exception as e:
+            logger.error(f"Error in analytics dashboard: {e}")
+            context.update({
+                'page_views': {'today': 0, 'week': 0, 'month': 0},
+                'most_visited': [],
+                'device_stats': [],
+                'browser_stats': [],
+                'user_sessions': {'total_sessions': 0, 'avg_duration': 0, 'unique_users': 0},
+                'traffic_trends': []
+            })
+        
+        context['breadcrumbs'] = [
+            {'name': 'Home', 'url': '/'},
+            {'name': 'Dashboard', 'url': '/dashboard/'},
+            {'name': 'Analytics', 'url': '/dashboard/analytics/'}
+        ]
+        
+        return context
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class ErrorDashboardView(TemplateView):
+    """Dedicated Error Tracking Dashboard"""
+    template_name = 'dashboard/errors.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        try:
+            now = timezone.now()
+            today = now.date()
+            week_ago = now - timedelta(days=7)
+            month_ago = now - timedelta(days=30)
+            
+            # Error Statistics
+            context['error_stats'] = {
+                'today': ErrorLog.objects.filter(timestamp__date=today).count(),
+                'week': ErrorLog.objects.filter(timestamp__gte=week_ago).count(),
+                'month': ErrorLog.objects.filter(timestamp__gte=month_ago).count(),
+                'unresolved': ErrorLog.objects.filter(resolved=False).count(),
+            }
+            
+            # Error Types
+            context['error_types'] = ErrorLog.objects.filter(
+                timestamp__gte=week_ago
+            ).values('error_type').annotate(
+                count=Count('id')
+            ).order_by('-count')
+            
+            # Recent Errors
+            context['recent_errors'] = ErrorLog.objects.filter(
+                timestamp__gte=week_ago
+            ).order_by('-timestamp')[:20]
+            
+            # Error Trends
+            context['error_trends'] = ErrorLog.objects.filter(
+                timestamp__gte=week_ago
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                count=Count('id')
+            ).order_by('day')
+            
+            # Most Error-Prone Pages
+            context['error_prone_pages'] = ErrorLog.objects.filter(
+                timestamp__gte=week_ago
+            ).values('page_url').annotate(
+                count=Count('id')
+            ).order_by('-count')[:10]
+            
+        except Exception as e:
+            logger.error(f"Error in error dashboard: {e}")
+            context.update({
+                'error_stats': {'today': 0, 'week': 0, 'month': 0, 'unresolved': 0},
+                'error_types': [],
+                'recent_errors': [],
+                'error_trends': [],
+                'error_prone_pages': []
+            })
+        
+        context['breadcrumbs'] = [
+            {'name': 'Home', 'url': '/'},
+            {'name': 'Dashboard', 'url': '/dashboard/'},
+            {'name': 'Error Tracking', 'url': '/dashboard/errors/'}
+        ]
+        
+        return context
+
+
+@method_decorator(staff_member_required, name='dispatch')
+class ReportsDashboardView(TemplateView):
+    """Dedicated Reports Dashboard"""
+    template_name = 'dashboard/reports.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        try:
+            # Recent Reports
+            context['recent_reports'] = PerformanceReport.objects.all().order_by('-created_at')[:10]
+            
+            # Report Statistics
+            context['report_stats'] = {
+                'total_reports': PerformanceReport.objects.count(),
+                'this_month': PerformanceReport.objects.filter(
+                    created_at__gte=timezone.now().replace(day=1)
+                ).count(),
+                'this_week': PerformanceReport.objects.filter(
+                    created_at__gte=timezone.now() - timedelta(days=7)
+                ).count(),
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in reports dashboard: {e}")
+            context.update({
+                'recent_reports': [],
+                'report_stats': {'total_reports': 0, 'this_month': 0, 'this_week': 0}
+            })
+        
+        context['breadcrumbs'] = [
+            {'name': 'Home', 'url': '/'},
+            {'name': 'Dashboard', 'url': '/dashboard/'},
+            {'name': 'Reports', 'url': '/dashboard/reports/'}
+        ]
+        
+        return context
+
+
+# Specialized API Views
+
+def performance_api(request):
+    """API endpoint for performance data"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    try:
+        days = int(request.GET.get('days', 7))
+        metric = request.GET.get('metric', 'load_time')
+        start_date = timezone.now() - timedelta(days=days)
+        
+        # Generate date labels for the past N days
+        labels = []
+        for i in range(days):
+            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+            labels.append(date)
+        labels.reverse()
+        
+        if metric == 'load_time':
+            # Load time data
+            load_times = PageView.objects.filter(
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                avg_load_time=Avg('load_time')
+            ).order_by('day')
+            
+            # Create data array matching labels
+            data = []
+            load_times_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_load_time'] for item in load_times}
+            for label in labels:
+                data.append(load_times_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Load Time (ms)'
+            })
+            
+        elif metric == 'db_performance':
+            # Database performance data
+            db_perf = PerformanceMetric.objects.filter(
+                metric_type='database_query',
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                avg_time=Avg('value')
+            ).order_by('day')
+            
+            data = []
+            db_perf_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_time'] for item in db_perf}
+            for label in labels:
+                data.append(db_perf_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'DB Query Time (ms)'
+            })
+            
+        elif metric == 'api_performance':
+            # API performance data
+            api_perf = PerformanceMetric.objects.filter(
+                metric_type='api_response',
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                avg_time=Avg('value')
+            ).order_by('day')
+            
+            data = []
+            api_perf_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_time'] for item in api_perf}
+            for label in labels:
+                data.append(api_perf_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'API Response Time (ms)'
+            })
+            
+        elif metric == 'memory_usage':
+            # Memory usage data
+            memory_data = PerformanceMetric.objects.filter(
+                metric_type='memory_usage',
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                avg_usage=Avg('value')
+            ).order_by('day')
+            
+            data = []
+            memory_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_usage'] for item in memory_data}
+            for label in labels:
+                data.append(memory_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Memory Usage (MB)'
+            })
+        
+        else:
+            # Default: return load time data
+            load_times = PageView.objects.filter(
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                avg_load_time=Avg('load_time')
+            ).order_by('day')
+            
+            data = []
+            load_times_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_load_time'] for item in load_times}
+            for label in labels:
+                data.append(load_times_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Load Time (ms)'
+            })
+        
+    except Exception as e:
+        logger.error(f"Error in performance API: {e}")
+        # Return empty data on error
+        labels = []
+        for i in range(days):
+            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+            labels.append(date)
+        labels.reverse()
+        
+        return JsonResponse({
+            'labels': labels,
+            'data': [0] * days,
+            'metric': 'No Data Available'
+        })
+
+
+def analytics_api(request):
+    """API endpoint for analytics data"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    try:
+        days = int(request.GET.get('days', 7))
+        metric = request.GET.get('metric', 'page_views')
+        start_date = timezone.now() - timedelta(days=days)
+        
+        # Generate date labels for the past N days
+        labels = []
+        for i in range(days):
+            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+            labels.append(date)
+        labels.reverse()
+        
+        if metric == 'page_views':
+            # Page views data
+            page_views = PageView.objects.filter(
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                count=Count('id')
+            ).order_by('day')
+            
+            data = []
+            page_views_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in page_views}
+            for label in labels:
+                data.append(page_views_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Page Views'
+            })
+            
+        elif metric == 'device_stats':
+            # Device statistics
+            device_stats = PageView.objects.filter(
+                timestamp__gte=start_date
+            ).values('is_mobile').annotate(
+                count=Count('id')
+            )
+            
+            labels = ['Mobile', 'Desktop']
+            data = [0, 0]
+            for stat in device_stats:
+                if stat['is_mobile']:
+                    data[0] = stat['count']
+                else:
+                    data[1] = stat['count']
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Device Usage'
+            })
+            
+        elif metric == 'browser_stats':
+            # Browser statistics
+            browser_stats = PageView.objects.filter(
+                timestamp__gte=start_date
+            ).values('browser').annotate(
+                count=Count('id')
+            ).order_by('-count')[:5]
+            
+            labels = [item['browser'] or 'Unknown' for item in browser_stats]
+            data = [item['count'] for item in browser_stats]
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Browser Usage'
+            })
+        
+        else:
+            # Default: return page views data
+            page_views = PageView.objects.filter(
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                count=Count('id')
+            ).order_by('day')
+            
+            data = []
+            page_views_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in page_views}
+            for label in labels:
+                data.append(page_views_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Page Views'
+            })
+        
+    except Exception as e:
+        logger.error(f"Error in analytics API: {e}")
+        # Return empty data on error
+        labels = []
+        for i in range(days):
+            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+            labels.append(date)
+        labels.reverse()
+        
+        return JsonResponse({
+            'labels': labels,
+            'data': [0] * days,
+            'metric': 'No Data Available'
+        })
+
+
+def errors_api(request):
+    """API endpoint for error data"""
+    if not request.user.is_staff:
+        return JsonResponse({'error': 'Permission denied'}, status=403)
+    
+    try:
+        days = int(request.GET.get('days', 7))
+        metric = request.GET.get('metric', 'error_trends')
+        start_date = timezone.now() - timedelta(days=days)
+        
+        # Generate date labels for the past N days
+        labels = []
+        for i in range(days):
+            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+            labels.append(date)
+        labels.reverse()
+        
+        if metric == 'error_trends':
+            # Error trends data
+            error_trends = ErrorLog.objects.filter(
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                count=Count('id')
+            ).order_by('day')
+            
+            data = []
+            error_trends_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in error_trends}
+            for label in labels:
+                data.append(error_trends_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Error Count'
+            })
+            
+        elif metric == 'error_types':
+            # Error types data
+            error_types = ErrorLog.objects.filter(
+                timestamp__gte=start_date
+            ).values('error_type').annotate(
+                count=Count('id')
+            ).order_by('-count')[:5]
+            
+            labels = [item['error_type'] for item in error_types]
+            data = [item['count'] for item in error_types]
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Error Types'
+            })
+            
+        elif metric == 'error_prone_pages':
+            # Error prone pages data
+            error_pages = ErrorLog.objects.filter(
+                timestamp__gte=start_date
+            ).values('page_url').annotate(
+                count=Count('id')
+            ).order_by('-count')[:5]
+            
+            labels = [item['page_url'][:30] + '...' if len(item['page_url']) > 30 else item['page_url'] for item in error_pages]
+            data = [item['count'] for item in error_pages]
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Error Prone Pages'
+            })
+        
+        else:
+            # Default: return error trends data
+            error_trends = ErrorLog.objects.filter(
+                timestamp__gte=start_date
+            ).extra(
+                select={'day': 'date(timestamp)'}
+            ).values('day').annotate(
+                count=Count('id')
+            ).order_by('day')
+            
+            data = []
+            error_trends_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in error_trends}
+            for label in labels:
+                data.append(error_trends_dict.get(label, 0) or 0)
+            
+            return JsonResponse({
+                'labels': labels,
+                'data': data,
+                'metric': 'Error Count'
+            })
+        
+    except Exception as e:
+        logger.error(f"Error in errors API: {e}")
+        # Return empty data on error
+        labels = []
+        for i in range(days):
+            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
+            labels.append(date)
+        labels.reverse()
+        
+        return JsonResponse({
+            'labels': labels,
+            'data': [0] * days,
+            'metric': 'No Data Available'
+        })

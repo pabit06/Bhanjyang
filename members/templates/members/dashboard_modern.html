@@ -1,0 +1,756 @@
+{% extends 'members/base_modern.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block page_title %}Member Dashboard{% endblock %}
+{% block page_subtitle %}Welcome back, {{ user.first_name }}! Here's your account overview.{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Statistics Cards -->
+    <div class="stats-section">
+        <div class="section-header">
+            <h2 class="section-title">Account Overview</h2>
+            <button class="btn btn-sm btn-outline-primary" @click="refreshData()">
+                <span class="btn-icon">🔄</span>
+                Refresh
+            </button>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card" data-stat="total-balance">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value" x-text="formatCurrency({{ member.get_total_balance|default:0 }})">Rs. 0.00</div>
+                <div class="stat-label">Total Balance</div>
+                <div class="stat-trend stat-trend-up" x-show="balanceTrend > 0">+{{ balanceTrend }}%</div>
+            </div>
+            
+            <div class="stat-card" data-stat="accounts">
+                <div class="stat-icon">💳</div>
+                <div class="stat-value" x-text="{{ member.get_active_accounts_count|default:0 }}">0</div>
+                <div class="stat-label">Active Accounts</div>
+                <div class="stat-trend stat-trend-neutral">Stable</div>
+            </div>
+            
+            <div class="stat-card" data-stat="loans">
+                <div class="stat-icon">🏦</div>
+                <div class="stat-value" x-text="{{ member.get_active_loans_count|default:0 }}">0</div>
+                <div class="stat-label">Active Loans</div>
+                <div class="stat-trend stat-trend-up" x-show="loanTrend > 0">+{{ loanTrend }}</div>
+            </div>
+            
+            <div class="stat-card" data-stat="notifications">
+                <div class="stat-icon">🔔</div>
+                <div class="stat-value" x-text="{{ member.get_unread_notifications_count|default:0 }}">0</div>
+                <div class="stat-label">Unread Notifications</div>
+                <div class="stat-trend stat-trend-down" x-show="notificationTrend < 0">{{ notificationTrend }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+        <div class="section-header">
+            <h2 class="section-title">Quick Actions</h2>
+        </div>
+        
+        <div class="quick-actions-grid">
+            <a href="{% url 'members:accounts' %}" class="quick-action-card">
+                <div class="action-icon">💳</div>
+                <div class="action-title">View Accounts</div>
+                <div class="action-description">Check your account balances and details</div>
+            </a>
+            
+            <a href="{% url 'members:transactions' %}" class="quick-action-card">
+                <div class="action-icon">📋</div>
+                <div class="action-title">Transaction History</div>
+                <div class="action-description">View your recent transactions</div>
+            </a>
+            
+            <a href="{% url 'members:loan_application' %}" class="quick-action-card">
+                <div class="action-icon">💰</div>
+                <div class="action-title">Apply for Loan</div>
+                <div class="action-description">Submit a new loan application</div>
+            </a>
+            
+            <a href="{% url 'members:profile' %}" class="quick-action-card">
+                <div class="action-icon">👤</div>
+                <div class="action-title">Update Profile</div>
+                <div class="action-description">Manage your personal information</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="recent-transactions-section">
+        <div class="section-header">
+            <h2 class="section-title">Recent Transactions</h2>
+            <a href="{% url 'members:transactions' %}" class="btn btn-sm btn-outline-primary">
+                View All
+                <span class="btn-icon">→</span>
+            </a>
+        </div>
+        
+        <div class="transactions-list">
+            {% for transaction in recent_transactions %}
+            <div class="transaction-item" x-data="{ showDetails: false }">
+                <div class="transaction-main" @click="showDetails = !showDetails">
+                    <div class="transaction-icon">
+                        {% if transaction.transaction_type == 'deposit' %}📥
+                        {% elif transaction.transaction_type == 'withdrawal' %}📤
+                        {% elif transaction.transaction_type == 'transfer_in' %}↩️
+                        {% elif transaction.transaction_type == 'transfer_out' %}↪️
+                        {% elif transaction.transaction_type == 'interest' %}💎
+                        {% else %}💳{% endif %}
+                    </div>
+                    <div class="transaction-info">
+                        <div class="transaction-description">{{ transaction.description }}</div>
+                        <div class="transaction-meta">
+                            <span class="transaction-date" x-text="formatDate('{{ transaction.transaction_date|date:"c" }}')">{{ transaction.transaction_date|date:"M d, Y" }}</span>
+                            <span class="transaction-account">{{ transaction.account.account_name }}</span>
+                        </div>
+                    </div>
+                    <div class="transaction-amount" :class="'{{ transaction.transaction_type }}'">
+                        {% if transaction.transaction_type in 'deposit,transfer_in,interest' %}+{% else %}-{% endif %}
+                        <span x-text="formatCurrency({{ transaction.amount }})">Rs. {{ transaction.amount }}</span>
+                    </div>
+                </div>
+                
+                <div class="transaction-details" x-show="showDetails" x-transition>
+                    <div class="transaction-detail-row">
+                        <span class="detail-label">Reference Number:</span>
+                        <span class="detail-value">{{ transaction.reference_number|default:"N/A" }}</span>
+                    </div>
+                    <div class="transaction-detail-row">
+                        <span class="detail-label">Balance After:</span>
+                        <span class="detail-value" x-text="formatCurrency({{ transaction.balance_after }})">Rs. {{ transaction.balance_after }}</span>
+                    </div>
+                    {% if transaction.transaction_type == 'transfer_out' or transaction.transaction_type == 'transfer_in' %}
+                    <div class="transaction-detail-row">
+                        <span class="detail-label">Transfer Type:</span>
+                        <span class="detail-value">{{ transaction.get_transaction_type_display }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <div class="empty-title">No Recent Transactions</div>
+                <div class="empty-description">Your transaction history will appear here once you start using your accounts.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Active Loans -->
+    <div class="active-loans-section">
+        <div class="section-header">
+            <h2 class="section-title">Active Loans</h2>
+            <a href="{% url 'members:loan_status' %}" class="btn btn-sm btn-outline-primary">
+                View All
+                <span class="btn-icon">→</span>
+            </a>
+        </div>
+        
+        <div class="loans-list">
+            {% for loan in active_loans %}
+            <div class="loan-card">
+                <div class="loan-header">
+                    <div class="loan-type">{{ loan.get_loan_type_display }}</div>
+                    <div class="loan-status status-{{ loan.status }}">{{ loan.get_status_display }}</div>
+                </div>
+                <div class="loan-details">
+                    <div class="loan-amount">
+                        <span class="amount-label">Loan Amount:</span>
+                        <span class="amount-value" x-text="formatCurrency({{ loan.loan_amount }})">Rs. {{ loan.loan_amount }}</span>
+                    </div>
+                    <div class="loan-info">
+                        <div class="info-item">
+                            <span class="info-label">Interest Rate:</span>
+                            <span class="info-value">{{ loan.interest_rate }}%</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tenure:</span>
+                            <span class="info-value">{{ loan.tenure_months }} months</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Monthly Payment:</span>
+                            <span class="info-value" x-text="formatCurrency({{ loan.monthly_installment|default:0 }})">Rs. {{ loan.monthly_installment|default:"N/A" }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="loan-progress">
+                    <div class="progress-label">Repayment Progress</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ loan.repayment_progress|default:0 }}%"></div>
+                    </div>
+                    <div class="progress-text">{{ loan.repayment_progress|default:0 }}% Complete</div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">🏦</div>
+                <div class="empty-title">No Active Loans</div>
+                <div class="empty-description">You don't have any active loans at the moment.</div>
+                <a href="{% url 'members:loan_application' %}" class="btn btn-primary">
+                    Apply for Loan
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Account Summary -->
+    <div class="account-summary-section">
+        <div class="section-header">
+            <h2 class="section-title">Account Summary</h2>
+            <a href="{% url 'members:accounts' %}" class="btn btn-sm btn-outline-primary">
+                Manage Accounts
+                <span class="btn-icon">→</span>
+            </a>
+        </div>
+        
+        <div class="accounts-list">
+            {% for account in accounts %}
+            <div class="account-item">
+                <div class="account-icon">
+                    {% if account.account_type == 'savings' %}💰
+                    {% elif account.account_type == 'share' %}📈
+                    {% elif account.account_type == 'loan' %}🏦
+                    {% elif account.account_type == 'fixed_deposit' %}🔒
+                    {% else %}💳{% endif %}
+                </div>
+                <div class="account-info">
+                    <div class="account-name">{{ account.account_name }}</div>
+                    <div class="account-number">{{ account.account_number }}</div>
+                    <div class="account-type">{{ account.get_account_type_display }}</div>
+                </div>
+                <div class="account-balance">
+                    <div class="balance-amount" x-text="formatCurrency({{ account.balance }})">Rs. {{ account.balance }}</div>
+                    {% if account.interest_rate %}
+                    <div class="interest-rate">{{ account.interest_rate }}% APR</div>
+                    {% endif %}
+                </div>
+                <div class="account-actions">
+                    <button class="btn btn-sm btn-ghost" @click="copyToClipboard('{{ account.account_number }}')">
+                        Copy Account #
+                    </button>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">💳</div>
+                <div class="empty-title">No Accounts Found</div>
+                <div class="empty-description">Contact support to set up your accounts.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- CBS Sync Status -->
+<div class="cbs-sync-status" x-data="{ syncStatus: '{{ member.get_cbs_sync_status }}' }">
+    <div class="sync-indicator" :class="syncStatus">
+        <div class="sync-icon">
+            <span x-show="syncStatus === 'synced'">✅</span>
+            <span x-show="syncStatus === 'not_synced'">⚠️</span>
+        </div>
+        <div class="sync-text">
+            <span x-show="syncStatus === 'synced'">CBS Synchronized</span>
+            <span x-show="syncStatus === 'not_synced'">CBS Sync Pending</span>
+        </div>
+    </div>
+    <button class="btn btn-sm btn-outline-primary" @click="syncCBSData()" x-show="syncStatus === 'not_synced'">
+        Sync Now
+    </button>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Dashboard Specific Styles */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    
+    .stats-section {
+        grid-column: 1 / -1;
+    }
+    
+    .recent-transactions-section {
+        grid-column: 1;
+    }
+    
+    .active-loans-section {
+        grid-column: 2;
+    }
+    
+    .account-summary-section {
+        grid-column: 1 / -1;
+    }
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-900);
+    margin: 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+}
+
+.quick-action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-6);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-gray-900);
+    transition: all var(--transition-base);
+}
+
+.quick-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary);
+}
+
+.action-icon {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--space-3);
+}
+
+.action-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-2);
+}
+
+.action-description {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    line-height: var(--line-height-relaxed);
+}
+
+.transactions-list,
+.loans-list,
+.accounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.transaction-item {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+}
+
+.transaction-item:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.transaction-main {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    cursor: pointer;
+}
+
+.transaction-icon {
+    font-size: var(--font-size-xl);
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-md);
+}
+
+.transaction-info {
+    flex: 1;
+}
+
+.transaction-description {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+}
+
+.transaction-meta {
+    display: flex;
+    gap: var(--space-3);
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+}
+
+.transaction-amount {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+}
+
+.transaction-amount.deposit,
+.transaction-amount.transfer_in,
+.transaction-amount.interest {
+    color: var(--color-success);
+}
+
+.transaction-amount.withdrawal,
+.transaction-amount.transfer_out,
+.transaction-amount.fee {
+    color: var(--color-error);
+}
+
+.transaction-details {
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-gray-50);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+.transaction-detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+    font-size: var(--font-size-xs);
+}
+
+.transaction-detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.detail-label {
+    color: var(--color-gray-600);
+    font-weight: var(--font-weight-medium);
+}
+
+.detail-value {
+    color: var(--color-gray-900);
+}
+
+.loan-card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+}
+
+.loan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+}
+
+.loan-type {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-900);
+}
+
+.loan-status {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+}
+
+.status-active {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-success-dark);
+}
+
+.status-disbursed {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary-dark);
+}
+
+.loan-details {
+    margin-bottom: var(--space-4);
+}
+
+.loan-amount {
+    margin-bottom: var(--space-3);
+}
+
+.amount-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    margin-right: var(--space-2);
+}
+
+.amount-value {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-900);
+}
+
+.loan-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-3);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.info-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.info-value {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-gray-900);
+}
+
+.loan-progress {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-gray-200);
+}
+
+.progress-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-2);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 0.5rem;
+    background-color: var(--color-gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-2);
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--color-primary);
+    transition: width var(--transition-base);
+}
+
+.progress-text {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-600);
+    text-align: center;
+}
+
+.account-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.account-item:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.account-icon {
+    font-size: var(--font-size-2xl);
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gray-100);
+    border-radius: var(--radius-md);
+}
+
+.account-info {
+    flex: 1;
+}
+
+.account-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+}
+
+.account-number {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+    font-family: var(--font-family-mono);
+    margin-bottom: var(--space-1);
+}
+
+.account-type {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-600);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.account-balance {
+    text-align: right;
+}
+
+.balance-amount {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-900);
+    margin-bottom: var(--space-1);
+}
+
+.interest-rate {
+    font-size: var(--font-size-xs);
+    color: var(--color-gray-500);
+}
+
+.account-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--color-gray-500);
+}
+
+.empty-icon {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--space-4);
+}
+
+.empty-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-2);
+}
+
+.empty-description {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-4);
+}
+
+.cbs-sync-status {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-fixed);
+}
+
+.sync-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.sync-icon {
+    font-size: var(--font-size-lg);
+}
+
+.sync-text {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+}
+
+.sync-indicator.synced {
+    color: var(--color-success);
+}
+
+.sync-indicator.not_synced {
+    color: var(--color-warning);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Dashboard specific functionality
+document.addEventListener('alpine:init', () => {
+    Alpine.data('dashboard', () => ({
+        balanceTrend: 5.2,
+        loanTrend: 1,
+        notificationTrend: -2,
+        
+        async syncCBSData() {
+            try {
+                this.showLoading();
+                const response = await fetch('/members/api/sync-cbs/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': this.getCSRFToken(),
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    Toast.success('CBS data synchronized successfully!');
+                    // Refresh the page to show updated data
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    throw new Error('Sync failed');
+                }
+            } catch (error) {
+                Toast.error('Failed to sync CBS data');
+            } finally {
+                this.hideLoading();
+            }
+        }
+    }));
+});
+</script>
+{% endblock %}

@@ -5,7 +5,7 @@ import hashlib
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
@@ -78,7 +78,7 @@ class NewsArticle(models.Model):
     title = models.CharField(max_length=200, help_text="Article title")
     slug = models.SlugField(unique=True, blank=True, max_length=250, help_text="URL-friendly version of title")
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='articles', help_text="Article category")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='news_events_articles', help_text="Article author")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='news_events_articles', help_text="Article author")
     
     # Content fields
     content = models.TextField(help_text="Article content")
@@ -375,7 +375,7 @@ class Comment(models.Model):
     
     # Moderation
     is_approved = models.BooleanField(default=False, help_text="Comment approved")
-    moderated_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, help_text="Moderated by")
+    moderated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, help_text="Moderated by")
     moderation_notes = models.TextField(blank=True, help_text="Moderation notes")
     
     # Analytics

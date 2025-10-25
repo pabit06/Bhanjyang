@@ -18,7 +18,6 @@ urlpatterns = [
     # Main pages with caching
     path('', cache_page(CACHE_TIMEOUTS['homepage'])(views.index), name='index'),
     path('about/', cache_page(CACHE_TIMEOUTS['about'])(views.about_view), name='about'),
-    path('gallery/', cache_page(CACHE_TIMEOUTS['gallery'])(views.gallery_view), name='gallery'),
     path('remittance/', cache_page(CACHE_TIMEOUTS['remittance'])(views.remittance_view), name='remittance'),
     
     # Form handling with security

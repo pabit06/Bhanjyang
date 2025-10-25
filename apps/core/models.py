@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.utils import timezone
 import secrets
 import logging
@@ -11,7 +11,7 @@ class APIKey(models.Model):
     
     name = models.CharField(max_length=100, help_text="Descriptive name for this API key")
     key = models.CharField(max_length=64, unique=True, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='api_keys')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='api_keys')
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     last_used = models.DateTimeField(null=True, blank=True)
@@ -68,7 +68,7 @@ class SecurityLog(models.Model):
     event_type = models.CharField(max_length=30, choices=EVENT_TYPES)
     ip_address = models.GenericIPAddressField()
     user_agent = models.TextField(blank=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     details = models.JSONField(default=dict)
     timestamp = models.DateTimeField(auto_now_add=True)
     

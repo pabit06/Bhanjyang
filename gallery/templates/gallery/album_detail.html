@@ -1,0 +1,761 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ album.name }} Album - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}{{ album.description|default:"Explore photos from "|add:album.name|add:" album in Bhanjyang Cooperative gallery." }}{% endblock meta_description %}
+{% block meta_keywords %}Bhanjyang Cooperative, Gallery, {{ album.name }}, Photos, Album{% endblock meta_keywords %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/gallery-advanced.css' %}">
+<style>
+/* Album-specific styles */
+.album-hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #dc2626 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.album-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{% static 'images/pattern-light.png' %}') repeat;
+    opacity: 0.1;
+    animation: float 20s ease-in-out infinite;
+}
+
+.album-info-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    margin-top: -3rem;
+    position: relative;
+    z-index: 10;
+}
+
+.album-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(220, 38, 38, 0.1);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background: rgba(220, 38, 38, 0.2);
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #dc2626;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+.sub-album-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.sub-album-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+.sub-album-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.sub-album-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.1), rgba(30, 58, 138, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.sub-album-card:hover::before {
+    opacity: 1;
+}
+
+.sub-album-cover {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.sub-album-card:hover .sub-album-cover {
+    transform: scale(1.1);
+}
+
+.sub-album-info {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.sub-album-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.sub-album-count {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-nav {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb-item {
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item:hover {
+    color: #dc2626;
+}
+
+.breadcrumb-separator {
+    color: #d1d5db;
+    font-size: 0.875rem;
+}
+
+.breadcrumb-current {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+/* Advanced image grid */
+.advanced-image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.image-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+.image-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.image-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.image-card:hover img {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(220, 38, 38, 0.8), rgba(30, 58, 138, 0.8));
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+.image-card:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.image-description {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.image-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.image-card:hover .image-actions {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #6b7280;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-state-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+.empty-state-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .album-info-card {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .album-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .sub-album-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .advanced-image-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .album-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .sub-album-grid,
+    .advanced-image-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .breadcrumb-nav {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+}
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Advanced Album Hero Section -->
+<section class="album-hero py-20 px-4 text-white relative">
+    <div class="container mx-auto text-center relative z-10">
+        <div class="animate-fade-in-up">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-6 drop-shadow-2xl">
+                {{ album.name }}
+            </h1>
+            {% if album.description %}
+                <p class="text-xl sm:text-2xl leading-relaxed max-w-4xl mx-auto mb-8 opacity-90">
+                    {{ album.description }}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Album Info Card -->
+<div class="container mx-auto px-4">
+    <div class="album-info-card">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Album Information</h2>
+            <p class="text-gray-600">Explore the photos and sub-albums in this collection</p>
+        </div>
+        
+        <!-- Breadcrumb Navigation -->
+        <div class="breadcrumb-nav">
+            <a href="/" class="breadcrumb-item">Home</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="{% url 'gallery:gallery' %}" class="breadcrumb-item">Gallery</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">{{ album.name }}</span>
+        </div>
+        
+        <!-- Album Statistics -->
+        <div class="album-stats">
+            <div class="stat-item">
+                <span class="stat-number">{{ images|length }}</span>
+                <div class="stat-label">Photos</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ sub_albums|length }}</span>
+                <div class="stat-label">Sub-albums</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ album.get_image_count }}</span>
+                <div class="stat-label">Total Images</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ album.created_at|date:"Y" }}</span>
+                <div class="stat-label">Created</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sub-albums Section -->
+{% if sub_albums %}
+<section class="py-16 px-6 bg-gray-50">
+    <div class="container mx-auto max-w-7xl">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-bhanjyangred font-montserrat mb-4">Sub-albums</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Explore the sub-collections within this album</p>
+        </div>
+        
+        <div class="sub-album-grid">
+            {% for sub_album in sub_albums %}
+            <a href="{% url 'gallery:album_detail' sub_album.id %}" class="sub-album-card">
+                {% if sub_album.cover_image %}
+                    <img src="{{ sub_album.cover_image.url }}" alt="{{ sub_album.name }}" class="sub-album-cover">
+                {% else %}
+                    <div class="sub-album-cover bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                        <i class="fas fa-images text-4xl text-gray-400"></i>
+                    </div>
+                {% endif %}
+                <div class="sub-album-info">
+                    <h3 class="sub-album-name">{{ sub_album.name }}</h3>
+                    <p class="sub-album-count">{{ sub_album.get_image_count }} photos</p>
+                    {% if sub_album.description %}
+                        <p class="text-sm text-gray-500 mt-2">{{ sub_album.description|truncatechars:60 }}</p>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Images Section -->
+<section class="py-16 px-6 bg-white">
+    <div class="container mx-auto max-w-7xl">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-bhanjyangred font-montserrat mb-4">Photos in {{ album.name }}</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Browse through the images in this album</p>
+        </div>
+        
+        {% if images %}
+            <div class="advanced-image-grid" id="image-grid">
+                {% for image in images %}
+                <div class="image-card" data-image-id="{{ image.id }}" onclick="openImageModal({{ forloop.counter0 }})">
+                    <img src="{{ image.image.url }}" alt="{{ image.title }}" loading="lazy"
+                         onerror="this.onerror=null;this.src='{% static 'images/default-news-placeholder.png' %}'">
+                    <div class="image-overlay">
+                        <div class="image-title">{{ image.title }}</div>
+                        {% if image.description %}
+                            <div class="image-description">{{ image.description|truncatechars:100 }}</div>
+                        {% endif %}
+                        <div class="image-actions">
+                            <button class="action-btn" onclick="event.stopPropagation(); shareImage('{{ image.id }}')" title="Share">
+                                <i class="fas fa-share"></i>
+                            </button>
+                            <button class="action-btn" onclick="event.stopPropagation(); downloadImage('{{ image.image.url }}')" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="action-btn" onclick="event.stopPropagation(); toggleFavorite('{{ image.id }}')" title="Favorite">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <h3 class="empty-state-title">No Photos Yet</h3>
+                <p class="empty-state-description">
+                    This album doesn't have any photos yet. Check back later or explore other albums.
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Advanced Lightbox -->
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+        <button class="lightbox-close" id="lightbox-close">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <img class="lightbox-image" id="lightbox-image" src="" alt="">
+        
+        <button class="lightbox-nav lightbox-next" id="lightbox-next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        
+        <div class="lightbox-info">
+            <h3 class="lightbox-title" id="lightbox-title"></h3>
+            <p class="lightbox-description" id="lightbox-description"></p>
+            <div class="lightbox-actions">
+                <button class="btn-gradient btn-sm" onclick="shareImage(currentImageId)">
+                    <i class="fas fa-share mr-2"></i>Share
+                </button>
+                <button class="btn-gradient btn-sm" onclick="downloadImage(currentImageSrc)">
+                    <i class="fas fa-download mr-2"></i>Download
+                </button>
+                <button class="btn-gradient btn-sm" onclick="toggleFavorite(currentImageId)">
+                    <i class="fas fa-heart mr-2"></i>Favorite
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/gallery-advanced.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Album images data
+    const albumImages = [
+        {% for image in images %}
+        {
+            id: {{ image.id }},
+            src: '{{ image.image.url }}',
+            alt: '{{ image.title|escapejs }}',
+            caption: '{{ image.description|escapejs }}',
+            title: '{{ image.title|escapejs }}',
+            category: '{{ image.category }}',
+            album: {{ album.id }},
+            albumName: '{{ album.name|escapejs }}',
+            isFeatured: {{ image.is_featured|yesno:"true,false" }}
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    
+    let currentImageIndex = 0;
+    let currentImageId = null;
+    let currentImageSrc = null;
+    
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightbox-image');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxDescription = document.getElementById('lightbox-description');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    
+    // Open image modal
+    window.openImageModal = function(index) {
+        currentImageIndex = index;
+        const image = albumImages[index];
+        
+        currentImageId = image.id;
+        currentImageSrc = image.src;
+        
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightboxTitle.textContent = image.title;
+        lightboxDescription.textContent = image.caption || 'No description available';
+        
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+    
+    // Close lightbox
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Previous image
+    function previousImage() {
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+        } else {
+            currentImageIndex = albumImages.length - 1;
+        }
+        updateLightboxImage();
+    }
+    
+    // Next image
+    function nextImage() {
+        if (currentImageIndex < albumImages.length - 1) {
+            currentImageIndex++;
+        } else {
+            currentImageIndex = 0;
+        }
+        updateLightboxImage();
+    }
+    
+    // Update lightbox image
+    function updateLightboxImage() {
+        const image = albumImages[currentImageIndex];
+        currentImageId = image.id;
+        currentImageSrc = image.src;
+        
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        lightboxTitle.textContent = image.title;
+        lightboxDescription.textContent = image.caption || 'No description available';
+    }
+    
+    // Event listeners
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', previousImage);
+    lightboxNext.addEventListener('click', nextImage);
+    
+    // Click outside to close
+    lightbox.addEventListener('click', function(e) {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (lightbox.classList.contains('active')) {
+            switch(e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    previousImage();
+                    break;
+                case 'ArrowRight':
+                    nextImage();
+                    break;
+            }
+        }
+    });
+    
+    // Touch gestures
+    let startX = 0;
+    let startY = 0;
+    
+    lightbox.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+    });
+    
+    lightbox.addEventListener('touchend', function(e) {
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        
+        const deltaX = endX - startX;
+        const deltaY = endY - startY;
+        
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+            if (deltaX > 0) {
+                previousImage();
+            } else {
+                nextImage();
+            }
+        }
+        
+        if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 100) {
+            if (deltaY > 0) {
+                closeLightbox();
+            }
+        }
+    });
+    
+    // Share image function
+    window.shareImage = function(imageId) {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Gallery Image',
+                text: 'Check out this image from Bhanjyang Cooperative',
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            showNotification('Link copied to clipboard!', 'success');
+        }
+    };
+    
+    // Download image function
+    window.downloadImage = function(imageSrc) {
+        const link = document.createElement('a');
+        link.href = imageSrc;
+        link.download = imageSrc.split('/').pop();
+        link.click();
+    };
+    
+    // Toggle favorite function
+    window.toggleFavorite = function(imageId) {
+        // This would typically make an API call to save favorites
+        showNotification('Added to favorites!', 'success');
+    };
+    
+    // Show notification function
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 100);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
+    }
+    
+    // Add CSS for notifications
+    const notificationStyle = document.createElement('style');
+    notificationStyle.textContent = `
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            padding: 1rem 1.5rem;
+            z-index: 10000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            border-left: 4px solid #10b981;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            border-left-color: #ef4444;
+        }
+        
+        .notification.warning {
+            border-left-color: #f59e0b;
+        }
+        
+        .notification.info {
+            border-left-color: #3b82f6;
+        }
+        
+        .notification.success {
+            border-left-color: #10b981;
+        }
+        
+        .lightbox-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+    `;
+    document.head.appendChild(notificationStyle);
+});
+</script>
+{% endblock extra_js %}
