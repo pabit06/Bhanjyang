@@ -62,25 +62,48 @@ class BhanjyangAdminSite(AdminSite):
 admin_site = BhanjyangAdminSite(name='bhanjyang_admin')
 
 # Register gallery models with custom admin site
+# This will be called after all apps are loaded to avoid import errors
 def register_gallery_models():
     """Register gallery models with the custom admin site"""
     try:
-        from gallery.models import GalleryImage, GalleryAlbum
-        from gallery.admin import GalleryImageAdmin, GalleryAlbumAdmin
+        from gallery.models import GalleryImage, GalleryAlbum, SmartCollection, SmartCollectionImage, AutoCategorizationRule, ImageAnalysisJob
+        from gallery.admin import (
+            GalleryImageAdmin, GalleryAlbumAdmin,
+            SmartCollectionAdmin, SmartCollectionImageAdmin,
+            AutoCategorizationRuleAdmin, ImageAnalysisJobAdmin
+        )
         
         # Unregister from default admin site if already registered
         from django.contrib import admin
-        if GalleryImage in admin.site._registry:
-            admin.site.unregister(GalleryImage)
-        if GalleryAlbum in admin.site._registry:
-            admin.site.unregister(GalleryAlbum)
+        for model in [GalleryImage, GalleryAlbum, SmartCollection, SmartCollectionImage, AutoCategorizationRule, ImageAnalysisJob]:
+            if model in admin.site._registry:
+                admin.site.unregister(model)
         
         # Register with custom admin site
         admin_site.register(GalleryImage, GalleryImageAdmin)
         admin_site.register(GalleryAlbum, GalleryAlbumAdmin)
+        admin_site.register(SmartCollection, SmartCollectionAdmin)
+        admin_site.register(SmartCollectionImage, SmartCollectionImageAdmin)
+        admin_site.register(AutoCategorizationRule, AutoCategorizationRuleAdmin)
+        admin_site.register(ImageAnalysisJob, ImageAnalysisJobAdmin)
         
-    except ImportError:
-        pass  # Gallery app not available
-
-# Register gallery models
-register_gallery_models()
+        # Register tracking models
+        from gallery.admin import (
+            GalleryImageLikeAdmin, GalleryImageCommentAdmin,
+            GalleryImageShareAdmin, GalleryImageDownloadAdmin
+        )
+        from gallery.models import GalleryImageLike, GalleryImageComment, GalleryImageShare, GalleryImageDownload
+        
+        # Unregister from default admin if needed
+        for model in [GalleryImageLike, GalleryImageComment, GalleryImageShare, GalleryImageDownload]:
+            if model in admin.site._registry:
+                admin.site.unregister(model)
+        
+        admin_site.register(GalleryImageLike, GalleryImageLikeAdmin)
+        admin_site.register(GalleryImageComment, GalleryImageCommentAdmin)
+        admin_site.register(GalleryImageShare, GalleryImageShareAdmin)
+        admin_site.register(GalleryImageDownload, GalleryImageDownloadAdmin)
+        
+    except ImportError as e:
+        # Gallery app not available or not yet loaded
+        pass

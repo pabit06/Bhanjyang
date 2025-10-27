@@ -9,12 +9,22 @@ from django.contrib import messages
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.db import transaction
-from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 import json
 import os
+import logging
 from PIL import Image
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing import Any
+    from django.http import HttpRequest, JsonResponse
+    from django.db.models import QuerySet
+
+logger = logging.getLogger(__name__)
+
+from .constants import ADMIN_LIST_PER_PAGE, MOBILE_IMAGE_QUALITY, THUMBNAIL_QUALITY
 from .models import (
     GalleryImage, GalleryAlbum, GalleryImageLike, GalleryImageComment, 
     GalleryImageShare, GalleryImageDownload, SmartCollection, 
@@ -22,22 +32,32 @@ from .models import (
 )
 
 
-@admin.register(GalleryAlbum)
+# Note: Models will be registered with custom admin site from apps.core.admin_site
 class GalleryAlbumAdmin(admin.ModelAdmin):
-    list_display = ['name', 'get_path', 'get_image_count', 'get_sub_album_count', 'is_featured', 'is_active']
+    list_display = ['name', 'get_path', 'get_image_count', 'get_sub_album_count', 'is_featured', 'is_active', 'order']
     list_filter = ['is_featured', 'is_active', 'created_at', 'parent_album']
     search_fields = ['name', 'description']
-    list_editable = ['is_featured', 'is_active']
+    list_editable = ['is_featured', 'is_active', 'order']
     ordering = ['order', '-created_at']
+    list_per_page = ADMIN_LIST_PER_PAGE
+    
+    # Use autocomplete for easier parent album selection
+    autocomplete_fields = ['parent_album']
     
     fieldsets = (
         ('Album Information', {
             'fields': ('name', 'description', 'cover_image', 'parent_album')
         }),
-        ('Display Settings', {
+        ('Control', {
             'fields': ('is_featured', 'is_active', 'order')
         }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',),
+        }),
     )
+    
+    readonly_fields = ['created_at', 'updated_at']
     
     def get_path(self, obj):
         return obj.get_path()
@@ -52,22 +72,46 @@ class GalleryAlbumAdmin(admin.ModelAdmin):
     get_sub_album_count.short_description = "Sub-albums"
 
 
-@admin.register(GalleryImage)
+# Note: Models will be registered with custom admin site from apps.core.admin_site
 class GalleryImageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'album', 'category', 'image_preview', 'file_size', 'dimensions', 'is_featured', 'is_active']
-    list_filter = ['album', 'category', 'is_featured', 'is_active', 'created_at']
-    search_fields = ['title', 'description']
+    list_display = [
+        'get_thumbnail_link', 'title', 'album', 'category', 'is_featured', 
+        'is_active', 'views_count', 'likes_count', 'created_at'
+    ]
+    list_filter = ['is_featured', 'is_active', 'category', 'album', 'created_at']
+    search_fields = ['title', 'description', 'ai_tags']
     list_editable = ['is_featured', 'is_active']
     ordering = ['order', '-created_at']
+    list_per_page = ADMIN_LIST_PER_PAGE
+    date_hierarchy = 'created_at'  # Add date drilldown
     
+    # Use autocomplete for easier album selection
+    autocomplete_fields = ['album']
+
     fieldsets = (
-        ('Image Information', {
-            'fields': ('title', 'description', 'image', 'album', 'category')
+        ('Image Details', {
+            'fields': ('title', 'description', 'image', 'get_thumbnail')
         }),
-        ('Display Settings', {
-            'fields': ('is_featured', 'is_active', 'order')
+        ('Organization', {
+            'fields': ('album', 'category', 'order')
+        }),
+        ('AI & Metadata', {
+            'fields': ('ai_tags', 'ai_description', 'ai_sentiment', 'ai_quality_score', 'ai_color_palette', 'ai_objects', 'ai_scene_type'),
+            'classes': ('collapse',)
+        }),
+        ('Control', {
+            'fields': ('is_featured', 'is_active', 'is_public', 'allow_comments', 'allow_downloads')
+        }),
+        ('Stats & Timestamps', {
+            'fields': ('views_count', 'likes_count', 'shares_count', 'comments_count', 'created_at', 'updated_at'),
+            'classes': ('collapse',)
         }),
     )
+    
+    readonly_fields = [
+        'get_thumbnail', 'views_count', 'likes_count', 'shares_count', 
+        'comments_count', 'created_at', 'updated_at'
+    ]
     
     actions = [
         'bulk_upload_images', 'mark_as_featured', 'mark_as_unfeatured', 
@@ -77,30 +121,32 @@ class GalleryImageAdmin(admin.ModelAdmin):
     
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
+        extra_context['show_bulk_upload'] = True
         extra_context['bulk_upload_url'] = reverse('admin:gallery_bulk_upload')
         extra_context['drag_drop_url'] = reverse('admin:gallery_drag_drop_upload')
         extra_context['batch_operations_url'] = reverse('admin:gallery_batch_operations')
-        extra_context['show_bulk_upload'] = True
-        return super().changelist_view(request, extra_context)
+        return super().changelist_view(request, extra_context=extra_context)
     
-    def image_preview(self, obj):
+    def get_thumbnail(self, obj):
+        """Display thumbnail in admin form"""
         if obj.image:
             return format_html(
-                '<img src="{}" width="50" height="50" style="border-radius: 5px;" />',
-                obj.image.url
+                '<img src="{}" width="150" height="100" style="object-fit: cover; border-radius: 5px;" />', 
+                obj.get_thumbnail_url(size=(300, 200))
             )
         return "No Image"
-    image_preview.short_description = "Preview"
-    
-    def file_size(self, obj):
-        size_mb = obj.get_file_size_mb()
-        return f"{size_mb:.2f} MB"
-    file_size.short_description = "File Size"
-    
-    def dimensions(self, obj):
-        width, height = obj.get_image_dimensions()
-        return f"{width} x {height}"
-    dimensions.short_description = "Dimensions"
+    get_thumbnail.short_description = "Thumbnail"
+
+    def get_thumbnail_link(self, obj):
+        """Make thumbnail clickable, opening the full image in list view"""
+        if obj.image:
+            return format_html(
+                '<a href="{}" target="_blank"><img src="{}" width="100" height="70" style="object-fit: cover; border-radius: 5px;" /></a>', 
+                obj.image.url,
+                obj.get_thumbnail_url(size=(200, 140))
+            )
+        return "No Image"
+    get_thumbnail_link.short_description = "Image"
     
     def bulk_upload_images(self, request, queryset):
         """Redirect to bulk upload page"""
@@ -143,7 +189,7 @@ class GalleryImageAdmin(admin.ModelAdmin):
                             img = img.convert('RGB')
                         
                         # Save with optimization
-                        img.save(img_path, 'JPEG', quality=85, optimize=True)
+                        img.save(img_path, 'JPEG', quality=THUMBNAIL_QUALITY, optimize=True)
                         optimized_count += 1
                 except Exception as e:
                     self.message_user(request, f"Error optimizing {image_obj.title}: {str(e)}", level=messages.ERROR)
@@ -258,9 +304,8 @@ class GalleryImageAdmin(admin.ModelAdmin):
             messages.error(request, f"Error uploading images: {str(e)}")
             return redirect('admin:gallery_bulk_upload')
     
-    @method_decorator(csrf_exempt)
     def drag_drop_upload(self, request):
-        """Handle drag-and-drop upload via AJAX"""
+        """Handle drag-and-drop upload via AJAX - CSRF protected"""
         if request.method == 'POST':
             try:
                 files = request.FILES.getlist('files')
@@ -297,6 +342,7 @@ class GalleryImageAdmin(admin.ModelAdmin):
                 })
                 
             except Exception as e:
+                logger.error(f"Error in drag-drop upload: {e}", exc_info=True)
                 return JsonResponse({
                     'success': False,
                     'message': f'Error uploading images: {str(e)}'
@@ -317,36 +363,41 @@ class GalleryImageAdmin(admin.ModelAdmin):
             'title': 'Batch Operations'
         })
     
+    @transaction.atomic
     def handle_batch_operations(self, request):
         """Handle batch operations on images"""
         try:
             operation = request.POST.get('operation')
-            image_ids = request.POST.getlist('image_ids')
+            image_ids = request.POST.get('image_ids', '').split(',')
+            
+            if not image_ids or not operation:
+                messages.error(request, "No operation or images selected.")
+                return redirect('admin:gallery_galleryimage_changelist')
+                
             queryset = GalleryImage.objects.filter(id__in=image_ids)
+            count = queryset.count()
             
             if operation == 'assign_album':
                 album_id = request.POST.get('album_id')
                 if album_id:
                     album = GalleryAlbum.objects.get(id=album_id)
                     queryset.update(album=album)
-                    messages.success(request, f"Assigned {queryset.count()} images to album '{album.name}'.")
+                    messages.success(request, f"Assigned {count} images to album '{album.name}'.")
             
-            elif operation == 'change_category':
+            elif operation == 'set_category':
                 category = request.POST.get('category')
                 queryset.update(category=category)
-                messages.success(request, f"Updated category for {queryset.count()} images.")
+                messages.success(request, f"Set category for {count} images.")
             
             elif operation == 'toggle_featured':
-                featured_status = request.POST.get('featured_status') == 'true'
-                queryset.update(is_featured=featured_status)
-                status_text = "featured" if featured_status else "unfeatured"
-                messages.success(request, f"Marked {queryset.count()} images as {status_text}.")
+                status = request.POST.get('status') == 'true'
+                queryset.update(is_featured=status)
+                messages.success(request, f"Marked {count} images as {'featured' if status else 'not featured'}.")
             
             elif operation == 'toggle_active':
-                active_status = request.POST.get('active_status') == 'true'
-                queryset.update(is_active=active_status)
-                status_text = "active" if active_status else "inactive"
-                messages.success(request, f"Marked {queryset.count()} images as {status_text}.")
+                status = request.POST.get('status') == 'true'
+                queryset.update(is_active=status)
+                messages.success(request, f"Set {count} images as {'active' if status else 'inactive'}.")
             
             elif operation == 'optimize':
                 optimized_count = 0
@@ -357,27 +408,31 @@ class GalleryImageAdmin(admin.ModelAdmin):
                             with Image.open(img_path) as img:
                                 if img.mode in ('RGBA', 'LA', 'P'):
                                     img = img.convert('RGB')
-                                img.save(img_path, 'JPEG', quality=85, optimize=True)
+                                img.save(img_path, 'JPEG', quality=THUMBNAIL_QUALITY, optimize=True)
                                 optimized_count += 1
                         except Exception as e:
+                            logger.error(f"Error optimizing {image_obj.title}: {e}", exc_info=True)
                             messages.error(request, f"Error optimizing {image_obj.title}: {str(e)}")
                 
                 messages.success(request, f"Optimized {optimized_count} images.")
             
-            elif operation == 'delete':
-                count = queryset.count()
-                queryset.delete()
+            elif operation == 'delete_images':
+                for image in queryset:
+                    image.delete()  # Call model's delete method
                 messages.success(request, f"Deleted {count} images.")
             
-            return redirect('admin:gallery_batch_operations')
-            
+            else:
+                messages.warning(request, "Unknown operation.")
+                
         except Exception as e:
-            messages.error(request, f"Error performing batch operation: {str(e)}")
-            return redirect('admin:gallery_batch_operations')
+            logger.error(f"Error in batch operations: {e}", exc_info=True)
+            messages.error(request, f"An error occurred: {e}")
+            
+        return redirect('admin:gallery_galleryimage_changelist')
 
 
 # Smart Collections Admin
-@admin.register(SmartCollection)
+# Note: Models will be registered with custom admin site from apps.core.admin_site
 class SmartCollectionAdmin(admin.ModelAdmin):
     list_display = ['name', 'get_image_count', 'is_featured', 'is_active', 'auto_update', 'last_updated']
     list_filter = ['is_featured', 'is_active', 'auto_update', 'created_at']
@@ -435,7 +490,7 @@ class SmartCollectionAdmin(admin.ModelAdmin):
     mark_as_unfeatured.short_description = "Mark as Unfeatured"
 
 
-@admin.register(SmartCollectionImage)
+# Note: Models will be registered with custom admin site from apps.core.admin_site
 class SmartCollectionImageAdmin(admin.ModelAdmin):
     list_display = ['collection', 'image', 'match_score', 'added_at']
     list_filter = ['collection', 'added_at']
@@ -444,7 +499,7 @@ class SmartCollectionImageAdmin(admin.ModelAdmin):
     readonly_fields = ['added_at']
 
 
-@admin.register(AutoCategorizationRule)
+# Note: Models will be registered with custom admin site from apps.core.admin_site
 class AutoCategorizationRuleAdmin(admin.ModelAdmin):
     list_display = ['name', 'target_category', 'priority', 'is_active', 'times_applied', 'last_applied']
     list_filter = ['target_category', 'is_active', 'auto_apply', 'created_at']
@@ -503,7 +558,7 @@ class AutoCategorizationRuleAdmin(admin.ModelAdmin):
     mark_as_inactive.short_description = "Mark as Inactive"
 
 
-@admin.register(ImageAnalysisJob)
+# Note: Models will be registered with custom admin site from apps.core.admin_site
 class ImageAnalysisJobAdmin(admin.ModelAdmin):
     list_display = ['image', 'status', 'created_at', 'completed_at']
     list_filter = ['status', 'created_at']
@@ -542,7 +597,42 @@ class ImageAnalysisJobAdmin(admin.ModelAdmin):
     mark_as_completed.short_description = "Mark as Completed"
 
 
-# Custom admin site configuration
-admin.site.site_header = "Bhanjyang Cooperative Admin"
-admin.site.site_title = "Bhanjyang Admin"
-admin.site.index_title = "Welcome to Bhanjyang Cooperative Administration"
+# Note: Models will be registered with custom admin site from apps.core.admin_site
+class GalleryImageLikeAdmin(admin.ModelAdmin):
+    list_display = ['image', 'user_ip', 'session_id', 'created_at']
+    list_filter = ['created_at']
+    search_fields = ['image__title', 'user_ip', 'session_id']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
+
+
+# Note: Models will be registered with custom admin site from apps.core.admin_site
+class GalleryImageCommentAdmin(admin.ModelAdmin):
+    list_display = ['image', 'name', 'email', 'is_approved', 'created_at']
+    list_filter = ['is_approved', 'created_at']
+    search_fields = ['image__title', 'name', 'email', 'comment']
+    list_editable = ['is_approved']
+    readonly_fields = ['created_at', 'updated_at']
+    date_hierarchy = 'created_at'
+
+
+# Note: Models will be registered with custom admin site from apps.core.admin_site
+class GalleryImageShareAdmin(admin.ModelAdmin):
+    list_display = ['image', 'platform', 'user_ip', 'session_id', 'created_at']
+    list_filter = ['platform', 'created_at']
+    search_fields = ['image__title', 'user_ip', 'session_id']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
+
+
+# Note: Models will be registered with custom admin site from apps.core.admin_site
+class GalleryImageDownloadAdmin(admin.ModelAdmin):
+    list_display = ['image', 'download_type', 'user_ip', 'session_id', 'created_at']
+    list_filter = ['download_type', 'created_at']
+    search_fields = ['image__title', 'user_ip', 'session_id']
+    readonly_fields = ['created_at']
+    date_hierarchy = 'created_at'
+
+
+# Note: Admin registration is handled in apps.core.admin_site to use custom admin site
+# All gallery models are registered with the custom admin site for enhanced functionality

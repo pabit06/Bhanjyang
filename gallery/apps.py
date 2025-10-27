@@ -6,8 +6,10 @@ class GalleryConfig(AppConfig):
     name = 'gallery'
     
     def ready(self):
-        """Import admin registration when app is ready"""
+        """Register gallery admin models with custom admin site"""
         try:
-            import gallery.admin_registration
-        except ImportError:
+            from apps.core.admin_site import register_gallery_models
+            register_gallery_models()
+        except Exception:
+            # Registration will be handled at startup
             pass

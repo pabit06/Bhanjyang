@@ -549,7 +549,7 @@
             "tabletSrc": "{{ image.get_mobile_image_url }}",
             "thumbnailSrc": "{{ image.get_thumbnail_url }}",
             "alt": "{{ image.title|escapejs }}",
-            "caption": "{{ image.caption|escapejs }}",
+            "caption": "{{ image.description|escapejs }}",
             "title": "{{ image.title|escapejs }}",
             "category": "{{ image.category }}",
             "album": {{ image.album.id }},

@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST, require_GET
-from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.db import transaction
@@ -10,16 +9,19 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.core.paginator import Paginator
-from django.db.models import Q, Count
+from django.db.models import Q, Count, F
 import json
 import logging
-import uuid
 import time
 
 # Set up logging
 logger = logging.getLogger(__name__)
 
-from .models import GalleryImage, GalleryAlbum
+from .models import (
+    GalleryImage, GalleryAlbum, GalleryImageLike, GalleryImageComment,
+    GalleryImageShare, GalleryImageDownload, SmartCollection, 
+    SmartCollectionImage, AutoCategorizationRule, ImageAnalysisJob
+)
 
 
 def track_page_view(request, page_url, page_title=""):
@@ -31,7 +33,10 @@ def track_page_view(request, page_url, page_title=""):
         user_ip = request.META.get('REMOTE_ADDR', '')[:45]  # IPv6 max length
         user_agent = request.META.get('HTTP_USER_AGENT', '')[:500]
         referrer = request.META.get('HTTP_REFERER', '')[:500]
-        session_id = request.session.session_key or str(uuid.uuid4())
+        session_id = request.session.session_key
+        if not session_id:
+            request.session.create()
+            session_id = request.session.session_key
         
         # Import PageView from home app
         from apps.home.models import PageView
@@ -50,66 +55,63 @@ def track_page_view(request, page_url, page_title=""):
 # @cache_page(900)  # Cache for 15 minutes - temporarily disabled for testing
 def gallery_view(request):
     """
-    Enhanced gallery view with dynamic images and album support
+    [OPTIMIZED] Enhanced gallery view with optimized data fetching to avoid N+1 queries
     """
     track_page_view(request, request.build_absolute_uri(), "Gallery - Bhanjyang Cooperative")
-    
-    # Temporarily disable caching for testing
-    # cache_key = f'gallery_data_{request.user.is_staff}'
-    # cached_data = cache.get(cache_key)
-    # 
-    # if cached_data and not request.user.is_staff:
-    #     return render(request, 'gallery/gallery.html', cached_data)
-    
-    try:
-        # Get all active gallery images
-        gallery_images = GalleryImage.objects.filter(
-            is_active=True
-        ).select_related('album').order_by('order', '-created_at')
-        
-        # Get all active albums
-        albums = GalleryAlbum.objects.filter(
-            is_active=True
-        ).prefetch_related('images', 'sub_albums').order_by('order', '-created_at')
-        
-        # Group images by category (for backward compatibility)
-        categories = {}
-        for image in gallery_images:
-            if image.category not in categories:
-                categories[image.category] = []
-            categories[image.category].append(image)
-        
-        # Group images by album
-        album_images = {}
-        for album in albums:
-            album_images[album.id] = album.images.filter(is_active=True).order_by('order', '-created_at')
-        
-        # Get root albums (no parent)
-        root_albums = albums.filter(parent_album__isnull=True)
-        
-    except Exception as e:
-        logger.error(f"Error fetching gallery data: {e}", exc_info=True)
-        categories = {}
-        albums = []
-        album_images = {}
-        root_albums = []
-        gallery_images = []
     
     context = {
         'breadcrumbs': [
             {'name': 'Home', 'url': '/'},
             {'name': 'Gallery', 'url': reverse('gallery:gallery')}
         ],
-        'categories': categories,
-        'albums': albums,
-        'root_albums': root_albums,
-        'album_images': album_images,
-        'gallery_images': gallery_images,
+        'categories': {},
+        'albums': [],
+        'root_albums': [],
+        'album_images': {},
+        'gallery_images': [],
         'timestamp': int(time.time()),
     }
     
-    # Temporarily disable caching for testing
-    # cache.set(cache_key, context, 900)
+    try:
+        # Get all active gallery images with related album
+        gallery_images = GalleryImage.objects.filter(
+            is_active=True
+        ).select_related('album').order_by('order', '-created_at')
+        
+        # Get all active albums with sub-albums
+        albums = GalleryAlbum.objects.filter(
+            is_active=True
+        ).prefetch_related('sub_albums').order_by('order', '-created_at')
+        
+        # --- Optimized Grouping (Avoids N+1 queries) ---
+        categories = {}
+        album_images = {album.id: [] for album in albums}  # Pre-fill all albums
+        
+        for image in gallery_images:
+            # Group by category
+            if image.category not in categories:
+                categories[image.category] = []
+            categories[image.category].append(image)
+            
+            # Group by album
+            if image.album_id in album_images:
+                album_images[image.album_id].append(image)
+        
+        # Get root albums (no parent) from the already-fetched list
+        root_albums = [album for album in albums if album.parent_album_id is None]
+        # --- End Optimized Grouping ---
+        
+        context.update({
+            'categories': categories,
+            'albums': albums,
+            'root_albums': root_albums,
+            'album_images': album_images,
+            'gallery_images': gallery_images,
+        })
+        
+    except Exception as e:
+        logger.error(f"Error fetching gallery data: {e}", exc_info=True)
+        # Context already has safe defaults
     
     return render(request, 'gallery/gallery.html', context)
 
@@ -175,10 +177,9 @@ def analytics_view(request):
         total_shares = images_queryset.aggregate(total=Sum('shares_count'))['total'] or 0
         
         # Count downloads from related model
-        try:
-            total_downloads = images_queryset.aggregate(total=Count('downloads'))['total'] or 0
-        except Exception:
-            total_downloads = 0
+        total_downloads = GalleryImageDownload.objects.filter(
+            image__in=images_queryset
+        ).count()
         
         # Category distribution
         category_stats = images_queryset.values('category').annotate(
@@ -189,7 +190,7 @@ def analytics_view(request):
         
         # Top performing images
         top_images = images_queryset.annotate(
-            engagement_rate=Sum('likes_count') + Sum('shares_count') + Sum('comments_count')
+            engagement_rate=Sum('likes_count') + Sum('shares_count') + Count('comments')
         ).order_by('-views_count')[:10]
         
         # Recent activity
@@ -215,6 +216,7 @@ def analytics_view(request):
         
     except Exception as e:
         # Fallback context in case of any errors
+        logger.error(f"Error in analytics view: {e}", exc_info=True)
         context = {
             'total_views': 0,
             'total_likes': 0,
@@ -259,42 +261,44 @@ def album_detail_view(request, album_id):
         return render(request, 'gallery/404.html', status=404)
 
 
-@csrf_exempt
-@require_POST
+@require_GET
 def gallery_search_api(request):
     """
-    API endpoint for gallery search
+    [UPDATED] API endpoint for gallery search - changed to GET method
     """
     try:
-        data = json.loads(request.body)
-        query = data.get('query', '').strip()
+        query = request.GET.get('query', '').strip()
         
         if not query:
-            return JsonResponse({'images': []})
+            return JsonResponse({'success': True, 'images': []})
         
         images = GalleryImage.objects.filter(
             is_active=True
         ).filter(
             Q(title__icontains=query) | 
-            Q(description__icontains=query)
+            Q(description__icontains=query) |
+            Q(ai_tags__icontains=query)  # Also search AI tags
         ).select_related('album')[:20]
         
-        results = []
-        for image in images:
-            results.append({
-                'id': image.id,
-                'title': image.title,
-                'description': image.description,
-                'image_url': image.image.url,
-                'album_name': image.get_album_path(),
-                'category': image.get_category_display(),
-            })
+        results = [{
+            'id': img.id,
+            'title': img.title,
+            'description': img.description,
+            'image_url': img.image.url,
+            'thumbnail_url': img.get_thumbnail_url() if hasattr(img, 'get_thumbnail_url') else img.image.url,
+            'album_name': img.album.name if img.album else 'Uncategorized',
+            'album_id': img.album.id if img.album else None,
+            'category': img.category,
+            'category_name': img.get_category_display(),
+            'ai_tags': img.ai_tags or [],
+            'created_at': img.created_at.isoformat(),
+        } for img in images]
         
-        return JsonResponse({'images': results})
+        return JsonResponse({'success': True, 'images': results})
         
     except Exception as e:
         logger.error(f"Error in gallery search: {e}", exc_info=True)
-        return JsonResponse({'error': 'Search failed'}, status=500)
+        return JsonResponse({'success': False, 'error': 'Search failed'}, status=500)
 
 
 @require_GET
@@ -307,14 +311,18 @@ def gallery_categories_api(request):
             count=Count('id')
         ).order_by('category')
         
+        # Get category display names
+        category_choices = dict(GalleryImage._meta.get_field('category').choices)
+        
         results = []
         for cat in categories:
-            category_name = dict(GalleryImage._meta.get_field('category').choices)[cat['category']]
-            results.append({
-                'key': cat['category'],
-                'name': category_name,
-                'count': cat['count']
-            })
+            if cat['category']:  # Ensure category is not None
+                category_name = category_choices.get(cat['category'], cat['category'])
+                results.append({
+                    'key': cat['category'],
+                    'name': category_name,
+                    'count': cat['count']
+                })
         
         return JsonResponse({'success': True, 'categories': results})
         
@@ -330,8 +338,9 @@ def gallery_albums_api(request):
     """
     try:
         albums = GalleryAlbum.objects.filter(is_active=True).annotate(
-            image_count=Count('images', filter=Q(images__is_active=True))
-        ).order_by('order', '-created_at')
+            image_count=Count('images', filter=Q(images__is_active=True)),
+            sub_album_count=Count('sub_albums', filter=Q(sub_albums__is_active=True))
+        ).select_related('parent_album').order_by('order', '-created_at')
         
         results = [{
             'id': album.id,
@@ -339,7 +348,7 @@ def gallery_albums_api(request):
             'description': album.description,
             'cover_image': album.cover_image.url if album.cover_image else None,
             'image_count': album.image_count,
-            'sub_album_count': album.sub_albums.filter(is_active=True).count(),
+            'sub_album_count': album.sub_album_count,
             'parent_album': album.parent_album.id if album.parent_album else None,
             'is_featured': album.is_featured,
             'created_at': album.created_at.isoformat(),
@@ -353,26 +362,104 @@ def gallery_albums_api(request):
         return JsonResponse({'success': False, 'message': 'An error occurred.'}, status=500)
 
 
-@csrf_exempt
 @require_POST
 def gallery_image_analytics(request):
     """
-    API endpoint for tracking image views and interactions
+    [UPDATED] API endpoint for tracking image views and interactions with atomic updates
     """
     try:
         data = json.loads(request.body)
         image_id = data.get('image_id')
-        action = data.get('action')  # 'view', 'download', 'share', 'favorite'
+        action = data.get('action')  # 'view', 'download', 'share', 'like'
         
         if not image_id or not action:
             return JsonResponse({'success': False, 'message': 'Missing required parameters.'}, status=400)
         
-        # Here you would typically save analytics data to a database
-        # For now, we'll just log it
-        logger.info(f"Image analytics: {action} for image {image_id}")
+        # Validate action
+        allowed_actions = ['view', 'download', 'share', 'like']
+        if action not in allowed_actions:
+            return JsonResponse({'success': False, 'message': 'Invalid action.'}, status=400)
         
-        return JsonResponse({'success': True, 'message': 'Analytics recorded.'})
+        # Get the image object
+        image = get_object_or_404(GalleryImage, id=image_id)
         
+        # Get user/session identifiers
+        user = request.user if request.user.is_authenticated else None
+        session_id = request.session.session_key
+        if not session_id:
+            request.session.create()
+            session_id = request.session.session_key
+        user_ip = request.META.get('REMOTE_ADDR', '')[:45]
+        user_agent = request.META.get('HTTP_USER_AGENT', '')[:500]
+
+        with transaction.atomic():
+            if action == 'view':
+                # Atomically increment view count
+                image.views_count = F('views_count') + 1
+                image.save(update_fields=['views_count'])
+                message = 'View recorded.'
+            
+            elif action == 'download':
+                # Create a download record
+                GalleryImageDownload.objects.create(
+                    image=image,
+                    user_ip=user_ip,
+                    user_agent=user_agent,
+                    session_id=session_id
+                )
+                message = 'Download recorded.'
+            
+            elif action == 'share':
+                # Atomically increment share count
+                image.shares_count = F('shares_count') + 1
+                image.save(update_fields=['shares_count'])
+                # Create a share record
+                platform = data.get('platform', 'unknown')
+                GalleryImageShare.objects.create(
+                    image=image,
+                    platform=platform,
+                    user_ip=user_ip,
+                    user_agent=user_agent,
+                    session_id=session_id
+                )
+                message = 'Share recorded.'
+            
+            elif action == 'like':
+                # Toggle: Create a like or delete it
+                like_obj, created = GalleryImageLike.objects.get_or_create(
+                    image=image,
+                    user_ip=user_ip,
+                    defaults={
+                        'user_agent': user_agent,
+                        'session_id': session_id
+                    }
+                )
+                
+                if created:
+                    # New like - atomically increment
+                    image.likes_count = F('likes_count') + 1
+                    message = 'Image liked.'
+                else:
+                    # Already liked, so unlike
+                    like_obj.delete()
+                    image.likes_count = F('likes_count') - 1
+                    message = 'Image unliked.'
+                
+                image.save(update_fields=['likes_count'])
+
+        # Refresh from DB to get the updated counts
+        image.refresh_from_db()
+        
+        return JsonResponse({
+            'success': True, 
+            'message': message,
+            'view_count': image.views_count,
+            'like_count': image.likes_count,
+            'share_count': image.shares_count,
+        })
+        
+    except GalleryImage.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Image not found.'}, status=404)
     except Exception as e:
         logger.error(f"Error in gallery analytics API: {e}", exc_info=True)
         return JsonResponse({'success': False, 'message': 'An error occurred.'}, status=500)
@@ -455,10 +542,16 @@ def smart_collection_detail_view(request, collection_id):
     return render(request, 'gallery/smart_collection_detail.html', context)
 
 
-@csrf_exempt
 @require_POST
 def update_smart_collection_api(request, collection_id):
-    """API to update a smart collection"""
+    """API to update a smart collection - requires staff permissions"""
+    # Require admin/staff access for security
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return JsonResponse({
+            'success': False,
+            'message': 'Permission denied'
+        }, status=403)
+    
     try:
         collection = get_object_or_404(SmartCollection, id=collection_id)
         
@@ -479,19 +572,28 @@ def update_smart_collection_api(request, collection_id):
         }, status=500)
 
 
-@csrf_exempt
 @require_POST
 def apply_auto_categorization_api(request):
-    """API to apply auto-categorization rules to all images"""
+    """API to apply auto-categorization rules to all images - requires staff permissions"""
+    # Require admin/staff access for security
+    if not request.user.is_authenticated or not request.user.is_staff:
+        return JsonResponse({
+            'success': False,
+            'message': 'Permission denied'
+        }, status=403)
+    
     try:
         rules = AutoCategorizationRule.objects.filter(is_active=True, auto_apply=True).order_by('-priority')
         applied_count = 0
         
-        for rule in rules:
-            images = GalleryImage.objects.filter(is_active=True)
-            for image in images:
-                if rule.apply_to_image(image):
-                    applied_count += 1
+        # Get all images once
+        images = GalleryImage.objects.filter(is_active=True)
+        
+        with transaction.atomic():  # Run all rule applications in a single transaction
+            for rule in rules:
+                for image in images:
+                    if rule.apply_to_image(image):
+                        applied_count += 1
         
         return JsonResponse({
             'success': True,

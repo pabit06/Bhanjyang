@@ -1,16 +1,40 @@
 from django.db import models
+from django.conf import settings
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.core.validators import FileExtensionValidator, validate_image_file_extension
+from django.core.exceptions import ValidationError
+from django.db import transaction
+from django.db.models import Q, F
+from django.utils import timezone
 from PIL import Image
+from typing import Optional, Tuple
 import io
 import os
+import logging
+
+from .constants import (
+    MAX_IMAGE_SIZE_BYTES, MAX_IMAGE_DIMENSION, MIN_IMAGE_DIMENSION,
+    WARN_IMAGE_DIMENSION, THUMBNAIL_SIZE, MOBILE_IMAGE_SIZE,
+    MOBILE_IMAGE_QUALITY, THUMBNAIL_QUALITY, MAX_IMAGE_SIZE_MB
+)
+
+logger = logging.getLogger(__name__)
 
 
 class GalleryAlbum(models.Model):
     """Albums for organizing gallery images"""
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    cover_image = models.ImageField(upload_to='gallery/albums/', blank=True, null=True)
+    cover_image = models.ImageField(
+        upload_to='gallery/albums/',
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp']),
+        ],
+        help_text="Album cover image (JPG, PNG, WEBP only)"
+    )
     parent_album = models.ForeignKey(
         'self', 
         on_delete=models.CASCADE, 
@@ -29,33 +53,80 @@ class GalleryAlbum(models.Model):
         ordering = ['order', '-created_at']
         verbose_name = "Gallery Album"
         verbose_name_plural = "Gallery Albums"
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['parent_album', 'is_active']),
+            models.Index(fields=['order', 'is_active']),
+            models.Index(fields=['created_at']),
+        ]
     
     def __str__(self):
+        return self.get_path()
+    
+    def get_path(self) -> str:
+        """Get full path of album including parent albums"""
+        if self.parent_album:
+            return f"{self.parent_album.get_path()} / {self.name}"
         return self.name
     
-    def get_path(self):
-        """Get the full path of the album including parent albums"""
-        path = [self.name]
-        parent = self.parent_album
-        while parent:
-            path.insert(0, parent.name)
-            parent = parent.parent_album
-        return ' / '.join(path)
-    
-    def get_image_count(self):
+    def get_image_count(self) -> int:
         """Get the number of images in this album"""
         return self.images.filter(is_active=True).count()
     
-    def get_sub_album_count(self):
+    def get_sub_album_count(self) -> int:
         """Get the number of sub-albums"""
         return self.sub_albums.filter(is_active=True).count()
+    
+    def delete(self, *args, **kwargs) -> None:
+        """Delete cover image file when album is deleted"""
+        if self.cover_image:
+            try:
+                if default_storage.exists(self.cover_image.name):
+                    default_storage.delete(self.cover_image.name)
+            except Exception as e:
+                logger.error(f"Error deleting cover image for album {self.id}: {e}", exc_info=True)
+        super().delete(*args, **kwargs)
 
+
+def validate_image_size(value):
+    """Validate that image size doesn't exceed MAX_IMAGE_SIZE_MB"""
+    if value.size > MAX_IMAGE_SIZE_BYTES:
+        size_mb = value.size / (1024 * 1024)
+        raise ValidationError(
+            f'Image size cannot exceed {MAX_IMAGE_SIZE_MB}MB. Current size: {size_mb:.2f}MB'
+        )
+
+def validate_image_dimensions(value):
+    """Validate that image dimensions are reasonable"""
+    try:
+        from PIL import Image as PILImage
+        img = PILImage.open(value)
+        width, height = img.size
+        if width > MAX_IMAGE_DIMENSION or height > MAX_IMAGE_DIMENSION:
+            raise ValidationError(
+                f'Image dimensions are too large: {width}x{height}. '
+                f'Maximum: {MAX_IMAGE_DIMENSION}x{MAX_IMAGE_DIMENSION}'
+            )
+        if width < MIN_IMAGE_DIMENSION or height < MIN_IMAGE_DIMENSION:
+            raise ValidationError(
+                f'Image dimensions are too small: {width}x{height}. '
+                f'Minimum: {MIN_IMAGE_DIMENSION}x{MIN_IMAGE_DIMENSION}'
+            )
+    except Exception:
+        pass  # Let other validators handle invalid images
 
 class GalleryImage(models.Model):
     """Images for the gallery section"""
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='gallery/')
+    image = models.ImageField(
+        upload_to='gallery/',
+        validators=[
+            FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp']),
+            validate_image_size,
+        ],
+        help_text="Upload images (JPG, PNG, WEBP only, max 10MB)"
+    )
     album = models.ForeignKey(
         GalleryAlbum, 
         on_delete=models.CASCADE, 
@@ -104,6 +175,37 @@ class GalleryImage(models.Model):
         ordering = ['order', '-created_at']
         verbose_name = "Gallery Image"
         verbose_name_plural = "Gallery Images"
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['category', 'is_active']),
+            models.Index(fields=['album', 'is_active']),
+            models.Index(fields=['created_at']),
+            models.Index(fields=['is_public', 'is_active']),
+        ]
+    
+    def clean(self):
+        """Additional model-level validation"""
+        super().clean()
+        if self.image:
+            # Validate image dimensions during upload
+            try:
+                from PIL import Image as PILImage
+                img = PILImage.open(self.image)
+                width, height = img.size
+                
+                # Warn about very large images
+                if width > WARN_IMAGE_DIMENSION or height > WARN_IMAGE_DIMENSION:
+                    logger.warning(f"Large image uploaded: {width}x{height}")
+                    
+                if width > MAX_IMAGE_DIMENSION or height > MAX_IMAGE_DIMENSION:
+                    raise ValidationError(
+                        f'Image dimensions are too large: {width}x{height}. '
+                        f'Maximum: {MAX_IMAGE_DIMENSION}x{MAX_IMAGE_DIMENSION}'
+                    )
+                    
+            except Exception as e:
+                # If we can't open the image, it's likely invalid
+                raise ValidationError(f'Invalid image file: {str(e)}')
     
     def __str__(self):
         return self.title
@@ -114,7 +216,11 @@ class GalleryImage(models.Model):
             return self.album.get_path()
         return "No Album"
     
-    def optimize_image_for_mobile(self, size=(800, 600), quality=85):
+    def optimize_image_for_mobile(
+        self, 
+        size: Tuple[int, int] = MOBILE_IMAGE_SIZE, 
+        quality: int = MOBILE_IMAGE_QUALITY
+    ) -> Optional[str]:
         """Create mobile-optimized version of the image"""
         try:
             if not self.image:
@@ -152,7 +258,7 @@ class GalleryImage(models.Model):
             return mobile_path
             
         except Exception as e:
-            print(f"Error optimizing image for mobile: {e}")
+            logger.error(f"Error optimizing image for mobile: {e}", exc_info=True)
             return None
     
     def get_mobile_image_url(self):
@@ -165,7 +271,7 @@ class GalleryImage(models.Model):
         except Exception:
             return self.image.url
     
-    def get_thumbnail_url(self, size=(300, 200)):
+    def get_thumbnail_url(self, size: Tuple[int, int] = THUMBNAIL_SIZE) -> Optional[str]:
         """Get thumbnail URL"""
         try:
             if not self.image:
@@ -187,7 +293,7 @@ class GalleryImage(models.Model):
             
             # Save thumbnail
             output = io.BytesIO()
-            image.save(output, format='JPEG', quality=80, optimize=True)
+            image.save(output, format='JPEG', quality=THUMBNAIL_QUALITY, optimize=True)
             output.seek(0)
             
             # Generate filename for thumbnail
@@ -203,10 +309,10 @@ class GalleryImage(models.Model):
             return default_storage.url(thumbnail_path)
             
         except Exception as e:
-            print(f"Error creating thumbnail: {e}")
-            return self.image.url
+            logger.error(f"Error creating thumbnail: {e}", exc_info=True)
+            return self.image.url if self.image else None
     
-    def get_image_dimensions(self):
+    def get_image_dimensions(self) -> Tuple[int, int]:
         """Get image dimensions"""
         try:
             if not self.image:
@@ -215,19 +321,21 @@ class GalleryImage(models.Model):
             with default_storage.open(self.image.name, 'rb') as f:
                 image = Image.open(f)
                 return image.size
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error getting image dimensions: {e}", exc_info=True)
             return (0, 0)
     
-    def get_file_size(self):
+    def get_file_size(self) -> int:
         """Get file size in bytes"""
         try:
             if not self.image:
                 return 0
             return default_storage.size(self.image.name)
-        except Exception:
+        except Exception as e:
+            logger.error(f"Error getting file size: {e}", exc_info=True)
             return 0
     
-    def get_file_size_mb(self):
+    def get_file_size_mb(self) -> float:
         """Get file size in MB"""
         return round(self.get_file_size() / (1024 * 1024), 2)
 
@@ -235,18 +343,28 @@ class GalleryImage(models.Model):
 class GalleryImageLike(models.Model):
     """User likes for gallery images"""
     image = models.ForeignKey(GalleryImage, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='gallery_likes')
     user_ip = models.GenericIPAddressField()
     user_agent = models.TextField(blank=True)
+    session_id = models.CharField(max_length=100, blank=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        unique_together = ['image', 'user_ip']
+        unique_together = ['image', 'session_id']  # Prevent duplicate session likes
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['image', 'created_at']),
+            models.Index(fields=['session_id']),
+        ]
+    
+    def __str__(self):
+        return f"Like on {self.image.title} by {self.user or self.session_id}"
 
 
 class GalleryImageComment(models.Model):
     """Comments on gallery images"""
     image = models.ForeignKey(GalleryImage, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, related_name='gallery_comments')
     name = models.CharField(max_length=100)
     email = models.EmailField()
     comment = models.TextField()
@@ -258,11 +376,19 @@ class GalleryImageComment(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['image', 'is_approved']),
+            models.Index(fields=['created_at']),
+        ]
+    
+    def __str__(self):
+        return f"Comment on {self.image.title} by {self.user or self.name}"
 
 
 class GalleryImageShare(models.Model):
     """Social shares of gallery images"""
     image = models.ForeignKey(GalleryImage, on_delete=models.CASCADE, related_name='shares')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='gallery_shares')
     platform = models.CharField(max_length=50, choices=[
         ('facebook', 'Facebook'),
         ('twitter', 'Twitter'),
@@ -273,17 +399,28 @@ class GalleryImageShare(models.Model):
     ])
     user_ip = models.GenericIPAddressField()
     user_agent = models.TextField(blank=True)
+    session_id = models.CharField(max_length=100, blank=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['image', 'platform']),
+            models.Index(fields=['created_at']),
+            models.Index(fields=['session_id']),
+        ]
+    
+    def __str__(self):
+        return f"Share of {self.image.title} on {self.platform}"
 
 
 class GalleryImageDownload(models.Model):
     """Downloads of gallery images"""
     image = models.ForeignKey(GalleryImage, on_delete=models.CASCADE, related_name='downloads')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='gallery_downloads')
     user_ip = models.GenericIPAddressField()
     user_agent = models.TextField(blank=True)
+    session_id = models.CharField(max_length=100, blank=True, db_index=True)
     download_type = models.CharField(max_length=20, choices=[
         ('original', 'Original'),
         ('thumbnail', 'Thumbnail'),
@@ -293,6 +430,13 @@ class GalleryImageDownload(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['image', 'created_at']),
+            models.Index(fields=['session_id']),
+        ]
+    
+    def __str__(self):
+        return f"Download of {self.image.title} by {self.user or self.session_id}"
 
 
 class SmartCollection(models.Model):
@@ -323,6 +467,10 @@ class SmartCollection(models.Model):
         ordering = ['-is_featured', 'name']
         verbose_name = "Smart Collection"
         verbose_name_plural = "Smart Collections"
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['auto_update', 'is_active']),
+        ]
     
     def __str__(self):
         return self.name
@@ -423,6 +571,10 @@ class SmartCollectionImage(models.Model):
     class Meta:
         ordering = ['-match_score', 'order']
         unique_together = ['collection', 'image']
+        indexes = [
+            models.Index(fields=['collection', 'match_score']),
+            models.Index(fields=['image', 'collection']),
+        ]
     
     def __str__(self):
         return f"{self.collection.name} - {self.image.title}"
@@ -468,6 +620,9 @@ class AutoCategorizationRule(models.Model):
         ordering = ['-priority', 'name']
         verbose_name = "Auto Categorization Rule"
         verbose_name_plural = "Auto Categorization Rules"
+        indexes = [
+            models.Index(fields=['is_active', 'auto_apply', 'priority']),
+        ]
     
     def __str__(self):
         return f"{self.name} → {self.target_category}"
