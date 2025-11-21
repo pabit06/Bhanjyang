@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.conf.urls.static import static
 from apps.core.admin_site import admin_site
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 urlpatterns = [
     path('admin/', admin_site.urls),
@@ -22,9 +23,9 @@ urlpatterns = [
     # Member management system
     path('members/', include('members.urls')),
     
-    # API URLs (commented out until dependencies are installed)
-    # path('api/v1/', include('apps.services.api_urls')),
-    # path('api/v1/about/', include('apps.about.api_urls')),
+    # API URLs
+    path('api/v1/', include('apps.services.api_urls')),
+    path('api/v1/about/', include('apps.about.api_urls')),
     # path('api/v1/news-events/', include('apps.news_events.api_urls')),
     # path('api/v1/contact/', include('apps.contact.api_urls')),
     # path('api/v1/downloads/', include('apps.downloads.api_urls')),
@@ -32,8 +33,10 @@ urlpatterns = [
     # Health check endpoints
     path('health/', include('apps.core.urls')),
     
-    # API Documentation (commented out until drf_spectacular is installed)
-    # path('api/docs/', include('drf_spectacular.urls')),
+    # API Documentation
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     
     path('', include('apps.home.urls')), # This should be the last one
 ]
@@ -42,3 +45,9 @@ urlpatterns = [
 # It tells Django to serve files from your MEDIA_ROOT when in DEBUG mode.
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
+    if 'debug_toolbar' in settings.INSTALLED_APPS:
+        import debug_toolbar
+        urlpatterns += [
+            path('__debug__/', include(debug_toolbar.urls)),
+        ]

@@ -4,7 +4,7 @@ API URL configuration for the Bhanjyang Cooperative services.
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
-# from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView  # Commented out until installed
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 from .api_views import (
     SavingsAccountViewSet, FixedDepositViewSet, LoanTypeViewSet,

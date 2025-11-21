@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.exceptions import ImproperlyConfigured
 from decouple import config # <-- Import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,6 +28,16 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-pro
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
+# Environment Variable Validation
+if not DEBUG:
+    required_settings = ['SECRET_KEY', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']
+    missing = [s for s in required_settings if config(s, default=None) is None]
+    if missing:
+        raise ImproperlyConfigured(f"Missing required settings: {', '.join(missing)}")
+    
+    if SECRET_KEY == 'django-insecure-dev-key-change-in-production':
+        raise ImproperlyConfigured("SECRET_KEY must be changed in production!")
+
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,192.168.1.82,localhost').split(',')
 
 
@@ -40,11 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     
     # Third-party apps
-    # 'rest_framework',  # Commented out until installed
-    # 'django_filters',  # Commented out until installed
-    # 'corsheaders',  # Commented out until installed
-    # 'drf_spectacular',  # Commented out until installed
-    # 'django_extensions',  # Commented out until installed
+    'rest_framework',
+    'django_filters',
+    'corsheaders',
+    'drf_spectacular',
+    'django_extensions',
     
     # Local apps (before staticfiles to override runserver command)
     'apps.core',  # Core utilities and shared functionality
@@ -64,15 +75,15 @@ INSTALLED_APPS = [
 ]
 
 # Add debug toolbar for development
-# if DEBUG:
-#     INSTALLED_APPS += ['debug_toolbar']  # Commented out until installed
+if DEBUG and config('ENABLE_DEBUG_TOOLBAR', default=False, cast=bool):
+    INSTALLED_APPS += ['debug_toolbar']
 
 # Custom User Model
 # AUTH_USER_MODEL = 'members.MemberUser'  # Temporarily disabled for migration conflicts
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',  # CORS middleware (early) - Commented out until installed
+    'corsheaders.middleware.CorsMiddleware',  # CORS middleware (early)
     'apps.core.middleware.SecurityHeadersMiddleware',  # Security headers (before static files)
     'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -91,8 +102,8 @@ MIDDLEWARE = [
 ]
 
 # Add debug toolbar middleware for development
-# if DEBUG:
-#     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']  # Commented out until installed
+if DEBUG and config('ENABLE_DEBUG_TOOLBAR', default=False, cast=bool):
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
 
 ROOT_URLCONF = 'coop.urls'
 
@@ -382,7 +393,7 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
-    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # Commented out until installed
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
@@ -393,20 +404,20 @@ REST_FRAMEWORK = {
     }
 }
 
-# API Documentation Settings (commented out until drf_spectacular is installed)
-# SPECTACULAR_SETTINGS = {
-#     'TITLE': 'Bhanjyang Cooperative API',
-#     'DESCRIPTION': 'API for Bhanjyang Cooperative website',
-#     'VERSION': '1.0.0',
-#     'SERVE_INCLUDE_SCHEMA': False,
-#     'COMPONENT_SPLIT_REQUEST': True,
-#     'SCHEMA_PATH_PREFIX': '/api/v1/',
-# }
+# API Documentation Settings
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Bhanjyang Cooperative API',
+    'DESCRIPTION': 'API for Bhanjyang Cooperative website',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SCHEMA_PATH_PREFIX': '/api/v1/',
+}
 
-# CORS Settings (commented out until corsheaders is installed)
-# CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000').split(',')
-# CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only allow all origins in development
+# CORS Settings
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000,http://127.0.0.1:3000').split(',')
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only allow all origins in development
 
 # CBS Integration Settings
 CBS_API_URL = config('CBS_API_URL', default='https://mock-cbs-api.com/api/v1')

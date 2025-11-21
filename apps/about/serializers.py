@@ -14,7 +14,7 @@ class CooperativeInfoSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'cooperative_name', 'description', 'mission', 'vision', 'values',
             'established_date', 'registration_number', 'address', 'phone', 'email',
-            'website', 'featured_image', 'logo', 'is_active', 'is_featured',
+            'website', 'featured_image', 'logo', 'is_active',
             'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
@@ -103,10 +103,9 @@ class CommitteeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Committee
         fields = [
-            'id', 'name', 'description', 'is_active', 'order',
-            'created_at', 'updated_at'
+            'id', 'name', 'description', 'is_active', 'order'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        read_only_fields = ['id']
 
 
 class MembershipSerializer(serializers.ModelSerializer):
@@ -118,10 +117,9 @@ class MembershipSerializer(serializers.ModelSerializer):
         model = Membership
         fields = [
             'id', 'person', 'person_name', 'committee', 'committee_name',
-            'position', 'start_date', 'end_date', 'is_active',
-            'created_at', 'updated_at'
+            'position', 'start_date', 'end_date', 'is_active'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        read_only_fields = ['id']
 
 
 class StaffSerializer(serializers.ModelSerializer):
@@ -133,9 +131,9 @@ class StaffSerializer(serializers.ModelSerializer):
         model = Staff
         fields = [
             'id', 'person', 'person_name', 'person_photo', 'position',
-            'department', 'hire_date', 'is_active', 'created_at', 'updated_at'
+            'department', 'start_date', 'is_active'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        read_only_fields = ['id']
 
 
 # Nested serializers for detailed views
@@ -177,7 +175,7 @@ class SummaryCooperativeInfoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CooperativeInfo
-        fields = ['id', 'cooperative_name', 'description', 'logo', 'is_featured']
+        fields = ['id', 'cooperative_name', 'description', 'logo']
 
 
 class SummaryPersonSerializer(serializers.ModelSerializer):
