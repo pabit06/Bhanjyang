@@ -66,8 +66,8 @@ admin_site = BhanjyangAdminSite(name='bhanjyang_admin')
 def register_gallery_models():
     """Register gallery models with the custom admin site"""
     try:
-        from gallery.models import GalleryImage, GalleryAlbum, SmartCollection, SmartCollectionImage, AutoCategorizationRule, ImageAnalysisJob
-        from gallery.admin import (
+        from apps.gallery.models import GalleryImage, GalleryAlbum, SmartCollection, SmartCollectionImage, AutoCategorizationRule, ImageAnalysisJob
+        from apps.gallery.admin import (
             GalleryImageAdmin, GalleryAlbumAdmin,
             SmartCollectionAdmin, SmartCollectionImageAdmin,
             AutoCategorizationRuleAdmin, ImageAnalysisJobAdmin
@@ -88,11 +88,11 @@ def register_gallery_models():
         admin_site.register(ImageAnalysisJob, ImageAnalysisJobAdmin)
         
         # Register tracking models
-        from gallery.admin import (
+        from apps.gallery.admin import (
             GalleryImageLikeAdmin, GalleryImageCommentAdmin,
             GalleryImageShareAdmin, GalleryImageDownloadAdmin
         )
-        from gallery.models import GalleryImageLike, GalleryImageComment, GalleryImageShare, GalleryImageDownload
+        from apps.gallery.models import GalleryImageLike, GalleryImageComment, GalleryImageShare, GalleryImageDownload
         
         # Unregister from default admin if needed
         for model in [GalleryImageLike, GalleryImageComment, GalleryImageShare, GalleryImageDownload]:

@@ -1,0 +1,5081 @@
+openapi: 3.0.3
+info:
+  title: Bhanjyang Cooperative API
+  version: 1.0.0
+  description: API for Bhanjyang Cooperative website
+paths:
+  /api/v1/about/achievements/:
+    get:
+      operationId: about_achievements_list
+      description: API endpoint for cooperative achievements
+      parameters:
+      - in: query
+        name: achievement_type
+        schema:
+          type: string
+          enum:
+          - award
+          - certification
+          - milestone
+          - other
+          - partnership
+          - recognition
+        description: |-
+          * `award` - Award
+          * `certification` - Certification
+          * `recognition` - Recognition
+          * `milestone` - Milestone
+          * `partnership` - Partnership
+          * `other` - Other
+      - in: query
+        name: is_featured
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCooperativeAchievementList'
+          description: ''
+  /api/v1/about/achievements/{id}/:
+    get:
+      operationId: about_achievements_retrieve
+      description: API endpoint for cooperative achievements
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Achievement.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeAchievement'
+          description: ''
+  /api/v1/about/achievements/by_type/:
+    get:
+      operationId: about_achievements_by_type_retrieve
+      description: Get achievements by type
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeAchievement'
+          description: ''
+  /api/v1/about/achievements/featured/:
+    get:
+      operationId: about_achievements_featured_retrieve
+      description: Get featured achievements
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeAchievement'
+          description: ''
+  /api/v1/about/affiliations/:
+    get:
+      operationId: about_affiliations_list
+      description: API endpoint for cooperative affiliations
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCooperativeAffiliationList'
+          description: ''
+  /api/v1/about/affiliations/{id}/:
+    get:
+      operationId: about_affiliations_retrieve
+      description: API endpoint for cooperative affiliations
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Affiliation.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeAffiliation'
+          description: ''
+  /api/v1/about/affiliations/featured/:
+    get:
+      operationId: about_affiliations_featured_retrieve
+      description: Get featured affiliations
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeAffiliation'
+          description: ''
+  /api/v1/about/committees/:
+    get:
+      operationId: about_committees_list
+      description: API endpoint for committees
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCommitteeList'
+          description: ''
+  /api/v1/about/committees/{id}/:
+    get:
+      operationId: about_committees_retrieve
+      description: API endpoint for committees
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Committee.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Committee'
+          description: ''
+  /api/v1/about/committees/{id}/members/:
+    get:
+      operationId: about_committees_members_retrieve
+      description: Get committee members
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Committee.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Committee'
+          description: ''
+  /api/v1/about/contact/:
+    post:
+      operationId: about_contact_create
+      description: API endpoint for contact form submissions
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/about/cooperative-info/:
+    get:
+      operationId: about_cooperative_info_list
+      description: API endpoint for cooperative information
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCooperativeInfoList'
+          description: ''
+  /api/v1/about/cooperative-info/{id}/:
+    get:
+      operationId: about_cooperative_info_retrieve
+      description: API endpoint for cooperative information
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Cooperative Information.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeInfo'
+          description: ''
+  /api/v1/about/cooperative-info/featured/:
+    get:
+      operationId: about_cooperative_info_featured_retrieve
+      description: Get featured cooperative information
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeInfo'
+          description: ''
+  /api/v1/about/cooperative-info/statistics/:
+    get:
+      operationId: about_cooperative_info_statistics_retrieve
+      description: Get cooperative statistics
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeInfo'
+          description: ''
+  /api/v1/about/leadership/:
+    get:
+      operationId: about_leadership_list
+      description: API endpoint for leadership messages
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLeadershipMessageList'
+          description: ''
+  /api/v1/about/leadership/{id}/:
+    get:
+      operationId: about_leadership_retrieve
+      description: API endpoint for leadership messages
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Leadership Message.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadershipMessage'
+          description: ''
+  /api/v1/about/leadership/featured/:
+    get:
+      operationId: about_leadership_featured_retrieve
+      description: Get featured leadership messages
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadershipMessage'
+          description: ''
+  /api/v1/about/newsletter/:
+    post:
+      operationId: about_newsletter_create
+      description: API endpoint for newsletter subscriptions
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/about/search/:
+    get:
+      operationId: about_search_retrieve
+      description: Global search API endpoint
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/about/staff/:
+    get:
+      operationId: about_staff_list
+      description: API endpoint for staff members
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedStaffList'
+          description: ''
+  /api/v1/about/staff/{id}/:
+    get:
+      operationId: about_staff_retrieve
+      description: API endpoint for staff members
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Staff Member.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Staff'
+          description: ''
+  /api/v1/about/staff/by_department/:
+    get:
+      operationId: about_staff_by_department_retrieve
+      description: Get staff by department
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Staff'
+          description: ''
+  /api/v1/about/statistics/:
+    get:
+      operationId: about_statistics_retrieve
+      description: API endpoint for site statistics
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/about/team/:
+    get:
+      operationId: about_team_list
+      description: API endpoint for team members
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPersonList'
+          description: ''
+  /api/v1/about/team/{id}/:
+    get:
+      operationId: about_team_retrieve
+      description: API endpoint for team members
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Person.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: ''
+  /api/v1/about/team/by_position/:
+    get:
+      operationId: about_team_by_position_retrieve
+      description: Get team members by position
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: ''
+  /api/v1/about/team/current_team/:
+    get:
+      operationId: about_team_current_team_retrieve
+      description: Get current team members
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: ''
+  /api/v1/about/team/past_team/:
+    get:
+      operationId: about_team_past_team_retrieve
+      description: Get past team members
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: ''
+  /api/v1/about/timeline/:
+    get:
+      operationId: about_timeline_list
+      description: API endpoint for cooperative timeline events
+      parameters:
+      - in: query
+        name: event_type
+        schema:
+          type: string
+          enum:
+          - achievement
+          - award
+          - expansion
+          - milestone
+          - other
+          - partnership
+        description: |-
+          * `milestone` - Milestone
+          * `achievement` - Achievement
+          * `expansion` - Expansion
+          * `award` - Award
+          * `partnership` - Partnership
+          * `other` - Other
+      - in: query
+        name: is_featured
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCooperativeTimelineList'
+          description: ''
+  /api/v1/about/timeline/{id}/:
+    get:
+      operationId: about_timeline_retrieve
+      description: API endpoint for cooperative timeline events
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Timeline Event.
+        required: true
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeTimeline'
+          description: ''
+  /api/v1/about/timeline/featured/:
+    get:
+      operationId: about_timeline_featured_retrieve
+      description: Get featured timeline events
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeTimeline'
+          description: ''
+  /api/v1/about/timeline/recent/:
+    get:
+      operationId: about_timeline_recent_retrieve
+      description: Get recent timeline events
+      tags:
+      - about
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CooperativeTimeline'
+          description: ''
+  /api/v1/analytics/:
+    get:
+      operationId: analytics_list
+      description: ViewSet for Service Analytics (read-only).
+      parameters:
+      - in: query
+        name: content_type
+        schema:
+          type: integer
+      - in: query
+        name: date
+        schema:
+          type: string
+          format: date
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - analytics
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceAnalyticsList'
+          description: ''
+  /api/v1/analytics/{id}/:
+    get:
+      operationId: analytics_retrieve
+      description: ViewSet for Service Analytics (read-only).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Service Analytics.
+        required: true
+      tags:
+      - analytics
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAnalytics'
+          description: ''
+  /api/v1/applications/:
+    get:
+      operationId: applications_list
+      description: ViewSet for Service Application management.
+      parameters:
+      - in: query
+        name: content_type
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - approved
+          - pending
+          - rejected
+          - under_review
+        description: |-
+          * `pending` - Pending
+          * `under_review` - Under Review
+          * `approved` - Approved
+          * `rejected` - Rejected
+      tags:
+      - applications
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceApplicationList'
+          description: ''
+    post:
+      operationId: applications_create
+      description: ViewSet for Service Application management.
+      tags:
+      - applications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceApplicationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceApplicationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceApplicationRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceApplication'
+          description: ''
+  /api/v1/applications/{id}/:
+    get:
+      operationId: applications_retrieve
+      description: ViewSet for Service Application management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Service Application.
+        required: true
+      tags:
+      - applications
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceApplication'
+          description: ''
+    put:
+      operationId: applications_update
+      description: ViewSet for Service Application management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Service Application.
+        required: true
+      tags:
+      - applications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceApplicationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ServiceApplicationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ServiceApplicationRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceApplication'
+          description: ''
+    patch:
+      operationId: applications_partial_update
+      description: ViewSet for Service Application management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Service Application.
+        required: true
+      tags:
+      - applications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceApplicationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceApplicationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedServiceApplicationRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceApplication'
+          description: ''
+    delete:
+      operationId: applications_destroy
+      description: ViewSet for Service Application management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Service Application.
+        required: true
+      tags:
+      - applications
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/applications/by_status/:
+    get:
+      operationId: applications_by_status_retrieve
+      description: Get applications by status.
+      tags:
+      - applications
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceApplication'
+          description: ''
+  /api/v1/fixed-deposits/:
+    get:
+      operationId: fixed_deposits_list
+      description: ViewSet for Fixed Deposit management.
+      parameters:
+      - in: query
+        name: duration_months
+        schema:
+          type: integer
+          title: Duration
+          enum:
+          - 12
+          - 24
+          - 3
+          - 36
+          - 6
+        description: |-
+          * `3` - 3 Months
+          * `6` - 6 Months
+          * `12` - 1 Year
+          * `24` - 2 Years
+          * `36` - 3 Years
+      - in: query
+        name: interest_rate
+        schema:
+          type: number
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: payment_frequency
+        schema:
+          type: string
+          title: Interest Payout
+          enum:
+          - lump_sum
+          - monthly
+          - quarterly
+        description: |-
+          * `monthly` - Monthly Payout
+          * `quarterly` - Quarterly Payout
+          * `lump_sum` - Maturity Payout
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - fixed-deposits
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFixedDepositList'
+          description: ''
+    post:
+      operationId: fixed_deposits_create
+      description: ViewSet for Fixed Deposit management.
+      tags:
+      - fixed-deposits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FixedDepositRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FixedDepositRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FixedDepositRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedDeposit'
+          description: ''
+  /api/v1/fixed-deposits/{id}/:
+    get:
+      operationId: fixed_deposits_retrieve
+      description: ViewSet for Fixed Deposit management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Fixed Deposit.
+        required: true
+      tags:
+      - fixed-deposits
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedDeposit'
+          description: ''
+    put:
+      operationId: fixed_deposits_update
+      description: ViewSet for Fixed Deposit management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Fixed Deposit.
+        required: true
+      tags:
+      - fixed-deposits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FixedDepositRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FixedDepositRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FixedDepositRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedDeposit'
+          description: ''
+    patch:
+      operationId: fixed_deposits_partial_update
+      description: ViewSet for Fixed Deposit management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Fixed Deposit.
+        required: true
+      tags:
+      - fixed-deposits
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFixedDepositRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFixedDepositRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFixedDepositRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedDeposit'
+          description: ''
+    delete:
+      operationId: fixed_deposits_destroy
+      description: ViewSet for Fixed Deposit management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Fixed Deposit.
+        required: true
+      tags:
+      - fixed-deposits
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/fixed-deposits/by_duration/:
+    get:
+      operationId: fixed_deposits_by_duration_retrieve
+      description: Get fixed deposits by duration.
+      tags:
+      - fixed-deposits
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FixedDeposit'
+          description: ''
+  /api/v1/loan-types/:
+    get:
+      operationId: loan_types_list
+      description: ViewSet for Loan Type management.
+      parameters:
+      - in: query
+        name: is_featured
+        schema:
+          type: boolean
+      - in: query
+        name: loan_category
+        schema:
+          type: string
+          enum:
+          - agricultural
+          - business
+          - education
+          - foreign_employment
+          - house_construction
+          - household
+          - land_purchase
+          - personal
+          - vehicle
+        description: |-
+          * `business` - Business Loan
+          * `agricultural` - Agricultural Loan
+          * `vehicle` - Vehicle Loan
+          * `foreign_employment` - Foreign Employment Loan
+          * `household` - Household Loan
+          * `house_construction` - House Construction Loan
+          * `land_purchase` - Land Purchase Loan
+          * `education` - Education Loan
+          * `personal` - Personal Loan
+      - in: query
+        name: monthly_interest_rate
+        schema:
+          type: number
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - loan-types
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLoanTypeList'
+          description: ''
+    post:
+      operationId: loan_types_create
+      description: ViewSet for Loan Type management.
+      tags:
+      - loan-types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanTypeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoanTypeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoanTypeRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanType'
+          description: ''
+  /api/v1/loan-types/{id}/:
+    get:
+      operationId: loan_types_retrieve
+      description: ViewSet for Loan Type management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Loan Type.
+        required: true
+      tags:
+      - loan-types
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanType'
+          description: ''
+    put:
+      operationId: loan_types_update
+      description: ViewSet for Loan Type management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Loan Type.
+        required: true
+      tags:
+      - loan-types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanTypeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoanTypeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoanTypeRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanType'
+          description: ''
+    patch:
+      operationId: loan_types_partial_update
+      description: ViewSet for Loan Type management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Loan Type.
+        required: true
+      tags:
+      - loan-types
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLoanTypeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLoanTypeRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLoanTypeRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanType'
+          description: ''
+    delete:
+      operationId: loan_types_destroy
+      description: ViewSet for Loan Type management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Loan Type.
+        required: true
+      tags:
+      - loan-types
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/loan-types/{id}/calculate_payment/:
+    get:
+      operationId: loan_types_calculate_payment_retrieve
+      description: Calculate monthly payment for a loan.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Loan Type.
+        required: true
+      tags:
+      - loan-types
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanType'
+          description: ''
+  /api/v1/member-relief/:
+    get:
+      operationId: member_relief_list
+      description: ViewSet for Member Relief management.
+      parameters:
+      - in: query
+        name: is_featured
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: relief_type
+        schema:
+          type: string
+          enum:
+          - disaster
+          - education
+          - medical
+          - welfare
+        description: |-
+          * `medical` - Medical Relief
+          * `education` - Educational Support
+          * `disaster` - Disaster Relief
+          * `welfare` - Welfare Support
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - member-relief
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMemberReliefList'
+          description: ''
+    post:
+      operationId: member_relief_create
+      description: ViewSet for Member Relief management.
+      tags:
+      - member-relief
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberReliefRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemberReliefRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemberReliefRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberRelief'
+          description: ''
+  /api/v1/member-relief/{id}/:
+    get:
+      operationId: member_relief_retrieve
+      description: ViewSet for Member Relief management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Member Relief Program.
+        required: true
+      tags:
+      - member-relief
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberRelief'
+          description: ''
+    put:
+      operationId: member_relief_update
+      description: ViewSet for Member Relief management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Member Relief Program.
+        required: true
+      tags:
+      - member-relief
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberReliefRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemberReliefRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemberReliefRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberRelief'
+          description: ''
+    patch:
+      operationId: member_relief_partial_update
+      description: ViewSet for Member Relief management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Member Relief Program.
+        required: true
+      tags:
+      - member-relief
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMemberReliefRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMemberReliefRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMemberReliefRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberRelief'
+          description: ''
+    delete:
+      operationId: member_relief_destroy
+      description: ViewSet for Member Relief management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Member Relief Program.
+        required: true
+      tags:
+      - member-relief
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/recommendations/:
+    get:
+      operationId: recommendations_list
+      description: ViewSet for Service Recommendations (read-only).
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - recommendations
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceRecommendationList'
+          description: ''
+  /api/v1/recommendations/{id}/:
+    get:
+      operationId: recommendations_retrieve
+      description: ViewSet for Service Recommendations (read-only).
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Service Recommendation.
+        required: true
+      tags:
+      - recommendations
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecommendation'
+          description: ''
+  /api/v1/remittance-services/:
+    get:
+      operationId: remittance_services_list
+      description: ViewSet for Remittance Service management.
+      parameters:
+      - in: query
+        name: is_featured
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: service_type
+        schema:
+          type: string
+          enum:
+          - domestic
+          - international
+          - mobile_banking
+        description: |-
+          * `domestic` - Domestic Transfer
+          * `international` - International Remittance
+          * `mobile_banking` - Mobile Banking Transfer
+      tags:
+      - remittance-services
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRemittanceServiceList'
+          description: ''
+    post:
+      operationId: remittance_services_create
+      description: ViewSet for Remittance Service management.
+      tags:
+      - remittance-services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemittanceServiceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RemittanceServiceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RemittanceServiceRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemittanceService'
+          description: ''
+  /api/v1/remittance-services/{id}/:
+    get:
+      operationId: remittance_services_retrieve
+      description: ViewSet for Remittance Service management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Remittance Service.
+        required: true
+      tags:
+      - remittance-services
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemittanceService'
+          description: ''
+    put:
+      operationId: remittance_services_update
+      description: ViewSet for Remittance Service management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Remittance Service.
+        required: true
+      tags:
+      - remittance-services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemittanceServiceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RemittanceServiceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RemittanceServiceRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemittanceService'
+          description: ''
+    patch:
+      operationId: remittance_services_partial_update
+      description: ViewSet for Remittance Service management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Remittance Service.
+        required: true
+      tags:
+      - remittance-services
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRemittanceServiceRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRemittanceServiceRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRemittanceServiceRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemittanceService'
+          description: ''
+    delete:
+      operationId: remittance_services_destroy
+      description: ViewSet for Remittance Service management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Remittance Service.
+        required: true
+      tags:
+      - remittance-services
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/savings-accounts/:
+    get:
+      operationId: savings_accounts_list
+      description: ViewSet for Savings Account management.
+      parameters:
+      - in: query
+        name: account_type
+        schema:
+          type: string
+          enum:
+          - child
+          - daily
+          - general
+          - institutional
+          - insurance
+          - monthly
+          - remit
+          - senior_citizen
+        description: |-
+          * `general` - General Savings
+          * `daily` - Daily Savings
+          * `institutional` - Institutional Savings
+          * `child` - Child Savings
+          * `senior_citizen` - Senior Citizen Savings
+          * `remit` - Remit Savings
+          * `insurance` - Insurance Savings
+          * `monthly` - Monthly Savings
+      - in: query
+        name: interest_rate
+        schema:
+          type: number
+      - in: query
+        name: is_featured
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - savings-accounts
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSavingsAccountList'
+          description: ''
+    post:
+      operationId: savings_accounts_create
+      description: ViewSet for Savings Account management.
+      tags:
+      - savings-accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavingsAccountRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SavingsAccountRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SavingsAccountRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavingsAccount'
+          description: ''
+  /api/v1/savings-accounts/{id}/:
+    get:
+      operationId: savings_accounts_retrieve
+      description: ViewSet for Savings Account management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Savings Account.
+        required: true
+      tags:
+      - savings-accounts
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavingsAccount'
+          description: ''
+    put:
+      operationId: savings_accounts_update
+      description: ViewSet for Savings Account management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Savings Account.
+        required: true
+      tags:
+      - savings-accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavingsAccountRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SavingsAccountRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SavingsAccountRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavingsAccount'
+          description: ''
+    patch:
+      operationId: savings_accounts_partial_update
+      description: ViewSet for Savings Account management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Savings Account.
+        required: true
+      tags:
+      - savings-accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSavingsAccountRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSavingsAccountRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSavingsAccountRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavingsAccount'
+          description: ''
+    delete:
+      operationId: savings_accounts_destroy
+      description: ViewSet for Savings Account management.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Savings Account.
+        required: true
+      tags:
+      - savings-accounts
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/savings-accounts/{id}/calculate_interest/:
+    get:
+      operationId: savings_accounts_calculate_interest_retrieve
+      description: Calculate interest for a savings account.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Savings Account.
+        required: true
+      tags:
+      - savings-accounts
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavingsAccount'
+          description: ''
+  /api/v1/savings-accounts/featured/:
+    get:
+      operationId: savings_accounts_featured_retrieve
+      description: Get featured savings accounts.
+      tags:
+      - savings-accounts
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavingsAccount'
+          description: ''
+  /api/v1/search/:
+    get:
+      operationId: search_retrieve
+      description: Search across all service types.
+      tags:
+      - search
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /dashboard/alerts/:
+    get:
+      operationId: dashboard_alerts_list
+      description: Get active alerts for dashboard
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlertLog'
+          description: ''
+  /dashboard/alerts/{alert_id}/resolve/:
+    post:
+      operationId: dashboard_alerts_resolve_create
+      description: Resolve an alert
+      parameters:
+      - in: path
+        name: alert_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /dashboard/api/:
+    get:
+      operationId: dashboard_api_retrieve
+      description: Enhanced API endpoint for dashboard data with filtering capabilities
+      parameters:
+      - in: query
+        name: browser
+        schema:
+          type: string
+      - in: query
+        name: date_range
+        schema:
+          type: string
+          minLength: 1
+      - in: query
+        name: days
+        schema:
+          type: integer
+          maximum: 365
+          minimum: 1
+          default: 7
+      - in: query
+        name: device_type
+        schema:
+          type: string
+      - in: query
+        name: page_type
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          minLength: 1
+          default: page_load
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/api/analytics/:
+    get:
+      operationId: dashboard_api_analytics_retrieve
+      description: API endpoint for analytics data
+      parameters:
+      - in: query
+        name: browser
+        schema:
+          type: string
+      - in: query
+        name: date_range
+        schema:
+          type: string
+          minLength: 1
+      - in: query
+        name: days
+        schema:
+          type: integer
+          maximum: 365
+          minimum: 1
+          default: 7
+      - in: query
+        name: device_type
+        schema:
+          type: string
+      - in: query
+        name: page_type
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          minLength: 1
+          default: page_load
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /dashboard/api/errors/:
+    get:
+      operationId: dashboard_api_errors_retrieve
+      description: API endpoint for error data
+      parameters:
+      - in: query
+        name: browser
+        schema:
+          type: string
+      - in: query
+        name: date_range
+        schema:
+          type: string
+          minLength: 1
+      - in: query
+        name: days
+        schema:
+          type: integer
+          maximum: 365
+          minimum: 1
+          default: 7
+      - in: query
+        name: device_type
+        schema:
+          type: string
+      - in: query
+        name: page_type
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          minLength: 1
+          default: page_load
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /dashboard/api/performance/:
+    get:
+      operationId: dashboard_api_performance_retrieve
+      description: API endpoint for performance data
+      parameters:
+      - in: query
+        name: browser
+        schema:
+          type: string
+      - in: query
+        name: date_range
+        schema:
+          type: string
+          minLength: 1
+      - in: query
+        name: days
+        schema:
+          type: integer
+          maximum: 365
+          minimum: 1
+          default: 7
+      - in: query
+        name: device_type
+        schema:
+          type: string
+      - in: query
+        name: page_type
+        schema:
+          type: string
+      - in: query
+        name: type
+        schema:
+          type: string
+          minLength: 1
+          default: page_load
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /dashboard/export/:
+    get:
+      operationId: dashboard_export_retrieve
+      description: Export dashboard data in various formats
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /dashboard/preferences/:
+    post:
+      operationId: dashboard_preferences_create
+      description: Update user dashboard preferences
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /dashboard/report/generate/:
+    post:
+      operationId: dashboard_report_generate_create
+      description: Generate dashboard report
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          description: No response body
+  /dashboard/track/custom-metric/:
+    post:
+      operationId: dashboard_track_custom_metric_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/error/:
+    post:
+      operationId: dashboard_track_error_create
+      description: Track errors and exceptions
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorLogRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ErrorLogRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ErrorLogRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/form-submit/:
+    post:
+      operationId: dashboard_track_form_submit_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/image-load/:
+    post:
+      operationId: dashboard_track_image_load_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/page-view/:
+    post:
+      operationId: dashboard_track_page_view_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/search/:
+    post:
+      operationId: dashboard_track_search_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/session-end/:
+    post:
+      operationId: dashboard_track_session_end_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/session-health/:
+    post:
+      operationId: dashboard_track_session_health_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/track/visibility/:
+    post:
+      operationId: dashboard_track_visibility_create
+      description: Track page view performance
+      tags:
+      - dashboard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PageViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /dashboard/widgets/:
+    get:
+      operationId: dashboard_widgets_list
+      description: Get dashboard widgets configuration
+      tags:
+      - dashboard
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DashboardWidget'
+          description: ''
+components:
+  schemas:
+    AccountTypeEnum:
+      enum:
+      - general
+      - daily
+      - institutional
+      - child
+      - senior_citizen
+      - remit
+      - insurance
+      - monthly
+      type: string
+      description: |-
+        * `general` - General Savings
+        * `daily` - Daily Savings
+        * `institutional` - Institutional Savings
+        * `child` - Child Savings
+        * `senior_citizen` - Senior Citizen Savings
+        * `remit` - Remit Savings
+        * `insurance` - Insurance Savings
+        * `monthly` - Monthly Savings
+    AchievementTypeEnum:
+      enum:
+      - award
+      - certification
+      - recognition
+      - milestone
+      - partnership
+      - other
+      type: string
+      description: |-
+        * `award` - Award
+        * `certification` - Certification
+        * `recognition` - Recognition
+        * `milestone` - Milestone
+        * `partnership` - Partnership
+        * `other` - Other
+    AffiliationTypeEnum:
+      enum:
+      - regulatory
+      - association
+      - partnership
+      - certification
+      - other
+      type: string
+      description: |-
+        * `regulatory` - Regulatory Body
+        * `association` - Professional Association
+        * `partnership` - Partnership
+        * `certification` - Certification Body
+        * `other` - Other
+    AlertLog:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        alert:
+          type: integer
+        alert_type:
+          type: string
+          readOnly: true
+        severity:
+          type: string
+          readOnly: true
+        threshold:
+          type: number
+          format: double
+          readOnly: true
+        triggered_at:
+          type: string
+          format: date-time
+          readOnly: true
+        current_value:
+          type: number
+          format: double
+        message:
+          type: string
+        is_resolved:
+          type: boolean
+        resolved_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        resolved_by:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - alert
+      - alert_type
+      - current_value
+      - id
+      - message
+      - resolved_at
+      - resolved_by
+      - severity
+      - threshold
+      - triggered_at
+    Committee:
+      type: object
+      description: Serializer for Committee model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          description: e.g., सञ्चालक समिति, लेखा समिति
+          maxLength: 150
+        description:
+          type: string
+          title: Committee Description
+        is_active:
+          type: boolean
+          description: Check this for the currently active committees.
+        order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          description: Display order (e.g., 1 for Board, 2 for Audit).
+      required:
+      - id
+      - name
+    CooperativeAchievement:
+      type: object
+      description: Serializer for CooperativeAchievement model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Achievement Title
+          maxLength: 200
+        description:
+          type: string
+          title: Achievement Description
+        achievement_type:
+          $ref: '#/components/schemas/AchievementTypeEnum'
+        received_date:
+          type: string
+          format: date
+        awarding_organization:
+          type: string
+          maxLength: 200
+        logo:
+          type: string
+          format: uri
+          nullable: true
+          title: Organization Logo
+        certificate_image:
+          type: string
+          format: uri
+          nullable: true
+        is_active:
+          type: boolean
+          title: Active
+        is_featured:
+          type: boolean
+          title: Featured Achievement
+        order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: Display Order
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - awarding_organization
+      - created_at
+      - description
+      - id
+      - received_date
+      - title
+      - updated_at
+    CooperativeAffiliation:
+      type: object
+      description: Serializer for CooperativeAffiliation model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Organization Name
+          maxLength: 200
+        description:
+          type: string
+        website:
+          type: string
+          format: uri
+          maxLength: 200
+        logo:
+          type: string
+          format: uri
+          nullable: true
+          title: Organization Logo
+        affiliation_type:
+          $ref: '#/components/schemas/AffiliationTypeEnum'
+        is_active:
+          type: boolean
+          title: Active
+        is_featured:
+          type: boolean
+          title: Featured Affiliation
+        order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: Display Order
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - id
+      - name
+      - updated_at
+    CooperativeInfo:
+      type: object
+      description: Serializer for CooperativeInfo model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cooperative_name:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+          title: Cooperative Description
+        mission:
+          type: string
+          title: Mission Statement
+        vision:
+          type: string
+          title: Vision Statement
+        values:
+          type: string
+          title: Core Values
+        established_date:
+          type: string
+          format: date
+        registration_number:
+          type: string
+          maxLength: 100
+        address:
+          type: string
+        phone:
+          type: string
+          maxLength: 20
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        website:
+          type: string
+          format: uri
+          maxLength: 200
+        featured_image:
+          type: string
+          format: uri
+          nullable: true
+        logo:
+          type: string
+          format: uri
+          nullable: true
+          title: Cooperative Logo
+        is_active:
+          type: boolean
+          title: Active
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - address
+      - cooperative_name
+      - created_at
+      - description
+      - email
+      - established_date
+      - id
+      - mission
+      - phone
+      - registration_number
+      - updated_at
+      - values
+      - vision
+    CooperativeTimeline:
+      type: object
+      description: Serializer for CooperativeTimeline model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Event Title
+          maxLength: 200
+        description:
+          type: string
+          title: Event Description
+        event_date:
+          type: string
+          format: date
+        event_type:
+          $ref: '#/components/schemas/EventTypeEnum'
+        image:
+          type: string
+          format: uri
+          nullable: true
+          title: Event Image
+        is_active:
+          type: boolean
+          title: Active
+        is_featured:
+          type: boolean
+          title: Featured Event
+        order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: Display Order
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - description
+      - event_date
+      - id
+      - title
+      - updated_at
+    DashboardWidget:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        widget_type:
+          $ref: '#/components/schemas/WidgetTypeEnum'
+        position_x:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        position_y:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        width:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        height:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        config:
+          description: Widget configuration
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: integer
+          nullable: true
+      required:
+      - created_at
+      - id
+      - name
+      - widget_type
+    DurationMonthsEnum:
+      enum:
+      - 3
+      - 6
+      - 12
+      - 24
+      - 36
+      type: integer
+      description: |-
+        * `3` - 3 Months
+        * `6` - 6 Months
+        * `12` - 1 Year
+        * `24` - 2 Years
+        * `36` - 3 Years
+    ErrorLogRequest:
+      type: object
+      properties:
+        error_type:
+          $ref: '#/components/schemas/ErrorTypeEnum'
+        error_message:
+          type: string
+          minLength: 1
+        page_url:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        stack_trace:
+          type: string
+          nullable: true
+        additional_data: {}
+        resolved:
+          type: boolean
+      required:
+      - error_message
+      - error_type
+    ErrorTypeEnum:
+      enum:
+      - '404'
+      - '500'
+      - template
+      - database
+      - validation
+      - permission
+      - timeout
+      type: string
+      description: |-
+        * `404` - Page Not Found
+        * `500` - Server Error
+        * `template` - Template Error
+        * `database` - Database Error
+        * `validation` - Validation Error
+        * `permission` - Permission Error
+        * `timeout` - Timeout Error
+    EventTypeEnum:
+      enum:
+      - milestone
+      - achievement
+      - expansion
+      - award
+      - partnership
+      - other
+      type: string
+      description: |-
+        * `milestone` - Milestone
+        * `achievement` - Achievement
+        * `expansion` - Expansion
+        * `award` - Award
+        * `partnership` - Partnership
+        * `other` - Other
+    FixedDeposit:
+      type: object
+      description: Serializer for Fixed Deposit model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        duration_months:
+          allOf:
+          - $ref: '#/components/schemas/DurationMonthsEnum'
+          title: Duration
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        payment_frequency:
+          allOf:
+          - $ref: '#/components/schemas/PaymentFrequencyEnum'
+          title: Interest Payout
+        interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Interest Rate (%)
+        minimum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          title: Minimum Amount (NPR)
+        maximum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Maximum Amount (NPR)
+        benefits:
+          type: string
+          description: List key benefits, one per line.
+        is_active:
+          type: boolean
+          title: Active
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        annual_interest_rate:
+          type: number
+          format: double
+          description: Calculate annual interest rate.
+          readOnly: true
+        maturity_amount:
+          type: object
+          additionalProperties: {}
+          description: Calculate maturity amount for different investment amounts.
+          readOnly: true
+      required:
+      - annual_interest_rate
+      - created_at
+      - duration_months
+      - id
+      - interest_rate
+      - maturity_amount
+      - minimum_amount
+      - payment_frequency
+      - updated_at
+    FixedDepositRequest:
+      type: object
+      description: Serializer for Fixed Deposit model.
+      properties:
+        duration_months:
+          allOf:
+          - $ref: '#/components/schemas/DurationMonthsEnum'
+          title: Duration
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        payment_frequency:
+          allOf:
+          - $ref: '#/components/schemas/PaymentFrequencyEnum'
+          title: Interest Payout
+        interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Interest Rate (%)
+        minimum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          title: Minimum Amount (NPR)
+        maximum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Maximum Amount (NPR)
+        benefits:
+          type: string
+          description: List key benefits, one per line.
+        is_active:
+          type: boolean
+          title: Active
+      required:
+      - duration_months
+      - interest_rate
+      - minimum_amount
+      - payment_frequency
+    LeadershipMessage:
+      type: object
+      description: Serializer for LeadershipMessage model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Message Title
+          maxLength: 200
+        content:
+          type: string
+          title: Message Content
+        author_name:
+          type: string
+          maxLength: 100
+        author_position:
+          type: string
+          maxLength: 100
+        author_photo:
+          type: string
+          format: uri
+          nullable: true
+        is_active:
+          type: boolean
+          title: Active
+        is_featured:
+          type: boolean
+          title: Featured Message
+        order:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: Display Order
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - author_name
+      - author_position
+      - content
+      - created_at
+      - id
+      - title
+      - updated_at
+    LoanCategoryEnum:
+      enum:
+      - business
+      - agricultural
+      - vehicle
+      - foreign_employment
+      - household
+      - house_construction
+      - land_purchase
+      - education
+      - personal
+      type: string
+      description: |-
+        * `business` - Business Loan
+        * `agricultural` - Agricultural Loan
+        * `vehicle` - Vehicle Loan
+        * `foreign_employment` - Foreign Employment Loan
+        * `household` - Household Loan
+        * `house_construction` - House Construction Loan
+        * `land_purchase` - Land Purchase Loan
+        * `education` - Education Loan
+        * `personal` - Personal Loan
+    LoanType:
+      type: object
+      description: Serializer for Loan Type model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        english_name:
+          type: string
+          maxLength: 100
+        nepali_name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          readOnly: true
+          description: A unique, URL-friendly identifier. Auto-generated if left blank.
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        loan_category:
+          $ref: '#/components/schemas/LoanCategoryEnum'
+        monthly_interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Monthly Interest Rate (%)
+        minimum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Minimum Loan Amount (NPR)
+        maximum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Maximum Loan Amount (NPR)
+        max_tenure_years:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          title: Maximum Tenure (Years)
+        requirements:
+          type: string
+          description: List required documents, one per line.
+        benefits:
+          type: string
+          description: List key benefits, one per line.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        annual_interest_rate:
+          type: string
+          readOnly: true
+        url:
+          type: string
+          description: Get the absolute URL for the loan type.
+          readOnly: true
+        monthly_payment_calculator:
+          type: object
+          additionalProperties: {}
+          description: Provide loan calculation information.
+          readOnly: true
+      required:
+      - annual_interest_rate
+      - created_at
+      - english_name
+      - id
+      - loan_category
+      - monthly_interest_rate
+      - monthly_payment_calculator
+      - nepali_name
+      - slug
+      - updated_at
+      - url
+    LoanTypeRequest:
+      type: object
+      description: Serializer for Loan Type model.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        loan_category:
+          $ref: '#/components/schemas/LoanCategoryEnum'
+        monthly_interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Monthly Interest Rate (%)
+        minimum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Minimum Loan Amount (NPR)
+        maximum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Maximum Loan Amount (NPR)
+        max_tenure_years:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          title: Maximum Tenure (Years)
+        requirements:
+          type: string
+          description: List required documents, one per line.
+        benefits:
+          type: string
+          description: List key benefits, one per line.
+      required:
+      - english_name
+      - loan_category
+      - monthly_interest_rate
+      - nepali_name
+    MemberRelief:
+      type: object
+      description: Serializer for Member Relief model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        english_name:
+          type: string
+          maxLength: 100
+        nepali_name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          readOnly: true
+          description: A unique, URL-friendly identifier. Auto-generated if left blank.
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        relief_type:
+          $ref: '#/components/schemas/ReliefTypeEnum'
+        eligibility:
+          type: string
+          title: Eligibility Criteria
+        benefits:
+          type: string
+          title: Benefits & Support
+        application_process:
+          type: string
+        image:
+          type: string
+          format: uri
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          description: Get the absolute URL for the member relief program.
+          readOnly: true
+        image_url:
+          type: string
+          description: Get the full URL for the relief program image.
+          readOnly: true
+      required:
+      - benefits
+      - created_at
+      - eligibility
+      - english_name
+      - id
+      - image_url
+      - nepali_name
+      - relief_type
+      - slug
+      - updated_at
+      - url
+    MemberReliefRequest:
+      type: object
+      description: Serializer for Member Relief model.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        relief_type:
+          $ref: '#/components/schemas/ReliefTypeEnum'
+        eligibility:
+          type: string
+          minLength: 1
+          title: Eligibility Criteria
+        benefits:
+          type: string
+          minLength: 1
+          title: Benefits & Support
+        application_process:
+          type: string
+        image:
+          type: string
+          format: binary
+          nullable: true
+      required:
+      - benefits
+      - eligibility
+      - english_name
+      - nepali_name
+      - relief_type
+    PageViewRequest:
+      type: object
+      properties:
+        page_url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 500
+        page_title:
+          type: string
+          maxLength: 200
+        load_time:
+          type: number
+          format: double
+          description: Page load time in milliseconds
+        referrer:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 500
+        is_mobile:
+          type: boolean
+        browser:
+          type: string
+          maxLength: 50
+        os:
+          type: string
+          maxLength: 50
+      required:
+      - load_time
+      - page_url
+    PaginatedCommitteeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Committee'
+    PaginatedCooperativeAchievementList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CooperativeAchievement'
+    PaginatedCooperativeAffiliationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CooperativeAffiliation'
+    PaginatedCooperativeInfoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CooperativeInfo'
+    PaginatedCooperativeTimelineList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CooperativeTimeline'
+    PaginatedFixedDepositList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FixedDeposit'
+    PaginatedLeadershipMessageList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeadershipMessage'
+    PaginatedLoanTypeList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanType'
+    PaginatedMemberReliefList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemberRelief'
+    PaginatedPersonList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Person'
+    PaginatedRemittanceServiceList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RemittanceService'
+    PaginatedSavingsAccountList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SavingsAccount'
+    PaginatedServiceAnalyticsList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceAnalytics'
+    PaginatedServiceApplicationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceApplication'
+    PaginatedServiceRecommendationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceRecommendation'
+    PaginatedStaffList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Staff'
+    PatchedFixedDepositRequest:
+      type: object
+      description: Serializer for Fixed Deposit model.
+      properties:
+        duration_months:
+          allOf:
+          - $ref: '#/components/schemas/DurationMonthsEnum'
+          title: Duration
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        payment_frequency:
+          allOf:
+          - $ref: '#/components/schemas/PaymentFrequencyEnum'
+          title: Interest Payout
+        interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Interest Rate (%)
+        minimum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          title: Minimum Amount (NPR)
+        maximum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Maximum Amount (NPR)
+        benefits:
+          type: string
+          description: List key benefits, one per line.
+        is_active:
+          type: boolean
+          title: Active
+    PatchedLoanTypeRequest:
+      type: object
+      description: Serializer for Loan Type model.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        loan_category:
+          $ref: '#/components/schemas/LoanCategoryEnum'
+        monthly_interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Monthly Interest Rate (%)
+        minimum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Minimum Loan Amount (NPR)
+        maximum_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Maximum Loan Amount (NPR)
+        max_tenure_years:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          title: Maximum Tenure (Years)
+        requirements:
+          type: string
+          description: List required documents, one per line.
+        benefits:
+          type: string
+          description: List key benefits, one per line.
+    PatchedMemberReliefRequest:
+      type: object
+      description: Serializer for Member Relief model.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        relief_type:
+          $ref: '#/components/schemas/ReliefTypeEnum'
+        eligibility:
+          type: string
+          minLength: 1
+          title: Eligibility Criteria
+        benefits:
+          type: string
+          minLength: 1
+          title: Benefits & Support
+        application_process:
+          type: string
+        image:
+          type: string
+          format: binary
+          nullable: true
+    PatchedRemittanceServiceRequest:
+      type: object
+      description: Serializer for Remittance Service model.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        service_type:
+          $ref: '#/components/schemas/ServiceTypeEnum'
+        processing_time:
+          type: string
+          description: e.g., 'Instant' or '1-2 business days'
+          maxLength: 100
+        fees:
+          type: string
+          title: Fees & Charges
+    PatchedSavingsAccountRequest:
+      type: object
+      description: Serializer for Savings Account model with enhanced fields.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Interest Rate (%)
+          description: Annual interest rate.
+        minimum_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Minimum Balance (NPR)
+          description: Required minimum balance to maintain.
+        features:
+          type: string
+          title: Key Features
+          description: List key features, one per line.
+    PatchedServiceApplicationRequest:
+      type: object
+      description: Serializer for Service Application model.
+      properties:
+        content_type:
+          type: integer
+          title: Service Type
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: Service ID
+        applicant_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        applicant_email:
+          type: string
+          format: email
+          minLength: 1
+          title: Email
+          maxLength: 254
+        applicant_phone:
+          type: string
+          minLength: 1
+          title: Phone
+          maxLength: 20
+        applicant_address:
+          type: string
+          minLength: 1
+          title: Address
+        additional_info:
+          type: string
+          title: Additional Information
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        notes:
+          type: string
+          title: Review Notes
+    PaymentFrequencyEnum:
+      enum:
+      - monthly
+      - quarterly
+      - lump_sum
+      type: string
+      description: |-
+        * `monthly` - Monthly Payout
+        * `quarterly` - Quarterly Payout
+        * `lump_sum` - Maturity Payout
+    Person:
+      type: object
+      description: Serializer for Person model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        full_name:
+          type: string
+          description: व्यक्तिको पूरा नाम
+          maxLength: 100
+        bio:
+          type: string
+          description: व्यक्तिको संक्षिप्त परिचय (optional)
+        photo:
+          type: string
+          format: uri
+          nullable: true
+          description: व्यक्तिको फोटो
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        phone:
+          type: string
+          maxLength: 20
+        position_general:
+          type: string
+          title: General Position
+          maxLength: 100
+        is_active:
+          type: boolean
+          title: Active
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - full_name
+      - id
+      - updated_at
+    ReliefTypeEnum:
+      enum:
+      - medical
+      - education
+      - disaster
+      - welfare
+      type: string
+      description: |-
+        * `medical` - Medical Relief
+        * `education` - Educational Support
+        * `disaster` - Disaster Relief
+        * `welfare` - Welfare Support
+    RemittanceService:
+      type: object
+      description: Serializer for Remittance Service model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        english_name:
+          type: string
+          maxLength: 100
+        nepali_name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          readOnly: true
+          description: A unique, URL-friendly identifier. Auto-generated if left blank.
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        service_type:
+          $ref: '#/components/schemas/ServiceTypeEnum'
+        processing_time:
+          type: string
+          description: e.g., 'Instant' or '1-2 business days'
+          maxLength: 100
+        fees:
+          type: string
+          title: Fees & Charges
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        url:
+          type: string
+          description: Get the absolute URL for the remittance service.
+          readOnly: true
+      required:
+      - created_at
+      - english_name
+      - id
+      - nepali_name
+      - service_type
+      - slug
+      - updated_at
+      - url
+    RemittanceServiceRequest:
+      type: object
+      description: Serializer for Remittance Service model.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        service_type:
+          $ref: '#/components/schemas/ServiceTypeEnum'
+        processing_time:
+          type: string
+          description: e.g., 'Instant' or '1-2 business days'
+          maxLength: 100
+        fees:
+          type: string
+          title: Fees & Charges
+      required:
+      - english_name
+      - nepali_name
+      - service_type
+    SavingsAccount:
+      type: object
+      description: Serializer for Savings Account model with enhanced fields.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        english_name:
+          type: string
+          maxLength: 100
+        nepali_name:
+          type: string
+          maxLength: 100
+        slug:
+          type: string
+          readOnly: true
+          description: A unique, URL-friendly identifier. Auto-generated if left blank.
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Interest Rate (%)
+          description: Annual interest rate.
+        minimum_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Minimum Balance (NPR)
+          description: Required minimum balance to maintain.
+        features:
+          type: string
+          title: Key Features
+          description: List key features, one per line.
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        annual_interest_rate:
+          type: string
+          readOnly: true
+        url:
+          type: string
+          description: Get the absolute URL for the savings account.
+          readOnly: true
+      required:
+      - account_type
+      - annual_interest_rate
+      - created_at
+      - english_name
+      - id
+      - interest_rate
+      - nepali_name
+      - slug
+      - updated_at
+      - url
+    SavingsAccountRequest:
+      type: object
+      description: Serializer for Savings Account model with enhanced fields.
+      properties:
+        english_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        nepali_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        description:
+          type: string
+        icon:
+          type: string
+          title: Icon Class (e.g., 'fas fa-piggy-bank')
+          maxLength: 50
+        color:
+          type: string
+          minLength: 1
+          title: Color Theme
+          description: Tailwind CSS color name for branding.
+          maxLength: 20
+        is_featured:
+          type: boolean
+          title: Featured Product
+          description: Featured products appear prominently on the site.
+        is_active:
+          type: boolean
+          title: Active
+          description: Only active services are visible to users.
+        account_type:
+          $ref: '#/components/schemas/AccountTypeEnum'
+        interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          title: Interest Rate (%)
+          description: Annual interest rate.
+        minimum_balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          title: Minimum Balance (NPR)
+          description: Required minimum balance to maintain.
+        features:
+          type: string
+          title: Key Features
+          description: List key features, one per line.
+      required:
+      - account_type
+      - english_name
+      - interest_rate
+      - nepali_name
+    ServiceAnalytics:
+      type: object
+      description: Serializer for Service Analytics model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        content_type:
+          type: integer
+          nullable: true
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+        service_object:
+          type: string
+          readOnly: true
+        service_name:
+          type: string
+          description: Get the service name.
+          readOnly: true
+        date:
+          type: string
+          format: date
+        page_views:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        applications_received:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        calculator_usage:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+      required:
+      - date
+      - id
+      - service_name
+      - service_object
+    ServiceApplication:
+      type: object
+      description: Serializer for Service Application model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        content_type:
+          type: integer
+          title: Service Type
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: Service ID
+        service_object:
+          type: string
+          readOnly: true
+        service_name:
+          type: string
+          readOnly: true
+        service_type:
+          type: string
+          description: Get the service type name.
+          readOnly: true
+        applicant_name:
+          type: string
+          maxLength: 100
+        applicant_email:
+          type: string
+          format: email
+          title: Email
+          maxLength: 254
+        applicant_phone:
+          type: string
+          title: Phone
+          maxLength: 20
+        applicant_address:
+          type: string
+          title: Address
+        additional_info:
+          type: string
+          title: Additional Information
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        applied_date:
+          type: string
+          format: date-time
+          readOnly: true
+        reviewed_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        reviewed_by:
+          type: string
+          readOnly: true
+        notes:
+          type: string
+          title: Review Notes
+      required:
+      - applicant_address
+      - applicant_email
+      - applicant_name
+      - applicant_phone
+      - applied_date
+      - content_type
+      - id
+      - object_id
+      - reviewed_by
+      - reviewed_date
+      - service_name
+      - service_object
+      - service_type
+    ServiceApplicationRequest:
+      type: object
+      description: Serializer for Service Application model.
+      properties:
+        content_type:
+          type: integer
+          title: Service Type
+        object_id:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          title: Service ID
+        applicant_name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        applicant_email:
+          type: string
+          format: email
+          minLength: 1
+          title: Email
+          maxLength: 254
+        applicant_phone:
+          type: string
+          minLength: 1
+          title: Phone
+          maxLength: 20
+        applicant_address:
+          type: string
+          minLength: 1
+          title: Address
+        additional_info:
+          type: string
+          title: Additional Information
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        notes:
+          type: string
+          title: Review Notes
+      required:
+      - applicant_address
+      - applicant_email
+      - applicant_name
+      - applicant_phone
+      - content_type
+      - object_id
+    ServiceRecommendation:
+      type: object
+      description: Serializer for Service Recommendation model.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user_profile: {}
+        recommended_services: {}
+        recommendation_reason:
+          type: string
+        confidence_score:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,1}(?:\.\d{0,2})?$
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - confidence_score
+      - created_at
+      - id
+      - recommendation_reason
+    ServiceTypeEnum:
+      enum:
+      - domestic
+      - international
+      - mobile_banking
+      type: string
+      description: |-
+        * `domestic` - Domestic Transfer
+        * `international` - International Remittance
+        * `mobile_banking` - Mobile Banking Transfer
+    Staff:
+      type: object
+      description: Serializer for Staff model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        person:
+          type: integer
+        person_name:
+          type: string
+          readOnly: true
+        person_photo:
+          type: string
+          format: uri
+          readOnly: true
+        position:
+          type: string
+          description: e.g., Manager, Accountant
+          maxLength: 100
+        department:
+          type: string
+          maxLength: 100
+        start_date:
+          type: string
+          format: date
+          nullable: true
+          description: Date the staff member joined.
+        is_active:
+          type: boolean
+          description: Is the staff member currently employed?
+      required:
+      - id
+      - person
+      - person_name
+      - person_photo
+      - position
+    StatusEnum:
+      enum:
+      - pending
+      - under_review
+      - approved
+      - rejected
+      type: string
+      description: |-
+        * `pending` - Pending
+        * `under_review` - Under Review
+        * `approved` - Approved
+        * `rejected` - Rejected
+    WidgetTypeEnum:
+      enum:
+      - metric_card
+      - chart
+      - table
+      - gauge
+      - map
+      type: string
+      description: |-
+        * `metric_card` - Metric Card
+        * `chart` - Chart
+        * `table` - Table
+        * `gauge` - Gauge
+        * `map` - Map
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: bhanjyang_sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

@@ -17,6 +17,20 @@ from apps.contact.models import ContactSubmission
 from .cache_utils import DashboardDataProvider, DashboardCache
 import logging
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser, AllowAny
+from rest_framework.decorators import api_view, permission_classes
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
+
+from .serializers import (
+    PageViewSerializer, ErrorLogSerializer, DashboardFilterSerializer,
+    PerformanceAlertSerializer, AlertLogSerializer, DashboardWidgetSerializer,
+    DashboardDataResponseSerializer, DashboardReportRequestSerializer,
+    DashboardReportResponseSerializer, ExportDataRequestSerializer
+)
+
 logger = logging.getLogger(__name__)
 
 @method_decorator(staff_member_required, name='dispatch')
@@ -298,181 +312,190 @@ class DashboardView(TemplateView):
         
         return context
 
-def dashboard_api(request):
+class DashboardDataView(APIView):
     """Enhanced API endpoint for dashboard data with filtering capabilities"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
+    permission_classes = [IsAdminUser]
     
-    try:
-        metric_type = request.GET.get('type', 'page_load')
-        days = int(request.GET.get('days', 7))
-        
-        # Add filtering capabilities
-        filters = {
-            'date_range': request.GET.get('date_range', f'{days}d'),
-            'device_type': request.GET.get('device_type'),
-            'browser': request.GET.get('browser'),
-            'page_type': request.GET.get('page_type'),
-        }
+    @extend_schema(
+        parameters=[DashboardFilterSerializer],
+        responses=DashboardDataResponseSerializer
+    )
+    def get(self, request):
+        serializer = DashboardFilterSerializer(data=request.GET)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        data = serializer.validated_data
+        metric_type = data.get('type', 'page_load')
+        days = data.get('days', 7)
+        device_type = data.get('device_type')
+        browser = data.get('browser')
+        page_type = data.get('page_type')
         
         start_date = timezone.now() - timedelta(days=days)
+        filters = {k: v for k, v in data.items() if v}
         
-        if metric_type == 'page_load':
-            # Use cached data if no filters are applied
-            if not filters['device_type'] and not filters['browser']:
-                data = DashboardDataProvider.get_page_views_data(days, use_cache=True)
-                return JsonResponse({
-                    **data,
-                    'filters_applied': filters,
-                    'total_records': sum(data['counts'])
-                })
-            else:
-                # Apply filters - no cache for filtered data
+        try:
+            if metric_type == 'page_load':
                 queryset = PageView.objects.filter(timestamp__gte=start_date)
                 
-                if filters['device_type']:
-                    queryset = queryset.filter(is_mobile=(filters['device_type'] == 'mobile'))
-                if filters['browser']:
-                    queryset = queryset.filter(browser=filters['browser'])
+                if device_type:
+                    queryset = queryset.filter(is_mobile=(device_type == 'mobile'))
+                if browser:
+                    queryset = queryset.filter(browser=browser)
                 
-                data = queryset.values('timestamp__date').annotate(
+                # If no specific filters, try cache (logic simplified for DRF for now)
+                # In a real DRF implementation, we might skip the custom caching logic 
+                # or wrap it in a service layer. For now, let's keep it direct for clarity.
+                
+                data_points = queryset.values('timestamp__date').annotate(
                     avg_load_time=Avg('load_time'),
                     count=Count('id')
                 ).order_by('timestamp__date')
                 
-                return JsonResponse({
-                    'labels': [item['timestamp__date'].strftime('%Y-%m-%d') for item in data],
-                    'data': [float(item['avg_load_time']) for item in data],
-                    'counts': [item['count'] for item in data],
+                return Response({
+                    'labels': [item['timestamp__date'].strftime('%Y-%m-%d') for item in data_points],
+                    'data': [float(item['avg_load_time']) for item in data_points],
+                    'counts': [item['count'] for item in data_points],
                     'filters_applied': filters,
                     'total_records': queryset.count()
                 })
         
-        elif metric_type == 'errors':
-            # Use cached data if no filters are applied
-            if not filters['page_type']:
-                data = DashboardDataProvider.get_error_data(days, use_cache=True)
-                return JsonResponse({
-                    **data,
-                    'filters_applied': filters,
-                    'total_records': sum(data['data'])
-                })
-            else:
-                # Apply filters - no cache for filtered data
+            elif metric_type == 'errors':
                 queryset = ErrorLog.objects.filter(timestamp__gte=start_date)
                 
-                if filters['page_type']:
-                    queryset = queryset.filter(error_type=filters['page_type'])
+                if page_type:
+                    queryset = queryset.filter(error_type=page_type)
                 
-                data = queryset.values('timestamp__date').annotate(
+                data_points = queryset.values('timestamp__date').annotate(
                     count=Count('id')
                 ).order_by('timestamp__date')
                 
-                return JsonResponse({
-                    'labels': [item['timestamp__date'].strftime('%Y-%m-%d') for item in data],
-                    'data': [item['count'] for item in data],
+                return Response({
+                    'labels': [item['timestamp__date'].strftime('%Y-%m-%d') for item in data_points],
+                    'data': [item['count'] for item in data_points],
                     'filters_applied': filters,
                     'total_records': queryset.count()
                 })
         
-        elif metric_type == 'traffic':
-            queryset = PageView.objects.filter(timestamp__gte=start_date)
+            elif metric_type == 'traffic':
+                queryset = PageView.objects.filter(timestamp__gte=start_date)
+                
+                if device_type:
+                    queryset = queryset.filter(is_mobile=(device_type == 'mobile'))
+                
+                data_points = queryset.values('timestamp__date').annotate(
+                    count=Count('id'),
+                    unique_sessions=Count('session_id', distinct=True)
+                ).order_by('timestamp__date')
+                
+                return Response({
+                    'labels': [item['timestamp__date'].strftime('%Y-%m-%d') for item in data_points],
+                    'data': [item['count'] for item in data_points],
+                    'unique_sessions': [item['unique_sessions'] for item in data_points],
+                    'filters_applied': filters,
+                    'total_records': queryset.count()
+                })
             
-            # Apply filters
-            if filters['device_type']:
-                queryset = queryset.filter(is_mobile=(filters['device_type'] == 'mobile'))
+            return Response({'error': 'Invalid metric type'}, status=status.HTTP_400_BAD_REQUEST)
             
-            data = queryset.values('timestamp__date').annotate(
-                count=Count('id'),
-                unique_sessions=Count('session_id', distinct=True)
-            ).order_by('timestamp__date')
-            
-            return JsonResponse({
-                'labels': [item['timestamp__date'].strftime('%Y-%m-%d') for item in data],
-                'data': [item['count'] for item in data],
-                'unique_sessions': [item['unique_sessions'] for item in data],
-                'filters_applied': filters,
-                'total_records': queryset.count()
-            })
-        
-        return JsonResponse({'error': 'Invalid metric type'}, status=400)
-        
-    except Exception as e:
-        logger.error(f"Error in dashboard API: {e}")
-        return JsonResponse({'error': 'Internal server error'}, status=500)
+        except Exception as e:
+            logger.error(f"Error in dashboard API: {e}")
+            return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@csrf_exempt
-def track_page_view(request):
+class TrackPageView(APIView):
     """Track page view performance"""
-    if request.method == 'POST':
-        try:
-            # Handle both JSON and FormData
-            if request.content_type == 'application/json':
-                data = json.loads(request.body)
-            else:
-                # Handle FormData from sendBeacon
-                data_str = request.POST.get('data', '{}')
-                data = json.loads(data_str)
-            
-            PageView.objects.create(
-                page_url=data.get('url', ''),
-                page_title=data.get('title', ''),
-                load_time=data.get('load_time', 0),
-                user_agent=request.META.get('HTTP_USER_AGENT', ''),
-                ip_address=request.META.get('REMOTE_ADDR', ''),
-                session_id=request.session.session_key,
-                user=request.user if request.user.is_authenticated else None,
-                referrer=data.get('referrer', ''),
-                is_mobile=data.get('is_mobile', False),
-                browser=data.get('browser', ''),
-                os=data.get('os', '')
-            )
-            
-            return JsonResponse({'success': True})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
+    permission_classes = [AllowAny]
     
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+    @extend_schema(
+        request=PageViewSerializer,
+        responses={200: dict}
+    )
+    def post(self, request):
+        # Handle sendBeacon data which might be text/plain or form data
+        data = request.data
+        if not data and request.body:
+             try:
+                 data = json.loads(request.body)
+             except:
+                 pass
+                 
+        # If came from formData/beacon as string
+        if isinstance(data, dict) and 'data' in data and isinstance(data['data'], str):
+             try:
+                 data = json.loads(data['data'])
+             except:
+                 pass
+        
+        # Add request info
+        data_to_save = data.copy()
+        data_to_save['user_agent'] = request.META.get('HTTP_USER_AGENT', '')
+        data_to_save['ip_address'] = request.META.get('REMOTE_ADDR', '')
+        data_to_save['session_id'] = request.session.session_key
+        if request.user.is_authenticated:
+            # We can't assign user object directly to serializer field if it expects PK, 
+            # but ModelSerializer can handle user from context if we set it in perform_create, 
+            # or we just pass it to save if not in validated_data.
+            # Simpler: just set it manually after validation or allow it in serializer?
+            # ModelSerializer read_only_fields are excluded from validation.
+            pass
 
-@csrf_exempt
-def track_error(request):
+        serializer = PageViewSerializer(data=data_to_save)
+        if serializer.is_valid():
+             # Save with read-only fields
+             serializer.save(
+                 user=request.user if request.user.is_authenticated else None,
+                 ip_address=request.META.get('REMOTE_ADDR', ''),
+                 user_agent=request.META.get('HTTP_USER_AGENT', ''),
+                 session_id=request.session.session_key
+             )
+             return Response({'success': True})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TrackErrorView(APIView):
     """Track errors and exceptions"""
-    if request.method == 'POST':
-        try:
-            # Handle both JSON and FormData
-            if request.content_type == 'application/json':
-                data = json.loads(request.body)
-            else:
-                # Handle FormData from sendBeacon
-                data_str = request.POST.get('data', '{}')
-                data = json.loads(data_str)
-            
-            ErrorLog.objects.create(
-                error_type=data.get('error_type', '500'),
-                error_message=data.get('error_message', ''),
-                page_url=data.get('page_url', ''),
-                user_agent=request.META.get('HTTP_USER_AGENT', ''),
-                ip_address=request.META.get('REMOTE_ADDR', ''),
-                session_id=request.session.session_key,
-                user=request.user if request.user.is_authenticated else None,
-                stack_trace=data.get('stack_trace', ''),
-                additional_data=data.get('additional_data', {})
-            )
-            
-            return JsonResponse({'success': True})
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
+    permission_classes = [AllowAny]
     
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+    @extend_schema(
+        request=ErrorLogSerializer,
+        responses={200: dict}
+    )
+    def post(self, request):
+        data = request.data
+        # Handle different data formats similar to PageView
+        if not data and request.body:
+             try:
+                 data = json.loads(request.body)
+             except:
+                 pass
+        if isinstance(data, dict) and 'data' in data and isinstance(data['data'], str):
+             try:
+                 data = json.loads(data['data'])
+             except:
+                 pass
 
-def generate_dashboard_report(request):
+        serializer = ErrorLogSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save(
+                user=request.user if request.user.is_authenticated else None,
+                ip_address=request.META.get('REMOTE_ADDR', ''),
+                user_agent=request.META.get('HTTP_USER_AGENT', ''),
+                session_id=request.session.session_key
+            )
+            return Response({'success': True})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DashboardReportView(APIView):
     """Generate dashboard report"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
-    
-    if request.method == 'POST':
+    permission_classes = [IsAdminUser]
+
+    @extend_schema(
+        request=DashboardReportRequestSerializer,
+        responses=DashboardReportResponseSerializer
+    )
+    def post(self, request):
         try:
-            data = json.loads(request.body)
+            data = request.data
             report_type = data.get('type', 'weekly')
             start_date = datetime.fromisoformat(data.get('start_date'))
             end_date = datetime.fromisoformat(data.get('end_date'))
@@ -520,206 +543,175 @@ def generate_dashboard_report(request):
                 summary=f"Performance report for {start_date.date()} to {end_date.date()}"
             )
             
-            return JsonResponse({
+            return Response({
                 'success': True,
                 'report_id': report.id,
                 'data': report_data
             })
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-    
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-def get_alerts(request):
+class AlertsView(APIView):
     """Get active alerts for dashboard"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
+    permission_classes = [IsAdminUser]
     
-    try:
-        from .models import AlertLog
-        alerts = AlertLog.objects.filter(is_resolved=False).order_by('-triggered_at')[:10]
-        
-        alert_data = []
-        for alert in alerts:
-            alert_data.append({
-                'id': alert.id,
-                'type': alert.alert.alert_type,
-                'severity': alert.alert.severity,
-                'message': alert.message,
-                'current_value': alert.current_value,
-                'threshold': alert.alert.threshold_value,
-                'triggered_at': alert.triggered_at.isoformat(),
-            })
-        
-        return JsonResponse({'alerts': alert_data})
-    except Exception as e:
-        logger.error(f"Error getting alerts: {e}")
-        return JsonResponse({'error': 'Internal server error'}, status=500)
-
-def resolve_alert(request, alert_id):
-    """Resolve an alert"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
-    
-    if request.method == 'POST':
+    @extend_schema(responses=AlertLogSerializer(many=True))
+    def get(self, request):
         try:
             from .models import AlertLog
-            from django.utils import timezone
-            
+            alerts = AlertLog.objects.filter(is_resolved=False).order_by('-triggered_at')[:10]
+            serializer = AlertLogSerializer(alerts, many=True)
+            return Response({'alerts': serializer.data})
+        except Exception as e:
+            logger.error(f"Error getting alerts: {e}")
+            return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class ResolveAlertView(APIView):
+    """Resolve an alert"""
+    permission_classes = [IsAdminUser]
+
+    @extend_schema(
+        request=None,
+        responses={200: OpenApiTypes.OBJECT}
+    )
+    def post(self, request, alert_id):
+        try:
+            from .models import AlertLog
             alert = AlertLog.objects.get(id=alert_id)
             alert.is_resolved = True
             alert.resolved_at = timezone.now()
             alert.resolved_by = request.user
             alert.save()
-            
-            return JsonResponse({'success': True})
+            return Response({'success': True})
         except AlertLog.DoesNotExist:
-            return JsonResponse({'error': 'Alert not found'}, status=404)
+            return Response({'error': 'Alert not found'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             logger.error(f"Error resolving alert: {e}")
-            return JsonResponse({'error': 'Internal server error'}, status=500)
-    
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+            return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-def export_dashboard_data(request):
+class ExportDashboardDataView(APIView):
     """Export dashboard data in various formats"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
-    
-    try:
-        import csv
-        from django.http import HttpResponse
-        from datetime import datetime
-        
-        format_type = request.GET.get('format', 'csv')
-        data_type = request.GET.get('data_type', 'page_views')
-        days = int(request.GET.get('days', 7))
-        
-        start_date = timezone.now() - timedelta(days=days)
-        
-        if data_type == 'page_views':
-            queryset = PageView.objects.filter(timestamp__gte=start_date)
-        elif data_type == 'errors':
-            queryset = ErrorLog.objects.filter(timestamp__gte=start_date)
-        else:
-            return JsonResponse({'error': 'Invalid data type'}, status=400)
-        
-        if format_type == 'csv':
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = f'attachment; filename="{data_type}_{datetime.now().strftime("%Y%m%d")}.csv"'
+    permission_classes = [IsAdminUser]
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(name='format', description='Export format (csv, json)', required=False, type=str),
+            OpenApiParameter(name='data_type', description='Type of data to export', required=False, type=str),
+            OpenApiParameter(name='days', description='Number of days to export', required=False, type=int),
+        ],
+        responses={200: OpenApiTypes.BINARY}
+    )
+    def get(self, request):
+        try:
+            import csv
+            from django.http import HttpResponse
+            from datetime import datetime
             
-            writer = csv.writer(response)
+            format_type = request.GET.get('format', 'csv')
+            data_type = request.GET.get('data_type', 'page_views')
+            days = int(request.GET.get('days', 7))
+            
+            start_date = timezone.now() - timedelta(days=days)
             
             if data_type == 'page_views':
-                writer.writerow(['Timestamp', 'Page URL', 'Page Title', 'Load Time (ms)', 'Is Mobile', 'Browser', 'User'])
-                for item in queryset:
-                    writer.writerow([
-                        item.timestamp,
-                        item.page_url,
-                        item.page_title,
-                        item.load_time,
-                        item.is_mobile,
-                        item.browser,
-                        item.user.username if item.user else 'Anonymous'
-                    ])
+                queryset = PageView.objects.filter(timestamp__gte=start_date)
             elif data_type == 'errors':
-                writer.writerow(['Timestamp', 'Error Type', 'Error Message', 'Page URL', 'Resolved', 'User'])
-                for item in queryset:
-                    writer.writerow([
-                        item.timestamp,
-                        item.error_type,
-                        item.error_message,
-                        item.page_url,
-                        item.resolved,
-                        item.user.username if item.user else 'Anonymous'
-                    ])
+                queryset = ErrorLog.objects.filter(timestamp__gte=start_date)
+            else:
+                return Response({'error': 'Invalid data type'}, status=status.HTTP_400_BAD_REQUEST)
             
-            return response
-        
-        return JsonResponse({'error': 'Unsupported format'}, status=400)
-        
-    except Exception as e:
-        logger.error(f"Error exporting data: {e}")
-        return JsonResponse({'error': 'Internal server error'}, status=500)
-
-def dashboard_widgets(request):
-    """Get dashboard widgets configuration"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
-    
-    try:
-        from .models import DashboardWidget, UserDashboardPreference
-        
-        # Get user preferences
-        user_prefs, created = UserDashboardPreference.objects.get_or_create(
-            user=request.user,
-            defaults={'theme': 'light', 'refresh_interval': 30}
-        )
-        
-        # Get active widgets
-        widgets = DashboardWidget.objects.filter(is_active=True).order_by('position_y', 'position_x')
-        
-        widget_data = []
-        for widget in widgets:
-            widget_data.append({
-                'id': widget.id,
-                'name': widget.name,
-                'type': widget.widget_type,
-                'position': {'x': widget.position_x, 'y': widget.position_y},
-                'size': {'width': widget.width, 'height': widget.height},
-                'config': widget.config,
-            })
-        
-        return JsonResponse({
-            'widgets': widget_data,
-            'user_preferences': {
-                'theme': user_prefs.theme,
-                'refresh_interval': user_prefs.refresh_interval,
-                'layout_config': user_prefs.layout_config,
-            }
-        })
-        
-    except Exception as e:
-        logger.error(f"Error getting dashboard widgets: {e}")
-        return JsonResponse({'error': 'Internal server error'}, status=500)
-
-def update_user_preferences(request):
-    """Update user dashboard preferences"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
-    
-    if request.method == 'POST':
-        try:
-            from .models import UserDashboardPreference
+            if format_type == 'csv':
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = f'attachment; filename="{data_type}_{datetime.now().strftime("%Y%m%d")}.csv"'
+                
+                writer = csv.writer(response)
+                
+                if data_type == 'page_views':
+                    writer.writerow(['Timestamp', 'Page URL', 'Page Title', 'Load Time (ms)', 'Is Mobile', 'Browser', 'User'])
+                    for item in queryset:
+                        writer.writerow([
+                            item.timestamp,
+                            item.page_url,
+                            item.page_title,
+                            item.load_time,
+                            item.is_mobile,
+                            item.browser,
+                            item.user.username if item.user else 'Anonymous'
+                        ])
+                elif data_type == 'errors':
+                    writer.writerow(['Timestamp', 'Error Type', 'Error Message', 'Page URL', 'Resolved', 'User'])
+                    for item in queryset:
+                        writer.writerow([
+                            item.timestamp,
+                            item.error_type,
+                            item.error_message,
+                            item.page_url,
+                            item.resolved,
+                            item.user.username if item.user else 'Anonymous'
+                        ])
+                
+                return response
             
-            data = json.loads(request.body)
-            
-            user_prefs, created = UserDashboardPreference.objects.get_or_create(
-                user=request.user,
-                defaults={'theme': 'light', 'refresh_interval': 30}
-            )
-            
-            if 'theme' in data:
-                user_prefs.theme = data['theme']
-            if 'refresh_interval' in data:
-                user_prefs.refresh_interval = data['refresh_interval']
-            if 'layout_config' in data:
-                user_prefs.layout_config = data['layout_config']
-            
-            user_prefs.save()
-            
-            return JsonResponse({'success': True})
+            return Response({'error': 'Unsupported format'}, status=status.HTTP_400_BAD_REQUEST)
             
         except Exception as e:
-            logger.error(f"Error updating user preferences: {e}")
-            return JsonResponse({'error': 'Internal server error'}, status=500)
+            logger.error(f"Error exporting data: {e}")
+            return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class DashboardWidgetsView(APIView):
+    """Get dashboard widgets configuration"""
+    permission_classes = [IsAdminUser]
     
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+    @extend_schema(responses=DashboardWidgetSerializer(many=True))
+    def get(self, request):
+        try:
+            from .models import DashboardWidget, UserDashboardPreference
+            # Get user preferences
+            pref, created = UserDashboardPreference.objects.get_or_create(user=request.user)
+            user_widgets = pref.widgets.all()
+            
+            # If user has no widgets configured, return defaults
+            if not user_widgets.exists():
+                default_widgets = DashboardWidget.objects.filter(is_active=True, created_by=None)
+                if default_widgets.exists():
+                     # Don't automatically add to user prefs, just return defaults to show
+                    widgets = default_widgets
+                else:
+                    widgets = []
+            else:
+                widgets = user_widgets
+                
+            serializer = DashboardWidgetSerializer(widgets, many=True)
+            return Response({'widgets': serializer.data})
+        except Exception as e:
+            logger.error(f"Error getting widgets: {e}")
+            return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-# Specialized Dashboard Views
-
-@method_decorator(staff_member_required, name='dispatch')
+class UserPreferenceView(APIView):
+    """Update user dashboard preferences"""
+    permission_classes = [IsAdminUser]
+    
+    def post(self, request):
+        try:
+            from .models import UserDashboardPreference
+            data = request.data
+            
+            pref, created = UserDashboardPreference.objects.get_or_create(user=request.user)
+            
+            if 'theme' in data:
+                pref.theme = data['theme']
+            
+            if 'refresh_interval' in data:
+                pref.refresh_interval = int(data['refresh_interval'])
+                
+            if 'layout_config' in data:
+                pref.layout_config = data['layout_config']
+                
+            pref.save()
+            return Response({'success': True})
+        except Exception as e:
+            logger.error(f"Error updating preferences: {e}")
+            return Response({'error': 'Internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 class PerformanceDashboardView(TemplateView):
     """Dedicated Performance Monitoring Dashboard"""
     template_name = 'dashboard/performance.html'
@@ -1002,366 +994,151 @@ class ReportsDashboardView(TemplateView):
 
 # Specialized API Views
 
-def performance_api(request):
+class PerformanceDataView(APIView):
     """API endpoint for performance data"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
+    permission_classes = [IsAdminUser]
     
-    try:
-        days = int(request.GET.get('days', 7))
-        metric = request.GET.get('metric', 'load_time')
-        start_date = timezone.now() - timedelta(days=days)
-        
-        # Generate date labels for the past N days
-        labels = []
-        for i in range(days):
-            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-            labels.append(date)
-        labels.reverse()
-        
-        if metric == 'load_time':
-            # Load time data
-            load_times = PageView.objects.filter(
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                avg_load_time=Avg('load_time')
-            ).order_by('day')
+    @extend_schema(parameters=[DashboardFilterSerializer], responses={200: OpenApiTypes.OBJECT})
+    def get(self, request):
+        try:
+            days = int(request.GET.get('days', 7))
+            metric = request.GET.get('metric', 'load_time')
+            start_date = timezone.now() - timedelta(days=days)
             
-            # Create data array matching labels
-            data = []
-            load_times_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_load_time'] for item in load_times}
-            for label in labels:
-                data.append(load_times_dict.get(label, 0) or 0)
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Load Time (ms)'
-            })
-            
-        elif metric == 'db_performance':
-            # Database performance data
-            db_perf = PerformanceMetric.objects.filter(
-                metric_type='database_query',
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                avg_time=Avg('value')
-            ).order_by('day')
+            # Generate date labels
+            labels = [(timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days)]
+            labels.reverse()
             
             data = []
-            db_perf_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_time'] for item in db_perf}
-            for label in labels:
-                data.append(db_perf_dict.get(label, 0) or 0)
+            metric_label = 'Load Time (ms)'
             
-            return JsonResponse({
+            if metric == 'load_time':
+                queryset = PageView.objects.filter(timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Avg('load_time')).order_by('day')
+            elif metric == 'db_performance':
+                 queryset = PerformanceMetric.objects.filter(metric_type='database_query', timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Avg('value')).order_by('day')
+                 metric_label = 'DB Query Time (ms)'
+            elif metric == 'api_performance':
+                 queryset = PerformanceMetric.objects.filter(metric_type='api_response', timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Avg('value')).order_by('day')
+                 metric_label = 'API Response Time (ms)'
+            elif metric == 'memory_usage':
+                 queryset = PerformanceMetric.objects.filter(metric_type='memory_usage', timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Avg('value')).order_by('day')
+                 metric_label = 'Memory Usage (MB)'
+            else:
+                 queryset = PageView.objects.filter(timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Avg('load_time')).order_by('day')
+            
+            data_dict = {item['day'].strftime('%Y-%m-%d'): item['val'] for item in queryset}
+            data = [data_dict.get(label, 0) or 0 for label in labels]
+            
+            return Response({
                 'labels': labels,
                 'data': data,
-                'metric': 'DB Query Time (ms)'
+                'metric': metric_label
             })
             
-        elif metric == 'api_performance':
-            # API performance data
-            api_perf = PerformanceMetric.objects.filter(
-                metric_type='api_response',
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                avg_time=Avg('value')
-            ).order_by('day')
-            
-            data = []
-            api_perf_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_time'] for item in api_perf}
-            for label in labels:
-                data.append(api_perf_dict.get(label, 0) or 0)
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'API Response Time (ms)'
-            })
-            
-        elif metric == 'memory_usage':
-            # Memory usage data
-            memory_data = PerformanceMetric.objects.filter(
-                metric_type='memory_usage',
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                avg_usage=Avg('value')
-            ).order_by('day')
-            
-            data = []
-            memory_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_usage'] for item in memory_data}
-            for label in labels:
-                data.append(memory_dict.get(label, 0) or 0)
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Memory Usage (MB)'
-            })
-        
-        else:
-            # Default: return load time data
-            load_times = PageView.objects.filter(
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                avg_load_time=Avg('load_time')
-            ).order_by('day')
-            
-            data = []
-            load_times_dict = {item['day'].strftime('%Y-%m-%d'): item['avg_load_time'] for item in load_times}
-            for label in labels:
-                data.append(load_times_dict.get(label, 0) or 0)
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Load Time (ms)'
-            })
-        
-    except Exception as e:
-        logger.error(f"Error in performance API: {e}")
-        # Return empty data on error
-        labels = []
-        for i in range(days):
-            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-            labels.append(date)
-        labels.reverse()
-        
-        return JsonResponse({
-            'labels': labels,
-            'data': [0] * days,
-            'metric': 'No Data Available'
-        })
+        except Exception as e:
+            logger.error(f"Error in performance API: {e}")
+            labels = [(timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days)]
+            labels.reverse()
+            return Response({'labels': labels, 'data': [0]*days, 'metric': 'No Data Available'})
 
 
-def analytics_api(request):
+class AnalyticsDataView(APIView):
     """API endpoint for analytics data"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
+    permission_classes = [IsAdminUser]
     
-    try:
-        days = int(request.GET.get('days', 7))
-        metric = request.GET.get('metric', 'page_views')
-        start_date = timezone.now() - timedelta(days=days)
-        
-        # Generate date labels for the past N days
-        labels = []
-        for i in range(days):
-            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-            labels.append(date)
-        labels.reverse()
-        
-        if metric == 'page_views':
-            # Page views data
-            page_views = PageView.objects.filter(
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                count=Count('id')
-            ).order_by('day')
+    @extend_schema(parameters=[DashboardFilterSerializer], responses={200: OpenApiTypes.OBJECT})
+    def get(self, request):
+        try:
+            days = int(request.GET.get('days', 7))
+            metric = request.GET.get('metric', 'page_views')
+            start_date = timezone.now() - timedelta(days=days)
             
+            labels = [(timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days)]
+            labels.reverse()
             data = []
-            page_views_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in page_views}
-            for label in labels:
-                data.append(page_views_dict.get(label, 0) or 0)
-            
-            return JsonResponse({
+            metric_label = 'Page Views'
+
+            if metric == 'page_views':
+                 queryset = PageView.objects.filter(timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Count('id')).order_by('day')
+                 data_dict = {item['day'].strftime('%Y-%m-%d'): item['val'] for item in queryset}
+                 data = [data_dict.get(label, 0) or 0 for label in labels]
+
+            elif metric == 'device_stats':
+                 device_stats = PageView.objects.filter(timestamp__gte=start_date).values('is_mobile').annotate(count=Count('id'))
+                 labels = ['Mobile', 'Desktop']
+                 data = [0, 0]
+                 for stat in device_stats:
+                     if stat['is_mobile']: data[0] = stat['count']
+                     else: data[1] = stat['count']
+                 metric_label = 'Device Usage'
+
+            elif metric == 'browser_stats':
+                 browser_stats = PageView.objects.filter(timestamp__gte=start_date).values('browser').annotate(count=Count('id')).order_by('-count')[:5]
+                 labels = [item['browser'] or 'Unknown' for item in browser_stats]
+                 data = [item['count'] for item in browser_stats]
+                 metric_label = 'Browser Usage'
+            else:
+                 queryset = PageView.objects.filter(timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Count('id')).order_by('day')
+                 data_dict = {item['day'].strftime('%Y-%m-%d'): item['val'] for item in queryset}
+                 data = [data_dict.get(label, 0) or 0 for label in labels]
+
+            return Response({
                 'labels': labels,
                 'data': data,
-                'metric': 'Page Views'
+                'metric': metric_label
             })
-            
-        elif metric == 'device_stats':
-            # Device statistics
-            device_stats = PageView.objects.filter(
-                timestamp__gte=start_date
-            ).values('is_mobile').annotate(
-                count=Count('id')
-            )
-            
-            labels = ['Mobile', 'Desktop']
-            data = [0, 0]
-            for stat in device_stats:
-                if stat['is_mobile']:
-                    data[0] = stat['count']
-                else:
-                    data[1] = stat['count']
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Device Usage'
-            })
-            
-        elif metric == 'browser_stats':
-            # Browser statistics
-            browser_stats = PageView.objects.filter(
-                timestamp__gte=start_date
-            ).values('browser').annotate(
-                count=Count('id')
-            ).order_by('-count')[:5]
-            
-            labels = [item['browser'] or 'Unknown' for item in browser_stats]
-            data = [item['count'] for item in browser_stats]
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Browser Usage'
-            })
-        
-        else:
-            # Default: return page views data
-            page_views = PageView.objects.filter(
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                count=Count('id')
-            ).order_by('day')
-            
-            data = []
-            page_views_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in page_views}
-            for label in labels:
-                data.append(page_views_dict.get(label, 0) or 0)
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Page Views'
-            })
-        
-    except Exception as e:
-        logger.error(f"Error in analytics API: {e}")
-        # Return empty data on error
-        labels = []
-        for i in range(days):
-            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-            labels.append(date)
-        labels.reverse()
-        
-        return JsonResponse({
-            'labels': labels,
-            'data': [0] * days,
-            'metric': 'No Data Available'
-        })
+        except Exception as e:
+            logger.error(f"Error in analytics API: {e}")
+            labels = [(timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days)]
+            labels.reverse()
+            return Response({'labels': labels, 'data': [0]*days, 'metric': 'No Data Available'})
 
 
-def errors_api(request):
+class ErrorsDataView(APIView):
     """API endpoint for error data"""
-    if not request.user.is_staff:
-        return JsonResponse({'error': 'Permission denied'}, status=403)
+    permission_classes = [IsAdminUser]
     
-    try:
-        days = int(request.GET.get('days', 7))
-        metric = request.GET.get('metric', 'error_trends')
-        start_date = timezone.now() - timedelta(days=days)
-        
-        # Generate date labels for the past N days
-        labels = []
-        for i in range(days):
-            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-            labels.append(date)
-        labels.reverse()
-        
-        if metric == 'error_trends':
-            # Error trends data
-            error_trends = ErrorLog.objects.filter(
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                count=Count('id')
-            ).order_by('day')
+    @extend_schema(parameters=[DashboardFilterSerializer], responses={200: OpenApiTypes.OBJECT})
+    def get(self, request):
+        try:
+            days = int(request.GET.get('days', 7))
+            metric = request.GET.get('metric', 'error_trends')
+            start_date = timezone.now() - timedelta(days=days)
             
+            labels = [(timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days)]
+            labels.reverse()
             data = []
-            error_trends_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in error_trends}
-            for label in labels:
-                data.append(error_trends_dict.get(label, 0) or 0)
+            metric_label = 'Error Count'
+
+            if metric == 'error_trends':
+                 queryset = ErrorLog.objects.filter(timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Count('id')).order_by('day')
+                 data_dict = {item['day'].strftime('%Y-%m-%d'): item['val'] for item in queryset}
+                 data = [data_dict.get(label, 0) or 0 for label in labels]
+
+            elif metric == 'error_types':
+                 error_types = ErrorLog.objects.filter(timestamp__gte=start_date).values('error_type').annotate(count=Count('id')).order_by('-count')[:5]
+                 labels = [item['error_type'] for item in error_types]
+                 data = [item['count'] for item in error_types]
+                 metric_label = 'Error Types'
             
-            return JsonResponse({
+            elif metric == 'error_prone_pages':
+                 error_pages = ErrorLog.objects.filter(timestamp__gte=start_date).values('page_url').annotate(count=Count('id')).order_by('-count')[:5]
+                 labels = [item['page_url'][:30] + '...' if len(item['page_url']) > 30 else item['page_url'] for item in error_pages]
+                 data = [item['count'] for item in error_pages]
+                 metric_label = 'Error Prone Pages'
+            
+            else:
+                 queryset = ErrorLog.objects.filter(timestamp__gte=start_date).extra(select={'day': 'date(timestamp)'}).values('day').annotate(val=Count('id')).order_by('day')
+                 data_dict = {item['day'].strftime('%Y-%m-%d'): item['val'] for item in queryset}
+                 data = [data_dict.get(label, 0) or 0 for label in labels]
+
+            return Response({
                 'labels': labels,
                 'data': data,
-                'metric': 'Error Count'
+                'metric': metric_label
             })
-            
-        elif metric == 'error_types':
-            # Error types data
-            error_types = ErrorLog.objects.filter(
-                timestamp__gte=start_date
-            ).values('error_type').annotate(
-                count=Count('id')
-            ).order_by('-count')[:5]
-            
-            labels = [item['error_type'] for item in error_types]
-            data = [item['count'] for item in error_types]
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Error Types'
-            })
-            
-        elif metric == 'error_prone_pages':
-            # Error prone pages data
-            error_pages = ErrorLog.objects.filter(
-                timestamp__gte=start_date
-            ).values('page_url').annotate(
-                count=Count('id')
-            ).order_by('-count')[:5]
-            
-            labels = [item['page_url'][:30] + '...' if len(item['page_url']) > 30 else item['page_url'] for item in error_pages]
-            data = [item['count'] for item in error_pages]
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Error Prone Pages'
-            })
-        
-        else:
-            # Default: return error trends data
-            error_trends = ErrorLog.objects.filter(
-                timestamp__gte=start_date
-            ).extra(
-                select={'day': 'date(timestamp)'}
-            ).values('day').annotate(
-                count=Count('id')
-            ).order_by('day')
-            
-            data = []
-            error_trends_dict = {item['day'].strftime('%Y-%m-%d'): item['count'] for item in error_trends}
-            for label in labels:
-                data.append(error_trends_dict.get(label, 0) or 0)
-            
-            return JsonResponse({
-                'labels': labels,
-                'data': data,
-                'metric': 'Error Count'
-            })
-        
-    except Exception as e:
-        logger.error(f"Error in errors API: {e}")
-        # Return empty data on error
-        labels = []
-        for i in range(days):
-            date = (timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-            labels.append(date)
-        labels.reverse()
-        
-        return JsonResponse({
-            'labels': labels,
-            'data': [0] * days,
-            'metric': 'No Data Available'
-        })
+        except Exception as e:
+            logger.error(f"Error in errors API: {e}")
+            labels = [(timezone.now() - timedelta(days=i)).strftime('%Y-%m-%d') for i in range(days)]
+            labels.reverse()
+            return Response({'labels': labels, 'data': [0]*days, 'metric': 'No Data Available'})

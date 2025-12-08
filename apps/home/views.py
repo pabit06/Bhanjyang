@@ -27,7 +27,7 @@ from .models import (
     ContactInquiry, PageView
 )
 from .forms import ContactForm, NewsletterSignupForm
-from gallery.models import GalleryImage
+from apps.gallery.models import GalleryImage
 
 
 def track_page_view(request, page_url, page_title=""):
