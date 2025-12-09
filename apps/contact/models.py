@@ -130,3 +130,119 @@ class ContactSubmission(models.Model):
                 return f"{size:.1f} {unit}"
             size /= 1024.0
         return f"{size:.1f} TB"
+
+
+def kym_document_path(instance, filename):
+    """Generate secure upload path for KYM form documents"""
+    import uuid
+    from django.utils.text import slugify
+    
+    # Sanitize filename
+    name, ext = os.path.splitext(filename)
+    sanitized_name = slugify(name)
+    unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext}"
+    
+    timestamp = timezone.now().strftime('%Y/%m/%d')
+    return f'kym_documents/{timestamp}/{unique_filename}'
+
+
+class KYMSubmission(models.Model):
+    """
+    Model to store Know Your Member (KYM) form submissions.
+    """
+    STATUS_CHOICES = [
+        ('pending', 'Pending Review'),
+        ('under_review', 'Under Review'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    
+    # Personal Details
+    full_name = models.CharField(max_length=100)
+    dob = models.DateField(verbose_name="Date of Birth")
+    gender = models.CharField(max_length=10, choices=[
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('other', 'Other')
+    ])
+    marital_status = models.CharField(max_length=20, choices=[
+        ('single', 'Single'),
+        ('married', 'Married'),
+        ('divorced', 'Divorced'),
+        ('widowed', 'Widowed')
+    ])
+    nationality = models.CharField(max_length=50, default='Nepali')
+    
+    # Contact Information
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    permanent_address = models.CharField(max_length=255)
+    district = models.CharField(max_length=100, default='Kaski')
+    province = models.CharField(max_length=100, default='Gandaki Province')
+    
+    # Family Details
+    father_name = models.CharField(max_length=100)
+    mother_name = models.CharField(max_length=100)
+    spouse_name = models.CharField(max_length=100, blank=True)
+    grand_father_name = models.CharField(max_length=100)
+    nominee_name = models.CharField(max_length=100, blank=True)
+    
+    # Occupation & Income
+    occupation = models.CharField(max_length=100)
+    income_source = models.CharField(max_length=100)
+    estimated_income = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
+    
+    # Documents
+    citizenship_front = models.FileField(upload_to=kym_document_path)
+    citizenship_back = models.FileField(upload_to=kym_document_path)
+    passport_photo = models.FileField(upload_to=kym_document_path)
+    address_proof = models.FileField(upload_to=kym_document_path)
+    income_proof = models.FileField(upload_to=kym_document_path, blank=True, null=True)
+    
+    # Technical tracking
+    ip_address = models.GenericIPAddressField()
+    user_agent = models.TextField(blank=True)
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    # Management fields
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    admin_notes = models.TextField(blank=True)
+    reviewed_at = models.DateTimeField(null=True, blank=True)
+    reviewed_by = models.ForeignKey(
+        'auth.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='kym_reviews'
+    )
+    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'KYM Submission'
+        verbose_name_plural = 'KYM Submissions'
+        indexes = [
+            models.Index(fields=['status', 'created_at']),
+            models.Index(fields=['email']),
+            models.Index(fields=['phone']),
+            models.Index(fields=['created_at']),
+        ]
+    
+    def __str__(self):
+        return f"{self.full_name} - {self.email} ({self.created_at.strftime('%Y-%m-%d')})"
+    
+    def get_status_display_color(self):
+        """Return CSS color class for status display"""
+        colors = {
+            'pending': 'text-blue-600',
+            'under_review': 'text-yellow-600',
+            'approved': 'text-green-600',
+            'rejected': 'text-red-600',
+        }
+        return colors.get(self.status, 'text-gray-600')
+    
+    def is_recent(self):
+        """Check if submission is from the last 24 hours"""
+        return (timezone.now() - self.created_at).total_seconds() < 86400

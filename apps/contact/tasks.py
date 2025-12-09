@@ -6,9 +6,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 # @shared_task(bind=True, max_retries=3)  # Commented out until celery is installed
-def send_contact_email(self, submission_data):
+def send_contact_email(submission_data):
     """
     Send contact form email to admin asynchronously
+    Note: When celery is installed, uncomment @shared_task decorator and add 'self' parameter
     """
     try:
         send_mail(
@@ -22,13 +23,15 @@ def send_contact_email(self, submission_data):
         return True
     except Exception as exc:
         logger.error(f"Failed to send contact email: {exc}")
-        # Retry the task
-        raise self.retry(exc=exc, countdown=60, max_retries=3)
+        # When celery is installed, uncomment the retry line below
+        # raise self.retry(exc=exc, countdown=60, max_retries=3)
+        return False
 
 # @shared_task(bind=True, max_retries=3)  # Commented out until celery is installed
-def send_auto_response_email(self, user_email, user_name, subject, submission_id):
+def send_auto_response_email(user_email, user_name, subject, submission_id):
     """
     Send auto-response email to user asynchronously
+    Note: When celery is installed, uncomment @shared_task decorator and add 'self' parameter
     """
     try:
         auto_response_subject = "Thank you for contacting Bhanjyang Cooperative"
@@ -60,8 +63,9 @@ Bhanjyang Cooperative Team
         return True
     except Exception as exc:
         logger.error(f"Failed to send auto-response email: {exc}")
-        # Retry the task
-        raise self.retry(exc=exc, countdown=60, max_retries=3)
+        # When celery is installed, uncomment the retry line below
+        # raise self.retry(exc=exc, countdown=60, max_retries=3)
+        return False
 
 # @shared_task  # Commented out until celery is installed
 def cleanup_old_contact_submissions():

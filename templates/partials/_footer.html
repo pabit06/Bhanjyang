@@ -75,15 +75,21 @@
 {# Slanted Bottom Bar #}
 {# This section uses `clip-path` to create the angled separation effect. #}
 {# यो खण्डले एङ्गल छुट्याउने प्रभाव सिर्जना गर्न `clip-path` प्रयोग गर्दछ। #}
-<div class="relative w-full flex text-white overflow-hidden h-16">
-    <div class="relative bg-bhanjyangred flex items-center px-6 sm:px-8 z-10" style="width: 45%; clip-path: polygon(0 0, 100% 0, calc(100% - 2rem) 100%, 0 100%);">
-        <span class="flex-shrink-0 text-xs sm:text-sm md:text-base whitespace-nowrap">
-            &copy; {% now "Y" %} Bhanjyang Cooperative. All rights reserved.
-        </span>
+<div class="relative w-full text-white overflow-hidden" style="min-height: 5rem;">
+    {# Red Section - Independent #}
+    <div class="absolute bottom-0 left-0 bg-bhanjyangred flex items-center px-4 sm:px-6 md:px-8 z-10 h-12" style="width: 48.5%; clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);">
+        <div class="flex flex-col justify-center py-2">
+            <span class="text-xs sm:text-sm md:text-base font-medium">
+                Email: <a href="mailto:cooperativebhanjyang@gmail.com" class="hover:underline">cooperativebhanjyang@gmail.com</a>
+            </span>
+        </div>
     </div>
-    <div class="relative bg-deuraligreen flex items-center px-6 sm:px-8 z-0 -ml-8 justify-end text-right" style="width: 60%; clip-path: polygon(2rem 0, 100% 0, 100% 100%, 0% 100%);">
-        <span class="text-xs sm:text-sm md:text-base leading-snug">
-            Crafted by Prem Bhandari
-        </span>
+    {# Green Section - Independent #}
+    <div class="absolute bottom-0 right-0 bg-deuraligreen flex items-center px-4 sm:px-6 md:px-8 z-0 justify-end text-right h-20" style="width: 53.5%; clip-path: polygon( 7.5% 0, 100% 0, 100% 100%, 0% 100%);">
+        <div class="flex flex-col justify-center py-2 text-right">
+            <span class="text-xs sm:text-sm md:text-base leading-relaxed">
+                "ग्रामिण क्षेत्रमा आर्थिक विकासको आधार, भञ्ज्याङ्ग सहकारी यसको पुर्वाधार" <br>
+             </span>
+        </div>
     </div>
 </div>

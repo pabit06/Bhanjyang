@@ -2,13 +2,16 @@
 {% load static %}
 {% block title %}Bhanjyang Cooperative - Contact Us{% endblock title %}
 
-{% block meta_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हाम्रो मुख्य कार्यालय र सेवा केन्द्रको ठेगाना, फोन नम्बर, इमेल, र सीधै सन्देश पठाउनुहोस्।{% endblock meta_description %}
+{% block meta_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हाम्रो मुख्य कार्यालय र सेवा
+केन्द्रको ठेगाना, फोन नम्बर, इमेल, र सीधै सन्देश पठाउनुहोस्।{% endblock meta_description %}
 
-{% block meta_keywords %}bhanjyang cooperative contact, contact details, cooperative office, service center, rupa-3, phone number, email address, send message, kaski, customer support{% endblock meta_keywords %}
+{% block meta_keywords %}bhanjyang cooperative contact, contact details, cooperative office, service center, rupa-3,
+phone number, email address, send message, kaski, customer support{% endblock meta_keywords %}
 
 {# No changes to other meta, og, twitter, or schema blocks - they are already great! #}
 {% block og_title %}Contact Bhanjyang Cooperative - Get in Touch{% endblock og_title %}
-{% block og_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हामी तपाईंको सहयोगका लागि यहाँ छौं।{% endblock og_description %}
+{% block og_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हामी तपाईंको सहयोगका लागि यहाँ
+छौं।{% endblock og_description %}
 {% block og_type %}website{% endblock og_type %}
 {% block twitter_title %}Contact Bhanjyang Cooperative - Get in Touch{% endblock twitter_title %}
 {% block twitter_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।{% endblock twitter_description %}
@@ -16,210 +19,307 @@
 {% block schema_name %}Contact Bhanjyang Cooperative{% endblock schema_name %}
 {% block schema_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।{% endblock schema_description %}
 
-{% block breadcrumbs %}
-{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
-{% endblock breadcrumbs %}
+{% block extra_css %}
+<style>
+    /* Ensure all form inputs have consistent font styling */
+    #contactForm input[type="text"],
+    #contactForm input[type="email"],
+    #contactForm input[type="tel"],
+    #contactForm textarea,
+    #contactForm select,
+    #contactForm input[type="file"] {
+        font-size: 1rem; /* 16px - base font size */
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Ensure form field labels have consistent styling */
+    #contactForm label {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* Modern Toggle Switch Styles */
+    .map-toggle-option {
+        width: 160px; /* Fixed width to ensure both buttons are equal */
+        position: relative;
+    }
+
+    .map-toggle-option:hover {
+        opacity: 0.9;
+    }
+
+    .map-toggle-option:focus {
+        outline: 2px solid rgba(5, 150, 105, 0.5);
+        outline-offset: 2px;
+    }
+
+    #map-toggle-slider {
+        will-change: transform;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 160px; /* Match button width */
+    }
+
+    /* Smooth transitions for toggle states */
+    @media (prefers-reduced-motion: no-preference) {
+        .map-toggle-option,
+        #map-toggle-slider {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    }
+</style>
+{% endblock extra_css %}
 
 {% block content %}
-
-    <section class="text-white relative overflow-hidden hero-section">
-        <div class="hero-slideshow z-0">
-            <div class="hero-slide active"><img src="{% static 'images/hero-contact.png' %}" alt="Contact Bhanjyang Cooperative" loading="eager" /></div>
+<section class="py-16 px-4 bg-gray-50">
+    <div class="container mx-auto max-w-6xl">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-bhanjyangred font-montserrat mb-3">
+                Our Contact Information & Locations
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
+            <p class="mt-4 text-center text-base sm:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                Whether you have a query, feedback, or need assistance, our dedicated team at both our Main Office and
+                Service Center is ready to help.
+            </p>
         </div>
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-md z-10"></div>
-        <div class="container mx-auto px-6 py-20 lg:py-24 text-center relative z-10">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-montserrat drop-shadow-lg">Get in Touch</h1>
-            <p class="text-lg md:text-xl text-white/90 drop-shadow-md max-w-3xl mx-auto">We're here to assist you. Reach out to us through any of our offices or channels below.</p>
-        </div>
-    </section>
 
-    
-    <section id="contact-info" class="py-16 px-4 bg-gray-50">
-        <div class="container mx-auto max-w-6xl">
-            <div class="text-center mb-12">
-                <h2 class="text-2xl sm:text-3xl font-bold text-bhanjyangred font-montserrat mb-3">
-                    Our Contact Information & Locations
+{# UPGRADE: Use a reusable include for cleaner code #}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+    {% include "partials/_info_card.html" with icon="fa-landmark" title="Main Office" color="deuraligreen" delay="200" content="Bhanjyang Saving & Credit Cooperative Ltd.<br>Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp" link_text="Get Directions" %}
+    {% include "partials/_info_card.html" with icon="fa-location-dot" title="Service Center" color="bhanjyangred" delay="300" content="Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp" link_text="Get Directions" %}
+    {% include "partials/_info_card.html" with icon="fa-phone" title="Call Us" color="deuraligreen" delay="400" content="Main Office: <a href='tel:+9779856083101' class='text-deuraligreen hover:underline'>+977-9856083101</a><br>Service Center: <a href='tel:+9779846242424' class='text-deuraligreen hover:underline'>+977-9846242424</a>" footer_text="Available during business hours." %}
+    {% include "partials/_info_card.html" with icon="fa-envelope-open-text" title="Email Us" color="bhanjyangred" delay="500" content="General Inquiries: <a href='mailto:info@bhanjyang.coop.np' class='text-bhanjyangred hover:underline'>info@bhanjyang.coop.np</a><br>Support: <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline'>support@bhanjyang.coop.np</a>" footer_text="We aim to respond within 24-48 hours." %}
+</div>
+</div>
+</section>
+
+<section id="contact-feedback-form" class="py-16 px-4 bg-white">
+    <div class="container mx-auto max-w-6xl">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {# Column 1: Engaging Text and Quick Info #}
+            <div class="text-center lg:text-left">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-deuraligreen font-montserrat mb-5">
+                    We'd Love to Hear From You
                 </h2>
-                 <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
-                <p class="mt-4 text-center text-base text-gray-700 max-w-3xl mx-auto">
-                    Whether you have a query, feedback, or need assistance, our dedicated team at both our Main Office and Service Center is ready to help.
+                <p class="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed font-poppins">
+                    Whether you have a question, a suggestion, or feedback on our services, we're here to listen. Your
+                    insights are invaluable to us as we strive to improve. Please use the form to get in touch, or
+                    contact us directly.
                 </p>
-            </div>
-            
-            {# UPGRADE: Use a reusable include for cleaner code #}
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-                {% include 'partials/_contact_card.html' with icon='fa-landmark' title='Main Office' color='deuraligreen' delay='200' content='Bhanjyang Saving & Credit Cooperative Ltd.<br>Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal' link_url='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp' link_text='Get Directions' %}
-                {% include 'partials/_contact_card.html' with icon='fa-location-dot' title='Service Center' color='bhanjyangred' delay='300' content='Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal' link_url='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp' link_text='Get Directions' %}
-                {% include 'partials/_contact_card.html' with icon='fa-phone' title='Call Us' color='deuraligreen' delay='400' content='Main Office: <a href="tel:+9779856083101" class="text-deuraligreen hover:underline">+977-9856083101</a><br>Service Center: <a href="tel:+9779846242424" class="text-deuraligreen hover:underline">+977-9846242424</a>' footer_text='Available during business hours.' %}
-                {% include 'partials/_contact_card.html' with icon='fa-envelope-open-text' title='Email Us' color='bhanjyangred' delay='500' content='General Inquiries: <a href="mailto:info@bhanjyang.coop.np" class="text-bhanjyangred hover:underline">info@bhanjyang.coop.np</a><br>Support: <a href="mailto:support@bhanjyang.coop.np" class="text-bhanjyangred hover:underline">support@bhanjyang.coop.np</a>' footer_text='We aim to respond within 24-48 hours.' %}
-            </div>
-        </div>
-    </section>
-    
-    <section id="contact-feedback-form" class="py-16 px-4 bg-white">
-        <div class="container mx-auto max-w-6xl">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                {# Column 1: Engaging Text and Quick Info #}
-                <div class="text-center lg:text-left">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-deuraligreen font-montserrat mb-5">
-                        We'd Love to Hear From You
-                    </h2>
-                    <p class="text-base text-gray-700 mb-6 leading-relaxed">
-                        Whether you have a question, a suggestion, or feedback on our services, we're here to listen. Your insights are invaluable to us as we strive to improve. Please use the form to get in touch, or contact us directly.
-                    </p>
-                    <div class="space-y-3 inline-block text-left">
-                        <div class="flex items-center gap-4 text-gray-800">
-                            <i class="fa-solid fa-phone text-lg text-deuraligreen w-5 text-center"></i>
-                            <a href="tel:+9779856083101" class="hover:underline">+977-9856083101</a>
-                        </div>
-                        <div class="flex items-center gap-4 text-gray-800">
-                            <i class="fa-solid fa-envelope text-lg text-deuraligreen w-5 text-center"></i>
-                            <a href="mailto:info@bhanjyang.coop.np" class="hover:underline">info@bhanjyang.coop.np</a>
-                        </div>
+                <div class="space-y-3 inline-block text-left">
+                    <div class="flex items-center gap-4 text-gray-800">
+                        <i class="fa-solid fa-phone text-lg text-deuraligreen w-5 text-center"></i>
+                        <a href="tel:+9779856083101" class="text-base font-poppins hover:underline">+977-9856083101</a>
                     </div>
-                    <img src="{% static 'images/plant-illustration.png' %}" alt="" class="w-28 sm:w-32 md:w-40 lg:w-44 h-auto mx-auto lg:mx-0 mt-6 drop-shadow-xl object-contain" loading="lazy">
-                </div>
-
-                {# Column 2: The Contact Form #}
-                <div class=" max-w-lg mx-auto w-full self-stretch flex">
-                    <form id="contactForm" method="POST" action="{% url 'contact:contact_view' %}" class="h-full flex flex-col space-y-4 bg-white border border-gray-200 p-6 rounded-lg shadow-lg w-full" novalidate enctype="multipart/form-data">
-                        {% csrf_token %}
-                        
-                        <div id="form-messages" class="min-h-[3rem] transition-all duration-300">
-                            <!-- Success Message Template -->
-                            <div id="success-message" class="hidden bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center gap-3">
-                                <i class="fas fa-check-circle text-green-600"></i>
-                                <div>
-                                    <p class="font-semibold">Message Sent Successfully!</p>
-                                    <p class="text-sm">Thank you for contacting us. We'll get back to you within 24-48 hours.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Error Message Template -->
-                            <div id="error-message" class="hidden bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center gap-3">
-                                <i class="fas fa-exclamation-circle text-red-600"></i>
-                                <div>
-                                    <p class="font-semibold">Error Sending Message</p>
-                                    <p class="text-sm" id="error-details">Please check your information and try again.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Validation Errors Template -->
-                            <div id="validation-errors" class="hidden bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg">
-                                <div class="flex items-center gap-3 mb-2">
-                                    <i class="fas fa-exclamation-triangle text-yellow-600"></i>
-                                    <p class="font-semibold">Please correct the following errors:</p>
-                                </div>
-                                <ul id="validation-list" class="text-sm list-disc list-inside space-y-1"></ul>
-                            </div>
-                        </div>
-
-                        {# UPGRADE: Form fields now use aria-describedby for better accessibility #}
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="form-group">
-                                <label for="{{ form.name.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Your Name <span class="text-red-500">*</span></label>
-                                {{ form.name }}
-                                <div id="{{ form.name.id_for_label }}_help" class="field-help text-gray-500 text-xs mt-1">Enter your full name</div>
-                                <div id="{{ form.name.id_for_label }}_error" class="error-message text-red-500 text-sm mt-1" role="alert"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="{{ form.email.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Your Email <span class="text-red-500">*</span></label>
-                                {{ form.email }}
-                                <div id="{{ form.email.id_for_label }}_help" class="field-help text-gray-500 text-xs mt-1">We'll use this to respond to you</div>
-                                <div id="{{ form.email.id_for_label }}_error" class="error-message text-red-500 text-sm mt-1" role="alert"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.phone.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Phone Number <span class="text-gray-500 text-sm font-normal">(Optional)</span></label>
-                            {{ form.phone }}
-                            <div id="{{ form.phone.id_for_label }}_help" class="field-help text-gray-500 text-xs mt-1">e.g., +977-9856083101</div>
-                            <div id="{{ form.phone.id_for_label }}_error" class="error-message text-red-500 text-sm mt-1" role="alert"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.subject.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Subject <span class="text-red-500">*</span></label>
-                            {{ form.subject }}
-                            <div id="{{ form.subject.id_for_label }}_help" class="field-help text-gray-500 text-xs mt-1">Brief description of your inquiry</div>
-                            <div id="{{ form.subject.id_for_label }}_error" class="error-message text-red-500 text-sm mt-1" role="alert"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.message.id_for_label }}" class="block text-gray-800 font-semibold mb-2">Your Message <span class="text-red-500">*</span></label>
-                            {{ form.message }}
-                            <div id="{{ form.message.id_for_label }}_help" class="field-help text-gray-500 text-xs mt-1">Please provide as much detail as possible</div>
-                            <div id="{{ form.message.id_for_label }}_error" class="error-message text-red-500 text-sm mt-1" role="alert"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="{{ form.attachment.id_for_label }}" class="block text-gray-800 font-semibold mb-2">File Attachment <span class="text-gray-500 text-sm font-normal">(Optional)</span></label>
-                            {{ form.attachment }}
-                            <div id="{{ form.attachment.id_for_label }}_help" class="field-help text-gray-500 text-xs mt-1">Supported formats: PDF, DOC, DOCX, JPG, PNG, TXT, XLS, XLSX (Max 5MB)</div>
-                            <div id="{{ form.attachment.id_for_label }}_error" class="error-message text-red-500 text-sm mt-1" role="alert"></div>
-                        </div>
-                        
-                        <div class="text-center pt-4 mt-auto">
-                            <button id="submitButton" type="submit" 
-                                    class="w-auto mx-auto bg-deuraligreen hover:bg-bhanjyangred disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 disabled:hover:scale-100 transition-all duration-300 ease-in-out flex items-center justify-center gap-3 min-w-[160px]">
-                                <span id="buttonText">Send Message</span>
-                                <i id="buttonIcon" class="fas fa-paper-plane"></i>
-                                <i id="loadingIcon" class="fas fa-spinner fa-spin hidden"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="text-center text-xs text-gray-500 mt-4">
-                            <p>By submitting this form, you agree to our <a href="{% url 'contact:privacy_policy' %}" class="underline hover:text-bhanjyangred">privacy policy</a>.</p>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="our-locations-map" class="py-16 px-4 bg-gray-50">
-        <div class="container mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl font-bold text-bhanjyangred font-montserrat mb-3">
-                    Find Our Locations on the Map
-                </h2>
-                <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
-                <p class="mt-4 text-center text-base text-gray-700 max-w-3xl mx-auto">
-                    Visit our Main Office in Rupa-5 or our Service Center in Rupa-3. Use the buttons below to switch between locations.
-                </p>
-            </div>
-    
-            <div class="rounded-lg shadow-xl overflow-hidden border-4 border-deuraligreen">
-                <div id="map-loading" class="absolute inset-0 bg-gray-100/75 backdrop-blur-sm flex items-center justify-center z-10 hidden">
-                    <div class="flex flex-col items-center">
-                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-deuraligreen mb-2"></div>
-                        <p class="text-sm text-gray-600">Loading map...</p>
+                    <div class="flex items-center gap-4 text-gray-800">
+                        <i class="fa-solid fa-envelope text-lg text-deuraligreen w-5 text-center"></i>
+                        <a href="mailto:info@bhanjyang.coop.np" class="text-base font-poppins hover:underline">info@bhanjyang.coop.np</a>
                     </div>
                 </div>
-                
-                {# UPGRADE: Added title attribute for accessibility #}
-                <iframe id="location-map-iframe"
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp" 
-                        title="Google Map of Bhanjyang Cooperative Locations"
-                        class="w-full h-64 sm:h-72 md:h-80 lg:h-[450px] transition-opacity duration-300 ease-in-out"
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <img src="{% static 'images/plant-illustration.png' %}" alt=""
+                    class="w-28 sm:w-32 md:w-40 lg:w-44 h-auto mx-auto lg:mx-0 mt-6 drop-shadow-xl object-contain"
+                    loading="lazy">
             </div>
-    
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8">
-                <button data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp" class="map-button inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out text-center ring-2 ring-offset-2 ring-deuraligreen is-active"> Main Office <i class="fas fa-map-pin ml-2"></i></button>
-                <button data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp" class="map-button inline-block bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out text-center">Service Center <i class="fas fa-map-pin ml-2"></i></button>
+
+            {# Column 2: The Contact Form #}
+            <div class=" max-w-lg mx-auto w-full self-stretch flex">
+                <form id="contactForm" method="POST" action="{% url 'contact:contact_view' %}"
+                    class="h-full flex flex-col space-y-4 bg-white border border-gray-200 p-6 rounded-lg shadow-lg w-full"
+                    novalidate enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div id="form-messages" class="min-h-[3rem] transition-all duration-300">
+                        <!-- Success Message Template -->
+                        <!-- Success Message Template -->
+                        <div id="success-message"
+                            class="hidden bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center gap-3">
+                            <i class="fas fa-check-circle text-green-600 text-lg"></i>
+                            <div>
+                                <p class="text-base font-semibold font-poppins">Message Sent Successfully!</p>
+                                <p class="text-sm font-poppins">Thank you for contacting us. We'll get back to you within 24-48
+                                    hours.</p>
+                            </div>
+                        </div>
+
+                        <!-- Error Message Template -->
+                        <div id="error-message"
+                            class="hidden bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center gap-3">
+                            <i class="fas fa-exclamation-circle text-red-600 text-lg"></i>
+                            <div>
+                                <p class="text-base font-semibold font-poppins">Error Sending Message</p>
+                                <p class="text-sm font-poppins" id="error-details">Please check your information and try again.</p>
+                            </div>
+                        </div>
+
+                        <!-- Validation Errors Template -->
+                        <div id="validation-errors"
+                            class="hidden bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 text-lg"></i>
+                                <p class="text-base font-semibold font-poppins">Please correct the following errors:</p>
+                            </div>
+                            <ul id="validation-list" class="text-sm font-poppins list-disc list-inside space-y-1"></ul>
+                        </div>
+                    </div>
+
+                    {# UPGRADE: Form fields now use aria-describedby for better accessibility #}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="form-group relative">
+                            <input type="{{ form.name.field.widget_type }}" name="{{ form.name.name }}"
+                                id="{{ form.name.id_for_label }}"
+                                class="peer w-full px-4 py-3 text-base font-poppins border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen placeholder-transparent transition-all duration-300 bg-gray-50 focus:bg-white"
+                                placeholder="Name" {% if form.name.field.required %}required{% endif %}>
+                            <label for="{{ form.name.id_for_label }}"
+                                class="absolute left-4 -top-2.5 bg-white px-1 text-sm font-medium font-poppins text-gray-600 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3.5 peer-focus:-top-2.5 peer-focus:text-deuraligreen peer-focus:text-sm">Your
+                                Name <span class="text-red-500">*</span></label>
+                            <div id="{{ form.name.id_for_label }}_error"
+                                class="error-message text-red-500 text-xs font-poppins mt-1 absolute -bottom-5" role="alert"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.email.id_for_label }}"
+                                class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your Email <span
+                                    class="text-red-500">*</span></label>
+                            {{ form.email }}
+                            <div id="{{ form.email.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                We'll use this to respond to you</div>
+                            <div id="{{ form.email.id_for_label }}_error"
+                                class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.phone.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Phone
+                            Number <span class="text-gray-500 text-sm font-normal">(Optional)</span></label>
+                        {{ form.phone }}
+                        <div id="{{ form.phone.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">e.g.,
+                            +977-9856083101</div>
+                        <div id="{{ form.phone.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
+                            role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.subject.id_for_label }}"
+                            class="block text-base font-semibold font-poppins text-gray-800 mb-2">Subject <span
+                                class="text-red-500">*</span></label>
+                        {{ form.subject }}
+                        <div id="{{ form.subject.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                            Brief description of your inquiry</div>
+                        <div id="{{ form.subject.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
+                            role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.message.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your
+                            Message <span class="text-red-500">*</span></label>
+                        {{ form.message }}
+                        <div id="{{ form.message.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                            Please provide as much detail as possible</div>
+                        <div id="{{ form.message.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
+                            role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.attachment.id_for_label }}"
+                            class="block text-base font-semibold font-poppins text-gray-800 mb-2">File Attachment <span
+                                class="text-gray-500 text-sm font-normal">(Optional)</span></label>
+                        {{ form.attachment }}
+                        <div id="{{ form.attachment.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                            Supported formats: PDF, DOC, DOCX, JPG, PNG, TXT, XLS, XLSX (Max 5MB)</div>
+                        <div id="{{ form.attachment.id_for_label }}_error"
+                            class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"></div>
+                    </div>
+
+                    <div class="text-center pt-4 mt-auto">
+                        <button id="submitButton" type="submit"
+                            class="w-auto mx-auto bg-deuraligreen hover:bg-bhanjyangred disabled:bg-gray-400 disabled:cursor-not-allowed text-white text-base font-bold font-poppins py-3 px-8 rounded-full shadow-lg transform hover:scale-105 disabled:hover:scale-100 transition-all duration-300 ease-in-out flex items-center justify-center gap-3 min-w-[160px]">
+                            <span id="buttonText">Send Message</span>
+                            <i id="buttonIcon" class="fas fa-paper-plane"></i>
+                            <i id="loadingIcon" class="fas fa-spinner fa-spin hidden"></i>
+                        </button>
+                    </div>
+
+                    <div class="text-center text-xs font-poppins text-gray-500 mt-4">
+                        <p>By submitting this form, you agree to our <a href="{% url 'contact:privacy_policy' %}"
+                                class="underline hover:text-bhanjyangred">privacy policy</a>.</p>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<section id="our-locations-map" class="py-16 px-4 bg-gray-50">
+    <div class="container mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-bhanjyangred font-montserrat mb-3">
+                Find Our Locations on the Map
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
+            <p class="mt-4 text-center text-base sm:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-poppins">
+                Visit our Main Office in Rupa-5 or our Service Center in Rupa-3. Use the buttons below to switch between
+                locations.
+            </p>
+        </div>
+
+        <div class="rounded-lg shadow-xl overflow-hidden border-4 border-deuraligreen">
+            <div id="map-loading"
+                class="absolute inset-0 bg-gray-100/75 backdrop-blur-sm flex items-center justify-center z-10 hidden">
+                <div class="flex flex-col items-center">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-deuraligreen mb-2"></div>
+                    <p class="text-sm font-poppins text-gray-600">Loading map...</p>
+                </div>
+            </div>
+
+            {# UPGRADE: Added title attribute for accessibility #}
+            <iframe id="location-map-iframe"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
+                title="Google Map of Bhanjyang Cooperative Locations"
+                class="w-full h-64 sm:h-72 md:h-80 lg:h-[450px] transition-opacity duration-300 ease-in-out"
+                style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        {# Modern Toggle Switch for Map Locations #}
+        <div class="flex flex-col items-center justify-center mt-8">
+            <div class="relative inline-flex items-center bg-white rounded-full p-1.5 shadow-lg border border-gray-200">
+                {# Toggle Switch Background #}
+                <div class="relative flex items-center">
+                    {# Main Office Option #}
+                    <button
+                        id="map-toggle-main"
+                        data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
+                        class="map-toggle-option relative z-10 px-6 py-2.5 rounded-full text-sm font-semibold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
+                        data-location="main">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-landmark text-xs"></i>
+                            <span>Main Office</span>
+                        </span>
+                    </button>
+                    
+                    {# Service Center Option #}
+                    <button
+                        id="map-toggle-service"
+                        data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp"
+                        class="map-toggle-option relative z-10 px-6 py-2.5 rounded-full text-sm font-semibold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
+                        data-location="service">
+                        <span class="flex items-center gap-2">
+                            <i class="fas fa-location-dot text-xs"></i>
+                            <span>Service Center</span>
+                        </span>
+                    </button>
+                    
+                    {# Sliding Background Indicator #}
+                    <div id="map-toggle-slider" class="absolute top-1.5 left-1.5 h-9 bg-deuraligreen rounded-full shadow-md transition-all duration-300 ease-in-out z-0"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
 
 {% block extra_js %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('contactForm');
         const submitButton = document.getElementById('submitButton');
         const buttonText = document.getElementById('buttonText');
@@ -237,17 +337,17 @@
         // Real-time validation
         const formFields = form.querySelectorAll('input, textarea');
         formFields.forEach(field => {
-            field.addEventListener('blur', function() {
+            field.addEventListener('blur', function () {
                 validateField(this);
             });
-            
-            field.addEventListener('input', function() {
+
+            field.addEventListener('input', function () {
                 clearFieldError(this);
             });
-            
+
             // Special handling for file input
             if (field.type === 'file') {
-                field.addEventListener('change', function() {
+                field.addEventListener('change', function () {
                     validateFileField(this);
                 });
             }
@@ -256,15 +356,15 @@
         function validateField(field) {
             const value = field.value.trim();
             const fieldName = field.name;
-            
+
             clearFieldError(field);
-            
+
             // Required field validation
             if (field.required && !value) {
                 showFieldError(field, `${getFieldLabel(fieldName)} is required.`);
                 return false;
             }
-            
+
             // Specific field validations
             switch (fieldName) {
                 case 'name':
@@ -294,7 +394,7 @@
                         }
                     }
                     break;
-                    
+
                 case 'subject':
                     if (value && value.length < 5) {
                         showFieldError(field, 'Subject must be at least 5 characters long.');
@@ -309,7 +409,6 @@
                     }
                     break;
             }
-            
             return true;
         }
 
@@ -317,13 +416,12 @@
             const file = field.files[0];
             if (file) {
                 clearFieldError(field);
-                
                 // Check file size (5MB limit)
                 if (file.size > 5 * 1024 * 1024) {
                     showFieldError(field, 'File size cannot exceed 5MB.');
                     return false;
                 }
-                
+
                 // Check file type
                 const allowedTypes = [
                     'application/pdf',
@@ -336,14 +434,15 @@
                     'application/vnd.ms-excel',
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 ];
-                
+
                 if (!allowedTypes.includes(file.type)) {
                     showFieldError(field, 'Please upload a valid file type (PDF, DOC, DOCX, JPG, PNG, TXT, XLS, XLSX).');
                     return false;
                 }
-                
+
                 // Check file extension
-                const allowedExtensions = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.txt', '.xlsx', '.xls'];
+                const allowedExtensions = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.txt', '.xlsx',
+                    '.xls'];
                 const fileExtension = '.' + file.name.toLowerCase().split('.').pop();
                 if (!allowedExtensions.includes(fileExtension)) {
                     showFieldError(field, 'Please upload a valid file type.');
@@ -393,7 +492,7 @@
             hideAllMessages();
             successMessage.classList.remove('hidden');
             form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
+
             // Also show sticky notice
             showSuccess("Thank you! Your message has been sent successfully.", "Message Sent");
         }
@@ -403,7 +502,7 @@
             errorDetails.textContent = message;
             errorMessage.classList.remove('hidden');
             form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
+
             // Also show sticky notice
             showError(message, "Error");
         }
@@ -411,7 +510,7 @@
         function showValidationErrors(errors) {
             hideAllMessages();
             validationList.innerHTML = '';
-            
+
             Object.keys(errors).forEach(field => {
                 errors[field].forEach(error => {
                     const li = document.createElement('li');
@@ -419,7 +518,7 @@
                     validationList.appendChild(li);
                 });
             });
-            
+
             validationErrors.classList.remove('hidden');
             form.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
@@ -440,13 +539,13 @@
             }
         }
 
-        form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', function (event) {
             event.preventDefault();
-            
+
             // Validate all fields
             let isValid = true;
             const errors = {};
-            
+
             formFields.forEach(field => {
                 let fieldValid = true;
                 if (field.type === 'file') {
@@ -454,7 +553,7 @@
                 } else {
                     fieldValid = validateField(field);
                 }
-                
+
                 if (!fieldValid) {
                     isValid = false;
                     const fieldName = field.name;
@@ -467,12 +566,12 @@
                     }
                 }
             });
-            
+
             if (!isValid) {
                 showValidationErrors(errors);
                 return;
             }
-            
+
             setLoadingState(true);
             hideAllMessages();
 
@@ -487,90 +586,137 @@
                 },
                 body: formData
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                // Check if response is JSON
-                const contentType = response.headers.get('content-type');
-                if (contentType && contentType.includes('application/json')) {
-                    return response.json();
-                } else {
-                    return response.text().then(text => {
-                        throw new Error('Server returned non-JSON response');
-                    });
-                }
-            })
-            .then(data => {
-                if (data.success) {
-                    showSuccessMessage();
-                    form.reset();
-                    // Clear any remaining field errors
-                    formFields.forEach(field => clearFieldError(field));
-                } else {
-                    if (data.errors) {
-                        showValidationErrors(data.errors);
-                    } else {
-                        showErrorMessage(data.message || 'An error occurred while sending your message.');
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                }
-            })
-            .catch(error => {
-                showErrorMessage('Network error. Please check your connection and try again.');
-            })
-            .finally(() => {
-                setLoadingState(false);
-            });
+
+                    // Check if response is JSON
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json();
+                    } else {
+                        return response.text().then(text => {
+                            throw new Error('Server returned non-JSON response');
+                        });
+                    }
+                })
+                .then(data => {
+                    if (data.success) {
+                        showSuccessMessage();
+                        form.reset();
+                        // Clear any remaining field errors
+                        formFields.forEach(field => clearFieldError(field));
+                    } else {
+                        if (data.errors) {
+                            showValidationErrors(data.errors);
+                        } else {
+                            showErrorMessage(data.message || 'An error occurred while sending your message.');
+                        }
+                    }
+                })
+                .catch(error => {
+                    showErrorMessage('Network error. Please check your connection and try again.');
+                })
+                .finally(() => {
+                    setLoadingState(false);
+                });
         });
     });
 
-    // Map button functionality with smooth transitions
-    document.addEventListener('DOMContentLoaded', function() {
-        const mapButtons = document.querySelectorAll('.map-button');
+    // Modern Toggle Switch functionality for Map Locations
+    document.addEventListener('DOMContentLoaded', function () {
+        const mapToggleMain = document.getElementById('map-toggle-main');
+        const mapToggleService = document.getElementById('map-toggle-service');
+        const mapToggleSlider = document.getElementById('map-toggle-slider');
         const mapIframe = document.getElementById('location-map-iframe');
         const mapLoading = document.getElementById('map-loading');
-        
-        if (mapButtons.length > 0 && mapIframe) {
-            mapButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const newSrc = this.getAttribute('data-map-src');
-                    if (newSrc && newSrc !== mapIframe.src) {
-                        // Show loading spinner
-                        mapLoading.classList.remove('hidden');
-                        mapIframe.style.opacity = '0.3';
-                        
-                        // Update active button styling
-                        mapButtons.forEach(btn => {
-                            btn.classList.remove('ring-2', 'ring-offset-2', 'ring-deuraligreen');
-                            btn.classList.remove('ring-2', 'ring-offset-2', 'ring-bhanjyangred');
-                        });
-                        
-                        // Add active styling to clicked button
-                        if (this.classList.contains('bg-deuraligreen')) {
-                            this.classList.add('ring-2', 'ring-offset-2', 'ring-deuraligreen');
-                        } else {
-                            this.classList.add('ring-2', 'ring-offset-2', 'ring-bhanjyangred');
-                        }
-                        
-                        // Change map source
-                        mapIframe.src = newSrc;
-                        
-                        // Hide loading spinner and restore opacity after a short delay
-                        setTimeout(() => {
-                            mapLoading.classList.add('hidden');
-                            mapIframe.style.opacity = '1';
-                        }, 800);
-                    }
-                });
-            });
+        let currentLocation = 'main'; // Track current location
+
+        // Map sources
+        const mapSources = {
+            main: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp',
+            service: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp'
+        };
+
+        function updateToggleState(location) {
+            if (!mapToggleMain || !mapToggleService || !mapToggleSlider) return;
+
+            currentLocation = location;
+            const isMain = location === 'main';
             
-            // Set initial active state for Main Office button
-            const mainOfficeButton = mapButtons[0];
-            if (mainOfficeButton) {
-                mainOfficeButton.classList.add('ring-2', 'ring-offset-2', 'ring-deuraligreen');
+            // Both buttons have fixed width, so use that for calculations
+            const buttonWidth = mapToggleMain.offsetWidth || 160;
+            
+            // Update slider position with smooth animation
+            if (isMain) {
+                mapToggleSlider.style.transform = 'translateX(0)';
+                mapToggleSlider.style.backgroundColor = '#059669'; // deuraligreen
+            } else {
+                // Move slider to the position of the Service Center button
+                mapToggleSlider.style.transform = `translateX(${buttonWidth}px)`;
+                mapToggleSlider.style.backgroundColor = '#dc2626'; // bhanjyangred
+            }
+
+            // Update button text colors for better contrast
+            if (isMain) {
+                mapToggleMain.classList.remove('text-gray-600');
+                mapToggleMain.classList.add('text-white');
+                mapToggleService.classList.remove('text-white');
+                mapToggleService.classList.add('text-gray-600');
+            } else {
+                mapToggleService.classList.remove('text-gray-600');
+                mapToggleService.classList.add('text-white');
+                mapToggleMain.classList.remove('text-white');
+                mapToggleMain.classList.add('text-gray-600');
             }
         }
+
+        function switchMap(location) {
+            if (!mapIframe || currentLocation === location) return;
+
+            const newSrc = mapSources[location];
+            if (newSrc && newSrc !== mapIframe.src) {
+                // Show loading spinner
+                if (mapLoading) {
+                    mapLoading.classList.remove('hidden');
+                    mapIframe.style.opacity = '0.3';
+                }
+
+                // Update toggle state
+                updateToggleState(location);
+
+                // Change map source
+                mapIframe.src = newSrc;
+
+                // Hide loading spinner and restore opacity after a short delay
+                setTimeout(() => {
+                    if (mapLoading) {
+                        mapLoading.classList.add('hidden');
+                        mapIframe.style.opacity = '1';
+                    }
+                }, 800);
+            }
+        }
+
+        // Event listeners for toggle buttons
+        if (mapToggleMain) {
+            mapToggleMain.addEventListener('click', function() {
+                switchMap('main');
+            });
+        }
+
+        if (mapToggleService) {
+            mapToggleService.addEventListener('click', function() {
+                switchMap('service');
+            });
+        }
+
+        // Initialize with Main Office selected
+        // Use setTimeout to ensure DOM is fully rendered before calculating widths
+        setTimeout(() => {
+            updateToggleState('main');
+        }, 100);
     });
 </script>
 {% endblock extra_js %}

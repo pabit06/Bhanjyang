@@ -20,8 +20,8 @@ urlpatterns = [
     # Gallery app
     path('gallery/', include('apps.gallery.urls')),
     
-    # Member management system
-    path('members/', include('apps.members.urls')),
+    # Member management system - Archived
+    # path('members/', include('apps.members.urls')),
     
     # API URLs
     path('api/v1/', include('apps.services.api_urls')),

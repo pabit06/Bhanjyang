@@ -111,6 +111,7 @@ class ContactAnalytics:
         )
         
         # Daily counts
+        from django.db.models import Count
         daily_counts = submissions.extra(
             select={'day': 'date(created_at)'}
         ).values('day').annotate(count=Count('id')).order_by('day')

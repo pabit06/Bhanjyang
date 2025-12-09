@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     'apps.dashboard',
     
     'apps.gallery.apps.GalleryConfig',  # Dedicated gallery app
-    'apps.members',  # Re-enabled for template access
+    # 'apps.members',  # Archived - moved to docs/archive/members_app/
     
     'django.contrib.staticfiles',
 ]
@@ -203,9 +203,10 @@ CELERY_TASK_ALWAYS_EAGER = True  # Set to True for testing
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication Settings
-LOGIN_URL = '/members/login/'
-LOGIN_REDIRECT_URL = '/members/dashboard/'
-LOGOUT_REDIRECT_URL = '/members/login/'
+# Updated after archiving members app - using Django default auth URLs
+LOGIN_URL = '/admin/login/'
+LOGIN_REDIRECT_URL = '/admin/'
+LOGOUT_REDIRECT_URL = '/admin/login/'
 
 # Security Settings
 SECURE_BROWSER_XSS_FILTER = True
