@@ -1,6 +1,5 @@
 {% load static %}
-<div class="bg-white text-gray-700 py-2 px-4 sm:px-20 text-xs sm:text-sm shadow-md relative z-[9998]"
-    style="z-index: 9998 !important;">
+<div class="bg-white text-gray-700 py-2 px-4 sm:px-20 text-xs sm:text-sm shadow-md relative z-[9998]">
     <div class="container mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-x-2 gap-y-1">
         <div class="flex items-center space-x-2">
             <a href="tel:+9779856083101"
@@ -16,32 +15,19 @@
             </a>
         </div>
         <div class="flex items-center space-x-2">
-            <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
+            <a href="{% url 'contact:contact_view' %}" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
                 <i class="fas fa-headset mr-1 text-bhanjyangred"></i> Support
             </a>
-            {% comment %}
-            Members app archived - login link removed
-            <a href="{% url 'members:member_login' %}" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
-                <i class="fas fa-user-circle mr-1 text-bhanjyangred"></i> Login
-            </a>
-            {% endcomment %}
-            <!-- Placeholder for future functionality -->
-            <span
-                class="hover:text-deuraligreen transition-colors duration-300 flex items-center text-gray-400 cursor-not-allowed hidden">
-                <i class="fas fa-user-circle mr-1 text-gray-400"></i> Login
-            </span>
         </div>
     </div>
 </div>
 <hr class="border-t border-gray-200">
-<header class="sticky top-0 z-[9999] bg-white shadow-lg gsap-navbar"
-    style="position: sticky !important; z-index: 9999 !important;">
-    <nav class="container mx-auto px-4 md:px-30 py-6 flex justify-between items-center relative">
+<header class="sticky top-0 z-[9999] bg-white shadow-lg gsap-navbar">
+    <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
         <!-- Logo Section -->
         <a href="{% url 'home:index' %}" class="flex items-center space-x-3 group py-2 gsap-fade-in">
             <img src="{% static 'images/Logo.png' %}" alt="Bhanjyang Cooperative Logo"
-                class="h-9 w-auto object-contain hover-scale hover-rotate md:h-12 gsap-slide-up" loading="eager"
-                onerror="this.onerror=null;this.src='https://placehold.co/150x50/27ae60/ffffff?text=Logo';">
+                class="h-9 w-auto object-contain hover-scale hover-rotate md:h-12 gsap-slide-up" loading="eager">
             <div class="flex flex-col justify-center">
                 <span
                     class="text-2xl font-extrabold text-bhanjyangred group-hover:text-deuraligreen transition-colors duration-300 font-montserrat md:text-4xl hover-glow gsap-fade-in">BHANJYANG</span>
@@ -59,12 +45,12 @@
                 {% with request.resolver_match.app_name as app_name %}
 
                 <a href="{% url 'home:index' %}"
-                    class="nav-link nav-link-underline hover-lift {% if url_name == 'index' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Home</a>
+                    class="nav-link nav-link-underline hover-lift {% if url_name == 'index' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred font-montserrat">Home</a>
 
                 <!-- About Us Dropdown Menu -->
                 <div class="group relative">
                     <a href="{% url 'home:about' %}"
-                        class="nav-link nav-link-underline {% if url_name == 'about' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred flex items-center">
+                        class="nav-link nav-link-underline {% if url_name == 'about' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred flex items-center font-montserrat">
                         About Us <i
                             class="fas fa-chevron-down ml-2 text-sm group-hover:rotate-180 transition-transform duration-300"></i>
                     </a>
@@ -83,16 +69,16 @@
                 </div>
 
                 <a href="{% url 'services:overview' %}"
-                    class="nav-link nav-link-underline hover-lift {% if app_name == 'services' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Services</a>
+                    class="nav-link nav-link-underline hover-lift {% if app_name == 'services' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred font-montserrat">Services</a>
                 <a href="{% url 'news_events:home' %}"
-                    class="nav-link nav-link-underline hover-lift {% if app_name == 'news_events' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">News
+                    class="nav-link nav-link-underline hover-lift {% if app_name == 'news_events' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred font-montserrat">News
                     & Events</a>
                 <a href="{% url 'downloads:download_center' %}"
-                    class="nav-link nav-link-underline hover-lift text-deuraligreen hover:text-bhanjyangred">Downloads</a>
+                    class="nav-link nav-link-underline hover-lift text-deuraligreen hover:text-bhanjyangred font-montserrat">Downloads</a>
                 <a href="{% url 'gallery:gallery' %}"
-                    class="nav-link nav-link-underline hover-lift {% if url_name == 'gallery' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Gallery</a>
+                    class="nav-link nav-link-underline hover-lift {% if url_name == 'gallery' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred font-montserrat">Gallery</a>
                 <a href="{% url 'contact:contact_view' %}"
-                    class="nav-link nav-link-underline hover-lift {% if app_name == 'contact' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Contact
+                    class="nav-link nav-link-underline hover-lift {% if app_name == 'contact' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred font-montserrat">Contact
                     Us</a>
 
                 {% endwith %}
@@ -114,19 +100,19 @@
         </div>
         <div class="md:hidden gsap-fade-in">
             <button id="mobile-menu-button" type="button"
-                class="text-deuraligreen hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded-md p-2 hover-scale gsap-slide-up"
+                class="text-deuraligreen hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded-md p-2 hover-scale gsap-slide-up cursor-pointer relative z-50"
                 aria-label="Toggle main menu" aria-expanded="false">
-                <i class="fas fa-bars text-2xl"></i>
+                <i class="fas fa-bars text-2xl pointer-events-none"></i>
             </button>
         </div>
     </nav>
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-black bg-opacity-50" style="display: none;">
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-black bg-opacity-50" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
         <div
             class="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out">
             <div class="flex items-center justify-between p-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Menu</h3>
-                <button id="mobile-menu-close" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                <h3 id="mobile-menu-title" class="text-lg font-semibold text-gray-900 font-montserrat">Menu</h3>
+                <button id="mobile-menu-close" class="text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded-md p-1" aria-label="Close menu">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
@@ -143,64 +129,39 @@
                 </form>
             </div>
 
-            <nav class="px-4 py-6 space-y-4">
+            <nav class="px-4 py-6 space-y-4" role="navigation" aria-label="Mobile navigation">
                 <a href="{% url 'home:index' %}"
-                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Home</a>
-                <a href="{% url 'home:about' %}"
-                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">About
-                    Us</a>
+                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat">Home</a>
+                
+                <!-- About Us Dropdown in Mobile -->
+                <div class="mobile-dropdown">
+                    <button type="button" class="mobile-dropdown-toggle w-full flex items-center justify-between py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat" aria-expanded="false" aria-controls="mobile-about-dropdown">
+                        <span>About Us</span>
+                        <i class="fas fa-chevron-down transition-transform duration-200"></i>
+                    </button>
+                    <div id="mobile-about-dropdown" class="hidden pl-4 pt-2 space-y-2">
+                        <a href="{% url 'home:about' %}#our-story"
+                            class="block py-2 px-4 text-gray-600 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat text-sm">Our Story</a>
+                        <a href="{% url 'home:about' %}#vision-mission"
+                            class="block py-2 px-4 text-gray-600 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat text-sm">Vision & Mission</a>
+                        <a href="{% url 'home:about' %}#testimonials"
+                            class="block py-2 px-4 text-gray-600 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat text-sm">Member Testimonials</a>
+                    </div>
+                </div>
+                
                 <a href="{% url 'services:overview' %}"
-                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Services</a>
+                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat">Services</a>
                 <a href="{% url 'news_events:home' %}"
-                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">News
+                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat">News
                     & Events</a>
                 <a href="{% url 'downloads:download_center' %}"
-                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Downloads</a>
+                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat">Downloads</a>
                 <a href="{% url 'gallery:gallery' %}"
-                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Gallery</a>
+                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat">Gallery</a>
                 <a href="{% url 'contact:contact_view' %}"
-                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200">Contact
+                    class="block py-3 px-4 text-gray-700 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat">Contact
                     Us</a>
             </nav>
         </div>
     </div>
-
-    <!-- Simple Mobile Menu JavaScript -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const menuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const closeButton = document.getElementById('mobile-menu-close');
-
-            if (menuButton && mobileMenu) {
-                menuButton.addEventListener('click', function () {
-                    console.log('Menu button clicked');
-                    if (mobileMenu.style.display === 'none' || mobileMenu.style.display === '') {
-                        mobileMenu.style.display = 'block';
-                        console.log('Menu opened');
-                    } else {
-                        mobileMenu.style.display = 'none';
-                        console.log('Menu closed');
-                    }
-                });
-            }
-
-            if (closeButton && mobileMenu) {
-                closeButton.addEventListener('click', function () {
-                    console.log('Close button clicked');
-                    mobileMenu.style.display = 'none';
-                });
-            }
-
-            // Close menu when clicking outside
-            if (mobileMenu) {
-                mobileMenu.addEventListener('click', function (e) {
-                    if (e.target === mobileMenu) {
-                        console.log('Clicked outside, closing menu');
-                        mobileMenu.style.display = 'none';
-                    }
-                });
-            }
-        });
-    </script>
 </header>

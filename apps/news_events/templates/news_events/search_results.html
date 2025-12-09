@@ -4,10 +4,18 @@
 
 {% block meta_description %}Search results for news articles and events from Bhanjyang Cooperative.{% endblock meta_description %}
 
+{% block extra_css %}
+<style>
+    .search-pattern-bg {
+        background-image: url("{% static 'images/pattern-light.png' %}");
+    }
+</style>
+{% endblock extra_css %}
+
 {% block content %}
     <!-- Header Section -->
-    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+    <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center search-pattern-bg"></div>
         <div class="container mx-auto text-center z-10">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">Search Results</h1>
             <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">
@@ -22,7 +30,7 @@
 
     <!-- Search Form -->
     <section class="py-8 bg-gray-50">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto">
                 <form method="get" class="flex flex-col sm:flex-row gap-4">
                     <div class="flex-1">
@@ -57,7 +65,7 @@
 
     <!-- Search Results -->
     <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
                 {% if query %}
                     {% if results %}
@@ -160,7 +168,7 @@
     <!-- Popular Searches -->
     {% if popular_searches %}
     <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto text-center">
                 <h3 class="text-2xl font-bold text-deuraligreen mb-8">Popular Searches</h3>
                 <div class="flex flex-wrap justify-center gap-2">

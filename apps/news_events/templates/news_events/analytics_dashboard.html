@@ -26,10 +26,18 @@
     <link rel="stylesheet" href="{% static 'css/analytics_dashboard.css' %}">
 {% endblock extrahead %}
 
+{% block extra_css %}
+<style>
+    .analytics-pattern-bg {
+        background-image: url("{% static 'images/pattern-light.png' %}");
+    }
+</style>
+{% endblock extra_css %}
+
 {% block content %}
     <!-- Analytics Header -->
-    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+    <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center analytics-pattern-bg"></div>
         <div class="container mx-auto text-center z-10">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">Analytics Dashboard</h1>
             <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Real-time insights into your content performance</p>
@@ -38,7 +46,7 @@
 
     <!-- Real-time Metrics -->
     <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-2xl font-bold text-deuraligreen mb-8">Real-time Metrics</h2>
                 
@@ -113,7 +121,7 @@
 
     <!-- Analytics Charts -->
     <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     <!-- Traffic Sources -->
@@ -148,7 +156,7 @@
 
     <!-- Top Content -->
     <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-2xl font-bold text-deuraligreen mb-8">Top Performing Content</h2>
                 
@@ -175,7 +183,7 @@
 
     <!-- Export Options -->
     <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto text-center">
                 <h2 class="text-2xl font-bold text-deuraligreen mb-8">Export Analytics Data</h2>
                 <div class="flex flex-wrap justify-center gap-4">

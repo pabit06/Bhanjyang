@@ -14,7 +14,7 @@
         <div class="absolute top-20 right-20 w-16 h-16 bg-white bg-opacity-10 rounded-full animate-ping"></div>
         <div class="absolute bottom-20 left-20 w-12 h-12 bg-white bg-opacity-10 rounded-full animate-bounce"></div>
         
-        <div class="container mx-auto px-6 text-center text-white relative z-10">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white relative z-10">
             <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <i class="{{ service.icon }} text-4xl"></i>
             </div>
@@ -58,7 +58,7 @@
 
     <!-- Service Details -->
     <section class="py-16">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-3 gap-12">
                 <!-- Main Content -->
                 <div class="lg:col-span-2">
@@ -294,7 +294,7 @@
 
     <!-- Related Services -->
     <section class="py-16 bg-white">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Other Loan Services</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- This would be populated with related services -->
@@ -320,8 +320,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultsDiv = document.getElementById('calculation-results');
     const noResultsDiv = document.getElementById('no-results');
     
-    const monthlyRate = {{ service.monthly_installment_rate }};
-    const quarterlyRate = {{ service.quarterly_installment_rate }};
+    const monthlyRate = parseFloat('{{ service.monthly_installment_rate|default:0|floatformat:2 }}') || 0;
+    const quarterlyRate = parseFloat('{{ service.quarterly_installment_rate|default:0|floatformat:2 }}') || 0;
     
     calculateBtn.addEventListener('click', function() {
         const loanAmount = parseFloat(loanAmountInput.value);

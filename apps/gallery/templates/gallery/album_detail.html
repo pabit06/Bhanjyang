@@ -23,7 +23,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('{% static 'images/pattern-light.png' %}') repeat;
+    background: url("{% static 'images/pattern-light.png' %}") repeat;
     opacity: 0.1;
     animation: float 20s ease-in-out infinite;
 }
@@ -344,7 +344,7 @@
 
 {% block content %}
 <!-- Advanced Album Hero Section -->
-<section class="album-hero py-20 px-4 text-white relative">
+<section class="album-hero py-20 px-4 sm:px-6 lg:px-8 text-white relative">
     <div class="container mx-auto text-center relative z-10">
         <div class="animate-fade-in-up">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-6 drop-shadow-2xl">
@@ -360,7 +360,7 @@
 </section>
 
 <!-- Album Info Card -->
-<div class="container mx-auto px-4">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="album-info-card">
         <div class="text-center mb-6">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">Album Information</h2>
@@ -400,7 +400,7 @@
 
 <!-- Sub-albums Section -->
 {% if sub_albums %}
-<section class="py-16 px-6 bg-gray-50">
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
     <div class="container mx-auto max-w-7xl">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-bhanjyangred font-montserrat mb-4">Sub-albums</h2>
@@ -432,7 +432,7 @@
 {% endif %}
 
 <!-- Images Section -->
-<section class="py-16 px-6 bg-white">
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
     <div class="container mx-auto max-w-7xl">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-bhanjyangred font-montserrat mb-4">Photos in {{ album.name }}</h2>
@@ -442,9 +442,10 @@
         {% if images %}
             <div class="advanced-image-grid" id="image-grid">
                 {% for image in images %}
-                <div class="image-card" data-image-id="{{ image.id }}" onclick="openImageModal({{ forloop.counter0 }})">
+                <div class="image-card" data-image-id="{{ image.id }}" data-image-index="{{ forloop.counter0 }}" onclick="openImageModal(parseInt(this.dataset.imageIndex) || 0)">
                     <img src="{{ image.image.url }}" alt="{{ image.title }}" loading="lazy"
-                         onerror="this.onerror=null;this.src='{% static 'images/default-news-placeholder.png' %}'">
+                         data-fallback="{% static 'images/default-news-placeholder.png' %}"
+                         onerror="this.onerror=null;this.src=this.dataset.fallback">
                     <div class="image-overlay">
                         <div class="image-title">{{ image.title }}</div>
                         {% if image.description %}
@@ -520,16 +521,17 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Album images data
+    // eslint-disable-next-line
     const albumImages = [
         {% for image in images %}
         {
-            id: {{ image.id }},
-            src: '{{ image.image.url }}',
+            id: parseInt('{{ image.id }}') || 0,
+            src: '{{ image.image.url|escapejs }}',
             alt: '{{ image.title|escapejs }}',
             caption: '{{ image.description|escapejs }}',
             title: '{{ image.title|escapejs }}',
-            category: '{{ image.category }}',
-            album: {{ album.id }},
+            category: '{{ image.category|escapejs }}',
+            album: parseInt('{{ album.id }}') || 0,
             albumName: '{{ album.name|escapejs }}',
             isFeatured: {{ image.is_featured|yesno:"true,false" }}
         }{% if not forloop.last %},{% endif %}

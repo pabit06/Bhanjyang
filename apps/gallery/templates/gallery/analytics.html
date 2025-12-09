@@ -348,7 +348,7 @@
 
 {% block content %}
 <div class="analytics-dashboard">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-gray-800 mb-4">
@@ -720,24 +720,20 @@ class AnalyticsDashboard {
     async simulateDataLoad() {
         // Use Django data passed to template
         this.data = {
-            totalViews: {{ total_views|default:0 }},
-            totalLikes: {{ total_likes|default:0 }},
-            totalShares: {{ total_shares|default:0 }},
-            totalDownloads: {{ total_downloads|default:0 }},
+            totalViews: parseInt('{{ total_views|default:0 }}') || 0,
+            totalLikes: parseInt('{{ total_likes|default:0 }}') || 0,
+            totalShares: parseInt('{{ total_shares|default:0 }}') || 0,
+            totalDownloads: parseInt('{{ total_downloads|default:0 }}') || 0,
             viewsOverTime: {
                 labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
                 data: [3200, 3800, 4200, 4220] // Mock data for now
             },
             categoryDistribution: {
                 labels: [
-                    {% for stat in category_stats %}
-                    '{{ stat.category|title }}'{% if not forloop.last %},{% endif %}
-                    {% endfor %}
+                    {% for stat in category_stats %}'{{ stat.category|title|escapejs }}'{% if not forloop.last %}, {% endif %}{% endfor %}
                 ],
                 data: [
-                    {% for stat in category_stats %}
-                    {{ stat.count }}{% if not forloop.last %},{% endif %}
-                    {% endfor %}
+                    {% for stat in category_stats %}parseInt('{{ stat.count|default:0 }}') || 0{% if not forloop.last %}, {% endif %}{% endfor %}
                 ]
             },
             peakTimes: {
@@ -748,10 +744,10 @@ class AnalyticsDashboard {
                 {% for image in top_images %}
                 { 
                     title: '{{ image.title|escapejs }}', 
-                    views: {{ image.views_count|default:0 }}, 
-                    likes: {{ image.likes_count|default:0 }}, 
-                    shares: {{ image.shares_count|default:0 }}, 
-                    engagement: {{ image.engagement_rate|default:0 }} 
+                    views: parseInt('{{ image.views_count|default:0 }}') || 0, 
+                    likes: parseInt('{{ image.likes_count|default:0 }}') || 0, 
+                    shares: parseInt('{{ image.shares_count|default:0 }}') || 0, 
+                    engagement: parseFloat('{{ image.engagement_rate|default:0|floatformat:2 }}') || 0 
                 }{% if not forloop.last %},{% endif %}
                 {% endfor %}
             ]

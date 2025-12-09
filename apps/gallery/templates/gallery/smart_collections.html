@@ -277,7 +277,7 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="smart-collections-hero">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <h1 class="fade-in-up">Smart Collections</h1>
         <p class="fade-in-up" style="animation-delay: 0.2s;">
             AI-powered collections that automatically organize your gallery images based on content, 
@@ -288,7 +288,7 @@
 
 <!-- Featured Collections -->
 <section class="featured-collections">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">Featured Collections</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">
@@ -299,7 +299,7 @@
         {% if featured_collections %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             {% for collection in featured_collections %}
-            <div class="featured-collection-card fade-in-up" style="animation-delay: {{ forloop.counter0|add:0.1 }}s;">
+            <div class="featured-collection-card fade-in-up" data-animation-delay="{{ forloop.counter0|add:0.1|floatformat:1 }}">
                 <div class="collection-icon">
                     <i class="fas fa-brain"></i>
                 </div>
@@ -344,7 +344,7 @@
 
 <!-- All Collections -->
 <section class="collections-grid">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-800 mb-4">All Smart Collections</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">
@@ -356,7 +356,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for collection_data in collections %}
             {% with collection=collection_data.collection %}
-            <div class="collection-card fade-in-up" style="animation-delay: {{ forloop.counter0|add:0.1 }}s;">
+            <div class="collection-card fade-in-up" data-animation-delay="{{ forloop.counter0|add:0.1|floatformat:1 }}">
                 <div class="collection-preview">
                     {% if collection_data.images %}
                     <div class="collection-preview-images">
@@ -393,7 +393,7 @@
                     <div class="collection-meta">
                         <span class="collection-count">{{ collection_data.image_count }} images</span>
                         <button class="collection-update-btn" 
-                                onclick="updateCollection({{ collection.id }})">
+                                onclick="updateCollection('{{ collection.id }}')">
                             <i class="fas fa-sync-alt mr-1"></i>
                             Update
                         </button>
@@ -424,7 +424,7 @@
 
 <!-- Smart Features -->
 <section class="smart-features">
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="fade-in-up">How Smart Collections Work</h2>
         <p class="text-xl opacity-90 max-w-3xl mx-auto fade-in-up" style="animation-delay: 0.2s;">
             Our AI analyzes your images to automatically create intelligent collections based on content, 
@@ -538,11 +538,9 @@ function updateCollection(collectionId) {
 document.addEventListener('DOMContentLoaded', function() {
     // Trigger fade-in animations
     const elements = document.querySelectorAll('.fade-in-up');
-    elements.forEach((element, index) => {
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }, index * 100);
+    elements.forEach((element) => {
+        const delay = parseFloat(element.getAttribute('data-animation-delay')) || 0;
+        element.style.animationDelay = delay + 's';
     });
 });
 </script>

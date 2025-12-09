@@ -5,10 +5,18 @@
 {% block meta_description %}Stay updated with the latest news, events, and announcements from Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock meta_description %}
 {% block meta_keywords %}Bhanjyang Cooperative, News, Events, Updates, Announcements, Cooperative News{% endblock meta_keywords %}
 
+{% block extra_css %}
+<style>
+    .news-pattern-bg {
+        background-image: url("{% static 'images/pattern-light.png' %}");
+    }
+</style>
+{% endblock extra_css %}
+
 {% block content %}
     <!-- Hero Section -->
-    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+    <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center news-pattern-bg"></div>
         <div class="container mx-auto text-center z-10">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">News & Events</h1>
             <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Stay connected with the latest happenings from Bhanjyang Cooperative.</p>
@@ -18,7 +26,7 @@
     <!-- Featured Content Section -->
     {% if featured_content.articles or featured_content.events %}
     <section class="py-16 bg-gradient-to-r from-bhanjyangred to-deuraligreen">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-12 text-white text-center">Featured Content</h2>
             
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -84,7 +92,7 @@
 
     <!-- Latest News Section -->
     <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-12">
                 <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-deuraligreen">Latest News</h2>
                 <a href="{% url 'news_events:article-list' %}" class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
@@ -141,7 +149,7 @@
 
     <!-- Upcoming Events Section -->
     <section class="py-16 bg-white">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-12">
                 <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-bhanjyangred">Upcoming Events</h2>
                 <a href="{% url 'news_events:event-list' %}" class="bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300">
@@ -210,7 +218,7 @@
 
     <!-- Newsletter Subscription Section -->
     <section class="py-16 bg-gradient-to-r from-bhanjyangred to-deuraligreen">
-        <div class="container mx-auto px-6 text-center">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-6 text-white">Stay Updated</h2>
             <p class="text-lg text-white mb-8 max-w-2xl mx-auto">Subscribe to our newsletter and never miss important updates, news, and events from Bhanjyang Cooperative.</p>
             
@@ -234,7 +242,7 @@
 
     <!-- Statistics Section -->
     <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-12 text-center text-deuraligreen">Our Impact</h2>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">

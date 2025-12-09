@@ -77,7 +77,6 @@ class BhanjyangAnimations {
                 if (formContainer && formContainer.classList.contains('animated-element')) {
                     // Force visibility if not already animated
                     if (!formContainer.classList.contains('animate')) {
-                        console.log('Contact form fallback: Making form visible');
                         formContainer.classList.add('animate');
                         formContainer.style.opacity = '1';
                         formContainer.style.transform = 'translateY(0)';
@@ -199,18 +198,14 @@ class BhanjyangAnimations {
      */
     setupHeroSlideshow() {
         const slideshow = document.querySelector('.hero-section .hero-slideshow');
-        console.log('Hero slideshow element:', slideshow); // Debug log
         
         if (!slideshow) {
-            console.log('No hero slideshow found'); // Debug log
             return;
         }
 
         const slides = Array.from(slideshow.querySelectorAll('.hero-slide'));
-        console.log('Hero slides found:', slides.length); // Debug log
         
         if (slides.length === 0) {
-            console.log('No hero slides found'); // Debug log
             return;
         }
 
@@ -228,23 +223,19 @@ class BhanjyangAnimations {
             currentIndex = (currentIndex + 1) % slides.length;
             slides[prevIndex].classList.remove('active');
             slides[currentIndex].classList.add('active');
-            console.log('Slideshow tick - showing slide:', currentIndex); // Debug log
         };
 
         // Start rotation after a short delay to ensure first render
-        console.log('Starting hero slideshow timer'); // Debug log
         timerId = setInterval(tick, intervalMs);
 
         // Pause on hover for better UX
         slideshow.addEventListener('mouseenter', () => {
             if (timerId) {
                 clearInterval(timerId);
-                console.log('Slideshow paused on hover'); // Debug log
             }
         });
         slideshow.addEventListener('mouseleave', () => {
             timerId = setInterval(tick, intervalMs);
-            console.log('Slideshow resumed after hover'); // Debug log
         });
     }
 
@@ -370,39 +361,154 @@ class BhanjyangAnimations {
     }
 
     /**
-     * Setup mobile menu animations
+     * Setup mobile menu animations with accessibility features
      */
     setupMobileMenuAnimations() {
-        const menuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const closeButton = document.getElementById('mobile-menu-close');
-        
-        const openMenu = () => {
-            mobileMenu.style.display = 'flex';
-            mobileMenu.style.opacity = '0';
-            mobileMenu.style.transform = 'translateY(-20px)';
+        // Use a small delay to ensure DOM is fully ready
+        setTimeout(() => {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeButton = document.getElementById('mobile-menu-close');
             
-            setTimeout(() => {
-                mobileMenu.style.opacity = '1';
-                mobileMenu.style.transform = 'translateY(0)';
-            }, 10);
+            if (!menuButton || !mobileMenu) {
+                return;
+            }
             
-            menuButton.setAttribute('aria-expanded', 'true');
-        };
-        
-        const closeMenu = () => {
-            mobileMenu.style.opacity = '0';
-            mobileMenu.style.transform = 'translateY(-20px)';
+            // Store focusable elements for focus trap
+            const getFocusableElements = () => {
+                const focusableSelectors = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+                return Array.from(mobileMenu.querySelectorAll(focusableSelectors))
+                    .filter(el => !el.disabled && el.offsetParent !== null);
+            };
             
-            setTimeout(() => {
-                mobileMenu.style.display = 'none';
-            }, 300);
+            // Focus trap management
+            let firstFocusableElement = null;
+            let lastFocusableElement = null;
+            let previousActiveElement = null;
             
-            menuButton.setAttribute('aria-expanded', 'false');
-        };
-        
-        if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', () => {
+            const updateFocusableElements = () => {
+                const focusableElements = getFocusableElements();
+                firstFocusableElement = focusableElements[0];
+                lastFocusableElement = focusableElements[focusableElements.length - 1];
+            };
+            
+            const trapFocus = (e) => {
+                if (e.key !== 'Tab') return;
+                
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocusableElement) {
+                        e.preventDefault();
+                        lastFocusableElement?.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastFocusableElement) {
+                        e.preventDefault();
+                        firstFocusableElement?.focus();
+                    }
+                }
+            };
+            
+            const openMenu = () => {
+                if (!mobileMenu || !menuButton) return;
+                
+                // Store the element that had focus before opening menu
+                previousActiveElement = document.activeElement;
+                
+                // Remove hidden class and show menu
+                mobileMenu.classList.remove('hidden');
+                
+                // Force reflow for animation
+                void mobileMenu.offsetHeight;
+                
+                // Animate in
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        if (mobileMenu) {
+                            mobileMenu.style.opacity = '1';
+                            mobileMenu.style.transform = 'translateY(0)';
+                        }
+                    });
+                });
+                
+                // Update ARIA attributes
+                menuButton.setAttribute('aria-expanded', 'true');
+                mobileMenu.setAttribute('aria-hidden', 'false');
+                
+                // Prevent body scroll when menu is open
+                document.body.classList.add('overflow-hidden');
+                
+                // Update focusable elements and set focus
+                updateFocusableElements();
+                setTimeout(() => {
+                    closeButton?.focus();
+                }, 100);
+                
+                // Add focus trap
+                mobileMenu.addEventListener('keydown', trapFocus);
+            };
+            
+            const closeMenu = () => {
+                if (!mobileMenu || !menuButton) return;
+                
+                // Animate out
+                mobileMenu.style.opacity = '0';
+                mobileMenu.style.transform = 'translateY(-20px)';
+                
+                setTimeout(() => {
+                    if (mobileMenu) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.style.opacity = '';
+                        mobileMenu.style.transform = '';
+                    }
+                }, 300);
+                
+                // Update ARIA attributes
+                menuButton.setAttribute('aria-expanded', 'false');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                
+                // Restore body scroll when menu is closed
+                document.body.classList.remove('overflow-hidden');
+                
+                // Remove focus trap
+                mobileMenu.removeEventListener('keydown', trapFocus);
+                
+                // Restore focus to previous element
+                if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+                    previousActiveElement.focus();
+                }
+            };
+            
+            // Toggle mobile dropdown menu
+            const setupMobileDropdown = () => {
+                const dropdownToggle = mobileMenu.querySelector('.mobile-dropdown-toggle');
+                const dropdown = mobileMenu.querySelector('#mobile-about-dropdown');
+                
+                if (dropdownToggle && dropdown) {
+                    dropdownToggle.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const isExpanded = dropdownToggle.getAttribute('aria-expanded') === 'true';
+                        const icon = dropdownToggle.querySelector('i');
+                        
+                        if (isExpanded) {
+                            dropdown.classList.add('hidden');
+                            dropdownToggle.setAttribute('aria-expanded', 'false');
+                            if (icon) icon.style.transform = 'rotate(0deg)';
+                        } else {
+                            dropdown.classList.remove('hidden');
+                            dropdownToggle.setAttribute('aria-expanded', 'true');
+                            if (icon) icon.style.transform = 'rotate(180deg)';
+                        }
+                    });
+                }
+            };
+            
+            // Add click event listener with proper event handling
+            menuButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
                 
                 if (!isExpanded) {
@@ -410,21 +516,34 @@ class BhanjyangAnimations {
                 } else {
                     closeMenu();
                 }
-            });
-        }
-        
-        if (closeButton && mobileMenu) {
-            closeButton.addEventListener('click', closeMenu);
-        }
-        
-        // Close menu when clicking outside
-        if (mobileMenu) {
+            }, { passive: false });
+            
+            if (closeButton) {
+                closeButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeMenu();
+                }, { passive: false });
+            }
+            
+            // Close menu when clicking outside
             mobileMenu.addEventListener('click', (e) => {
                 if (e.target === mobileMenu) {
                     closeMenu();
                 }
             });
-        }
+            
+            // Close menu on Escape key
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                    closeMenu();
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+            
+            // Setup mobile dropdown
+            setupMobileDropdown();
+        }, 100);
     }
 
     /**
@@ -845,7 +964,6 @@ class BhanjyangAnimations {
 
 // Initialize animations when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing animations...');
     window.bhanjyangAnimations = new BhanjyangAnimations();
     
     // Add page load animations
@@ -855,30 +973,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const headerElements = document.querySelectorAll('header *');
     window.bhanjyangAnimations.staggerAnimation(headerElements, 'animate-fade-in-down', 50);
     
-    // Add morphing background to hero sections
-    // No longer force morphing bg on all hero sections; slideshow will be used on home
-    
-    // Debug: Check if slideshow was initialized
-    setTimeout(() => {
-        const slideshow = document.querySelector('.hero-section .hero-slideshow');
-        const slides = document.querySelectorAll('.hero-slide');
-        console.log('Post-init check - Slideshow:', slideshow, 'Slides:', slides.length);
-    }, 1000);
-    
     // CONTACT FORM FIX: Ensure form is always visible
     setTimeout(() => {
         const contactForm = document.querySelector('#contactForm');
         if (contactForm) {
             const formContainer = contactForm.parentElement;
             if (formContainer && formContainer.classList.contains('animated-element')) {
-                console.log('Contact form detected, ensuring visibility...');
-                
                 // Force visibility immediately
                 formContainer.style.opacity = '1';
                 formContainer.style.transform = 'translateY(0)';
                 formContainer.classList.add('animate');
-                
-                console.log('Contact form made visible');
             }
         }
     }, 1000);
@@ -890,7 +994,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const formContainer = contactForm.parentElement;
             if (formContainer && formContainer.classList.contains('animated-element')) {
                 if (!formContainer.classList.contains('animate')) {
-                    console.log('Final fallback: Contact form still hidden, forcing visibility');
                     formContainer.style.opacity = '1';
                     formContainer.style.transform = 'translateY(0)';
                     formContainer.classList.add('animate');
@@ -906,7 +1009,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const formContainer = contactForm.parentElement;
             if (formContainer && formContainer.classList.contains('animated-element')) {
                 if (!formContainer.classList.contains('animate')) {
-                    console.log('Ultimate fallback: Adding CSS fallback class');
                     formContainer.classList.add('contact-form-fallback');
                 }
             }

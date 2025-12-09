@@ -173,31 +173,6 @@
     
     {# Custom Animations JavaScript #}
     <script src="{% static 'js/animations.js' %}"></script>
-    
-    <script>
-    // This script handles the toggling of the mobile navigation menu.
-    // यो स्क्रिप्टले मोबाइल नेभिगेसन मेनुको टगल व्यवस्थापन गर्छ।
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', () => {
-                const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
-                
-                // Toggle ARIA attribute for accessibility
-                menuButton.setAttribute('aria-expanded', !isExpanded);
-                
-                // Toggle visibility of the menu
-                mobileMenu.classList.toggle('hidden');
-                mobileMenu.classList.toggle('flex');
-
-                // Optional: Toggle body scroll to prevent scrolling when menu is open
-                document.body.classList.toggle('overflow-hidden');
-            });
-        }
-    });
-    </script>
         <!-- GSAP CDN for pro-level animations -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!-- GSAP Animation Initializer -->

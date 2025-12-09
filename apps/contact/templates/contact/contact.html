@@ -69,8 +69,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
 {% endblock extra_css %}
 
 {% block content %}
-<section class="py-16 px-4 bg-gray-50">
-    <div class="container mx-auto max-w-6xl">
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-bhanjyangred font-montserrat mb-3">
                 Our Contact Information & Locations
@@ -92,8 +92,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
 </div>
 </section>
 
-<section id="contact-feedback-form" class="py-16 px-4 bg-white">
-    <div class="container mx-auto max-w-6xl">
+<section id="contact-feedback-form" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+    <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {# Column 1: Engaging Text and Quick Info #}
             <div class="text-center lg:text-left">
@@ -161,8 +161,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
                         </div>
                     </div>
 
-                    {# UPGRADE: Form fields now use aria-describedby for better accessibility #}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {# Row 1: Name, Email, Phone Number #}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div class="form-group relative">
                             <input type="{{ form.name.field.widget_type }}" name="{{ form.name.name }}"
                                 id="{{ form.name.id_for_label }}"
@@ -184,48 +184,48 @@ phone number, email address, send message, kaski, customer support{% endblock me
                             <div id="{{ form.email.id_for_label }}_error"
                                 class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"></div>
                         </div>
+                        <div class="form-group">
+                            <label for="{{ form.phone.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Phone
+                                Number <span class="text-gray-500 text-sm font-normal">(Optional)</span></label>
+                            {{ form.phone }}
+                            <div id="{{ form.phone.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">e.g.,
+                                +977-9856083101</div>
+                            <div id="{{ form.phone.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
+                                role="alert"></div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="{{ form.phone.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Phone
-                            Number <span class="text-gray-500 text-sm font-normal">(Optional)</span></label>
-                        {{ form.phone }}
-                        <div id="{{ form.phone.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">e.g.,
-                            +977-9856083101</div>
-                        <div id="{{ form.phone.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
-                            role="alert"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="{{ form.subject.id_for_label }}"
-                            class="block text-base font-semibold font-poppins text-gray-800 mb-2">Subject <span
-                                class="text-red-500">*</span></label>
-                        {{ form.subject }}
-                        <div id="{{ form.subject.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
-                            Brief description of your inquiry</div>
-                        <div id="{{ form.subject.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
-                            role="alert"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="{{ form.message.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your
-                            Message <span class="text-red-500">*</span></label>
-                        {{ form.message }}
-                        <div id="{{ form.message.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
-                            Please provide as much detail as possible</div>
-                        <div id="{{ form.message.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
-                            role="alert"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="{{ form.attachment.id_for_label }}"
-                            class="block text-base font-semibold font-poppins text-gray-800 mb-2">File Attachment <span
-                                class="text-gray-500 text-sm font-normal">(Optional)</span></label>
-                        {{ form.attachment }}
-                        <div id="{{ form.attachment.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
-                            Supported formats: PDF, DOC, DOCX, JPG, PNG, TXT, XLS, XLSX (Max 5MB)</div>
-                        <div id="{{ form.attachment.id_for_label }}_error"
-                            class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"></div>
+                    {# Row 2: Subject, Message, File Attachment #}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="form-group">
+                            <label for="{{ form.subject.id_for_label }}"
+                                class="block text-base font-semibold font-poppins text-gray-800 mb-2">Subject <span
+                                    class="text-red-500">*</span></label>
+                            {{ form.subject }}
+                            <div id="{{ form.subject.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                Brief description of your inquiry</div>
+                            <div id="{{ form.subject.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
+                                role="alert"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.message.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your
+                                Message <span class="text-red-500">*</span></label>
+                            {{ form.message }}
+                            <div id="{{ form.message.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                Please provide as much detail as possible</div>
+                            <div id="{{ form.message.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
+                                role="alert"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.attachment.id_for_label }}"
+                                class="block text-base font-semibold font-poppins text-gray-800 mb-2">File Attachment <span
+                                    class="text-gray-500 text-sm font-normal">(Optional)</span></label>
+                            {{ form.attachment }}
+                            <div id="{{ form.attachment.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                Supported formats: PDF, DOC, DOCX, JPG, PNG, TXT, XLS, XLSX (Max 5MB)</div>
+                            <div id="{{ form.attachment.id_for_label }}_error"
+                                class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"></div>
+                        </div>
                     </div>
 
                     <div class="text-center pt-4 mt-auto">
@@ -247,8 +247,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
     </div>
 </section>
 
-<section id="our-locations-map" class="py-16 px-4 bg-gray-50">
-    <div class="container mx-auto">
+<section id="our-locations-map" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-bhanjyangred font-montserrat mb-3">
                 Find Our Locations on the Map

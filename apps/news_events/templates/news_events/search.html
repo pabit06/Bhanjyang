@@ -4,10 +4,26 @@
 
 {% block meta_description %}Search through news articles and events from Bhanjyang Cooperative.{% endblock meta_description %}
 
+{% block extra_css %}
+<style>
+    .search-pattern-bg {
+        background-image: url("{% static 'images/pattern-light.png' %}");
+    }
+    
+    .category-icon-bg {
+        background-color: rgba(var(--category-color-rgb), 0.2);
+    }
+    
+    .category-icon {
+        color: var(--category-color);
+    }
+</style>
+{% endblock extra_css %}
+
 {% block content %}
     <!-- Header Section -->
-    <section class="relative bg-white text-deuraligreen py-16 px-4 flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center" style="background-image: url('{% static 'images/pattern-light.png' %}');"></div>
+    <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center search-pattern-bg"></div>
         <div class="container mx-auto text-center z-10">
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">Search</h1>
             <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Find articles and events that interest you.</p>
@@ -16,7 +32,7 @@
 
     <!-- Advanced Search Form -->
     <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto">
                 <div class="bg-white rounded-lg shadow-lg p-8">
                     <form method="get" action="{% url 'news_events:search' %}" class="space-y-6">
@@ -106,7 +122,7 @@
 
     <!-- Quick Links -->
     <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
                 <h3 class="text-2xl font-bold text-deuraligreen mb-8 text-center">Quick Access</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -146,18 +162,19 @@
     <!-- Popular Categories -->
     {% if categories %}
     <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-4xl mx-auto">
                 <h3 class="text-2xl font-bold text-deuraligreen mb-8 text-center">Browse by Category</h3>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {% for category in categories %}
                     <a href="{% url 'news_events:search' %}?category={{ category.slug }}" 
                        class="bg-white rounded-lg p-4 text-center hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                        <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style="background-color: {{ category.color }}20;">
+                        <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center category-icon-bg" 
+                             data-category-color="{{ category.color }}">
                             {% if category.icon %}
-                                <i class="{{ category.icon }} text-xl" style="color: {{ category.color }};"></i>
+                                <i class="{{ category.icon }} text-xl category-icon" data-category-color="{{ category.color }}"></i>
                             {% else %}
-                                <i class="fas fa-folder text-xl" style="color: {{ category.color }};"></i>
+                                <i class="fas fa-folder text-xl category-icon" data-category-color="{{ category.color }}"></i>
                             {% endif %}
                         </div>
                         <h4 class="font-semibold text-gray-900 mb-1">{{ category.name }}</h4>
@@ -170,3 +187,33 @@
     </section>
     {% endif %}
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Apply category colors from data attributes
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+    
+    document.querySelectorAll('[data-category-color]').forEach(function(element) {
+        const color = element.getAttribute('data-category-color');
+        if (color) {
+            if (element.classList.contains('category-icon-bg')) {
+                const rgb = hexToRgb(color);
+                if (rgb) {
+                    element.style.backgroundColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.2)`;
+                }
+            } else if (element.classList.contains('category-icon')) {
+                element.style.color = color;
+            }
+        }
+    });
+});
+</script>
+{% endblock extra_js %}
