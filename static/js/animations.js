@@ -21,6 +21,7 @@ class BhanjyangAnimations {
         this.setupLoadingStates();
         this.setupSmoothScrolling();
         this.setupMobileMenuAnimations();
+        this.setupDesktopDropdownNavigation();
         this.setupFormAnimations();
         this.setupToastNotifications();
         // NEW: Advanced animation features
@@ -364,6 +365,9 @@ class BhanjyangAnimations {
      * Setup mobile menu animations with accessibility features
      */
     setupMobileMenuAnimations() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
         // Use a small delay to ensure DOM is fully ready
         setTimeout(() => {
             const menuButton = document.getElementById('mobile-menu-button');
@@ -411,70 +415,67 @@ class BhanjyangAnimations {
             const openMenu = () => {
                 if (!mobileMenu || !menuButton) return;
                 
-                // Store the element that had focus before opening menu
-                previousActiveElement = document.activeElement;
-                
-                // Remove hidden class and show menu
-                mobileMenu.classList.remove('hidden');
-                
-                // Force reflow for animation
-                void mobileMenu.offsetHeight;
-                
-                // Animate in
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        if (mobileMenu) {
-                            mobileMenu.style.opacity = '1';
-                            mobileMenu.style.transform = 'translateY(0)';
-                        }
-                    });
-                });
-                
-                // Update ARIA attributes
-                menuButton.setAttribute('aria-expanded', 'true');
-                mobileMenu.setAttribute('aria-hidden', 'false');
-                
-                // Prevent body scroll when menu is open
-                document.body.classList.add('overflow-hidden');
-                
-                // Update focusable elements and set focus
-                updateFocusableElements();
-                setTimeout(() => {
-                    closeButton?.focus();
-                }, 100);
-                
-                // Add focus trap
-                mobileMenu.addEventListener('keydown', trapFocus);
+                try {
+                    // Store the element that had focus before opening menu
+                    previousActiveElement = document.activeElement;
+                    
+                    // Remove hidden class and show menu
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('mobile-menu-open');
+                    
+                    // Update ARIA attributes
+                    menuButton.setAttribute('aria-expanded', 'true');
+                    mobileMenu.setAttribute('aria-hidden', 'false');
+                    
+                    // Prevent body scroll when menu is open
+                    document.body.classList.add('overflow-hidden');
+                    
+                    // Update focusable elements and set focus
+                    updateFocusableElements();
+                    setTimeout(() => {
+                        closeButton?.focus();
+                    }, prefersReducedMotion ? 0 : 100);
+                    
+                    // Add focus trap
+                    mobileMenu.addEventListener('keydown', trapFocus);
+                } catch (error) {
+                    console.error('Error opening mobile menu:', error);
+                }
             };
             
             const closeMenu = () => {
                 if (!mobileMenu || !menuButton) return;
                 
-                // Animate out
-                mobileMenu.style.opacity = '0';
-                mobileMenu.style.transform = 'translateY(-20px)';
-                
-                setTimeout(() => {
-                    if (mobileMenu) {
-                        mobileMenu.classList.add('hidden');
-                        mobileMenu.style.opacity = '';
-                        mobileMenu.style.transform = '';
+                try {
+                    // Animate out using CSS class
+                    mobileMenu.classList.remove('mobile-menu-open');
+                    mobileMenu.classList.add('mobile-menu-closing');
+                    
+                    const animationDuration = prefersReducedMotion ? 0 : 300;
+                    
+                    setTimeout(() => {
+                        if (mobileMenu) {
+                            mobileMenu.classList.add('hidden');
+                            mobileMenu.classList.remove('mobile-menu-closing');
+                        }
+                    }, animationDuration);
+                    
+                    // Update ARIA attributes
+                    menuButton.setAttribute('aria-expanded', 'false');
+                    mobileMenu.setAttribute('aria-hidden', 'true');
+                    
+                    // Restore body scroll when menu is closed
+                    document.body.classList.remove('overflow-hidden');
+                    
+                    // Remove focus trap
+                    mobileMenu.removeEventListener('keydown', trapFocus);
+                    
+                    // Restore focus to previous element
+                    if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+                        previousActiveElement.focus();
                     }
-                }, 300);
-                
-                // Update ARIA attributes
-                menuButton.setAttribute('aria-expanded', 'false');
-                mobileMenu.setAttribute('aria-hidden', 'true');
-                
-                // Restore body scroll when menu is closed
-                document.body.classList.remove('overflow-hidden');
-                
-                // Remove focus trap
-                mobileMenu.removeEventListener('keydown', trapFocus);
-                
-                // Restore focus to previous element
-                if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
-                    previousActiveElement.focus();
+                } catch (error) {
+                    console.error('Error closing mobile menu:', error);
                 }
             };
             
@@ -494,11 +495,19 @@ class BhanjyangAnimations {
                         if (isExpanded) {
                             dropdown.classList.add('hidden');
                             dropdownToggle.setAttribute('aria-expanded', 'false');
-                            if (icon) icon.style.transform = 'rotate(0deg)';
+                            if (icon) icon.classList.remove('rotate-180');
                         } else {
                             dropdown.classList.remove('hidden');
                             dropdownToggle.setAttribute('aria-expanded', 'true');
-                            if (icon) icon.style.transform = 'rotate(180deg)';
+                            if (icon) icon.classList.add('rotate-180');
+                        }
+                    });
+                    
+                    // Keyboard support for mobile dropdown
+                    dropdownToggle.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            dropdownToggle.click();
                         }
                     });
                 }
@@ -544,6 +553,87 @@ class BhanjyangAnimations {
             // Setup mobile dropdown
             setupMobileDropdown();
         }, 100);
+    }
+    
+    /**
+     * Setup desktop dropdown keyboard navigation
+     */
+    setupDesktopDropdownNavigation() {
+        const dropdownTrigger = document.getElementById('about-dropdown-trigger');
+        const dropdownMenu = dropdownTrigger?.parentElement?.querySelector('[role="menu"]');
+        
+        if (!dropdownTrigger || !dropdownMenu) return;
+        
+        let isOpen = false;
+        const menuItems = Array.from(dropdownMenu.querySelectorAll('[role="menuitem"]'));
+        
+        const openDropdown = () => {
+            isOpen = true;
+            dropdownTrigger.setAttribute('aria-expanded', 'true');
+            dropdownTrigger.parentElement.classList.add('group');
+            menuItems[0]?.focus();
+        };
+        
+        const closeDropdown = () => {
+            isOpen = false;
+            dropdownTrigger.setAttribute('aria-expanded', 'false');
+            dropdownTrigger.parentElement.classList.remove('group');
+        };
+        
+        // Keyboard navigation on trigger
+        dropdownTrigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (isOpen) {
+                    closeDropdown();
+                } else {
+                    openDropdown();
+                }
+            } else if (e.key === 'ArrowDown' && !isOpen) {
+                e.preventDefault();
+                openDropdown();
+            } else if (e.key === 'Escape' && isOpen) {
+                e.preventDefault();
+                closeDropdown();
+                dropdownTrigger.focus();
+            }
+        });
+        
+        // Keyboard navigation within menu
+        menuItems.forEach((item, index) => {
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = (index + 1) % menuItems.length;
+                    menuItems[nextIndex]?.focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = (index - 1 + menuItems.length) % menuItems.length;
+                    menuItems[prevIndex]?.focus();
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeDropdown();
+                    dropdownTrigger.focus();
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    menuItems[0]?.focus();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    menuItems[menuItems.length - 1]?.focus();
+                }
+            });
+        });
+        
+        // Close on blur (when focus leaves the dropdown area)
+        dropdownTrigger.parentElement.addEventListener('focusout', (e) => {
+            if (!dropdownTrigger.parentElement.contains(e.relatedTarget)) {
+                setTimeout(() => {
+                    if (!dropdownTrigger.parentElement.contains(document.activeElement)) {
+                        closeDropdown();
+                    }
+                }, 100);
+            }
+        });
     }
 
     /**

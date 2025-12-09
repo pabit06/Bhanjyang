@@ -1308,3 +1308,92 @@ html {
         transform: none !important;
     }
 }
+
+/* Mobile Menu Animations */
+.mobile-menu-panel {
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.mobile-menu-open .mobile-menu-panel {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.mobile-menu-closing .mobile-menu-panel {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+/* Skip to main content link */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.sr-only:focus {
+    position: fixed;
+    width: auto;
+    height: auto;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    z-index: 10000;
+}
+
+/* Prefers reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .mobile-menu-panel {
+        transition: none !important;
+    }
+    
+    .mobile-menu-open .mobile-menu-panel {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Enhanced focus indicators */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid #27ae60;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Mobile dropdown animation */
+.mobile-dropdown-toggle i {
+    transition: transform 0.2s ease-in-out;
+}
+
+.mobile-dropdown-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-dropdown-toggle i {
+        transition: none;
+    }
+}

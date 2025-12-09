@@ -8,7 +8,8 @@ class ContactForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
-            'placeholder': 'Your full name'
+            'placeholder': 'Your full name',
+            'autocomplete': 'name'
         }),
         label='Name'
     )
@@ -16,7 +17,8 @@ class ContactForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
             'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
-            'placeholder': 'your.email@example.com'
+            'placeholder': 'your.email@example.com',
+            'autocomplete': 'email'
         }),
         label='Email'
     )
@@ -26,7 +28,8 @@ class ContactForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
-            'placeholder': '+977-XXXXXXXXXX'
+            'placeholder': '+977-XXXXXXXXXX',
+            'autocomplete': 'tel'
         }),
         label='Phone (Optional)'
     )
@@ -35,7 +38,8 @@ class ContactForm(forms.Form):
         max_length=200,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
-            'placeholder': 'Subject of your inquiry'
+            'placeholder': 'Subject of your inquiry',
+            'autocomplete': 'off'
         }),
         label='Subject'
     )
@@ -44,7 +48,8 @@ class ContactForm(forms.Form):
         widget=forms.Textarea(attrs={
             'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200 resize-none',
             'rows': 5,
-            'placeholder': 'Your message here...'
+            'placeholder': 'Your message here...',
+            'autocomplete': 'off'
         }),
         label='Message',
         min_length=10
