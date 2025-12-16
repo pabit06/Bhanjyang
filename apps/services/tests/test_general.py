@@ -5,11 +5,11 @@ from django.contrib.contenttypes.models import ContentType
 from decimal import Decimal
 from datetime import date
 
-from .models import (
+from apps.services.models import (
     SavingsAccount, FixedDeposit, LoanType, RemittanceService, MemberRelief,
     ServiceApplication, ServiceAnalytics, ServiceRecommendation
 )
-from .services import (
+from apps.services.services import (
     ServiceAnalyticsService, ServiceRecommendationService,
     ServiceComparisonService, ServiceSearchService
 )

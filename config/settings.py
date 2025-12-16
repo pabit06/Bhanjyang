@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+# Force Reload 1
 import os
 from django.core.exceptions import ImproperlyConfigured
 from decouple import config # <-- Import config
@@ -97,15 +98,13 @@ MIDDLEWARE = [
     'apps.core.middleware.SecurityHeadersMiddleware',  # Security headers (before static files)
     'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # Enable language switching
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'apps.core.middleware.RateLimitMiddleware',  # Rate limiting (after auth)
     'apps.core.middleware.InputValidationMiddleware',  # Input validation
     'apps.core.middleware.BruteForceProtectionMiddleware',  # Brute force protection
-    # 'members.middleware.MemberAuthenticationMiddleware',  # Member authentication - Commented out until custom user model is active
-    # 'members.middleware.MemberActivityMiddleware',  # Member activity tracking - Commented out until custom user model is active
-    # 'members.middleware.MemberSecurityMiddleware',  # Member security - Commented out until custom user model is active
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csp.middleware.CSPMiddleware', # CSP
@@ -288,7 +287,7 @@ CACHES = {
         'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            # 'PARSER_CLASS': 'redis.connection.HiredisParser',
             'SOCKET_CONNECT_TIMEOUT': 5,
             'SOCKET_TIMEOUT': 5,
         }

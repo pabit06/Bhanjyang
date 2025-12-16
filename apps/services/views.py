@@ -56,7 +56,7 @@ def services_overview(request):
 class SavingsAccountsView(ListView):
     """Display all savings account types"""
     model = SavingsAccount
-    template_name = 'services/savings/list.html'
+    template_name = 'services/savings/savings_list.html'
     context_object_name = 'savings_accounts'
     
     def get_queryset(self):

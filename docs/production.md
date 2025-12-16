@@ -37,6 +37,14 @@ We use **Redis** for caching, session storage, and Celery task queue handling.
 -   **Configuration**:
     The system expects Redis to be available at `redis://localhost:6379/1` by default. You can override this via the `REDIS_URL` environment variable.
 
+## Security: Admin 2FA
+
+Two-Factor Authentication (2FA) is enabled for the Django Admin interface.
+
+-   **Setup**: On first login, admins will be prompted to scan a QR code with an authenticator app (Google Authenticator, Authy, etc.).
+-   **Backup Codes**: Ensure admins save their backup codes in a secure location.
+-   **Enforcement**: By default, `OTE_ADMIN_2FA_REQUIRED` is set to `True` (via middleware or settings logic).
+
 ## Static Files
 
 We use **WhiteNoise** for serving static files in production.

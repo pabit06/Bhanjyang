@@ -14,10 +14,7 @@ class SecurityHeadersMiddleware(MiddlewareMixin):
     def process_response(self, request, response):
         """Add security headers to response"""
         
-        # Content Security Policy (CSP)
-        csp_policy = self.get_csp_policy()
-        if csp_policy:
-            response['Content-Security-Policy'] = csp_policy
+        # Content Security Policy (CSP) is handled by django-csp middleware
         
         # Strict Transport Security (HSTS)
         if request.is_secure():

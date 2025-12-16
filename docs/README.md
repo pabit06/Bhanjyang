@@ -17,8 +17,8 @@ A modern, enterprise-grade website for Bhanjyang Cooperative built with Django 5
 - **REST API**: Comprehensive API with OpenAPI documentation
 - **Performance Monitoring**: Real-time performance tracking
 - **Health Checks**: Kubernetes-ready health endpoints
-- **Security**: Advanced security middleware and rate limiting
-- **Caching**: Redis-based caching system
+- **Security**: Advanced security middleware, CSP, and Admin 2FA
+- **Caching**: Redis-based caching system (Cache/Sessions/Celery)
 - **Error Tracking**: Sentry integration for production monitoring
 - **CI/CD**: GitHub Actions pipeline with automated testing
 
@@ -132,7 +132,8 @@ DB_HOST=localhost
 DB_PORT=5432
 
 # Redis
-REDIS_URL=redis://localhost:6379/0
+# Redis (Cache: /1, Sessions: /2, Celery: /3)
+REDIS_URL=redis://localhost:6379/1
 
 # Email
 SEND_REAL_EMAILS=False

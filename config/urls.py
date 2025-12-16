@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.urls import path, include
 from django.views.generic import RedirectView
 # These two imports are necessary for serving media files during development
 from django.conf import settings

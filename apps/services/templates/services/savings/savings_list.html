@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Savings Accounts - Bhanjyang Cooperative{% endblock title %}
+
+{% block content %}
+{% block extra_css %}
+<style>
+    .savings-header-bg {
+        background-image: url("{% static 'images/backgrounds/pattern-light.png' %}");
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Standard Page Header -->
+<section class="relative bg-white py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
+    <div class="container mx-auto text-center z-10">
+        <span class="block text-sm md:text-base font-semibold uppercase tracking-wider mb-2 text-deuraligreen">Financial
+            Growth</span>
+        <h1
+            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-sm">
+            Savings Accounts
+        </h1>
+        <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">
+            Secure your future with our range of savings products designed to help you grow your wealth with competitive
+            interest rates.
+        </p>
+    </div>
+</section>
+
+<!-- Featured Savings Section -->
+{% if featured_accounts %}
+<section class="py-16 md:py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="text-bhanjyangred font-semibold uppercase text-sm mb-2 block">Recommended</span>
+            <h2 class="text-3xl font-bold text-deuraligreen font-montserrat mb-4">Featured Savings Plans</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Our most popular savings accounts tailored for your specific
+                needs.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for account in featured_accounts %}
+            <div class="card-modern group relative overflow-hidden border-t-4 border-{{ account.color }}">
+                <div
+                    class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+                    <i class="{{ account.icon }} text-8xl text-{{ account.color }}"></i>
+                </div>
+
+                <div class="relative z-10">
+                    <div
+                        class="w-16 h-16 bg-{{ account.color }}/10 rounded-2xl flex items-center justify-center mb-6 text-{{ account.color }} group-hover:scale-110 transition-transform duration-300">
+                        <i class="{{ account.icon }} text-3xl"></i>
+                    </div>
+
+                    <h3
+                        class="text-xl font-bold text-gray-800 mb-2 group-hover:text-{{ account.color }} transition-colors">
+                        {{ account.english_name }}
+                    </h3>
+                    <h4 class="text-sm font-semibold text-gray-500 mb-4 font-montserrat">{{ account.nepali_name }}</h4>
+
+                    <div class="flex items-baseline mb-4">
+                        <span class="text-4xl font-bold text-{{ account.color }}">{{ account.interest_rate }}%</span>
+                        <span class="text-gray-500 ml-2 text-sm">p.a.</span>
+                    </div>
+
+                    {% if account.description %}
+                    <p class="text-gray-600 mb-6 text-sm line-clamp-3">{{ account.description }}</p>
+                    {% endif %}
+
+                    {% if account.features %}
+                    <div class="space-y-2 mb-6">
+                        {% for feature in account.features.splitlines|slice:":3" %}
+                        <div class="flex items-start text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2 flex-shrink-0"></i>
+                            <span>{{ feature|cut:"• "|trim }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <a href="{% url 'services:savings_detail' account.slug %}"
+                        class="inline-flex items-center font-semibold text-{{ account.color }} hover:text-gray-800 transition-colors">
+                        View Details <i
+                            class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- All Savings Accounts -->
+<section class="py-16 md:py-20 {% if featured_accounts %}bg-himalwhite{% else %}bg-white{% endif %}">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-deuraligreen font-montserrat mb-4">All Savings Products</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Explore our complete range of savings options suited for
+                everyone.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {% for account in savings_accounts %}
+            <div
+                class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100 group">
+                <div class="flex items-center justify-between mb-4">
+                    <div
+                        class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center text-{{ account.color }}">
+                        <i class="{{ account.icon }} text-xl"></i>
+                    </div>
+                    <span class="bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded-full">{{
+                        account.interest_rate }}%</span>
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-800 mb-1 group-hover:text-deuraligreen transition-colors">{{
+                    account.english_name }}</h3>
+                <p class="text-xs text-gray-500 mb-3">{{ account.nepali_name }}</p>
+
+                <p class="text-sm text-gray-600 mb-4 line-clamp-2">{{ account.description }}</p>
+
+                <a href="{% url 'services:savings_detail' account.slug %}"
+                    class="text-sm font-semibold text-deuraligreen hover:text-bhanjyangred flex items-center">
+                    Learn More <i class="fas fa-chevron-right ml-1 text-xs"></i>
+                </a>
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center py-12">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-piggy-bank text-gray-400 text-3xl"></i>
+                </div>
+                <h3 class="text-gray-500 font-medium">No additional savings accounts found</h3>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Benefits / Why Choose Us -->
+<section class="py-16 md:py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1">
+                <span class="text-bhanjyangred font-semibold uppercase text-sm mb-2 block">Why Choose Us</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-deuraligreen font-montserrat mb-6">Growing Together With
+                    Your Savings</h2>
+                <div class="space-y-6">
+                    <div class="flex">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center text-white shadow-lg">
+                            <i class="fas fa-chart-line text-xl"></i>
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">High Interest Rates</h3>
+                            <p class="text-gray-600">Enjoy some of the most competitive interest rates in the market,
+                                calculated daily and posted quarterly.</p>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center text-white shadow-lg">
+                            <i class="fas fa-shield-alt text-xl"></i>
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Secure & Insured</h3>
+                            <p class="text-gray-600">Your deposits are safe with us. We are fully regulated and follow
+                                strict financial guidelines.</p>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <div
+                            class="flex-shrink-0 w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center text-white shadow-lg">
+                            <i class="fas fa-mobile-alt text-xl"></i>
+                        </div>
+                        <div class="ml-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Easy Access</h3>
+                            <p class="text-gray-600">Manage your savings anytime via our mobile app, SMS banking, or
+                                visit any of our service centers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2 relative">
+                <div
+                    class="absolute inset-0 bg-gradient-to-tr from-deuraligreen to-green-300 transform rotate-3 rounded-2xl opacity-20">
+                </div>
+                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    alt="Savings Growth"
+                    class="relative rounded-2xl shadow-xl transform hover:-translate-y-2 transition-transform duration-500 w-full object-cover h-[500px]">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-bhanjyangred text-white relative overflow-hidden">
+    <!-- Removed bg-pattern here -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold font-montserrat mb-6">Ready to Start Saving?</h2>
+        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">Open an account today and take the first step towards
+            your financial freedom.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contact:contact_view' %}"
+                class="bg-white text-bhanjyangred font-bold py-4 px-10 rounded-full shadow-lg hover:shadow-xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1">
+                Open an Account
+            </a>
+            <a href="{% url 'services:savings_calculator' %}"
+                class="bg-transparent border-2 border-white text-white font-bold py-4 px-10 rounded-full hover:bg-white hover:text-bhanjyangred transition-all duration-300">
+                Calculate Returns
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}
