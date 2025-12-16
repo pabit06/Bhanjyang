@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     
     # Local apps (before staticfiles to override runserver command)
     'apps.core',  # Core utilities and shared functionality
+    'apps.admin',  # Admin customization
     'apps.home',
     'apps.about',  # About Us app (includes team functionality)
     'apps.contact',
@@ -72,6 +73,15 @@ INSTALLED_APPS = [
     # 'apps.members',  # Archived - moved to docs/archive/members_app/
     
     'django.contrib.staticfiles',
+    
+    # Security & Auth
+    'django_otp',
+    'django_otp.plugins.otp_totp',
+    'django_otp.plugins.otp_static',
+    'two_factor',
+    # 'two_factor.plugins.phonenumbers',  # optional - requires extra deps
+
+
 ]
 
 # Add debug toolbar for development
@@ -98,7 +108,9 @@ MIDDLEWARE = [
     # 'members.middleware.MemberSecurityMiddleware',  # Member security - Commented out until custom user model is active
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.dashboard.middleware.PerformanceMonitoringMiddleware',
+    'csp.middleware.CSPMiddleware', # CSP
+    'django_otp.middleware.OTPMiddleware', # 2FA
+    'apps.core.middleware.PerformanceMonitoringMiddleware',
 ]
 
 # Add debug toolbar middleware for development
@@ -164,9 +176,20 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('ne', 'नेपाली (Nepali)'),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -203,10 +226,9 @@ CELERY_TASK_ALWAYS_EAGER = True  # Set to True for testing
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication Settings
-# Updated after archiving members app - using Django default auth URLs
-LOGIN_URL = '/admin/login/'
+LOGIN_URL = 'two_factor:login'
 LOGIN_REDIRECT_URL = '/admin/'
-LOGOUT_REDIRECT_URL = '/admin/login/'
+LOGOUT_REDIRECT_URL = 'two_factor:login'
 
 # Security Settings
 SECURE_BROWSER_XSS_FILTER = True
@@ -242,6 +264,16 @@ SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
 SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
 
+# Content Security Policy (django-csp)
+CSP_DEFAULT_SRC = ("'self'", "https:", "data:")
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", "https:")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https:")
+CSP_FONT_SRC = ("'self'", "data:", "https:")
+CSP_IMG_SRC = ("'self'", "data:", "https:")
+CSP_CONNECT_SRC = ("'self'", "https:")
+CSP_FRAME_SRC = ("'self'", "https:")
+
+
 # File Upload Security
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880   # 5MB
@@ -252,23 +284,33 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 # Cache Configuration
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'unique-snowflake',
-        'TIMEOUT': 300,  # 5 minutes
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
         'OPTIONS': {
-            'MAX_ENTRIES': 1000,
-            'CULL_FREQUENCY': 3,
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'SOCKET_CONNECT_TIMEOUT': 5,
+            'SOCKET_TIMEOUT': 5,
         }
     },
     'sessions': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'django_cache_sessions',
-        'TIMEOUT': 1209600,  # 2 weeks
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
     },
     'performance': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        'LOCATION': 'performance-cache',
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
         'TIMEOUT': 600,  # 10 minutes
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
+    'test': {
+         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+         'LOCATION': 'unique-snowflake',
     }
 }
 

@@ -33,19 +33,6 @@
     <!-- Event Header -->
     <section class="relative bg-white py-16 px-4 sm:px-6 lg:px-8">
         <div class="container mx-auto max-w-4xl">
-            <!-- Breadcrumb -->
-            <nav class="mb-8">
-                <ol class="flex items-center space-x-2 text-sm text-gray-600">
-                    <li><a href="{% url 'home:index' %}" class="hover:text-bhanjyangred">Home</a></li>
-                    <li class="mx-2">/</li>
-                    <li><a href="{% url 'news_events:home' %}" class="hover:text-bhanjyangred">News & Events</a></li>
-                    <li class="mx-2">/</li>
-                    <li><a href="{% url 'news_events:event-list' %}" class="hover:text-bhanjyangred">Events</a></li>
-                    <li class="mx-2">/</li>
-                    <li class="text-bhanjyangred">{{ event.title|truncatewords:5 }}</li>
-                </ol>
-            </nav>
-
             <!-- Event Meta -->
             <div class="mb-8">
                 <div class="flex items-center justify-between mb-4">

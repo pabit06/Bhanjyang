@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ file.title }} - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}{{ file.description|truncatewords:20 }}{% endblock meta_description %}
+{% block meta_keywords %}{{ file.title }}, {{ file.get_category_display }}, Download, Bhanjyang Cooperative{% endblock meta_keywords %}
+
+{% block content %}
+    <div class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">
+        <div class="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <!-- Breadcrumb -->
+            <nav class="mb-8">
+                <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                    <li><a href="{% url 'downloads:download_center' %}" class="hover:text-deuraligreen">Download Center</a></li>
+                    <li><i class="fas fa-chevron-right text-gray-400"></i></li>
+                    <li class="text-gray-900 font-semibold">{{ file.title }}</li>
+                </ol>
+            </nav>
+
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <!-- File Header -->
+                <div class="bg-gradient-to-r from-deuraligreen to-bhanjyangred p-8 text-white">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h1 class="text-3xl font-bold font-montserrat mb-4">{{ file.title }}</h1>
+                            <div class="flex flex-wrap gap-3 mb-4">
+                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm font-semibold">
+                                    {{ file.get_category_display }}
+                                </span>
+                                {% if file.is_featured %}
+                                <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                                    <i class="fas fa-star mr-1"></i> Featured
+                                </span>
+                                {% endif %}
+                                {% if file.priority == 'URG' %}
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i> Urgent
+                                </span>
+                                {% elif file.priority == 'HIGH' %}
+                                <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                                    <i class="fas fa-arrow-up mr-1"></i> High Priority
+                                </span>
+                                {% endif %}
+                                {% if file.requires_login %}
+                                <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
+                                    <i class="fas fa-lock mr-1"></i> Login Required
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-6xl opacity-20">
+                                {% if file.file_type == 'pdf' %}
+                                    <i class="fas fa-file-pdf"></i>
+                                {% elif file.file_type == 'doc' or file.file_type == 'docx' %}
+                                    <i class="fas fa-file-word"></i>
+                                {% elif file.file_type == 'xls' or file.file_type == 'xlsx' %}
+                                    <i class="fas fa-file-excel"></i>
+                                {% elif file.file_type == 'ppt' or file.file_type == 'pptx' %}
+                                    <i class="fas fa-file-powerpoint"></i>
+                                {% else %}
+                                    <i class="fas fa-file-alt"></i>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Content -->
+                <div class="p-8">
+                    <!-- Description -->
+                    {% if file.description %}
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900 font-montserrat mb-4">Description</h2>
+                        <p class="text-gray-700 leading-relaxed">{{ file.description|linebreaks }}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- File Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-info-circle text-deuraligreen mr-2"></i>File Information
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">File Type:</span>
+                                    <span class="font-semibold text-gray-900 uppercase">{{ file.file_type }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">File Size:</span>
+                                    <span class="font-semibold text-gray-900">{{ file.file_size }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">Uploaded:</span>
+                                    <span class="font-semibold text-gray-900">{{ file.uploaded_at|date:"F d, Y" }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">Last Updated:</span>
+                                    <span class="font-semibold text-gray-900">{{ file.updated_at|date:"F d, Y" }}</span>
+                                </li>
+                                {% if file.expires_at %}
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">Expires:</span>
+                                    <span class="font-semibold text-red-600">{{ file.expires_at|date:"F d, Y" }}</span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                                <i class="fas fa-chart-bar text-deuraligreen mr-2"></i>Statistics
+                            </h3>
+                            <ul class="space-y-3">
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">Downloads:</span>
+                                    <span class="font-semibold text-gray-900">{{ file.download_count }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">Views:</span>
+                                    <span class="font-semibold text-gray-900">{{ file.view_count }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">Priority:</span>
+                                    <span class="font-semibold text-gray-900">{{ file.get_priority_display }}</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span class="text-gray-600">Status:</span>
+                                    <span class="font-semibold text-green-600">
+                                        {% if file.is_active %}Active{% else %}Inactive{% endif %}
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    {% if file.tag_list %}
+                    <div class="mb-8">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                            <i class="fas fa-tags text-deuraligreen mr-2"></i>Tags
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% for tag in file.tag_list %}
+                                <span class="bg-deuraligreen text-white px-3 py-1 rounded-full text-sm font-medium">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Download Button -->
+                    <div class="text-center">
+                        <a href="{% url 'downloads:download_file' file.pk %}"
+                           class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-12 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out text-lg group">
+                            <i class="fas fa-download mr-3 group-hover:animate-bounce"></i>
+                            Download File
+                        </a>
+                        <p class="text-sm text-gray-600 mt-4">
+                            {% if file.requires_login %}
+                                <i class="fas fa-lock mr-1"></i> Login required to download this file.
+                            {% else %}
+                                Click to download this file instantly.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back to Downloads -->
+            <div class="text-center mt-8">
+                <a href="{% url 'downloads:download_center' %}" 
+                   class="inline-flex items-center text-deuraligreen hover:text-bhanjyangred font-semibold transition-colors duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Download Center
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

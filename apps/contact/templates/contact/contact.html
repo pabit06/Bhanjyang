@@ -20,52 +20,7 @@ phone number, email address, send message, kaski, customer support{% endblock me
 {% block schema_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।{% endblock schema_description %}
 
 {% block extra_css %}
-<style>
-    /* Ensure all form inputs have consistent font styling */
-    #contactForm input[type="text"],
-    #contactForm input[type="email"],
-    #contactForm input[type="tel"],
-    #contactForm textarea,
-    #contactForm select,
-    #contactForm input[type="file"] {
-        font-size: 1rem; /* 16px - base font size */
-        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-    
-    /* Ensure form field labels have consistent styling */
-    #contactForm label {
-        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
-
-    /* Modern Toggle Switch Styles */
-    .map-toggle-option {
-        width: 160px; /* Fixed width to ensure both buttons are equal */
-        position: relative;
-    }
-
-    .map-toggle-option:hover {
-        opacity: 0.9;
-    }
-
-    .map-toggle-option:focus {
-        outline: 2px solid rgba(5, 150, 105, 0.5);
-        outline-offset: 2px;
-    }
-
-    #map-toggle-slider {
-        will-change: transform;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 160px; /* Match button width */
-    }
-
-    /* Smooth transitions for toggle states */
-    @media (prefers-reduced-motion: no-preference) {
-        .map-toggle-option,
-        #map-toggle-slider {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-    }
-</style>
+{# CSS moved to external files: static/css/components/forms.css and static/css/components/map-toggle.css #}
 {% endblock extra_css %}
 
 {% block content %}
@@ -82,14 +37,14 @@ phone number, email address, send message, kaski, customer support{% endblock me
             </p>
         </div>
 
-{# UPGRADE: Use a reusable include for cleaner code #}
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-    {% include "partials/_info_card.html" with icon="fa-landmark" title="Main Office" color="deuraligreen" delay="200" content="Bhanjyang Saving & Credit Cooperative Ltd.<br>Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp" link_text="Get Directions" %}
-    {% include "partials/_info_card.html" with icon="fa-location-dot" title="Service Center" color="bhanjyangred" delay="300" content="Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp" link_text="Get Directions" %}
-    {% include "partials/_info_card.html" with icon="fa-phone" title="Call Us" color="deuraligreen" delay="400" content="Main Office: <a href='tel:+9779856083101' class='text-deuraligreen hover:underline'>+977-9856083101</a><br>Service Center: <a href='tel:+9779846242424' class='text-deuraligreen hover:underline'>+977-9846242424</a>" footer_text="Available during business hours." %}
-    {% include "partials/_info_card.html" with icon="fa-envelope-open-text" title="Email Us" color="bhanjyangred" delay="500" content="General Inquiries: <a href='mailto:info@bhanjyang.coop.np' class='text-bhanjyangred hover:underline'>info@bhanjyang.coop.np</a><br>Support: <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline'>support@bhanjyang.coop.np</a>" footer_text="We aim to respond within 24-48 hours." %}
-</div>
-</div>
+        {# UPGRADE: Use a reusable include for cleaner code #}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            {% include "partials/_info_card.html" with icon="fa-landmark" title="Main Office" color="deuraligreen" delay="200" content="Bhanjyang Saving & Credit Cooperative Ltd.<br>Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp" link_text="Get Directions" %}
+            {% include "partials/_info_card.html" with icon="fa-location-dot" title="Service Center" color="bhanjyangred" delay="300" content="Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp" link_text="Get Directions" %}
+            {% include "partials/_info_card.html" with icon="fa-phone" title="Call Us" color="deuraligreen" delay="400" content="Main Office: <a href='tel:+9779856083101' class='text-deuraligreen hover:underline'>+977-9856083101</a><br>Service Center: <a href='tel:+9779846242424' class='text-deuraligreen hover:underline'>+977-9846242424</a>" footer_text="Available during business hours." %}
+            {% include "partials/_info_card.html" with icon="fa-envelope-open-text" title="Email Us" color="bhanjyangred" delay="500" content="General Inquiries: <a href='mailto:info@bhanjyang.coop.np' class='text-bhanjyangred hover:underline'>info@bhanjyang.coop.np</a><br>Support: <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline'>support@bhanjyang.coop.np</a>" footer_text="We aim to respond within 24-48 hours." %}
+        </div>
+    </div>
 </section>
 
 <section id="contact-feedback-form" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
@@ -112,11 +67,11 @@ phone number, email address, send message, kaski, customer support{% endblock me
                     </div>
                     <div class="flex items-center gap-4 text-gray-800">
                         <i class="fa-solid fa-envelope text-lg text-deuraligreen w-5 text-center"></i>
-                        <a href="mailto:info@bhanjyang.coop.np" class="text-base font-poppins hover:underline">info@bhanjyang.coop.np</a>
+                        <a href="mailto:info@bhanjyang.coop.np"
+                            class="text-base font-poppins hover:underline">info@bhanjyang.coop.np</a>
                     </div>
                 </div>
-                <img src="{% static 'images/plant-illustration.png' %}" alt=""
-                    role="presentation"
+                <img src="{% static 'images/plant-illustration.png' %}" alt="" role="presentation"
                     class="w-28 sm:w-32 md:w-40 lg:w-44 h-auto mx-auto lg:mx-0 mt-6 drop-shadow-xl object-contain"
                     loading="lazy">
             </div>
@@ -124,15 +79,18 @@ phone number, email address, send message, kaski, customer support{% endblock me
             {# Column 2: The Contact Form #}
             <div class=" max-w-lg mx-auto w-full self-stretch flex">
                 <!-- Skip link to form -->
-                <a href="#contactForm" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2">
+                <a href="#contactForm"
+                    class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2">
                     Skip to contact form
                 </a>
                 <form id="contactForm" method="POST" action="{% url 'contact:contact_view' %}"
                     class="h-full flex flex-col space-y-4 bg-white border border-gray-200 p-6 rounded-lg shadow-lg w-full"
                     novalidate enctype="multipart/form-data" aria-label="Contact form">
-                    {% csrf_token %}
+                    <input type="hidden" name="csrfmiddlewaretoken" id="contact-form-csrf-token"
+                        value="{{ csrf_token }}">
 
-                    <div id="form-messages" class="min-h-[3rem] transition-all duration-300" aria-live="polite" aria-atomic="true">
+                    <div id="form-messages" class="min-h-[3rem] transition-all duration-300" aria-live="polite"
+                        aria-atomic="true">
                         <!-- Success Message Template -->
                         <div id="success-message"
                             class="hidden bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center gap-3"
@@ -140,7 +98,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
                             <i class="fas fa-check-circle text-green-600 text-lg" aria-hidden="true"></i>
                             <div>
                                 <p class="text-base font-semibold font-poppins">Message Sent Successfully!</p>
-                                <p class="text-sm font-poppins">Thank you for contacting us. We'll get back to you within 24-48
+                                <p class="text-sm font-poppins">Thank you for contacting us. We'll get back to you
+                                    within 24-48
                                     hours.</p>
                             </div>
                         </div>
@@ -152,7 +111,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
                             <i class="fas fa-exclamation-circle text-red-600 text-lg" aria-hidden="true"></i>
                             <div>
                                 <p class="text-base font-semibold font-poppins">Error Sending Message</p>
-                                <p class="text-sm font-poppins" id="error-details">Please check your information and try again.</p>
+                                <p class="text-sm font-poppins" id="error-details">Please check your information and try
+                                    again.</p>
                             </div>
                         </div>
 
@@ -164,7 +124,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
                                 <i class="fas fa-exclamation-triangle text-yellow-600 text-lg" aria-hidden="true"></i>
                                 <p class="text-base font-semibold font-poppins">Please correct the following errors:</p>
                             </div>
-                            <ul id="validation-list" class="text-sm font-poppins list-disc list-inside space-y-1" role="list"></ul>
+                            <ul id="validation-list" class="text-sm font-poppins list-disc list-inside space-y-1"
+                                role="list"></ul>
                         </div>
                     </div>
 
@@ -179,37 +140,36 @@ phone number, email address, send message, kaski, customer support{% endblock me
                                 <input type="{{ form.name.field.widget_type }}" name="{{ form.name.name }}"
                                     id="{{ form.name.id_for_label }}"
                                     class="peer w-full px-4 py-3 text-base font-poppins border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen placeholder-transparent transition-all duration-300 bg-gray-50 focus:bg-white"
-                                    placeholder="Name" 
-                                    autocomplete="name"
-                                    aria-required="true"
+                                    placeholder="Name" autocomplete="name" aria-required="true"
                                     aria-describedby="{{ form.name.id_for_label }}_error {{ form.name.id_for_label }}_help"
                                     {% if form.name.field.required %}required{% endif %}>
                                 <div id="{{ form.name.id_for_label }}_help" class="sr-only">Enter your full name</div>
                                 <div id="{{ form.name.id_for_label }}_error"
-                                    class="error-message text-red-500 text-xs font-poppins mt-1 absolute -bottom-5" 
-                                    role="alert" 
-                                    aria-live="polite"></div>
+                                    class="error-message text-red-500 text-xs font-poppins mt-1 absolute -bottom-5"
+                                    role="alert" aria-live="polite"></div>
                             </div>
                             <div class="form-group">
                                 <label for="{{ form.email.id_for_label }}"
-                                    class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your Email <span
-                                        class="text-red-500" aria-label="required">*</span></label>
+                                    class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your Email
+                                    <span class="text-red-500" aria-label="required">*</span></label>
                                 {{ form.email }}
-                                <div id="{{ form.email.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                <div id="{{ form.email.id_for_label }}_help"
+                                    class="field-help text-gray-500 text-xs font-poppins mt-1">
                                     We'll use this to respond to you</div>
                                 <div id="{{ form.email.id_for_label }}_error"
-                                    class="error-message text-red-500 text-sm font-poppins mt-1" 
-                                    role="alert" 
+                                    class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"
                                     aria-live="polite"></div>
                             </div>
                             <div class="form-group">
-                                <label for="{{ form.phone.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Phone
+                                <label for="{{ form.phone.id_for_label }}"
+                                    class="block text-base font-semibold font-poppins text-gray-800 mb-2">Phone
                                     Number <span class="text-gray-500 text-sm font-normal">(Optional)</span></label>
                                 {{ form.phone }}
-                                <div id="{{ form.phone.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">e.g.,
+                                <div id="{{ form.phone.id_for_label }}_help"
+                                    class="field-help text-gray-500 text-xs font-poppins mt-1">e.g.,
                                     +977-9856083101</div>
-                                <div id="{{ form.phone.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
-                                    role="alert" 
+                                <div id="{{ form.phone.id_for_label }}_error"
+                                    class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"
                                     aria-live="polite"></div>
                             </div>
                         </div>
@@ -224,33 +184,37 @@ phone number, email address, send message, kaski, customer support{% endblock me
                                     class="block text-base font-semibold font-poppins text-gray-800 mb-2">Subject <span
                                         class="text-red-500" aria-label="required">*</span></label>
                                 {{ form.subject }}
-                                <div id="{{ form.subject.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                <div id="{{ form.subject.id_for_label }}_help"
+                                    class="field-help text-gray-500 text-xs font-poppins mt-1">
                                     Brief description of your inquiry</div>
-                                <div id="{{ form.subject.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
-                                    role="alert" 
+                                <div id="{{ form.subject.id_for_label }}_error"
+                                    class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"
                                     aria-live="polite"></div>
                             </div>
                             <div class="form-group">
-                                <label for="{{ form.message.id_for_label }}" class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your
+                                <label for="{{ form.message.id_for_label }}"
+                                    class="block text-base font-semibold font-poppins text-gray-800 mb-2">Your
                                     Message <span class="text-red-500" aria-label="required">*</span></label>
                                 {{ form.message }}
-                                <div id="{{ form.message.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                <div id="{{ form.message.id_for_label }}_help"
+                                    class="field-help text-gray-500 text-xs font-poppins mt-1">
                                     Please provide as much detail as possible</div>
-                                <div id="{{ form.message.id_for_label }}_char_count" class="text-xs text-gray-500 font-poppins mt-1 text-right" aria-live="polite"></div>
-                                <div id="{{ form.message.id_for_label }}_error" class="error-message text-red-500 text-sm font-poppins mt-1"
-                                    role="alert" 
+                                <div id="{{ form.message.id_for_label }}_char_count"
+                                    class="text-xs text-gray-500 font-poppins mt-1 text-right" aria-live="polite"></div>
+                                <div id="{{ form.message.id_for_label }}_error"
+                                    class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"
                                     aria-live="polite"></div>
                             </div>
                             <div class="form-group">
                                 <label for="{{ form.attachment.id_for_label }}"
-                                    class="block text-base font-semibold font-poppins text-gray-800 mb-2">File Attachment <span
-                                        class="text-gray-500 text-sm font-normal">(Optional)</span></label>
+                                    class="block text-base font-semibold font-poppins text-gray-800 mb-2">File
+                                    Attachment <span class="text-gray-500 text-sm font-normal">(Optional)</span></label>
                                 {{ form.attachment }}
-                                <div id="{{ form.attachment.id_for_label }}_help" class="field-help text-gray-500 text-xs font-poppins mt-1">
+                                <div id="{{ form.attachment.id_for_label }}_help"
+                                    class="field-help text-gray-500 text-xs font-poppins mt-1">
                                     Supported formats: PDF, DOC, DOCX, JPG, PNG (Max 5MB)</div>
                                 <div id="{{ form.attachment.id_for_label }}_error"
-                                    class="error-message text-red-500 text-sm font-poppins mt-1" 
-                                    role="alert" 
+                                    class="error-message text-red-500 text-sm font-poppins mt-1" role="alert"
                                     aria-live="polite"></div>
                             </div>
                         </div>
@@ -282,7 +246,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
                 Find Our Locations on the Map
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
-            <p class="mt-4 text-center text-base sm:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-poppins">
+            <p
+                class="mt-4 text-center text-base sm:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-poppins">
                 Visit our Main Office in Rupa-5 or our Service Center in Rupa-3. Use the buttons below to switch between
                 locations.
             </p>
@@ -302,10 +267,7 @@ phone number, email address, send message, kaski, customer support{% endblock me
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
                 title="Interactive map showing Bhanjyang Cooperative Main Office and Service Center locations. Use the toggle buttons below to switch between locations."
                 class="w-full h-64 sm:h-72 md:h-80 lg:h-[450px] transition-opacity duration-300 ease-in-out"
-                style="border:0;" 
-                allowfullscreen="" 
-                loading="lazy" 
-                referrerpolicy="no-referrer-when-downgrade"
+                style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                 aria-label="Interactive map of Bhanjyang Cooperative locations">
             </iframe>
         </div>
@@ -316,8 +278,7 @@ phone number, email address, send message, kaski, customer support{% endblock me
                 {# Toggle Switch Background #}
                 <div class="relative flex items-center">
                     {# Main Office Option #}
-                    <button
-                        id="map-toggle-main"
+                    <button id="map-toggle-main"
                         data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
                         class="map-toggle-option relative z-10 px-6 py-2.5 rounded-full text-sm font-semibold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
                         data-location="main">
@@ -326,10 +287,9 @@ phone number, email address, send message, kaski, customer support{% endblock me
                             <span>Main Office</span>
                         </span>
                     </button>
-                    
+
                     {# Service Center Option #}
-                    <button
-                        id="map-toggle-service"
+                    <button id="map-toggle-service"
                         data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp"
                         class="map-toggle-option relative z-10 px-6 py-2.5 rounded-full text-sm font-semibold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
                         data-location="service">
@@ -338,9 +298,11 @@ phone number, email address, send message, kaski, customer support{% endblock me
                             <span>Service Center</span>
                         </span>
                     </button>
-                    
+
                     {# Sliding Background Indicator #}
-                    <div id="map-toggle-slider" class="absolute top-1.5 left-1.5 h-9 bg-deuraligreen rounded-full shadow-md transition-all duration-300 ease-in-out z-0"></div>
+                    <div id="map-toggle-slider"
+                        class="absolute top-1.5 left-1.5 h-9 bg-deuraligreen rounded-full shadow-md transition-all duration-300 ease-in-out z-0">
+                    </div>
                 </div>
             </div>
         </div>
@@ -351,599 +313,573 @@ phone number, email address, send message, kaski, customer support{% endblock me
 
 {% block extra_js %}
 <script>
-    // Constants
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
-    const MAP_LOAD_TIMEOUT = 800; // milliseconds
-    const VALIDATION_DEBOUNCE_DELAY = 300; // milliseconds
-    
-    // Allowed file types (matching server-side validation)
-    const ALLOWED_FILE_EXTENSIONS = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'];
-    const ALLOWED_MIME_TYPES = [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'image/jpeg',
-        'image/jpg',
-        'image/png'
-    ];
+// Constants
+const VALIDATION_DEBOUNCE_DELAY = 300;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB in bytes
+const ALLOWED_FILE_EXTENSIONS = ['.pdf', '.doc', '.docx', '.jpg', '.png'];
+const ALLOWED_MIME_TYPES = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'image/jpeg',
+    'image/png'
+];
+const MAP_LOAD_TIMEOUT = 5000; // 5 seconds
 
-    // Global toast functions (wrappers for Toast system)
-    function showSuccess(message, title = 'Success') {
-        if (typeof Toast !== 'undefined' && Toast.success) {
-            Toast.success(title ? `${title}: ${message}` : message);
-        } else {
-            // Fallback if Toast is not available
-            console.log('Success:', title, message);
+// Debounce utility function
+function debounce(func, wait) {
+let timeout;
+return function executedFunction(...args) {
+const later = () => {
+clearTimeout(timeout);
+func(...args);
+};
+clearTimeout(timeout);
+timeout = setTimeout(later, wait);
+};
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+const form = document.getElementById('contactForm');
+const submitButton = document.getElementById('submitButton');
+const buttonText = document.getElementById('buttonText');
+const buttonIcon = document.getElementById('buttonIcon');
+const loadingIcon = document.getElementById('loadingIcon');
+const formMessages = document.getElementById('form-messages');
+const successMessage = document.getElementById('success-message');
+const errorMessage = document.getElementById('error-message');
+const validationErrors = document.getElementById('validation-errors');
+const validationList = document.getElementById('validation-list');
+const errorDetails = document.getElementById('error-details');
+
+if (!form) return;
+
+// Real-time validation with debouncing
+const formFields = form.querySelectorAll('input, textarea, select');
+
+// Set up aria-describedby for all form fields
+formFields.forEach(field => {
+const errorId = field.id + '_error';
+const helpId = field.id + '_help';
+const errorElement = document.getElementById(errorId);
+const helpElement = document.getElementById(helpId);
+
+let describedBy = [];
+if (helpElement) describedBy.push(helpId);
+if (errorElement) describedBy.push(errorId);
+
+if (describedBy.length > 0) {
+field.setAttribute('aria-describedby', describedBy.join(' '));
+}
+
+// Set aria-required for required fields
+if (field.required) {
+field.setAttribute('aria-required', 'true');
+}
+});
+const debouncedValidate = debounce(function(field) {
+validateField(field);
+}, VALIDATION_DEBOUNCE_DELAY);
+
+formFields.forEach(field => {
+field.addEventListener('blur', function () {
+validateField(this);
+});
+
+field.addEventListener('input', function () {
+clearFieldError(this);
+// Debounced validation for real-time feedback
+if (this.type !== 'file') {
+debouncedValidate(this);
+}
+});
+
+// Special handling for file input
+if (field.type === 'file') {
+field.addEventListener('change', function () {
+try {
+validateFileField(this);
+} catch (error) {
+console.error('File validation error:', error);
+showFieldError(this, 'An error occurred while validating the file. Please try again.');
+}
+});
+}
+
+// Character counter for message field
+if (field.name === 'message') {
+const charCountElement = document.getElementById(field.id + '_char_count');
+if (charCountElement) {
+field.addEventListener('input', function() {
+const length = this.value.length;
+const minLength = 10;
+charCountElement.textContent = `${length} characters${length < minLength ? ` (minimum ${minLength})` : ''}`;
+if (length < minLength) {
+    charCountElement.classList.add('text-yellow-600');
+    charCountElement.classList.remove('text-gray-500');
+} else {
+    charCountElement.classList.remove('text-yellow-600');
+    charCountElement.classList.add('text-gray-500');
+}
+});
+}
+}
+});
+
+function validateField(field) {
+const value = field.value.trim();
+const fieldName = field.name;
+clearFieldError(field);
+
+// Required field validation
+if (field.required && !value) {
+    showFieldError(field, `${getFieldLabel(fieldName)} is required.`);
+    return false;
+}
+
+// Specific field validations
+switch (fieldName) {
+    case 'name':
+        if (value && value.length < 2) {
+            showFieldError(field, 'Name must be at least 2 characters long.');
+            return false;
         }
-    }
-
-    function showError(message, title = 'Error') {
-        if (typeof Toast !== 'undefined' && Toast.error) {
-            Toast.error(title ? `${title}: ${message}` : message);
-        } else {
-            // Fallback if Toast is not available
-            console.error('Error:', title, message);
+        if (value && !/^[a-zA-Z\s\-'\.]+$/.test(value)) {
+            showFieldError(field, 'Name can only contain letters, spaces, hyphens, apostrophes, and periods.');
+            return false;
         }
-    }
-
-    // Debounce utility function
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('contactForm');
-        const submitButton = document.getElementById('submitButton');
-        const buttonText = document.getElementById('buttonText');
-        const buttonIcon = document.getElementById('buttonIcon');
-        const loadingIcon = document.getElementById('loadingIcon');
-        const formMessages = document.getElementById('form-messages');
-        const successMessage = document.getElementById('success-message');
-        const errorMessage = document.getElementById('error-message');
-        const validationErrors = document.getElementById('validation-errors');
-        const validationList = document.getElementById('validation-list');
-        const errorDetails = document.getElementById('error-details');
-
-        if (!form) return;
-
-        // Real-time validation with debouncing
-        const formFields = form.querySelectorAll('input, textarea, select');
-        
-        // Set up aria-describedby for all form fields
-        formFields.forEach(field => {
-            const errorId = field.id + '_error';
-            const helpId = field.id + '_help';
-            const errorElement = document.getElementById(errorId);
-            const helpElement = document.getElementById(helpId);
-            
-            let describedBy = [];
-            if (helpElement) describedBy.push(helpId);
-            if (errorElement) describedBy.push(errorId);
-            
-            if (describedBy.length > 0) {
-                field.setAttribute('aria-describedby', describedBy.join(' '));
-            }
-            
-            // Set aria-required for required fields
-            if (field.required) {
-                field.setAttribute('aria-required', 'true');
-            }
-        });
-        const debouncedValidate = debounce(function(field) {
-            validateField(field);
-        }, VALIDATION_DEBOUNCE_DELAY);
-
-        formFields.forEach(field => {
-            field.addEventListener('blur', function () {
-                validateField(this);
-            });
-
-            field.addEventListener('input', function () {
-                clearFieldError(this);
-                // Debounced validation for real-time feedback
-                if (this.type !== 'file') {
-                    debouncedValidate(this);
-                }
-            });
-
-            // Special handling for file input
-            if (field.type === 'file') {
-                field.addEventListener('change', function () {
-                    try {
-                        validateFileField(this);
-                    } catch (error) {
-                        console.error('File validation error:', error);
-                        showFieldError(this, 'An error occurred while validating the file. Please try again.');
-                    }
-                });
-            }
-
-            // Character counter for message field
-            if (field.name === 'message') {
-                const charCountElement = document.getElementById(field.id + '_char_count');
-                if (charCountElement) {
-                    field.addEventListener('input', function() {
-                        const length = this.value.length;
-                        const minLength = 10;
-                        charCountElement.textContent = `${length} characters${length < minLength ? ` (minimum ${minLength})` : ''}`;
-                        if (length < minLength) {
-                            charCountElement.classList.add('text-yellow-600');
-                            charCountElement.classList.remove('text-gray-500');
-                        } else {
-                            charCountElement.classList.remove('text-yellow-600');
-                            charCountElement.classList.add('text-gray-500');
-                        }
-                    });
-                }
-            }
-        });
-
-        function validateField(field) {
-            const value = field.value.trim();
-            const fieldName = field.name;
-
-            clearFieldError(field);
-
-            // Required field validation
-            if (field.required && !value) {
-                showFieldError(field, `${getFieldLabel(fieldName)} is required.`);
+        break;
+    case 'email':
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+            showFieldError(field, 'Please enter a valid email address.');
+            return false;
+        }
+        break;
+    case 'phone':
+        if (value) {
+            const cleanedPhone = value.replace(/[^\d+]/g, '');
+            if (cleanedPhone.length < 7 || cleanedPhone.length > 15) {
+                showFieldError(field, 'Please enter a valid phone number.');
                 return false;
             }
+        }
+        break;
+    case 'subject':
+        if (value && value.length < 5) {
+            showFieldError(field, 'Subject must be at least 5 characters long.');
+            return false;
+        }
+        break;
+    case 'message':
+        if (value && value.length < 10) {
+            showFieldError(field, 'Message must be at least 10 characters long.');
+            return false;
+        }
+        break;
+}
+return true;
+}
 
-            // Specific field validations
-            switch (fieldName) {
-                case 'name':
-                    if (value && value.length < 2) {
-                        showFieldError(field, 'Name must be at least 2 characters long.');
-                        return false;
-                    }
-                    if (value && !/^[a-zA-Z\s\-'\.]+$/.test(value)) {
-                        showFieldError(field, 'Name can only contain letters, spaces, hyphens, apostrophes, and periods.');
-                        return false;
-                    }
-                    break;
-                    
-                case 'email':
-                    if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-                        showFieldError(field, 'Please enter a valid email address.');
-                        return false;
-                    }
-                    break;
-                    
-                case 'phone':
-                    if (value) {
-                        const cleanedPhone = value.replace(/[^\d+]/g, '');
-                        if (cleanedPhone.length < 7 || cleanedPhone.length > 15) {
-                            showFieldError(field, 'Please enter a valid phone number.');
-                            return false;
-                        }
-                    }
-                    break;
-
-                case 'subject':
-                    if (value && value.length < 5) {
-                        showFieldError(field, 'Subject must be at least 5 characters long.');
-                        return false;
-                    }
-                    break;
-                    
-                case 'message':
-                    if (value && value.length < 10) {
-                        showFieldError(field, 'Message must be at least 10 characters long.');
-                        return false;
-                    }
-                    break;
-            }
-            return true;
+function validateFileField(field) {
+try {
+    const file = field.files[0];
+    if (file) {
+        clearFieldError(field);
+        // Check file size (5MB limit)
+        if (file.size > MAX_FILE_SIZE) {
+        showFieldError(field, 'File size cannot exceed 5MB.');
+        return false;
         }
 
-        function validateFileField(field) {
-            try {
-                const file = field.files[0];
-                if (file) {
-                    clearFieldError(field);
-                    
-                    // Check file size (5MB limit)
-                    if (file.size > MAX_FILE_SIZE) {
-                        showFieldError(field, 'File size cannot exceed 5MB.');
-                        return false;
-                    }
+        // Check file extension (matching server-side validation)
+        const fileExtension = '.' + file.name.toLowerCase().split('.').pop();
+        if (!ALLOWED_FILE_EXTENSIONS.includes(fileExtension)) {
+        showFieldError(field, 'Please upload a valid file type (PDF, DOC, DOCX, JPG, PNG only).');
+        return false;
+        }
 
-                    // Check file extension (matching server-side validation)
-                    const fileExtension = '.' + file.name.toLowerCase().split('.').pop();
-                    if (!ALLOWED_FILE_EXTENSIONS.includes(fileExtension)) {
-                        showFieldError(field, 'Please upload a valid file type (PDF, DOC, DOCX, JPG, PNG only).');
-                        return false;
-                    }
-
-                    // Check MIME type (additional validation)
-                    if (file.type && !ALLOWED_MIME_TYPES.includes(file.type)) {
-                        showFieldError(field, 'Please upload a valid file type (PDF, DOC, DOCX, JPG, PNG only).');
-                        return false;
-                    }
-                }
-                return true;
-            } catch (error) {
-                console.error('File validation error:', error);
-                showFieldError(field, 'An error occurred while validating the file. Please try again.');
-                return false;
-            }
+        // Check MIME type (additional validation)
+        if (file.type && !ALLOWED_MIME_TYPES.includes(file.type)) {
+        showFieldError(field, 'Please upload a valid file type (PDF, DOC, DOCX, JPG, PNG only).');
+        return false;
+        }
+        }
+        return true;
+        } catch (error) {
+        console.error('File validation error:', error);
+        showFieldError(field, 'An error occurred while validating the file. Please try again.');
+        return false;
+        }
         }
 
         function showFieldError(field, message) {
-            const errorElement = field.parentElement.querySelector('.error-message') || 
-                                 document.getElementById(field.id + '_error');
-            if (errorElement) {
-                errorElement.textContent = message;
-                errorElement.classList.remove('hidden');
-                field.classList.add('border-red-500', 'focus:ring-red-500');
-                field.classList.remove('border-gray-300', 'focus:ring-deuraligreen');
-                // Ensure aria-describedby includes error element
-                const describedBy = field.getAttribute('aria-describedby') || '';
-                if (!describedBy.includes(errorElement.id)) {
-                    field.setAttribute('aria-describedby', 
-                        (describedBy ? describedBy + ' ' : '') + errorElement.id);
-                }
-                field.setAttribute('aria-invalid', 'true');
-            }
+        const errorElement = field.parentElement.querySelector('.error-message') ||
+        document.getElementById(field.id + '_error');
+        if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.classList.remove('hidden');
+        field.classList.add('border-red-500', 'focus:ring-red-500');
+        field.classList.remove('border-gray-300', 'focus:ring-deuraligreen');
+        // Ensure aria-describedby includes error element
+        const describedBy = field.getAttribute('aria-describedby') || '';
+        if (!describedBy.includes(errorElement.id)) {
+        field.setAttribute('aria-describedby',
+        (describedBy ? describedBy + ' ' : '') + errorElement.id);
+        }
+        field.setAttribute('aria-invalid', 'true');
+        }
         }
 
         function clearFieldError(field) {
-            const errorElement = field.parentElement.querySelector('.error-message') || 
-                                 document.getElementById(field.id + '_error');
-            if (errorElement) {
-                errorElement.classList.add('hidden');
-                errorElement.textContent = '';
-                field.classList.remove('border-red-500', 'focus:ring-red-500');
-                field.classList.add('border-gray-300', 'focus:ring-deuraligreen');
-                field.setAttribute('aria-invalid', 'false');
-            }
+        const errorElement = field.parentElement.querySelector('.error-message') ||
+        document.getElementById(field.id + '_error');
+        if (errorElement) {
+        errorElement.classList.add('hidden');
+        errorElement.textContent = '';
+        field.classList.remove('border-red-500', 'focus:ring-red-500');
+        field.classList.add('border-gray-300', 'focus:ring-deuraligreen');
+        field.setAttribute('aria-invalid', 'false');
+        }
         }
 
         function getFieldLabel(fieldName) {
-            const labels = {
-                'name': 'Name',
-                'email': 'Email',
-                'phone': 'Phone',
-                'subject': 'Subject',
-                'message': 'Message'
-            };
-            return labels[fieldName] || fieldName;
+        const labels = {
+        'name': 'Name',
+        'email': 'Email',
+        'phone': 'Phone',
+        'subject': 'Subject',
+        'message': 'Message'
+        };
+        return labels[fieldName] || fieldName;
         }
 
         function hideAllMessages() {
-            successMessage.classList.add('hidden');
-            errorMessage.classList.add('hidden');
-            validationErrors.classList.add('hidden');
+        successMessage.classList.add('hidden');
+        errorMessage.classList.add('hidden');
+        validationErrors.classList.add('hidden');
         }
 
         function showSuccessMessage() {
-            hideAllMessages();
-            successMessage.classList.remove('hidden');
-            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        hideAllMessages();
+        successMessage.classList.remove('hidden');
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            // Also show sticky notice
-            showSuccess("Thank you! Your message has been sent successfully.", "Message Sent");
+        // Also show sticky notice
+        showSuccess("Thank you! Your message has been sent successfully.", "Message Sent");
         }
 
         function showErrorMessage(message) {
-            hideAllMessages();
-            errorDetails.textContent = message;
-            errorMessage.classList.remove('hidden');
-            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        hideAllMessages();
+        errorDetails.textContent = message;
+        errorMessage.classList.remove('hidden');
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            // Also show sticky notice
-            showError(message, "Error");
+        // Also show sticky notice
+        showError(message, "Error");
         }
 
         function showValidationErrors(errors) {
-            hideAllMessages();
-            validationList.innerHTML = '';
+        hideAllMessages();
+        validationList.innerHTML = '';
 
-            Object.keys(errors).forEach(field => {
-                errors[field].forEach(error => {
-                    const li = document.createElement('li');
-                    li.textContent = `${getFieldLabel(field)}: ${error}`;
-                    validationList.appendChild(li);
-                });
-                // Also show field-level errors
-                const fieldElement = form.querySelector(`[name="${field}"]`);
-                if (fieldElement && errors[field].length > 0) {
-                    showFieldError(fieldElement, errors[field][0]);
-                }
-            });
+        Object.keys(errors).forEach(field => {
+        errors[field].forEach(error => {
+        const li = document.createElement('li');
+        li.textContent = `${getFieldLabel(field)}: ${error}`;
+        validationList.appendChild(li);
+        });
+        // Also show field-level errors
+        const fieldElement = form.querySelector(`[name="${field}"]`);
+        if (fieldElement && errors[field].length > 0) {
+        showFieldError(fieldElement, errors[field][0]);
+        }
+        });
 
-            validationErrors.classList.remove('hidden');
-            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        validationErrors.classList.remove('hidden');
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         function setLoadingState(loading) {
-            if (loading) {
-                submitButton.disabled = true;
-                buttonText.textContent = 'Sending...';
-                buttonIcon.classList.add('hidden');
-                loadingIcon.classList.remove('hidden');
-                submitButton.classList.add('opacity-75');
-            } else {
-                submitButton.disabled = false;
-                buttonText.textContent = 'Send Message';
-                buttonIcon.classList.remove('hidden');
-                loadingIcon.classList.add('hidden');
-                submitButton.classList.remove('opacity-75');
-            }
+        if (loading) {
+        submitButton.disabled = true;
+        buttonText.textContent = 'Sending...';
+        buttonIcon.classList.add('hidden');
+        loadingIcon.classList.remove('hidden');
+        submitButton.classList.add('opacity-75');
+        } else {
+        submitButton.disabled = false;
+        buttonText.textContent = 'Send Message';
+        buttonIcon.classList.remove('hidden');
+        loadingIcon.classList.add('hidden');
+        submitButton.classList.remove('opacity-75');
+        }
         }
 
         form.addEventListener('submit', function (event) {
-            event.preventDefault();
+        event.preventDefault();
 
-            try {
-                // Validate all fields
-                let isValid = true;
-                const errors = {};
+        try {
+        // Validate all fields
+        let isValid = true;
+        const errors = {};
 
-                formFields.forEach(field => {
-                    let fieldValid = true;
-                    try {
-                        if (field.type === 'file') {
-                            fieldValid = validateFileField(field);
-                        } else {
-                            fieldValid = validateField(field);
-                        }
-                    } catch (error) {
-                        console.error('Validation error for field:', field.name, error);
-                        fieldValid = false;
-                    }
+        formFields.forEach(field => {
+        let fieldValid = true;
+        try {
+        if (field.type === 'file') {
+        fieldValid = validateFileField(field);
+        } else {
+        fieldValid = validateField(field);
+        }
+        } catch (error) {
+        console.error('Validation error for field:', field.name, error);
+        fieldValid = false;
+        }
 
-                    if (!fieldValid) {
-                        isValid = false;
-                        const fieldName = field.name;
-                        if (!errors[fieldName]) {
-                            errors[fieldName] = [];
-                        }
-                        const errorElement = field.parentElement.querySelector('.error-message') || 
-                                           document.getElementById(field.id + '_error');
-                        if (errorElement && !errorElement.classList.contains('hidden') && errorElement.textContent) {
-                            errors[fieldName].push(errorElement.textContent);
-                        }
-                    }
-                });
+        if (!fieldValid) {
+        isValid = false;
+        const fieldName = field.name;
+        if (!errors[fieldName]) {
+        errors[fieldName] = [];
+        }
+        const errorElement = field.parentElement.querySelector('.error-message') ||
+        document.getElementById(field.id + '_error');
+        if (errorElement && !errorElement.classList.contains('hidden') && errorElement.textContent) {
+        errors[fieldName].push(errorElement.textContent);
+        }
+        }
+        });
 
-                if (!isValid) {
-                    showValidationErrors(errors);
-                    return;
-                }
+        if (!isValid) {
+        showValidationErrors(errors);
+        return;
+        }
 
-                setLoadingState(true);
-                hideAllMessages();
+        setLoadingState(true);
+        hideAllMessages();
 
-                const formData = new FormData(form);
-                const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+        const formData = new FormData(form);
+        const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
 
-                fetch(form.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': csrftoken,
-                        'X-Requested-With': 'XMLHttpRequest',
-                    },
-                    body: formData
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
+        fetch(form.action, {
+        method: 'POST',
+        headers: {
+        'X-CSRFToken': csrftoken,
+        'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: formData
+        })
+        .then(response => {
+        if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-                        // Check if response is JSON
-                        const contentType = response.headers.get('content-type');
-                        if (contentType && contentType.includes('application/json')) {
-                            return response.json();
-                        } else {
-                            return response.text().then(text => {
-                                throw new Error('Server returned non-JSON response');
-                            });
-                        }
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            showSuccessMessage();
-                            // Explicitly clear file inputs
-                            formFields.forEach(field => {
-                                if (field.type === 'file') {
-                                    field.value = '';
-                                }
-                                clearFieldError(field);
-                            });
-                            form.reset();
-                            // Clear character counter
-                            const messageField = form.querySelector('[name="message"]');
-                            if (messageField) {
-                                const charCount = document.getElementById(messageField.id + '_char_count');
-                                if (charCount) {
-                                    charCount.textContent = '';
-                                }
-                            }
-                        } else {
-                            if (data.errors) {
-                                showValidationErrors(data.errors);
-                            } else {
-                                showErrorMessage(data.message || 'An error occurred while sending your message.');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Form submission error:', error);
-                        showErrorMessage('Network error. Please check your connection and try again.');
-                    })
-                    .finally(() => {
-                        setLoadingState(false);
-                    });
-            } catch (error) {
-                console.error('Form submission error:', error);
-                setLoadingState(false);
-                showErrorMessage('An unexpected error occurred. Please try again.');
-            }
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+        return response.json();
+        } else {
+        return response.text().then(text => {
+        throw new Error('Server returned non-JSON response');
+        });
+        }
+        })
+        .then(data => {
+        if (data.success) {
+        showSuccessMessage();
+        // Explicitly clear file inputs
+        formFields.forEach(field => {
+        if (field.type === 'file') {
+        field.value = '';
+        }
+        clearFieldError(field);
+        });
+        form.reset();
+        // Clear character counter
+        const messageField = form.querySelector('[name="message"]');
+        if (messageField) {
+        const charCount = document.getElementById(messageField.id + '_char_count');
+        if (charCount) {
+        charCount.textContent = '';
+        }
+        }
+        } else {
+        if (data.errors) {
+        showValidationErrors(data.errors);
+        } else {
+        showErrorMessage(data.message || 'An error occurred while sending your message.');
+        }
+        }
+        })
+        .catch(error => {
+        console.error('Form submission error:', error);
+        showErrorMessage('Network error. Please check your connection and try again.');
+        })
+        .finally(() => {
+        setLoadingState(false);
+        });
+        } catch (error) {
+        console.error('Form submission error:', error);
+        setLoadingState(false);
+        showErrorMessage('An unexpected error occurred. Please try again.');
+        }
         });
 
         // Track form changes for beforeunload warning
         let formHasData = false;
         formFields.forEach(field => {
-            field.addEventListener('input', function() {
-                formHasData = true;
-            });
+        field.addEventListener('input', function() {
+        formHasData = true;
+        });
         });
 
         window.addEventListener('beforeunload', function(e) {
-            if (formHasData) {
-                e.preventDefault();
-                e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
-                return e.returnValue;
-            }
+        if (formHasData) {
+        e.preventDefault();
+        e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+        return e.returnValue;
+        }
         });
 
         // Reset formHasData flag after successful submission
         const originalShowSuccessMessage = showSuccessMessage;
         showSuccessMessage = function() {
-            formHasData = false;
-            originalShowSuccessMessage();
+        formHasData = false;
+        originalShowSuccessMessage();
         };
-    });
+        });
 
-    // Modern Toggle Switch functionality for Map Locations (consolidated into main DOMContentLoaded)
-    document.addEventListener('DOMContentLoaded', function () {
+        // Modern Toggle Switch functionality for Map Locations (consolidated into main DOMContentLoaded)
+        document.addEventListener('DOMContentLoaded', function () {
         const mapToggleMain = document.getElementById('map-toggle-main');
         const mapToggleService = document.getElementById('map-toggle-service');
         const mapToggleSlider = document.getElementById('map-toggle-slider');
         const mapIframe = document.getElementById('location-map-iframe');
         const mapLoading = document.getElementById('map-loading');
-        
+
         if (!mapToggleMain || !mapToggleService || !mapIframe) return;
-        
+
         let currentLocation = 'main'; // Track current location
 
         // Map sources
         const mapSources = {
-            main: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp',
-            service: 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp'
+        main:
+        'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp',
+        service:
+        'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp'
         };
 
         function updateToggleState(location) {
-            if (!mapToggleMain || !mapToggleService || !mapToggleSlider) return;
+        if (!mapToggleMain || !mapToggleService || !mapToggleSlider) return;
 
-            currentLocation = location;
-            const isMain = location === 'main';
-            
-            // Both buttons have fixed width, so use that for calculations
-            const buttonWidth = mapToggleMain.offsetWidth || 160;
-            
-            // Update slider position with smooth animation
-            if (isMain) {
-                mapToggleSlider.style.transform = 'translateX(0)';
-                mapToggleSlider.style.backgroundColor = '#059669'; // deuraligreen
-            } else {
-                // Move slider to the position of the Service Center button
-                mapToggleSlider.style.transform = `translateX(${buttonWidth}px)`;
-                mapToggleSlider.style.backgroundColor = '#dc2626'; // bhanjyangred
-            }
+        currentLocation = location;
+        const isMain = location === 'main';
 
-            // Update button text colors for better contrast
-            if (isMain) {
-                mapToggleMain.classList.remove('text-gray-600');
-                mapToggleMain.classList.add('text-white');
-                mapToggleMain.setAttribute('aria-pressed', 'true');
-                mapToggleService.classList.remove('text-white');
-                mapToggleService.classList.add('text-gray-600');
-                mapToggleService.setAttribute('aria-pressed', 'false');
-            } else {
-                mapToggleService.classList.remove('text-gray-600');
-                mapToggleService.classList.add('text-white');
-                mapToggleService.setAttribute('aria-pressed', 'true');
-                mapToggleMain.classList.remove('text-white');
-                mapToggleMain.classList.add('text-gray-600');
-                mapToggleMain.setAttribute('aria-pressed', 'false');
-            }
+        // Both buttons have fixed width, so use that for calculations
+        const buttonWidth = mapToggleMain.offsetWidth || 160;
+
+        // Update slider position with smooth animation
+        if (isMain) {
+        mapToggleSlider.style.transform = 'translateX(0)';
+        mapToggleSlider.style.backgroundColor = '#059669'; // deuraligreen
+        } else {
+        // Move slider to the position of the Service Center button
+        mapToggleSlider.style.transform = `translateX(${buttonWidth}px)`;
+        mapToggleSlider.style.backgroundColor = '#dc2626'; // bhanjyangred
+        }
+
+        // Update button text colors for better contrast
+        if (isMain) {
+        mapToggleMain.classList.remove('text-gray-600');
+        mapToggleMain.classList.add('text-white');
+        mapToggleMain.setAttribute('aria-pressed', 'true');
+        mapToggleService.classList.remove('text-white');
+        mapToggleService.classList.add('text-gray-600');
+        mapToggleService.setAttribute('aria-pressed', 'false');
+        } else {
+        mapToggleService.classList.remove('text-gray-600');
+        mapToggleService.classList.add('text-white');
+        mapToggleService.setAttribute('aria-pressed', 'true');
+        mapToggleMain.classList.remove('text-white');
+        mapToggleMain.classList.add('text-gray-600');
+        mapToggleMain.setAttribute('aria-pressed', 'false');
+        }
         }
 
         function switchMap(location) {
-            if (!mapIframe || currentLocation === location) return;
+        if (!mapIframe || currentLocation === location) return;
 
-            const newSrc = mapSources[location];
-            if (newSrc && newSrc !== mapIframe.src) {
-                // Show loading spinner
-                if (mapLoading) {
-                    mapLoading.classList.remove('hidden');
-                    mapIframe.style.opacity = '0.3';
-                }
+        const newSrc = mapSources[location];
+        if (newSrc && newSrc !== mapIframe.src) {
+        // Show loading spinner
+        if (mapLoading) {
+        mapLoading.classList.remove('hidden');
+        mapIframe.style.opacity = '0.3';
+        }
 
-                // Update toggle state
-                updateToggleState(location);
+        // Update toggle state
+        updateToggleState(location);
 
-                // Change map source
-                mapIframe.src = newSrc;
+        // Change map source
+        mapIframe.src = newSrc;
 
-                // Use iframe load event instead of fixed timeout
-                const handleMapLoad = function() {
-                    if (mapLoading) {
-                        mapLoading.classList.add('hidden');
-                        mapIframe.style.opacity = '1';
-                    }
-                    mapIframe.removeEventListener('load', handleMapLoad);
-                };
-                
-                mapIframe.addEventListener('load', handleMapLoad);
-                
-                // Fallback timeout in case load event doesn't fire
-                setTimeout(() => {
-                    if (mapLoading && !mapLoading.classList.contains('hidden')) {
-                        mapLoading.classList.add('hidden');
-                        mapIframe.style.opacity = '1';
-                    }
-                }, MAP_LOAD_TIMEOUT);
-            }
+        // Use iframe load event instead of fixed timeout
+        const handleMapLoad = function() {
+        if (mapLoading) {
+        mapLoading.classList.add('hidden');
+        mapIframe.style.opacity = '1';
+        }
+        mapIframe.removeEventListener('load', handleMapLoad);
+        };
+
+        mapIframe.addEventListener('load', handleMapLoad);
+
+        // Fallback timeout in case load event doesn't fire
+        setTimeout(() => {
+        if (mapLoading && !mapLoading.classList.contains('hidden')) {
+        mapLoading.classList.add('hidden');
+        mapIframe.style.opacity = '1';
+        }
+        }, MAP_LOAD_TIMEOUT);
+        }
         }
 
         // Event listeners for toggle buttons with keyboard support
         if (mapToggleMain) {
-            mapToggleMain.setAttribute('role', 'button');
-            mapToggleMain.setAttribute('aria-pressed', 'true');
-            mapToggleMain.setAttribute('tabindex', '0');
-            mapToggleMain.addEventListener('click', function() {
-                switchMap('main');
-            });
-            mapToggleMain.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    switchMap('main');
-                }
-            });
+        mapToggleMain.setAttribute('role', 'button');
+        mapToggleMain.setAttribute('aria-pressed', 'true');
+        mapToggleMain.setAttribute('tabindex', '0');
+        mapToggleMain.addEventListener('click', function() {
+        switchMap('main');
+        });
+        mapToggleMain.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        switchMap('main');
+        }
+        });
         }
 
         if (mapToggleService) {
-            mapToggleService.setAttribute('role', 'button');
-            mapToggleService.setAttribute('aria-pressed', 'false');
-            mapToggleService.setAttribute('tabindex', '0');
-            mapToggleService.addEventListener('click', function() {
-                switchMap('service');
-            });
-            mapToggleService.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    switchMap('service');
-                }
-            });
+        mapToggleService.setAttribute('role', 'button');
+        mapToggleService.setAttribute('aria-pressed', 'false');
+        mapToggleService.setAttribute('tabindex', '0');
+        mapToggleService.addEventListener('click', function() {
+        switchMap('service');
+        });
+        mapToggleService.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        switchMap('service');
+        }
+        });
         }
 
         // Initialize with Main Office selected
         // Use setTimeout to ensure DOM is fully rendered before calculating widths
         setTimeout(() => {
-            updateToggleState('main');
+        updateToggleState('main');
         }, 100);
-    });
-</script>
-{% endblock extra_js %}
+        });
+        </script>
+        {% endblock extra_js %}

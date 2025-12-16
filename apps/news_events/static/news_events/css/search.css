@@ -1,0 +1,11 @@
+.search-pattern-bg {
+    background-image: url("/static/images/pattern-light.png");
+}
+
+.category-icon-bg {
+    background-color: rgba(var(--category-color-rgb), 0.2);
+}
+
+.category-icon {
+    color: var(--category-color);
+}

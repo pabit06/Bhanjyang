@@ -30,7 +30,7 @@
     <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
         <!-- Logo Section -->
         <a href="{% url 'home:index' %}" class="flex items-center space-x-3 group py-2 gsap-fade-in">
-            <img src="{% static 'images/Logo.png' %}" alt="Bhanjyang Cooperative Logo"
+            <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative Logo"
                 class="h-9 w-auto object-contain hover-scale hover-rotate md:h-12 gsap-slide-up" loading="eager"
                 width="150" height="50" decoding="async">
             <div class="flex flex-col justify-center">
@@ -55,7 +55,7 @@
 
                 <!-- About Us Dropdown Menu -->
                 <div class="group relative">
-                    <a href="{% url 'home:about' %}"
+                    <a href="{% url 'about:home' %}"
                         class="nav-link nav-link-underline {% if url_name == 'about' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred flex items-center font-montserrat focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2 rounded px-1"
                         {% if url_name == 'about' %}aria-current="page"{% endif %}
                         aria-haspopup="true" aria-expanded="false" id="about-dropdown-trigger">
@@ -65,13 +65,13 @@
                     <div
                         class="absolute hidden group-hover:block group-focus-within:block bg-white shadow-lg rounded-md mt-2 py-2 w-56 transition-all duration-300 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transform -translate-y-2 group-hover:translate-y-0 group-focus-within:translate-y-0 z-50"
                         role="menu" aria-labelledby="about-dropdown-trigger">
-                        <a href="{% url 'home:about' %}#our-story"
+                        <a href="{% url 'about:home' %}#our-story"
                             class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred focus:outline-none focus:bg-gray-100 focus:text-bhanjyangred focus:ring-2 focus:ring-deuraligreen rounded mx-2"
                             role="menuitem">Our Story</a>
-                        <a href="{% url 'home:about' %}#vision-mission"
+                        <a href="{% url 'about:home' %}#vision-mission"
                             class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred focus:outline-none focus:bg-gray-100 focus:text-bhanjyangred focus:ring-2 focus:ring-deuraligreen rounded mx-2"
                             role="menuitem">Vision & Mission</a>
-                        <a href="{% url 'home:about' %}#testimonials"
+                        <a href="{% url 'about:home' %}#testimonials"
                             class="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred focus:outline-none focus:bg-gray-100 focus:text-bhanjyangred focus:ring-2 focus:ring-deuraligreen rounded mx-2"
                             role="menuitem">Member Testimonials</a>
                     </div>
@@ -158,11 +158,11 @@
                         <i class="fas fa-chevron-down transition-transform duration-200"></i>
                     </button>
                     <div id="mobile-about-dropdown" class="hidden pl-4 pt-2 space-y-2">
-                        <a href="{% url 'home:about' %}#our-story"
+                        <a href="{% url 'about:home' %}#our-story"
                             class="block py-2 px-4 text-gray-600 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat text-sm">Our Story</a>
-                        <a href="{% url 'home:about' %}#vision-mission"
+                        <a href="{% url 'about:home' %}#vision-mission"
                             class="block py-2 px-4 text-gray-600 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat text-sm">Vision & Mission</a>
-                        <a href="{% url 'home:about' %}#testimonials"
+                        <a href="{% url 'about:home' %}#testimonials"
                             class="block py-2 px-4 text-gray-600 hover:text-bhanjyangred hover:bg-gray-50 rounded-lg transition-all duration-200 font-montserrat text-sm">Member Testimonials</a>
                     </div>
                 </div>

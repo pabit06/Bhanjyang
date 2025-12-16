@@ -386,7 +386,7 @@ class ContentAnalyticsAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 # Register with custom admin site
-from apps.core.admin_site import admin_site
+from apps.admin.admin_site import admin_site
 
 admin_site.register(Category, CategoryAdmin)
 admin_site.register(NewsArticle, NewsArticleAdmin)

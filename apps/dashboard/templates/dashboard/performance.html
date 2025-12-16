@@ -3,147 +3,11 @@
 
 {% block title %}Performance Dashboard - Bhanjyang Cooperative{% endblock %}
 
-{% block meta_description %}Comprehensive performance monitoring dashboard with load times, database queries, API responses, and memory usage{% endblock %}
-
-{% block breadcrumbs %}
-{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
-{% endblock %}
+{% block meta_description %}Comprehensive performance monitoring dashboard with load times, database queries, API
+responses, and memory usage{% endblock %}
 
 {% block extra_css %}
-<style>
-    .dashboard-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-    }
-    
-    .metric-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .metric-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-    
-    .metric-value {
-        font-size: 2.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .performance-excellent { color: #10b981; }
-    .performance-good { color: #f59e0b; }
-    .performance-poor { color: #ef4444; }
-    
-    .chart-container {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .dashboard-nav {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    }
-    
-    .nav-item {
-        display: inline-block;
-        padding: 0.5rem 1rem;
-        margin: 0 0.25rem;
-        border-radius: 8px;
-        text-decoration: none;
-        color: #374151;
-        transition: all 0.3s ease;
-    }
-    
-    .nav-item:hover, .nav-item.active {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-    }
-    
-    .real-time-indicator {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background: #10b981;
-        border-radius: 50%;
-        animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
-    }
-    
-    .loading-skeleton {
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: loading 1.5s infinite;
-    }
-    
-    @keyframes loading {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-    }
-    
-    .performance-table {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    }
-    
-    .performance-table th {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        padding: 1rem;
-        font-weight: 600;
-    }
-    
-    .performance-table td {
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid #e5e7eb;
-    }
-    
-    .performance-table tr:hover {
-        background: #f9fafb;
-    }
-    
-    @media (max-width: 768px) {
-        .dashboard-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-        
-        .metric-card {
-            padding: 1rem;
-        }
-        
-        .chart-container {
-            height: 200px;
-        }
-        
-        .nav-item {
-            display: block;
-            margin: 0.25rem 0;
-        }
-    }
-</style>
+<link rel="stylesheet" href="{% static 'dashboard/css/performance.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -154,14 +18,16 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-4xl font-bold text-white mb-2">Performance Dashboard</h1>
-                    <p class="text-white/80 text-lg">Monitor load times, database queries, API responses, and memory usage</p>
+                    <p class="text-white/80 text-lg">Monitor load times, database queries, API responses, and memory
+                        usage</p>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center space-x-2 text-white">
                         <span class="real-time-indicator"></span>
                         <span class="text-sm">Live Data</span>
                     </div>
-                    <button id="refresh-btn" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-all">
+                    <button id="refresh-btn"
+                        class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-all">
                         <i class="fas fa-sync-alt"></i>
                     </button>
                 </div>
@@ -186,7 +52,8 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Avg Load Time</p>
-                        <p class="metric-value {% if performance_metrics.avg_load_time_today <= performance_thresholds.excellent_load_time %}performance-excellent{% elif performance_metrics.avg_load_time_today <= performance_thresholds.good_load_time %}performance-good{% else %}performance-poor{% endif %}">
+                        <p
+                            class="metric-value {% if performance_metrics.avg_load_time_today <= performance_thresholds.excellent_load_time %}performance-excellent{% elif performance_metrics.avg_load_time_today <= performance_thresholds.good_load_time %}performance-good{% else %}performance-poor{% endif %}">
                             {{ performance_metrics.avg_load_time_today|floatformat:0 }}ms
                         </p>
                         <p class="text-xs text-gray-500 mt-1">Today</p>
@@ -202,7 +69,8 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">DB Query Time</p>
-                        <p class="metric-value {% if db_performance.avg_time <= 100 %}performance-excellent{% elif db_performance.avg_time <= 500 %}performance-good{% else %}performance-poor{% endif %}">
+                        <p
+                            class="metric-value {% if db_performance.avg_time <= 100 %}performance-excellent{% elif db_performance.avg_time <= 500 %}performance-good{% else %}performance-poor{% endif %}">
                             {{ db_performance.avg_time|floatformat:0 }}ms
                         </p>
                         <p class="text-xs text-gray-500 mt-1">Average</p>
@@ -218,7 +86,8 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">API Response</p>
-                        <p class="metric-value {% if api_performance.avg_time <= 200 %}performance-excellent{% elif api_performance.avg_time <= 1000 %}performance-good{% else %}performance-poor{% endif %}">
+                        <p
+                            class="metric-value {% if api_performance.avg_time <= 200 %}performance-excellent{% elif api_performance.avg_time <= 1000 %}performance-good{% else %}performance-poor{% endif %}">
                             {{ api_performance.avg_time|floatformat:0 }}ms
                         </p>
                         <p class="text-xs text-gray-500 mt-1">Average</p>
@@ -234,7 +103,8 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Memory Usage</p>
-                        <p class="metric-value {% if memory_usage.avg_usage <= 100 %}performance-excellent{% elif memory_usage.avg_usage <= 500 %}performance-good{% else %}performance-poor{% endif %}">
+                        <p
+                            class="metric-value {% if memory_usage.avg_usage <= 100 %}performance-excellent{% elif memory_usage.avg_usage <= 500 %}performance-good{% else %}performance-poor{% endif %}">
                             {{ memory_usage.avg_usage|floatformat:0 }}MB
                         </p>
                         <p class="text-xs text-gray-500 mt-1">Average</p>
@@ -260,7 +130,8 @@
                 </div>
                 <div class="relative">
                     <canvas id="performanceChart" width="400" height="200"></canvas>
-                    <div id="chart-loading" class="absolute inset-0 flex items-center justify-center bg-white/80 hidden">
+                    <div id="chart-loading"
+                        class="absolute inset-0 flex items-center justify-center bg-white/80 hidden">
                         <div class="loading-skeleton w-full h-32 rounded"></div>
                     </div>
                 </div>
@@ -277,7 +148,8 @@
                 </div>
                 <div class="relative">
                     <canvas id="memoryChart" width="400" height="200"></canvas>
-                    <div id="memory-chart-loading" class="absolute inset-0 flex items-center justify-center bg-white/80 hidden">
+                    <div id="memory-chart-loading"
+                        class="absolute inset-0 flex items-center justify-center bg-white/80 hidden">
                         <div class="loading-skeleton w-full h-32 rounded"></div>
                     </div>
                 </div>
@@ -312,25 +184,27 @@
                                 </div>
                             </td>
                             <td class="text-right">
-                                <span class="{% if page.avg_load_time <= performance_thresholds.excellent_load_time %}text-green-600{% elif page.avg_load_time <= performance_thresholds.good_load_time %}text-yellow-600{% else %}text-red-600{% endif %} font-medium">
+                                <span
+                                    class="{% if page.avg_load_time <= performance_thresholds.excellent_load_time %}text-green-600{% elif page.avg_load_time <= performance_thresholds.good_load_time %}text-yellow-600{% else %}text-red-600{% endif %} font-medium">
                                     {{ page.avg_load_time|floatformat:0 }}ms
                                 </span>
                             </td>
                             <td class="text-right text-gray-600">{{ page.count }}</td>
                             <td class="text-center">
-                                {% if page.avg_load_time <= performance_thresholds.excellent_load_time %}
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                        <i class="fas fa-check-circle mr-1"></i>Excellent
+                                {% if page.avg_load_time <= performance_thresholds.excellent_load_time %} <span
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-check-circle mr-1"></i>Excellent
                                     </span>
-                                {% elif page.avg_load_time <= performance_thresholds.good_load_time %}
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    {% elif page.avg_load_time <= performance_thresholds.good_load_time %} <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                         <i class="fas fa-exclamation-triangle mr-1"></i>Good
-                                    </span>
-                                {% else %}
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                        <i class="fas fa-times-circle mr-1"></i>Poor
-                                    </span>
-                                {% endif %}
+                                        </span>
+                                        {% else %}
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            <i class="fas fa-times-circle mr-1"></i>Poor
+                                        </span>
+                                        {% endif %}
                             </td>
                         </tr>
                         {% empty %}
@@ -408,180 +282,5 @@
 
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const dashboard = new PerformanceDashboard();
-    dashboard.init();
-});
-
-class PerformanceDashboard {
-    constructor() {
-        this.charts = {};
-        this.refreshInterval = 30000; // 30 seconds
-    }
-
-    init() {
-        this.initCharts();
-        this.initEventListeners();
-        this.startAutoRefresh();
-        this.loadInitialData();
-    }
-
-    initCharts() {
-        // Performance Chart
-        const perfCtx = document.getElementById('performanceChart').getContext('2d');
-        this.charts.performance = new Chart(perfCtx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Load Time (ms)',
-                    data: [],
-                    borderColor: 'rgb(59, 130, 246)',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        }
-                    }
-                }
-            }
-        });
-
-        // Memory Chart
-        const memoryCtx = document.getElementById('memoryChart').getContext('2d');
-        this.charts.memory = new Chart(memoryCtx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: [{
-                    label: 'Memory Usage (MB)',
-                    data: [],
-                    borderColor: 'rgb(16, 185, 129)',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)'
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    initEventListeners() {
-        // Chart button clicks
-        document.querySelectorAll('.chart-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                this.loadChartData(e.target.dataset.metric);
-            });
-        });
-
-        // Refresh button
-        document.getElementById('refresh-btn').addEventListener('click', () => {
-            this.refreshData();
-        });
-    }
-
-    startAutoRefresh() {
-        setInterval(() => {
-            this.refreshData();
-        }, this.refreshInterval);
-    }
-
-    async loadInitialData() {
-        try {
-            await this.loadChartData('load_time');
-            await this.loadChartData('memory_usage');
-        } catch (error) {
-            console.error('Error loading initial data:', error);
-        }
-    }
-
-    async loadChartData(metricType) {
-        const loadingEl = document.getElementById(`chart-loading`);
-        if (loadingEl) loadingEl.classList.remove('hidden');
-
-        try {
-            const response = await fetch(`/dashboard/api/performance/?metric=${metricType}&days=7`);
-            const data = await response.json();
-
-            if (metricType === 'load_time' || metricType === 'db_performance' || metricType === 'api_performance') {
-                this.updatePerformanceChart(data);
-            } else if (metricType === 'memory_usage' || metricType === 'cpu_usage') {
-                this.updateMemoryChart(data);
-            }
-        } catch (error) {
-            console.error(`Error loading ${metricType} data:`, error);
-        } finally {
-            if (loadingEl) loadingEl.classList.add('hidden');
-        }
-    }
-
-    updatePerformanceChart(data) {
-        this.charts.performance.data.labels = data.labels || [];
-        this.charts.performance.data.datasets[0].data = data.data || [];
-        this.charts.performance.update();
-    }
-
-    updateMemoryChart(data) {
-        this.charts.memory.data.labels = data.labels || [];
-        this.charts.memory.data.datasets[0].data = data.data || [];
-        this.charts.memory.update();
-    }
-
-    async refreshData() {
-        const refreshBtn = document.getElementById('refresh-btn');
-        refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        
-        try {
-            await this.loadInitialData();
-        } catch (error) {
-            console.error('Error refreshing data:', error);
-        } finally {
-            refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
-        }
-    }
-}
-</script>
+<script src="{% static 'dashboard/js/performance.js' %}"></script>
 {% endblock %}

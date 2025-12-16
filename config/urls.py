@@ -1,13 +1,20 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import render
+from django.urls import path, include
+from django.views.generic import RedirectView
 # These two imports are necessary for serving media files during development
 from django.conf import settings
 from django.conf.urls.static import static
-from apps.core.admin_site import admin_site
+from django.contrib.staticfiles.storage import staticfiles_storage
+from apps.admin.admin_site import admin_site
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from two_factor.urls import urlpatterns as tf_urls
 
 urlpatterns = [
+    # Favicon redirect
+    path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url('favicon/favicon.ico'), permanent=True)),
+    
+    path('', include(tf_urls)),
     path('admin/', admin_site.urls),
     path('about/', include('apps.about.urls')),
     path('search/', include('apps.search.urls')),
@@ -20,15 +27,10 @@ urlpatterns = [
     # Gallery app
     path('gallery/', include('apps.gallery.urls')),
     
-    # Member management system - Archived
-    # path('members/', include('apps.members.urls')),
     
     # API URLs
     path('api/v1/', include('apps.services.api_urls')),
     path('api/v1/about/', include('apps.about.api_urls')),
-    # path('api/v1/news-events/', include('apps.news_events.api_urls')),
-    # path('api/v1/contact/', include('apps.contact.api_urls')),
-    # path('api/v1/downloads/', include('apps.downloads.api_urls')),
     
     # Health check endpoints
     path('health/', include('apps.core.urls')),

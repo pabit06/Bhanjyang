@@ -249,7 +249,7 @@ class LeadershipMessageAdmin(admin.ModelAdmin):
 
 
 # Register with custom admin site
-from apps.core.admin_site import admin_site
+from apps.admin.admin_site import admin_site
 
 admin_site.register(CooperativeInfo, CooperativeInfoAdmin)
 admin_site.register(CooperativeTimeline, CooperativeTimelineAdmin)

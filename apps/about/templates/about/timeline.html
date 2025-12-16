@@ -3,84 +3,201 @@
 
 {% block title %}Timeline - Bhanjyang Cooperative{% endblock title %}
 
-{% block meta_description %}Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our key milestones, achievements, and growth journey over the years.{% endblock meta_description %}
+{% block meta_description %}Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our key
+milestones, achievements, and growth journey over the years.{% endblock meta_description %}
 
-{% block meta_keywords %}bhanjyang cooperative timeline, milestones, history, achievements, growth, development, cooperative journey{% endblock meta_keywords %}
+{% block meta_keywords %}bhanjyang cooperative timeline, milestones, history, achievements, growth, development,
+cooperative journey{% endblock meta_keywords %}
 
-{% block breadcrumbs %}
-{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
-{% endblock breadcrumbs %}
 
 {% block content %}
-<section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8">
-    <div class="container mx-auto text-center z-10">
-        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">Our Timeline</h1>
-        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">Key milestones in our journey of growth and community service.</p>
-    </div>
-</section>
+<style>
+    .hexagon-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
 
-<section class="py-16 bg-gray-50 px-4 sm:px-6 lg:px-8">
+    .hexagon-wrapper {
+        position: relative;
+        width: 300px;
+        height: 340px;
+        margin: -40px 10px;
+        /* Overlap and spacing */
+        transition: transform 0.3s ease;
+        z-index: 10;
+    }
+
+    .hexagon-wrapper:hover {
+        transform: scale(1.05);
+        z-index: 20;
+    }
+
+    .hexagon {
+        width: 100%;
+        height: 100%;
+        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2.5rem;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    /* Colors cycling pattern */
+    .bg-cycle-0 {
+        background-color: #3b82f6;
+    }
+
+    /* Blue */
+    .bg-cycle-1 {
+        background-color: #10b981;
+    }
+
+    /* Green */
+    .bg-cycle-2 {
+        background-color: #8b5cf6;
+    }
+
+    /* Purple/Violet */
+    .bg-cycle-3 {
+        background-color: #f59e0b;
+    }
+
+    /* Amber/Orange */
+    .bg-cycle-4 {
+        background-color: #ef4444;
+    }
+
+    /* Red */
+    .bg-cycle-5 {
+        background-color: #06b6d4;
+    }
+
+    /* Cyan/Teal */
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .hexagon-wrapper {
+            margin: 10px 0;
+        }
+    }
+</style>
+
+<section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <div class="container mx-auto text-center mb-12">
+        <div class="border-2 border-gray-300 p-4 inline-block mb-8 w-full max-w-4xl">
+            <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat text-navy-900">Timeline Infographic</h1>
+            <p class="text-gray-500 mt-2">Make a big impact with our professional slides and charts</p>
+        </div>
+    </div>
+
     <div class="container mx-auto">
         {% if page_obj %}
-            <div class="max-w-4xl mx-auto">
-                {% for event in page_obj %}
-                <div class="flex items-start mb-12 animated-element animate-in-up delay-{{ forloop.counter|add:"0" }}00">
-                    <div class="flex-shrink-0 w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mr-8">
-                        <i class="fas fa-calendar text-white text-xl"></i>
-                    </div>
-                    <div class="flex-grow bg-white p-8 rounded-lg shadow-lg hover-lift">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-2xl font-bold text-deuraligreen">{{ event.title }}</h3>
-                            <span class="text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">{{ event.event_date|date:"F d, Y" }}</span>
-                        </div>
-                        <div class="mb-4">
-                            <span class="inline-block bg-{{ event.event_type|default:'deuraligreen' }} text-white text-xs px-3 py-1 rounded-full mb-3">
-                                {{ event.get_event_type_display }}
-                            </span>
-                        </div>
-                        <p class="text-gray-600 leading-relaxed mb-4">{{ event.description }}</p>
-                        {% if event.image %}
-                            <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-64 object-cover rounded-lg">
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
+        <div class="hexagon-container relative">
+            <!-- Connectors Line Background -->
+            <div
+                class="absolute top-1/2 left-0 w-full h-1 border-t-4 border-dotted border-gray-300 transform -translate-y-1/2 hidden md:block -z-10">
             </div>
 
-            <!-- Pagination -->
-            {% if page_obj.has_other_pages %}
-            <div class="flex justify-center mt-12">
-                <nav class="flex items-center space-x-2">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
-                            <i class="fas fa-angle-double-left"></i>
-                        </a>
-                        <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
-                            <i class="fas fa-angle-left"></i>
-                        </a>
+            {% for event in page_obj %}
+            <div
+                class="hexagon-wrapper animated-element animate-in-up delay-{{ forloop.counter }}00 group {% if forloop.counter|divisibleby:2 %} mt-16 {% else %} -mt-16 {% endif %} md:ml-[-50px] first:ml-0">
+                <!-- Connector Line (for stacking) -->
+                {% if not forloop.first %}
+                <div class="hidden md:block absolute top-1/2 -left-8 w-16 h-1 bg-gray-300 -z-10"></div>
+                {% endif %}
+
+                <div
+                    class="hexagon relative shadow-xl overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105 {% if not event.image %} {% cycle 'bg-cycle-0' 'bg-cycle-1' 'bg-cycle-2' 'bg-cycle-3' 'bg-cycle-4' 'bg-cycle-5' %} {% else %} bg-gray-800 {% endif %}">
+
+                    {% if event.image %}
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 z-0 opacity-40 transition-opacity duration-300 group-hover:opacity-30">
+                        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="w-full h-full object-cover" loading="lazy" decoding="async">
+                    </div>
+                    <!-- Gradient Overlay -->
+                    <div class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/50 to-black/80"></div>
                     {% endif %}
-                    
-                    <span class="px-4 py-2 text-gray-600">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                    </span>
-                    
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
-                            <i class="fas fa-angle-right"></i>
-                        </a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
-                            <i class="fas fa-angle-double-right"></i>
-                        </a>
-                    {% endif %}
-                </nav>
+
+                    <div class="relative z-20 flex flex-col items-center justify-center h-full w-full p-6">
+                        <!-- Icon -->
+                        <div class="mb-3 transform group-hover:scale-110 transition-transform duration-300">
+                            <i
+                                class="fas {% cycle 'fa-project-diagram' 'fa-briefcase' 'fa-chart-line' 'fa-cogs' 'fa-rocket' 'fa-users' %} text-white text-4xl drop-shadow-md"></i>
+                        </div>
+
+                        <h2 class="text-3xl sm:text-4xl font-bold mb-1 text-white drop-shadow-lg">{{
+                            event.event_date|date:"Y" }}</h2>
+                        <h3
+                            class="text-lg sm:text-xl font-semibold mb-2 text-white/90 text-center leading-tight drop-shadow-md">
+                            {{ event.title }}</h3>
+
+                        <p class="text-xs sm:text-sm text-center text-white/80 line-clamp-3 max-w-[80%] font-light">
+                            {{ event.description|truncatewords:15 }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Decorative Icon below -->
+                {% if forloop.counter|divisibleby:2 %}
+                <div
+                    class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-gray-300 text-2xl hidden md:block">
+                    <i class="fas fa-caret-down"></i>
+                </div>
+                {% else %}
+                <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 text-gray-300 text-2xl hidden md:block">
+                    <i class="fas fa-caret-up"></i>
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="flex justify-center mt-12">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page=1"
+                    class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+                <a href="?page={{ page_obj.previous_page_number }}"
+                    class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+                {% endif %}
+
+                <span class="px-4 py-2 text-gray-600">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"
+                    class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"
+                    class="px-3 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+
         {% else %}
-            <div class="text-center py-16">
-                <i class="fas fa-history text-6xl text-gray-300 mb-4"></i>
-                <p class="text-gray-600 text-xl scroll-animate">No timeline events are available yet.</p>
-                <p class="text-gray-500 mt-2">Timeline events will be added as they become available.</p>
-            </div>
+        <div class="text-center py-16">
+            <i class="fas fa-history text-6xl text-gray-300 mb-4"></i>
+            <p class="text-gray-600 text-xl">No timeline events are available yet.</p>
+        </div>
         {% endif %}
     </div>
 </section>

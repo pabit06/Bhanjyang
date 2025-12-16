@@ -42,7 +42,7 @@
             </div>
 
             <form action="{% url 'contact:kym_form' %}" method="POST" enctype="multipart/form-data" class="space-y-8">
-                {% csrf_token %}
+                <input type="hidden" name="csrfmiddlewaretoken" id="kym-form-csrf-token" value="{{ csrf_token }}">
 
                 <!-- Section 1: Personal Details -->
                 <div class="border-b-2 border-gray-200 pb-6">

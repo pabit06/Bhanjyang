@@ -1,0 +1,119 @@
+/* Enhanced Swiper Navigation Buttons */
+.swiper-button-next,
+.swiper-button-prev {
+    width: 48px !important;
+    height: 48px !important;
+    margin-top: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    color: white !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(8px);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 20px !important;
+    font-weight: bold;
+}
+
+.swiper-button-next {
+    right: 20px !important;
+}
+
+.swiper-button-prev {
+    left: 20px !important;
+}
+
+/* Enhanced Pagination */
+.swiper-pagination-bullet {
+    width: 12px !important;
+    height: 12px !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    opacity: 1 !important;
+    transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+    background: white !important;
+    width: 32px !important;
+    border-radius: 6px !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        width: 36px !important;
+        height: 36px !important;
+    }
+
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 16px !important;
+    }
+
+    .swiper-button-next {
+        right: 10px !important;
+    }
+
+    .swiper-button-prev {
+        left: 10px !important;
+    }
+}
+
+/* Ensure hero text is always visible */
+.swiper-slide h1,
+.swiper-slide h2,
+.swiper-slide p {
+    position: relative;
+    z-index: 20 !important;
+    color: white !important;
+    opacity: 1 !important;
+}
+
+/* Override scroll-animate opacity for hero section */
+.swiper-slide .scroll-animate {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* Ensure text-reveal doesn't hide content */
+.swiper-slide .text-reveal {
+    opacity: 1 !important;
+}
+
+.swiper-slide .text-reveal span {
+    transform: translateY(0) !important;
+}
+
+/* Ensure About Us section image is visible */
+.animated-element.animate-in-left {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+}
+
+/* Scroll indicator styling */
+.scroll-indicator {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    pointer-events: none;
+}
+
+@media (min-width: 768px) {
+    .scroll-indicator {
+        bottom: 3rem;
+    }
+}

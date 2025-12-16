@@ -1,0 +1,263 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Download Analytics - {{ block.super }}{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .analytics-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #28A745;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #28A745;
+        }
+        .stat-label {
+            color: #6B7280;
+            font-size: 0.875rem;
+            margin-top: 4px;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .category-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+        .priority-urgent { background-color: #EF4444; color: white; }
+        .priority-high { background-color: #F59E0B; color: white; }
+        .priority-medium { background-color: #3B82F6; color: white; }
+        .priority-low { background-color: #6B7280; color: white; }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-container">
+    <div class="analytics-card">
+        <h1 style="margin: 0; font-size: 1.875rem; font-weight: bold;">
+            📊 Download Analytics Dashboard
+        </h1>
+        <p style="margin: 8px 0 0 0; opacity: 0.9;">
+            Comprehensive insights into your downloadable files and user engagement
+        </p>
+    </div>
+
+    <!-- Overview Statistics -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_files }}</div>
+                <div class="stat-label">📁 Total Files</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ active_files }}</div>
+                <div class="stat-label">✅ Active Files</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ featured_files }}</div>
+                <div class="stat-label">⭐ Featured Files</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ recent_uploads }}</div>
+                <div class="stat-label">🆕 Recent Uploads (30 days)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h3 style="margin-top: 0; color: #374151;">📊 Files by Category</h3>
+                <canvas id="categoryChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h3 style="margin-top: 0; color: #374151;">🎯 Files by Priority</h3>
+                <canvas id="priorityChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Statistics -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h3 style="margin-top: 0; color: #374151;">📈 Category Breakdown</h3>
+                <div class="category-stats">
+                    {% for stat in category_stats %}
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #E5E7EB;">
+                        <span style="font-weight: 500;">{{ stat.category }}</span>
+                        <span class="category-badge" style="background-color: #3B82F6; color: white;">
+                            {{ stat.count }} files
+                        </span>
+                    </div>
+                    {% empty %}
+                    <p style="color: #6B7280; text-align: center; padding: 20px;">No category data available</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h3 style="margin-top: 0; color: #374151;">⚡ Priority Distribution</h3>
+                <div class="priority-stats">
+                    {% for stat in priority_stats %}
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #E5E7EB;">
+                        <span style="font-weight: 500;">{{ stat.priority }}</span>
+                        <span class="category-badge priority-{{ stat.priority|lower }}">
+                            {{ stat.count }} files
+                        </span>
+                    </div>
+                    {% empty %}
+                    <p style="color: #6B7280; text-align: center; padding: 20px;">No priority data available</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Info -->
+    <div class="chart-container">
+        <h3 style="margin-top: 0; color: #374151;">ℹ️ Additional Information</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div style="text-align: center; padding: 16px;">
+                    <div style="font-size: 1.5rem; color: #EF4444;">{{ expired_files }}</div>
+                    <div style="color: #6B7280; font-size: 0.875rem;">⏰ Expired Files</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="text-align: center; padding: 16px;">
+                    <div style="font-size: 1.5rem; color: #F59E0B;">{{ total_files|add:"-1"|add:active_files }}</div>
+                    <div style="color: #6B7280; font-size: 0.875rem;">📊 Total Downloads</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div style="text-align: center; padding: 16px;">
+                    <div style="font-size: 1.5rem; color: #10B981;">{{ active_files|floatformat:0|add:"0"|floatformat:1 }}</div>
+                    <div style="color: #6B7280; font-size: 0.875rem;">📈 Active Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Category Chart
+const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+const categoryChart = new Chart(categoryCtx, {
+    type: 'doughnut',
+    data: {
+        labels: [
+            {% for stat in category_stats %}
+                '{{ stat.category }}',
+            {% endfor %}
+        ],
+        datasets: [{
+            data: [
+                {% for stat in category_stats %}
+                    {{ stat.count }},
+                {% endfor %}
+            ],
+            backgroundColor: [
+                '#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', 
+                '#EF4444', '#06B6D4', '#F97316', '#6B7280'
+            ],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 20,
+                    usePointStyle: true
+                }
+            }
+        }
+    }
+});
+
+// Priority Chart
+const priorityCtx = document.getElementById('priorityChart').getContext('2d');
+const priorityChart = new Chart(priorityCtx, {
+    type: 'bar',
+    data: {
+        labels: [
+            {% for stat in priority_stats %}
+                '{{ stat.priority }}',
+            {% endfor %}
+        ],
+        datasets: [{
+            label: 'Number of Files',
+            data: [
+                {% for stat in priority_stats %}
+                    {{ stat.count }},
+                {% endfor %}
+            ],
+            backgroundColor: [
+                '#EF4444', '#F59E0B', '#3B82F6', '#6B7280'
+            ],
+            borderColor: [
+                '#DC2626', '#D97706', '#2563EB', '#4B5563'
+            ],
+            borderWidth: 1,
+            borderRadius: 4
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

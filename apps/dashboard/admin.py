@@ -3,7 +3,7 @@ from .models import (
     PerformanceMetric, PageView, ErrorLog, UserSession, PerformanceReport,
     PerformanceAlert, AlertLog, DashboardWidget, UserDashboardPreference, AuditLog
 )
-from apps.core.admin_site import admin_site
+from apps.admin.admin_site import admin_site
 
 @admin.register(PerformanceMetric)
 class PerformanceMetricAdmin(admin.ModelAdmin):

@@ -8,8 +8,8 @@
     <meta name="robots" content="noindex, nofollow">
     <link rel="stylesheet" href="{% static 'dist/output.css' %}">
     <link rel="stylesheet" href="{% static 'css/about-animations.css' %}">
-    <link rel="stylesheet" href="{% static 'css/advanced-animations.css' %}">
-    <link rel="stylesheet" href="{% static 'css/dark-mode.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities/advanced-animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities/dark-mode.css' %}">
 {% endblock extra_head %}
 
 {% block content %}
@@ -80,7 +80,7 @@
 {% endblock content %}
 
 {% block extra_js %}
-    <script src="{% static 'js/dark-mode.js' %}"></script>
+    <script src="{% static 'js/utilities/dark-mode.js' %}"></script>
     <script>
         // Offline page functionality
         class OfflinePage {

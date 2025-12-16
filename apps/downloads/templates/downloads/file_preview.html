@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ file.title }} - Preview - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}{{ file.description|truncatewords:20 }}{% endblock meta_description %}
+{% block meta_keywords %}{{ file.title }}, {{ file.get_category_display }}, Preview, Bhanjyang Cooperative{% endblock meta_keywords %}
+
+{% block extra_css %}
+<style>
+    .preview-container {
+        min-height: 80vh;
+        background: #f8f9fa;
+    }
+    .preview-header {
+        background: linear-gradient(135deg, #28A745 0%, #DC3545 100%);
+        color: white;
+        padding: 2rem 0;
+    }
+    .preview-content {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin: 2rem 0;
+    }
+    .preview-iframe {
+        width: 100%;
+        height: 70vh;
+        border: none;
+    }
+    .preview-actions {
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+    }
+    .file-info-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .file-type-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .file-type-pdf { background-color: #EF4444; color: white; }
+    .file-type-jpg, .file-type-jpeg, .file-type-png { background-color: #8B5CF6; color: white; }
+    .file-type-gif { background-color: #10B981; color: white; }
+    
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.5rem;
+        margin: 0.25rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+    .action-btn-primary {
+        background: linear-gradient(135deg, #28A745 0%, #20C997 100%);
+        color: white;
+    }
+    .action-btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        color: white;
+    }
+    .action-btn-secondary {
+        background: #6C757D;
+        color: white;
+    }
+    .action-btn-secondary:hover {
+        background: #5A6268;
+        color: white;
+    }
+    .action-btn-outline {
+        background: transparent;
+        border: 2px solid #28A745;
+        color: #28A745;
+    }
+    .action-btn-outline:hover {
+        background: #28A745;
+        color: white;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .stat-item {
+        text-align: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28A745;
+    }
+    .stat-label {
+        font-size: 0.875rem;
+        color: #6C757D;
+        margin-top: 0.25rem;
+    }
+    
+    @media (max-width: 768px) {
+        .preview-iframe {
+            height: 50vh;
+        }
+        .preview-header h1 {
+            font-size: 1.5rem;
+        }
+        .action-btn {
+            width: 100%;
+            justify-content: center;
+            margin: 0.25rem 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="preview-container">
+    <!-- Preview Header -->
+    <div class="preview-header">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-bold font-montserrat mb-2">{{ file.title }}</h1>
+                    <p class="text-lg opacity-90">{{ file.get_category_display }}</p>
+                </div>
+                <div class="text-right">
+                    <span class="file-type-badge file-type-{{ file.file_type }}">
+                        {{ file.file_type|upper }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4">
+        <!-- File Information -->
+        <div class="file-info-card">
+            <div class="flex flex-wrap items-center justify-between mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">File Information</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% if file.is_featured %}
+                        <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
+                            ⭐ Featured
+                        </span>
+                    {% endif %}
+                    {% if file.requires_login %}
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
+                            🔒 Login Required
+                        </span>
+                    {% endif %}
+                    {% if file.is_expired %}
+                        <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
+                            ⏰ Expired
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if file.description %}
+                <p class="text-gray-700 mb-4">{{ file.description }}</p>
+            {% endif %}
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">{{ file.file_size }}</div>
+                    <div class="stat-label">File Size</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ file.download_count }}</div>
+                    <div class="stat-label">Downloads</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ file.view_count }}</div>
+                    <div class="stat-label">Views</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ file.access_count }}</div>
+                    <div class="stat-label">Total Access</div>
+                </div>
+            </div>
+            
+            {% if file.tags %}
+                <div class="mt-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">Tags:</h4>
+                    <div class="flex flex-wrap gap-2">
+                        {% for tag in file.tag_list %}
+                            <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Preview Content -->
+        <div class="preview-content">
+            {% if file.file_type == 'pdf' %}
+                <iframe src="{{ preview_url }}" class="preview-iframe" title="{{ file.title }}"></iframe>
+            {% elif file.file_type in 'jpg,jpeg,png,gif' %}
+                <div class="text-center p-8">
+                    <img src="{{ preview_url }}" alt="{{ file.title }}" class="max-w-full max-h-96 mx-auto rounded-lg shadow-lg">
+                </div>
+            {% else %}
+                <div class="text-center p-8">
+                    <div class="text-gray-500">
+                        <i class="fas fa-file-alt text-6xl mb-4"></i>
+                        <h3 class="text-xl font-semibold mb-2">Preview Not Available</h3>
+                        <p class="text-gray-600">This file type cannot be previewed in the browser.</p>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <!-- Preview Actions -->
+            <div class="preview-actions">
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="{% url 'downloads:download_file' file.pk %}" class="action-btn action-btn-primary">
+                        <i class="fas fa-download mr-2"></i>
+                        Download File
+                    </a>
+                    <a href="{% url 'downloads:file_detail' file.pk %}" class="action-btn action-btn-outline">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        View Details
+                    </a>
+                    <a href="{% url 'downloads:download_center' %}" class="action-btn action-btn-secondary">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Downloads
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Auto-resize iframe for better mobile experience
+document.addEventListener('DOMContentLoaded', function() {
+    const iframe = document.querySelector('.preview-iframe');
+    if (iframe) {
+        // Add loading state
+        iframe.addEventListener('load', function() {
+            this.style.opacity = '1';
+        });
+        
+        // Set initial opacity
+        iframe.style.opacity = '0';
+        iframe.style.transition = 'opacity 0.3s ease';
+    }
+});
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        window.location.href = "{% url 'downloads:download_center' %}";
+    }
+    if (e.key === 'd' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        window.location.href = "{% url 'downloads:download_file' file.pk %}";
+    }
+});
+</script>
+{% endblock %}

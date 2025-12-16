@@ -106,7 +106,7 @@ class UserSession(models.Model):
     """Model to track user sessions and behavior"""
     
     session_id = models.CharField(max_length=100, unique=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='dashboard_user_sessions')
     ip_address = models.GenericIPAddressField()
     user_agent = models.TextField()
     start_time = models.DateTimeField(default=timezone.now)

@@ -1,0 +1,115 @@
+<div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 {{ border_class }} flex flex-col h-full animated-element animate-in-up relative">
+    <!-- Bulk Download Checkbox -->
+    <div class="absolute top-4 right-4 z-10">
+        <input type="checkbox" 
+               class="file-checkbox w-5 h-5 text-deuraligreen bg-gray-100 border-gray-300 rounded focus:ring-deuraligreen focus:ring-2" 
+               data-file-id="{{ file.pk }}"
+               onchange="updateSelection()">
+    </div>
+    
+    <!-- Featured Badge -->
+    {% if file.is_featured %}
+    <div class="absolute top-4 right-12 z-10">
+        <span class="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center">
+            <i class="fas fa-star mr-1"></i> Featured
+        </span>
+    </div>
+    {% endif %}
+
+    <!-- Priority Badge -->
+    {% if file.priority == 'URG' %}
+    <div class="absolute top-4 left-4 z-10">
+        <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <i class="fas fa-exclamation-triangle mr-1"></i> Urgent
+        </span>
+    </div>
+    {% elif file.priority == 'HIGH' %}
+    <div class="absolute top-4 left-4 z-10">
+        <span class="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <i class="fas fa-arrow-up mr-1"></i> High
+        </span>
+    </div>
+    {% endif %}
+
+    <div class="p-4 flex-grow">
+        <div class="flex items-start mb-4">
+            <div class="bg-gray-50 p-2 rounded-lg mr-3">
+                {% if file.thumbnail %}
+                    <img src="{{ file.thumbnail.url }}" alt="{{ file.title }}" class="w-12 h-12 object-cover rounded">
+                {% else %}
+                    <i class="fas {{ icon_class }} text-3xl {{ text_class }}" aria-hidden="true"></i>
+                {% endif %}
+            </div>
+            <div class="flex-grow">
+                <h3 class="text-xl font-bold text-gray-900 font-montserrat leading-tight mb-2">{{ file.title }}</h3>
+                <div class="flex flex-wrap gap-2 mb-2">
+                    <p class="text-sm font-semibold {{ text_class }} {{ bg_class }} px-3 py-1 rounded-full inline-block">{{ file.get_category_display }}</p>
+                    {% if file.requires_login %}
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                        <i class="fas fa-lock mr-1"></i> Login Required
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <p class="text-gray-600 text-base leading-relaxed mb-4">{{ file.description|truncatewords:20 }}</p>
+
+        <div class="bg-gray-50 rounded-lg p-3">
+            <h4 class="text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                <i class="fas fa-info-circle text-deuraligreen mr-2"></i>File Details
+            </h4>
+            <ul class="space-y-2 text-sm text-gray-600">
+                <li class="flex justify-between items-center">
+                    <span class="flex items-center">
+                        <i class="fas fa-calendar-alt text-gray-400 mr-2"></i>Uploaded:
+                    </span> 
+                    <strong class="text-gray-800">{{ file.uploaded_at|date:"M d, Y" }}</strong>
+                </li>
+                <li class="flex justify-between items-center">
+                    <span class="flex items-center">
+                        <i class="fas fa-file text-gray-400 mr-2"></i>Type:
+                    </span> 
+                    <strong class="text-gray-800 uppercase">{{ file.file_type }}</strong>
+                </li>
+                <li class="flex justify-between items-center">
+                    <span class="flex items-center">
+                        <i class="fas fa-weight text-gray-400 mr-2"></i>Size:
+                    </span> 
+                    <strong class="text-gray-800">{{ file.file_size }}</strong>
+                </li>
+                <li class="flex justify-between items-center">
+                    <span class="flex items-center">
+                        <i class="fas fa-download text-gray-400 mr-2"></i>Downloads:
+                    </span> 
+                    <strong class="text-gray-800">{{ file.download_count }}</strong>
+                </li>
+                {% if file.expires_at %}
+                <li class="flex justify-between items-center">
+                    <span class="flex items-center">
+                        <i class="fas fa-clock text-gray-400 mr-2"></i>Expires:
+                    </span> 
+                    <strong class="text-gray-800">{{ file.expires_at|date:"M d, Y" }}</strong>
+                </li>
+                {% endif %}
+            </ul>
+            
+            {% if file.tag_list %}
+            <div class="mt-3 pt-3 border-t border-gray-200">
+                <div class="flex flex-wrap gap-1">
+                    {% for tag in file.tag_list %}
+                        <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded-full">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="p-4 bg-gray-50 rounded-b-lg mt-auto">
+        <a href="{% url 'downloads:download_file' file.pk %}"
+           class="block w-full bg-deuraligreen hover:bg-bhanjyangred text-white font-semibold py-3 px-4 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out text-center group">
+            <i class="fas fa-download mr-2 group-hover:animate-bounce" aria-hidden="true"></i> 
+            Download File
+        </a>
+    </div>
+</div>

@@ -45,7 +45,7 @@
 
                 <!-- Traditional Login Form -->
                 <form method="post" class="space-y-4">
-                    {% csrf_token %}
+                    <input type="hidden" name="csrfmiddlewaretoken" id="social-login-csrf-token" value="{{ csrf_token }}">
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
                         <input type="text" name="username" id="username" required 

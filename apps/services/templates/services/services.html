@@ -3,15 +3,17 @@
 
 {% block title %}Financial Services - Bhanjyang Cooperative{% endblock title %}
 
-{% block meta_description %}भञ्ज्याङ सहकारीको वित्तीय सेवाहरू। बचत खाता, ऋण सेवा, सदस्य राहत कार्यक्रम, र अन्य वित्तीय समाधानहरू। प्रतिस्पर्धी ब्याज दरमा।{% endblock meta_description %}
+{% block meta_description %}भञ्ज्याङ सहकारीको वित्तीय सेवाहरू। बचत खाता, ऋण सेवा, सदस्य राहत कार्यक्रम, र अन्य वित्तीय
+समाधानहरू। प्रतिस्पर्धी ब्याज दरमा।{% endblock meta_description %}
 
-{% block meta_keywords %}financial services, savings account, credit services, loan services, member relief, cooperative banking, nepal financial services, kaski banking{% endblock meta_keywords %}
+{% block meta_keywords %}financial services, savings account, credit services, loan services, member relief, cooperative
+banking, nepal financial services, kaski banking{% endblock meta_keywords %}
 
 {% block og_title %}Financial Services - Bhanjyang Cooperative{% endblock og_title %}
 
 {% block og_description %}भञ्ज्याङ सहकारीको वित्तीय सेवाहरू। बचत खाता, ऋण सेवा, र अन्य वित्तीय समाधानहरू।{% endblock og_description %}
 
-{% block og_image %}{% static 'images/hero_services_illustration.png' %}{% endblock og_image %}
+{% block og_image %}{% static 'images/heroes/hero_services_illustration.png' %}{% endblock og_image %}
 
 {% block og_type %}website{% endblock og_type %}
 
@@ -19,7 +21,7 @@
 
 {% block twitter_description %}भञ्ज्याङ सहकारीको वित्तीय सेवाहरू। बचत खाता, ऋण सेवा, र अन्य वित्तीय समाधानहरू।{% endblock twitter_description %}
 
-{% block twitter_image %}{% static 'images/hero_services_illustration.png' %}{% endblock twitter_image %}
+{% block twitter_image %}{% static 'images/heroes/hero_services_illustration.png' %}{% endblock twitter_image %}
 
 {% block schema_type %}Service{% endblock schema_type %}
 
@@ -27,30 +29,32 @@
 
 {% block schema_description %}भञ्ज्याङ सहकारीको वित्तीय सेवाहरू। बचत खाता, ऋण सेवा, र अन्य वित्तीय समाधानहरू।{% endblock schema_description %}
 
-{% block schema_image %}{% static 'images/hero_services_illustration.png' %}{% endblock schema_image %}
+{% block schema_image %}{% static 'images/heroes/hero_services_illustration.png' %}{% endblock schema_image %}
 
-{% block breadcrumbs %}
-{% include 'partials/_breadcrumb.html' with breadcrumbs=breadcrumbs %}
-{% endblock breadcrumbs %}
 
 {% block content %}
 <!-- Hero Section -->
 <section class="relative bg-white text-gray-800 py-20 overflow-hidden min-h-[50vh] flex items-center">
     <div class="absolute inset-0 z-0">
-        <img src="{% static 'images/hero-bg-illustration.png' %}" alt="Abstract background illustration" class="w-full h-full object-cover opacity-10">
+        <img src="{% static 'images/backgrounds/hero-bg-illustration.png' %}" alt="Abstract background illustration"
+            class="w-full h-full object-cover opacity-10">
     </div>
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 font-montserrat text-deuraligreen drop-shadow-lg animated-element animate-in-up">
+        <h1
+            class="text-4xl md:text-6xl font-bold mb-4 font-montserrat text-deuraligreen drop-shadow-lg animated-element animate-in-up">
             Our Financial Services
-            </h1>
+        </h1>
         <p class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto animated-element animate-in-up delay-200">
-            Comprehensive financial solutions designed for the Rupa community, featuring competitive rates and member-focused support.
+            Comprehensive financial solutions designed for the Rupa community, featuring competitive rates and
+            member-focused support.
         </p>
         <div class="mt-8 flex flex-wrap justify-center gap-4 animated-element animate-in-up delay-400">
-            <a href="#all-services" class="bg-deuraligreen text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300">
+            <a href="#all-services"
+                class="bg-deuraligreen text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300">
                 Explore All Services
             </a>
-            <a href="{% url 'services:service_application' %}" class="bg-bhanjyangred text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-red-700 transition-all duration-300">
+            <a href="{% url 'services:service_application' %}"
+                class="bg-bhanjyangred text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-red-700 transition-all duration-300">
                 Apply Now
             </a>
         </div>
@@ -64,16 +68,18 @@
             <h2 class="text-3xl font-bold text-gray-800 mb-4 font-montserrat">Complete Service Portfolio</h2>
             <p class="text-lg text-gray-600">Explore all our financial products and services</p>
         </div>
-        
+
         <!-- Service Categories Grid -->
         <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-20">
             <!-- Savings -->
             <a href="{% url 'services:savings_list' %}" class="group cursor-pointer block">
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-200">
+                <div
+                    class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-200">
                     <div class="text-center mb-4">
                         <i class="fas fa-piggy-bank text-5xl text-deuraligreen"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">Savings Accounts</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">Savings Accounts
+                    </h3>
                     <div class="text-gray-700 leading-relaxed mb-4 text-center">
                         Multiple savings options with competitive interest rates up to 8%
                     </div>
@@ -82,10 +88,11 @@
                     </div>
                 </div>
             </a>
-            
+
             <!-- Fixed Deposits -->
             <a href="{% url 'services:fixed_deposit_list' %}" class="group cursor-pointer block">
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-300">
+                <div
+                    class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-300">
                     <div class="text-center mb-4">
                         <i class="fas fa-certificate text-5xl text-bhanjyangred"></i>
                     </div>
@@ -98,10 +105,11 @@
                     </div>
                 </div>
             </a>
-            
+
             <!-- Loans -->
             <a href="{% url 'services:loan_list' %}" class="group cursor-pointer block">
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-400">
+                <div
+                    class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-400">
                     <div class="text-center mb-4">
                         <i class="fas fa-hand-holding-usd text-5xl text-deuraligreen"></i>
                     </div>
@@ -114,14 +122,16 @@
                     </div>
                 </div>
             </a>
-            
+
             <!-- Remittance -->
             <a href="{% url 'services:remittance_list' %}" class="group cursor-pointer block">
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-500">
+                <div
+                    class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-500">
                     <div class="text-center mb-4">
                         <i class="fas fa-money-bill-wave text-5xl text-bhanjyangred"></i>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">Remittance Services</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">Remittance Services
+                    </h3>
                     <div class="text-gray-700 leading-relaxed mb-4 text-center">
                         Fast and secure money transfer services domestic and international
                     </div>
@@ -130,10 +140,11 @@
                     </div>
                 </div>
             </a>
-            
+
             <!-- Member Relief -->
             <a href="{% url 'services:member_relief_list' %}" class="group cursor-pointer block">
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-600">
+                <div
+                    class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen animated-element animate-in-up delay-600">
                     <div class="text-center mb-4">
                         <i class="fas fa-heart text-5xl text-deuraligreen"></i>
                     </div>
@@ -154,12 +165,15 @@
 {% if featured_savings %}
 <section class="py-20 bg-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h3 class="text-2xl font-bold text-center text-deuraligreen mb-12 font-montserrat">Our Best Savings Accounts</h3>
+        <h3 class="text-2xl font-bold text-center text-deuraligreen mb-12 font-montserrat">Our Best Savings Accounts
+        </h3>
         <div class="grid md:grid-cols-3 gap-8">
             {% for account in featured_savings %}
-            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen group">
+            <div
+                class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen group">
                 <div class="text-center mb-6">
-                    <div class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div
+                        class="w-20 h-20 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                         <i class="{{ account.icon }} text-3xl text-white"></i>
                     </div>
                     <h4 class="text-xl font-bold text-gray-800 mb-2">{{ account.nepali_name }}</h4>
@@ -170,16 +184,19 @@
                 {% if account.features %}
                 <ul class="space-y-2 text-sm text-gray-600 mb-6">
                     {% for feature in account.features|linebreaksbr|slice:":3" %}
-                    <li class="flex items-start"><i class="fas fa-check-circle text-deuraligreen mt-1 mr-2"></i><span>{{ feature|safe }}</span></li>
+                    <li class="flex items-start"><i class="fas fa-check-circle text-deuraligreen mt-1 mr-2"></i><span>{{
+                            feature|safe }}</span></li>
                     {% endfor %}
                 </ul>
                 {% endif %}
                 <div class="text-center space-y-3 mt-auto">
                     <div class="flex flex-col gap-2">
-                        <a href="{{ account.get_absolute_url }}" class="bg-deuraligreen hover:bg-opacity-90 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
+                        <a href="{{ account.get_absolute_url }}"
+                            class="bg-deuraligreen hover:bg-opacity-90 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
                             <i class="fas fa-eye mr-1"></i>View Details
                         </a>
-                        <a href="{% url 'services:service_application' %}?service_type=savings&service_id={{ account.id }}" class="bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
+                        <a href="{% url 'services:service_application' %}?service_type=savings&service_id={{ account.id }}"
+                            class="bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
                             <i class="fas fa-file-alt mr-1"></i>Apply Now
                         </a>
                     </div>
@@ -198,9 +215,11 @@
         <h3 class="text-2xl font-bold text-center text-bhanjyangred mb-12 font-montserrat">Popular Loan Products</h3>
         <div class="grid md:grid-cols-3 gap-8">
             {% for loan in featured_loans %}
-            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred group">
+            <div
+                class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred group">
                 <div class="text-center mb-6">
-                    <div class="w-20 h-20 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div
+                        class="w-20 h-20 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                         <i class="{{ loan.icon }} text-3xl text-white"></i>
                     </div>
                     <h4 class="text-xl font-bold text-gray-800 mb-2">{{ loan.nepali_name }}</h4>
@@ -217,18 +236,21 @@
                     </div>
                 </div>
                 {% if loan.benefits %}
-                 <ul class="space-y-2 text-sm text-gray-600 mb-6">
+                <ul class="space-y-2 text-sm text-gray-600 mb-6">
                     {% for benefit in loan.benefits|linebreaksbr|slice:":2" %}
-                    <li class="flex items-start"><i class="fas fa-check-circle text-deuraligreen mt-1 mr-2"></i><span>{{ benefit|safe }}</span></li>
+                    <li class="flex items-start"><i class="fas fa-check-circle text-deuraligreen mt-1 mr-2"></i><span>{{
+                            benefit|safe }}</span></li>
                     {% endfor %}
                 </ul>
                 {% endif %}
                 <div class="text-center space-y-3 mt-auto">
                     <div class="flex flex-col gap-2">
-                        <a href="{{ loan.get_absolute_url }}" class="bg-bhanjyangred hover:bg-opacity-90 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
+                        <a href="{{ loan.get_absolute_url }}"
+                            class="bg-bhanjyangred hover:bg-opacity-90 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
                             <i class="fas fa-eye mr-1"></i>View Details
                         </a>
-                        <a href="{% url 'services:service_application' %}?service_type=loan&service_id={{ loan.id }}" class="bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
+                        <a href="{% url 'services:service_application' %}?service_type=loan&service_id={{ loan.id }}"
+                            class="bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition duration-300">
                             <i class="fas fa-file-alt mr-1"></i>Apply Now
                         </a>
                     </div>
@@ -248,36 +270,42 @@
             <h3 class="text-3xl font-bold text-bhanjyangred mb-4 font-montserrat">Remittance Services</h3>
             <p class="text-lg text-gray-600">Fast, secure, and reliable money transfer solutions</p>
         </div>
-        
+
         <div class="grid md:grid-cols-3 gap-8">
             {% for remittance in remittance_services %}
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-{{ forloop.counter|add:2 }}00">
+            <div
+                class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-bhanjyangred animated-element animate-in-up delay-{{ forloop.counter|add:2 }}00">
                 <div class="text-center mb-4">
                     <i class="{{ remittance.icon }} text-5xl text-bhanjyangred"></i>
                 </div>
-                <h4 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">{{ remittance.nepali_name }}</h4>
+                <h4 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">{{
+                    remittance.nepali_name }}</h4>
                 <div class="text-gray-700 leading-relaxed mb-4 text-center">
                     {{ remittance.description|truncatewords:25 }}
                 </div>
                 <div class="text-center">
-                    <a href="{% url 'services:remittance_detail' remittance.slug %}" class="text-bhanjyangred hover:underline font-semibold">
+                    <a href="{% url 'services:remittance_detail' remittance.slug %}"
+                        class="text-bhanjyangred hover:underline font-semibold">
                         View Details <i class="fas fa-arrow-right ml-1 text-xs"></i>
                     </a>
                 </div>
             </div>
             {% endfor %}
         </div>
-        
+
         <!-- Call to Action -->
         <div class="text-center mt-16">
             <div class="bg-gradient-to-r from-bhanjyangred to-red-600 rounded-3xl p-8 shadow-2xl">
                 <h4 class="text-2xl font-bold text-white mb-4">Need Help with Money Transfer?</h4>
-                <p class="text-red-100 mb-6">Our remittance experts are here to help you send money safely and quickly.</p>
+                <p class="text-red-100 mb-6">Our remittance experts are here to help you send money safely and quickly.
+                </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="{% url 'contact:contact_view' %}" class="bg-white text-bhanjyangred font-bold py-3 px-8 rounded-2xl hover:bg-gray-100 transition-colors duration-300 shadow-lg">
+                    <a href="{% url 'contact:contact_view' %}"
+                        class="bg-white text-bhanjyangred font-bold py-3 px-8 rounded-2xl hover:bg-gray-100 transition-colors duration-300 shadow-lg">
                         <i class="fas fa-phone mr-2"></i>Contact Us
                     </a>
-                    <a href="{% url 'services:remittance_list' %}" class="border-2 border-white text-white font-bold py-3 px-8 rounded-2xl hover:bg-white hover:text-bhanjyangred transition-all duration-300">
+                    <a href="{% url 'services:remittance_list' %}"
+                        class="border-2 border-white text-white font-bold py-3 px-8 rounded-2xl hover:bg-white hover:text-bhanjyangred transition-all duration-300">
                         <i class="fas fa-exchange-alt mr-2"></i>All Services
                     </a>
                 </div>
@@ -302,19 +330,23 @@
 {% if member_reliefs %}
 <section class="py-20 bg-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h3 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">Member Relief & Support Programs</h3>
+        <h3 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">Member Relief & Support Programs
+        </h3>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {% for relief in member_reliefs %}
-            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen group">
+            <div
+                class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-deuraligreen group">
                 {% if relief.image %}
                 <div class="mb-4">
-                    <img src="{{ relief.image.url }}" alt="{{ relief.title }}" class="w-full h-40 object-cover rounded-lg" loading="lazy">
+                    <img src="{{ relief.image.url }}" alt="{{ relief.title }}"
+                        class="w-full h-40 object-cover rounded-lg" loading="lazy">
                 </div>
                 {% endif %}
                 <div class="text-center mb-4">
                     <i class="{{ relief.icon }} text-5xl text-deuraligreen"></i>
                 </div>
-                <h4 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">{{ relief.english_name }}</h4>
+                <h4 class="text-xl font-semibold text-gray-900 mb-3 font-montserrat text-center">{{ relief.english_name
+                    }}</h4>
                 <p class="text-sm text-gray-600 mb-3 text-center">{{ relief.nepali_name }}</p>
                 <div class="text-gray-700 leading-relaxed mb-4 text-center">
                     {{ relief.description|truncatewords:15 }}
@@ -341,10 +373,11 @@
             </h2>
             <p class="text-lg text-gray-600">Calculate your returns and payments instantly</p>
         </div>
-        
+
         <div class="grid md:grid-cols-3 gap-8 mb-16">
             <!-- Loan Calculator Card -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                 <div class="text-center mb-6">
                     <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-calculator text-bhanjyangred text-2xl"></i>
@@ -352,25 +385,32 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Loan EMI Calculator</h3>
                     <p class="text-sm text-gray-600">Calculate your monthly loan payments</p>
                 </div>
-                
+
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Loan Amount (NPR)</label>
-                        <input type="number" id="quick-loan-amount" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bhanjyangred focus:border-transparent" placeholder="e.g., 100000">
+                        <input type="number" id="quick-loan-amount"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bhanjyangred focus:border-transparent"
+                            placeholder="e.g., 100000">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Interest Rate (%)</label>
-                        <input type="number" id="quick-loan-rate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bhanjyangred focus:border-transparent" placeholder="e.g., 12.5" step="0.1">
+                        <input type="number" id="quick-loan-rate"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bhanjyangred focus:border-transparent"
+                            placeholder="e.g., 12.5" step="0.1">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Tenure (Years)</label>
-                        <input type="number" id="quick-loan-tenure" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bhanjyangred focus:border-transparent" placeholder="e.g., 5" min="1" max="30">
+                        <input type="number" id="quick-loan-tenure"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bhanjyangred focus:border-transparent"
+                            placeholder="e.g., 5" min="1" max="30">
                     </div>
-                    <button onclick="calculateQuickLoan()" class="w-full bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                    <button onclick="calculateQuickLoan()"
+                        class="w-full bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                         <i class="fas fa-calculator mr-2"></i>Calculate EMI
                     </button>
                 </div>
-                
+
                 <div id="quick-loan-result" class="mt-4 p-4 bg-red-50 rounded-lg hidden">
                     <div class="text-center">
                         <div class="text-2xl font-bold text-bhanjyangred" id="quick-emi-amount">NPR 0</div>
@@ -378,9 +418,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Savings Calculator Card -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                 <div class="text-center mb-6">
                     <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-piggy-bank text-deuraligreen text-2xl"></i>
@@ -388,25 +429,32 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Savings Calculator</h3>
                     <p class="text-sm text-gray-600">Calculate your savings returns</p>
                 </div>
-                
+
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Deposit (NPR)</label>
-                        <input type="number" id="quick-savings-deposit" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent" placeholder="e.g., 5000">
+                        <input type="number" id="quick-savings-deposit"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
+                            placeholder="e.g., 5000">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Interest Rate (%)</label>
-                        <input type="number" id="quick-savings-rate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent" placeholder="e.g., 8.0" step="0.1">
+                        <input type="number" id="quick-savings-rate"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
+                            placeholder="e.g., 8.0" step="0.1">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Period (Years)</label>
-                        <input type="number" id="quick-savings-period" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent" placeholder="e.g., 10" min="1" max="30">
+                        <input type="number" id="quick-savings-period"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
+                            placeholder="e.g., 10" min="1" max="30">
                     </div>
-                    <button onclick="calculateQuickSavings()" class="w-full bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                    <button onclick="calculateQuickSavings()"
+                        class="w-full bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                         <i class="fas fa-calculator mr-2"></i>Calculate Returns
                     </button>
                 </div>
-                
+
                 <div id="quick-savings-result" class="mt-4 p-4 bg-green-50 rounded-lg hidden">
                     <div class="text-center">
                         <div class="text-2xl font-bold text-deuraligreen" id="quick-maturity-amount">NPR 0</div>
@@ -414,9 +462,10 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Fixed Deposit Calculator Card -->
-            <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            <div
+                class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                 <div class="text-center mb-6">
                     <div class="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-certificate text-deuraligreen text-2xl"></i>
@@ -424,25 +473,32 @@
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Fixed Deposit Calculator</h3>
                     <p class="text-sm text-gray-600">Calculate your FD returns</p>
                 </div>
-                
+
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Deposit Amount (NPR)</label>
-                        <input type="number" id="quick-fd-amount" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent" placeholder="e.g., 100000">
+                        <input type="number" id="quick-fd-amount"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
+                            placeholder="e.g., 100000">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Interest Rate (%)</label>
-                        <input type="number" id="quick-fd-rate" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent" placeholder="e.g., 7.0" step="0.1">
+                        <input type="number" id="quick-fd-rate"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
+                            placeholder="e.g., 7.0" step="0.1">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Duration (Years)</label>
-                        <input type="number" id="quick-fd-duration" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent" placeholder="e.g., 2" min="1" max="10">
+                        <input type="number" id="quick-fd-duration"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
+                            placeholder="e.g., 2" min="1" max="10">
                     </div>
-                    <button onclick="calculateQuickFD()" class="w-full bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                    <button onclick="calculateQuickFD()"
+                        class="w-full bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                         <i class="fas fa-calculator mr-2"></i>Calculate Returns
                     </button>
                 </div>
-                
+
                 <div id="quick-fd-result" class="mt-4 p-4 bg-green-50 rounded-lg hidden">
                     <div class="text-center">
                         <div class="text-2xl font-bold text-deuraligreen" id="quick-fd-maturity">NPR 0</div>
@@ -451,10 +507,11 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Advanced Calculators Link -->
         <div class="text-center">
-            <a href="{% url 'services:loan_calculator' %}" class="inline-flex items-center bg-white text-gray-700 font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50 border border-gray-200">
+            <a href="{% url 'services:loan_calculator' %}"
+                class="inline-flex items-center bg-white text-gray-700 font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50 border border-gray-200">
                 <i class="fas fa-calculator mr-2"></i>
                 View All Calculators
                 <i class="fas fa-arrow-right ml-2"></i>
@@ -471,116 +528,24 @@
             Join thousands of satisfied members and take control of your financial future today.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="{% url 'contact:contact_view' %}" class="bg-white text-deuraligreen font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 hover:bg-gray-100">
+            <a href="{% url 'contact:contact_view' %}"
+                class="bg-white text-deuraligreen font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 hover:bg-gray-100">
                 <i class="fas fa-phone mr-2"></i>Contact Us
             </a>
-            <a href="{% url 'home:about' %}" class="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-deuraligreen transition-all duration-300">
+            <a href="{% url 'about:home' %}"
+                class="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-deuraligreen transition-all duration-300">
                 <i class="fas fa-info-circle mr-2"></i>Learn More
             </a>
         </div>
     </div>
 </section>
 
-<!-- Custom CSS for animations -->
-<style>
-    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-    .animation-delay-200 { animation-delay: 0.2s; }
-    .animation-delay-400 { animation-delay: 0.4s; }
-    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .group:hover .group-hover\:scale-110 { transform: scale(1.1); }
-</style>
-
-<!-- JavaScript for Quick Calculators -->
-<script>
-function calculateQuickLoan() {
-    const amount = parseFloat(document.getElementById('quick-loan-amount').value);
-    const rate = parseFloat(document.getElementById('quick-loan-rate').value);
-    const tenure = parseInt(document.getElementById('quick-loan-tenure').value);
-    
-    if (!amount || !rate || !tenure) {
-        alert('Please fill in all fields');
-        return;
-    }
-    
-    const monthlyRate = rate / 1200;
-    const tenureMonths = tenure * 12;
-    const emi = (amount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) / 
-                (Math.pow(1 + monthlyRate, tenureMonths) - 1);
-    
-    document.getElementById('quick-emi-amount').textContent = 'NPR ' + emi.toLocaleString('en-IN', {maximumFractionDigits: 0});
-    document.getElementById('quick-loan-result').classList.remove('hidden');
-}
-
-function calculateQuickSavings() {
-    const deposit = parseFloat(document.getElementById('quick-savings-deposit').value);
-    const rate = parseFloat(document.getElementById('quick-savings-rate').value);
-    const period = parseInt(document.getElementById('quick-savings-period').value);
-    
-    if (!deposit || !rate || !period) {
-        alert('Please fill in all fields');
-        return;
-    }
-    
-    const monthlyRate = rate / 1200;
-    const totalMonths = period * 12;
-    const maturityAmount = deposit * (((1 + monthlyRate) ** totalMonths - 1) / monthlyRate);
-    
-    document.getElementById('quick-maturity-amount').textContent = 'NPR ' + maturityAmount.toLocaleString('en-IN', {maximumFractionDigits: 0});
-    document.getElementById('quick-savings-result').classList.remove('hidden');
-}
-
-function calculateQuickFD() {
-    const amount = parseFloat(document.getElementById('quick-fd-amount').value);
-    const rate = parseFloat(document.getElementById('quick-fd-rate').value);
-    const duration = parseInt(document.getElementById('quick-fd-duration').value);
-    
-    if (!amount || !rate || !duration) {
-        alert('Please fill in all fields');
-        return;
-    }
-    
-    const annualRate = rate / 100;
-    const maturityAmount = amount * Math.pow(1 + annualRate, duration);
-    
-    document.getElementById('quick-fd-maturity').textContent = 'NPR ' + maturityAmount.toLocaleString('en-IN', {maximumFractionDigits: 0});
-    document.getElementById('quick-fd-result').classList.remove('hidden');
-}
-
-// Auto-calculate on input change
-document.addEventListener('DOMContentLoaded', function() {
-    // Loan calculator auto-update
-    ['quick-loan-amount', 'quick-loan-rate', 'quick-loan-tenure'].forEach(id => {
-        document.getElementById(id).addEventListener('input', function() {
-            if (document.getElementById('quick-loan-amount').value && 
-                document.getElementById('quick-loan-rate').value && 
-                document.getElementById('quick-loan-tenure').value) {
-                calculateQuickLoan();
-            }
-        });
-    });
-    
-    // Savings calculator auto-update
-    ['quick-savings-deposit', 'quick-savings-rate', 'quick-savings-period'].forEach(id => {
-        document.getElementById(id).addEventListener('input', function() {
-            if (document.getElementById('quick-savings-deposit').value && 
-                document.getElementById('quick-savings-rate').value && 
-                document.getElementById('quick-savings-period').value) {
-                calculateQuickSavings();
-            }
-        });
-    });
-    
-    // FD calculator auto-update
-    ['quick-fd-amount', 'quick-fd-rate', 'quick-fd-duration'].forEach(id => {
-        document.getElementById(id).addEventListener('input', function() {
-            if (document.getElementById('quick-fd-amount').value && 
-                document.getElementById('quick-fd-rate').value && 
-                document.getElementById('quick-fd-duration').value) {
-                calculateQuickFD();
-            }
-        });
-    });
-});
-</script>
 {% endblock content %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'services/css/services.css' %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+<script src="{% static 'services/js/services.js' %}"></script>
+{% endblock extra_js %}

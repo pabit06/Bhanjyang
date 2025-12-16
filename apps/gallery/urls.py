@@ -4,30 +4,29 @@ from . import views
 
 app_name = 'gallery'
 
-# Cache settings for gallery views
+# Cache settings
 CACHE_TIMEOUTS = {
     'gallery': 900,   # 15 minutes
-    'album_detail': 900, # 15 minutes
+    'album_detail': 900,
 }
 
 urlpatterns = [
-    # Main gallery views
-    path('', cache_page(CACHE_TIMEOUTS['gallery'])(views.gallery_view), name='gallery'),
-    path('vr/', views.vr_gallery_view, name='vr_gallery'),
-    path('analytics/', views.analytics_view, name='analytics'),
-    path('smart-collections/', views.smart_collections_view, name='smart_collections'),
-    path('smart-collections/<int:collection_id>/', views.smart_collection_detail_view, name='smart_collection_detail'),
-    path('auto-categorization/', views.auto_categorization_view, name='auto_categorization'),
+    # Pages
+    path('', cache_page(CACHE_TIMEOUTS['gallery'])(views.GalleryHomeView.as_view()), name='gallery'),
+    path('vr/', views.VRGalleryView.as_view(), name='vr_gallery'),
+    path('analytics/', views.GalleryAnalyticsRawView.as_view(), name='analytics'),
     
-    # API endpoints
-    path('api/smart-collections/<int:collection_id>/update/', views.update_smart_collection_api, name='update_smart_collection_api'),
-    path('api/auto-categorization/apply/', views.apply_auto_categorization_api, name='apply_auto_categorization_api'),
-    path('album/<int:album_id>/', cache_page(CACHE_TIMEOUTS['album_detail'])(views.album_detail_view), name='album_detail'),
+    path('smart-collections/', views.SmartCollectionsView.as_view(), name='smart_collections'),
+    path('smart-collections/<int:collection_id>/', views.SmartCollectionDetailView.as_view(), name='smart_collection_detail'),
+    path('auto-categorization/', views.AutoCategorizationView.as_view(), name='auto_categorization'),
     
-    # API endpoints
-    path('api/search/', views.gallery_search_api, name='gallery_search_api'),
-    path('api/categories/', views.gallery_categories_api, name='gallery_categories_api'),
-    path('api/albums/', views.gallery_albums_api, name='gallery_albums_api'),
-    path('api/analytics/', views.gallery_image_analytics, name='gallery_image_analytics'),
-    path('api/stats/', views.gallery_stats_api, name='gallery_stats_api'),
+    path('album/<int:album_id>/', cache_page(CACHE_TIMEOUTS['album_detail'])(views.AlbumDetailView.as_view()), name='album_detail'),
+
+    # APIs
+    path('api/search/', views.GallerySearchAPI.as_view(), name='gallery_search_api'),
+    path('api/stats/', views.GalleryStatsAPI.as_view(), name='gallery_stats_api'),
+    path('api/interact/', views.GalleryInteractionAPI.as_view(), name='gallery_interaction_api'),
+    
+    path('api/smart-collections/<int:collection_id>/update/', views.UpdateSmartCollectionAPI.as_view(), name='update_smart_collection_api'),
+    path('api/auto-categorization/apply/', views.ApplyAutoCategorizationAPI.as_view(), name='apply_auto_categorization_api'),
 ]

@@ -1,0 +1,36 @@
+/**
+ * Map Toggle Switch Component
+ * 
+ * Reusable toggle switch component for switching between map locations
+ * with smooth animations and accessibility features
+ */
+
+/* Modern Toggle Switch Styles */
+.map-toggle-option {
+    width: 160px; /* Fixed width to ensure both buttons are equal */
+    position: relative;
+}
+
+.map-toggle-option:hover {
+    opacity: 0.9;
+}
+
+.map-toggle-option:focus {
+    outline: 2px solid rgba(5, 150, 105, 0.5);
+    outline-offset: 2px;
+}
+
+#map-toggle-slider {
+    will-change: transform;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 160px; /* Match button width */
+}
+
+/* Smooth transitions for toggle states */
+@media (prefers-reduced-motion: no-preference) {
+    .map-toggle-option,
+    #map-toggle-slider {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+

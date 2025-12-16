@@ -8,7 +8,7 @@ class GalleryConfig(AppConfig):
     def ready(self):
         """Register gallery admin models with custom admin site"""
         try:
-            from apps.core.admin_site import register_gallery_models
+            from apps.admin.admin_site import register_gallery_models
             register_gallery_models()
         except Exception:
             # Registration will be handled at startup

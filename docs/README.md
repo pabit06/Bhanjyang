@@ -150,6 +150,51 @@ The project uses multiple settings files:
 - `coop/settings_dev.py` - Development settings
 - `coop/production.py` - Production settings
 
+## 📚 Documentation Structure
+
+The documentation is organized into the following directories:
+
+### 📖 [Guides](./guides/)
+User guides and how-to documentation:
+- [Next Steps Guide](./guides/next-steps.md) - Deployment and setup guide
+- [Error Reporting Guide](./guides/error-reporting.md) - Error reporting configuration
+- [Performance Monitoring](./guides/performance-monitoring.md) - Performance monitoring system
+- [Static Files Guide](./guides/static-files.md) - Static files organization
+- [Image Upload Guidelines](./guides/image-upload-guidelines.md) - Image upload best practices
+
+### 🔄 [Migrations](./migrations/)
+Migration and refactoring history:
+- Folder structure improvements
+- Standardization progress
+- Migration completion status
+
+### 📱 [Apps](./apps/)
+App-specific documentation:
+- [Contact App](./apps/contact-app.md) - Contact app management
+- [Gallery App](./apps/gallery/) - Gallery app documentation
+
+### 📐 [Standards](./standards/)
+Design and coding standards:
+- [Design System Standards](./standards/design-system.md) - Design system guidelines
+
+### 🚀 [Deployment](./deployment/)
+Deployment guides and configuration:
+- Production deployment
+- Docker setup
+- Nginx configuration
+
+### 💻 [Development](./development/)
+Development guides and workflows
+
+### 🔌 [API](./api/)
+API documentation:
+- REST API endpoints
+- Authentication
+- API usage examples
+
+### 📦 [Archive](./archive/)
+Historical documentation and archived files
+
 ## 📱 API Documentation
 
 ### REST API Endpoints
@@ -166,6 +211,8 @@ The project uses multiple settings files:
 - **Filtering**: Advanced filtering and search
 - **Pagination**: Page-based pagination
 - **Documentation**: Auto-generated OpenAPI docs
+
+For detailed API documentation, see [API Documentation](./api/README.md).
 
 ## 🐳 Docker Support
 
@@ -350,7 +397,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ### Getting Help
 
-- **Documentation**: Check the `/docs` directory
+- **Documentation**: Check the [Guides](./guides/) directory for how-to guides
+- **API Documentation**: See [API Documentation](./api/README.md) for API details
+- **Deployment**: See [Deployment Guide](./deployment/README.md) for deployment help
 - **Issues**: Create GitHub issues for bugs
 - **Discussions**: Use GitHub discussions for questions
 - **Email**: Contact the development team

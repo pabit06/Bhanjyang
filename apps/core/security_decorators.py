@@ -1,8 +1,10 @@
 from functools import wraps
-from django.http import JsonResponse
+from typing import Any, Callable, Dict, Optional, Tuple, Union
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.core.cache import cache
 from django.utils import timezone
 from .models import APIKey, SecurityLog
+from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
 import logging
 
 logger = logging.getLogger('coop')
@@ -12,14 +14,20 @@ class SecurityManager:
     """Minimal security utility for logging events and extracting client IP."""
 
     @staticmethod
-    def get_client_ip(request):
+    def get_client_ip(request: HttpRequest) -> str:
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         if x_forwarded_for:
             return x_forwarded_for.split(',')[0]
-        return request.META.get('REMOTE_ADDR')
+        return request.META.get('REMOTE_ADDR', '')
 
     @staticmethod
-    def log_security_event(event_type, ip_address, user=None, details=None, user_agent=None):
+    def log_security_event(
+        event_type: str, 
+        ip_address: str, 
+        user: Union[AbstractBaseUser, AnonymousUser, None] = None, 
+        details: Optional[Dict[str, Any]] = None, 
+        user_agent: Optional[str] = None
+    ) -> None:
         try:
             SecurityLog.objects.create(
                 event_type=event_type,
@@ -32,7 +40,7 @@ class SecurityManager:
             logger.warning(f"Failed to write SecurityLog: {exc}")
 
 
-def _check_api_key_rate_limit(api_key_obj):
+def _check_api_key_rate_limit(api_key_obj: APIKey) -> Tuple[bool, str]:
     """Simple hour/day rate limit using cache based on APIKey limits."""
     now = timezone.now()
     hour_bucket = now.strftime('%Y%m%d%H')
@@ -57,10 +65,10 @@ def _check_api_key_rate_limit(api_key_obj):
     cache.set(day_key, daily_count + 1, timeout=24 * 60 * 60 + 300)
     return True, "OK"
 
-def api_key_required(view_func):
+def api_key_required(view_func: Callable) -> Callable:
     """Decorator to require API key authentication"""
     @wraps(view_func)
-    def wrapper(request, *args, **kwargs):
+    def wrapper(request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         # Get API key from header
         api_key = request.META.get('HTTP_X_API_KEY')
         

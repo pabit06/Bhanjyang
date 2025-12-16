@@ -1,0 +1,339 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Event Analytics - News & Events{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin/css/news_events_admin.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="news-events-admin">
+    <div class="admin-header">
+        <h1>Event Analytics Dashboard</h1>
+        <p class="admin-subtitle">Comprehensive analytics for events and user engagement</p>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="metric-content">
+                <div class="metric-number">{{ metrics.total_events }}</div>
+                <div class="metric-label">Total Events</div>
+                <div class="metric-change {% if metrics.events_change >= 0 %}positive{% else %}negative{% endif %}">
+                    <i class="fas fa-arrow-{% if metrics.events_change >= 0 %}up{% else %}down{% endif %}"></i>
+                    {{ metrics.events_change|abs }}% from last month
+                </div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-icon">
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="metric-content">
+                <div class="metric-number">{{ metrics.total_views }}</div>
+                <div class="metric-label">Total Views</div>
+                <div class="metric-change {% if metrics.views_change >= 0 %}positive{% else %}negative{% endif %}">
+                    <i class="fas fa-arrow-{% if metrics.views_change >= 0 %}up{% else %}down{% endif %}"></i>
+                    {{ metrics.views_change|abs }}% from last month
+                </div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="metric-content">
+                <div class="metric-number">{{ metrics.featured_events }}</div>
+                <div class="metric-label">Featured Events</div>
+                <div class="metric-change positive">
+                    <i class="fas fa-percentage"></i>
+                    {{ metrics.featured_percentage }}% of total
+                </div>
+            </div>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="metric-content">
+                <div class="metric-number">{{ metrics.avg_attendance }}</div>
+                <div class="metric-label">Avg Attendance</div>
+                <div class="metric-change {% if metrics.attendance_change >= 0 %}positive{% else %}negative{% endif %}">
+                    <i class="fas fa-arrow-{% if metrics.attendance_change >= 0 %}up{% else %}down{% endif %}"></i>
+                    {{ metrics.attendance_change|abs }}% from last month
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+        <div class="chart-container">
+            <h3>Events Over Time</h3>
+            <canvas id="eventsChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h3>Event Views Distribution</h3>
+            <canvas id="viewsChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h3>Event Categories</h3>
+            <canvas id="categoriesChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h3>Monthly Event Performance</h3>
+            <canvas id="performanceChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Top Events Table -->
+    <div class="table-section">
+        <h3>Top Performing Events</h3>
+        <div class="table-container">
+            <table class="analytics-table">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Views</th>
+                        <th>Status</th>
+                        <th>Featured</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in top_events %}
+                    <tr>
+                        <td>
+                            <div class="event-info">
+                                <strong>{{ event.title }}</strong>
+                                {% if event.location %}
+                                    <small class="text-muted">{{ event.location }}</small>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="category-badge" style="background-color: {{ event.category.color }}20; color: {{ event.category.color }};">
+                                {{ event.category.name }}
+                            </span>
+                        </td>
+                        <td>{{ event.event_date|date:"M d, Y" }}</td>
+                        <td>
+                            <span class="view-count">{{ event.view_count }}</span>
+                        </td>
+                        <td>
+                            <span class="status-badge status-{{ event.status|lower }}">
+                                {{ event.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if event.is_featured %}
+                                <i class="fas fa-star text-yellow-500"></i>
+                            {% else %}
+                                <i class="fas fa-star text-gray-300"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{% url 'admin:news_events_event_change' event.id %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'news_events:event-detail' event.slug %}" class="btn btn-sm btn-info" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Event Categories Analysis -->
+    <div class="categories-section">
+        <h3>Category Performance</h3>
+        <div class="categories-grid">
+            {% for category in category_stats %}
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon" style="background-color: {{ category.color }}20;">
+                        {% if category.icon %}
+                            <i class="{{ category.icon }}" style="color: {{ category.color }};"></i>
+                        {% else %}
+                            <i class="fas fa-folder" style="color: {{ category.color }};"></i>
+                        {% endif %}
+                    </div>
+                    <div class="category-info">
+                        <h4>{{ category.name }}</h4>
+                        <p>{{ category.description|truncatewords:10 }}</p>
+                    </div>
+                </div>
+                <div class="category-stats">
+                    <div class="stat">
+                        <span class="stat-number">{{ category.event_count }}</span>
+                        <span class="stat-label">Events</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">{{ category.total_views }}</span>
+                        <span class="stat-label">Views</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">{{ category.avg_views|floatformat:1 }}</span>
+                        <span class="stat-label">Avg Views</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Export Options -->
+    <div class="export-section">
+        <h3>Export Data</h3>
+        <div class="export-buttons">
+            <a href="{% url 'admin:news_events_export_events_csv' %}" class="btn btn-outline">
+                <i class="fas fa-file-csv"></i> Export Events CSV
+            </a>
+            <a href="{% url 'admin:news_events_export_analytics_pdf' %}" class="btn btn-outline">
+                <i class="fas fa-file-pdf"></i> Export Analytics PDF
+            </a>
+            <a href="{% url 'admin:news_events_export_events_excel' %}" class="btn btn-outline">
+                <i class="fas fa-file-excel"></i> Export Events Excel
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+    {{ block.super }}
+    <script src="{% static 'admin/js/news_events_admin.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Events Over Time Chart
+            const eventsCtx = document.getElementById('eventsChart').getContext('2d');
+            new Chart(eventsCtx, {
+                type: 'line',
+                data: {
+                    labels: {{ events_over_time.labels|safe }},
+                    datasets: [{
+                        label: 'Events Created',
+                        data: {{ events_over_time.data|safe }},
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Views Distribution Chart
+            const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+            new Chart(viewsCtx, {
+                type: 'bar',
+                data: {
+                    labels: {{ views_distribution.labels|safe }},
+                    datasets: [{
+                        label: 'Views',
+                        data: {{ views_distribution.data|safe }},
+                        backgroundColor: '#059669',
+                        borderColor: '#047857',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Categories Chart
+            const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
+            new Chart(categoriesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ categories_chart.labels|safe }},
+                    datasets: [{
+                        data: {{ categories_chart.data|safe }},
+                        backgroundColor: {{ categories_chart.colors|safe }},
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Performance Chart
+            const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(performanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: {{ performance_data.labels|safe }},
+                    datasets: [{
+                        label: 'Events',
+                        data: {{ performance_data.events|safe }},
+                        backgroundColor: '#3b82f6',
+                        borderColor: '#2563eb',
+                        borderWidth: 1
+                    }, {
+                        label: 'Views',
+                        data: {{ performance_data.views|safe }},
+                        backgroundColor: '#10b981',
+                        borderColor: '#059669',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

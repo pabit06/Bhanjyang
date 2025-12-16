@@ -2,9 +2,20 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.urls import reverse
+from .analytics import *
 
+
+
+class ContentManager(models.Manager):
+    """Custom manager for content filtering"""
+    def active(self):
+        return self.get_queryset().filter(is_active=True)
+    
+    def featured(self):
+        return self.active().filter(is_featured=True)
 
 class CooperativeInfo(models.Model):
+
     """Model to store cooperative information and history"""
     
     # Basic Information
@@ -42,6 +53,9 @@ class CooperativeInfo(models.Model):
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    # Custom Managers
+    objects = ContentManager()
     
     class Meta:
         verbose_name = _("Cooperative Information")
@@ -91,10 +105,16 @@ class CooperativeTimeline(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    # Custom Managers
+    objects = ContentManager()
+
     class Meta:
         verbose_name = _("Timeline Event")
         verbose_name_plural = _("Timeline Events")
-        ordering = ['event_date', 'order']
+        ordering = ['-event_date', 'order']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured', '-event_date']),
+        ]
     
     def __str__(self):
         return f"{self.title} - {self.event_date}"
@@ -133,10 +153,16 @@ class CooperativeAchievement(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    # Custom Managers
+    objects = ContentManager()
+
     class Meta:
         verbose_name = _("Achievement")
         verbose_name_plural = _("Achievements")
         ordering = ['-received_date', 'order']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured', '-received_date']),
+        ]
     
     def __str__(self):
         return f"{self.title} - {self.awarding_organization}"
@@ -176,6 +202,9 @@ class CooperativeStatistic(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    # Custom Managers
+    objects = ContentManager()
+
     class Meta:
         verbose_name = _("Statistic")
         verbose_name_plural = _("Statistics")
@@ -215,6 +244,9 @@ class CooperativeAffiliation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    # Custom Managers
+    objects = ContentManager()
+
     class Meta:
         verbose_name = _("Affiliation")
         verbose_name_plural = _("Affiliations")
@@ -254,6 +286,9 @@ class LeadershipMessage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    # Custom Managers
+    objects = ContentManager()
+
     class Meta:
         verbose_name = _("Leadership Message")
         verbose_name_plural = _("Leadership Messages")

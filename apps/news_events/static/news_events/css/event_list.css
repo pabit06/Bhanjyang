@@ -1,0 +1,30 @@
+/* Event List Styles */
+.event-list-pattern-bg {
+    /* Note: In CSS file we can't use {% static %}. 
+       We should assume a relative path or use a variable. 
+       Usually static/images/pattern-light.png will be compiled to /static/images/pattern-light.png 
+       But CSS files are served from static directory. 
+       If this CSS is in apps/news_events/static/news_events/css/event_list.css, 
+       then relative path to global images depends on setup.
+       A common practice is to use absolute path /static/images/pattern-light.png 
+       or expect the build system to handle it.
+       Given the context, I'll use /static/images/pattern-light.png assuming standard django static setup.
+    */
+    background-image: url("/static/images/pattern-light.png");
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

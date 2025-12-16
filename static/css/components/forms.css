@@ -338,3 +338,20 @@
     background-color: transparent;
   }
 }
+
+/* Contact Form Specific Styles */
+/* Ensure all form inputs have consistent font styling */
+#contactForm input[type="text"],
+#contactForm input[type="email"],
+#contactForm input[type="tel"],
+#contactForm textarea,
+#contactForm select,
+#contactForm input[type="file"] {
+    font-size: 1rem; /* 16px - base font size */
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Ensure form field labels have consistent styling */
+#contactForm label {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

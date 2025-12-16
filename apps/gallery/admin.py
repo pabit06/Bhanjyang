@@ -32,7 +32,7 @@ from .models import (
 )
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class GalleryAlbumAdmin(admin.ModelAdmin):
     list_display = ['name', 'get_path', 'get_image_count', 'get_sub_album_count', 'is_featured', 'is_active', 'order']
     list_filter = ['is_featured', 'is_active', 'created_at', 'parent_album']
@@ -72,7 +72,7 @@ class GalleryAlbumAdmin(admin.ModelAdmin):
     get_sub_album_count.short_description = "Sub-albums"
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class GalleryImageAdmin(admin.ModelAdmin):
     list_display = [
         'get_thumbnail_link', 'title', 'album', 'category', 'is_featured', 
@@ -432,7 +432,7 @@ class GalleryImageAdmin(admin.ModelAdmin):
 
 
 # Smart Collections Admin
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class SmartCollectionAdmin(admin.ModelAdmin):
     list_display = ['name', 'get_image_count', 'is_featured', 'is_active', 'auto_update', 'last_updated']
     list_filter = ['is_featured', 'is_active', 'auto_update', 'created_at']
@@ -490,7 +490,7 @@ class SmartCollectionAdmin(admin.ModelAdmin):
     mark_as_unfeatured.short_description = "Mark as Unfeatured"
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class SmartCollectionImageAdmin(admin.ModelAdmin):
     list_display = ['collection', 'image', 'match_score', 'added_at']
     list_filter = ['collection', 'added_at']
@@ -499,7 +499,7 @@ class SmartCollectionImageAdmin(admin.ModelAdmin):
     readonly_fields = ['added_at']
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class AutoCategorizationRuleAdmin(admin.ModelAdmin):
     list_display = ['name', 'target_category', 'priority', 'is_active', 'times_applied', 'last_applied']
     list_filter = ['target_category', 'is_active', 'auto_apply', 'created_at']
@@ -558,7 +558,7 @@ class AutoCategorizationRuleAdmin(admin.ModelAdmin):
     mark_as_inactive.short_description = "Mark as Inactive"
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class ImageAnalysisJobAdmin(admin.ModelAdmin):
     list_display = ['image', 'status', 'created_at', 'completed_at']
     list_filter = ['status', 'created_at']
@@ -597,7 +597,7 @@ class ImageAnalysisJobAdmin(admin.ModelAdmin):
     mark_as_completed.short_description = "Mark as Completed"
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class GalleryImageLikeAdmin(admin.ModelAdmin):
     list_display = ['image', 'user_ip', 'session_id', 'created_at']
     list_filter = ['created_at']
@@ -606,7 +606,7 @@ class GalleryImageLikeAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class GalleryImageCommentAdmin(admin.ModelAdmin):
     list_display = ['image', 'name', 'email', 'is_approved', 'created_at']
     list_filter = ['is_approved', 'created_at']
@@ -616,7 +616,7 @@ class GalleryImageCommentAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class GalleryImageShareAdmin(admin.ModelAdmin):
     list_display = ['image', 'platform', 'user_ip', 'session_id', 'created_at']
     list_filter = ['platform', 'created_at']
@@ -625,7 +625,7 @@ class GalleryImageShareAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
 
-# Note: Models will be registered with custom admin site from apps.core.admin_site
+# Note: Models will be registered with custom admin site from apps.admin.admin_site
 class GalleryImageDownloadAdmin(admin.ModelAdmin):
     list_display = ['image', 'download_type', 'user_ip', 'session_id', 'created_at']
     list_filter = ['download_type', 'created_at']
@@ -634,5 +634,5 @@ class GalleryImageDownloadAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
 
-# Note: Admin registration is handled in apps.core.admin_site to use custom admin site
+# Note: Admin registration is handled in apps.admin.admin_site to use custom admin site
 # All gallery models are registered with the custom admin site for enhanced functionality

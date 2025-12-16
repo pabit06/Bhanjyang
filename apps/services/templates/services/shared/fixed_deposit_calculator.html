@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page_title }} - Bhanjyang Cooperative{% endblock title %}
+
+{% block meta_description %}{{ page_description }}{% endblock meta_description %}
+
+{% block content %}
+<!-- Hero Section -->
+<section
+    class="relative bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 text-white py-20 overflow-hidden hero-section">
+    <div class="parallax absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800"
+        data-speed="0.3"></div>
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 font-montserrat typing-effect scroll-animate glitch"
+            data-text="FD Calculator">
+            <span class="block">Fixed Deposit Calculator</span>
+        </h1>
+        <p class="text-xl text-purple-100 max-w-4xl mx-auto scroll-animate stagger-1">
+            Calculate your returns on fixed deposit investments
+        </p>
+    </div>
+</section>
+
+<!-- Calculator Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-xl p-8">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Calculator Form -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                            <i class="fas fa-calculator text-purple-600 mr-3"></i>
+                            Calculate FD
+                        </h2>
+
+                        <form method="post" id="fd-calculator-form">
+                            {% csrf_token %}
+
+                            <div class="space-y-6">
+                                <!-- Deposit Type -->
+                                <div>
+                                    <label for="{{ form.deposit_type.id_for_label }}"
+                                        class="block text-sm font-medium text-gray-700 mb-2">
+                                        Fixed Deposit Scheme
+                                    </label>
+                                    {{ form.deposit_type }}
+                                    {% if form.deposit_type.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.deposit_type.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Deposit Amount -->
+                                <div>
+                                    <label for="{{ form.deposit_amount.id_for_label }}"
+                                        class="block text-sm font-medium text-gray-700 mb-2">
+                                        Deposit Amount (NPR)
+                                    </label>
+                                    {{ form.deposit_amount }}
+                                    {% if form.deposit_amount.errors %}
+                                    <div class="text-red-600 text-sm mt-1">{{ form.deposit_amount.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Calculate Button -->
+                                <button type="submit"
+                                    class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                                    <i class="fas fa-calculator mr-2"></i>
+                                    Calculate Returns
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Results Display -->
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                            <i class="fas fa-chart-line text-green-600 mr-3"></i>
+                            Calculation Results
+                        </h2>
+
+                        {% if calculation %}
+                        <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-6 space-y-4">
+                            <!-- Maturity Amount -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800">Maturity Amount</h3>
+                                        <p class="text-sm text-gray-600">Total Receivable</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-2xl font-bold text-green-600">
+                                            NPR {{ calculation.maturity_amount|floatformat:0 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Principal -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800">Principal Amount</h3>
+                                        <p class="text-sm text-gray-600">Initial Investment</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl font-bold text-blue-600">
+                                            NPR {{ calculation.principal|floatformat:0 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interest Earned -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800">Interest Earned</h3>
+                                        <p class="text-sm text-gray-600">Total Interest</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl font-bold text-purple-600">
+                                            NPR {{ calculation.interest_earned|floatformat:0 }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Details -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm text-sm text-gray-600">
+                                <div class="flex justify-between mb-1">
+                                    <span>Interest Rate:</span>
+                                    <span class="font-medium">{{ calculation.annual_rate }}% Annual</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Duration:</span>
+                                    <span class="font-medium">{{ calculation.tenure_months }} Months</span>
+                                </div>
+                            </div>
+
+                            <!-- Apply Button -->
+                            {% if deposit_type %}
+                            <div class="pt-4">
+                                <a href="{% url 'services:service_application' %}?service_type=fixed_deposit&service_id={{ deposit_type.id }}"
+                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 text-center block">
+                                    <i class="fas fa-file-alt mr-2"></i>
+                                    Apply for FD
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="bg-gray-100 rounded-xl p-8 text-center">
+                            <i class="fas fa-certificate text-gray-400 text-4xl mb-4"></i>
+                            <p class="text-gray-600">Select a scheme and amount to calculate returns</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Services -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Explore Our Financial Services</h2>
+            <p class="text-lg text-gray-600">Grow your wealth with us</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <a href="{% url 'services:fixed_deposit_list' %}"
+                class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
+                <div class="text-center">
+                    <i class="fas fa-certificate text-purple-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">FD Options</h3>
+                    <p class="text-gray-600">View all our fixed deposit schemes</p>
+                </div>
+            </a>
+            <a href="{% url 'services:savings_list' %}"
+                class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
+                <div class="text-center">
+                    <i class="fas fa-piggy-bank text-green-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Savings Accounts</h3>
+                    <p class="text-gray-600">Flexible savings options for everyone</p>
+                </div>
+            </a>
+            <a href="{% url 'services:loan_list' %}"
+                class="bg-gray-50 rounded-xl p-6 shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
+                <div class="text-center">
+                    <i class="fas fa-home text-blue-600 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Home Loans</h3>
+                    <p class="text-gray-600">Finance your dream home today</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock content %}

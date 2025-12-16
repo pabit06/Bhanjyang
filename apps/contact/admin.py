@@ -268,7 +268,7 @@ class KYMSubmissionAdmin(admin.ModelAdmin):
         return False
 
 # Register with custom admin site
-from apps.core.admin_site import admin_site
+from apps.admin.admin_site import admin_site
 
 admin_site.register(ContactSubmission, ContactSubmissionAdmin)
 admin_site.register(KYMSubmission, KYMSubmissionAdmin)

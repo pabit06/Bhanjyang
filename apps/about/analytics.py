@@ -8,8 +8,8 @@ import uuid
 
 class UserSession(models.Model):
     """Track user sessions"""
-    session_id = models.UUIDField(default=uuid.uuid4, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    session_id = models.CharField(max_length=100, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='about_user_sessions')
     ip_address = models.GenericIPAddressField()
     user_agent = models.TextField()
     referrer = models.URLField(blank=True, null=True)
@@ -28,7 +28,7 @@ class UserSession(models.Model):
 
 class PageView(models.Model):
     """Track individual page views"""
-    session = models.ForeignKey(UserSession, on_delete=models.CASCADE, related_name='page_views')
+    session = models.ForeignKey(UserSession, on_delete=models.CASCADE, related_name='view_logs')
     url = models.URLField()
     path = models.CharField(max_length=500)
     title = models.CharField(max_length=200, blank=True)

@@ -1,0 +1,258 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}News & Events Analytics - {{ block.super }}{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .analytics-card {
+            background: linear-gradient(135deg, #28A745 0%, #DC3545 100%);
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border-left: 4px solid #28A745;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #28A745;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .chart-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .trend-up {
+            color: #28A745;
+        }
+        .trend-down {
+            color: #DC3545;
+        }
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-card">
+    <h1 class="text-3xl font-bold mb-2">News & Events Analytics</h1>
+    <p class="text-lg opacity-90">Comprehensive insights into your content performance</p>
+</div>
+
+<!-- Key Metrics -->
+<div class="metric-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_articles|default:0 }}</div>
+        <div class="stat-label">Total Articles</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.published_articles|default:0 }}</div>
+        <div class="stat-label">Published Articles</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_views|default:0 }}</div>
+        <div class="stat-label">Total Views</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.total_shares|default:0 }}</div>
+        <div class="stat-label">Total Shares</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.featured_articles|default:0 }}</div>
+        <div class="stat-label">Featured Articles</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ stats.avg_read_time|default:0|floatformat:1 }}</div>
+        <div class="stat-label">Avg Read Time (min)</div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Content Trends Chart -->
+    <div class="col-md-6">
+        <div class="chart-container">
+            <h3 class="mb-4">Content Trends (Last 30 Days)</h3>
+            <canvas id="trendsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    
+    <!-- Category Distribution -->
+    <div class="col-md-6">
+        <div class="chart-container">
+            <h3 class="mb-4">Articles by Category</h3>
+            <canvas id="categoryChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Popular Articles -->
+    <div class="col-md-6">
+        <div class="chart-container">
+            <h3 class="mb-4">Top 5 Popular Articles</h3>
+            <div class="space-y-3">
+                {% for article in popular_articles %}
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-800">{{ article.title|truncatechars:50 }}</h4>
+                        <p class="text-sm text-gray-600">{{ article.category.name }}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-deuraligreen">{{ article.view_count }}</div>
+                        <div class="text-xs text-gray-500">views</div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-gray-500 text-center py-8">No popular articles yet</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Articles -->
+    <div class="col-md-6">
+        <div class="chart-container">
+            <h3 class="mb-4">Recent Articles</h3>
+            <div class="space-y-3">
+                {% for article in recent_articles %}
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-800">{{ article.title|truncatechars:50 }}</h4>
+                        <p class="text-sm text-gray-600">{{ article.published_date|date:"M d, Y" }}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-lg font-bold text-bhanjyangred">{{ article.view_count }}</div>
+                        <div class="text-xs text-gray-500">views</div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-gray-500 text-center py-8">No recent articles</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Insights -->
+<div class="chart-container">
+    <h3 class="mb-4">Performance Insights</h3>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="text-center p-4">
+                <div class="text-3xl font-bold text-deuraligreen mb-2">{{ stats.recent_articles|default:0 }}</div>
+                <div class="text-gray-600">Articles (Last 7 Days)</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center p-4">
+                <div class="text-3xl font-bold text-bhanjyangred mb-2">{{ stats.draft_articles|default:0 }}</div>
+                <div class="text-gray-600">Draft Articles</div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center p-4">
+                <div class="text-3xl font-bold text-deuraligreen mb-2">
+                    {% if stats.total_articles > 0 %}
+                        {{ stats.published_articles|mul:100|div:stats.total_articles|floatformat:1 }}%
+                    {% else %}
+                        0%
+                    {% endif %}
+                </div>
+                <div class="text-gray-600">Publishing Rate</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Trends Chart
+    const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+    const trendsData = {{ trends.articles|safe }};
+    
+    new Chart(trendsCtx, {
+        type: 'line',
+        data: {
+            labels: trendsData.map(item => item.day),
+            datasets: [{
+                label: 'Articles Published',
+                data: trendsData.map(item => item.articles),
+                borderColor: '#28A745',
+                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                tension: 0.4
+            }, {
+                label: 'Total Views',
+                data: trendsData.map(item => item.views),
+                borderColor: '#DC3545',
+                backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    
+    // Category Chart
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    const categoryData = {{ category_stats|safe }};
+    
+    new Chart(categoryCtx, {
+        type: 'doughnut',
+        data: {
+            labels: categoryData.map(item => item.name),
+            datasets: [{
+                data: categoryData.map(item => item.article_count),
+                backgroundColor: [
+                    '#28A745',
+                    '#DC3545',
+                    '#FFC107',
+                    '#17A2B8',
+                    '#6F42C1',
+                    '#FD7E14',
+                    '#20C997',
+                    '#E83E8C'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

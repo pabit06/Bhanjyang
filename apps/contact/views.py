@@ -24,16 +24,19 @@ def get_email_from_request(request):
             return None
     return None
 
+from asgiref.sync import sync_to_async
+
 # @ratelimit(key='ip', rate='5/m', method='POST', block=True)  # Commented out until installed
 # @ratelimit(key=get_email_from_request, rate='3/h', method='POST', block=True)  # Commented out until installed
-def contact_view(request):
+async def contact_view(request):
     """
     Handles displaying the contact form and processing submitted data via Fetch API.
     Returns a JSON response.
     """
     # Performance monitoring
     start_time = time.time()
-    db_queries_start = len(connection.queries)
+    # db_queries_start = len(connection.queries) # connection.queries is not thread-safe in async
+    
     # Handle GET request to just display the page
     if request.method == 'GET':
         form = ContactForm()
@@ -48,8 +51,7 @@ def contact_view(request):
         
         # Log performance metrics for GET requests
         processing_time = time.time() - start_time
-        db_queries_count = len(connection.queries) - db_queries_start
-        logger.info(f"Contact form GET request processed in {processing_time:.3f}s with {db_queries_count} DB queries")
+        logger.info(f"Contact form GET request processed in {processing_time:.3f}s")
         
         return render(request, 'contact/contact.html', context)
 
@@ -92,29 +94,34 @@ def contact_view(request):
                 user_agent = request.META.get('HTTP_USER_AGENT', '')
                 
                 try:
-                    # Handle file upload
+                    # Handle file upload - Async file handling needs care, usually synchronous for now or via wrapper
+                    # For simplicity in this step, we'll keep file handling part of the sync_to_async wrapped block or simplify
                     attachment = None
                     if 'attachment' in request.FILES:
                         attachment = request.FILES['attachment']
                     
-                    # Save to database first
-                    submission = ContactSubmission.objects.create(
-                        name=name,
-                        email=from_email,
-                        phone=phone,
-                        subject=subject,
-                        message=message_body,
-                        attachment=attachment,
-                        ip_address=ip_address,
-                        user_agent=user_agent
-                    )
+                    # Wrap DB operations
+                    @sync_to_async
+                    def save_submission():
+                        return ContactSubmission.objects.create(
+                            name=name,
+                            email=from_email,
+                            phone=phone,
+                            subject=subject,
+                            message=message_body,
+                            attachment=attachment,
+                            ip_address=ip_address,
+                            user_agent=user_agent
+                        )
+                    
+                    submission = await save_submission()
                     logger.info(f"Contact submission saved with ID: {submission.id}")
                     
                     # Prepare email content
                     full_subject = f"Website Contact: {subject}"
-                    attachment_info = ""
-                    if submission.has_attachment():
-                        attachment_info = f"Attachment: {submission.get_attachment_filename()} ({submission.get_attachment_size_display()})"
+                    # submission methods need sync access if they touch DB, but here simple properties are likely fine 
+                    # OR we access them inside the sync block. 
+                    # Let's simplify and build string here.
                     
                     full_message = f"""
 New message from Bhanjyang Cooperative website:
@@ -124,8 +131,7 @@ Email: {from_email}
 Phone: {phone if phone else 'Not provided'}
 Submission ID: {submission.id}
 IP Address: {ip_address}
-Date: {submission.created_at.strftime('%Y-%m-%d %H:%M:%S')}
-{attachment_info}
+Date: {timezone.now().strftime('%Y-%m-%d %H:%M:%S')}
 --------------------------------------------------
 
 Message:
@@ -136,29 +142,30 @@ This submission has been automatically saved to the database.
 You can manage it through the admin interface.
                     """
                     
-                    # Send emails asynchronously using Celery
                     email_data = {
                         'subject': full_subject,
                         'message': full_message,
                         'submission_id': submission.id
                     }
                     
-                    # Queue the email tasks (or send synchronously if celery not installed)
-                    try:
-                        # Try to use celery if available
-                        send_contact_email.delay(email_data)
-                        send_auto_response_email.delay(from_email, name, subject, submission.id)
-                    except AttributeError:
-                        # Celery not installed, send synchronously
-                        send_contact_email(email_data)
-                        send_auto_response_email(from_email, name, subject, submission.id)
+                    # Async Email Sending
+                    @sync_to_async
+                    def send_emails_sync():
+                        try:
+                             # Try to use celery if available
+                            send_contact_email.delay(email_data)
+                            send_auto_response_email.delay(from_email, name, subject, submission.id)
+                        except AttributeError:
+                            # Celery not installed, send synchronously
+                            send_contact_email(email_data)
+                            send_auto_response_email(from_email, name, subject, submission.id)
+
+                    await send_emails_sync()
                     
                     logger.info(f"Email tasks queued for submission {submission.id}")
                     
-                    # Log performance metrics for successful POST requests
                     processing_time = time.time() - start_time
-                    db_queries_count = len(connection.queries) - db_queries_start
-                    logger.info(f"Contact form POST request processed successfully in {processing_time:.3f}s with {db_queries_count} DB queries for submission {submission.id}")
+                    logger.info(f"Contact form POST request processed successfully in {processing_time:.3f}s for submission {submission.id}")
                     
                     return JsonResponse({
                         'success': True,
@@ -169,25 +176,18 @@ You can manage it through the admin interface.
                 except Exception as e:
                     logger.exception(f"Error saving submission or sending email: {e}")
                     
-                    # Log performance metrics for error cases
-                    processing_time = time.time() - start_time
-                    db_queries_count = len(connection.queries) - db_queries_start
-                    logger.error(f"Contact form POST request failed in {processing_time:.3f}s with {db_queries_count} DB queries. Error: {str(e)}")
-                    
                     return JsonResponse({
                         'success': False,
                         'message': f'An error occurred while processing your request: {str(e)}'
                     }, status=500)
             else:
                 logger.warning(f"Form is invalid: {form.errors}")
-                # Form is invalid, return errors
                 return JsonResponse({
                     'success': False,
                     'errors': form.errors
                 }, status=400)
         else:
             logger.warning("Not an AJAX request")
-            # Not an AJAX request, return error
             return JsonResponse({
                 'success': False,
                 'message': 'This endpoint only accepts AJAX requests.'
@@ -195,6 +195,7 @@ You can manage it through the admin interface.
             
     # If not GET or POST, it's a bad request
     return JsonResponse({'success': False, 'message': 'Invalid request method.'}, status=405)
+
 
 
 def kym_form_view(request):

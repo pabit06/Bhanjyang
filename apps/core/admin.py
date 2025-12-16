@@ -1,5 +1,5 @@
 from .security_admin import APIKeyAdmin, SecurityLogAdmin
-from .admin_site import admin_site
+from apps.admin.admin_site import admin_site
 from .models import APIKey, SecurityLog
 from django.contrib.auth.models import User, Group
 

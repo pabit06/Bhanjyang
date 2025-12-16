@@ -1,0 +1,250 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}Bulk Actions - News & Events{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin/css/news_events_admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="news-events-admin">
+    <div class="admin-header">
+        <h1>Bulk Actions - News & Events</h1>
+        <p class="admin-subtitle">Perform bulk operations on articles and events</p>
+    </div>
+
+    <div class="bulk-actions-container">
+        <!-- Articles Bulk Actions -->
+        <div class="bulk-section">
+            <h2><i class="fas fa-newspaper"></i> Articles Bulk Actions</h2>
+            
+            <div class="action-cards">
+                <div class="action-card">
+                    <h3>Publish Articles</h3>
+                    <p>Publish multiple draft articles</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_publish_articles' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="article_ids">Select Articles:</label>
+                            <select name="article_ids" id="article_ids" multiple class="form-control" size="10">
+                                {% for article in draft_articles %}
+                                    <option value="{{ article.id }}">{{ article.title }} ({{ article.created_at|date:"M d, Y" }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Publish Selected
+                        </button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>Feature Articles</h3>
+                    <p>Mark multiple articles as featured</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_feature_articles' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="feature_article_ids">Select Articles:</label>
+                            <select name="article_ids" id="feature_article_ids" multiple class="form-control" size="10">
+                                {% for article in published_articles %}
+                                    <option value="{{ article.id }}">{{ article.title }} ({{ article.published_date|date:"M d, Y" }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-star"></i> Feature Selected
+                        </button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>Delete Articles</h3>
+                    <p>Delete multiple articles (permanent)</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_delete_articles' %}" 
+                          onsubmit="return confirm('Are you sure you want to delete the selected articles? This action cannot be undone.')">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="delete_article_ids">Select Articles:</label>
+                            <select name="article_ids" id="delete_article_ids" multiple class="form-control" size="10">
+                                {% for article in all_articles %}
+                                    <option value="{{ article.id }}">{{ article.title }} ({{ article.status }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Delete Selected
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Bulk Actions -->
+        <div class="bulk-section">
+            <h2><i class="fas fa-calendar-alt"></i> Events Bulk Actions</h2>
+            
+            <div class="action-cards">
+                <div class="action-card">
+                    <h3>Publish Events</h3>
+                    <p>Publish multiple draft events</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_publish_events' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="event_ids">Select Events:</label>
+                            <select name="event_ids" id="event_ids" multiple class="form-control" size="10">
+                                {% for event in draft_events %}
+                                    <option value="{{ event.id }}">{{ event.title }} ({{ event.event_date|date:"M d, Y" }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i> Publish Selected
+                        </button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>Feature Events</h3>
+                    <p>Mark multiple events as featured</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_feature_events' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="feature_event_ids">Select Events:</label>
+                            <select name="event_ids" id="feature_event_ids" multiple class="form-control" size="10">
+                                {% for event in published_events %}
+                                    <option value="{{ event.id }}">{{ event.title }} ({{ event.event_date|date:"M d, Y" }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-star"></i> Feature Selected
+                        </button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>Delete Events</h3>
+                    <p>Delete multiple events (permanent)</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_delete_events' %}" 
+                          onsubmit="return confirm('Are you sure you want to delete the selected events? This action cannot be undone.')">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="delete_event_ids">Select Events:</label>
+                            <select name="event_ids" id="delete_event_ids" multiple class="form-control" size="10">
+                                {% for event in all_events %}
+                                    <option value="{{ event.id }}">{{ event.title }} ({{ event.status }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Delete Selected
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Bulk Actions -->
+        <div class="bulk-section">
+            <h2><i class="fas fa-comments"></i> Comments Bulk Actions</h2>
+            
+            <div class="action-cards">
+                <div class="action-card">
+                    <h3>Approve Comments</h3>
+                    <p>Approve multiple pending comments</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_approve_comments' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="approve_comment_ids">Select Comments:</label>
+                            <select name="comment_ids" id="approve_comment_ids" multiple class="form-control" size="10">
+                                {% for comment in pending_comments %}
+                                    <option value="{{ comment.id }}">{{ comment.name }} - {{ comment.content|truncatewords:10 }} ({{ comment.created_at|date:"M d, Y" }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> Approve Selected
+                        </button>
+                    </form>
+                </div>
+
+                <div class="action-card">
+                    <h3>Delete Comments</h3>
+                    <p>Delete multiple comments (permanent)</p>
+                    <form method="post" action="{% url 'admin:news_events_bulk_delete_comments' %}" 
+                          onsubmit="return confirm('Are you sure you want to delete the selected comments? This action cannot be undone.')">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="delete_comment_ids">Select Comments:</label>
+                            <select name="comment_ids" id="delete_comment_ids" multiple class="form-control" size="10">
+                                {% for comment in all_comments %}
+                                    <option value="{{ comment.id }}">{{ comment.name }} - {{ comment.content|truncatewords:10 }} ({{ comment.status }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Delete Selected
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Summary -->
+    <div class="stats-summary">
+        <h3>Content Statistics</h3>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">{{ stats.total_articles }}</div>
+                <div class="stat-label">Total Articles</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ stats.total_events }}</div>
+                <div class="stat-label">Total Events</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ stats.pending_comments }}</div>
+                <div class="stat-label">Pending Comments</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ stats.total_subscribers }}</div>
+                <div class="stat-label">Newsletter Subscribers</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+    {{ block.super }}
+    <script src="{% static 'admin/js/news_events_admin.js' %}"></script>
+    <script>
+        // Initialize bulk actions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add select all functionality
+            const selectAllButtons = document.querySelectorAll('.select-all-btn');
+            selectAllButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const selectElement = this.closest('.action-card').querySelector('select');
+                    Array.from(selectElement.options).forEach(option => {
+                        option.selected = true;
+                    });
+                });
+            });
+
+            // Add select none functionality
+            const selectNoneButtons = document.querySelectorAll('.select-none-btn');
+            selectNoneButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const selectElement = this.closest('.action-card').querySelector('select');
+                    Array.from(selectElement.options).forEach(option => {
+                        option.selected = false;
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

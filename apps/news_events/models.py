@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
 import logging
+from .managers import ArticleManager, EventManager
 
 logger = logging.getLogger(__name__)
 
@@ -113,6 +114,8 @@ class NewsArticle(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     last_accessed = models.DateTimeField(blank=True, null=True, help_text="Last access time")
+
+    objects = ArticleManager()
 
     class Meta:
         ordering = ['-published_date']
@@ -246,6 +249,8 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     last_accessed = models.DateTimeField(blank=True, null=True, help_text="Last access time")
+
+    objects = EventManager()
 
     class Meta:
         ordering = ['event_date']
