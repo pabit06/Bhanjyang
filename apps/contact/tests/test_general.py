@@ -1,8 +1,8 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
-from .forms import ContactForm
-from .models import ContactSubmission
+from apps.contact.forms import ContactForm
+from apps.contact.models import ContactSubmission
 
 
 class ContactFormTest(TestCase):

@@ -209,39 +209,123 @@
 {% block extra_js %}
     <script>
         // Newsletter signup
-        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('newsletter-email').value;
-            const messageDiv = document.getElementById('newsletter-message');
-            
-            if (!email) {
-                messageDiv.innerHTML = '<span class="text-red-300">Please enter your email address.</span>';
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsletterForm = document.getElementById('newsletter-form');
+            if (!newsletterForm) {
+                console.error('Newsletter form not found');
                 return;
             }
             
-            fetch('{% url "about:newsletter_signup" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    interests: ['news', 'services', 'events']
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    messageDiv.innerHTML = '<span class="text-green-300">✓ ' + data.message + '</span>';
-                    document.getElementById('newsletter-email').value = '';
-                } else {
-                    messageDiv.innerHTML = '<span class="text-red-300">✗ ' + (data.message || 'An error occurred') + '</span>';
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const emailInput = document.getElementById('newsletter-email');
+                const messageDiv = document.getElementById('newsletter-message');
+                
+                if (!emailInput || !messageDiv) {
+                    console.error('Newsletter form elements not found');
+                    return;
                 }
-            })
-            .catch(error => {
-                messageDiv.innerHTML = '<span class="text-red-300">✗ An error occurred. Please try again.</span>';
+                
+                const email = emailInput.value.trim();
+                
+                if (!email) {
+                    messageDiv.innerHTML = '<span class="text-red-300">Please enter your email address.</span>';
+                    return;
+                }
+                
+                // Get CSRF token dynamically
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || 
+                                  document.getElementById('about-contact-csrf-token')?.value || 
+                                  '{{ csrf_token }}';
+                
+                fetch('{% url "about:newsletter_signup" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        name: '',  // Optional field
+                        interests: ['news', 'services', 'events']
+                    })
+                })
+                .then(response => {
+                    // Always try to parse JSON first, even for error responses
+                    const contentType = response.headers.get('content-type') || '';
+                    if (contentType.includes('application/json')) {
+                        return response.json().then(data => {
+                            // Attach status to data for error handling
+                            data._status = response.status;
+                            data._ok = response.ok;
+                            return data;
+                        }).catch(() => {
+                            // If JSON parsing fails, return error data
+                            return {
+                                success: false,
+                                message: `HTTP error! status: ${response.status}`,
+                                _status: response.status,
+                                _ok: false
+                            };
+                        });
+                    } else {
+                        // If not JSON, create error response
+                        return response.text().then(text => ({
+                            success: false,
+                            message: text || `HTTP error! status: ${response.status}`,
+                            _status: response.status,
+                            _ok: response.ok
+                        })).catch(() => ({
+                            success: false,
+                            message: `HTTP error! status: ${response.status}`,
+                            _status: response.status,
+                            _ok: false
+                        }));
+                    }
+                })
+                .then(data => {
+                    if (!messageDiv) {
+                        console.error('Message div not found');
+                        return;
+                    }
+                    
+                    if (data.success) {
+                        messageDiv.innerHTML = '<span class="text-green-300">✓ ' + (data.message || 'Subscribed successfully!') + '</span>';
+                        if (emailInput) {
+                            emailInput.value = '';
+                        }
+                    } else {
+                        // Show validation errors if available
+                        let errorMsg = data.message || 'An error occurred';
+                        if (data.errors && typeof data.errors === 'object') {
+                            try {
+                                const errorList = Object.keys(data.errors).map(field => {
+                                    const fieldErrors = data.errors[field];
+                                    if (Array.isArray(fieldErrors)) {
+                                        return fieldErrors.length > 0 ? fieldErrors.join(', ') : null;
+                                    } else if (typeof fieldErrors === 'string') {
+                                        return fieldErrors.trim() || null;
+                                    } else {
+                                        return String(fieldErrors).trim() || null;
+                                    }
+                                }).filter(msg => msg && msg.trim()).join('; ');
+                                if (errorList && errorList.trim()) {
+                                    errorMsg = errorList;
+                                }
+                            } catch (e) {
+                                console.error('Error parsing form errors:', e, data.errors);
+                            }
+                        }
+                        messageDiv.innerHTML = '<span class="text-red-300">✗ ' + errorMsg + '</span>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Newsletter signup error:', error);
+                    if (messageDiv) {
+                        messageDiv.innerHTML = '<span class="text-red-300">✗ An error occurred. Please try again.</span>';
+                    }
+                });
             });
         });
     </script>

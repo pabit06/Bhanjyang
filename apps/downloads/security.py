@@ -12,6 +12,14 @@ from django.utils import timezone
 # from django_ratelimit.exceptions import Ratelimited  # Commented out until installed
 import logging
 
+# Define Ratelimited exception if not available
+try:
+    from django_ratelimit.exceptions import Ratelimited
+except ImportError:
+    class Ratelimited(Exception):
+        """Custom rate limit exception"""
+        pass
+
 # Try to import magic, fallback to Django's content type detection
 try:
     import magic

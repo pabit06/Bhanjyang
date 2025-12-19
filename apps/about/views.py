@@ -9,6 +9,9 @@ from django.views.decorators.vary import vary_on_headers
 from .services import AboutService
 from .forms import ContactForm, NewsletterSignupForm, FeedbackForm
 from .models import CooperativeInfo
+from apps.core.error_handling import (
+    ErrorResponse, ErrorLogger, handle_view_errors, safe_json_parse
+)
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
@@ -154,35 +157,80 @@ class ContactSuccessView(TemplateView):
     template_name = 'about/contact_success.html'
 
 
+from apps.core.error_handling import (
+    ErrorResponse, ErrorLogger, handle_view_errors, safe_json_parse
+)
+
 class NewsletterSignupView(View):
+    @handle_view_errors
     def post(self, request):
-        # Implementation similar to home app
-        # Since logic is in AboutService, use it.
-        # This handles AJAX/JSON
-        import json
-        try:
-             data = json.loads(request.body)
-             form = NewsletterSignupForm(data)
-             if form.is_valid():
-                 AboutService.send_newsletter_welcome_email(form.cleaned_data)
-                 return JsonResponse({'success': True, 'message': 'Subscribed!'})
-             return JsonResponse({'success': False, 'errors': form.errors})
-        except:
-             return JsonResponse({'success': False, 'message': 'Invalid data'}, status=400)
+        """Handle newsletter signup form submission"""
+        # Parse JSON safely
+        data, error_response = safe_json_parse(request)
+        if error_response:
+            return error_response
+        
+        form = NewsletterSignupForm(data)
+        if form.is_valid():
+            try:
+                AboutService.send_newsletter_welcome_email(form.cleaned_data)
+                return ErrorResponse.json_success(message='Subscribed successfully!')
+            except Exception as e:
+                ErrorLogger.log_error(e, request)
+                return ErrorResponse.json_error(
+                    message='Failed to process subscription. Please try again later.',
+                    status_code=500,
+                    error_code='SUBSCRIPTION_ERROR'
+                )
+        else:
+            # Convert form.errors to dict for proper JSON serialization
+            errors_dict = {
+                field: errors if isinstance(errors, list) else [str(errors)]
+                for field, errors in form.errors.items()
+            }
+            ErrorLogger.log_validation_error(errors_dict, request, form_name='NewsletterSignupForm')
+            return ErrorResponse.json_error(
+                message='Please correct the errors below.',
+                status_code=400,
+                errors=errors_dict,
+                error_code='VALIDATION_ERROR'
+            )
 
 
 class FeedbackView(View):
+    @handle_view_errors
     def post(self, request):
-        import json
-        try:
-             data = json.loads(request.body)
-             form = FeedbackForm(data)
-             if form.is_valid():
-                 AboutService.send_feedback_email(form.cleaned_data)
-                 return JsonResponse({'success': True, 'message': 'Feedback sent!'})
-             return JsonResponse({'success': False, 'errors': form.errors})
-        except:
-             return JsonResponse({'success': False, 'message': 'Invalid data'}, status=400)
+        """Handle feedback form submission"""
+        # Parse JSON safely
+        data, error_response = safe_json_parse(request)
+        if error_response:
+            return error_response
+        
+        form = FeedbackForm(data)
+        if form.is_valid():
+            try:
+                AboutService.send_feedback_email(form.cleaned_data)
+                return ErrorResponse.json_success(message='Feedback sent successfully!')
+            except Exception as e:
+                ErrorLogger.log_error(e, request)
+                return ErrorResponse.json_error(
+                    message='Failed to send feedback. Please try again later.',
+                    status_code=500,
+                    error_code='FEEDBACK_ERROR'
+                )
+        else:
+            # Convert form.errors to dict for proper JSON serialization
+            errors_dict = {
+                field: errors if isinstance(errors, list) else [str(errors)]
+                for field, errors in form.errors.items()
+            }
+            ErrorLogger.log_validation_error(errors_dict, request, form_name='FeedbackForm')
+            return ErrorResponse.json_error(
+                message='Please correct the errors below.',
+                status_code=400,
+                errors=errors_dict,
+                error_code='VALIDATION_ERROR'
+            )
 
 class GalleryView(TemplateView):
     template_name = 'about/gallery.html'

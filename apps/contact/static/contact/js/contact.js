@@ -175,13 +175,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 break;
 
-            case 'subject':
-                if (value && value.length < 5) {
-                    showFieldError(field, 'Subject must be at least 5 characters long.');
-                    return false;
-                }
-                break;
-
             case 'message':
                 if (value && value.length < 10) {
                     showFieldError(field, 'Message must be at least 10 characters long.');
@@ -260,7 +253,6 @@ document.addEventListener('DOMContentLoaded', function () {
             'name': 'Name',
             'email': 'Email',
             'phone': 'Phone',
-            'subject': 'Subject',
             'message': 'Message'
         };
         return labels[fieldName] || fieldName;

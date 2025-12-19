@@ -2,10 +2,8 @@
 {% load static %}
 {% block title %}{{ article.title }} - Bhanjyang Cooperative{% endblock title %}
 
-{% block meta_description %}{{ article.meta_description|default:article.excerpt|truncatewords:20 }}{% endblock
-meta_description %}
-{% block meta_keywords %}{{ article.meta_keywords|default:article.category.name }}, Bhanjyang Cooperative{% endblock
-meta_keywords %}
+{% block meta_description %}{{ article.meta_description|default:article.excerpt|truncatewords:20 }}{% endblock meta_description %}
+{% block meta_keywords %}{{ article.meta_keywords|default:article.category.name }}, Bhanjyang Cooperative{% endblock meta_keywords %}
 
 {% block extra_head %}
 <!-- Open Graph / Facebook -->

@@ -217,7 +217,7 @@ CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60  # 30 minutes
 CELERY_TASK_SOFT_TIME_LIMIT = 60  # 1 minute
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
-CELERY_TASK_ALWAYS_EAGER = True  # Set to True for testing
+CELERY_TASK_ALWAYS_EAGER = config('CELERY_TASK_ALWAYS_EAGER', default=False, cast=bool)  # Set to True only for testing
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -251,7 +251,7 @@ SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SESSION_COOKIE_AGE = 1209600  # 2 weeks
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_SAVE_EVERY_REQUEST = True
+SESSION_SAVE_EVERY_REQUEST = config('SESSION_SAVE_EVERY_REQUEST', default=False, cast=bool)  # Only enable if needed for security
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_NAME = 'bhanjyang_sessionid'
 CSRF_COOKIE_NAME = 'bhanjyang_csrftoken'
@@ -264,8 +264,9 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
 SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
 
 # Content Security Policy (django-csp)
+# Note: 'unsafe-inline' and 'unsafe-eval' reduce security. Consider using nonces/hashes instead.
 CSP_DEFAULT_SRC = ("'self'", "https:", "data:")
-CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "'unsafe-eval'", "https:")
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https:")  # Removed 'unsafe-eval' for better security
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https:")
 CSP_FONT_SRC = ("'self'", "data:", "https:")
 CSP_IMG_SRC = ("'self'", "data:", "https:")
@@ -281,37 +282,68 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 
 
 # Cache Configuration
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            # 'PARSER_CLASS': 'redis.connection.HiredisParser',
-            'SOCKET_CONNECT_TIMEOUT': 5,
-            'SOCKET_TIMEOUT': 5,
+# Use local memory cache in development when Redis is not available
+USE_REDIS = config('USE_REDIS', default=not DEBUG, cast=bool)
+
+if USE_REDIS:
+    # Try to use Redis if available
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+                # 'PARSER_CLASS': 'redis.connection.HiredisParser',
+                'SOCKET_CONNECT_TIMEOUT': 5,
+                'SOCKET_TIMEOUT': 5,
+            }
+        },
+        'sessions': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
+        },
+        'performance': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
+            'TIMEOUT': 600,  # 10 minutes
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
+        },
+        'test': {
+             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+             'LOCATION': 'unique-snowflake',
         }
-    },
-    'sessions': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    },
-    'performance': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': config('REDIS_URL', default='redis://localhost:6379/1'),
-        'TIMEOUT': 600,  # 10 minutes
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    },
-    'test': {
-         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-         'LOCATION': 'unique-snowflake',
     }
-}
+else:
+    # Use local memory cache for development
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'default-cache',
+            'TIMEOUT': 300,
+            'OPTIONS': {
+                'MAX_ENTRIES': 1000,
+            }
+        },
+        'sessions': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'sessions-cache',
+            'TIMEOUT': 1209600,  # 2 weeks
+        },
+        'performance': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'performance-cache',
+            'TIMEOUT': 600,  # 10 minutes
+        },
+        'test': {
+             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+             'LOCATION': 'unique-snowflake',
+        }
+    }
 
 # Cache Settings
 CACHE_MIDDLEWARE_ALIAS = 'default'

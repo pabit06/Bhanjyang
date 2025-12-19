@@ -1,0 +1,62 @@
+﻿python : Creating test database for 
+alias 'default'...
+At line:1 char:1
++ python manage.py test --failfast 
+2>&1 | Out-File -Encoding utf8 failu 
+...
++ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpec 
+   ified: (Creating test d...as 'def  
+  ault'...:String) [], RemoteExcept   
+ ion
+    + FullyQualifiedErrorId : NativeC 
+   ommandError
+ 
+
+E
+======================================
+================================
+ERROR: 
+apps.contact.tests.test_general (unitt
+est.loader._FailedTest.apps.contact.te
+sts.test_general)
+--------------------------------------
+--------------------------------
+ImportError: Failed to import test 
+module: 
+apps.contact.tests.test_general
+Traceback (most recent call last):
+  File "C:\Users\coope\AppData\Local\P
+rograms\Python\Python314\Lib\unittest\
+loader.py", line 426, in 
+_find_test_path
+    module = 
+self._get_module_from_name(name)
+  File "C:\Users\coope\AppData\Local\P
+rograms\Python\Python314\Lib\unittest\
+loader.py", line 367, in 
+_get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "E:\Bhanjyang\apps\contact\test
+s\test_general.py", line 4, in 
+<module>
+    from .forms import ContactForm
+ModuleNotFoundError: No module named 
+'apps.contact.tests.forms'
+
+
+--------------------------------------
+--------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)
+Destroying test database for alias 
+'default'...
+
+--------------------------------------------------
+ To send real emails, set SEND_REAL_EMAILS=True in .env 
+--------------------------------------------------
+Found 89 test(s).
+System check identified no issues (0 silenced).

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 from datetime import timedelta
-from .models import NewsArticle, Event, Category, Subscriber, Comment
+from apps.news_events.models import NewsArticle, Event, Category, Subscriber, Comment
 
 class NewsEventsViewsTestCase(TestCase):
     """Smoke tests for news_events app views"""
@@ -328,7 +328,7 @@ class ServiceTestCase(TestCase):
 
     def test_handle_subscription(self):
         """Test handle_subscription service"""
-        from .services import InteractionService
+        from apps.news_events.services import InteractionService
         
         data = {'email': 'new@example.com', 'first_name': 'New', 'last_name': 'User'}
         success, message = InteractionService.handle_subscription(data)
@@ -337,7 +337,7 @@ class ServiceTestCase(TestCase):
 
     def test_handle_comment_submission(self):
         """Test handle_comment_submission service"""
-        from .services import InteractionService
+        from apps.news_events.services import InteractionService
         
         # Setup
         user = User.objects.create_user(username='commenter', password='password')

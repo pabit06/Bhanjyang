@@ -42,7 +42,8 @@ def download_center_view(request):
 
     # Try to get cached data first
     cached_data = DownloadsPerformanceMonitor.get_cached_file_list(cache_key)
-    if cached_data and not show_all:  # Don't use cache if showing all files
+    # Only use cached data if it's a dict (full context), not a list (just featured_files)
+    if cached_data and isinstance(cached_data, dict) and not show_all:  # Don't use cache if showing all files
         logger.debug("Using cached file list data")
         return render(request, 'downloads/download.html', cached_data)
 
@@ -94,9 +95,15 @@ def download_center_view(request):
 
     # Get featured files for a separate section (use cache if available)
     featured_files_cache_key = DownloadsCache.get_file_list_cache_key(featured_only=True)
-    featured_files = DownloadsPerformanceMonitor.get_cached_file_list(featured_files_cache_key)
+    cached_featured = DownloadsPerformanceMonitor.get_cached_file_list(featured_files_cache_key)
     
-    if not featured_files:
+    # Ensure cached_featured is a list, not a dict (context)
+    if cached_featured and isinstance(cached_featured, list):
+        featured_files = cached_featured
+    elif cached_featured and isinstance(cached_featured, dict):
+        # If it's a dict, it's probably a full context, extract featured_files
+        featured_files = cached_featured.get('featured_files', [])
+    else:
         featured_files = list(DownloadsQueryOptimizer.get_optimized_file_queryset().filter(
             is_active=True,
             is_featured=True
@@ -104,7 +111,7 @@ def download_center_view(request):
             Q(expires_at__isnull=True) | Q(expires_at__gt=timezone.now())
         ).order_by('-priority', '-uploaded_at')[:6])
         
-        # Cache featured files
+        # Cache featured files as a list
         DownloadsPerformanceMonitor.cache_file_list(featured_files, featured_files_cache_key)
 
     context = {

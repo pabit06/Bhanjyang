@@ -19,6 +19,10 @@ from .services import (
     ServiceAnalyticsService, ServiceRecommendationService,
     ServiceComparisonService, ServiceSearchService, ServiceApplicationService
 )
+from apps.core.error_handling import (
+    ErrorResponse, ErrorLogger, handle_api_errors, safe_json_parse,
+    safe_float_conversion, safe_int_conversion
+)
 
 
 def services_overview(request):
@@ -38,14 +42,36 @@ def services_overview(request):
             recommendations = ServiceRecommendationService.get_recommendations(user_profile)
             ServiceRecommendationService.save_recommendation(user_profile, recommendations)
 
+    # Optimize queries with only() to fetch only needed fields
     context = {
-        'savings_accounts': SavingsAccount.objects.filter(is_active=True),
-        'fixed_deposits': FixedDeposit.objects.filter(is_active=True),
-        'loan_types': LoanType.objects.filter(is_active=True),
-        'remittance_services': RemittanceService.objects.filter(is_active=True),
-        'member_reliefs': MemberRelief.objects.filter(is_active=True),
-        'featured_savings': SavingsAccount.objects.filter(is_active=True, is_featured=True)[:3],
-        'featured_loans': LoanType.objects.filter(is_active=True, is_featured=True)[:3],
+        'savings_accounts': SavingsAccount.objects.filter(is_active=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
+            'interest_rate', 'minimum_balance', 'is_featured', 'icon', 'color'
+        ),
+        'fixed_deposits': FixedDeposit.objects.filter(is_active=True).only(
+            'id', 'duration_months', 'payment_frequency', 'interest_rate', 
+            'minimum_amount', 'maximum_amount', 'is_active'
+        ),
+        'loan_types': LoanType.objects.filter(is_active=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
+            'monthly_interest_rate', 'is_featured', 'icon', 'color'
+        ),
+        'remittance_services': RemittanceService.objects.filter(is_active=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+            'is_featured', 'icon', 'color'
+        ),
+        'member_reliefs': MemberRelief.objects.filter(is_active=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'relief_type',
+            'is_featured', 'icon', 'color'
+        ),
+        'featured_savings': SavingsAccount.objects.filter(is_active=True, is_featured=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
+            'interest_rate', 'is_featured', 'icon', 'color'
+        )[:3],
+        'featured_loans': LoanType.objects.filter(is_active=True, is_featured=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
+            'monthly_interest_rate', 'is_featured', 'icon', 'color'
+        )[:3],
         'breadcrumbs': breadcrumbs,
         'recommendation_form': recommendation_form,
         'recommendations': recommendations,
@@ -60,13 +86,19 @@ class SavingsAccountsView(ListView):
     context_object_name = 'savings_accounts'
     
     def get_queryset(self):
-        return SavingsAccount.objects.filter(is_active=True).order_by('-is_featured', 'interest_rate', 'account_type')
+        return SavingsAccount.objects.filter(is_active=True).order_by('-is_featured', 'interest_rate', 'account_type').only(
+            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
+            'interest_rate', 'minimum_balance', 'is_featured', 'icon', 'color', 'description'
+        )
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Savings Accounts'
         context['page_description'] = 'Choose from our range of savings accounts with competitive interest rates'
-        context['featured_accounts'] = SavingsAccount.objects.filter(is_active=True, is_featured=True)
+        context['featured_accounts'] = SavingsAccount.objects.filter(is_active=True, is_featured=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
+            'interest_rate', 'is_featured', 'icon', 'color'
+        )
         return context
 
 
@@ -77,7 +109,10 @@ class FixedDepositsView(ListView):
     context_object_name = 'fixed_deposits'
     
     def get_queryset(self):
-        return FixedDeposit.objects.filter(is_active=True).order_by('duration_months', 'payment_frequency')
+        return FixedDeposit.objects.filter(is_active=True).order_by('duration_months', 'payment_frequency').only(
+            'id', 'duration_months', 'payment_frequency', 'interest_rate', 
+            'minimum_amount', 'maximum_amount', 'benefits', 'is_active'
+        )
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -103,13 +138,19 @@ class LoanServicesView(ListView):
     context_object_name = 'loan_types'
     
     def get_queryset(self):
-        return LoanType.objects.filter(is_active=True).order_by('-is_featured', 'loan_category')
+        return LoanType.objects.filter(is_active=True).order_by('-is_featured', 'loan_category').only(
+            'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
+            'monthly_interest_rate', 'is_featured', 'icon', 'color', 'description'
+        )
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Loan Services'
         context['page_description'] = 'Flexible loan options for all your financial needs'
-        context['featured_loans'] = LoanType.objects.filter(is_active=True, is_featured=True)
+        context['featured_loans'] = LoanType.objects.filter(is_active=True, is_featured=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
+            'monthly_interest_rate', 'is_featured', 'icon', 'color'
+        )
         return context
 
 
@@ -136,7 +177,7 @@ class MemberReliefView(ListView):
     context_object_name = 'member_reliefs'
     
     def get_queryset(self):
-        return MemberRelief.objects.filter(is_active=True).order_by('relief_type', 'title')
+        return MemberRelief.objects.filter(is_active=True).order_by('relief_type', 'english_name')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -406,7 +447,7 @@ def service_comparison(request):
                 template = 'services/fixed_deposits_comparison.html'
             else:
                 messages.error(request, 'Invalid service type selected.')
-                return redirect('services:comparison')
+                return redirect('services:service_comparison')
             
             # Track comparison views
             for service_id in service_ids:
@@ -486,49 +527,129 @@ def service_recommendations(request):
     return render(request, 'services/service_recommendation_form.html', context)
 
 
+from apps.core.error_handling import (
+    ErrorResponse, ErrorLogger, handle_api_errors, safe_json_parse,
+    safe_float_conversion, safe_int_conversion
+)
+
 @csrf_exempt
+@handle_api_errors
 def calculator_api(request):
     """API endpoint for calculator calculations"""
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            calculator_type = data.get('type')
-            result = None
-            
-            if calculator_type == 'loan':
-                principal = float(data.get('principal', 0))
-                interest_rate = float(data.get('interest_rate', 0))
-                tenure_months = int(data.get('tenure_months', 0))
-                payment_frequency = data.get('payment_frequency', 'monthly')
-                
-                result = FinancialCalculator.calculate_loan_emi(
-                    principal, interest_rate, tenure_months, payment_frequency
-                )
-                
-            elif calculator_type == 'savings':
-                monthly_deposit = float(data.get('monthly_deposit', 0))
-                interest_rate = float(data.get('interest_rate', 0))
-                tenure_years = int(data.get('tenure_years', 0))
-                
-                result = FinancialCalculator.calculate_savings_maturity(
-                    monthly_deposit, interest_rate, tenure_years
-                )
-                
-            elif calculator_type == 'fixed_deposit':
-                principal = float(data.get('principal', 0))
-                interest_rate = float(data.get('interest_rate', 0))
-                tenure_months = int(data.get('tenure_months', 0))
-                payment_frequency = data.get('payment_frequency', 'lump_sum')
-                
-                result = FinancialCalculator.calculate_fixed_deposit_maturity(
-                    principal, interest_rate, tenure_months, payment_frequency
-                )
-            else:
-                return JsonResponse({'error': 'Invalid calculator type'}, status=400)
-            
-            return JsonResponse({'success': True, 'result': result})
-            
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
+    if request.method != 'POST':
+        return ErrorResponse.json_error(
+            message='Method not allowed',
+            status_code=405,
+            error_code='METHOD_NOT_ALLOWED'
+        )
     
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+    # Parse JSON safely
+    data, error_response = safe_json_parse(request)
+    if error_response:
+        return error_response
+    
+    calculator_type = data.get('type')
+    if not calculator_type:
+        return ErrorResponse.json_error(
+            message='Missing calculator type',
+            status_code=400,
+            error_code='MISSING_TYPE'
+        )
+    
+    result = None
+    
+    try:
+        if calculator_type == 'loan':
+            principal, err = safe_float_conversion(data.get('principal', 0), field_name='principal')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            tenure_months, err = safe_int_conversion(data.get('tenure_months', 0), field_name='tenure_months')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            payment_frequency = data.get('payment_frequency', 'monthly')
+            
+            if principal <= 0 or interest_rate < 0 or tenure_months <= 0:
+                return ErrorResponse.json_error(
+                    message='Invalid input: principal, interest_rate, and tenure_months must be positive',
+                    status_code=400,
+                    error_code='INVALID_INPUT'
+                )
+            
+            result = FinancialCalculator.calculate_loan_emi(
+                principal, interest_rate, tenure_months, payment_frequency
+            )
+            
+        elif calculator_type == 'savings':
+            monthly_deposit, err = safe_float_conversion(data.get('monthly_deposit', 0), field_name='monthly_deposit')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            tenure_years, err = safe_int_conversion(data.get('tenure_years', 0), field_name='tenure_years')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            if monthly_deposit <= 0 or interest_rate < 0 or tenure_years <= 0:
+                return ErrorResponse.json_error(
+                    message='Invalid input: monthly_deposit, interest_rate, and tenure_years must be positive',
+                    status_code=400,
+                    error_code='INVALID_INPUT'
+                )
+            
+            result = FinancialCalculator.calculate_savings_maturity(
+                monthly_deposit, interest_rate, tenure_years
+            )
+            
+        elif calculator_type == 'fixed_deposit':
+            principal, err = safe_float_conversion(data.get('principal', 0), field_name='principal')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            tenure_months, err = safe_int_conversion(data.get('tenure_months', 0), field_name='tenure_months')
+            if err:
+                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
+            
+            payment_frequency = data.get('payment_frequency', 'lump_sum')
+            
+            if principal <= 0 or interest_rate < 0 or tenure_months <= 0:
+                return ErrorResponse.json_error(
+                    message='Invalid input: principal, interest_rate, and tenure_months must be positive',
+                    status_code=400,
+                    error_code='INVALID_INPUT'
+                )
+            
+            result = FinancialCalculator.calculate_fixed_deposit_maturity(
+                principal, interest_rate, tenure_months, payment_frequency
+            )
+        else:
+            return ErrorResponse.json_error(
+                message=f'Invalid calculator type: {calculator_type}',
+                status_code=400,
+                error_code='INVALID_CALCULATOR_TYPE'
+            )
+        
+        return ErrorResponse.json_success(
+            message='Calculation successful',
+            data={'result': result}
+        )
+        
+    except ValueError as e:
+        ErrorLogger.log_error(e, request, level='warning')
+        return ErrorResponse.json_error(
+            message=str(e),
+            status_code=400,
+            error_code='CALCULATION_ERROR'
+        )

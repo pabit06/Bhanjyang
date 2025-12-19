@@ -3,32 +3,24 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
-# from django_ratelimit.decorators import ratelimit  # Commented out until installed
-# from django_ratelimit.exceptions import Ratelimited  # Commented out until installed
+# Rate limiting is handled by RateLimitMiddleware, not decorators
 from .forms import ContactForm, KYMForm
 from .models import ContactSubmission, KYMSubmission
 from .tasks import send_contact_email, send_auto_response_email
+from apps.core.error_handling import ErrorResponse, ErrorLogger
 import logging
 import time
 from django.db import connection
 
 logger = logging.getLogger(__name__)
 
-def get_email_from_request(request):
-    """Extract email from POST data for rate limiting"""
-    if request.method == 'POST':
-        try:
-            email = request.POST.get('email', '').strip().lower()
-            return email if email else None
-        except:
-            return None
-    return None
+# Removed async imports and rate limiting decorators - view is now synchronous
+# Rate limiting is handled by RateLimitMiddleware
 
-from asgiref.sync import sync_to_async
-
-# @ratelimit(key='ip', rate='5/m', method='POST', block=True)  # Commented out until installed
-# @ratelimit(key=get_email_from_request, rate='3/h', method='POST', block=True)  # Commented out until installed
-async def contact_view(request):
+# Note: Rate limiting is handled by RateLimitMiddleware
+# Removed @ratelimit decorators as they're not async-compatible
+# The middleware provides IP-based rate limiting
+def contact_view(request):
     """
     Handles displaying the contact form and processing submitted data via Fetch API.
     Returns a JSON response.
@@ -59,25 +51,13 @@ async def contact_view(request):
     if request.method == 'POST':
         logger.info(f"POST request received. X-Requested-With: {request.headers.get('X-Requested-With')}")
         
-        # Check if rate limited
-        if getattr(request, 'limited', False):
-            logger.warning(f"Rate limit exceeded for IP: {request.META.get('REMOTE_ADDR')}")
-            # Check which rate limit was exceeded
-            if hasattr(request, 'limited') and 'email' in str(request.limited):
-                return JsonResponse({
-                    'success': False,
-                    'message': 'Too many submissions from this email address. Please wait before submitting again.'
-                }, status=429)
-            else:
-                return JsonResponse({
-                    'success': False,
-                    'message': 'Too many requests from this IP address. Please wait a moment before submitting again.'
-                }, status=429)
+        # Note: Rate limiting is handled by RateLimitMiddleware
+        # If rate limit is exceeded, middleware will return 429 response before reaching this view
         
         # Check if this is an AJAX request
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             logger.info("AJAX request detected, processing...")
-            form = ContactForm(request.POST)
+            form = ContactForm(request.POST, request.FILES)
 
             if form.is_valid():
                 logger.info("Form is valid, saving to database and sending email...")
@@ -86,43 +66,37 @@ async def contact_view(request):
                 name = form.cleaned_data['name']
                 from_email = form.cleaned_data['email']
                 phone = form.cleaned_data.get('phone', '') # Safely get optional phone
-                subject = form.cleaned_data['subject']
                 message_body = form.cleaned_data['message']
+                # Generate subject from message (first 50 chars) or use default
+                subject = message_body[:50].strip() if message_body else "Contact Form Inquiry"
+                if len(message_body) > 50:
+                    subject += "..."
                 
                 # Get client information
                 ip_address = request.META.get('REMOTE_ADDR', '')
                 user_agent = request.META.get('HTTP_USER_AGENT', '')
                 
                 try:
-                    # Handle file upload - Async file handling needs care, usually synchronous for now or via wrapper
-                    # For simplicity in this step, we'll keep file handling part of the sync_to_async wrapped block or simplify
+                    # Handle file upload
                     attachment = None
                     if 'attachment' in request.FILES:
                         attachment = request.FILES['attachment']
                     
-                    # Wrap DB operations
-                    @sync_to_async
-                    def save_submission():
-                        return ContactSubmission.objects.create(
-                            name=name,
-                            email=from_email,
-                            phone=phone,
-                            subject=subject,
-                            message=message_body,
-                            attachment=attachment,
-                            ip_address=ip_address,
-                            user_agent=user_agent
-                        )
-                    
-                    submission = await save_submission()
+                    # Save submission to database
+                    submission = ContactSubmission.objects.create(
+                        name=name,
+                        email=from_email,
+                        phone=phone,
+                        subject=subject,
+                        message=message_body,
+                        attachment=attachment,
+                        ip_address=ip_address,
+                        user_agent=user_agent
+                    )
                     logger.info(f"Contact submission saved with ID: {submission.id}")
                     
                     # Prepare email content
                     full_subject = f"Website Contact: {subject}"
-                    # submission methods need sync access if they touch DB, but here simple properties are likely fine 
-                    # OR we access them inside the sync block. 
-                    # Let's simplify and build string here.
-                    
                     full_message = f"""
 New message from Bhanjyang Cooperative website:
 
@@ -148,19 +122,15 @@ You can manage it through the admin interface.
                         'submission_id': submission.id
                     }
                     
-                    # Async Email Sending
-                    @sync_to_async
-                    def send_emails_sync():
-                        try:
-                             # Try to use celery if available
-                            send_contact_email.delay(email_data)
-                            send_auto_response_email.delay(from_email, name, subject, submission.id)
-                        except AttributeError:
-                            # Celery not installed, send synchronously
-                            send_contact_email(email_data)
-                            send_auto_response_email(from_email, name, subject, submission.id)
-
-                    await send_emails_sync()
+                    # Send emails (using Celery if available)
+                    try:
+                        # Try to use celery if available
+                        send_contact_email.delay(email_data)
+                        send_auto_response_email.delay(from_email, name, subject, submission.id)
+                    except AttributeError:
+                        # Celery not installed, send synchronously
+                        send_contact_email(email_data)
+                        send_auto_response_email(from_email, name, subject, submission.id)
                     
                     logger.info(f"Email tasks queued for submission {submission.id}")
                     
@@ -174,12 +144,15 @@ You can manage it through the admin interface.
                     })
                     
                 except Exception as e:
-                    logger.exception(f"Error saving submission or sending email: {e}")
+                    from apps.core.error_handling import ErrorLogger, ErrorResponse
+                    ErrorLogger.log_error(e, request, context={'submission_id': 'pending'})
                     
-                    return JsonResponse({
-                        'success': False,
-                        'message': f'An error occurred while processing your request: {str(e)}'
-                    }, status=500)
+                    return ErrorResponse.json_error(
+                        message='An error occurred while processing your request. Please try again later.',
+                        status_code=500,
+                        error_code='SUBMISSION_ERROR',
+                        details={'exception': str(e)} if settings.DEBUG else None
+                    )
             else:
                 logger.warning(f"Form is invalid: {form.errors}")
                 return JsonResponse({

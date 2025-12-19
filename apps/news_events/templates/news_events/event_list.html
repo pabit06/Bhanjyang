@@ -54,8 +54,7 @@ Ltd.{% endblock meta_description %}
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
                         <option value="">All Categories</option>
                         {% for category in categories %}
-                        <option value="{{ category.slug }}" {% if request.GET.category==category.slug %}selected{% endif
-                            %}>
+                        <option value="{{ category.slug }}" {% if request.GET.category|stringformat:"s" == category.slug %}selected{% endif %}>
                             {{ category.name }}
                         </option>
                         {% endfor %}
@@ -64,10 +63,10 @@ Ltd.{% endblock meta_description %}
                 <div class="sm:w-48">
                     <select name="sort"
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
-                        <option value="date" {% if request.GET.sort=='date' %}selected{% endif %}>By Date</option>
-                        <option value="popular" {% if request.GET.sort=='popular' %}selected{% endif %}>Most Popular
+                        <option value="date" {% if request.GET.sort == 'date' %}selected{% endif %}>By Date</option>
+                        <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>Most Popular
                         </option>
-                        <option value="featured" {% if request.GET.sort=='featured' %}selected{% endif %}>Featured First
+                        <option value="featured" {% if request.GET.sort == 'featured' %}selected{% endif %}>Featured First
                         </option>
                     </select>
                 </div>

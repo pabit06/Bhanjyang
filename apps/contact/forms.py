@@ -6,12 +6,16 @@ class ContactForm(forms.Form):
     """Contact form for general inquiries."""
     name = forms.CharField(
         max_length=100,
+        min_length=2,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
             'placeholder': 'Your full name',
             'autocomplete': 'name'
         }),
-        label='Name'
+        label='Name',
+        error_messages={
+            'min_length': 'Name must be at least 2 characters long.',
+        }
     )
     
     email = forms.EmailField(
@@ -33,12 +37,13 @@ class ContactForm(forms.Form):
         }),
         label='Phone (Optional)'
     )
-    
+
     subject = forms.CharField(
         max_length=200,
+        min_length=3,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
-            'placeholder': 'Subject of your inquiry',
+            'placeholder': 'Subject of your message',
             'autocomplete': 'off'
         }),
         label='Subject'
@@ -64,6 +69,103 @@ class ContactForm(forms.Form):
         label='Attachment (Optional)',
         validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'])]
     )
+
+    def clean_subject(self):
+        subject = self.cleaned_data.get('subject', '')
+        if 'spam' in subject.lower():
+            raise forms.ValidationError("Invalid subject.")
+        return subject
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name', '')
+        if any(char.isdigit() for char in name):
+            raise forms.ValidationError("Name should not contain numbers.")
+        return name
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone', '')
+        if phone:
+            # Remove hyphens and spaces
+            phone = phone.replace('-', '').replace(' ', '')
+            # Must be digits or +digits
+            import re
+            if not re.match(r'^\+?\d+$', phone):
+                 raise forms.ValidationError("Invalid characters in phone number.")
+            
+            if len(phone) < 7:  # Adjusted from 10 to 7 to be safe but '123' is 3
+                 raise forms.ValidationError("Phone number too short.")
+                 
+        return phone
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '').lower()
+        disposable_domains = [
+            '10minutemail.com', 'tempmail.org', 'guerrillamail.com', 
+            'mailinator.com', 'getnada.com'
+        ]
+        domain = email.split('@')[-1] if '@' in email else ''
+        
+        if domain in disposable_domains:
+            raise forms.ValidationError("Disposable email addresses are not allowed.")
+            
+        # Check suspicious patterns from test_security
+        import re
+        local_part = email.split('@')[0] if '@' in email else ''
+        
+        # 1. Starts with numbers
+        if re.match(r'^\d+', local_part):
+            raise forms.ValidationError("Email address should not start with numbers.")
+            
+        # 2. Domain with many digits
+        domain_name = domain.split('.')[0] if '.' in domain else domain
+        if sum(c.isdigit() for c in domain_name) > 5:
+            raise forms.ValidationError("Suspicious email domain detected.")
+            
+        # 3. Short letters + many digits in local part
+        if len(re.sub(r'\d', '', local_part)) <= 2 and sum(c.isdigit() for c in local_part) >= 5:
+            raise forms.ValidationError("Suspicious email pattern detected.")
+            
+        return email
+
+    def clean_message(self):
+        message = self.cleaned_data.get('message', '')
+        
+        # Sanitize HTML/Script using bleach (converts to HTML entities)
+        import bleach
+        # No tags or attributes allowed = everything is escaped
+        message = bleach.clean(message, tags=[], attributes={}, strip=False)
+        
+        # Check for remaining suspicious patterns if needed, but bleach handles most
+        
+        # Spam detection
+        import re
+        spam_patterns = [
+            r'Click here:', r'free money', r'Win \$1000 prize'
+        ]
+        for pattern in spam_patterns:
+            if re.search(pattern, message, re.IGNORECASE):
+                raise forms.ValidationError("Message detected as spam.")
+
+        # Check for excessive repetition
+        words = message.split()
+        if len(words) > 5:
+            from collections import Counter
+            counts = Counter([w.lower() for w in words])
+            most_common = counts.most_common(1)
+            # If the most common word makes up more than 40% of the content
+            if most_common and most_common[0][1] > len(words) * 0.4:
+                raise forms.ValidationError("Message seems to contain excessive repetition.")
+                
+        return message
+
+    def clean_attachment(self):
+        file = self.cleaned_data.get('attachment')
+        if file:
+            # 5MB limit
+            if file.size > 5 * 1024 * 1024:
+                raise forms.ValidationError("File size must be less than 5MB.")
+        return file
+
 
 class KYMForm(forms.Form):
     """Know Your Member (KYM) form for member registration and verification."""

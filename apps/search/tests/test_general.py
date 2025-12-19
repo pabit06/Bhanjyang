@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from unittest.mock import patch, MagicMock
 
-from .services import SearchService
+from apps.search.services import SearchService
 from apps.about.models import (
     CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
     CooperativeAffiliation, LeadershipMessage, Person

@@ -53,12 +53,21 @@ class ContactService:
         ip_address = request_meta.get('REMOTE_ADDR', '')
         user_agent = request_meta.get('HTTP_USER_AGENT', '')
         
+        # Generate subject from message if not provided
+        message_body = form_data['message']
+        if 'subject' in form_data and form_data['subject']:
+            subject = form_data['subject']
+        else:
+            subject = message_body[:50].strip() if message_body else "Contact Form Inquiry"
+            if len(message_body) > 50:
+                subject += "..."
+        
         submission = ContactSubmission.objects.create(
             name=form_data['name'],
             email=form_data['email'],
             phone=form_data.get('phone', ''),
-            subject=form_data['subject'],
-            message=form_data['message'],
+            subject=subject,
+            message=message_body,
             attachment=attachment,
             ip_address=ip_address,
             user_agent=user_agent

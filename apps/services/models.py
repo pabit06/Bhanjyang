@@ -89,6 +89,11 @@ class FixedDeposit(models.Model):
         verbose_name_plural = _("Fixed Deposits")
         unique_together = ['duration_months', 'payment_frequency']
         ordering = ['duration_months', 'interest_rate']
+        indexes = [
+            models.Index(fields=['is_active', 'duration_months']),
+            models.Index(fields=['interest_rate']),
+            models.Index(fields=['created_at']),
+        ]
 
     def __str__(self):
         return f"{self.get_duration_months_display()} - {self.get_payment_frequency_display()} ({self.interest_rate}%)"
@@ -115,6 +120,12 @@ class LoanType(BaseServiceModel):
         verbose_name = _("Loan Type")
         verbose_name_plural = _("Loan Types")
         ordering = ['-is_featured', 'english_name']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['loan_category', 'is_active']),
+            models.Index(fields=['monthly_interest_rate']),
+            models.Index(fields=['slug']),
+        ]
 
     def __str__(self):
         return self.english_name
@@ -141,6 +152,11 @@ class RemittanceService(BaseServiceModel):
         verbose_name = _("Remittance Service")
         verbose_name_plural = _("Remittance Services")
         ordering = ['english_name']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['service_type', 'is_active']),
+            models.Index(fields=['slug']),
+        ]
 
     def __str__(self):
         return self.english_name
@@ -164,6 +180,11 @@ class MemberRelief(BaseServiceModel):
         verbose_name = _("Member Relief Program")
         verbose_name_plural = _("Member Relief Programs")
         ordering = ['english_name']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['relief_type', 'is_active']),
+            models.Index(fields=['slug']),
+        ]
 
     def __str__(self):
         return self.english_name

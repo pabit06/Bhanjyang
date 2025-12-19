@@ -49,24 +49,39 @@ class RateLimitMiddleware(MiddlewareMixin):
     
     def is_rate_limited(self, request, limit_type='default'):
         """Check if request exceeds rate limit"""
-        key = self.get_rate_limit_key(request, limit_type)
-        current_time = int(time.time())
-        minute_window = current_time // 60
-        
-        # Get current count for this minute
-        cache_key = f"{key}:{minute_window}"
-        current_count = cache.get(cache_key, 0)
-        
-        # Get rate limit for this type
-        limit = self.rate_limits.get(limit_type, self.rate_limits['default'])
-        
-        if current_count >= limit:
-            logger.warning(f"Rate limit exceeded for {limit_type}: {self.get_client_ip(request)}")
-            return True
-        
-        # Increment counter
-        cache.set(cache_key, current_count + 1, timeout=120)  # 2 minutes timeout
-        return False
+        try:
+            key = self.get_rate_limit_key(request, limit_type)
+            current_time = int(time.time())
+            minute_window = current_time // 60
+            
+            # Get current count for this minute
+            cache_key = f"{key}:{minute_window}"
+            try:
+                current_count = cache.get(cache_key, 0)
+            except Exception as e:
+                # If cache is unavailable (e.g., Redis not running), allow request
+                logger.warning(f"Cache unavailable for rate limiting: {e}. Allowing request.")
+                return False
+            
+            # Get rate limit for this type
+            limit = self.rate_limits.get(limit_type, self.rate_limits['default'])
+            
+            if current_count >= limit:
+                logger.warning(f"Rate limit exceeded for {limit_type}: {self.get_client_ip(request)}")
+                return True
+            
+            # Increment counter
+            try:
+                cache.set(cache_key, current_count + 1, timeout=120)  # 2 minutes timeout
+            except Exception as e:
+                # If cache is unavailable, log warning but allow request
+                logger.warning(f"Cache unavailable for rate limiting: {e}. Allowing request.")
+            
+            return False
+        except Exception as e:
+            # If any error occurs, log it but allow the request to proceed
+            logger.warning(f"Error in rate limiting: {e}. Allowing request.")
+            return False
     
     def determine_limit_type(self, request):
         """Determine rate limit type based on request path"""
@@ -248,18 +263,27 @@ class BruteForceProtectionMiddleware(MiddlewareMixin):
     
     def is_ip_blocked(self, ip):
         """Check if IP is blocked due to brute force attempts"""
-        key = f"brute_force:{ip}"
-        attempts = cache.get(key, 0)
-        return attempts >= self.max_attempts
+        try:
+            key = f"brute_force:{ip}"
+            attempts = cache.get(key, 0)
+            return attempts >= self.max_attempts
+        except Exception as e:
+            # If cache is unavailable, don't block (allow request)
+            logger.warning(f"Cache unavailable for brute force protection: {e}. Allowing request.")
+            return False
     
     def record_failed_attempt(self, ip):
         """Record a failed login attempt"""
-        key = f"brute_force:{ip}"
-        attempts = cache.get(key, 0) + 1
-        cache.set(key, attempts, timeout=self.lockout_duration)
-        
-        if attempts >= self.max_attempts:
-            logger.warning(f"IP {ip} blocked due to brute force attempts")
+        try:
+            key = f"brute_force:{ip}"
+            attempts = cache.get(key, 0) + 1
+            cache.set(key, attempts, timeout=self.lockout_duration)
+            
+            if attempts >= self.max_attempts:
+                logger.warning(f"IP {ip} blocked due to brute force attempts")
+        except Exception as e:
+            # If cache is unavailable, log warning but continue
+            logger.warning(f"Cache unavailable for brute force protection: {e}.")
     
     def process_request(self, request):
         """Check for brute force attempts"""

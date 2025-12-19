@@ -342,12 +342,11 @@ class DownloadsAnalyticsOptimizer:
     def get_download_trends(days=30):
         """Get download trends with optimized queries"""
         from .models import DownloadableFile
-        from django.db.models import TruncDate
         
         end_date = timezone.now()
         start_date = end_date - timezone.timedelta(days=days)
         
-        # Use TruncDate for efficient daily aggregation
+        # Use extra for efficient daily aggregation
         trends = list(DownloadableFile.objects.filter(
             uploaded_at__gte=start_date,
             uploaded_at__lte=end_date

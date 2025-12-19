@@ -5,9 +5,9 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from datetime import datetime, timedelta
 
-from .models import PageView, ErrorLog, PerformanceMetric
-from .services import DashboardAnalyticsService
-from .views import DashboardView
+from apps.dashboard.models import PageView, ErrorLog, PerformanceMetric
+from apps.dashboard.services import DashboardAnalyticsService
+from apps.dashboard.views import DashboardView
 
 User = get_user_model()
 

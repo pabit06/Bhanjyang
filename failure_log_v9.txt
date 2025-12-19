@@ -1,0 +1,2020 @@
+﻿python : Creating test database for alias 
+'default'...
+At line:1 char:1
++ python manage.py test --failfast 2>&1 | 
+Out-File -Encoding utf8 failu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified 
+   : (Creating test d...as 'default'...:S  
+  tring) [], RemoteException
+    + FullyQualifiedErrorId : NativeComman 
+   dError
+ 
+
+...........................................
+....................WARNING Form is 
+invalid: <ul 
+class="errorlist"><li>subject<ul 
+class="errorlist" 
+id="id_subject_error"><li>Invalid 
+subject.</li></ul></li></ul>
+.......F
+===========================================
+===========================
+FAIL: test_contact_view_get (apps.contact.t
+ests.test_general.ContactViewsTest.test_con
+tact_view_get)
+Test contact view GET request
+-------------------------------------------
+---------------------------
+Traceback (most recent call last):
+  File "E:\Bhanjyang\apps\contact\tests\tes
+t_general.py", line 204, in 
+test_contact_view_get
+    self.assertContains(response, 
+'subject')
+    
+~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : 
+Couldn't find 'subject' in the following 
+response
+b'\n<!DOCTYPE html>\n\n<html lang="ne" 
+class="scroll-smooth">\n\n<head>\n    \n   
+ <input type="hidden" 
+name="csrfmiddlewaretoken" 
+id="csrfmiddlewaretoken" value="wzTBKDQcdqF
+9uwEydRPtGZF79tBMOm3UF6YbUm3pn6OergOrvJ9rAE
+Tpf2VWp6sr">\n    <meta name="csrf-token" c
+ontent="wzTBKDQcdqF9uwEydRPtGZF79tBMOm3UF6Y
+bUm3pn6OergOrvJ9rAETpf2VWp6sr">\n    <meta 
+charset="UTF-8">\n    <meta 
+name="viewport" 
+content="width=device-width, 
+initial-scale=1.0">\n    <title>Bhanjyang 
+Cooperative - Contact Us</title>\n\n    \n 
+   <meta name="description"\n        conten
+t="\xe0\xa4\xad\xe0\xa4\x9e\xe0\xa5\x8d\xe0
+\xa4\x9c\xe0\xa5\x8d\xe0\xa4\xaf\xe0\xa4\xb
+e\xe0\xa4\x99 
+\xe0\xa4\xac\xe0\xa4\x9a\xe0\xa4\xa4 
+\xe0\xa4\xa4\xe0\xa4\xa5\xe0\xa4\xbe 
+\xe0\xa4\x8b\xe0\xa4\xa3 \xe0\xa4\xb8\xe0\x
+a4\xb9\xe0\xa4\x95\xe0\xa4\xbe\xe0\xa4\xb0\
+xe0\xa5\x80 \xe0\xa4\xb8\xe0\xa4\x82\xe0\xa
+4\xb8\xe0\xa5\x8d\xe0\xa4\xa5\xe0\xa4\xbe \
+xe0\xa4\xb2\xe0\xa4\xbf\xe0\xa4\xae\xe0\xa4
+\xbf\xe0\xa4\x9f\xe0\xa5\x87\xe0\xa4\xa1\xe
+0\xa4\xb8\xe0\xa4\x81\xe0\xa4\x97 \xe0\xa4\
+xb8\xe0\xa4\xae\xe0\xa5\x8d\xe0\xa4\xaa\xe0
+\xa4\xb0\xe0\xa5\x8d\xe0\xa4\x95 \xe0\xa4\x
+97\xe0\xa4\xb0\xe0\xa5\x8d\xe0\xa4\xa8\xe0\
+xa5\x81\xe0\xa4\xb9\xe0\xa5\x8b\xe0\xa4\xb8
+\xe0\xa5\x8d\xe0\xa5\xa4 \xe0\xa4\xb9\xe0\x
+a4\xbe\xe0\xa4\xae\xe0\xa5\x8d\xe0\xa4\xb0\
+xe0\xa5\x8b \xe0\xa4\xae\xe0\xa5\x81\xe0\xa
+4\x96\xe0\xa5\x8d\xe0\xa4\xaf \xe0\xa4\x95\
+xe0\xa4\xbe\xe0\xa4\xb0\xe0\xa5\x8d\xe0\xa4
+\xaf\xe0\xa4\xbe\xe0\xa4\xb2\xe0\xa4\xaf 
+\xe0\xa4\xb0 \xe0\xa4\xb8\xe0\xa5\x87\xe0\x
+a4\xb5\xe0\xa4\xbe\n\xe0\xa4\x95\xe0\xa5\x8
+7\xe0\xa4\xa8\xe0\xa5\x8d\xe0\xa4\xa6\xe0\x
+a5\x8d\xe0\xa4\xb0\xe0\xa4\x95\xe0\xa5\x8b 
+\xe0\xa4\xa0\xe0\xa5\x87\xe0\xa4\x97\xe0\xa
+4\xbe\xe0\xa4\xa8\xe0\xa4\xbe, 
+\xe0\xa4\xab\xe0\xa5\x8b\xe0\xa4\xa8 \xe0\x
+a4\xa8\xe0\xa4\xae\xe0\xa5\x8d\xe0\xa4\xac\
+xe0\xa4\xb0, \xe0\xa4\x87\xe0\xa4\xae\xe0\x
+a5\x87\xe0\xa4\xb2, \xe0\xa4\xb0 \xe0\xa4\x
+b8\xe0\xa5\x80\xe0\xa4\xa7\xe0\xa5\x88 \xe0
+\xa4\xb8\xe0\xa4\xa8\xe0\xa5\x8d\xe0\xa4\xa
+6\xe0\xa5\x87\xe0\xa4\xb6 \xe0\xa4\xaa\xe0\
+xa4\xa0\xe0\xa4\xbe\xe0\xa4\x89\xe0\xa4\xa8
+\xe0\xa5\x81\xe0\xa4\xb9\xe0\xa5\x8b\xe0\xa
+4\xb8\xe0\xa5\x8d\xe0\xa5\xa4">\n    <meta 
+name="keywords"\n        
+content="bhanjyang cooperative contact, 
+contact details, cooperative office, 
+service center, rupa-3,\nphone number, 
+email address, send message, kaski, 
+customer support">\n    <meta 
+name="author" content="Bhanjyang Saving & 
+Credit Cooperative Society Ltd.">\n    
+<meta name="robots" content="index, 
+follow">\n    <meta name="language" 
+content="ne">\n    <meta 
+name="revisit-after" content="7 days">\n\n 
+   \n    <meta property="og:title" 
+content="Contact Bhanjyang Cooperative - 
+Get in Touch">\n    <meta 
+property="og:description"\n        content=
+"\xe0\xa4\xad\xe0\xa4\x9e\xe0\xa5\x8d\xe0\x
+a4\x9c\xe0\xa5\x8d\xe0\xa4\xaf\xe0\xa4\xbe\
+xe0\xa4\x99 
+\xe0\xa4\xac\xe0\xa4\x9a\xe0\xa4\xa4 
+\xe0\xa4\xa4\xe0\xa4\xa5\xe0\xa4\xbe 
+\xe0\xa4\x8b\xe0\xa4\xa3 \xe0\xa4\xb8\xe0\x
+a4\xb9\xe0\xa4\x95\xe0\xa4\xbe\xe0\xa4\xb0\
+xe0\xa5\x80 \xe0\xa4\xb8\xe0\xa4\x82\xe0\xa
+4\xb8\xe0\xa5\x8d\xe0\xa4\xa5\xe0\xa4\xbe \
+xe0\xa4\xb2\xe0\xa4\xbf\xe0\xa4\xae\xe0\xa4
+\xbf\xe0\xa4\x9f\xe0\xa5\x87\xe0\xa4\xa1\xe
+0\xa4\xb8\xe0\xa4\x81\xe0\xa4\x97 \xe0\xa4\
+xb8\xe0\xa4\xae\xe0\xa5\x8d\xe0\xa4\xaa\xe0
+\xa4\xb0\xe0\xa5\x8d\xe0\xa4\x95 \xe0\xa4\x
+97\xe0\xa4\xb0\xe0\xa5\x8d\xe0\xa4\xa8\xe0\
+xa5\x81\xe0\xa4\xb9\xe0\xa5\x8b\xe0\xa4\xb8
+\xe0\xa5\x8d\xe0\xa5\xa4 \xe0\xa4\xb9\xe0\x
+a4\xbe\xe0\xa4\xae\xe0\xa5\x80 \xe0\xa4\xa4
+\xe0\xa4\xaa\xe0\xa4\xbe\xe0\xa4\x88\xe0\xa
+4\x82\xe0\xa4\x95\xe0\xa5\x8b \xe0\xa4\xb8\
+xe0\xa4\xb9\xe0\xa4\xaf\xe0\xa5\x8b\xe0\xa4
+\x97\xe0\xa4\x95\xe0\xa4\xbe \xe0\xa4\xb2\x
+e0\xa4\xbe\xe0\xa4\x97\xe0\xa4\xbf \xe0\xa4
+\xaf\xe0\xa4\xb9\xe0\xa4\xbe\xe0\xa4\x81\n\
+xe0\xa4\x9b\xe0\xa5\x8c\xe0\xa4\x82\xe0\xa5
+\xa4">\n    <meta property="og:image" 
+content="/static/images/logos/Logo.png">\n 
+   <meta property="og:url" 
+content="http://testserver/contact/">\n    
+<meta property="og:type" 
+content="website">\n    <meta 
+property="og:site_name" content="Bhanjyang 
+Cooperative">\n    <meta 
+property="og:locale" content="ne_NP">\n\n  
+  \n    <meta name="twitter:card" 
+content="summary_large_image">\n    <meta 
+name="twitter:title" content="Contact 
+Bhanjyang Cooperative - Get in Touch">\n   
+ <meta name="twitter:description"\n        
+content="\xe0\xa4\xad\xe0\xa4\x9e\xe0\xa5\x
+8d\xe0\xa4\x9c\xe0\xa5\x8d\xe0\xa4\xaf\xe0\
+xa4\xbe\xe0\xa4\x99 
+\xe0\xa4\xac\xe0\xa4\x9a\xe0\xa4\xa4 
+\xe0\xa4\xa4\xe0\xa4\xa5\xe0\xa4\xbe 
+\xe0\xa4\x8b\xe0\xa4\xa3 \xe0\xa4\xb8\xe0\x
+a4\xb9\xe0\xa4\x95\xe0\xa4\xbe\xe0\xa4\xb0\
+xe0\xa5\x80 \xe0\xa4\xb8\xe0\xa4\x82\xe0\xa
+4\xb8\xe0\xa5\x8d\xe0\xa4\xa5\xe0\xa4\xbe \
+xe0\xa4\xb2\xe0\xa4\xbf\xe0\xa4\xae\xe0\xa4
+\xbf\xe0\xa4\x9f\xe0\xa5\x87\xe0\xa4\xa1\xe
+0\xa4\xb8\xe0\xa4\x81\xe0\xa4\x97 \xe0\xa4\
+xb8\xe0\xa4\xae\xe0\xa5\x8d\xe0\xa4\xaa\xe0
+\xa4\xb0\xe0\xa5\x8d\xe0\xa4\x95 \xe0\xa4\x
+97\xe0\xa4\xb0\xe0\xa5\x8d\xe0\xa4\xa8\xe0\
+xa5\x81\xe0\xa4\xb9\xe0\xa5\x8b\xe0\xa4\xb8
+\xe0\xa5\x8d\xe0\xa5\xa4">\n    <meta 
+name="twitter:image"\n        content="/sta
+tic/images/logos/Logo.png">\n\n    \n    
+<meta name="theme-color" 
+content="#059669">\n    <meta 
+name="msapplication-TileColor" 
+content="#059669">\n    <meta 
+name="msapplication-TileImage" content="/st
+atic/images/logos/Logo.png">\n\n    \n    
+<meta name="mobile-web-app-capable" 
+content="yes">\n    <meta 
+name="apple-mobile-web-app-capable" 
+content="yes">\n    <meta name="apple-mobil
+e-web-app-status-bar-style" 
+content="default">\n    <meta 
+name="apple-mobile-web-app-title" 
+content="Bhanjyang Coop">\n    <meta 
+name="application-name" content="Bhanjyang 
+Coop">\n    <meta 
+name="msapplication-starturl" 
+content="/">\n    <meta 
+name="msapplication-navbutton-color" 
+content="#059669">\n    <meta 
+name="msapplication-TileColor" 
+content="#059669">\n\n    \n    <link 
+rel="manifest" 
+href="/static/manifest.json">\n\n    \n    
+<link rel="icon" 
+href="/static/favicon/favicon.ico" 
+type="image/x-icon">\n    <link rel="icon" 
+href="/static/favicon/favicon-32x32.png" 
+type="image/png" sizes="32x32">\n    <link 
+rel="icon" 
+href="/static/favicon/favicon-16x16.png" 
+type="image/png" sizes="16x16">\n    <link 
+rel="apple-touch-icon" href="/static/favico
+n/apple-touch-icon.png">\n    <link 
+rel="apple-touch-icon" sizes="180x180" href
+="/static/favicon/apple-touch-icon.png">\n\
+n    \n    <link rel="canonical" 
+href="http://testserver/contact/">\n\n    
+\n    <link href="/static/dist/output.css" 
+rel="stylesheet">\n\n    \n    <link href="
+/static/css/utilities/animations.css" 
+rel="stylesheet">\n\n    \n    <link 
+href="/static/css/about-animations.css" 
+rel="stylesheet">\n    <link href="/static/
+css/utilities/advanced-animations.css" 
+rel="stylesheet">\n    <link 
+href="/static/css/utilities/dark-mode.css" 
+rel="stylesheet">\n    <link href="/static/
+css/pages/gallery-lightbox.css" 
+rel="stylesheet">\n\n    \n    <link 
+href="/static/css/components/forms.css" 
+rel="stylesheet">\n    <link href="/static/
+css/components/map-toggle.css" 
+rel="stylesheet">\n\n    \n    <link 
+rel="preconnect" 
+href="https://fonts.googleapis.com">\n    
+<link rel="preconnect" 
+href="https://fonts.gstatic.com" 
+crossorigin>\n    <link\n        href="http
+s://fonts.googleapis.com/css2?family=Poppin
+s:wght@300;400;500;600;700&family=Montserra
+t:wght@700;800;900&display=swap"\n        
+rel="stylesheet">\n    <link 
+rel="stylesheet" href="https://cdnjs.cloudf
+lare.com/ajax/libs/font-awesome/6.5.1/css/a
+ll.min.css"\n        
+crossorigin="anonymous" 
+referrerpolicy="no-referrer" />\n\n    \n  
+  <script defer src="https://cdn.jsdelivr.n
+et/npm/alpinejs@3.x.x/dist/cdn.min.js"></sc
+ript>\n\n    \n    \n\n\n\n    \n    
+<script type="application/ld+json">\n    
+{\n        "@context": 
+"https://schema.org",\n        "@type": 
+"ContactPage",\n        "name": "Contact 
+Bhanjyang Cooperative",\n        
+"description": "\xe0\xa4\xad\xe0\xa4\x9e\xe
+0\xa5\x8d\xe0\xa4\x9c\xe0\xa5\x8d\xe0\xa4\x
+af\xe0\xa4\xbe\xe0\xa4\x99 
+\xe0\xa4\xac\xe0\xa4\x9a\xe0\xa4\xa4 
+\xe0\xa4\xa4\xe0\xa4\xa5\xe0\xa4\xbe 
+\xe0\xa4\x8b\xe0\xa4\xa3 \xe0\xa4\xb8\xe0\x
+a4\xb9\xe0\xa4\x95\xe0\xa4\xbe\xe0\xa4\xb0\
+xe0\xa5\x80 \xe0\xa4\xb8\xe0\xa4\x82\xe0\xa
+4\xb8\xe0\xa5\x8d\xe0\xa4\xa5\xe0\xa4\xbe \
+xe0\xa4\xb2\xe0\xa4\xbf\xe0\xa4\xae\xe0\xa4
+\xbf\xe0\xa4\x9f\xe0\xa5\x87\xe0\xa4\xa1\xe
+0\xa4\xb8\xe0\xa4\x81\xe0\xa4\x97 \xe0\xa4\
+xb8\xe0\xa4\xae\xe0\xa5\x8d\xe0\xa4\xaa\xe0
+\xa4\xb0\xe0\xa5\x8d\xe0\xa4\x95 \xe0\xa4\x
+97\xe0\xa4\xb0\xe0\xa5\x8d\xe0\xa4\xa8\xe0\
+xa5\x81\xe0\xa4\xb9\xe0\xa5\x8b\xe0\xa4\xb8
+\xe0\xa5\x8d\xe0\xa5\xa4",\n        "url": 
+"http://testserver/contact/",\n        
+"logo": "/static/images/logos/Logo.png",\n 
+       "image": 
+"/static/images/logos/Logo.png",\n        
+"address": {\n            "@type": 
+"PostalAddress",\n            
+"streetAddress": "Rupa Rural 
+Municipality",\n            
+"addressLocality": "Kaski",\n            
+"addressRegion": "Gandaki Province",\n     
+       "addressCountry": "NP"\n        
+},\n        "contactPoint": {\n            
+"@type": "ContactPoint",\n            
+"telephone": "+977-9856083101",\n          
+  "contactType": "customer service",\n     
+       "availableLanguage": ["Nepali", 
+"English"]\n        },\n        "sameAs": 
+[\n            ""\n        ],\n        
+"serviceType": "Financial Services",\n     
+   "areaServed": "Nepal"\n    }\n    
+</script>\n\n    \n</head>\n\n<body 
+class="bg-himalwhite text-patrikaslate 
+font-poppins flex flex-col min-h-screen 
+antialiased">\n\n    \n    \n\n    \n    
+\n<!-- Skip to main content link for 
+accessibility -->\n<a href="#main-content" 
+class="sr-only focus:not-sr-only 
+focus:absolute focus:top-4 focus:left-4 
+focus:z-[10000] focus:px-4 focus:py-2 
+focus:bg-bhanjyangred focus:text-white 
+focus:rounded-md focus:shadow-lg 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2">\n    Skip to main 
+content\n</a>\n<div class="bg-white 
+text-gray-700 py-2 px-4 sm:px-20 text-xs 
+sm:text-sm shadow-md relative z-[9998]">\n 
+   <div class="container mx-auto flex 
+flex-wrap justify-center 
+sm:justify-between items-center gap-x-2 
+gap-y-1">\n        <div class="flex 
+items-center space-x-2">\n            <a 
+href="tel:+9779856083101"\n                
+class="flex items-center 
+hover:text-deuraligreen transition-colors 
+duration-300">\n                <i 
+class="fas fa-phone-alt mr-1 
+text-bhanjyangred"></i> <span\n            
+        class="hidden 
+sm:inline">+977-9856083101</span>\n        
+    </a>\n            <span class="hidden 
+sm:inline-block">|</span>\n            <a 
+href="mailto:info@bhanjyang.coop.np"\n     
+           class="flex items-center 
+hover:text-deuraligreen transition-colors 
+duration-300">\n                <i 
+class="fas fa-envelope mr-1 
+text-bhanjyangred"></i> <span\n            
+        class="hidden 
+sm:inline">info@bhanjyang.coop.np</span>\n 
+           </a>\n        </div>\n        
+<div class="flex items-center 
+space-x-2">\n            <a 
+href="/contact/" 
+class="hover:text-deuraligreen 
+transition-colors duration-300 flex 
+items-center">\n                <i 
+class="fas fa-headset mr-1 
+text-bhanjyangred"></i> Support\n          
+  </a>\n        </div>\n    
+</div>\n</div>\n<hr class="border-t 
+border-gray-200">\n<header class="sticky 
+top-0 z-[9999] bg-white shadow-lg 
+gsap-navbar">\n    <nav class="container 
+mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 
+flex items-center justify-between relative 
+gap-4">\n        <!-- Logo Section -->\n   
+     <a href="/" class="flex items-center 
+space-x-2 sm:space-x-3 group py-2 
+gsap-fade-in flex-shrink-0 min-w-0 
+max-w-[60%] sm:max-w-none mr-4">\n         
+   <img 
+src="/static/images/logos/Logo.png" 
+alt="Bhanjyang Cooperative Logo"\n         
+       class="h-8 w-auto object-contain 
+hover-scale hover-rotate sm:h-10 md:h-12 
+flex-shrink-0 gsap-slide-up" 
+loading="eager"\n                
+width="150" height="50" 
+decoding="async">\n            <div 
+class="flex flex-col justify-center 
+min-w-0 flex-shrink">\n                
+<span\n                    class="text-lg 
+sm:text-xl md:text-2xl lg:text-3xl 
+font-extrabold text-bhanjyangred 
+group-hover:text-deuraligreen 
+transition-colors duration-300 
+font-montserrat hover-glow gsap-fade-in 
+truncate">BHANJYANG</span>\n               
+ <span\n                    
+class="text-[10px] sm:text-xs 
+text-deuraligreen 
+group-hover:text-bhanjyangred 
+transition-colors duration-300 
+tracking-wider uppercase gsap-fade-in 
+truncate">Saving\n                    & 
+Credit Cooperative Ltd.</span>\n           
+ </div>\n        </a>\n\n        <!-- 
+Right Side Section: Navigation + Search 
+-->\n        <div class="hidden md:flex 
+items-center space-x-4 lg:space-x-8 
+flex-shrink-0">\n            <!-- 
+Navigation Menu -->\n            <div 
+class="flex items-center space-x-2 
+lg:space-x-4 font-semibold text-sm 
+lg:text-md">\n                \n           
+     \n\n                <a href="/"\n     
+               class="nav-link 
+nav-link-underline hover-lift 
+text-deuraligreen hover:text-bhanjyangred 
+font-montserrat focus:outline-none 
+focus:ring-2 focus:ring-deuraligreen 
+focus:ring-offset-2 rounded px-1"\n        
+            >Home</a>\n\n                
+<!-- About Us Dropdown Menu -->\n          
+      <div class="group relative">\n       
+             <a href="/about/"\n           
+             class="nav-link 
+nav-link-underline text-deuraligreen 
+hover:text-bhanjyangred flex items-center 
+font-montserrat focus:outline-none 
+focus:ring-2 focus:ring-deuraligreen 
+focus:ring-offset-2 rounded px-1"\n        
+                \n                        
+aria-haspopup="true" aria-expanded="false" 
+id="about-dropdown-trigger">\n             
+           About Us <i\n                   
+         class="fas fa-chevron-down ml-2 
+text-sm group-hover:rotate-180 
+transition-transform duration-300" 
+aria-hidden="true"></i>\n                  
+  </a>\n                    <div\n         
+               class="absolute hidden 
+group-hover:block group-focus-within:block 
+bg-white shadow-lg rounded-md mt-2 py-2 
+w-56 transition-all duration-300 opacity-0 
+group-hover:opacity-100 
+group-focus-within:opacity-100 transform 
+-translate-y-2 group-hover:translate-y-0 
+group-focus-within:translate-y-0 z-50"\n   
+                     role="menu" aria-label
+ledby="about-dropdown-trigger">\n          
+              <a 
+href="/about/#our-story"\n                 
+           class="block px-4 py-2 
+text-gray-700 hover:bg-gray-100 
+hover:text-bhanjyangred focus:outline-none 
+focus:bg-gray-100 focus:text-bhanjyangred 
+focus:ring-2 focus:ring-deuraligreen 
+rounded mx-2"\n                            
+role="menuitem">Our Story</a>\n            
+            <a 
+href="/about/#vision-mission"\n            
+                class="block px-4 py-2 
+text-gray-700 hover:bg-gray-100 
+hover:text-bhanjyangred focus:outline-none 
+focus:bg-gray-100 focus:text-bhanjyangred 
+focus:ring-2 focus:ring-deuraligreen 
+rounded mx-2"\n                            
+role="menuitem">Vision & Mission</a>\n     
+                   <a 
+href="/about/#testimonials"\n              
+              class="block px-4 py-2 
+text-gray-700 hover:bg-gray-100 
+hover:text-bhanjyangred focus:outline-none 
+focus:bg-gray-100 focus:text-bhanjyangred 
+focus:ring-2 focus:ring-deuraligreen 
+rounded mx-2"\n                            
+role="menuitem">Member Testimonials</a>\n  
+                  </div>\n                
+</div>\n\n                <a 
+href="/services/"\n                    
+class="nav-link nav-link-underline 
+hover-lift text-deuraligreen 
+hover:text-bhanjyangred font-montserrat 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2 rounded px-1"\n        
+            >Services</a>\n                
+<a href="/news-events/"\n                  
+  class="nav-link nav-link-underline 
+hover-lift text-deuraligreen 
+hover:text-bhanjyangred font-montserrat 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2 rounded px-1"\n        
+            >News\n                    & 
+Events</a>\n                <a 
+href="/downloads/"\n                    
+class="nav-link nav-link-underline 
+hover-lift text-deuraligreen 
+hover:text-bhanjyangred font-montserrat 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2 rounded 
+px-1">Downloads</a>\n                <a 
+href="/gallery/"\n                    
+class="nav-link nav-link-underline 
+hover-lift text-deuraligreen 
+hover:text-bhanjyangred font-montserrat 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2 rounded px-1"\n        
+            >Gallery</a>\n                
+<a href="/contact/"\n                    
+class="nav-link nav-link-underline 
+hover-lift text-bhanjyangred 
+hover:text-bhanjyangred font-montserrat 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2 rounded px-1"\n        
+            aria-current="page">Contact\n  
+                  Us</a>\n\n               
+ \n                \n            
+</div>\n\n            <!-- Search Form 
+-->\n            <div class="flex 
+items-center ml-4 lg:ml-8 
+flex-shrink-0">\n                <form 
+method="GET" action="/search/" 
+class="relative" role="search">\n          
+          <label 
+for="desktop-search-input" 
+class="sr-only">Search</label>\n           
+         <input type="text" name="query" 
+id="desktop-search-input" 
+placeholder="Search..."\n                  
+      class="w-32 lg:w-40 px-3 py-1.5 pr-8 
+text-sm border border-gray-300 rounded-md 
+focus:ring-2 focus:ring-deuraligreen 
+focus:border-transparent"\n                
+        value="" aria-label="Search">\n    
+                <button type="submit"\n    
+                    class="absolute 
+right-1.5 top-1/2 -translate-y-1/2 
+text-gray-400 hover:text-deuraligreen 
+transition-colors duration-200 flex 
+items-center justify-center w-5 h-5 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen rounded"\n         
+               aria-label="Submit 
+search">\n                        <i 
+class="fas fa-search text-xs" 
+aria-hidden="true"></i>\n                  
+  </button>\n                </form>\n     
+       </div>\n        </div>\n        
+<div class="md:hidden gsap-fade-in">\n     
+       <button id="mobile-menu-button" 
+type="button"\n                
+class="text-deuraligreen 
+hover:text-green-900 focus:outline-none 
+focus:ring-2 focus:ring-deuraligreen 
+rounded-md p-2 hover-scale gsap-slide-up 
+cursor-pointer relative z-50"\n            
+    aria-label="Toggle main menu" 
+aria-expanded="false">\n                <i 
+class="fas fa-bars text-2xl 
+pointer-events-none"></i>\n            
+</button>\n        </div>\n    </nav>\n    
+<!-- Mobile Menu -->\n    <div 
+id="mobile-menu" class="hidden md:hidden 
+fixed inset-0 z-40 bg-black bg-opacity-50 
+backdrop-blur-sm" role="dialog" 
+aria-modal="true" 
+aria-labelledby="mobile-menu-title">\n     
+   <div\n            class="fixed 
+inset-y-0 right-0 max-w-xs w-full bg-white 
+shadow-xl transform transition-transform 
+duration-300 ease-in-out 
+will-change-transform 
+mobile-menu-panel">\n            <div 
+class="flex items-center justify-between 
+p-4 border-b border-gray-200">\n           
+     <h3 id="mobile-menu-title" 
+class="text-lg font-semibold text-gray-900 
+font-montserrat">Menu</h3>\n               
+ <button id="mobile-menu-close" 
+class="text-gray-400 hover:text-gray-600 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen rounded-md p-1" 
+aria-label="Close menu">\n                 
+   <i class="fas fa-times text-xl"></i>\n  
+              </button>\n            
+</div>\n            <!-- Mobile Search 
+-->\n            <div class="px-4 py-4 
+border-b border-gray-200">\n               
+ <form method="GET" action="/search/" 
+class="relative" role="search">\n          
+          <label for="mobile-search-input" 
+class="sr-only">Search</label>\n           
+         <input type="text" name="query" 
+id="mobile-search-input" 
+placeholder="Search..."\n                  
+      class="w-full px-4 py-2 pr-10 
+text-sm border border-gray-300 rounded-lg 
+focus:ring-2 focus:ring-deuraligreen 
+focus:border-transparent"\n                
+        value="" aria-label="Search">\n    
+                <button type="submit"\n    
+                    class="absolute 
+right-2 top-1/2 transform -translate-y-1/2 
+text-gray-400 hover:text-deuraligreen 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen rounded p-1"\n     
+                   aria-label="Submit 
+search">\n                        <i 
+class="fas fa-search" 
+aria-hidden="true"></i>\n                  
+  </button>\n                </form>\n     
+       </div>\n\n            <nav 
+class="px-4 py-6 space-y-4" 
+role="navigation" aria-label="Mobile 
+navigation">\n                <a 
+href="/"\n                    class="block 
+py-3 px-4 text-gray-700 
+hover:text-bhanjyangred hover:bg-gray-50 
+rounded-lg transition-all duration-200 
+font-montserrat focus:outline-none 
+focus:ring-2 focus:ring-deuraligreen 
+focus:ring-offset-2"\n                    
+>Home</a>\n                \n              
+  <!-- About Us Dropdown in Mobile -->\n   
+             <div 
+class="mobile-dropdown">\n                 
+   <button type="button" 
+class="mobile-dropdown-toggle w-full flex 
+items-center justify-between py-3 px-4 
+text-gray-700 hover:text-bhanjyangred 
+hover:bg-gray-50 rounded-lg transition-all 
+duration-200 font-montserrat" 
+aria-expanded="false" 
+aria-controls="mobile-about-dropdown">\n   
+                     <span>About 
+Us</span>\n                        <i 
+class="fas fa-chevron-down 
+transition-transform duration-200"></i>\n  
+                  </button>\n              
+      <div id="mobile-about-dropdown" 
+class="hidden pl-4 pt-2 space-y-2">\n      
+                  <a 
+href="/about/#our-story"\n                 
+           class="block py-2 px-4 
+text-gray-600 hover:text-bhanjyangred 
+hover:bg-gray-50 rounded-lg transition-all 
+duration-200 font-montserrat text-sm">Our 
+Story</a>\n                        <a 
+href="/about/#vision-mission"\n            
+                class="block py-2 px-4 
+text-gray-600 hover:text-bhanjyangred 
+hover:bg-gray-50 rounded-lg transition-all 
+duration-200 font-montserrat 
+text-sm">Vision & Mission</a>\n            
+            <a 
+href="/about/#testimonials"\n              
+              class="block py-2 px-4 
+text-gray-600 hover:text-bhanjyangred 
+hover:bg-gray-50 rounded-lg transition-all 
+duration-200 font-montserrat 
+text-sm">Member Testimonials</a>\n         
+           </div>\n                
+</div>\n                \n                
+<a href="/services/"\n                    
+class="block py-3 px-4 text-gray-700 
+hover:text-bhanjyangred hover:bg-gray-50 
+rounded-lg transition-all duration-200 
+font-montserrat focus:outline-none 
+focus:ring-2 focus:ring-deuraligreen 
+focus:ring-offset-2"\n                    
+>Services</a>\n                <a 
+href="/news-events/"\n                    
+class="block py-3 px-4 text-gray-700 
+hover:text-bhanjyangred hover:bg-gray-50 
+rounded-lg transition-all duration-200 
+font-montserrat focus:outline-none 
+focus:ring-2 focus:ring-deuraligreen 
+focus:ring-offset-2"\n                    
+>News\n                    & Events</a>\n  
+              <a href="/downloads/"\n      
+              class="block py-3 px-4 
+text-gray-700 hover:text-bhanjyangred 
+hover:bg-gray-50 rounded-lg transition-all 
+duration-200 font-montserrat 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2">Downloads</a>\n       
+         <a href="/gallery/"\n             
+       class="block py-3 px-4 
+text-gray-700 hover:text-bhanjyangred 
+hover:bg-gray-50 rounded-lg transition-all 
+duration-200 font-montserrat 
+focus:outline-none focus:ring-2 
+focus:ring-deuraligreen 
+focus:ring-offset-2"\n                    
+>Gallery</a>\n                <a 
+href="/contact/"\n                    
+class="block py-3 px-4 text-gray-700 
+hover:text-bhanjyangred hover:bg-gray-50 
+rounded-lg transition-all duration-200 
+font-montserrat focus:outline-none 
+focus:ring-2 focus:ring-deuraligreen 
+focus:ring-offset-2"\n                    
+>Contact\n                    Us</a>\n     
+       </nav>\n        </div>\n    
+</div>\n</header>\n\n    <main 
+id="main-content" class="flex-grow">\n     
+   \n<section id="contact-information" 
+class="py-16 px-4 sm:px-6 lg:px-8 
+bg-gray-50">\n    <div class="container 
+mx-auto px-4 sm:px-6 lg:px-8">\n        
+<div class="text-center mb-12">\n          
+  <h2 class="text-2xl sm:text-3xl 
+md:text-4xl font-bold text-bhanjyangred 
+font-montserrat mb-3">\n                
+Our Contact Information & Locations\n      
+      </h2>\n            <div class="w-24 
+h-1 bg-deuraligreen mx-auto 
+rounded-full"></div>\n            <p 
+class="mt-4 text-center text-base 
+sm:text-lg text-gray-700 max-w-3xl mx-auto 
+leading-relaxed">\n                Whether 
+you have a query, feedback, or need 
+assistance, our dedicated team at both our 
+Main Office and\n                Service 
+Center is ready to help.\n            
+</p>\n        </div>\n\n        \n        
+<div class="grid grid-cols-1 
+sm:grid-cols-2 lg:grid-cols-3 
+xl:grid-cols-5 gap-8 text-center">\n       
+     \n<div class="bg-white p-6 rounded-lg 
+shadow-md hover:shadow-lg 
+transition-shadow duration-300 border-t-4 
+border-deuraligreen animated-element 
+animate-in-up delay-200">\n    <i 
+class="fas fa-landmark text-5xl 
+text-deuraligreen mb-4"></i>\n    <h3 
+class="text-xl font-semibold text-gray-900 
+mb-3 font-montserrat">Main Office</h3>\n   
+ <div class="text-gray-700 
+leading-relaxed">\n        Bhanjyang 
+Saving & Credit Cooperative Ltd.<br>Rupa 
+Rural Municipality-5, Deurali, 
+Kaski<br>Gandaki Province, Nepal\n    
+</div>\n    \n        <a href="https://www.
+google.com/maps/embed?pb=!1m14!1m8!1m3!1d70
+37.612645021445!2d84.149533!3d28.121932!3m2
+!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5
+af600d%3A0xacb415d2023a9c80!2sBhanjyang%20S
+aving%20%26%20Credit%20Cooperative%20Societ
+y%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!
+5m2!1sen!2snp" target="_blank" 
+rel="noopener noreferrer" class="block 
+mt-4 text-deuraligreen hover:underline 
+font-semibold">\n            Get 
+Directions <i class="fas 
+fa-external-link-alt ml-1 text-xs"></i>\n  
+      </a>\n    \n    \n</div>\n\n\n\n     
+       \n<div class="bg-white p-6 
+rounded-lg shadow-md hover:shadow-lg 
+transition-shadow duration-300 border-t-4 
+border-bhanjyangred animated-element 
+animate-in-up delay-300">\n    <i 
+class="fas fa-location-dot text-5xl 
+text-bhanjyangred mb-4"></i>\n    <h3 
+class="text-xl font-semibold text-gray-900 
+mb-3 font-montserrat">Service 
+Center</h3>\n    <div class="text-gray-700 
+leading-relaxed">\n        Bhanjyang 
+SACCOS, Polyang Service Center<br>Rupa 
+Rural Municipality-3, Polyang, 
+Kaski<br>Gandaki Province, Nepal\n    
+</div>\n    \n        <a href="https://www.
+google.com/maps/embed?pb=!1m14!1m8!1m3!1d14
+886.364800504987!2d84.20693577278259!3d28.1
+08180724514312!3m2!1i1024!2i768!4f13.1!3m3!
+1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757
+ed!2sBhanjyang%20Saving%20%26%20Credit%20Co
+operative%20Society%20Ltd.%20Polyang%20Bran
+ch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1s
+en!2snp" target="_blank" rel="noopener 
+noreferrer" class="block mt-4 
+text-bhanjyangred hover:underline 
+font-semibold">\n            Get 
+Directions <i class="fas 
+fa-external-link-alt ml-1 text-xs"></i>\n  
+      </a>\n    \n    \n</div>\n\n\n\n     
+       \n<div class="bg-white p-6 
+rounded-lg shadow-md hover:shadow-lg 
+transition-shadow duration-300 border-t-4 
+border-deuraligreen animated-element 
+animate-in-up delay-600">\n    <i 
+class="fas fa-clock text-5xl 
+text-deuraligreen mb-4"></i>\n    <h3 
+class="text-xl font-semibold text-gray-900 
+mb-3 font-montserrat">Business 
+Hours</h3>\n    <div class="text-gray-700 
+leading-relaxed">\n        Sunday - 
+Friday: 10:00 AM - 4:00 PM<br>Saturday: 
+Closed<br>Public Holidays: Closed\n    
+</div>\n    \n    \n        <p 
+class="text-sm text-gray-600 mt-2">We\'re 
+here to serve you during business 
+hours.</p>\n    \n</div>\n\n\n\n           
+ \n<div class="bg-white p-6 rounded-lg 
+shadow-md hover:shadow-lg 
+transition-shadow duration-300 border-t-4 
+border-deuraligreen animated-element 
+animate-in-up delay-400">\n    <i 
+class="fas fa-phone text-5xl 
+text-deuraligreen mb-4"></i>\n    <h3 
+class="text-xl font-semibold text-gray-900 
+mb-3 font-montserrat">Call Us</h3>\n    
+<div class="text-gray-700 
+leading-relaxed">\n        Main Office: <a 
+href=\'tel:+9779856083101\' 
+class=\'text-deuraligreen hover:underline\'
+>+977-9856083101</a><br>Service Center: <a 
+href=\'tel:+9779846242424\' 
+class=\'text-deuraligreen 
+hover:underline\'>+977-9846242424</a>\n    
+</div>\n    \n    \n        <p 
+class="text-sm text-gray-600 
+mt-2">Available during business 
+hours.</p>\n    \n</div>\n\n\n\n           
+ \n<div class="bg-white p-6 rounded-lg 
+shadow-md hover:shadow-lg 
+transition-shadow duration-300 border-t-4 
+border-bhanjyangred animated-element 
+animate-in-up delay-500">\n    <i 
+class="fas fa-envelope-open-text text-5xl 
+text-bhanjyangred mb-4"></i>\n    <h3 
+class="text-xl font-semibold text-gray-900 
+mb-3 font-montserrat">Email Us</h3>\n    
+<div class="text-gray-700 
+leading-relaxed">\n        General 
+Inquiries: <a 
+href=\'mailto:info@bhanjyang.coop.np\' 
+class=\'text-bhanjyangred hover:underline\'
+>info@bhanjyang.coop.np</a><br>Support: <a 
+href=\'mailto:support@bhanjyang.coop.np\' 
+class=\'text-bhanjyangred hover:underline\'
+>support@bhanjyang.coop.np</a>\n    
+</div>\n    \n    \n        <p 
+class="text-sm text-gray-600 mt-2">We aim 
+to respond within 24-48 hours.</p>\n    
+\n</div>\n\n\n\n        </div>\n    
+</div>\n</section>\n\n<section 
+id="contact-feedback-form" class="py-16 
+px-4 sm:px-6 lg:px-8 bg-white">\n    <div 
+class="container mx-auto px-4 sm:px-6 
+lg:px-8">\n        <div class="grid 
+grid-cols-1 lg:grid-cols-6 gap-8 
+items-start">\n            \n            
+\n            <div class="lg:col-span-2 
+text-center lg:text-left">\n               
+ <h2 class="text-2xl sm:text-3xl 
+md:text-4xl font-bold text-deuraligreen 
+font-montserrat mb-4">\n                   
+ We\'d Love to Hear From You\n             
+   </h2>\n                <p 
+class="text-base sm:text-lg text-gray-700 
+mb-6 leading-relaxed font-poppins">\n      
+              Whether you have a question, 
+a suggestion, or feedback on our services, 
+we\'re here to listen. \n                  
+  Your insights are invaluable to us as we 
+strive to improve.\n                </p>\n 
+               <div class="space-y-4 
+inline-block text-left mb-6">\n            
+        <div class="flex items-center 
+gap-3 text-gray-800">\n                    
+    <i class="fa-solid fa-phone text-base 
+text-deuraligreen w-4 text-center"></i>\n  
+                      <a 
+href="tel:+9779856083101" class="text-sm 
+font-poppins hover:underline 
+font-semibold">+977-9856083101</a>\n       
+             </div>\n                    
+<div class="flex items-center gap-3 
+text-gray-800">\n                        
+<i class="fa-solid fa-envelope text-base 
+text-deuraligreen w-4 text-center"></i>\n  
+                      <a 
+href="mailto:info@bhanjyang.coop.np" 
+class="text-sm font-poppins 
+hover:underline font-semibold">info@bhanjya
+ng.coop.np</a>\n                    
+</div>\n                </div>\n           
+     <div class="mt-4">\n                  
+  <img src="/static/images/plant-illustrati
+on.png" alt="" role="presentation"\n       
+                 class="w-24 sm:w-28 
+md:w-32 lg:w-36 h-auto mx-auto lg:mx-0 
+drop-shadow-xl object-contain"\n           
+             loading="lazy">\n             
+   </div>\n            </div>\n\n          
+  \n            <div class="lg:col-span-4 
+w-full self-stretch flex">\n               
+ <a href="#contactForm" class="sr-only 
+focus:not-sr-only focus:absolute 
+focus:top-4 focus:left-4 focus:z-[10000] 
+focus:px-4 focus:py-2 
+focus:bg-deuraligreen focus:text-white 
+focus:rounded-md">\n                    
+Skip to contact form\n                
+</a>\n                \n                
+<form id="contactForm" method="POST" 
+action="/contact/"\n                    
+class="h-full flex flex-col space-y-6 
+bg-white border border-gray-200 p-6 
+sm:p-10 rounded-xl shadow-xl w-full"\n     
+               novalidate 
+enctype="multipart/form-data" 
+aria-label="Contact form">\n               
+     \n                    <input 
+type="hidden" name="csrfmiddlewaretoken" 
+id="contact-form-csrf-token" value="wzTBKDQ
+cdqF9uwEydRPtGZF79tBMOm3UF6YbUm3pn6OergOrvJ
+9rAETpf2VWp6sr">\n\n                    
+<div id="form-messages" 
+class="min-h-[1rem] transition-all 
+duration-300" aria-live="polite">\n        
+                <div id="success-message" 
+class="hidden bg-green-50 border 
+border-green-200 text-green-800 px-4 py-3 
+rounded-lg flex items-center gap-3" 
+role="alert">\n                            
+<i class="fas fa-check-circle 
+text-green-600"></i>\n                     
+       <p class="text-sm 
+font-poppins">Message Sent 
+Successfully!</p>\n                        
+</div>\n                        <div 
+id="error-message" class="hidden bg-red-50 
+border border-red-200 text-red-800 px-4 
+py-3 rounded-lg flex items-center gap-3" 
+role="alert">\n                            
+<i class="fas fa-exclamation-circle 
+text-red-600"></i>\n                       
+     <p class="text-sm font-poppins" 
+id="error-details">Please try again.</p>\n 
+                       </div>\n            
+            <div id="validation-errors" 
+class="hidden bg-yellow-50 border 
+border-yellow-200 text-yellow-800 px-4 
+py-3 rounded-lg" role="alert">\n           
+                 <div class="flex 
+items-center gap-3 mb-2">\n                
+                <i class="fas 
+fa-exclamation-triangle 
+text-yellow-600"></i>\n                    
+            <p class="text-sm font-poppins 
+font-semibold">Please correct the 
+following errors:</p>\n                    
+        </div>\n                           
+ <ul id="validation-list" class="list-disc 
+list-inside text-sm font-poppins space-y-1 
+ml-6"></ul>\n                        
+</div>\n                    </div>\n\n     
+               <div class="grid 
+grid-cols-1 md:grid-cols-2 gap-6">\n       
+                 <div class="form-group 
+relative">\n                            
+<label for="id_name" class="block text-sm 
+font-semibold font-poppins text-gray-700 
+mb-2">\n                                
+Your Name <span 
+class="text-red-500">*</span>\n            
+                </label>\n                 
+           <input type="" name="name" 
+id="id_name"\n                             
+   class="w-full px-4 py-3 border 
+border-gray-300 rounded-lg focus:ring-2 
+focus:ring-deuraligreen/50 
+focus:border-deuraligreen bg-gray-50 
+transition-all font-poppins"\n             
+                   placeholder="Enter full 
+name" required>\n                          
+  <div id="id_name_error" 
+class="error-message hidden text-red-600 
+text-sm mt-1 font-poppins" 
+role="alert"></div>\n                      
+  </div>\n                        <div 
+class="form-group">\n                      
+      <label for="id_email" class="block 
+text-sm font-semibold font-poppins 
+text-gray-700 mb-2">\n                     
+           Your Email <span 
+class="text-red-500">*</span>\n            
+                </label>\n                 
+           <input type="email" 
+name="email" class="w-full px-4 py-3 
+rounded-lg border-2 border-gray-300 
+focus:outline-none 
+focus:border-deuraligreen 
+transition-colors duration-200" 
+placeholder="your.email@example.com" 
+autocomplete="email" maxlength="320" 
+required id="id_email">\n                  
+          <div id="id_email_error" 
+class="error-message hidden text-red-600 
+text-sm mt-1 font-poppins" 
+role="alert"></div>\n                      
+  </div>\n                        <div 
+class="form-group">\n                      
+      <label for="id_phone" class="block 
+text-sm font-semibold font-poppins 
+text-gray-700 mb-2">\n                     
+           Phone Number <span 
+class="text-gray-500 text-xs 
+font-normal">(Optional)</span>\n           
+                 </label>\n                
+            <input type="text" 
+name="phone" class="w-full px-4 py-3 
+rounded-lg border-2 border-gray-300 
+focus:outline-none 
+focus:border-deuraligreen 
+transition-colors duration-200" 
+placeholder="+977-XXXXXXXXXX" 
+autocomplete="tel" maxlength="20" 
+id="id_phone">\n                           
+ <div id="id_phone_error" 
+class="error-message hidden text-red-600 
+text-sm mt-1 font-poppins" 
+role="alert"></div>\n                      
+  </div>\n                    </div>\n\n   
+                 <div 
+class="form-group">\n                      
+  <label for="id_message" class="block 
+text-sm font-semibold font-poppins 
+text-gray-700 mb-2">\n                     
+       Your Message <span 
+class="text-red-500">*</span>\n            
+            </label>\n                     
+   <textarea name="message" cols="40" 
+rows="5" class="w-full px-4 py-3 
+rounded-lg border-2 border-gray-300 
+focus:outline-none 
+focus:border-deuraligreen 
+transition-colors duration-200 
+resize-none" placeholder="Your message 
+here..." autocomplete="off" minlength="10" 
+required id="id_message">\n</textarea>\n   
+                     <div 
+id="id_message_error" class="error-message 
+hidden text-red-600 text-sm mt-1 
+font-poppins" role="alert"></div>\n        
+            </div>\n\n                    
+<div class="form-group">\n                 
+       <label for="id_attachment" 
+class="block text-sm font-semibold 
+font-poppins text-gray-700 mb-2">\n        
+                    File Attachment <span 
+class="text-gray-500 text-xs 
+font-normal">(Optional)</span>\n           
+             </label>\n                    
+    <input type="file" name="attachment" 
+class="w-full px-4 py-3 rounded-lg 
+border-2 border-gray-300 
+focus:outline-none 
+focus:border-deuraligreen 
+transition-colors duration-200" 
+accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" 
+id="id_attachment">\n                      
+  <p class="text-[11px] text-gray-500 mt-1 
+font-poppins">Max 5MB (PDF, DOC, JPG, 
+PNG)</p>\n                    </div>\n\n   
+                 <div class="text-center 
+pt-4">\n                        <button 
+id="submitButton" type="submit"\n          
+                  class="w-full sm:w-auto 
+bg-deuraligreen hover:bg-bhanjyangred 
+text-white text-base font-bold 
+font-poppins py-4 px-10 rounded-full 
+shadow-lg transform hover:scale-105 
+transition-all duration-300 flex 
+items-center justify-center gap-3">\n      
+                      <span 
+id="buttonText">Send Message</span>\n      
+                      <i id="buttonIcon" 
+class="fas fa-paper-plane"></i>\n          
+                  <i id="loadingIcon" 
+class="fas fa-spinner fa-spin 
+hidden"></i>\n                        
+</button>\n                    </div>\n\n  
+                  <div class="text-center 
+text-xs font-poppins text-gray-500 
+mt-2">\n                        <p>By 
+submitting this form, you agree to our <a 
+href="/contact/privacy-policy/" 
+class="underline 
+hover:text-bhanjyangred">privacy 
+policy</a>.</p>\n                    
+</div>\n                </form>\n          
+  </div>\n        </div>\n    
+</div>\n</section>\n\n<section 
+id="our-locations-map" class="py-16 px-4 
+sm:px-6 lg:px-8 bg-gray-50">\n    <div 
+class="container mx-auto px-4 sm:px-6 
+lg:px-8">\n        <div class="text-center 
+mb-12">\n            <h2 class="text-2xl 
+sm:text-3xl md:text-4xl font-bold 
+text-bhanjyangred font-montserrat mb-3">\n 
+               Find Our Locations on the 
+Map\n            </h2>\n            <div 
+class="w-24 h-1 bg-deuraligreen mx-auto 
+rounded-full"></div>\n            <p\n     
+           class="mt-4 text-center 
+text-base sm:text-lg text-gray-700 
+max-w-3xl mx-auto leading-relaxed 
+font-poppins">\n                Visit our 
+Main Office in Rupa-5 or our Service 
+Center in Rupa-3. Use the buttons below to 
+switch between\n                
+locations.\n            </p>\n        
+</div>\n\n        <div class="rounded-lg 
+shadow-xl overflow-hidden border-4 
+border-deuraligreen">\n            <div 
+id="map-loading"\n                
+class="absolute inset-0 bg-gray-100/75 
+backdrop-blur-sm flex items-center 
+justify-center z-10 hidden">\n             
+   <div class="flex flex-col 
+items-center">\n                    <div 
+class="animate-spin rounded-full h-8 w-8 
+border-b-2 border-deuraligreen 
+mb-2"></div>\n                    <p 
+class="text-sm font-poppins 
+text-gray-600">Loading map...</p>\n        
+        </div>\n            </div>\n\n     
+       \n            <iframe 
+id="location-map-iframe"\n                s
+rc="https://www.google.com/maps/embed?pb=!1
+m14!1m8!1m3!1d7037.612645021445!2d84.149533
+!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m
+2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80
+!2sBhanjyang%20Saving%20%26%20Credit%20Coop
+erative%20Society%20Ltd.!5e0!3m2!1sen!2snp!
+4v1760763305577!5m2!1sen!2snp"\n           
+     title="Interactive map showing 
+Bhanjyang Cooperative Main Office and 
+Service Center locations. Use the toggle 
+buttons below to switch between 
+locations."\n                class="w-full 
+h-64 sm:h-72 md:h-80 lg:h-[450px] 
+transition-opacity duration-300 
+ease-in-out"\n                
+style="border:0;" allowfullscreen="" 
+loading="lazy" referrerpolicy="no-referrer-
+when-downgrade"\n                
+aria-label="Interactive map of Bhanjyang 
+Cooperative locations">\n            
+</iframe>\n        </div>\n\n        \n    
+    <div class="flex flex-col items-center 
+justify-center mt-8">\n            <div 
+class="relative inline-flex items-center 
+bg-white rounded-full p-1.5 shadow-lg 
+border border-gray-200">\n                
+\n                <div class="relative 
+flex items-center">\n                    
+\n                    <button 
+id="map-toggle-main"\n                     
+   data-map-src="https://www.google.com/map
+s/embed?pb=!1m14!1m8!1m3!1d7037.61264502144
+5!2d84.149533!3d28.121932!3m2!1i1024!2i768!
+4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb
+415d2023a9c80!2sBhanjyang%20Saving%20%26%20
+Credit%20Cooperative%20Society%20Ltd.!5e0!3
+m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
+\n                        
+class="map-toggle-option relative z-10 
+px-6 py-2.5 rounded-full text-sm 
+font-semibold font-poppins transition-all 
+duration-300 ease-in-out transform 
+active:scale-95"\n                        
+data-location="main">\n                    
+    <span class="flex items-center 
+gap-2">\n                            <i 
+class="fas fa-landmark text-xs"></i>\n     
+                       <span>Main 
+Office</span>\n                        
+</span>\n                    </button>\n\n 
+                   \n                    
+<button id="map-toggle-service"\n          
+              data-map-src="https://www.goo
+gle.com/maps/embed?pb=!1m14!1m8!1m3!1d14886
+.364800504987!2d84.20693577278259!3d28.1081
+80724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2
+!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!
+2sBhanjyang%20Saving%20%26%20Credit%20Coope
+rative%20Society%20Ltd.%20Polyang%20Branch!
+5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!
+2snp"\n                        
+class="map-toggle-option relative z-10 
+px-6 py-2.5 rounded-full text-sm 
+font-semibold font-poppins transition-all 
+duration-300 ease-in-out transform 
+active:scale-95"\n                        
+data-location="service">\n                 
+       <span class="flex items-center 
+gap-2">\n                            <i 
+class="fas fa-location-dot text-xs"></i>\n 
+                           <span>Service 
+Center</span>\n                        
+</span>\n                    </button>\n\n 
+                   \n                    
+<div id="map-toggle-slider"\n              
+          class="absolute top-1.5 left-1.5 
+h-9 bg-deuraligreen rounded-full shadow-md 
+transition-all duration-300 ease-in-out 
+z-0">\n                    </div>\n        
+        </div>\n            </div>\n       
+ </div>\n    </div>\n</section>\n\n\n    
+</main>\n\n    \n    \n\n\n\n<footer 
+class="bg-himalwhite text-patrikaslate 
+py-16 mt-1 shadow-inner gsap-fade-in">\n   
+ <div class="container mx-auto grid 
+grid-cols-1 md:grid-cols-2 lg:grid-cols-5 
+gap-12 px-4 sm:px-6 lg:px-8 text-center 
+md:text-left">\n        \n        \n       
+ <div class="flex flex-col items-center 
+md:items-start lg:col-span-2 h-full 
+gsap-fade-in">\n            <img 
+src="/static/images/logos/Logo.png" 
+alt="Bhanjyang Cooperative Logo" 
+class="block mx-auto h-16 mb-4 
+gsap-slide-up" loading="lazy" onerror="this
+.onerror=null;this.src=\'https://placehold.
+co/200x60/eeeeee/333333?text=Logo+Not+Found
+\';">\n            <p class="text-sm 
+leading-relaxed mb-6 text-justify 
+gsap-fade-in">\n                Bhanjyang 
+Saving & Credit Cooperative Society Ltd. 
+is dedicated to fostering economic growth 
+and community development through reliable 
+financial services in Rupa Rural 
+Municipality, Kaski.\n            </p>\n   
+         <p class="text-sm text-gray-600 
+mb-4 text-center md:text-left gsap-fade-in 
+font-semibold">\n                Follow us 
+on social media to stay updated and join 
+our online community.\n            </p>\n  
+          <div class="flex items-center 
+justify-center md:justify-start gap-4 mt-6 
+md:mt-auto self-center md:self-start">\n   
+             <a href="https://facebook.com/
+cooperativebhanjyang" target="_blank" 
+rel="noopener noreferrer" 
+class="text-gray-800 
+hover:text-deuraligreen transition-colors 
+duration-300 transform hover:scale-110 
+gsap-fade-in" aria-label="Facebook"><i 
+class="fab fa-facebook-f text-xl static" 
+aria-hidden="true"></i></a>\n              
+  <a href="https://twitter.com" 
+target="_blank" rel="noopener noreferrer" 
+class="text-gray-800 
+hover:text-deuraligreen transition-colors 
+duration-300 transform hover:scale-110 
+gsap-fade-in" aria-label="Twitter"><i 
+class="fab fa-twitter text-xl static" 
+aria-hidden="true"></i></a>\n              
+  <a 
+href="https://tiktok.com/@bhanjyangsaccos" 
+target="_blank" rel="noopener noreferrer" 
+class="text-gray-800 
+hover:text-deuraligreen transition-colors 
+duration-300 transform hover:scale-110 
+gsap-fade-in" aria-label="TikTok"><i 
+class="fab fa-tiktok text-xl static" 
+aria-hidden="true"></i></a>\n            
+</div>\n        </div>\n\n        \n       
+ <div>\n            <h3 class="text-xl 
+font-bold mb-5 text-deuraligreen 
+font-montserrat border-b border-gray-300 
+pb-2">Quick Links</h3>\n            <ul 
+class="text-sm space-y-3">\n               
+ <li><a href="/" 
+class="hover:text-deuraligreen 
+transition-colors 
+duration-300">Home</a></li>\n              
+  <li><a href="/about/" 
+class="hover:text-deuraligreen 
+transition-colors duration-300">About 
+Us</a></li>\n                <li><a 
+href="/services/" 
+class="hover:text-deuraligreen 
+transition-colors 
+duration-300">Services</a></li>\n          
+      <li><a href="/contact/" 
+class="hover:text-deuraligreen 
+transition-colors duration-300">Contact 
+Us</a></li>\n                <li><a 
+href="/contact/privacy-policy/" 
+class="hover:text-deuraligreen 
+transition-colors duration-300">Privacy 
+Policy</a></li>\n            </ul>\n       
+ </div>\n\n        \n        <div>\n       
+     <h3 class="text-xl font-bold mb-5 
+text-deuraligreen font-montserrat border-b 
+border-gray-300 pb-2">Get in Touch</h3>\n  
+          <address class="not-italic">\n   
+             <p class="text-sm mb-3 flex 
+items-start justify-center 
+md:justify-start">\n                    <i 
+class="fas fa-map-marker-alt text-lg 
+text-deuraligreen mr-3 mt-1 
+flex-shrink-0"></i>\n                    
+<span>Rupa R.M.-5, Deurali Bazar, 
+Kaski</span>\n                </p>\n       
+         <p class="text-sm mb-3 flex 
+items-start justify-center 
+md:justify-start">\n                    <i 
+class="fas fa-phone-alt text-lg 
+text-deuraligreen mr-3 mt-1 
+flex-shrink-0"></i>\n                    
+<a href="tel:+9779856083101" class="hover:u
+nderline">+977-9856083101</a>\n            
+    </p>\n                <p 
+class="text-sm mb-3 flex items-start 
+justify-center md:justify-start">\n        
+                <i class="fas fa-envelope 
+text-lg text-deuraligreen mr-3 mt-1 
+flex-shrink-0"></i>\n                      
+  <a href="mailto:info@bhanjyang.coop.np" c
+lass="hover:underline">info@bhanjyang.coop.
+np</a>\n                </p>\n             
+   <p class="text-sm flex items-start 
+justify-center md:justify-start">\n        
+                <i class="fas fa-clock 
+text-lg text-deuraligreen mr-3 mt-1 
+flex-shrink-0"></i>\n                      
+  <span>Sun-Fri: 10 AM - 4 PM</span>\n     
+           </p>\n            </address>\n  
+      </div>\n        \n        \n        
+<div class="w-full">\n            <h4 
+class="text-md font-semibold mb-3 
+text-deuraligreen font-montserrat">Locate 
+Us:</h4>\n            <iframe \n           
+     title="Bhanjyang Cooperative Location 
+on Google Maps"\n                src="https
+://www.google.com/maps/embed?pb=!1m18!1m12!
+1m3!1d1479.4716431181132!2d84.1502058009948
+5!3d28.12223403479238!2m3!1f0!2f0!3f0!3m2!1
+i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af
+600d%3A0xacb415d2023a9c80!2sBhanjyang%20Sav
+ing%20%26%20Credit%20Cooperative%20Society%
+20Ltd.!5e0!3m2!1sen!2snp!4v1760603879669!5m
+2!1sen!2snp"\n                
+class="w-full h-[180px] rounded-lg 
+shadow-md"\n                
+style="border:0;" \n                
+allowfullscreen="" \n                
+loading="lazy" \n                referrerpo
+licy="no-referrer-when-downgrade">\n       
+     </iframe>\n        </div>\n    
+</div>\n</footer>\n\n\n\n\n<div 
+class="relative w-full text-white 
+overflow-hidden" style="min-height: 
+5rem;">\n    \n    <div class="absolute 
+bottom-0 left-0 bg-bhanjyangred flex 
+items-center px-4 sm:px-6 md:px-8 z-10 
+h-12" style="width: 48.5%; clip-path: 
+polygon(0 0, 100% 0, 95% 100%, 0 
+100%);">\n        <div class="flex 
+flex-col justify-center py-2">\n           
+ <span class="text-xs sm:text-sm 
+md:text-base font-medium">\n               
+ Email: <a href="mailto:cooperativebhanjyan
+g@gmail.com" class="hover:underline">cooper
+ativebhanjyang@gmail.com</a>\n            
+</span>\n        </div>\n    </div>\n    
+\n    <div class="absolute bottom-0 
+right-0 bg-deuraligreen flex items-center 
+px-4 sm:px-6 md:px-8 z-0 justify-end 
+text-right h-20" style="width: 53.5%; 
+clip-path: polygon( 7.5% 0, 100% 0, 100% 
+100%, 0% 100%);">\n        <div 
+class="flex flex-col justify-center py-2 
+text-right">\n            <span 
+class="text-xs sm:text-sm md:text-base 
+leading-relaxed">\n                "\xe0\xa
+4\x97\xe0\xa5\x8d\xe0\xa4\xb0\xe0\xa4\xbe\x
+e0\xa4\xae\xe0\xa4\xbf\xe0\xa4\xa3 \xe0\xa4
+\x95\xe0\xa5\x8d\xe0\xa4\xb7\xe0\xa5\x87\xe
+0\xa4\xa4\xe0\xa5\x8d\xe0\xa4\xb0\xe0\xa4\x
+ae\xe0\xa4\xbe \xe0\xa4\x86\xe0\xa4\xb0\xe0
+\xa5\x8d\xe0\xa4\xa5\xe0\xa4\xbf\xe0\xa4\x9
+5 \xe0\xa4\xb5\xe0\xa4\xbf\xe0\xa4\x95\xe0\
+xa4\xbe\xe0\xa4\xb8\xe0\xa4\x95\xe0\xa5\x8b
+ \xe0\xa4\x86\xe0\xa4\xa7\xe0\xa4\xbe\xe0\x
+a4\xb0, \xe0\xa4\xad\xe0\xa4\x9e\xe0\xa5\x8
+d\xe0\xa4\x9c\xe0\xa5\x8d\xe0\xa4\xaf\xe0\x
+a4\xbe\xe0\xa4\x99\xe0\xa5\x8d\xe0\xa4\x97 
+\xe0\xa4\xb8\xe0\xa4\xb9\xe0\xa4\x95\xe0\xa
+4\xbe\xe0\xa4\xb0\xe0\xa5\x80 \xe0\xa4\xaf\
+xe0\xa4\xb8\xe0\xa4\x95\xe0\xa5\x8b \xe0\xa
+4\xaa\xe0\xa5\x81\xe0\xa4\xb0\xe0\xa5\x8d\x
+e0\xa4\xb5\xe0\xa4\xbe\xe0\xa4\xa7\xe0\xa4\
+xbe\xe0\xa4\xb0" <br>\n             
+</span>\n        </div>\n    
+</div>\n</div>\n\n\n    \n    <noscript>\n 
+       <div class="fixed bottom-0 left-0 
+w-full bg-red-800 text-white text-center 
+p-4 z-[100]">\n            Please enable 
+JavaScript for the best experience on our 
+site, including menu navigation.\n        
+</div>\n    </noscript>\n\n    \n    
+\n<script>\n// Global toast functions 
+(fallback if not defined elsewhere)\nif 
+(typeof showSuccess === \'undefined\') {\n 
+   function showSuccess(message, title = 
+\'Success\') {\n        if (typeof Toast 
+!== \'undefined\' && Toast.success) {\n    
+        Toast.success(title ? `${title}: 
+${message}` : message);\n        } else 
+{\n            console.log(\'Success:\', 
+title, message);\n        }\n    
+}\n}\n\nif (typeof showError === 
+\'undefined\') {\n    function 
+showError(message, title = \'Error\') {\n  
+      if (typeof Toast !== \'undefined\' 
+&& Toast.error) {\n            
+Toast.error(title ? `${title}: ${message}` 
+: message);\n        } else {\n            
+console.error(\'Error:\', title, 
+message);\n        }\n    }\n}\n\n// 
+Constants\nconst VALIDATION_DEBOUNCE_DELAY 
+= 300;\nconst MAX_FILE_SIZE = 5 * 1024 * 
+1024; // 5MB in bytes\nconst 
+ALLOWED_FILE_EXTENSIONS = [\'.pdf\', 
+\'.doc\', \'.docx\', \'.jpg\', 
+\'.png\'];\nconst ALLOWED_MIME_TYPES = [\n 
+   \'application/pdf\',\n    
+\'application/msword\',\n    \'application/
+vnd.openxmlformats-officedocument.wordproce
+ssingml.document\',\n    \'image/jpeg\',\n 
+   \'image/png\'\n];\nconst 
+MAP_LOAD_TIMEOUT = 5000; // 5 
+seconds\n\n// Debounce utility 
+function\nfunction debounce(func, wait) 
+{\nlet timeout;\nreturn function 
+executedFunction(...args) {\nconst later = 
+() => {\nclearTimeout(timeout);\nfunc(...ar
+gs);\n};\nclearTimeout(timeout);\ntimeout 
+= setTimeout(later, wait);\n};\n}\n\ndocume
+nt.addEventListener(\'DOMContentLoaded\', 
+function () {\nconst form = document.getEle
+mentById(\'contactForm\');\nconst 
+submitButton = document.getElementById(\'su
+bmitButton\');\nconst buttonText = document
+.getElementById(\'buttonText\');\nconst 
+buttonIcon = document.getElementById(\'butt
+onIcon\');\nconst loadingIcon = document.ge
+tElementById(\'loadingIcon\');\nconst 
+formMessages = document.getElementById(\'fo
+rm-messages\');\nconst successMessage = doc
+ument.getElementById(\'success-message\');\
+nconst errorMessage = document.getElementBy
+Id(\'error-message\');\nconst 
+validationErrors = document.getElementById(
+\'validation-errors\');\nconst 
+validationList = document.getElementById(\'
+validation-list\');\nconst errorDetails = d
+ocument.getElementById(\'error-details\');\
+n\nif (!form) return;\n\n// Real-time 
+validation with debouncing\nconst 
+formFields = 
+form.querySelectorAll(\'input, textarea, 
+select\');\n\n// Set up aria-describedby 
+for all form 
+fields\nformFields.forEach(field => 
+{\nconst errorId = field.id + 
+\'_error\';\nconst helpId = field.id + 
+\'_help\';\nconst errorElement = 
+document.getElementById(errorId);\nconst 
+helpElement = 
+document.getElementById(helpId);\n\nlet 
+describedBy = [];\nif (helpElement) 
+describedBy.push(helpId);\nif 
+(errorElement) 
+describedBy.push(errorId);\n\nif 
+(describedBy.length > 0) {\nfield.setAttrib
+ute(\'aria-describedby\', 
+describedBy.join(\' \'));\n}\n\n// Set 
+aria-required for required fields\nif 
+(field.required) 
+{\nfield.setAttribute(\'aria-required\', 
+\'true\');\n}\n});\nconst 
+debouncedValidate = 
+debounce(function(field) 
+{\nvalidateField(field);\n}, VALIDATION_DEB
+OUNCE_DELAY);\n\nformFields.forEach(field 
+=> {\nfield.addEventListener(\'blur\', 
+function () {\nvalidateField(this);\n});\n\
+nfield.addEventListener(\'input\', 
+function () {\nclearFieldError(this);\n// 
+Debounced validation for real-time 
+feedback\nif (this.type !== \'file\') 
+{\ndebouncedValidate(this);\n}\n});\n\n// 
+Special handling for file input\nif 
+(field.type === \'file\') 
+{\nfield.addEventListener(\'change\', 
+function () {\ntry 
+{\nvalidateFileField(this);\n} catch 
+(error) {\nconsole.error(\'File validation 
+error:\', error);\nshowFieldError(this, 
+\'An error occurred while validating the 
+file. Please try 
+again.\');\n}\n});\n}\n\n// Character 
+counter for message field\nif (field.name 
+=== \'message\') {\nconst charCountElement 
+= document.getElementById(field.id + 
+\'_char_count\');\nif (charCountElement) 
+{\nfield.addEventListener(\'input\', 
+function() {\nconst length = 
+this.value.length;\nconst minLength = 
+10;\ncharCountElement.textContent = 
+`${length} characters${length < minLength 
+? ` (minimum ${minLength})` : \'\'}`;\nif 
+(length < minLength) {\n    charCountElemen
+t.classList.add(\'text-yellow-600\');\n    
+charCountElement.classList.remove(\'text-gr
+ay-500\');\n} else {\n    charCountElement.
+classList.remove(\'text-yellow-600\');\n   
+ charCountElement.classList.add(\'text-gray
+-500\');\n}\n});\n}\n}\n});\n\nfunction 
+validateField(field) {\nconst value = 
+field.value.trim();\nconst fieldName = 
+field.name;\nclearFieldError(field);\n\n// 
+Required field validation\nif 
+(field.required && !value) {\n    
+showFieldError(field, 
+`${getFieldLabel(fieldName)} is 
+required.`);\n    return false;\n}\n\n// 
+Specific field validations\nswitch 
+(fieldName) {\n    case \'name\':\n        
+if (value && value.length < 2) {\n         
+   showFieldError(field, \'Name must be at 
+least 2 characters long.\');\n            
+return false;\n        }\n        if 
+(value && 
+!/^[a-zA-Z\\s\\-\'\\.]+$/.test(value)) {\n 
+           showFieldError(field, \'Name 
+can only contain letters, spaces, hyphens, 
+apostrophes, and periods.\');\n            
+return false;\n        }\n        break;\n 
+   case \'email\':\n        if (value && !/
+^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value)
+) {\n            showFieldError(field, 
+\'Please enter a valid email 
+address.\');\n            return false;\n  
+      }\n        break;\n    case 
+\'phone\':\n        if (value) {\n         
+   const cleanedPhone = 
+value.replace(/[^\\d+]/g, \'\');\n         
+   if (cleanedPhone.length < 7 || 
+cleanedPhone.length > 15) {\n              
+  showFieldError(field, \'Please enter a 
+valid phone number.\');\n                
+return false;\n            }\n        }\n  
+      break;\n    case \'message\':\n      
+  if (value && value.length < 10) {\n      
+      showFieldError(field, \'Message must 
+be at least 10 characters long.\');\n      
+      return false;\n        }\n        
+break;\n}\nreturn true;\n}\n\nfunction 
+validateFileField(field) {\ntry {\n    
+const file = field.files[0];\n    if 
+(file) {\n        
+clearFieldError(field);\n        // Check 
+file size (5MB limit)\n        if 
+(file.size > MAX_FILE_SIZE) {\n        
+showFieldError(field, \'File size cannot 
+exceed 5MB.\');\n        return false;\n   
+     }\n\n        // Check file extension 
+(matching server-side validation)\n        
+const fileExtension = \'.\' + file.name.toL
+owerCase().split(\'.\').pop();\n        if 
+(!ALLOWED_FILE_EXTENSIONS.includes(fileExte
+nsion)) {\n        showFieldError(field, 
+\'Please upload a valid file type (PDF, 
+DOC, DOCX, JPG, PNG only).\');\n        
+return false;\n        }\n\n        // 
+Check MIME type (additional validation)\n  
+      if (file.type && 
+!ALLOWED_MIME_TYPES.includes(file.type)) 
+{\n        showFieldError(field, \'Please 
+upload a valid file type (PDF, DOC, DOCX, 
+JPG, PNG only).\');\n        return 
+false;\n        }\n        }\n        
+return true;\n        } catch (error) {\n  
+      console.error(\'File validation 
+error:\', error);\n        
+showFieldError(field, \'An error occurred 
+while validating the file. Please try 
+again.\');\n        return false;\n        
+}\n        }\n\n        function 
+showFieldError(field, message) {\n        
+const errorElement = field.parentElement.qu
+erySelector(\'.error-message\') ||\n       
+ document.getElementById(field.id + 
+\'_error\');\n        if (errorElement) 
+{\n        errorElement.textContent = 
+message;\n        errorElement.classList.re
+move(\'hidden\');\n        
+field.classList.add(\'border-red-500\', 
+\'focus:ring-red-500\');\n        field.cla
+ssList.remove(\'border-gray-300\', 
+\'focus:ring-deuraligreen\');\n        // 
+Ensure aria-describedby includes error 
+element\n        const describedBy = 
+field.getAttribute(\'aria-describedby\') 
+|| \'\';\n        if 
+(!describedBy.includes(errorElement.id)) 
+{\n        
+field.setAttribute(\'aria-describedby\',\n 
+       (describedBy ? describedBy + \' \' 
+: \'\') + errorElement.id);\n        }\n   
+     field.setAttribute(\'aria-invalid\', 
+\'true\');\n        }\n        }\n\n       
+ function clearFieldError(field) {\n       
+ const errorElement = field.parentElement.q
+uerySelector(\'.error-message\') ||\n      
+  document.getElementById(field.id + 
+\'_error\');\n        if (errorElement) 
+{\n        
+errorElement.classList.add(\'hidden\');\n  
+      errorElement.textContent = \'\';\n   
+     
+field.classList.remove(\'border-red-500\', 
+\'focus:ring-red-500\');\n        
+field.classList.add(\'border-gray-300\', 
+\'focus:ring-deuraligreen\');\n        
+field.setAttribute(\'aria-invalid\', 
+\'false\');\n        }\n        }\n\n      
+  function getFieldLabel(fieldName) {\n    
+    const labels = {\n        \'name\': 
+\'Name\',\n        \'email\': \'Email\',\n 
+       \'phone\': \'Phone\',\n        
+\'message\': \'Message\'\n        };\n     
+   return labels[fieldName] || 
+fieldName;\n        }\n\n        function 
+hideAllMessages() {\n        successMessage
+.classList.add(\'hidden\');\n        
+errorMessage.classList.add(\'hidden\');\n  
+      if (validationErrors) {\n            
+validationErrors.classList.add(\'hidden\');
+\n        }\n        }\n\n        function 
+showSuccessMessage() {\n        
+hideAllMessages();\n        successMessage.
+classList.remove(\'hidden\');\n        
+form.scrollIntoView({ behavior: 
+\'smooth\', block: \'center\' });\n\n      
+  // Also show sticky notice\n        
+showSuccess("Thank you! Your message has 
+been sent successfully.", "Message 
+Sent");\n        }\n\n        function 
+showErrorMessage(message) {\n        
+hideAllMessages();\n        if 
+(errorDetails) {\n            
+errorDetails.textContent = message;\n      
+  } else {\n            
+console.error(\'errorDetails element not 
+found\');\n        }\n        if 
+(errorMessage) {\n            errorMessage.
+classList.remove(\'hidden\');\n        }\n 
+       form.scrollIntoView({ behavior: 
+\'smooth\', block: \'center\' });\n\n      
+  // Also show sticky notice\n        
+showError(message, "Error");\n        
+}\n\n        function 
+showValidationErrors(errors) {\n        
+hideAllMessages();\n        if 
+(validationList) {\n            
+validationList.innerHTML = \'\';\n        
+} else {\n            
+console.error(\'validationList element not 
+found\');\n        }\n\n        
+Object.keys(errors).forEach(field => {\n   
+     errors[field].forEach(error => {\n    
+    const li = 
+document.createElement(\'li\');\n        
+li.textContent = `${getFieldLabel(field)}: 
+${error}`;\n        if (validationList) 
+{\n            
+validationList.appendChild(li);\n        
+}\n        });\n        // Also show 
+field-level errors\n        const 
+fieldElement = 
+form.querySelector(`[name="${field}"]`);\n 
+       if (fieldElement && 
+errors[field].length > 0) {\n        
+showFieldError(fieldElement, 
+errors[field][0]);\n        }\n        
+});\n\n        if (validationErrors) {\n   
+         validationErrors.classList.remove(
+\'hidden\');\n        } else {\n           
+ console.error(\'validationErrors element 
+not found\');\n        }\n        
+form.scrollIntoView({ behavior: 
+\'smooth\', block: \'center\' });\n        
+}\n\n        function 
+setLoadingState(loading) {\n        if 
+(loading) {\n        submitButton.disabled 
+= true;\n        buttonText.textContent = 
+\'Sending...\';\n        
+buttonIcon.classList.add(\'hidden\');\n    
+    loadingIcon.classList.remove(\'hidden\'
+);\n        submitButton.classList.add(\'op
+acity-75\');\n        } else {\n        
+submitButton.disabled = false;\n        
+buttonText.textContent = \'Send 
+Message\';\n        
+buttonIcon.classList.remove(\'hidden\');\n 
+       
+loadingIcon.classList.add(\'hidden\');\n   
+     submitButton.classList.remove(\'opacit
+y-75\');\n        }\n        }\n\n        
+form.addEventListener(\'submit\', function 
+(event) {\n        
+event.preventDefault();\n\n        try {\n 
+       // Validate all fields\n        let 
+isValid = true;\n        const errors = 
+{};\n\n        formFields.forEach(field => 
+{\n        let fieldValid = true;\n        
+try {\n        if (field.type === 
+\'file\') {\n        fieldValid = 
+validateFileField(field);\n        } else 
+{\n        fieldValid = 
+validateField(field);\n        }\n        
+} catch (error) {\n        
+console.error(\'Validation error for 
+field:\', field.name, error);\n        
+fieldValid = false;\n        }\n\n        
+if (!fieldValid) {\n        isValid = 
+false;\n        const fieldName = 
+field.name;\n        if 
+(!errors[fieldName]) {\n        
+errors[fieldName] = [];\n        }\n       
+ const errorElement = field.parentElement.q
+uerySelector(\'.error-message\') ||\n      
+  document.getElementById(field.id + 
+\'_error\');\n        if (errorElement && !
+errorElement.classList.contains(\'hidden\')
+ && errorElement.textContent) {\n        er
+rors[fieldName].push(errorElement.textConte
+nt);\n        }\n        }\n        
+});\n\n        if (!isValid) {\n        
+showValidationErrors(errors);\n        
+return;\n        }\n\n        
+setLoadingState(true);\n        
+hideAllMessages();\n\n        const 
+formData = new FormData(form);\n        
+const csrftoken = form.querySelector(\'[nam
+e=csrfmiddlewaretoken]\').value;\n\n       
+ fetch(form.action, {\n        method: 
+\'POST\',\n        headers: {\n        
+\'X-CSRFToken\': csrftoken,\n        
+\'X-Requested-With\': 
+\'XMLHttpRequest\',\n        },\n        
+body: formData\n        })\n        
+.then(response => {\n        if 
+(!response.ok) {\n        throw new 
+Error(`HTTP error! status: 
+${response.status}`);\n        }\n\n       
+ // Check if response is JSON\n        
+const contentType = 
+response.headers.get(\'content-type\');\n  
+      if (contentType && contentType.includ
+es(\'application/json\')) {\n        
+return response.json();\n        } else 
+{\n        return 
+response.text().then(text => {\n        
+throw new Error(\'Server returned non-JSON 
+response\');\n        });\n        }\n     
+   })\n        .then(data => {\n        if 
+(data.success) {\n        
+showSuccessMessage();\n        // 
+Explicitly clear file inputs\n        
+formFields.forEach(field => {\n        if 
+(field.type === \'file\') {\n        
+field.value = \'\';\n        }\n        
+clearFieldError(field);\n        });\n     
+   form.reset();\n        // Clear 
+character counter\n        const 
+messageField = form.querySelector(\'[name="
+message"]\');\n        if (messageField) 
+{\n        const charCount = 
+document.getElementById(messageField.id + 
+\'_char_count\');\n        if (charCount) 
+{\n        charCount.textContent = \'\';\n 
+       }\n        }\n        } else {\n    
+    if (data.errors) {\n        
+showValidationErrors(data.errors);\n       
+ } else {\n        
+showErrorMessage(data.message || \'An 
+error occurred while sending your 
+message.\');\n        }\n        }\n       
+ })\n        .catch(error => {\n        
+console.error(\'Form submission error:\', 
+error);\n        
+showErrorMessage(\'Network error. Please 
+check your connection and try again.\');\n 
+       })\n        .finally(() => {\n      
+  setLoadingState(false);\n        });\n   
+     } catch (error) {\n        
+console.error(\'Form submission error:\', 
+error);\n        setLoadingState(false);\n 
+       showErrorMessage(\'An unexpected 
+error occurred. Please try again.\');\n    
+    }\n        });\n\n        // Track 
+form changes for beforeunload warning\n    
+    let formHasData = false;\n        
+formFields.forEach(field => {\n        
+field.addEventListener(\'input\', 
+function() {\n        formHasData = 
+true;\n        });\n        });\n\n        
+window.addEventListener(\'beforeunload\', 
+function(e) {\n        if (formHasData) 
+{\n        e.preventDefault();\n        
+e.returnValue = \'You have unsaved 
+changes. Are you sure you want to 
+leave?\';\n        return e.returnValue;\n 
+       }\n        });\n\n        // Reset 
+formHasData flag after successful 
+submission\n        const 
+originalShowSuccessMessage = 
+showSuccessMessage;\n        
+showSuccessMessage = function() {\n        
+formHasData = false;\n        
+originalShowSuccessMessage();\n        
+};\n        });\n\n        // Modern 
+Toggle Switch functionality for Map 
+Locations (consolidated into main 
+DOMContentLoaded)\n        document.addEven
+tListener(\'DOMContentLoaded\', function 
+() {\n        const mapToggleMain = documen
+t.getElementById(\'map-toggle-main\');\n   
+     const mapToggleService = document.getE
+lementById(\'map-toggle-service\');\n      
+  const mapToggleSlider = document.getEleme
+ntById(\'map-toggle-slider\');\n        
+const mapIframe = document.getElementById(\
+'location-map-iframe\');\n        const 
+mapLoading = document.getElementById(\'map-
+loading\');\n\n        if (!mapToggleMain 
+|| !mapToggleService || !mapIframe) 
+return;\n\n        let currentLocation = 
+\'main\'; // Track current location\n\n    
+    // Map sources\n        const 
+mapSources = {\n        main:\n        \'ht
+tps://www.google.com/maps/embed?pb=!1m14!1m
+8!1m3!1d7037.612645021445!2d84.149533!3d28.
+121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x
+3995a3aea5af600d%3A0xacb415d2023a9c80!2sBha
+njyang%20Saving%20%26%20Credit%20Cooperativ
+e%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760
+763305577!5m2!1sen!2snp\',\n        
+service:\n        \'https://www.google.com/
+maps/embed?pb=!1m14!1m8!1m3!1d14886.3648005
+04987!2d84.20693577278259!3d28.108180724514
+312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399
+5a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjy
+ang%20Saving%20%26%20Credit%20Cooperative%2
+0Society%20Ltd.%20Polyang%20Branch!5e0!3m2!
+1sen!2snp!4v1760763359401!5m2!1sen!2snp\'\n
+        };\n\n        function 
+updateToggleState(location) {\n        if 
+(!mapToggleMain || !mapToggleService || 
+!mapToggleSlider) return;\n\n        
+currentLocation = location;\n        const 
+isMain = location === \'main\';\n\n        
+// Both buttons have fixed width, so use 
+that for calculations\n        const 
+buttonWidth = mapToggleMain.offsetWidth || 
+160;\n\n        // Update slider position 
+with smooth animation\n        if (isMain) 
+{\n        mapToggleSlider.style.transform 
+= \'translateX(0)\';\n        
+mapToggleSlider.style.backgroundColor = 
+\'#059669\'; // deuraligreen\n        } 
+else {\n        // Move slider to the 
+position of the Service Center button\n    
+    mapToggleSlider.style.transform = 
+`translateX(${buttonWidth}px)`;\n        
+mapToggleSlider.style.backgroundColor = 
+\'#dc2626\'; // bhanjyangred\n        
+}\n\n        // Update button text colors 
+for better contrast\n        if (isMain) 
+{\n        mapToggleMain.classList.remove(\
+'text-gray-600\');\n        mapToggleMain.c
+lassList.add(\'text-white\');\n        mapT
+oggleMain.setAttribute(\'aria-pressed\', 
+\'true\');\n        mapToggleService.classL
+ist.remove(\'text-white\');\n        mapTog
+gleService.classList.add(\'text-gray-600\')
+;\n        mapToggleService.setAttribute(\'
+aria-pressed\', \'false\');\n        } 
+else {\n        mapToggleService.classList.
+remove(\'text-gray-600\');\n        mapTogg
+leService.classList.add(\'text-white\');\n 
+       mapToggleService.setAttribute(\'aria
+-pressed\', \'true\');\n        mapToggleMa
+in.classList.remove(\'text-white\');\n     
+   mapToggleMain.classList.add(\'text-gray-
+600\');\n        mapToggleMain.setAttribute
+(\'aria-pressed\', \'false\');\n        
+}\n        }\n\n        function 
+switchMap(location) {\n        if 
+(!mapIframe || currentLocation === 
+location) return;\n\n        const newSrc 
+= mapSources[location];\n        if 
+(newSrc && newSrc !== mapIframe.src) {\n   
+     // Show loading spinner\n        if 
+(mapLoading) {\n        
+mapLoading.classList.remove(\'hidden\');\n 
+       mapIframe.style.opacity = 
+\'0.3\';\n        }\n\n        // Update 
+toggle state\n        
+updateToggleState(location);\n\n        // 
+Change map source\n        mapIframe.src = 
+newSrc;\n\n        // Use iframe load 
+event instead of fixed timeout\n        
+const handleMapLoad = function() {\n       
+ if (mapLoading) {\n        
+mapLoading.classList.add(\'hidden\');\n    
+    mapIframe.style.opacity = \'1\';\n     
+   }\n        
+mapIframe.removeEventListener(\'load\', 
+handleMapLoad);\n        };\n\n        
+mapIframe.addEventListener(\'load\', 
+handleMapLoad);\n\n        // Fallback 
+timeout in case load event doesn\'t fire\n 
+       setTimeout(() => {\n        if 
+(mapLoading && !mapLoading.classList.contai
+ns(\'hidden\')) {\n        
+mapLoading.classList.add(\'hidden\');\n    
+    mapIframe.style.opacity = \'1\';\n     
+   }\n        }, MAP_LOAD_TIMEOUT);\n      
+  }\n        }\n\n        // Event 
+listeners for toggle buttons with keyboard 
+support\n        if (mapToggleMain) {\n    
+    mapToggleMain.setAttribute(\'role\', 
+\'button\');\n        mapToggleMain.setAttr
+ibute(\'aria-pressed\', \'true\');\n       
+ mapToggleMain.setAttribute(\'tabindex\', 
+\'0\');\n        
+mapToggleMain.addEventListener(\'click\', 
+function() {\n        
+switchMap(\'main\');\n        });\n        
+mapToggleMain.addEventListener(\'keydown\',
+ function(e) {\n        if (e.key === 
+\'Enter\' || e.key === \' \') {\n        
+e.preventDefault();\n        
+switchMap(\'main\');\n        }\n        
+});\n        }\n\n        if 
+(mapToggleService) {\n        
+mapToggleService.setAttribute(\'role\', 
+\'button\');\n        mapToggleService.setA
+ttribute(\'aria-pressed\', \'false\');\n   
+     mapToggleService.setAttribute(\'tabind
+ex\', \'0\');\n        mapToggleService.add
+EventListener(\'click\', function() {\n    
+    switchMap(\'service\');\n        });\n 
+       mapToggleService.addEventListener(\'
+keydown\', function(e) {\n        if 
+(e.key === \'Enter\' || e.key === \' \') 
+{\n        e.preventDefault();\n        
+switchMap(\'service\');\n        }\n       
+ });\n        }\n\n        // Initialize 
+with Main Office selected\n        // Use 
+setTimeout to ensure DOM is fully rendered 
+before calculating widths\n        
+setTimeout(() => {\n        
+updateToggleState(\'main\');\n        }, 
+100);\n        });\n        </script>\n    
+    \n\n    \n    <script>\n        
+(function () {\n            function 
+fixDebugToolbarCheckboxes() {\n            
+    const checkboxes = document.querySelect
+orAll(\'#djDebugToolbar input[type="checkbo
+x"]:not([id]):not([name])\');\n            
+    checkboxes.forEach(function (checkbox, 
+index) {\n                    const 
+dataCookie = 
+checkbox.getAttribute(\'data-cookie\');\n  
+                  if (dataCookie) {\n      
+                  const uniqueId = 
+\'djdt-\' + 
+dataCookie.replace(/[^a-zA-Z0-9]/g, 
+\'-\').toLowerCase();\n                    
+    checkbox.id = uniqueId;\n              
+          checkbox.name = uniqueId;\n      
+              } else {\n                   
+     const uniqueId = \'djdt-checkbox-\' + 
+Date.now() + \'-\' + index;\n              
+          checkbox.id = uniqueId;\n        
+                checkbox.name = 
+uniqueId;\n                    }\n         
+       });\n\n                // Fix 
+checkboxes missing only id\n               
+ document.querySelectorAll(\'#djDebugToolba
+r input[type="checkbox"][name]:not([id])\')
+.forEach(function (checkbox) {\n           
+         checkbox.id = checkbox.name || 
+\'djdt-\' + Date.now();\n                
+});\n\n                // Fix checkboxes 
+missing only name\n                document
+.querySelectorAll(\'#djDebugToolbar input[t
+ype="checkbox"][id]:not([name])\').forEach(
+function (checkbox) {\n                    
+checkbox.name = checkbox.id;\n             
+   });\n            }\n\n            // 
+Run on DOM ready\n            if 
+(document.readyState === \'loading\') {\n  
+              document.addEventListener(\'D
+OMContentLoaded\', 
+fixDebugToolbarCheckboxes);\n            } 
+else {\n                
+fixDebugToolbarCheckboxes();\n            
+}\n\n            // Run after delays to 
+catch dynamically loaded elements\n        
+    setTimeout(fixDebugToolbarCheckboxes, 
+500);\n            
+setTimeout(fixDebugToolbarCheckboxes, 
+1000);\n\n            // Watch for 
+dynamically added elements\n            
+const debugToolbar = document.getElementByI
+d(\'djDebugToolbar\');\n            if 
+(debugToolbar) {\n                const 
+observer = new MutationObserver(fixDebugToo
+lbarCheckboxes);\n                
+observer.observe(debugToolbar, {\n         
+           childList: true,\n              
+      subtree: true\n                });\n 
+           }\n        })();\n    
+</script>\n</body>\n\n</html>'
+
+-------------------------------------------
+---------------------------
+Ran 71 tests in 2.216s
+
+FAILED (failures=1)
+Destroying test database for alias 
+'default'...
+
+--------------------------------------------------
+ To send real emails, set SEND_REAL_EMAILS=True in .env 
+--------------------------------------------------
+Found 195 test(s).
+System check identified no issues (0 silenced).

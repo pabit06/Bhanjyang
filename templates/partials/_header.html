@@ -27,25 +27,25 @@
 </div>
 <hr class="border-t border-gray-200">
 <header class="sticky top-0 z-[9999] bg-white shadow-lg gsap-navbar">
-    <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
+    <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex items-center justify-between relative gap-4">
         <!-- Logo Section -->
-        <a href="{% url 'home:index' %}" class="flex items-center space-x-3 group py-2 gsap-fade-in">
+        <a href="{% url 'home:index' %}" class="flex items-center space-x-2 sm:space-x-3 group py-2 gsap-fade-in flex-shrink-0 min-w-0 max-w-[60%] sm:max-w-none mr-4">
             <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative Logo"
-                class="h-9 w-auto object-contain hover-scale hover-rotate md:h-12 gsap-slide-up" loading="eager"
+                class="h-8 w-auto object-contain hover-scale hover-rotate sm:h-10 md:h-12 flex-shrink-0 gsap-slide-up" loading="eager"
                 width="150" height="50" decoding="async">
-            <div class="flex flex-col justify-center">
+            <div class="flex flex-col justify-center min-w-0 flex-shrink">
                 <span
-                    class="text-2xl font-extrabold text-bhanjyangred group-hover:text-deuraligreen transition-colors duration-300 font-montserrat md:text-4xl hover-glow gsap-fade-in">BHANJYANG</span>
+                    class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold text-bhanjyangred group-hover:text-deuraligreen transition-colors duration-300 font-montserrat hover-glow gsap-fade-in truncate">BHANJYANG</span>
                 <span
-                    class="text-xs text-deuraligreen group-hover:text-bhanjyangred transition-colors duration-300 tracking-wider uppercase md:text-xs gsap-fade-in">Saving
+                    class="text-[10px] sm:text-xs text-deuraligreen group-hover:text-bhanjyangred transition-colors duration-300 tracking-wider uppercase gsap-fade-in truncate">Saving
                     & Credit Cooperative Ltd.</span>
             </div>
         </a>
 
         <!-- Right Side Section: Navigation + Search -->
-        <div class="hidden md:flex items-center space-x-8 ml-auto">
+        <div class="hidden md:flex items-center space-x-4 lg:space-x-8 flex-shrink-0">
             <!-- Navigation Menu -->
-            <div class="flex items-center space-x-4 font-semibold text-md">
+            <div class="flex items-center space-x-2 lg:space-x-4 font-semibold text-sm lg:text-md">
                 {% with request.resolver_match.url_name as url_name %}
                 {% with request.resolver_match.app_name as app_name %}
 
@@ -99,11 +99,11 @@
             </div>
 
             <!-- Search Form -->
-            <div class="flex items-center ml-8">
+            <div class="flex items-center ml-4 lg:ml-8 flex-shrink-0">
                 <form method="GET" action="{% url 'search:advanced_search' %}" class="relative" role="search">
                     <label for="desktop-search-input" class="sr-only">Search</label>
                     <input type="text" name="query" id="desktop-search-input" placeholder="Search..."
-                        class="w-40 px-3 py-1.5 pr-8 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
+                        class="w-32 lg:w-40 px-3 py-1.5 pr-8 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-deuraligreen focus:border-transparent"
                         value="{{ request.GET.query }}" aria-label="Search">
                     <button type="submit"
                         class="absolute right-1.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-deuraligreen transition-colors duration-200 flex items-center justify-center w-5 h-5 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded"
