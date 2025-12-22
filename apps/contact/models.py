@@ -70,6 +70,10 @@ class ContactSubmission(models.Model):
             models.Index(fields=['ip_address']),
             models.Index(fields=['status']),
             models.Index(fields=['resolved_at']),
+            models.Index(fields=['name']),  # For search
+            models.Index(fields=['phone']),  # For phone lookups
+            models.Index(fields=['updated_at']),  # For date-based queries
+            models.Index(fields=['subject']),  # For search
         ]
     
     def __str__(self):
@@ -228,6 +232,10 @@ class KYMSubmission(models.Model):
             models.Index(fields=['email']),
             models.Index(fields=['phone']),
             models.Index(fields=['created_at']),
+            models.Index(fields=['full_name']),  # For search
+            models.Index(fields=['reviewed_by']),  # For FK lookups
+            models.Index(fields=['updated_at']),  # For date-based queries
+            models.Index(fields=['reviewed_at']),  # For date-based queries
         ]
     
     def __str__(self):

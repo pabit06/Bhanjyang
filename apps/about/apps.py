@@ -8,4 +8,8 @@ class AboutConfig(AppConfig):
     
     def ready(self):
         """Import signal handlers when the app is ready."""
-        pass
+        # Import signals if needed
+        try:
+            from . import signals  # noqa: F401
+        except ImportError:
+            pass

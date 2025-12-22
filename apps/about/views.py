@@ -1,6 +1,5 @@
 from django.views.generic import TemplateView, ListView, DetailView, View
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -40,23 +39,6 @@ class TimelineView(ListView):
              {'name': 'Home', 'url': '/'},
              {'name': 'About Us', 'url': '/about/'},
              {'name': 'Timeline', 'url': '/about/timeline/'}
-        ]
-        return context
-
-
-class AchievementsView(ListView):
-    template_name = 'about/achievements.html'
-    paginate_by = 12
-    
-    def get_queryset(self):
-        return AboutService.get_achievements()
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = [
-             {'name': 'Home', 'url': '/'},
-             {'name': 'About Us', 'url': '/about/'},
-             {'name': 'Achievements', 'url': '/about/achievements/'}
         ]
         return context
 
@@ -156,10 +138,6 @@ class ContactView(View):
 class ContactSuccessView(TemplateView):
     template_name = 'about/contact_success.html'
 
-
-from apps.core.error_handling import (
-    ErrorResponse, ErrorLogger, handle_view_errors, safe_json_parse
-)
 
 class NewsletterSignupView(View):
     @handle_view_errors

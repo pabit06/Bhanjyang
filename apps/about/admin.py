@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from .models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
@@ -51,7 +51,6 @@ class FeaturedFilter(SimpleListFilter):
             return queryset.filter(is_featured=False)
 
 
-@admin.register(CooperativeInfo)
 class CooperativeInfoAdmin(admin.ModelAdmin):
     """Enhanced admin interface for cooperative information"""
     list_display = ('cooperative_name', 'established_date', 'registration_number', 'is_active', 'created_at', 'actions_column')
@@ -111,7 +110,6 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
     deactivate_selected.short_description = "Deactivate selected items"
 
 
-@admin.register(CooperativeTimeline)
 class CooperativeTimelineAdmin(admin.ModelAdmin):
     """Enhanced admin interface for timeline events"""
     list_display = ('title', 'event_date', 'event_type', 'is_featured', 'is_active', 'order')
@@ -152,32 +150,6 @@ class CooperativeTimelineAdmin(admin.ModelAdmin):
     unfeature_selected.short_description = "Unfeature selected items"
 
 
-@admin.register(CooperativeAchievement)
-class CooperativeAchievementAdmin(admin.ModelAdmin):
-    """Admin interface for achievements"""
-    list_display = ('title', 'achievement_type', 'awarding_organization', 'received_date', 'is_featured')
-    list_filter = ('achievement_type', 'is_featured', 'is_active', 'received_date')
-    search_fields = ('title', 'description', 'awarding_organization')
-    ordering = ('-received_date', 'order')
-    date_hierarchy = 'received_date'
-    
-    fieldsets = (
-        (None, {
-            'fields': ('title', 'description', 'achievement_type', 'received_date', 'awarding_organization')
-        }),
-        ('Media', {
-            'fields': ('certificate_image', 'logo'),
-            'classes': ('collapse',)
-        }),
-        ('Display Settings', {
-            'fields': ('order', 'is_featured', 'is_active')
-        }),
-    )
-    
-    readonly_fields = ('created_at', 'updated_at')
-
-
-@admin.register(CooperativeStatistic)
 class CooperativeStatisticAdmin(admin.ModelAdmin):
     """Admin interface for statistics"""
     list_display = ('title', 'value', 'unit', 'statistic_type', 'is_featured')
@@ -201,7 +173,6 @@ class CooperativeStatisticAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
-@admin.register(CooperativeAffiliation)
 class CooperativeAffiliationAdmin(admin.ModelAdmin):
     """Admin interface for affiliations"""
     list_display = ('name', 'affiliation_type', 'is_featured', 'is_active')
@@ -225,7 +196,6 @@ class CooperativeAffiliationAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
-@admin.register(LeadershipMessage)
 class LeadershipMessageAdmin(admin.ModelAdmin):
     """Admin interface for leadership messages"""
     list_display = ('title', 'author_name', 'author_position', 'message_type', 'is_featured')
@@ -248,18 +218,7 @@ class LeadershipMessageAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at', 'updated_at')
 
 
-# Register with custom admin site
-from apps.admin.admin_site import admin_site
-
-admin_site.register(CooperativeInfo, CooperativeInfoAdmin)
-admin_site.register(CooperativeTimeline, CooperativeTimelineAdmin)
-admin_site.register(CooperativeAchievement, CooperativeAchievementAdmin)
-admin_site.register(CooperativeStatistic, CooperativeStatisticAdmin)
-admin_site.register(CooperativeAffiliation, CooperativeAffiliationAdmin)
-admin_site.register(LeadershipMessage, LeadershipMessageAdmin)
-
 # Team Models Admin
-@admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     """Admin interface for Person model"""
     list_display = ('full_name', 'email', 'phone', 'position_general', 'is_active', 'created_at')
@@ -292,7 +251,6 @@ class MembershipInline(admin.TabularInline):
     fields = ('person', 'position', 'order', 'is_active')
 
 
-@admin.register(Committee)
 class CommitteeAdmin(admin.ModelAdmin):
     """Admin interface for Committee model"""
     list_display = ('name', 'tenure_bs', 'is_active', 'order', 'member_count')
@@ -318,7 +276,6 @@ class CommitteeAdmin(admin.ModelAdmin):
     member_count.short_description = 'Members'
 
 
-@admin.register(Membership)
 class MembershipAdmin(admin.ModelAdmin):
     """Admin interface for Membership model"""
     list_display = ('person', 'committee', 'position', 'order', 'is_active')
@@ -339,7 +296,6 @@ class MembershipAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Staff)
 class StaffAdmin(admin.ModelAdmin):
     """Admin interface for Staff model"""
     list_display = ('person', 'position', 'department', 'is_active', 'order')
@@ -359,7 +315,16 @@ class StaffAdmin(admin.ModelAdmin):
         }),
     )
 
-# Register team models with custom admin site
+
+# Register with custom admin site
+from apps.admin.admin_site import admin_site
+
+# Register all models with custom admin site
+admin_site.register(CooperativeInfo, CooperativeInfoAdmin)
+admin_site.register(CooperativeTimeline, CooperativeTimelineAdmin)
+admin_site.register(CooperativeStatistic, CooperativeStatisticAdmin)
+admin_site.register(CooperativeAffiliation, CooperativeAffiliationAdmin)
+admin_site.register(LeadershipMessage, LeadershipMessageAdmin)
 admin_site.register(Person, PersonAdmin)
 admin_site.register(Committee, CommitteeAdmin)
 admin_site.register(Membership, MembershipAdmin)

@@ -9,7 +9,6 @@ urlpatterns = [
     
     # Sub-pages
     path('timeline/', views.TimelineView.as_view(), name='timeline'),
-    path('achievements/', views.AchievementsView.as_view(), name='achievements'),
     path('affiliations/', views.AffiliationsView.as_view(), name='affiliations'),
     path('leadership/', views.LeadershipView.as_view(), name='leadership'),
     

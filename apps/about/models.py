@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.urls import reverse
-from .analytics import *
 
 
 
@@ -61,6 +60,13 @@ class CooperativeInfo(models.Model):
         verbose_name = _("Cooperative Information")
         verbose_name_plural = _("Cooperative Information")
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['slug']),  # For URL lookups
+            models.Index(fields=['is_active']),  # For filtering active items
+            models.Index(fields=['created_at']),  # For date-based queries
+            models.Index(fields=['updated_at']),  # For date-based queries
+            models.Index(fields=['cooperative_name']),  # For search
+        ]
     
     def __str__(self):
         return self.cooperative_name
@@ -114,58 +120,14 @@ class CooperativeTimeline(models.Model):
         ordering = ['-event_date', 'order']
         indexes = [
             models.Index(fields=['is_active', 'is_featured', '-event_date']),
+            models.Index(fields=['event_type', 'is_active']),  # For filtering by event type
+            models.Index(fields=['event_date']),  # For date-based queries
+            models.Index(fields=['created_at']),  # For date-based queries
+            models.Index(fields=['title']),  # For search
         ]
     
     def __str__(self):
         return f"{self.title} - {self.event_date}"
-
-
-class CooperativeAchievement(models.Model):
-    """Model to store cooperative achievements and awards"""
-    
-    ACHIEVEMENT_TYPES = [
-        ('award', _('Award')),
-        ('certification', _('Certification')),
-        ('recognition', _('Recognition')),
-        ('milestone', _('Milestone')),
-        ('partnership', _('Partnership')),
-        ('other', _('Other')),
-    ]
-    
-    title = models.CharField(max_length=200, verbose_name=_("Achievement Title"))
-    description = models.TextField(verbose_name=_("Achievement Description"))
-    achievement_type = models.CharField(max_length=20, choices=ACHIEVEMENT_TYPES, default='award', verbose_name=_("Achievement Type"))
-    received_date = models.DateField(verbose_name=_("Received Date"))
-    awarding_organization = models.CharField(max_length=200, verbose_name=_("Awarding Organization"))
-    
-    # Media
-    certificate_image = models.ImageField(upload_to='about/achievements/', blank=True, null=True, verbose_name=_("Certificate Image"))
-    logo = models.ImageField(upload_to='about/achievements/', blank=True, null=True, verbose_name=_("Organization Logo"))
-    
-    # Ordering
-    order = models.PositiveIntegerField(default=0, verbose_name=_("Display Order"))
-    
-    # Status
-    is_featured = models.BooleanField(default=False, verbose_name=_("Featured Achievement"))
-    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
-    
-    # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    # Custom Managers
-    objects = ContentManager()
-
-    class Meta:
-        verbose_name = _("Achievement")
-        verbose_name_plural = _("Achievements")
-        ordering = ['-received_date', 'order']
-        indexes = [
-            models.Index(fields=['is_active', 'is_featured', '-received_date']),
-        ]
-    
-    def __str__(self):
-        return f"{self.title} - {self.awarding_organization}"
 
 
 class CooperativeStatistic(models.Model):
@@ -209,6 +171,13 @@ class CooperativeStatistic(models.Model):
         verbose_name = _("Statistic")
         verbose_name_plural = _("Statistics")
         ordering = ['order', 'title']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),  # For filtering
+            models.Index(fields=['statistic_type', 'is_active']),  # For filtering by type
+            models.Index(fields=['order']),  # For ordering
+            models.Index(fields=['title']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+        ]
     
     def __str__(self):
         return f"{self.title}: {self.value} {self.unit}"
@@ -251,6 +220,13 @@ class CooperativeAffiliation(models.Model):
         verbose_name = _("Affiliation")
         verbose_name_plural = _("Affiliations")
         ordering = ['order', 'name']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),  # For filtering
+            models.Index(fields=['affiliation_type', 'is_active']),  # For filtering by type
+            models.Index(fields=['order']),  # For ordering
+            models.Index(fields=['name']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+        ]
     
     def __str__(self):
         return self.name
@@ -293,6 +269,14 @@ class LeadershipMessage(models.Model):
         verbose_name = _("Leadership Message")
         verbose_name_plural = _("Leadership Messages")
         ordering = ['order', 'message_type']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),  # For filtering
+            models.Index(fields=['message_type', 'is_active']),  # For filtering by type
+            models.Index(fields=['order']),  # For ordering
+            models.Index(fields=['title']),  # For search
+            models.Index(fields=['author_name']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+        ]
     
     def __str__(self):
         return f"{self.title} - {self.author_name}"
@@ -321,6 +305,12 @@ class Person(models.Model):
         ordering = ['full_name']
         verbose_name = _("Person")
         verbose_name_plural = _("People")
+        indexes = [
+            models.Index(fields=['full_name']),  # For search
+            models.Index(fields=['is_active']),  # For filtering
+            models.Index(fields=['email']),  # For email lookups
+            models.Index(fields=['created_at']),  # For date-based queries
+        ]
 
     def __str__(self):
         return self.full_name
@@ -343,6 +333,12 @@ class Committee(models.Model):
         ordering = ['-is_active', 'order']
         verbose_name = _("Committee")
         verbose_name_plural = _("Committees")
+        indexes = [
+            models.Index(fields=['slug']),  # For URL lookups
+            models.Index(fields=['is_active', 'order']),  # For filtering and ordering
+            models.Index(fields=['name']),  # For search
+            models.Index(fields=['tenure_bs']),  # For filtering by tenure
+        ]
 
     def __str__(self):
         return f"{self.name} ({self.tenure_bs})"
@@ -370,6 +366,12 @@ class Membership(models.Model):
         unique_together = ('person', 'committee')
         verbose_name = _("Committee Membership")
         verbose_name_plural = _("Committee Memberships")
+        indexes = [
+            models.Index(fields=['committee', 'order']),  # For committee-based queries
+            models.Index(fields=['person', 'committee']),  # For unique lookup optimization
+            models.Index(fields=['is_active']),  # For filtering
+            models.Index(fields=['position']),  # For filtering by position
+        ]
 
     def __str__(self):
         return f"{self.person.full_name} - {self.position} of {self.committee}"
@@ -392,6 +394,12 @@ class Staff(models.Model):
         ordering = ['order']
         verbose_name = _("Staff Member")
         verbose_name_plural = _("Staff Members")
+        indexes = [
+            models.Index(fields=['person']),  # For person lookups
+            models.Index(fields=['is_active', 'order']),  # For filtering and ordering
+            models.Index(fields=['position']),  # For filtering by position
+            models.Index(fields=['department']),  # For filtering by department
+        ]
 
     def __str__(self):
         return f"{self.person.full_name} - {self.position}"

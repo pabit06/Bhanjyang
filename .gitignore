@@ -50,6 +50,14 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+coverage.json
+
+# Test outputs
+test_outputs/
+test_output.txt
+test_results.txt
+test_run_*.txt
+test_services*.txt
 
 # Translations
 *.mo
@@ -160,3 +168,6 @@ Thumbs.db
 backups/
 *.sql
 *.dump
+
+# Archive files (old logs)
+logs/archive/

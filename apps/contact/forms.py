@@ -8,7 +8,7 @@ class ContactForm(forms.Form):
         max_length=100,
         min_length=2,
         widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
+            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all duration-200',
             'placeholder': 'Your full name',
             'autocomplete': 'name'
         }),
@@ -20,7 +20,7 @@ class ContactForm(forms.Form):
     
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
-            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
+            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all duration-200',
             'placeholder': 'your.email@example.com',
             'autocomplete': 'email'
         }),
@@ -31,7 +31,7 @@ class ContactForm(forms.Form):
         max_length=20,
         required=False,
         widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
+            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all duration-200',
             'placeholder': '+977-XXXXXXXXXX',
             'autocomplete': 'tel'
         }),
@@ -42,7 +42,7 @@ class ContactForm(forms.Form):
         max_length=200,
         min_length=3,
         widget=forms.TextInput(attrs={
-            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
+            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all duration-200',
             'placeholder': 'Subject of your message',
             'autocomplete': 'off'
         }),
@@ -51,7 +51,7 @@ class ContactForm(forms.Form):
     
     message = forms.CharField(
         widget=forms.Textarea(attrs={
-            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200 resize-none',
+            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all duration-200 resize-none',
             'rows': 5,
             'placeholder': 'Your message here...',
             'autocomplete': 'off'
@@ -63,7 +63,7 @@ class ContactForm(forms.Form):
     attachment = forms.FileField(
         required=False,
         widget=forms.FileInput(attrs={
-            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors duration-200',
+            'class': 'w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all duration-200',
             'accept': '.pdf,.doc,.docx,.jpg,.jpeg,.png'
         }),
         label='Attachment (Optional)',

@@ -2,7 +2,6 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .api_views import (
     CooperativeInfoViewSet, CooperativeTimelineViewSet,
-    CooperativeAchievementViewSet, CooperativeStatisticSerializer,
     CooperativeAffiliationViewSet, LeadershipMessageViewSet,
     PersonViewSet, CommitteeViewSet, StaffViewSet,
     SearchAPIView, StatisticsAPIView, ContactAPIView, NewsletterAPIView
@@ -12,7 +11,6 @@ from .api_views import (
 router = DefaultRouter()
 router.register(r'cooperative-info', CooperativeInfoViewSet, basename='cooperative-info')
 router.register(r'timeline', CooperativeTimelineViewSet, basename='timeline')
-router.register(r'achievements', CooperativeAchievementViewSet, basename='achievements')
 router.register(r'affiliations', CooperativeAffiliationViewSet, basename='affiliations')
 router.register(r'leadership', LeadershipMessageViewSet, basename='leadership')
 router.register(r'team', PersonViewSet, basename='team')

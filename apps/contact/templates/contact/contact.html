@@ -8,7 +8,6 @@
 {% block meta_keywords %}bhanjyang cooperative contact, contact details, cooperative office, service center, rupa-3,
 phone number, email address, send message, kaski, customer support{% endblock meta_keywords %}
 
-{# No changes to other meta, og, twitter, or schema blocks - they are already great! #}
 {% block og_title %}Contact Bhanjyang Cooperative - Get in Touch{% endblock og_title %}
 {% block og_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हामी तपाईंको सहयोगका लागि यहाँ
 छौं।{% endblock og_description %}
@@ -20,86 +19,123 @@ phone number, email address, send message, kaski, customer support{% endblock me
 {% block schema_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।{% endblock schema_description %}
 
 {% block extra_css %}
-{# CSS moved to external files: static/css/components/forms.css and static/css/components/map-toggle.css #}
 {% endblock extra_css %}
 
 {% block content %}
-<section id="contact-information" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Hero Section -->
+<section class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+            Contact Us
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+            Get In Touch
+        </h1>
+        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Whether you have a query, feedback, or need assistance, our dedicated team is ready to help
+        </p>
+    </div>
+</section>
+
+<!-- Contact Information Section -->
+<section id="contact-information" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-bhanjyangred font-montserrat mb-3">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Contact Information
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
                 Our Contact Information & Locations
             </h2>
-            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
-            <p class="mt-4 text-center text-base sm:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                Whether you have a query, feedback, or need assistance, our dedicated team at both our Main Office and
-                Service Center is ready to help.
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Whether you have a query, feedback, or need assistance, our dedicated team at both our Main Office and Service Center is ready to help.
             </p>
         </div>
 
-        {# UPGRADE: Use a reusable include for cleaner code #}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 text-center">
-            {% include "partials/_info_card.html" with icon="fa-landmark" title="Main Office" color="deuraligreen"
-            delay="200" content="Bhanjyang Saving & Credit Cooperative Ltd.<br>Rupa Rural Municipality-5, Deurali,
-            Kaski<br>Gandaki Province, Nepal"
-            link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
-            link_text="Get Directions" %}
-            {% include "partials/_info_card.html" with icon="fa-location-dot" title="Service Center"
-            color="bhanjyangred" delay="300" content="Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural
-            Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal"
-            link_url="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp"
-            link_text="Get Directions" %}
-            {% include "partials/_info_card.html" with icon="fa-clock" title="Business Hours" color="deuraligreen"
-            delay="600" content="Sunday - Friday: 10:00 AM - 4:00 PM<br>Saturday: Closed<br>Public Holidays: Closed"
-            footer_text="We're here to serve you during business hours." %}
-            {% include "partials/_info_card.html" with icon="fa-phone" title="Call Us" color="deuraligreen" delay="400"
-            content="Main Office: <a href='tel:+9779856083101'
-                class='text-deuraligreen hover:underline'>+977-9856083101</a><br>Service Center: <a
-                href='tel:+9779846242424' class='text-deuraligreen hover:underline'>+977-9846242424</a>"
-            footer_text="Available during business hours." %}
-            {% include "partials/_info_card.html" with icon="fa-envelope-open-text" title="Email Us"
-            color="bhanjyangred" delay="500" content="General Inquiries: <a href='mailto:info@bhanjyang.coop.np'
-                class='text-bhanjyangred hover:underline'>info@bhanjyang.coop.np</a><br>Support: <a
-                href='mailto:support@bhanjyang.coop.np'
-                class='text-bhanjyangred hover:underline'>support@bhanjyang.coop.np</a>" footer_text="We aim to respond
-            within 24-48 hours." %}
+        <!-- Contact Information Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {% include "partials/_info_card.html" with icon="fa-landmark" title="Main Office" color="deuraligreen" delay="200" content="Bhanjyang Saving & Credit Cooperative Ltd.<br>Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Rupa+Rural+Municipality+5+Deurali+Kaski" link_text="Get Directions" %}
+            {% include "partials/_info_card.html" with icon="fa-location-dot" title="Service Center" color="bhanjyangred" delay="300" content="Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal" link_url="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Polyang+Branch+Rupa+Rural+Municipality+3+Polyang+Kaski" link_text="Get Directions" %}
+            {% include "partials/_info_card.html" with icon="fa-clock" title="Business Hours" color="deuraligreen" delay="600" content="Sunday - Friday: 10:00 AM - 4:00 PM<br>Saturday: Closed<br>Public Holidays: Closed" footer_text="We're here to serve you during business hours." %}
+            {% include "partials/_info_card.html" with icon="fa-phone" title="Call Us" color="deuraligreen" delay="400" content="Main Office: <a href='tel:+9779856083101' class='text-deuraligreen hover:underline font-semibold'>+977-9856083101</a><br>Service Center: <a href='tel:+9779846242424' class='text-deuraligreen hover:underline font-semibold'>+977-9846242424</a>" footer_text="Available during business hours." %}
+            {% include "partials/_info_card.html" with icon="fa-envelope-open-text" title="Email Us" color="bhanjyangred" delay="500" content="General Inquiries: <a href='mailto:info@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>info@bhanjyang.coop.np</a><br>Support: <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>support@bhanjyang.coop.np</a>" footer_text="We aim to respond within 24-48 hours." %}
         </div>
     </div>
 </section>
 
-<section id="contact-feedback-form" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Contact Form Section -->
+<section id="contact-feedback-form" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid grid-cols-1 lg:grid-cols-6 gap-8 items-start">
-
-            {# Column 1: Engaging Text - २ भाग ओगटेको छ #}
+            <!-- Column 1: Engaging Text -->
             <div class="lg:col-span-2 text-center lg:text-left">
-                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-deuraligreen font-montserrat mb-4">
+                <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                    Send Message
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 font-montserrat mb-4">
                     We'd Love to Hear From You
                 </h2>
-                <p class="text-base sm:text-lg text-gray-700 mb-6 leading-relaxed font-poppins">
+                <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
                     Whether you have a question, a suggestion, or feedback on our services, we're here to listen.
                     Your insights are invaluable to us as we strive to improve.
                 </p>
-                <div class="space-y-4 inline-block text-left mb-6">
+                <div class="space-y-4 mb-8">
                     <div class="flex items-center gap-3 text-gray-800">
-                        <i class="fa-solid fa-phone text-base text-deuraligreen w-4 text-center"></i>
+                        <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-phone text-deuraligreen"></i>
+                        </div>
                         <a href="tel:+9779856083101"
-                            class="text-sm font-poppins hover:underline font-semibold">+977-9856083101</a>
+                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">+977-9856083101</a>
                     </div>
                     <div class="flex items-center gap-3 text-gray-800">
-                        <i class="fa-solid fa-envelope text-base text-deuraligreen w-4 text-center"></i>
+                        <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-envelope text-deuraligreen"></i>
+                        </div>
                         <a href="mailto:info@bhanjyang.coop.np"
-                            class="text-sm font-poppins hover:underline font-semibold">info@bhanjyang.coop.np</a>
+                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">info@bhanjyang.coop.np</a>
                     </div>
                 </div>
                 <div class="mt-4">
                     <img src="{% static 'images/plant-illustration.png' %}" alt="" role="presentation"
-                        class="w-24 sm:w-28 md:w-32 lg:w-36 h-auto mx-auto lg:mx-0 drop-shadow-xl object-contain"
+                        class="w-32 lg:w-40 h-auto mx-auto lg:mx-0 drop-shadow-xl object-contain"
                         loading="lazy">
                 </div>
             </div>
 
-            {# Column 2: The Contact Form - ४ भाग ओगटेको छ (तन्किएको भाग) #}
+            <!-- Column 2: The Contact Form -->
             <div class="lg:col-span-4 w-full self-stretch flex">
                 <a href="#contactForm"
                     class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-md">
@@ -107,7 +143,7 @@ phone number, email address, send message, kaski, customer support{% endblock me
                 </a>
 
                 <form id="contactForm" method="POST" action="{% url 'contact:contact_view' %}"
-                    class="h-full flex flex-col space-y-6 bg-white border border-gray-200 p-6 sm:p-10 rounded-xl shadow-xl w-full"
+                    class="h-full flex flex-col space-y-6 bg-white border-t-4 border-deuraligreen p-8 rounded-2xl shadow-2xl w-full"
                     novalidate enctype="multipart/form-data" aria-label="Contact form">
 
                     <input type="hidden" name="csrfmiddlewaretoken" id="contact-form-csrf-token"
@@ -141,20 +177,20 @@ phone number, email address, send message, kaski, customer support{% endblock me
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="form-group relative">
                             <label for="{{ form.name.id_for_label }}"
-                                class="block text-sm font-semibold font-poppins text-gray-700 mb-2">
-                                Your Name <span class="text-red-500">*</span>
+                                class="block text-sm font-bold text-gray-800 mb-2">
+                                <i class="fas fa-user text-deuraligreen mr-2"></i>Your Name <span class="text-red-500">*</span>
                             </label>
                             <input type="{{ form.name.field.widget_type }}" name="{{ form.name.name }}"
                                 id="{{ form.name.id_for_label }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-gray-50 transition-all font-poppins"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all font-poppins"
                                 placeholder="Enter full name" required>
                             <div id="{{ form.name.id_for_label }}_error"
                                 class="error-message hidden text-red-600 text-sm mt-1 font-poppins" role="alert"></div>
                         </div>
                         <div class="form-group">
                             <label for="{{ form.email.id_for_label }}"
-                                class="block text-sm font-semibold font-poppins text-gray-700 mb-2">
-                                Your Email <span class="text-red-500">*</span>
+                                class="block text-sm font-bold text-gray-800 mb-2">
+                                <i class="fas fa-envelope text-deuraligreen mr-2"></i>Your Email <span class="text-red-500">*</span>
                             </label>
                             {{ form.email }}
                             <div id="{{ form.email.id_for_label }}_error"
@@ -162,8 +198,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
                         </div>
                         <div class="form-group">
                             <label for="{{ form.phone.id_for_label }}"
-                                class="block text-sm font-semibold font-poppins text-gray-700 mb-2">
-                                Phone Number <span class="text-gray-500 text-xs font-normal">(Optional)</span>
+                                class="block text-sm font-bold text-gray-800 mb-2">
+                                <i class="fas fa-phone text-deuraligreen mr-2"></i>Phone Number <span class="text-gray-500 text-xs font-normal">(Optional)</span>
                             </label>
                             {{ form.phone }}
                             <div id="{{ form.phone.id_for_label }}_error"
@@ -173,8 +209,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
 
                     <div class="form-group">
                         <label for="{{ form.subject.id_for_label }}"
-                            class="block text-sm font-semibold font-poppins text-gray-700 mb-2">
-                            Subject <span class="text-red-500">*</span>
+                            class="block text-sm font-bold text-gray-800 mb-2">
+                            <i class="fas fa-tag text-deuraligreen mr-2"></i>Subject <span class="text-red-500">*</span>
                         </label>
                         {{ form.subject }}
                         <div id="{{ form.subject.id_for_label }}_error"
@@ -183,8 +219,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
 
                     <div class="form-group">
                         <label for="{{ form.message.id_for_label }}"
-                            class="block text-sm font-semibold font-poppins text-gray-700 mb-2">
-                            Your Message <span class="text-red-500">*</span>
+                            class="block text-sm font-bold text-gray-800 mb-2">
+                            <i class="fas fa-comment text-deuraligreen mr-2"></i>Your Message <span class="text-red-500">*</span>
                         </label>
                         {{ form.message }}
                         <div id="{{ form.message.id_for_label }}_error"
@@ -193,16 +229,16 @@ phone number, email address, send message, kaski, customer support{% endblock me
 
                     <div class="form-group">
                         <label for="{{ form.attachment.id_for_label }}"
-                            class="block text-sm font-semibold font-poppins text-gray-700 mb-2">
-                            File Attachment <span class="text-gray-500 text-xs font-normal">(Optional)</span>
+                            class="block text-sm font-bold text-gray-800 mb-2">
+                            <i class="fas fa-paperclip text-deuraligreen mr-2"></i>File Attachment <span class="text-gray-500 text-xs font-normal">(Optional)</span>
                         </label>
                         {{ form.attachment }}
-                        <p class="text-[11px] text-gray-500 mt-1 font-poppins">Max 5MB (PDF, DOC, JPG, PNG)</p>
+                        <p class="text-xs text-gray-500 mt-1 font-poppins">Max 5MB (PDF, DOC, JPG, PNG)</p>
                     </div>
 
                     <div class="text-center pt-4">
                         <button id="submitButton" type="submit"
-                            class="w-full sm:w-auto bg-deuraligreen hover:bg-bhanjyangred text-white text-base font-bold font-poppins py-4 px-10 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3">
+                            class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white text-base font-bold font-poppins py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                             <span id="buttonText">Send Message</span>
                             <i id="buttonIcon" class="fas fa-paper-plane"></i>
                             <i id="loadingIcon" class="fas fa-spinner fa-spin hidden"></i>
@@ -211,7 +247,7 @@ phone number, email address, send message, kaski, customer support{% endblock me
 
                     <div class="text-center text-xs font-poppins text-gray-500 mt-2">
                         <p>By submitting this form, you agree to our <a href="{% url 'contact:privacy_policy' %}"
-                                class="underline hover:text-bhanjyangred">privacy policy</a>.</p>
+                                class="underline hover:text-deuraligreen transition-colors duration-300">privacy policy</a>.</p>
                     </div>
                 </form>
             </div>
@@ -219,21 +255,33 @@ phone number, email address, send message, kaski, customer support{% endblock me
     </div>
 </section>
 
-<section id="our-locations-map" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Map Section -->
+<section id="our-locations-map" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12">
-            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-bhanjyangred font-montserrat mb-3">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Locations
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
                 Find Our Locations on the Map
             </h2>
-            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
-            <p
-                class="mt-4 text-center text-base sm:text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed font-poppins">
-                Visit our Main Office in Rupa-5 or our Service Center in Rupa-3. Use the buttons below to switch between
-                locations.
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Visit our Main Office in Rupa-5 or our Service Center in Rupa-3. Use the buttons below to switch between locations.
             </p>
         </div>
 
-        <div class="rounded-lg shadow-xl overflow-hidden border-4 border-deuraligreen">
+        <div class="relative rounded-2xl shadow-2xl overflow-hidden border-4 border-deuraligreen">
             <div id="map-loading"
                 class="absolute inset-0 bg-gray-100/75 backdrop-blur-sm flex items-center justify-center z-10 hidden">
                 <div class="flex flex-col items-center">
@@ -242,7 +290,6 @@ phone number, email address, send message, kaski, customer support{% endblock me
                 </div>
             </div>
 
-            {# UPGRADE: Added title attribute for accessibility #}
             <iframe id="location-map-iframe"
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
                 title="Interactive map showing Bhanjyang Cooperative Main Office and Service Center locations. Use the toggle buttons below to switch between locations."
@@ -252,36 +299,36 @@ phone number, email address, send message, kaski, customer support{% endblock me
             </iframe>
         </div>
 
-        {# Modern Toggle Switch for Map Locations #}
+        <!-- Modern Toggle Switch for Map Locations -->
         <div class="flex flex-col items-center justify-center mt-8">
-            <div class="relative inline-flex items-center bg-white rounded-full p-1.5 shadow-lg border border-gray-200">
-                {# Toggle Switch Background #}
+            <div class="relative inline-flex items-center bg-white rounded-full p-1.5 shadow-xl border border-gray-200">
+                <!-- Toggle Switch Background -->
                 <div class="relative flex items-center">
-                    {# Main Office Option #}
+                    <!-- Main Office Option -->
                     <button id="map-toggle-main"
                         data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7037.612645021445!2d84.149533!3d28.121932!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1760763305577!5m2!1sen!2snp"
-                        class="map-toggle-option relative z-10 px-6 py-2.5 rounded-full text-sm font-semibold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
+                        class="map-toggle-option relative z-10 px-6 py-3 rounded-full text-sm font-bold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
                         data-location="main">
                         <span class="flex items-center gap-2">
-                            <i class="fas fa-landmark text-xs"></i>
+                            <i class="fas fa-landmark"></i>
                             <span>Main Office</span>
                         </span>
                     </button>
 
-                    {# Service Center Option #}
+                    <!-- Service Center Option -->
                     <button id="map-toggle-service"
                         data-map-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14886.364800504987!2d84.20693577278259!3d28.108180724514312!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a1bd584f5877%3A0x8c71bcb5b99757ed!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.%20Polyang%20Branch!5e0!3m2!1sen!2snp!4v1760763359401!5m2!1sen!2snp"
-                        class="map-toggle-option relative z-10 px-6 py-2.5 rounded-full text-sm font-semibold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
+                        class="map-toggle-option relative z-10 px-6 py-3 rounded-full text-sm font-bold font-poppins transition-all duration-300 ease-in-out transform active:scale-95"
                         data-location="service">
                         <span class="flex items-center gap-2">
-                            <i class="fas fa-location-dot text-xs"></i>
+                            <i class="fas fa-location-dot"></i>
                             <span>Service Center</span>
                         </span>
                     </button>
 
-                    {# Sliding Background Indicator #}
+                    <!-- Sliding Background Indicator -->
                     <div id="map-toggle-slider"
-                        class="absolute top-1.5 left-1.5 h-9 bg-deuraligreen rounded-full shadow-md transition-all duration-300 ease-in-out z-0">
+                        class="absolute top-1.5 left-1.5 h-11 bg-deuraligreen rounded-full shadow-lg transition-all duration-300 ease-in-out z-0">
                     </div>
                 </div>
             </div>
@@ -761,7 +808,7 @@ phone number, email address, send message, kaski, customer support{% endblock me
         };
     });
 
-    // Modern Toggle Switch functionality for Map Locations (consolidated into main DOMContentLoaded)
+    // Modern Toggle Switch functionality for Map Locations
     document.addEventListener('DOMContentLoaded', function () {
         const mapToggleMain = document.getElementById('map-toggle-main');
         const mapToggleService = document.getElementById('map-toggle-service');

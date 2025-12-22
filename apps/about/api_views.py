@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status, permissions
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
@@ -7,16 +7,15 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django.db.models import Q
 from django.core.cache import cache
 from django.utils import timezone
-import json
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
 from .serializers import (
     CooperativeInfoSerializer, CooperativeTimelineSerializer,
-    CooperativeAchievementSerializer, CooperativeStatisticSerializer,
+    CooperativeStatisticSerializer,
     CooperativeAffiliationSerializer, LeadershipMessageSerializer,
     PersonSerializer, CommitteeSerializer, MembershipSerializer,
     StaffSerializer
@@ -81,35 +80,6 @@ class CooperativeTimelineViewSet(viewsets.ReadOnlyModelViewSet):
         recent_events = self.queryset.order_by('-event_date')[:10]
         serializer = self.get_serializer(recent_events, many=True)
         return Response(serializer.data)
-
-
-class CooperativeAchievementViewSet(viewsets.ReadOnlyModelViewSet):
-    """API endpoint for cooperative achievements"""
-    queryset = CooperativeAchievement.objects.filter(is_active=True)
-    serializer_class = CooperativeAchievementSerializer
-    pagination_class = StandardResultsSetPagination
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['achievement_type', 'is_featured']
-    search_fields = ['title', 'description', 'awarding_organization']
-    ordering_fields = ['received_date', 'created_at', 'order']
-    ordering = ['-received_date']
-
-    @action(detail=False, methods=['get'])
-    def featured(self, request):
-        """Get featured achievements"""
-        featured_achievements = self.queryset.filter(is_featured=True)[:5]
-        serializer = self.get_serializer(featured_achievements, many=True)
-        return Response(serializer.data)
-
-    @action(detail=False, methods=['get'])
-    def by_type(self, request):
-        """Get achievements by type"""
-        achievement_type = request.query_params.get('type')
-        if achievement_type:
-            achievements = self.queryset.filter(achievement_type=achievement_type)
-            serializer = self.get_serializer(achievements, many=True)
-            return Response(serializer.data)
-        return Response({'error': 'Type parameter required'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CooperativeAffiliationViewSet(viewsets.ReadOnlyModelViewSet):
@@ -253,7 +223,6 @@ class SearchAPIView(APIView):
             'query': query,
             'cooperative_info': [],
             'timeline': [],
-            'achievements': [],
             'affiliations': [],
             'leadership': [],
             'team': []
@@ -274,14 +243,6 @@ class SearchAPIView(APIView):
             Q(description__icontains=query)
         ).filter(is_active=True)[:5]
         results['timeline'] = CooperativeTimelineSerializer(timeline, many=True).data
-
-        # Search achievements
-        achievements = CooperativeAchievement.objects.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(awarding_organization__icontains=query)
-        ).filter(is_active=True)[:5]
-        results['achievements'] = CooperativeAchievementSerializer(achievements, many=True).data
 
         # Search affiliations
         affiliations = CooperativeAffiliation.objects.filter(
@@ -326,7 +287,6 @@ class StatisticsAPIView(APIView):
         stats = {
             'cooperative_info_count': CooperativeInfo.objects.filter(is_active=True).count(),
             'timeline_events_count': CooperativeTimeline.objects.filter(is_active=True).count(),
-            'achievements_count': CooperativeAchievement.objects.filter(is_active=True).count(),
             'affiliations_count': CooperativeAffiliation.objects.filter(is_active=True).count(),
             'leadership_messages_count': LeadershipMessage.objects.filter(is_active=True).count(),
             'team_members_count': Person.objects.filter(is_active=True).count(),

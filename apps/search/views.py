@@ -6,7 +6,7 @@ from django.core.cache import cache
 
 from .services import SearchService, SearchAnalytics, SearchUtilities
 from apps.about.models import (
-    CooperativeTimeline, CooperativeAchievement,
+    CooperativeTimeline,
     CooperativeAffiliation, LeadershipMessage, Person
 )
 
@@ -37,8 +37,6 @@ class AdvancedSearchView(ListView):
             # But search_events method was NOT present in the file I read!
             # It only had search_timeline. I'll assume events -> timeline for now or just generic all.
             results = SearchService.search_timeline(query)
-        elif search_type == 'achievements':
-            results = SearchService.search_achievements(query)
         elif search_type == 'affiliations':
             results = SearchService.search_affiliations(query)
         else:
@@ -93,7 +91,6 @@ def search_api(request):
         # We put this logic here as it's specific to the API response format
         models_data = [
             (CooperativeTimeline, 'title', 'Timeline Event'),
-            (CooperativeAchievement, 'title', 'Achievement'),
             (CooperativeAffiliation, 'name', 'Affiliation'),
             (Person, 'full_name', 'Team Member'),
             (LeadershipMessage, 'title', 'Leadership Message'),
@@ -120,7 +117,6 @@ def search_api(request):
                 # We'll just hardcode simple mapping here like before for speed/simplicity
                 url = '/'
                 if model == CooperativeTimeline: url = '/about/timeline/'
-                elif model == CooperativeAchievement: url = '/about/achievements/'
                 elif model == CooperativeAffiliation: url = '/about/affiliations/'
                 elif model == Person: url = '/about/team/'
                 elif model == LeadershipMessage: url = '/about/leadership/'

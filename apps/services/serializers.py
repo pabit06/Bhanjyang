@@ -14,7 +14,7 @@ from .models import (
 class SavingsAccountSerializer(serializers.ModelSerializer):
     """Serializer for Savings Account model with enhanced fields."""
     
-    annual_interest_rate = serializers.ReadOnlyField()
+    annual_interest_rate = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
     
     class Meta:
@@ -26,6 +26,10 @@ class SavingsAccountSerializer(serializers.ModelSerializer):
             'updated_at', 'annual_interest_rate', 'url'
         ]
         read_only_fields = ['id', 'slug', 'created_at', 'updated_at']
+    
+    def get_annual_interest_rate(self, obj: SavingsAccount) -> float:
+        """Get annual interest rate (same as interest_rate for savings accounts)."""
+        return float(obj.interest_rate)
     
     def get_url(self, obj: SavingsAccount) -> str:
         """Get the absolute URL for the savings account."""

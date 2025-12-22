@@ -300,7 +300,7 @@ class CacheWarming:
     def warm_api_endpoints():
         """Warm cache for common API endpoints"""
         from apps.about.models import (
-            CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+            CooperativeInfo, CooperativeTimeline,
             CooperativeAffiliation, LeadershipMessage, Person
         )
         
@@ -317,8 +317,7 @@ class CacheWarming:
             warmed_count += 1
         
         # Warm achievements
-        if CooperativeAchievement.objects.exists():
-            CacheWarming.warm_model_cache(CooperativeAchievement)
+        # Removed: CooperativeAchievement cache warming - model no longer exists
             warmed_count += 1
         
         # Warm affiliations

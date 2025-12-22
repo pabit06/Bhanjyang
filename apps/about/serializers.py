@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
@@ -33,18 +33,7 @@ class CooperativeTimelineSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 
-class CooperativeAchievementSerializer(serializers.ModelSerializer):
-    """Serializer for CooperativeAchievement model"""
-    
-    class Meta:
-        model = CooperativeAchievement
-        fields = [
-            'id', 'title', 'description', 'achievement_type', 'received_date',
-            'awarding_organization', 'logo', 'certificate_image',
-            'is_active', 'is_featured', 'order',
-            'created_at', 'updated_at'
-        ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+# Removed: CooperativeAchievementSerializer - CooperativeAchievement model no longer exists
 
 
 class CooperativeStatisticSerializer(serializers.ModelSerializer):
@@ -141,13 +130,12 @@ class DetailedCooperativeInfoSerializer(CooperativeInfoSerializer):
     """Detailed serializer for CooperativeInfo with related data"""
     statistics = CooperativeStatisticSerializer(many=True, read_only=True)
     timeline_events = CooperativeTimelineSerializer(many=True, read_only=True)
-    achievements = CooperativeAchievementSerializer(many=True, read_only=True)
     affiliations = CooperativeAffiliationSerializer(many=True, read_only=True)
     leadership_messages = LeadershipMessageSerializer(many=True, read_only=True)
     
     class Meta(CooperativeInfoSerializer.Meta):
         fields = CooperativeInfoSerializer.Meta.fields + [
-            'statistics', 'timeline_events', 'achievements',
+            'statistics', 'timeline_events',
             'affiliations', 'leadership_messages'
         ]
 
@@ -194,12 +182,7 @@ class SummaryTimelineSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'event_date', 'event_type', 'image', 'is_featured']
 
 
-class SummaryAchievementSerializer(serializers.ModelSerializer):
-    """Summary serializer for CooperativeAchievement in list views"""
-    
-    class Meta:
-        model = CooperativeAchievement
-        fields = ['id', 'title', 'achievement_type', 'received_date', 'logo', 'is_featured']
+# Removed: SummaryAchievementSerializer - CooperativeAchievement model no longer exists
 
 
 # Custom field serializers

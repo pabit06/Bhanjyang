@@ -232,5 +232,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    console.log('About page interactive features loaded successfully!');
+    // About page interactive features loaded
 });

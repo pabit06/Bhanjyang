@@ -122,7 +122,10 @@
             "availableLanguage": ["Nepali", "English"]
         },
         "sameAs": [
-            "{% block schema_same_as %}{% endblock schema_same_as %}"
+            {% block schema_same_as %}
+            "https://facebook.com/cooperativebhanjyang",
+            "https://tiktok.com/@bhanjyangsaccos"
+            {% endblock schema_same_as %}
         ],
         "serviceType": "Financial Services",
         "areaServed": "Nepal"
@@ -194,57 +197,15 @@
     <script defer src="{% static 'js/utilities/advanced-animations.js' %}"></script>
     {% endblock extra_js %}
 
-    {# Fix Django Debug Toolbar checkboxes missing id/name attributes #}
+    {# Main JavaScript - Consolidated from inline scripts for better caching #}
+    <script defer src="{% static 'js/base/main.js' %}"></script>
+    
+    {# Enable debug mode for development only #}
+    {% if debug %}
     <script>
-        (function () {
-            function fixDebugToolbarCheckboxes() {
-                const checkboxes = document.querySelectorAll('#djDebugToolbar input[type="checkbox"]:not([id]):not([name])');
-                checkboxes.forEach(function (checkbox, index) {
-                    const dataCookie = checkbox.getAttribute('data-cookie');
-                    if (dataCookie) {
-                        const uniqueId = 'djdt-' + dataCookie.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
-                        checkbox.id = uniqueId;
-                        checkbox.name = uniqueId;
-                    } else {
-                        const uniqueId = 'djdt-checkbox-' + Date.now() + '-' + index;
-                        checkbox.id = uniqueId;
-                        checkbox.name = uniqueId;
-                    }
-                });
-
-                // Fix checkboxes missing only id
-                document.querySelectorAll('#djDebugToolbar input[type="checkbox"][name]:not([id])').forEach(function (checkbox) {
-                    checkbox.id = checkbox.name || 'djdt-' + Date.now();
-                });
-
-                // Fix checkboxes missing only name
-                document.querySelectorAll('#djDebugToolbar input[type="checkbox"][id]:not([name])').forEach(function (checkbox) {
-                    checkbox.name = checkbox.id;
-                });
-            }
-
-            // Run on DOM ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', fixDebugToolbarCheckboxes);
-            } else {
-                fixDebugToolbarCheckboxes();
-            }
-
-            // Run after delays to catch dynamically loaded elements
-            setTimeout(fixDebugToolbarCheckboxes, 500);
-            setTimeout(fixDebugToolbarCheckboxes, 1000);
-
-            // Watch for dynamically added elements
-            const debugToolbar = document.getElementById('djDebugToolbar');
-            if (debugToolbar) {
-                const observer = new MutationObserver(fixDebugToolbarCheckboxes);
-                observer.observe(debugToolbar, {
-                    childList: true,
-                    subtree: true
-                });
-            }
-        })();
+        window.DEBUG_MODE = true;
     </script>
+    {% endif %}
 </body>
 
 </html>

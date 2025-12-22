@@ -11,11 +11,29 @@ from .models import (
 )
 
 class ServiceAnalyticsService:
-    """Service to handle tracking of service usage and analytics"""
+    """
+    Service class for tracking service usage analytics and metrics.
+    
+    This service handles tracking of various user interactions with financial services,
+    including page views, calculator usage, application submissions, and comparison views.
+    All analytics are stored in the ServiceAnalytics model with daily aggregation.
+    
+    Usage:
+        ServiceAnalyticsService.track_usage('savings', 1, 'page_views')
+        ServiceAnalyticsService.track_usage('loan', 5, 'calculator_usage')
+    """
     
     @staticmethod
     def track_calculator_usage(service_type: str, service_id: int):
-        """Track usage of financial calculators"""
+        """
+        Track usage of financial calculators.
+        
+        Note: This method is deprecated. Use track_usage() instead.
+        
+        Args:
+            service_type: Type of service ('savings', 'loan', 'fixed_deposit', etc.)
+            service_id: ID of the service instance
+        """
         # Map simple types to model field values if needed, or stick to convention
         # Current convention in views seems to be 'savings', 'loan', 'fixed_deposit'
         ServiceAnalytics.objects.update_or_create(
@@ -52,6 +70,19 @@ class ServiceAnalyticsService:
 
     @staticmethod
     def _get_model_class(service_type: str):
+        """
+        Map service type string to corresponding model class.
+        
+        Args:
+            service_type: Service type identifier ('savings', 'loan', 'fixed_deposit', 'remittance', 'relief')
+            
+        Returns:
+            Model class or None if service_type is invalid
+            
+        Example:
+            >>> ServiceAnalyticsService._get_model_class('savings')
+            <class 'apps.services.models.SavingsAccount'>
+        """
         if service_type == 'savings': return SavingsAccount
         if service_type == 'loan': return LoanType
         if service_type == 'fixed_deposit': return FixedDeposit
@@ -60,9 +91,32 @@ class ServiceAnalyticsService:
         return None
 
     @classmethod
-    def track_usage(cls, service_type: str, service_id: int, action: str):
+    def track_usage(cls, service_type: str, service_id: int, action: str) -> None:
         """
-        Track various usages: 'calculator_usage', 'applications_received', 'comparison_views', 'page_views'
+        Track service usage analytics for various actions.
+        
+        This method increments counters in the ServiceAnalytics model for tracking
+        user interactions with services. Analytics are aggregated daily per service.
+        
+        Args:
+            service_type: Type of service ('savings', 'loan', 'fixed_deposit', 'remittance', 'relief')
+            service_id: ID of the service instance
+            action: Type of action to track:
+                - 'page_views': When a service detail page is viewed
+                - 'calculator_usage': When a financial calculator is used
+                - 'applications_received': When a service application is submitted
+                - 'comparison_views': When services are compared
+                
+        Returns:
+            None
+            
+        Example:
+            >>> ServiceAnalyticsService.track_usage('savings', 1, 'page_views')
+            >>> ServiceAnalyticsService.track_usage('loan', 5, 'calculator_usage')
+            
+        Note:
+            If the service_type is invalid or an error occurs, the method fails silently
+            to avoid disrupting the main application flow.
         """
         from django.contrib.contenttypes.models import ContentType
         
@@ -89,11 +143,60 @@ class ServiceAnalyticsService:
             pass
 
 class ServiceRecommendationService:
-    """Service to handle recommendations"""
+    """
+    Service class for generating personalized service recommendations.
+    
+    This service analyzes user profiles (age, income, goals, risk tolerance) and
+    recommends appropriate financial services including savings accounts, loans,
+    and fixed deposits based on best practices and user needs.
+    
+    Usage:
+        profile = {
+            'age': 35,
+            'monthly_income': 75000,
+            'goals': ['house_purchase', 'education'],
+            'risk_tolerance': 'moderate'
+        }
+        recommendations = ServiceRecommendationService.get_recommendations(profile)
+    """
     
     @staticmethod
     def get_recommendations(user_profile: Dict[str, Any]) -> Dict[str, Any]:
-        """Get service recommendations based on user profile"""
+        """
+        Generate service recommendations based on user profile.
+        
+        Analyzes user demographics and preferences to recommend suitable financial
+        services. Recommendations are based on:
+        - Age: Different life stages have different financial needs
+        - Income: Income level determines suitable service tiers
+        - Goals: Specific goals (house, education, business) suggest relevant services
+        - Risk Tolerance: Conservative vs aggressive investment preferences
+        
+        Args:
+            user_profile: Dictionary containing:
+                - age (int): User's age in years
+                - monthly_income (int): Monthly income in NPR
+                - goals (list): List of financial goals (e.g., ['house_purchase', 'education'])
+                - risk_tolerance (str): 'conservative', 'moderate', or 'aggressive'
+                
+        Returns:
+            Dictionary with recommendations:
+                - savings_accounts (list): Recommended savings account types
+                - loans (list): Recommended loan types
+                - fixed_deposits (list): Recommended fixed deposit durations
+                - reasoning (list): Explanations for each recommendation
+                
+        Example:
+            >>> profile = {
+            ...     'age': 30,
+            ...     'monthly_income': 50000,
+            ...     'goals': ['house_purchase'],
+            ...     'risk_tolerance': 'moderate'
+            ... }
+            >>> recs = ServiceRecommendationService.get_recommendations(profile)
+            >>> recs['savings_accounts']
+            ['general', 'monthly']
+        """
         age = user_profile.get('age', 30)
         income = user_profile.get('monthly_income', 50000)
         goals = user_profile.get('goals', [])
@@ -173,7 +276,26 @@ class ServiceRecommendationService:
         return recommendations
 
     @staticmethod
-    def save_recommendation(user_profile, recommendations_data, confidence=85.0):
+    def save_recommendation(user_profile: Dict[str, Any], recommendations_data: Dict[str, Any], confidence: float = 85.0) -> 'ServiceRecommendation':
+        """
+        Save service recommendations to database for future reference.
+        
+        Stores the recommendation along with user profile and confidence score
+        for analytics and potential reuse.
+        
+        Args:
+            user_profile: Original user profile dictionary
+            recommendations_data: Recommendations dictionary from get_recommendations()
+            confidence: Confidence score (0-100) for the recommendations, default 85.0
+            
+        Returns:
+            ServiceRecommendation: Created recommendation instance
+            
+        Example:
+            >>> profile = {'age': 30, 'monthly_income': 50000}
+            >>> recs = ServiceRecommendationService.get_recommendations(profile)
+            >>> saved = ServiceRecommendationService.save_recommendation(profile, recs)
+        """
         return ServiceRecommendation.objects.create(
             user_profile=user_profile,
             recommended_services=recommendations_data,
@@ -182,10 +304,42 @@ class ServiceRecommendationService:
         )
 
 class ServiceComparisonService:
-    """Service to handle comparison logic"""
+    """
+    Service class for comparing multiple financial services side-by-side.
+    
+    This service provides functionality to compare different services (savings accounts,
+    loans, fixed deposits) to help users make informed decisions. It extracts key
+    features and metrics for easy comparison.
+    
+    Usage:
+        comparison = ServiceComparisonService.compare_savings_accounts([1, 2, 3])
+    """
     
     @staticmethod
-    def compare_savings_accounts(account_ids: list) -> Dict[str, Any]:
+    def compare_savings_accounts(account_ids: List[int]) -> Dict[str, Any]:
+        """
+        Compare multiple savings accounts side-by-side.
+        
+        Retrieves savings account details and extracts key comparison metrics
+        including interest rates, minimum balances, and features.
+        
+        Args:
+            account_ids: List of savings account IDs to compare
+            
+        Returns:
+            Dictionary containing:
+                - accounts (list): List of account details dictionaries
+                - best_interest_rate (float): Highest interest rate among accounts
+                - lowest_minimum_balance (float): Lowest minimum balance requirement
+                - featured_accounts (list): Accounts marked as featured
+                
+        Example:
+            >>> comparison = ServiceComparisonService.compare_savings_accounts([1, 2, 3])
+            >>> comparison['best_interest_rate']
+            6.5
+            >>> len(comparison['accounts'])
+            3
+        """
         accounts = SavingsAccount.objects.filter(id__in=account_ids, is_active=True)
         comparison_data = []
         
@@ -214,7 +368,28 @@ class ServiceComparisonService:
         }
     
     @staticmethod
-    def compare_loans(loan_ids: list) -> Dict[str, Any]:
+    def compare_loans(loan_ids: List[int]) -> Dict[str, Any]:
+        """
+        Compare multiple loan types side-by-side.
+        
+        Retrieves loan details and extracts key comparison metrics including
+        interest rates, loan amounts, tenure, and requirements.
+        
+        Args:
+            loan_ids: List of loan type IDs to compare
+            
+        Returns:
+            Dictionary containing:
+                - loans (list): List of loan details dictionaries
+                - lowest_interest_rate (float): Lowest monthly interest rate
+                - highest_maximum_amount (float): Highest maximum loan amount
+                - featured_loans (list): Loans marked as featured
+                
+        Example:
+            >>> comparison = ServiceComparisonService.compare_loans([1, 2])
+            >>> comparison['lowest_interest_rate']
+            1.2
+        """
         loans = LoanType.objects.filter(id__in=loan_ids, is_active=True)
         comparison_data = []
         
@@ -246,7 +421,28 @@ class ServiceComparisonService:
         }
     
     @staticmethod
-    def compare_fixed_deposits(deposit_ids: list) -> Dict[str, Any]:
+    def compare_fixed_deposits(deposit_ids: List[int]) -> Dict[str, Any]:
+        """
+        Compare multiple fixed deposit schemes side-by-side.
+        
+        Retrieves fixed deposit details and extracts key comparison metrics
+        including interest rates, durations, and payment frequencies.
+        
+        Args:
+            deposit_ids: List of fixed deposit IDs to compare
+            
+        Returns:
+            Dictionary containing:
+                - deposits (list): List of deposit details dictionaries
+                - highest_interest_rate (float): Highest interest rate
+                - shortest_duration (int): Shortest duration in months
+                - longest_duration (int): Longest duration in months
+                
+        Example:
+            >>> comparison = ServiceComparisonService.compare_fixed_deposits([1, 2, 3])
+            >>> comparison['highest_interest_rate']
+            8.5
+        """
         deposits = FixedDeposit.objects.filter(id__in=deposit_ids, is_active=True)
         comparison_data = []
         
@@ -261,7 +457,7 @@ class ServiceComparisonService:
                 'minimum_amount': float(deposit.minimum_amount) if deposit.minimum_amount else 0,
                 'maximum_amount': float(deposit.maximum_amount) if deposit.maximum_amount else 0,
                 'benefits': deposit.benefits.split('\n') if deposit.benefits else [],
-                'description': deposit.description
+                'description': getattr(deposit, 'description', '')  # FixedDeposit may not have description
             })
             
         if not comparison_data:
@@ -275,10 +471,55 @@ class ServiceComparisonService:
         }
 
 class ServiceSearchService:
-    """Service to handle search logic"""
+    """
+    Service class for searching and filtering financial services.
+    
+    Provides advanced search functionality across all service types (savings accounts,
+    loans, fixed deposits) with filtering by name, interest rate, and featured status.
+    Results are paginated for performance.
+    
+    Usage:
+        form_data = {
+            'query': 'savings',
+            'service_type': 'savings',
+            'interest_rate_min': 5.0,
+            'featured_only': True
+        }
+        results = ServiceSearchService.search_services(form_data, page_number=1)
+    """
     
     @staticmethod
-    def search_services(form_data: Dict[str, Any], page_number: int = 1, page_size: int = 10):
+    def search_services(form_data: Dict[str, Any], page_number: int = 1, page_size: int = 10) -> Dict[str, Any]:
+        """
+        Search and filter financial services based on criteria.
+        
+        Performs text search across service names and descriptions, and filters
+        by interest rate range and featured status. Supports searching across
+        multiple service types or focusing on a specific type.
+        
+        Args:
+            form_data: Dictionary containing search criteria:
+                - query (str): Search text for names and descriptions
+                - service_type (str): 'savings', 'loans', or empty for all
+                - interest_rate_min (float): Minimum interest rate filter
+                - interest_rate_max (float): Maximum interest rate filter
+                - featured_only (bool): Only return featured services
+            page_number: Page number for pagination (default: 1)
+            page_size: Number of results per page (default: 10)
+            
+        Returns:
+            Dictionary containing:
+                - results (Page): Paginated results with service details
+                - total_results (int): Total number of matching services
+                
+        Example:
+            >>> form_data = {'query': 'savings', 'service_type': 'savings'}
+            >>> results = ServiceSearchService.search_services(form_data)
+            >>> results['total_results']
+            5
+            >>> len(results['results'])
+            5
+        """
         query = form_data.get('query', '')
         service_type = form_data.get('service_type', '')
         interest_rate_min = form_data.get('interest_rate_min')
@@ -354,13 +595,46 @@ class ServiceSearchService:
         }
 
 class ServiceApplicationService:
-    """Service to handle applications"""
+    """
+    Service class for processing service applications.
+    
+    Handles the submission and processing of service applications from users.
+    Links applications to specific services using GenericForeignKey and tracks
+    application analytics.
+    
+    Usage:
+        application = ServiceApplicationService.process_application(
+            form, 'savings', '1'
+        )
+    """
     
     @staticmethod
-    def process_application(form, service_type: str, service_id: str):
+    def process_application(form, service_type: str, service_id: str) -> 'ServiceApplication':
         """
-        Process the service application form.
-        Expected to handle saving and analytics tracking.
+        Process and save a service application form submission.
+        
+        Saves the application form data, links it to the appropriate service
+        using GenericForeignKey, and tracks the application in analytics.
+        
+        Args:
+            form: Django form instance (ServiceApplicationForm) with cleaned data
+            service_type: Type of service ('savings', 'loan', 'fixed_deposit', etc.)
+            service_id: String ID of the service instance
+            
+        Returns:
+            ServiceApplication: Created application instance
+            
+        Example:
+            >>> form = ServiceApplicationForm(data)
+            >>> application = ServiceApplicationService.process_application(
+            ...     form, 'savings', '1'
+            ... )
+            >>> application.applicant_name
+            'John Doe'
+            
+        Note:
+            Also tracks the application in ServiceAnalytics with action
+            'applications_received' for analytics purposes.
         """
         # Save application
         application = form.save(commit=False)

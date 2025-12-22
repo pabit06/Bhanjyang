@@ -23,12 +23,24 @@ except ImportError:
 # Try to import magic, fallback to Django's content type detection
 try:
     import magic
-    MAGIC_AVAILABLE = True
-except ImportError:
+    # Test if magic actually works (Windows sometimes has import issues)
+    try:
+        _test_magic = magic.Magic(mime=True)
+        _test_magic.from_buffer(b'test')
+        MAGIC_AVAILABLE = True
+    except (OSError, AttributeError):
+        # Magic imported but doesn't work (e.g., missing DLL on Windows)
+        MAGIC_AVAILABLE = False
+        magic = None  # Set to None to avoid NameError
+except (ImportError, OSError):
     MAGIC_AVAILABLE = False
-    logging.getLogger(__name__).warning("python-magic not available, using Django's content type detection")
+    magic = None
 
 logger = logging.getLogger(__name__)
+
+# Only log warning once if magic is not available
+if not MAGIC_AVAILABLE:
+    logger.debug("python-magic not available, using Django's content type detection")
 
 # Security constants
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB

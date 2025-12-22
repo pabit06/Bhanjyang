@@ -16,7 +16,17 @@ logger = logging.getLogger(__name__)
 
 
 class ContactService:
-    """Service class for handling contact form submissions."""
+    """
+    Service class for handling contact form submissions and related operations.
+    
+    Provides methods for creating contact submissions, sending notification emails,
+    and managing contact form data. Handles file attachments and tracks submission
+    metadata (IP address, user agent) for security and analytics.
+    
+    Usage:
+        submission = ContactService.create_contact_submission(form_data, files, request.META)
+        ContactService.send_contact_notification_emails(submission)
+    """
     
     @staticmethod
     def get_contact_page_context():
@@ -155,7 +165,16 @@ You can manage it through the admin interface.
 
 
 class KYMService:
-    """Service class for handling KYM (Know Your Member) form submissions."""
+    """
+    Service class for handling KYM (Know Your Member) form submissions.
+    
+    KYM forms are used for member registration and verification. This service
+    handles the creation and processing of KYM submissions including document
+    uploads and personal information.
+    
+    Usage:
+        submission = KYMService.create_kym_submission(form_data, files, request.META)
+    """
     
     @staticmethod
     def get_kym_page_context():
@@ -224,7 +243,16 @@ class KYMService:
 
 
 class ContactAnalyticsService:
-    """Service class for contact analytics and statistics."""
+    """
+    Service class for contact analytics and statistics.
+    
+    Provides methods to retrieve statistics about contact submissions and
+    KYM submissions for dashboard and reporting purposes.
+    
+    Usage:
+        stats = ContactAnalyticsService.get_submission_stats()
+        kym_stats = ContactAnalyticsService.get_kym_stats()
+    """
     
     @staticmethod
     def get_submission_stats():

@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.db.models import Q
 from django.core.mail import send_mail
+from django.urls import reverse
 from typing import Dict, Any, List
 
 from .models import (
@@ -24,7 +25,30 @@ class HomeService:
     @staticmethod
     def get_home_context(is_staff: bool = False) -> Dict[str, Any]:
         """
-        Retrieves all data required for the homepage with caching strategy.
+        Retrieve all data required for the homepage with caching strategy.
+        
+        Fetches homepage content, featured testimonials, statistics, announcements,
+        service highlights, and gallery images. Results are cached for 5 minutes
+        for non-staff users to improve performance.
+        
+        Args:
+            is_staff: If True, bypasses cache to show real-time data
+            
+        Returns:
+            Dictionary containing:
+                - homepage_content: HomePageContent instance
+                - featured_testimonials: List of featured testimonials (max 3)
+                - featured_statistics: List of featured statistics (max 4)
+                - featured_announcements: List of active announcements (max 3)
+                - featured_services: List of featured service highlights (max 3)
+                - featured_gallery: List of featured gallery images (max 6)
+                - breadcrumbs: Navigation breadcrumbs
+                - error: Error message if data fetching fails
+                
+        Example:
+            >>> context = HomeService.get_home_context()
+            >>> len(context['featured_testimonials'])
+            3
         """
         cache_key = f'homepage_data_{is_staff}'
         cached_data = cache.get(cache_key)
@@ -53,10 +77,60 @@ class HomeService:
                 Q(expiry_date__isnull=False) & Q(expiry_date__lt=timezone.now())
             ).order_by('-priority', '-publish_date')[:3])
 
-            # 5. Services
-            services = list(ServiceHighlight.objects.filter(
+            # 5. Services - Get from services app
+            from apps.services.models import SavingsAccount, LoanType, FixedDeposit
+            
+            # Get featured services from different service types
+            featured_services_list = []
+            
+            # Get featured savings accounts (max 1)
+            featured_savings = SavingsAccount.objects.filter(
                 is_featured=True, is_active=True
-            ).order_by('order')[:3])
+            ).order_by('-interest_rate')[:1]
+            for savings in featured_savings:
+                featured_services_list.append({
+                    'title': savings.english_name,
+                    'description': savings.description or f"Interest rate: {savings.interest_rate}%",
+                    'icon': savings.icon or 'fas fa-piggy-bank',
+                    'interest_rate': f"Up to {savings.interest_rate}%",
+                    'link_url': savings.get_absolute_url(),
+                    'link_text': 'View Details',
+                    'color': savings.color or 'deuraligreen'
+                })
+            
+            # Get featured loan types (max 1)
+            featured_loans = LoanType.objects.filter(
+                is_featured=True, is_active=True
+            ).order_by('english_name')[:1]
+            for loan in featured_loans:
+                interest_display = f"{loan.annual_interest_rate}%" if loan.annual_interest_rate else "Contact us"
+                featured_services_list.append({
+                    'title': loan.english_name,
+                    'description': loan.description or "Flexible loan options for your needs",
+                    'icon': loan.icon or 'fas fa-hand-holding-usd',
+                    'interest_rate': f"From {interest_display}",
+                    'link_url': loan.get_absolute_url(),
+                    'link_text': 'Explore Options',
+                    'color': loan.color or 'bhanjyangred'
+                })
+            
+            # Get featured fixed deposits (max 1) - get the highest rate
+            featured_fd = FixedDeposit.objects.filter(
+                is_active=True
+            ).order_by('-interest_rate')[:1]
+            for fd in featured_fd:
+                featured_services_list.append({
+                    'title': f"Fixed Deposit ({fd.get_duration_months_display()})",
+                    'description': f"Secure your future with fixed deposits",
+                    'icon': 'fas fa-comments-dollar',
+                    'interest_rate': f"Up to {fd.interest_rate}%",
+                    'link_url': reverse('services:fixed_deposit_list'),
+                    'link_text': 'View Deposit Rates',
+                    'color': 'purple'
+                })
+            
+            # Limit to 3 services total
+            services = featured_services_list[:3]
 
             # 6. Gallery (Featured)
             gallery_images = list(GalleryImage.objects.filter(
@@ -95,8 +169,24 @@ class HomeService:
             }
 
     @staticmethod
-    def track_view(request, title="Home"):
-        """Delegate tracking to DashboardAnalyticsService"""
+    def track_view(request, title: str = "Home") -> None:
+        """
+        Track page view for analytics purposes.
+        
+        Delegates to DashboardAnalyticsService to record page views with
+        user agent, IP address, and other metadata for analytics.
+        
+        Args:
+            request: Django HttpRequest object
+            title: Page title for tracking (default: "Home")
+            
+        Returns:
+            None
+            
+        Note:
+            If tracking fails, the error is logged but doesn't interrupt
+            the main application flow.
+        """
         try:
             # Prepare data compatible with record_page_view
             data = {
@@ -118,8 +208,34 @@ class HomeService:
     @staticmethod
     def handle_contact_submission(data: Dict[str, Any]) -> tuple[bool, str]:
         """
-        Process contact form submission.
-        Returns (success, message).
+        Process contact form submission from homepage.
+        
+        Creates a ContactInquiry record and sends notification email to administrators.
+        
+        Args:
+            data: Dictionary containing contact form data:
+                - name: Submitter's name
+                - email: Submitter's email
+                - phone: Submitter's phone (optional)
+                - subject: Inquiry subject
+                - message: Inquiry message
+                - inquiry_type: Type of inquiry (default: 'general')
+                
+        Returns:
+            Tuple of (success: bool, message: str):
+                - success: True if submission processed successfully
+                - message: Success or error message for user display
+                
+        Example:
+            >>> data = {
+            ...     'name': 'John Doe',
+            ...     'email': 'john@example.com',
+            ...     'subject': 'Inquiry',
+            ...     'message': 'Hello'
+            ... }
+            >>> success, msg = HomeService.handle_contact_submission(data)
+            >>> success
+            True
         """
         try:
             inquiry = ContactInquiry.objects.create(
@@ -153,8 +269,29 @@ class HomeService:
     @staticmethod
     def handle_newsletter_signup(email: str, name: str = '') -> tuple[bool, str]:
         """
-        Process newsletter signup.
-        Returns (success, message).
+        Process newsletter subscription signup.
+        
+        Creates or reactivates a newsletter subscription and sends welcome email.
+        Prevents duplicate subscriptions and handles reactivation of previously
+        unsubscribed users.
+        
+        Args:
+            email: Subscriber's email address (required)
+            name: Subscriber's name (optional, defaults to empty string)
+            
+        Returns:
+            Tuple of (success: bool, message: str):
+                - success: True if signup processed successfully
+                - message: Success or error message for user display
+                
+        Example:
+            >>> success, msg = HomeService.handle_newsletter_signup(
+            ...     'user@example.com', 'John Doe'
+            ... )
+            >>> success
+            True
+            >>> 'subscribed' in msg.lower()
+            True
         """
         try:
             subscriber, created = NewsletterSubscriber.objects.get_or_create(

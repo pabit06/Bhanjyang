@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from apps.about.models import CooperativeInfo, CooperativeTimeline, CooperativeAchievement, CooperativeStatistic, CooperativeAffiliation, LeadershipMessage
+from apps.about.models import CooperativeInfo, CooperativeTimeline, CooperativeStatistic, CooperativeAffiliation, LeadershipMessage
 
 class Command(BaseCommand):
     help = 'Populate the database with initial About Us data'
@@ -69,35 +69,7 @@ class Command(BaseCommand):
             )
             self.stdout.write(self.style.SUCCESS(f'Created timeline event: {event.title}'))
         
-        # Create sample achievements
-        achievements = [
-            {
-                'title': 'Best Cooperative Award 2023',
-                'description': 'Recognized as the best performing cooperative in Kaski district for outstanding community service.',
-                'achievement_type': 'award',
-                'received_date': timezone.now().date().replace(year=2023, month=12, day=1),
-                'awarding_organization': 'Kaski District Cooperative Association'
-            },
-            {
-                'title': 'ISO 9001:2015 Certification',
-                'description': 'Achieved ISO 9001:2015 quality management system certification.',
-                'achievement_type': 'certification',
-                'received_date': timezone.now().date().replace(year=2023, month=6, day=15),
-                'awarding_organization': 'International Organization for Standardization'
-            }
-        ]
-        
-        for achievement_data in achievements:
-            achievement = CooperativeAchievement.objects.create(
-                title=achievement_data['title'],
-                description=achievement_data['description'],
-                achievement_type=achievement_data['achievement_type'],
-                received_date=achievement_data['received_date'],
-                awarding_organization=achievement_data['awarding_organization'],
-                is_featured=True,
-                is_active=True
-            )
-            self.stdout.write(self.style.SUCCESS(f'Created achievement: {achievement.title}'))
+        # Removed: Achievements creation - CooperativeAchievement model no longer exists
         
         # Create sample statistics
         statistics = [

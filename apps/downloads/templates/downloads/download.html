@@ -9,30 +9,54 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
 
 {% block content %}
 
-<section id="downloadable-files" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50"
-    data-bulk-url="{% url 'downloads:bulk_download' %}">
-    <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2
-                class="text-2xl sm:text-3xl font-bold text-bhanjyangred font-montserrat mb-3 animated-element animate-in-up">
-                Available Resources
-            </h2>
-            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
-            <p class="mt-4 text-center text-base text-gray-700 max-w-3xl mx-auto">
-                Access important documents, forms, and resources from our cooperative. Download files instantly and stay
-                updated with our latest materials.
-            </p>
-        </div>
+<!-- Hero Section -->
+<section class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+            Download Center
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+            Available Resources
+        </h1>
+        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Access important documents, forms, and resources from our cooperative. Download files instantly and stay updated with our latest materials.
+        </p>
+    </div>
+</section>
 
-        <form method="get" class="mb-10 bg-white border border-gray-200 rounded-lg shadow-lg p-6">
+<!-- Search and Filter Section -->
+<section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
+        <form method="get" class="bg-white rounded-2xl shadow-lg p-8 mb-8">
             {% csrf_token %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-800 mb-2">
+                    <label class="block text-sm font-bold text-gray-800 mb-2">
                         <i class="fas fa-filter text-deuraligreen mr-2"></i>Category
                     </label>
                     <select name="category"
-                        class="w-full border-gray-300 rounded-md focus:ring-deuraligreen focus:border-deuraligreen transition-colors duration-200">
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
                         <option value="">All Categories</option>
                         {% for code,label in categories %}
                         <option value="{{ code }}" {% if active_category == code %}selected{% endif %}>{{ label }}
@@ -41,11 +65,11 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-800 mb-2">
+                    <label class="block text-sm font-bold text-gray-800 mb-2">
                         <i class="fas fa-star text-deuraligreen mr-2"></i>Priority
                     </label>
                     <select name="priority"
-                        class="w-full border-gray-300 rounded-md focus:ring-deuraligreen focus:border-deuraligreen transition-colors duration-200">
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
                         <option value="">All Priorities</option>
                         {% for code,label in priorities %}
                         <option value="{{ code }}" {% if active_priority == code %}selected{% endif %}>{{ label }}
@@ -54,102 +78,147 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-800 mb-2">
+                    <label class="block text-sm font-bold text-gray-800 mb-2">
                         <i class="fas fa-search text-deuraligreen mr-2"></i>Search Files
                     </label>
-                    <input type="text" name="q" placeholder="Search by title, description, or tags..." value="{{ q }}"
-                        class="w-full border-gray-300 rounded-md focus:ring-deuraligreen focus:border-deuraligreen transition-colors duration-200" />
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" name="q" placeholder="Search by title, description, or tags..." value="{{ q }}"
+                            class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" />
+                    </div>
                 </div>
                 <div class="flex items-end">
-                    <label class="flex items-center space-x-2">
+                    <label class="flex items-center space-x-2 cursor-pointer">
                         <input type="checkbox" name="featured" value="true" {% if featured_only %}checked{% endif %}
-                            class="rounded border-gray-300 text-deuraligreen focus:ring-deuraligreen">
-                        <span class="text-sm font-semibold text-gray-800">
+                            class="w-5 h-5 rounded border-gray-300 text-deuraligreen focus:ring-deuraligreen focus:ring-2">
+                        <span class="text-sm font-bold text-gray-800">
                             <i class="fas fa-star text-yellow-500 mr-1"></i>Featured Only
                         </span>
                     </label>
                 </div>
             </div>
-            <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <div class="mt-6 flex flex-col sm:flex-row gap-4">
                 <button type="submit"
-                    class="bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-8 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out flex items-center justify-center">
-                    <i class="fas fa-search mr-2"></i> Search Files
+                    class="group inline-flex items-center justify-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-search"></i>
+                    <span>Search Files</span>
                 </button>
                 <a href="{% url 'downloads:download_center' %}"
-                    class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-8 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out text-center">
-                    <i class="fas fa-refresh mr-2"></i> Reset Filters
+                    class="group inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-refresh"></i>
+                    <span>Reset Filters</span>
                 </a>
             </div>
         </form>
 
         <!-- Bulk Download Section -->
-        <div class="mb-8 bg-white border border-gray-200 rounded-lg shadow-lg p-6">
+        <div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-gray-800 flex items-center">
-                    <i class="fas fa-download text-deuraligreen mr-2"></i>
+                <h3 class="text-lg font-bold text-gray-900 flex items-center font-montserrat">
+                    <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-download text-deuraligreen"></i>
+                    </div>
                     Bulk Download
                 </h3>
                 <div class="flex items-center space-x-4">
                     <button type="button" onclick="selectAllFiles()"
-                        class="text-sm text-blue-600 hover:text-blue-800 font-medium">
+                        class="text-sm text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
                         <i class="fas fa-check-square mr-1"></i>Select All
                     </button>
                     <button type="button" onclick="clearSelection()"
-                        class="text-sm text-gray-600 hover:text-gray-800 font-medium">
+                        class="text-sm text-gray-600 hover:text-gray-800 font-semibold transition-colors duration-300">
                         <i class="fas fa-square mr-1"></i>Clear All
                     </button>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <span id="selected-count" class="text-sm text-gray-600">0 files selected</span>
+                <span id="selected-count" class="text-sm text-gray-600 font-semibold">0 files selected</span>
                 <button type="button" onclick="downloadSelected()" id="bulk-download-btn" disabled
-                    class="bg-deuraligreen hover:bg-bhanjyangred disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 flex items-center">
-                    <i class="fas fa-download mr-2"></i>
-                    Download Selected
+                    class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-download"></i>
+                    <span>Download Selected</span>
                 </button>
             </div>
         </div>
+    </div>
+</section>
 
-        {% if featured_files and not featured_only %}
-        <!-- Featured Files Section -->
-        <div class="mb-16">
-            <h3 class="text-xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
-                <i class="fas fa-star text-yellow-500 mr-3"></i>Featured Resources
+<!-- Featured Files Section -->
+{% if featured_files and not featured_only %}
+<section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
+        <div class="mb-8">
+            <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-4 flex items-center">
+                <div class="w-12 h-12 bg-yellow-500/10 rounded-full flex items-center justify-center mr-3">
+                    <i class="fas fa-star text-yellow-500"></i>
+                </div>
+                Featured Resources
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {% for file in featured_files %}
-                {% include 'partials/_download_card.html' with file=file %}
-                {% endfor %}
-            </div>
+            <div class="w-24 h-1 bg-deuraligreen rounded-full"></div>
         </div>
-        {% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for file in featured_files %}
+            {% include 'partials/_download_card.html' with file=file %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
 
-        {% if files_by_category %}
+<!-- Files by Category Section -->
+{% if files_by_category %}
+<section id="downloadable-files" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;" data-bulk-url="{% url 'downloads:bulk_download' %}">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
         {% for category_code, category_data in files_by_category.items %}
         <div class="mb-16">
             <div class="flex items-center justify-between mb-8">
                 <div class="flex items-center">
-                    {% if category_code == 'FRM' %}
-                    <i class="fas fa-file-alt text-3xl text-deuraligreen mr-4"></i>
-                    {% elif category_code == 'RPT' %}
-                    <i class="fas fa-chart-bar text-3xl text-rupablue mr-4"></i>
-                    {% elif category_code == 'PCY' %}
-                    <i class="fas fa-gavel text-3xl text-bhanjyangred mr-4"></i>
-                    {% elif category_code == 'PUB' %}
-                    <i class="fas fa-newspaper text-3xl text-deuraligreen mr-4"></i>
-                    {% elif category_code == 'MAN' %}
-                    <i class="fas fa-book text-3xl text-deuraligreen mr-4"></i>
-                    {% elif category_code == 'CERT' %}
-                    <i class="fas fa-certificate text-3xl text-rupablue mr-4"></i>
-                    {% elif category_code == 'BRO' %}
-                    <i class="fas fa-bullhorn text-3xl text-bhanjyangred mr-4"></i>
-                    {% else %}
-                    <i class="fas fa-file text-3xl text-gray-500 mr-4"></i>
-                    {% endif %}
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat">{{ category_data.label }}</h3>
+                    <div class="w-16 h-16 bg-deuraligreen/10 rounded-full flex items-center justify-center mr-4">
+                        {% if category_code == 'FRM' %}
+                        <i class="fas fa-file-alt text-3xl text-deuraligreen"></i>
+                        {% elif category_code == 'RPT' %}
+                        <i class="fas fa-chart-bar text-3xl text-blue-600"></i>
+                        {% elif category_code == 'PCY' %}
+                        <i class="fas fa-gavel text-3xl text-bhanjyangred"></i>
+                        {% elif category_code == 'PUB' %}
+                        <i class="fas fa-newspaper text-3xl text-deuraligreen"></i>
+                        {% elif category_code == 'MAN' %}
+                        <i class="fas fa-book text-3xl text-deuraligreen"></i>
+                        {% elif category_code == 'CERT' %}
+                        <i class="fas fa-certificate text-3xl text-blue-600"></i>
+                        {% elif category_code == 'BRO' %}
+                        <i class="fas fa-bullhorn text-3xl text-bhanjyangred"></i>
+                        {% else %}
+                        <i class="fas fa-file text-3xl text-gray-500"></i>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-900 font-montserrat">{{ category_data.label }}</h3>
+                        <div class="w-24 h-1 bg-deuraligreen rounded-full mt-2"></div>
+                    </div>
                 </div>
-                <div class="bg-gray-200 rounded-full px-3 py-1">
-                    <span class="text-sm font-semibold text-gray-600">{{ category_data.total_count }} files</span>
+                <div class="bg-deuraligreen/10 text-deuraligreen rounded-full px-4 py-2">
+                    <span class="text-sm font-bold">{{ category_data.total_count }} files</span>
                 </div>
             </div>
 
@@ -162,9 +231,11 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
             {% if category_data.has_more %}
             <div class="text-center mt-8">
                 <button onclick="showMoreFiles('{{ category_code }}')"
-                    class="bg-deuraligreen hover:bg-bhanjyangred text-white font-semibold py-3 px-8 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out"
+                    class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                     id="show-more-{{ category_code }}">
-                    <i class="fas fa-plus mr-2"></i> Show More ({{ category_data.remaining_count }} remaining)
+                    <i class="fas fa-plus"></i>
+                    <span>Show More ({{ category_data.remaining_count }} remaining)</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                 </button>
             </div>
             {% endif %}
@@ -175,32 +246,37 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
         {% if not show_all %}
         <div class="text-center mt-12">
             <a href="?{% if active_category %}category={{ active_category }}&{% endif %}{% if active_priority %}priority={{ active_priority }}&{% endif %}{% if featured_only %}featured=true&{% endif %}{% if q %}q={{ q }}&{% endif %}show_all=true"
-                class="bg-gradient-to-r from-deuraligreen to-bhanjyangred hover:from-bhanjyangred hover:to-deuraligreen text-white font-bold py-4 px-10 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out">
-                <i class="fas fa-expand-arrows-alt mr-2"></i> Show All Files
+                class="group inline-flex items-center gap-2 bg-gradient-to-r from-deuraligreen to-bhanjyangred hover:from-bhanjyangred hover:to-deuraligreen text-white font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-expand-arrows-alt"></i>
+                <span>Show All Files</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
         {% else %}
         <div class="text-center mt-12">
             <a href="{% url 'downloads:download_center' %}{% if active_category or active_priority or featured_only or q %}?{% if active_category %}category={{ active_category }}&{% endif %}{% if active_priority %}priority={{ active_priority }}&{% endif %}{% if featured_only %}featured=true&{% endif %}{% if q %}q={{ q }}{% endif %}{% endif %}"
-                class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-8 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out">
-                <i class="fas fa-compress-arrows-alt mr-2"></i> Show Less
+                class="group inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-compress-arrows-alt"></i>
+                <span>Show Less</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
         {% endif %}
         {% else %}
-        <div class="text-center py-20 bg-white rounded-lg shadow-lg border border-gray-200 max-w-2xl mx-auto">
-            <div class="text-7xl text-deuraligreen mb-6">
-                <i class="fas fa-folder-open" aria-hidden="true"></i>
-            </div>
-            <h3 class="text-2xl sm:text-3xl text-gray-800 font-bold font-montserrat mb-4">No Resources Found</h3>
-            <p class="text-base text-gray-600 leading-relaxed max-w-md mx-auto">
-                Your search or filter returned no results. Try adjusting your criteria or reset the filters to see all
-                available documents.
-            </p>
-            <div class="mt-6">
+        <div class="text-center py-20">
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-200 max-w-2xl mx-auto p-12">
+                <div class="text-7xl text-deuraligreen mb-6">
+                    <i class="fas fa-folder-open" aria-hidden="true"></i>
+                </div>
+                <h3 class="text-2xl sm:text-3xl text-gray-900 font-bold font-montserrat mb-4">No Resources Found</h3>
+                <p class="text-base text-gray-600 leading-relaxed max-w-md mx-auto mb-6">
+                    Your search or filter returned no results. Try adjusting your criteria or reset the filters to see all available documents.
+                </p>
                 <a href="{% url 'downloads:download_center' %}"
-                    class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-8 rounded-full shadow-md transform hover:scale-105 transition-all duration-300 ease-in-out">
-                    <i class="fas fa-refresh mr-2"></i> Reset Filters
+                    class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                    <i class="fas fa-refresh"></i>
+                    <span>Reset Filters</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                 </a>
             </div>
         </div>
@@ -208,46 +284,71 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
     </div>
 </section>
 
-{# Professional Statistics Section #}
-<section id="download-stats" class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-    <div class="container mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+<!-- Statistics Section -->
+<section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
         <div class="text-center mb-12">
-            <h2 class="text-2xl sm:text-3xl font-bold text-bhanjyangred font-montserrat mb-3">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Overview
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
                 Download Center Overview
             </h2>
-            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full"></div>
-            <p class="mt-4 text-center text-base text-gray-700 max-w-3xl mx-auto">
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Stay informed with our comprehensive collection of resources and documents.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div
-                class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 animated-element animate-in-up delay-200">
-                <i class="fas fa-file-alt text-5xl text-deuraligreen mb-4"></i>
-                <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-2">{{ total_files }}</h3>
-                <p class="text-gray-600 font-semibold">Available Files</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-16 h-16 bg-deuraligreen/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
+                        <i class="fas fa-file-alt text-2xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{{ total_files }}</h3>
+                <p class="text-gray-700 font-semibold">Available Files</p>
             </div>
 
-            <div
-                class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 animated-element animate-in-up delay-300">
-                <i class="fas fa-folder text-5xl text-bhanjyangred mb-4"></i>
-                <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-2">{{ categories|length }}</h3>
-                <p class="text-gray-600 font-semibold">Categories</p>
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-16 h-16 bg-bhanjyangred/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-bhanjyangred transition-all duration-300">
+                        <i class="fas fa-folder text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{{ categories|length }}</h3>
+                <p class="text-gray-700 font-semibold">Categories</p>
             </div>
 
-            <div
-                class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 animated-element animate-in-up delay-400">
-                <i class="fas fa-download text-5xl text-deuraligreen mb-4"></i>
-                <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-2">24/7</h3>
-                <p class="text-gray-600 font-semibold">Access Available</p>
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-16 h-16 bg-deuraligreen/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
+                        <i class="fas fa-download text-2xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">24/7</h3>
+                <p class="text-gray-700 font-semibold">Access Available</p>
             </div>
 
-            <div
-                class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 animated-element animate-in-up delay-500">
-                <i class="fas fa-shield-alt text-5xl text-bhanjyangred mb-4"></i>
-                <h3 class="text-2xl font-bold text-gray-900 font-montserrat mb-2">Secure</h3>
-                <p class="text-gray-600 font-semibold">File Downloads</p>
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-16 h-16 bg-bhanjyangred/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-bhanjyangred transition-all duration-300">
+                        <i class="fas fa-shield-alt text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                </div>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">Secure</h3>
+                <p class="text-gray-700 font-semibold">File Downloads</p>
             </div>
         </div>
     </div>

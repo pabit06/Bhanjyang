@@ -1,8 +1,10 @@
+from typing import Dict, Any, Optional, Type, Tuple
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.forms import Form
 import json
 from datetime import date
 
@@ -23,14 +25,24 @@ from apps.core.error_handling import (
     ErrorResponse, ErrorLogger, handle_api_errors, safe_json_parse,
     safe_float_conversion, safe_int_conversion
 )
+from apps.core.view_mixins import ServiceDetailViewMixin, create_breadcrumbs
+from apps.core.query_utils import get_active_queryset, get_featured_queryset
 
 
-def services_overview(request):
-    """Main services overview page"""
-    breadcrumbs = [
-        {'name': 'Home', 'url': '/'},
-        {'name': 'Services', 'url': '/services/'}
-    ]
+def services_overview(request: HttpRequest) -> HttpResponse:
+    """
+    Main services overview page.
+    
+    Args:
+        request: HTTP request object
+        
+    Returns:
+        Rendered services overview page
+    """
+    breadcrumbs = create_breadcrumbs(
+        ('Home', '/'),
+        ('Services', '/services/')
+    )
     
     recommendation_form = ServiceRecommendationForm()
     recommendations = None
@@ -42,36 +54,36 @@ def services_overview(request):
             recommendations = ServiceRecommendationService.get_recommendations(user_profile)
             ServiceRecommendationService.save_recommendation(user_profile, recommendations)
 
-    # Optimize queries with only() to fetch only needed fields
+    # Use query utilities for optimized queries
+    savings_fields = [
+        'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
+        'interest_rate', 'minimum_balance', 'is_featured', 'icon', 'color'
+    ]
+    loan_fields = [
+        'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
+        'monthly_interest_rate', 'is_featured', 'icon', 'color'
+    ]
+    remittance_fields = [
+        'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+        'is_featured', 'icon', 'color'
+    ]
+    relief_fields = [
+        'id', 'english_name', 'nepali_name', 'slug', 'relief_type',
+        'is_featured', 'icon', 'color'
+    ]
+    
     context = {
-        'savings_accounts': SavingsAccount.objects.filter(is_active=True).only(
-            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
-            'interest_rate', 'minimum_balance', 'is_featured', 'icon', 'color'
+        'savings_accounts': get_active_queryset(SavingsAccount, fields=savings_fields),
+        'fixed_deposits': get_active_queryset(
+            FixedDeposit, 
+            fields=['id', 'duration_months', 'payment_frequency', 'interest_rate', 
+                   'minimum_amount', 'maximum_amount', 'is_active']
         ),
-        'fixed_deposits': FixedDeposit.objects.filter(is_active=True).only(
-            'id', 'duration_months', 'payment_frequency', 'interest_rate', 
-            'minimum_amount', 'maximum_amount', 'is_active'
-        ),
-        'loan_types': LoanType.objects.filter(is_active=True).only(
-            'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
-            'monthly_interest_rate', 'is_featured', 'icon', 'color'
-        ),
-        'remittance_services': RemittanceService.objects.filter(is_active=True).only(
-            'id', 'english_name', 'nepali_name', 'slug', 'service_type',
-            'is_featured', 'icon', 'color'
-        ),
-        'member_reliefs': MemberRelief.objects.filter(is_active=True).only(
-            'id', 'english_name', 'nepali_name', 'slug', 'relief_type',
-            'is_featured', 'icon', 'color'
-        ),
-        'featured_savings': SavingsAccount.objects.filter(is_active=True, is_featured=True).only(
-            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
-            'interest_rate', 'is_featured', 'icon', 'color'
-        )[:3],
-        'featured_loans': LoanType.objects.filter(is_active=True, is_featured=True).only(
-            'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
-            'monthly_interest_rate', 'is_featured', 'icon', 'color'
-        )[:3],
+        'loan_types': get_active_queryset(LoanType, fields=loan_fields),
+        'remittance_services': get_active_queryset(RemittanceService, fields=remittance_fields),
+        'member_reliefs': get_active_queryset(MemberRelief, fields=relief_fields),
+        'featured_savings': get_featured_queryset(SavingsAccount, fields=savings_fields, limit=3),
+        'featured_loans': get_featured_queryset(LoanType, fields=loan_fields, limit=3),
         'breadcrumbs': breadcrumbs,
         'recommendation_form': recommendation_form,
         'recommendations': recommendations,
@@ -196,232 +208,222 @@ class MemberReliefView(ListView):
         return context
 
 
-# --- Detail Views (UPGRADED to Class-Based Views with Slugs) ---
+# --- Detail Views (Refactored with Mixins) ---
 
-class SavingsDetailView(DetailView):
+class SavingsDetailView(ServiceDetailViewMixin, DetailView):
     """Display details for a specific savings account."""
     model = SavingsAccount
     template_name = 'services/savings/detail.html'
     context_object_name = 'service'
+    service_type = 'savings'
+    breadcrumbs = create_breadcrumbs(
+        ('Home', '/'),
+        ('Services', '/services/'),
+        ('Savings Account', None)
+    )
 
-    def get_object(self):
-        obj = super().get_object()
-        ServiceAnalyticsService.track_usage('savings', obj.id, 'page_views')
-        return obj
 
-class LoanDetailView(DetailView):
+class LoanDetailView(ServiceDetailViewMixin, DetailView):
     """Display details for a specific loan type."""
     model = LoanType
     template_name = 'services/loan/detail.html'
     context_object_name = 'service'
+    service_type = 'loan'
+    breadcrumbs = create_breadcrumbs(
+        ('Home', '/'),
+        ('Services', '/services/'),
+        ('Loan Details', None)
+    )
 
-    def get_object(self):
-        obj = super().get_object()
-        ServiceAnalyticsService.track_usage('loan', obj.id, 'page_views')
-        return obj
 
-class FixedDepositDetailView(DetailView):
+class FixedDepositDetailView(ServiceDetailViewMixin, DetailView):
     """Display details for a specific fixed deposit scheme."""
     model = FixedDeposit
     template_name = 'services/fixed_deposit/detail.html'
     context_object_name = 'service'
-    
-    def get_object(self):
-        obj = super().get_object()
-        ServiceAnalyticsService.track_usage('fixed_deposit', obj.id, 'page_views')
-        return obj
+    service_type = 'fixed_deposit'
+    breadcrumbs = create_breadcrumbs(
+        ('Home', '/'),
+        ('Services', '/services/'),
+        ('Fixed Deposit', None)
+    )
 
-class RemittanceDetailView(DetailView):
+
+class RemittanceDetailView(ServiceDetailViewMixin, DetailView):
     """Display details for a specific remittance service."""
     model = RemittanceService
     template_name = 'services/remittance/detail.html'
     context_object_name = 'service'
-    
-    def get_object(self):
-        obj = super().get_object()
-        ServiceAnalyticsService.track_usage('remittance', obj.id, 'page_views')
-        return obj
+    service_type = 'remittance'
+    breadcrumbs = create_breadcrumbs(
+        ('Home', '/'),
+        ('Services', '/services/'),
+        ('Remittance Service', None)
+    )
 
-class MemberReliefDetailView(DetailView):
+
+class MemberReliefDetailView(ServiceDetailViewMixin, DetailView):
     """Display details for a specific member relief program."""
     model = MemberRelief
     template_name = 'services/member_relief/detail.html'
     context_object_name = 'service'
+    service_type = 'relief'
+    breadcrumbs = create_breadcrumbs(
+        ('Home', '/'),
+        ('Services', '/services/'),
+        ('Member Relief', None)
+    )
+
+
+# Import base calculator view
+from .calculator_views import BaseCalculatorView
+
+
+class LoanCalculatorView(BaseCalculatorView):
+    """Loan calculator view using base class pattern."""
+    form_class = LoanCalculatorForm
+    template_name = 'services/shared/loan_calculator.html'
+    page_title = 'Loan Calculator'
+    page_description = 'Calculate your loan EMI and total amount'
+    calculator_type = 'loan'
+    service_type = 'loan'
     
-    def get_object(self):
-        obj = super().get_object()
-        ServiceAnalyticsService.track_usage('relief', obj.id, 'page_views')
-        return obj
+    def perform_calculation(self, form: Form) -> tuple[Dict[str, Any], Any]:
+        """Perform loan EMI calculation."""
+        loan_type = form.cleaned_data['loan_type']
+        principal = form.cleaned_data['principal_amount']
+        tenure_years = form.cleaned_data['tenure_years']
+        payment_frequency = form.cleaned_data['payment_frequency']
+        
+        # Get interest rate based on payment frequency
+        interest_rate = loan_type.monthly_interest_rate
+        if payment_frequency != 'monthly':
+            # For quarterly, use monthly rate (simplified)
+            interest_rate = loan_type.monthly_interest_rate
+        
+        tenure_months = tenure_years * 12
+        calculation = FinancialCalculator.calculate_loan_emi(
+            principal, interest_rate, tenure_months, payment_frequency
+        )
+        
+        return calculation, loan_type
 
 
-def loan_calculator(request):
-    """Loan calculator view"""
-    if request.method == 'POST':
-        form = LoanCalculatorForm(request.POST)
-        if form.is_valid():
-            loan_type = form.cleaned_data['loan_type']
-            principal = form.cleaned_data['principal_amount']
-            tenure_years = form.cleaned_data['tenure_years']
-            payment_frequency = form.cleaned_data['payment_frequency']
-            
-            # Get interest rate based on payment frequency
-            if payment_frequency == 'monthly':
-                interest_rate = loan_type.monthly_interest_rate
-            else:
-                # Fallback or appropriate rate, as per original logic's intent (even if field was missing in specific test scenarios)
-                # Assuming simple conversion for now if specific field missing on model
-                # Original code used loan_type.quarterly_installment_rate which seemed missing.
-                # Let's fix it by using monthly * 3 if logic dictates, or just monthly.
-                # Assuming monthly interest rate is strictly per month.
-                interest_rate = loan_type.monthly_interest_rate # Simplified for now as fallback
-            
-            tenure_months = tenure_years * 12
-            calculation = FinancialCalculator.calculate_loan_emi(
-                principal, interest_rate, tenure_months, payment_frequency
-            )
-            
-            ServiceAnalyticsService.track_usage('loan', loan_type.id, 'calculator_usage')
-            
-            context = {
-                'form': form,
-                'calculation': calculation,
-                'loan_type': loan_type,
-                'page_title': 'Loan Calculator',
-                'page_description': 'Calculate your loan EMI and total amount'
-            }
-            return render(request, 'services/shared/loan_calculator.html', context)
-    else:
-        form = LoanCalculatorForm()
+class SavingsCalculatorView(BaseCalculatorView):
+    """Savings calculator view using base class pattern."""
+    form_class = SavingsCalculatorForm
+    template_name = 'services/shared/savings_calculator.html'
+    page_title = 'Savings Calculator'
+    page_description = 'Calculate your savings maturity amount'
+    calculator_type = 'savings'
+    service_type = 'savings'
     
-    context = {
-        'form': form,
-        'page_title': 'Loan Calculator',
-        'page_description': 'Calculate your loan EMI and total amount'
-    }
-    return render(request, 'services/shared/loan_calculator.html', context)
+    def perform_calculation(self, form: Form) -> tuple[Dict[str, Any], Any]:
+        """Perform savings maturity calculation."""
+        savings_type = form.cleaned_data['savings_type']
+        monthly_deposit = form.cleaned_data['monthly_deposit']
+        tenure_years = form.cleaned_data['tenure_years']
+        
+        calculation = FinancialCalculator.calculate_savings_maturity(
+            monthly_deposit, savings_type.interest_rate, tenure_years
+        )
+        
+        return calculation, savings_type
 
 
-def savings_calculator(request):
-    """Savings calculator view"""
-    if request.method == 'POST':
-        form = SavingsCalculatorForm(request.POST)
-        if form.is_valid():
-            savings_type = form.cleaned_data['savings_type']
-            monthly_deposit = form.cleaned_data['monthly_deposit']
-            tenure_years = form.cleaned_data['tenure_years']
-            
-            calculation = FinancialCalculator.calculate_savings_maturity(
-                monthly_deposit, savings_type.interest_rate, tenure_years
-            )
-            
-            ServiceAnalyticsService.track_usage('savings', savings_type.id, 'calculator_usage')
-            
-            context = {
-                'form': form,
-                'calculation': calculation,
-                'savings_type': savings_type,
-                'page_title': 'Savings Calculator',
-                'page_description': 'Calculate your savings maturity amount'
-            }
-            return render(request, 'services/shared/savings_calculator.html', context)
-    else:
-        form = SavingsCalculatorForm()
+class FixedDepositCalculatorView(BaseCalculatorView):
+    """Fixed deposit calculator view using base class pattern."""
+    form_class = FixedDepositCalculatorForm
+    template_name = 'services/shared/fixed_deposit_calculator.html'
+    page_title = 'Fixed Deposit Calculator'
+    page_description = 'Calculate your fixed deposit maturity amount'
+    calculator_type = 'fixed_deposit'
+    service_type = 'fixed_deposit'
     
-    context = {
-        'form': form,
-        'page_title': 'Savings Calculator',
-        'page_description': 'Calculate your savings maturity amount'
-    }
-    return render(request, 'services/shared/savings_calculator.html', context)
+    def perform_calculation(self, form: Form) -> tuple[Dict[str, Any], Any]:
+        """Perform fixed deposit maturity calculation."""
+        deposit_type = form.cleaned_data['deposit_type']
+        deposit_amount = form.cleaned_data['deposit_amount']
+        
+        calculation = FinancialCalculator.calculate_fixed_deposit_maturity(
+            deposit_amount, deposit_type.interest_rate, 
+            deposit_type.duration_months, deposit_type.payment_frequency
+        )
+        
+        return calculation, deposit_type
 
 
-def fixed_deposit_calculator(request):
-    """Fixed deposit calculator view"""
-    if request.method == 'POST':
-        form = FixedDepositCalculatorForm(request.POST)
-        if form.is_valid():
-            deposit_type = form.cleaned_data['deposit_type']
-            deposit_amount = form.cleaned_data['deposit_amount']
-            
-            calculation = FinancialCalculator.calculate_fixed_deposit_maturity(
-                deposit_amount, deposit_type.interest_rate, 
-                deposit_type.duration_months, deposit_type.payment_frequency
-            )
-            
-            ServiceAnalyticsService.track_usage('fixed_deposit', deposit_type.id, 'calculator_usage')
-            
-            context = {
-                'form': form,
-                'calculation': calculation,
-                'deposit_type': deposit_type,
-                'page_title': 'Fixed Deposit Calculator',
-                'page_description': 'Calculate your fixed deposit maturity amount'
-            }
-            return render(request, 'services/shared/fixed_deposit_calculator.html', context)
-    else:
-        form = FixedDepositCalculatorForm()
-    
-    context = {
-        'form': form,
-        'page_title': 'Fixed Deposit Calculator',
-        'page_description': 'Calculate your fixed deposit maturity amount'
-    }
-    return render(request, 'services/shared/fixed_deposit_calculator.html', context)
+# Keep function-based views for backward compatibility (can be removed later)
+loan_calculator = LoanCalculatorView.as_view()
+savings_calculator = SavingsCalculatorView.as_view()
+fixed_deposit_calculator = FixedDepositCalculatorView.as_view()
 
 
 def service_application(request):
     """Service application form view"""
-    if request.method == 'POST':
-        form = ServiceApplicationForm(request.POST)
-        if form.is_valid():
-            service_type = form.cleaned_data['service_type']
-            service_id = form.cleaned_data['service_id']
-            
-            ServiceApplicationService.process_application(form, service_type, service_id)
-            
-            messages.success(request, 'Your application has been submitted successfully! We will contact you soon.')
-            return redirect('services:overview')
-    else:
-        # Pre-fill form if coming from service detail page
-        service_type = request.GET.get('service_type', '')
-        service_id = request.GET.get('service_id', '')
-        service_slug = request.GET.get('service_slug', '')
-        
-        # If service_slug is provided, convert it to service_id
-        if service_slug and not service_id:
-            try:
-                if service_type == 'savings':
-                    service = SavingsAccount.objects.get(slug=service_slug)
-                elif service_type == 'loan':
-                    service = LoanType.objects.get(slug=service_slug)
-                elif service_type == 'fixed_deposit':
-                    service = FixedDeposit.objects.get(slug=service_slug) # FixedDeposit uses ID usually not slug?
-                    # Models say BaseServiceModel has slug. FixedDeposit is NOT BaseServiceModel in model definition I saw!
-                    # FixedDeposit(models.Model). No slug field!
-                    # So this get(slug=...) might fail for FixedDeposit.
-                    # I will keep logic but if model lacks slug it will error.
-                    # Looking at FixedDeposit in models.py: NO slug.
-                    # So this block is risky. Assuming FixedDeposit should be handled by ID for now.
-                    pass 
-                elif service_type == 'remittance':
-                    service = RemittanceService.objects.get(slug=service_slug)
-                elif service_type == 'relief':
-                    service = MemberRelief.objects.get(slug=service_slug)
-                else:
+    # Get service info from GET params (for pre-filling) or POST data
+    service_type = request.GET.get('service_type', '') or request.POST.get('service_type', '')
+    service_id = request.GET.get('service_id', '') or request.POST.get('service_id', '')
+    service_slug = request.GET.get('service_slug', '')
+    
+    # If service_slug is provided, convert it to service_id
+    if service_slug and not service_id:
+        try:
+            if service_type == 'savings':
+                service = SavingsAccount.objects.get(slug=service_slug)
+            elif service_type == 'loan':
+                service = LoanType.objects.get(slug=service_slug)
+            elif service_type == 'fixed_deposit':
+                # FixedDeposit doesn't have slug, use ID directly
+                try:
+                    service = FixedDeposit.objects.get(id=int(service_slug))
+                except (ValueError, FixedDeposit.DoesNotExist):
                     service = None
-                
-                if service:
-                    service_id = str(service.id)
-            except:
-                service_id = ''
-        
-        form = ServiceApplicationForm(initial={
-            'service_type': service_type,
-            'service_id': service_id
-        })
+            elif service_type == 'remittance':
+                service = RemittanceService.objects.get(slug=service_slug)
+            elif service_type == 'relief':
+                service = MemberRelief.objects.get(slug=service_slug)
+            else:
+                service = None
+            
+            if service:
+                service_id = str(service.id)
+        except:
+            service_id = ''
+    
+    # Get service object for form
+    service_object = None
+    if service_type and service_id:
+        try:
+            if service_type == 'savings':
+                service_object = SavingsAccount.objects.get(id=int(service_id))
+            elif service_type == 'loan':
+                service_object = LoanType.objects.get(id=int(service_id))
+            elif service_type == 'fixed_deposit':
+                service_object = FixedDeposit.objects.get(id=int(service_id))
+            elif service_type == 'remittance':
+                service_object = RemittanceService.objects.get(id=int(service_id))
+            elif service_type == 'relief':
+                service_object = MemberRelief.objects.get(id=int(service_id))
+        except (ValueError, Exception):
+            service_object = None
+    
+    if request.method == 'POST':
+        form = ServiceApplicationForm(request.POST, service_object=service_object)
+        if form.is_valid():
+            if service_type and service_id:
+                ServiceApplicationService.process_application(form, service_type, service_id)
+                messages.success(request, 'Your application has been submitted successfully! We will contact you soon.')
+                return redirect('services:overview')
+            else:
+                messages.error(request, 'Service information is missing. Please select a service first.')
+    else:
+        form = ServiceApplicationForm(service_object=service_object)
     
     context = {
         'form': form,
+        'service_type': service_type,
+        'service_id': service_id,
         'page_title': 'Service Application',
         'page_description': 'Apply for our financial services'
     }

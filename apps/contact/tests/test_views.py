@@ -137,3 +137,131 @@ class ContactViewsTest(TestCase):
         # Verify submission was created
         self.assertTrue(KYMSubmission.objects.filter(email='test@example.com').exists())
 
+
+class MapViewsTest(TestCase):
+    """Test cases for map views"""
+
+    def setUp(self):
+        """Set up test data"""
+        self.client = Client()
+
+    def test_interactive_map_view(self):
+        """Test interactive map view GET request"""
+        response = self.client.get(reverse('contact:interactive_map'))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('breadcrumbs', response.context)
+        breadcrumbs = response.context['breadcrumbs']
+        self.assertEqual(len(breadcrumbs), 3)
+        self.assertEqual(breadcrumbs[0]['name'], 'Home')
+        self.assertEqual(breadcrumbs[1]['name'], 'Contact')
+        self.assertEqual(breadcrumbs[2]['name'], 'Locations')
+
+    def test_map_locations_api_get(self):
+        """Test map locations API GET request"""
+        response = self.client.get(reverse('contact:map_locations_api'))
+        
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.content)
+        self.assertIn('locations', data)
+        self.assertIn('center', data)
+        self.assertIsInstance(data['locations'], list)
+        self.assertGreater(len(data['locations']), 0)
+        
+        # Check location structure
+        location = data['locations'][0]
+        self.assertIn('id', location)
+        self.assertIn('name', location)
+        self.assertIn('latitude', location)
+        self.assertIn('longitude', location)
+        self.assertIn('type', location)
+
+    def test_map_locations_api_cached(self):
+        """Test map locations API uses cache"""
+        # First request
+        response1 = self.client.get(reverse('contact:map_locations_api'))
+        self.assertEqual(response1.status_code, 200)
+        data1 = json.loads(response1.content)
+        
+        # Second request should return cached data
+        response2 = self.client.get(reverse('contact:map_locations_api'))
+        self.assertEqual(response2.status_code, 200)
+        data2 = json.loads(response2.content)
+        
+        # Data should be the same (cached)
+        self.assertEqual(data1, data2)
+
+    def test_map_locations_api_invalid_method(self):
+        """Test map locations API with invalid HTTP method"""
+        response = self.client.post(reverse('contact:map_locations_api'))
+        self.assertEqual(response.status_code, 405)  # Method not allowed
+
+    def test_map_directions_api_post_valid(self):
+        """Test map directions API POST with valid data"""
+        data = {
+            'origin': '27.7172,85.3240',
+            'destination': '27.5833,85.5167'
+        }
+        
+        response = self.client.post(
+            reverse('contact:map_directions_api'),
+            json.dumps(data),
+            content_type='application/json'
+        )
+        
+        self.assertEqual(response.status_code, 200)
+        result = json.loads(response.content)
+        self.assertEqual(result['status'], 'success')
+        self.assertIn('distance', result)
+        self.assertIn('duration', result)
+        self.assertIn('steps', result)
+        self.assertIsInstance(result['steps'], list)
+
+    def test_map_directions_api_post_invalid(self):
+        """Test map directions API POST with invalid data"""
+        # Missing required fields
+        response = self.client.post(
+            reverse('contact:map_directions_api'),
+            json.dumps({}),
+            content_type='application/json'
+        )
+        
+        self.assertEqual(response.status_code, 200)  # Still returns success with mock data
+        
+        # Invalid JSON
+        response = self.client.post(
+            reverse('contact:map_directions_api'),
+            'invalid json',
+            content_type='application/json'
+        )
+        
+        self.assertEqual(response.status_code, 400)
+        result = json.loads(response.content)
+        self.assertIn('error', result)
+
+    def test_map_directions_api_invalid_method(self):
+        """Test map directions API with invalid HTTP method"""
+        response = self.client.get(reverse('contact:map_directions_api'))
+        self.assertEqual(response.status_code, 405)  # Method not allowed
+
+    def test_map_directions_api_missing_fields(self):
+        """Test map directions API with missing origin/destination"""
+        # Test with only origin
+        data = {'origin': '27.7172,85.3240'}
+        response = self.client.post(
+            reverse('contact:map_directions_api'),
+            json.dumps(data),
+            content_type='application/json'
+        )
+        # Should still return success with mock data
+        self.assertEqual(response.status_code, 200)
+        
+        # Test with only destination
+        data = {'destination': '27.5833,85.5167'}
+        response = self.client.post(
+            reverse('contact:map_directions_api'),
+            json.dumps(data),
+            content_type='application/json'
+        )
+        # Should still return success with mock data
+        self.assertEqual(response.status_code, 200)

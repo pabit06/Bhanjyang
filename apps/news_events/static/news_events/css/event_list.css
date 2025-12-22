@@ -10,7 +10,7 @@
        or expect the build system to handle it.
        Given the context, I'll use /static/images/pattern-light.png assuming standard django static setup.
     */
-    background-image: url("/static/images/pattern-light.png");
+    background-image: url("/static/images/backgrounds/pattern-light.png");
 }
 
 .line-clamp-2 {

@@ -55,7 +55,6 @@ class AboutServiceTest(TestCase):
         data = AboutService.get_about_home_data()
         self.assertIn('cooperative_info', data)
         self.assertIn('timeline_events', data)
-        self.assertIn('achievements', data)
         self.assertIn('statistics', data)
         self.assertIn('affiliations', data)
         self.assertIn('leadership_messages', data)

@@ -61,7 +61,15 @@ class SavingsAccount(BaseServiceModel):
         verbose_name = _("Savings Account")
         verbose_name_plural = _("Savings Accounts")
         ordering = ['-is_featured', '-interest_rate']
-        indexes = [models.Index(fields=['is_active', 'is_featured']), models.Index(fields=['interest_rate'])]
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['interest_rate']),
+            models.Index(fields=['account_type', 'is_active']),  # For filtering by account type
+            models.Index(fields=['slug']),  # For URL lookups
+            models.Index(fields=['english_name']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+            models.Index(fields=['updated_at']),  # For date-based queries
+        ]
 
     def __str__(self):
         return f"{self.english_name} ({self.interest_rate}%)"
@@ -93,6 +101,9 @@ class FixedDeposit(models.Model):
             models.Index(fields=['is_active', 'duration_months']),
             models.Index(fields=['interest_rate']),
             models.Index(fields=['created_at']),
+            models.Index(fields=['payment_frequency', 'is_active']),  # For filtering by payment frequency
+            models.Index(fields=['duration_months', 'payment_frequency']),  # For unique lookup optimization
+            models.Index(fields=['updated_at']),  # For date-based queries
         ]
 
     def __str__(self):
@@ -125,6 +136,10 @@ class LoanType(BaseServiceModel):
             models.Index(fields=['loan_category', 'is_active']),
             models.Index(fields=['monthly_interest_rate']),
             models.Index(fields=['slug']),
+            models.Index(fields=['english_name']),  # For search
+            models.Index(fields=['nepali_name']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+            models.Index(fields=['updated_at']),  # For date-based queries
         ]
 
     def __str__(self):
@@ -156,6 +171,10 @@ class RemittanceService(BaseServiceModel):
             models.Index(fields=['is_active', 'is_featured']),
             models.Index(fields=['service_type', 'is_active']),
             models.Index(fields=['slug']),
+            models.Index(fields=['english_name']),  # For search
+            models.Index(fields=['nepali_name']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+            models.Index(fields=['updated_at']),  # For date-based queries
         ]
 
     def __str__(self):
@@ -184,6 +203,10 @@ class MemberRelief(BaseServiceModel):
             models.Index(fields=['is_active', 'is_featured']),
             models.Index(fields=['relief_type', 'is_active']),
             models.Index(fields=['slug']),
+            models.Index(fields=['english_name']),  # For search
+            models.Index(fields=['nepali_name']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+            models.Index(fields=['updated_at']),  # For date-based queries
         ]
 
     def __str__(self):
@@ -224,7 +247,14 @@ class ServiceApplication(models.Model):
         verbose_name = _("Service Application")
         verbose_name_plural = _("Service Applications")
         ordering = ['-applied_date']
-        indexes = [models.Index(fields=['content_type', 'object_id']), models.Index(fields=['status'])]
+        indexes = [
+            models.Index(fields=['content_type', 'object_id']),
+            models.Index(fields=['status']),
+            models.Index(fields=['status', 'applied_date']),  # For filtering by status and date
+            models.Index(fields=['applied_date']),  # For date-based queries
+            models.Index(fields=['applicant_email']),  # For email lookups
+            models.Index(fields=['applicant_phone']),  # For phone lookups
+        ]
 
     def __str__(self):
         return f"Application from {self.applicant_name} for {self.service_name}"
@@ -251,6 +281,11 @@ class ServiceAnalytics(models.Model):
         verbose_name_plural = _("Service Analytics")
         unique_together = ['content_type', 'object_id', 'date']
         ordering = ['-date']
+        indexes = [
+            models.Index(fields=['content_type', 'object_id', 'date']),  # For unique lookup optimization
+            models.Index(fields=['date']),  # For date-based queries
+            models.Index(fields=['content_type', 'object_id']),  # For service-specific queries
+        ]
 
     def __str__(self):
         return f"Analytics for {self.service_object} on {self.date}"
@@ -272,6 +307,10 @@ class ServiceRecommendation(models.Model):
         verbose_name = _("Service Recommendation")
         verbose_name_plural = _("Service Recommendations")
         ordering = ['-confidence_score', '-created_at']
+        indexes = [
+            models.Index(fields=['confidence_score', 'created_at']),  # For ordering optimization
+            models.Index(fields=['created_at']),  # For date-based queries
+        ]
     
     def __str__(self):
         return f"Recommendation ({self.confidence_score}% confidence)"

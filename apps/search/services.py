@@ -4,7 +4,7 @@ from django.core.cache import cache
 import re
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeAffiliation, LeadershipMessage, Person
 )
 
@@ -18,7 +18,6 @@ class SearchService:
         
         results.extend(SearchService.search_cooperative_info(query))
         results.extend(SearchService.search_timeline(query))
-        results.extend(SearchService.search_achievements(query))
         results.extend(SearchService.search_affiliations(query))
         results.extend(SearchService.search_leadership(query))
         results.extend(SearchService.search_team(query))
@@ -40,14 +39,6 @@ class SearchService:
         return list(CooperativeTimeline.objects.filter(
             Q(title__icontains=query) |
             Q(description__icontains=query)
-        ).filter(is_active=True))
-
-    @staticmethod
-    def search_achievements(query):
-        return list(CooperativeAchievement.objects.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(awarding_organization__icontains=query)
         ).filter(is_active=True))
 
     @staticmethod
@@ -89,8 +80,6 @@ class SearchService:
         # Suggestion logic can be improved, sticking to basic starts/contains for now
         # Timeline
         suggestions.extend(CooperativeTimeline.objects.filter(title__icontains=query).values_list('title', flat=True)[:3])
-        # Achievement
-        suggestions.extend(CooperativeAchievement.objects.filter(title__icontains=query).values_list('title', flat=True)[:3])
         # Team
         suggestions.extend(Person.objects.filter(full_name__icontains=query).values_list('full_name', flat=True)[:3])
         
@@ -130,8 +119,6 @@ class SearchUtilities:
         # Fallback mapping
         if isinstance(instance, CooperativeTimeline):
             return '/about/timeline/'
-        elif isinstance(instance, CooperativeAchievement):
-            return '/about/achievements/'
         elif isinstance(instance, CooperativeAffiliation):
             return '/about/affiliations/'
         elif isinstance(instance, Person):

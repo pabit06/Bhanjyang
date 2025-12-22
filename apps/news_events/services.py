@@ -45,9 +45,14 @@ class NewsService:
         featured_content = NewsEventsQueryOptimizer.get_featured_content(limit=3)
         categories = Category.objects.filter(is_active=True).order_by('sort_order', 'name')
         
-        # Get statistics
-        article_stats = NewsEventsQueryOptimizer.get_article_statistics()
-        event_stats = NewsEventsQueryOptimizer.get_event_statistics()
+        # Get statistics with default values
+        article_stats = NewsEventsQueryOptimizer.get_article_statistics() or {}
+        event_stats = NewsEventsQueryOptimizer.get_event_statistics() or {}
+        
+        # Ensure all required keys exist with default 0
+        article_stats.setdefault('published_articles', 0)
+        article_stats.setdefault('total_views', 0)
+        event_stats.setdefault('upcoming_events', 0)
         
         # Optimize image URLs
         recent_articles = NewsEventsCDNManager.get_optimized_image_urls(recent_articles)

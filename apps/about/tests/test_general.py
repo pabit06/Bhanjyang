@@ -222,11 +222,7 @@ class ViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Test Event")
     
-    def test_achievements_view(self):
-        """Test achievements view"""
-        response = self.client.get(reverse('about:achievements'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Test Achievement")
+    # Removed: test_achievements_view - achievements page no longer exists
     
     def test_affiliations_view(self):
         """Test affiliations view"""
@@ -357,13 +353,7 @@ class APITestCase(TestCase):
         self.assertEqual(len(data['results']), 1)
         self.assertEqual(data['results'][0]['title'], "Test Event")
     
-    def test_achievements_api(self):
-        """Test Achievements API endpoint"""
-        response = self.client.get('/api/v1/about/achievements/')
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content)
-        self.assertEqual(len(data['results']), 1)
-        self.assertEqual(data['results'][0]['title'], "Test Achievement")
+    # Removed: test_achievements_api - achievements API endpoint no longer exists
     
     def test_search_api(self):
         """Test Search API endpoint"""
@@ -372,7 +362,6 @@ class APITestCase(TestCase):
         data = json.loads(response.content)
         self.assertIn('cooperative_info', data)
         self.assertIn('timeline', data)
-        self.assertIn('achievements', data)
     
     def test_statistics_api(self):
         """Test Statistics API endpoint"""
@@ -381,7 +370,6 @@ class APITestCase(TestCase):
         data = json.loads(response.content)
         self.assertIn('cooperative_info_count', data)
         self.assertIn('timeline_events_count', data)
-        self.assertIn('achievements_count', data)
 
 
 class CacheTestCase(TestCase):
@@ -632,8 +620,7 @@ class IntegrationTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Timeline Event")
         
-        # Test achievements page
-        response = self.client.get(reverse('about:achievements'))
+        # Removed: achievements page test - page no longer exists
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Achievement")
         
@@ -642,9 +629,6 @@ class IntegrationTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         
         response = self.client.get('/api/v1/about/timeline/')
-        self.assertEqual(response.status_code, 200)
-        
-        response = self.client.get('/api/v1/about/achievements/')
         self.assertEqual(response.status_code, 200)
     
     def test_search_functionality(self):

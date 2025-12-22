@@ -7,8 +7,8 @@
 
 {% block extra_head %}
 <meta name="description"
-    content="Search through all Bhanjyang Cooperative content including team members, events, achievements, and more.">
-<meta name="keywords" content="Search, Bhanjyang Cooperative, Team, Events, Achievements, Timeline">
+    content="Search through all Bhanjyang Cooperative content including team members, events, and more.">
+<meta name="keywords" content="Search, Bhanjyang Cooperative, Team, Events, Timeline">
 <link rel="stylesheet" href="{% static 'dist/output.css' %}">
 <link rel="stylesheet" href="{% static 'css/about-animations.css' %}">
 <link rel="stylesheet" href="{% static 'css/utilities/advanced-animations.css' %}">
@@ -54,8 +54,6 @@
                         <option value="team" {% if search_type == 'team' %}selected{% endif %}>Team Members</option>
                         <option value="events" {% if search_type == 'events' %}selected{% endif %}>Timeline Events
                         </option>
-                        <option value="achievements" {% if search_type == 'achievements' %}selected{% endif %}>
-                            Achievements</option>
                         <option value="affiliations" {% if search_type == 'affiliations' %}selected{% endif %}>
                             Affiliations</option>
                     </select>
@@ -134,8 +132,6 @@
                             <i class="fas fa-building text-white"></i>
                             {% elif result|model_name == 'cooperativetimeline' %}
                             <i class="fas fa-calendar text-white"></i>
-                            {% elif result|model_name == 'cooperativeachievement' %}
-                            <i class="fas fa-trophy text-white"></i>
                             {% elif result|model_name == 'cooperativeaffiliation' %}
                             <i class="fas fa-handshake text-white"></i>
                             {% elif result|model_name == 'leadershipmessage' %}
@@ -180,8 +176,6 @@
                                 Cooperative Info
                                 {% elif result|model_name == 'cooperativetimeline' %}
                                 Timeline Event
-                                {% elif result|model_name == 'cooperativeachievement' %}
-                                Achievement
                                 {% elif result|model_name == 'cooperativeaffiliation' %}
                                 Affiliation
                                 {% elif result|model_name == 'leadershipmessage' %}

@@ -1,5 +1,0 @@
-﻿--------------------------------------------------
- To send real emails, set SEND_REAL_EMAILS=True in .env 
---------------------------------------------------
-Found 89 test(s).
-System check identified no issues (0 silenced).

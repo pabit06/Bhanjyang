@@ -34,45 +34,64 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 
 {% block content %}
 <!-- Enhanced Hero Section with Swiper Slider -->
-<section class="relative bg-white text-deuraligreen overflow-hidden min-h-[70vh] md:min-h-[85vh] flex items-center">
+<section id="hero" class="relative bg-white text-deuraligreen overflow-hidden min-h-[80vh] md:min-h-[90vh] flex items-center" 
+         style="opacity: 1 !important; visibility: visible !important;"
+         aria-label="Hero slider">
 
     <!-- Swiper container -->
-    <div class="swiper-container relative w-full z-10" style="min-height: 70vh;">
+    <div class="swiper-container relative w-full z-10" style="min-height: 80vh;" role="region" aria-label="Main hero slider">
         <div class="swiper-wrapper">
             <!-- Slide 1 -->
-            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 70vh;">
+            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
                 <!-- Background Image -->
                 <div class="absolute inset-0 z-0">
                     <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&h=1080&fit=crop"
                         alt="Bhanjyang Cooperative - Empowering financial journey in Rupa"
-                        class="w-full h-full object-cover" loading="eager" fetchpriority="high" decoding="async">
-                    <div class="absolute inset-0 bg-black/50 z-0"></div>
+                        class="w-full h-full object-cover" 
+                        loading="eager" 
+                        fetchpriority="high" 
+                        decoding="async"
+                        width="1920"
+                        height="1080">
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
                 </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+                
                 <!-- Content -->
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
-                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 sm:mb-6 drop-shadow-2xl text-white relative z-20"
-                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.5); opacity: 1 !important;">
+                        <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                            Welcome to Bhanjyang Cooperative
+                        </span>
+                        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
+                            style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
                             Empowering Your Financial Journey in Rupa
                         </h1>
-                        <p class="text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed scroll-animate stagger-1 px-2 sm:px-4 text-white relative z-20"
-                            style="text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.4); opacity: 0.98;">
+                        <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+                        <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
+                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
                             Bhanjyang Cooperative is dedicated to fostering economic growth and community development in
                             Rupa Rural Municipality through reliable and accessible financial services.
                         </p>
-                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 sm:mt-10 md:mt-12 scroll-animate stagger-2 relative z-20"
-                            style="animation-delay: 0.3s;">
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:overview' %}"
-                                class="bg-bhanjyangred text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-red-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-bhanjyangred focus:ring-offset-2 transform relative z-20">
-                                Explore Services <i
-                                    class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"
-                                    aria-hidden="true"></i>
+                                class="btn-primary group bg-bhanjyangred text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-red-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-red-500/50 focus:outline-none focus:ring-4 focus:ring-white/50"
+                                aria-label="Explore our financial services">
+                                <span class="relative z-10 flex items-center gap-2">
+                                    <i class="fas fa-search group-hover:rotate-12 transition-transform duration-300" aria-hidden="true"></i>
+                                    <span>Explore Services</span>
+                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
+                                        aria-hidden="true"></i>
+                                </span>
                             </a>
                             <a href="{% url 'contact:contact_view' %}"
-                                class="bg-deuraligreen text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2 transform relative z-20">
-                                Contact Us <i
-                                    class="fas fa-phone-alt ml-2 group-hover:rotate-6 transition-transform duration-200"
-                                    aria-hidden="true"></i>
+                                class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50 focus:outline-none focus:ring-4 focus:ring-white/50"
+                                aria-label="Contact Bhanjyang Cooperative">
+                                <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300" aria-hidden="true"></i>
+                                <span>Contact Us</span>
                             </a>
                         </div>
                     </div>
@@ -80,39 +99,51 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             </div>
 
             <!-- Slide 2 -->
-            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 70vh;">
+            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
                 <!-- Background Image -->
                 <div class="absolute inset-0 z-0">
                     <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1920&h=1080&fit=crop"
                         alt="Secure your future with smart savings at Bhanjyang Cooperative"
-                        class="w-full h-full object-cover" loading="lazy" decoding="async">
-                    <div class="absolute inset-0 bg-black/50 z-0"></div>
+                        class="w-full h-full object-cover" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="1920"
+                        height="1080">
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
                 </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+                
                 <!-- Content -->
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
-                        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 sm:mb-6 drop-shadow-2xl text-reveal scroll-animate text-white relative z-20"
-                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.5);">
+                        <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                            Savings & Investments
+                        </span>
+                        <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
+                            style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
                             Secure Your Future with Smart Savings
                         </h2>
-                        <p class="text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed scroll-animate stagger-1 px-2 sm:px-4 text-white relative z-20"
-                            style="text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.4); opacity: 0.98;">
+                        <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+                        <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
+                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
                             Our flexible savings plans offer competitive interest rates, helping you achieve your
                             financial goals faster and with peace of mind.
                         </p>
-                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 sm:mt-10 md:mt-12 scroll-animate stagger-2 relative z-20"
-                            style="animation-delay: 0.3s;">
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:savings_list' %}"
-                                class="bg-deuraligreen text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2 transform relative z-20">
-                                View Savings Plans <i
-                                    class="fas fa-piggy-bank ml-2 group-hover:scale-110 transition-transform duration-300"
+                                class="group bg-deuraligreen text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-green-500/50">
+                                <i class="fas fa-piggy-bank group-hover:scale-110 transition-transform duration-300"></i>
+                                <span>View Savings Plans</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
                                     aria-hidden="true"></i>
                             </a>
                             <a href="{% url 'contact:contact_view' %}"
-                                class="bg-bhanjyangred text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-red-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-bhanjyangred focus:ring-offset-2 transform relative z-20">
-                                Open Account <i
-                                    class="fas fa-file-invoice-dollar ml-2 group-hover:rotate-6 transition-transform duration-200"
-                                    aria-hidden="true"></i>
+                                class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50">
+                                <i class="fas fa-file-invoice-dollar group-hover:rotate-12 transition-transform duration-300"></i>
+                                <span>Open Account</span>
                             </a>
                         </div>
                     </div>
@@ -120,40 +151,48 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             </div>
 
             <!-- Slide 3 -->
-            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 70vh;">
+            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
                 <!-- Background Image -->
                 <div class="absolute inset-0 z-0">
                     <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?w=1920&h=1080&fit=crop"
                         alt="Loans tailored to your ambition at Bhanjyang Cooperative"
                         class="w-full h-full object-cover" loading="lazy" decoding="async">
-                    <div class="absolute inset-0 bg-black/50 z-0"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
                 </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+                
                 <!-- Content -->
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
-                        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 sm:mb-6 drop-shadow-2xl text-reveal scroll-animate text-white relative z-20"
-                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.5);">
+                        <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                            Loan Services
+                        </span>
+                        <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
+                            style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
                             Loans Tailored to Your Ambition
                         </h2>
-                        <p class="text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed scroll-animate stagger-1 px-2 sm:px-4 text-white relative z-20"
-                            style="text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.4); opacity: 0.98;">
+                        <div class="w-32 h-1 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
+                        <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
+                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
                             Whether for personal needs, business expansion, or agricultural projects, our flexible loan
                             products are designed to fuel your success.
                         </p>
-                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 sm:mt-10 md:mt-12 scroll-animate stagger-2 relative z-20"
-                            style="animation-delay: 0.3s;">
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:loan_list' %}"
-                                class="bg-bhanjyangred text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-red-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-bhanjyangred focus:ring-offset-2 transform relative z-20">
-                                Apply for a Loan <i
-                                    class="fas fa-hand-holding-usd ml-2 group-hover:translate-x-1 transition-transform duration-200"
+                                class="group bg-bhanjyangred text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-red-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-red-500/50">
+                                <i class="fas fa-hand-holding-usd group-hover:translate-x-1 transition-transform duration-200"></i>
+                                <span>Apply for a Loan</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
                                     aria-hidden="true"></i>
                             </a>
                             <a href="{% url 'services:loan_calculator' %}"
-                                class="bg-deuraligreen text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2 transform relative z-20"
+                                class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-bhanjyangred hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50"
                                 aria-label="Calculate loan EMI and payment">
-                                Loan Calculator <i
-                                    class="fas fa-calculator ml-2 group-hover:rotate-6 transition-transform duration-200"
-                                    aria-hidden="true"></i>
+                                <i class="fas fa-calculator group-hover:rotate-12 transition-transform duration-300"></i>
+                                <span>Loan Calculator</span>
                             </a>
                         </div>
                     </div>
@@ -161,57 +200,64 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             </div>
 
             <!-- Slide 4 - Remittance Services -->
-            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 70vh;">
+            <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
                 <!-- Background Image -->
                 <div class="absolute inset-0 z-0">
                     <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&h=1080&fit=crop"
                         alt="Remittance services at Bhanjyang Cooperative - Send money home safely"
                         class="w-full h-full object-cover" loading="lazy" decoding="async">
-                    <div class="absolute inset-0 bg-black/50 z-0"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
                 </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+                <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+                
                 <!-- Content -->
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
-                        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 sm:mb-6 drop-shadow-2xl text-reveal scroll-animate text-white relative z-20"
-                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.5);">
+                        <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+                            Remittance Services
+                        </span>
+                        <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
+                            style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
                             सहकारीको शक्ति - Remittance Services
                         </h2>
-                        <p class="text-base sm:text-lg md:text-xl lg:text-2xl max-w-4xl mx-auto leading-relaxed scroll-animate stagger-1 px-2 sm:px-4 text-white relative z-20"
-                            style="text-shadow: 0 1px 4px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.4); opacity: 0.98;">
+                        <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+                        <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
+                            style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
                             सदस्यको सशक्तिकरण र आर्थिक समृद्धि। Send money home safely and affordably with our trusted
                             remittance partners including eSewa, Khalti, IME, and more.
                         </p>
-                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-8 sm:mt-10 md:mt-12 scroll-animate stagger-2 relative z-20"
-                            style="animation-delay: 0.3s;">
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:remittance_list' %}"
-                                class="bg-deuraligreen text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2 transform relative z-20"
+                                class="group bg-deuraligreen text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-green-500/50"
                                 aria-label="View remittance services">
-                                रेमिट्यान्स सेवा <i
-                                    class="fas fa-money-bill-transfer ml-2 group-hover:translate-x-1 transition-transform duration-200"
+                                <i class="fas fa-money-bill-transfer group-hover:translate-x-1 transition-transform duration-200"></i>
+                                <span>रेमिट्यान्स सेवा</span>
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
                                     aria-hidden="true"></i>
                             </a>
                             <a href="{% url 'contact:contact_view' %}"
-                                class="bg-bhanjyangred text-white font-semibold py-3 px-8 md:py-4 md:px-10 rounded-full text-lg shadow-xl hover:bg-red-700 hover:scale-105 transition-all duration-300 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-bhanjyangred focus:ring-offset-2 transform relative z-20">
-                                Contact Us <i
-                                    class="fas fa-phone-alt ml-2 group-hover:rotate-6 transition-transform duration-200"
-                                    aria-hidden="true"></i>
+                                class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50">
+                                <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300"></i>
+                                <span>Contact Us</span>
                             </a>
                         </div>
                         <!-- Remittance Partner Logos -->
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 max-w-2xl mx-auto scroll-animate stagger-3 relative z-20"
-                            style="animation-delay: 0.5s;">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 max-w-2xl mx-auto relative z-20">
                             <img src="{% static 'images/remit_logos/esewa.png' %}" alt="eSewa remittance partner logo"
-                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2" loading="lazy"
+                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
                                 decoding="async" width="120" height="64">
                             <img src="{% static 'images/remit_logos/khalti.png' %}" alt="Khalti remittance partner logo"
-                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2" loading="lazy"
+                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
                                 decoding="async" width="120" height="64">
                             <img src="{% static 'images/remit_logos/ime.png' %}" alt="IME remittance partner logo"
-                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2" loading="lazy"
+                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
                                 decoding="async" width="120" height="64">
                             <img src="{% static 'images/remit_logos/westernunion.png' %}"
                                 alt="Western Union remittance partner logo"
-                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2" loading="lazy"
+                                class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
                                 decoding="async" width="120" height="64">
                         </div>
                     </div>
@@ -222,10 +268,12 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
         <div class="swiper-pagination relative bottom-4 mt-4 z-30" role="tablist" aria-label="Slide pagination"></div>
         <!-- Add Navigation (Arrows) -->
         <button type="button"
-            class="swiper-button-next bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full w-12 h-12 transition-all duration-300 hover:scale-110 z-30"
+            class="swiper-button-next bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full w-12 h-12 transition-all duration-300 hover:scale-110 z-30 focus:outline-none focus:ring-4 focus:ring-white/50"
+            aria-label="Next slide"
             aria-label="Next slide" aria-controls="swiper-wrapper"></button>
         <button type="button"
-            class="swiper-button-prev bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full w-12 h-12 transition-all duration-300 hover:scale-110 z-30"
+            class="swiper-button-prev bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full w-12 h-12 transition-all duration-300 hover:scale-110 z-30 focus:outline-none focus:ring-4 focus:ring-white/50"
+            aria-label="Previous slide"
             aria-label="Previous slide" aria-controls="swiper-wrapper"></button>
     </div>
     <!-- Scroll indicator -->
@@ -239,272 +287,477 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 </section>
 
 <!-- About Us / Introduction Section -->
-<section class="py-16 bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div class="order-2 md:order-1">
+<section id="introduction" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Left Side: Image -->
+            <div class="order-2 lg:order-1" style="opacity: 1 !important; visibility: visible !important;">
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
             <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop"
                 alt="Bhanjyang Cooperative team members working together in their office"
-                class="rounded-xl shadow-lg w-full h-auto object-cover transform hover:scale-102 transition-transform duration-500 animated-element animate-in-left delay-200"
-                style="opacity: 1;" loading="lazy" decoding="async" width="800" height="400">
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" decoding="async" width="800" height="600">
+                    <!-- Overlay Badge -->
+                    <div class="absolute top-6 right-6 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-award text-deuraligreen text-xl"></i>
+                            <span class="text-sm font-bold text-gray-900">25+ Years</span>
         </div>
-        <div class="order-1 md:order-2">
-            <span
-                class="text-bhanjyangred font-semibold uppercase text-sm mb-2 block animated-element animate-in-up delay-100">Who
-                We Are</span>
-            <h2
-                class="text-3xl sm:text-4xl font-bold font-montserrat leading-tight mb-6 text-deuraligreen animated-element animate-in-up delay-300">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side: Content -->
+            <div class="order-1 lg:order-2" style="opacity: 1 !important; visibility: visible !important;">
+                <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
+                    Who We Are
+                </span>
+                <h2 class="text-4xl sm:text-5xl font-bold font-montserrat leading-tight mb-6 text-gray-900">
                 Your Trusted Partner in Community Development
             </h2>
-            <p class="text-gray-600 leading-relaxed mb-6 animated-element animate-in-up delay-500">
+                <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
+                
+                <div class="space-y-6 mb-8">
+                    <p class="text-lg text-gray-700 leading-relaxed">
                 Established with a vision to uplift local communities in Rupa Rural Municipality, Bhanjyang Cooperative
                 provides accessible and fair financial solutions. We believe in strengthening the local economy by
                 empowering individuals and businesses through savings, credit, and expert financial guidance.
             </p>
-            <p class="text-gray-600 leading-relaxed mb-8 animated-element animate-in-up delay-700">
+                    <p class="text-lg text-gray-700 leading-relaxed">
                 Our commitment goes beyond traditional banking; we are deeply rooted in the community, striving to make
                 a tangible difference in the lives of our members.
             </p>
+                </div>
+                
+                <!-- Key Points -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-start gap-3 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex-shrink-0 w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-handshake text-deuraligreen"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">Community Focused</h3>
+                            <p class="text-sm text-gray-600">Deeply rooted in local community needs</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex-shrink-0 w-10 h-10 bg-bhanjyangred/10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-bhanjyangred"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">Trusted & Secure</h3>
+                            <p class="text-sm text-gray-600">25+ years of reliable service</p>
+                        </div>
+                    </div>
+                </div>
+                
             <a href="{% url 'about:home' %}"
-                class="font-semibold py-3 px-8 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group bg-transparent border border-deuraligreen text-deuraligreen hover:bg-deuraligreen hover:text-white animated-element animate-in-up delay-900">
-                Learn More <i
-                    class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
-            </a>
+                    class="group inline-flex items-center gap-3 bg-deuraligreen text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 transform hover:shadow-2xl">
+                    <span>Learn More About Us</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+                </a>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- Services Section -->
-<section id="services" class="py-20 bg-himalwhite">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Our Key Services
+<section id="services" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Our Services
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                Our Key Services
         </h2>
-        {% if featured_services %}
-        <div class="grid md:grid-cols-3 gap-8 text-center">
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Discover comprehensive financial solutions designed to meet your needs and help you achieve your goals
+            </p>
+        </div>
+        
+        {% if featured_services|length > 0 %}
+        <div class="grid md:grid-cols-3 gap-8">
             {% for svc in featured_services %}
             <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-{{ forloop.counter }} news-card interactive-element">
-                <div class="icon-container mb-4">
-                    <i class="{{ svc.icon }} text-4xl text-bhanjyangred hover-scale"></i>
+                class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 {% if svc.color == 'deuraligreen' %}border-deuraligreen{% elif svc.color == 'bhanjyangred' %}border-bhanjyangred{% elif svc.color == 'purple' %}border-purple-500{% else %}border-deuraligreen{% endif %} transform hover:-translate-y-2"
+                style="opacity: 1 !important; visibility: visible !important;">
+                <!-- Icon Container -->
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full {% if svc.color == 'deuraligreen' %}bg-deuraligreen/10{% elif svc.color == 'bhanjyangred' %}bg-bhanjyangred/10{% elif svc.color == 'purple' %}bg-purple-100{% else %}bg-deuraligreen/10{% endif %} flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="{{ svc.icon|default:'fas fa-star' }} text-4xl {% if svc.color == 'deuraligreen' %}text-deuraligreen{% elif svc.color == 'bhanjyangred' %}text-bhanjyangred{% elif svc.color == 'purple' %}text-purple-500{% else %}text-deuraligreen{% endif %}"></i>
                 </div>
-                <h3 class="text-xl font-bold text-deuraligreen mb-2">{{ svc.title }}</h3>
-                <p class="text-gray-600">{{ svc.description|truncatewords:22 }}</p>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{{ svc.title|default:'Service' }}</h3>
+                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">
+                    {{ svc.description|default:'Service description'|truncatewords:22 }}
+                </p>
+                
                 {% if svc.interest_rate %}
-                <div class="mt-4">
-                    <span
-                        class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full animate-pulse">{{
-                        svc.interest_rate }}</span>
+                <div class="mb-6 flex justify-center">
+                    <span class="inline-block {% if svc.color == 'deuraligreen' %}bg-green-100 text-green-800{% elif svc.color == 'bhanjyangred' %}bg-red-100 text-red-800{% elif svc.color == 'purple' %}bg-purple-100 text-purple-800{% else %}bg-green-100 text-green-800{% endif %} text-sm font-bold px-4 py-2 rounded-full">
+                        {{ svc.interest_rate }}
+                    </span>
                 </div>
                 {% endif %}
+                
+                <div class="mt-auto">
                 {% if svc.link_url %}
-                <div class="mt-4">
                     <a href="{{ svc.link_url }}"
-                        class="text-deuraligreen hover:text-bhanjyangred font-semibold text-sm">
-                        {{ svc.link_text|default:'Learn More' }} →
+                        class="group flex items-center justify-center gap-2 {% if svc.color == 'deuraligreen' %}text-deuraligreen hover:text-green-700{% elif svc.color == 'bhanjyangred' %}text-bhanjyangred hover:text-red-700{% elif svc.color == 'purple' %}text-purple-600 hover:text-purple-700{% else %}text-deuraligreen hover:text-green-700{% endif %} font-semibold transition-colors duration-300">
+                        <span>{{ svc.link_text|default:'Learn More' }}</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </a>
-                </div>
+                    {% else %}
+                    <a href="{% url 'services:overview' %}"
+                        class="group flex items-center justify-center gap-2 {% if svc.color == 'deuraligreen' %}text-deuraligreen hover:text-green-700{% elif svc.color == 'bhanjyangred' %}text-bhanjyangred hover:text-red-700{% elif svc.color == 'purple' %}text-purple-600 hover:text-purple-700{% else %}text-deuraligreen hover:text-green-700{% endif %} font-semibold transition-colors duration-300">
+                        <span>Learn More</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+                    </a>
                 {% endif %}
+                </div>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <div class="grid md:grid-cols-3 gap-8 text-center">
-            <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-1 news-card interactive-element">
-                <div class="icon-container mb-4">
-                    <i class="fas fa-piggy-bank text-4xl text-bhanjyangred hover-scale hover-tada"></i>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-deuraligreen transform hover:-translate-y-2">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-piggy-bank text-4xl text-deuraligreen"></i>
                 </div>
-                <h3 class="text-xl font-bold text-deuraligreen mb-2">Savings Accounts</h3>
-                <p class="text-gray-600">Various types of savings accounts with competitive interest rates up to 8%
-                    annually.</p>
-                <div class="mt-4">
-                    <span
-                        class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full animate-pulse">Up
-                        to 8%</span>
                 </div>
-                <div class="mt-4">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">Savings Accounts</h3>
+                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">Various types of savings accounts with competitive interest rates up to 8% annually.</p>
+                <div class="mb-6 flex justify-center">
+                    <span class="inline-block bg-green-100 text-green-800 text-sm font-bold px-4 py-2 rounded-full">Up to 8%</span>
+                </div>
+                <div class="mt-auto">
                     <a href="{% url 'services:savings_list' %}"
-                        class="text-deuraligreen hover:text-bhanjyangred font-semibold text-sm">View All Savings Options
-                        →</a>
+                        class="group flex items-center justify-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
+                        <span>View All Savings Options</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+                    </a>
                 </div>
             </div>
-            <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-2 news-card interactive-element">
-                <div class="icon-container mb-4">
-                    <i class="fas fa-hand-holding-usd text-4xl text-bhanjyangred hover-scale hover-wiggle"></i>
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-bhanjyangred transform hover:-translate-y-2">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-hand-holding-usd text-4xl text-bhanjyangred"></i>
                 </div>
-                <h3 class="text-xl font-bold text-deuraligreen mb-2">Loan Services</h3>
-                <p class="text-gray-600">Affordable loans for business, agriculture, and home construction with flexible
-                    terms.</p>
-                <div class="mt-4">
-                    <span
-                        class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full animate-pulse">From
-                        10.5%</span>
                 </div>
-                <div class="mt-4">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">Loan Services</h3>
+                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">Affordable loans for business, agriculture, and home construction with flexible terms.</p>
+                <div class="mb-6 flex justify-center">
+                    <span class="inline-block bg-red-100 text-red-800 text-sm font-bold px-4 py-2 rounded-full">From 10.5%</span>
+                </div>
+                <div class="mt-auto">
                     <a href="{% url 'services:loan_list' %}"
-                        class="text-deuraligreen hover:text-bhanjyangred font-semibold text-sm">Explore Loan Options
-                        →</a>
+                        class="group flex items-center justify-center gap-2 text-bhanjyangred hover:text-red-700 font-semibold transition-colors duration-300">
+                        <span>Explore Loan Options</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+                    </a>
                 </div>
             </div>
-            <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-3 news-card interactive-element">
-                <div class="icon-container mb-4">
-                    <i class="fas fa-comments-dollar text-4xl text-bhanjyangred hover-scale hover-heart-beat"></i>
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-purple-500 transform hover:-translate-y-2">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-purple-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-comments-dollar text-4xl text-purple-500"></i>
                 </div>
-                <h3 class="text-xl font-bold text-deuraligreen mb-2">Fixed Deposits</h3>
-                <p class="text-gray-600">Secure your future with fixed deposits offering up to 7% interest for 1+ year
-                    terms.</p>
-                <div class="mt-4">
-                    <span
-                        class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full animate-pulse">Up
-                        to 7%</span>
                 </div>
-                <div class="mt-4">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">Fixed Deposits</h3>
+                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">Secure your future with fixed deposits offering up to 7% interest for 1+ year terms.</p>
+                <div class="mb-6 flex justify-center">
+                    <span class="inline-block bg-purple-100 text-purple-800 text-sm font-bold px-4 py-2 rounded-full">Up to 7%</span>
+                </div>
+                <div class="mt-auto">
                     <a href="{% url 'services:fixed_deposit_list' %}"
-                        class="text-deuraligreen hover:text-bhanjyangred font-semibold text-sm">View Deposit Rates →</a>
+                        class="group flex items-center justify-center gap-2 text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-300">
+                        <span>View Deposit Rates</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+                    </a>
                 </div>
             </div>
         </div>
         {% endif %}
 
         <!-- Call to Action for Services -->
-        <div class="text-center mt-12">
+        <div class="text-center mt-16">
             <a href="{% url 'services:overview' %}"
-                class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
-                <i class="fas fa-list-ul mr-2"></i>View All Services & Rates
+                class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-list-ul"></i>
+                <span>View All Services & Rates</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
     </div>
 </section>
 
 <!-- Our Impact in Numbers (Co-op Statistics) -->
-<section class="py-12 md:py-16 bg-white text-gray-800">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span
-            class="font-semibold uppercase text-sm mb-2 block text-deuraligreen animated-element animate-in-up delay-100">Our
-            Progress</span>
-        <h2
-            class="text-3xl sm:text-4xl font-bold font-montserrat leading-tight mb-12 drop-shadow-md text-bhanjyangred animated-element animate-in-up delay-200">
+<section id="our-impact" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Our Impact
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold font-montserrat leading-tight mb-6 text-gray-900">
             Bhanjyang Cooperative's Impact in Numbers
         </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Measuring our success through the growth and prosperity of our community
+            </p>
+        </div>
+        
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {% for stat in featured_statistics %}
-            <div
-                class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 animated-element animate-scale-in delay-{{ forloop.counter|add:2 }}00">
-                <div class="text-5xl font-extrabold mb-3 text-bhanjyangred counter">{{ stat.value }}</div>
-                <h3 class="text-xl font-semibold font-montserrat mb-2 text-deuraligreen">{{ stat.title }}</h3>
-                <p class="text-gray-600 text-sm">{{ stat.description|default:"Growing our community impact." }}</p>
+            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-deuraligreen shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="mb-4 flex justify-center">
+                    <div class="w-16 h-16 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-chart-line text-2xl text-deuraligreen"></i>
+                    </div>
+                </div>
+                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter">{{ stat.value }}</div>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{{ stat.title }}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{{ stat.description|default:"Growing our community impact." }}</p>
             </div>
             {% empty %}
             <!-- Fallback static statistics -->
-            <div
-                class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 animated-element animate-scale-in delay-300">
-                <div class="text-5xl font-extrabold mb-3 text-bhanjyangred counter" data-target="10000">0</div>
-                <h3 class="text-xl font-semibold font-montserrat mb-2 text-deuraligreen">Active Members</h3>
-                <p class="text-gray-600 text-sm">Growing our community, one member at a time.</p>
+            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-deuraligreen shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="mb-4 flex justify-center">
+                    <div class="w-16 h-16 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-users text-2xl text-deuraligreen"></i>
             </div>
-            <div
-                class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 animated-element animate-scale-in delay-400">
-                <div class="text-5xl font-extrabold mb-3 text-bhanjyangred counter" data-target="500">0</div>
-                <h3 class="text-xl font-semibold font-montserrat mb-2 text-deuraligreen">Million NPR Loans Disbursed
-                </h3>
-                <p class="text-gray-600 text-sm">Supporting dreams and local enterprises.</p>
             </div>
-            <div
-                class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 animated-element animate-scale-in delay-500">
-                <div class="text-5xl font-extrabold mb-3 text-bhanjyangred counter" data-target="300">0</div>
-                <h3 class="text-xl font-semibold font-montserrat mb-2 text-deuraligreen">Million NPR Total Savings</h3>
-                <p class="text-gray-600 text-sm">Securing futures for our valued members.</p>
+                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="10000">0</div>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Active Members</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">Growing our community, one member at a time.</p>
             </div>
-            <div
-                class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 animated-element animate-scale-in delay-600">
-                <div class="text-5xl font-extrabold mb-3 text-bhanjyangred counter" data-target="15">0</div>
-                <h3 class="text-xl font-semibold font-montserrat mb-2 text-deuraligreen">Years of Service</h3>
-                <p class="text-gray-600 text-sm">A legacy of trust and community commitment.</p>
+            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-bhanjyangred shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="mb-4 flex justify-center">
+                    <div class="w-16 h-16 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-hand-holding-usd text-2xl text-bhanjyangred"></i>
+                    </div>
+                </div>
+                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="500">0</div>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Million NPR Loans Disbursed</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">Supporting dreams and local enterprises.</p>
+            </div>
+            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-deuraligreen shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="mb-4 flex justify-center">
+                    <div class="w-16 h-16 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-piggy-bank text-2xl text-deuraligreen"></i>
+                    </div>
+                </div>
+                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="300">0</div>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Million NPR Total Savings</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">Securing futures for our valued members.</p>
+            </div>
+            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-bhanjyangred shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                <div class="mb-4 flex justify-center">
+                    <div class="w-16 h-16 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-calendar-check text-2xl text-bhanjyangred"></i>
+                    </div>
+                </div>
+                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="15">0</div>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Years of Service</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">A legacy of trust and community commitment.</p>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- Features Section with Morphing Elements -->
-<section class="py-20 bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Why Choose Us?
+<!-- Why Choose Us Section -->
+<section id="why-choose-us" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Why Choose Us
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                Your Trusted Financial Partner
         </h2>
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-            <div class="scroll-animate">
-                <h3 class="text-2xl font-bold text-deuraligreen mb-4">Trusted by Thousands</h3>
-                <p class="text-gray-600 mb-6">With over 25 years of experience, we've built a reputation for trust,
-                    transparency, and excellent service.</p>
-                <ul class="space-y-3">
-                    <li class="flex items-center text-gray-600 hover-lift interactive-element">
-                        <i class="fas fa-check-circle text-green-500 mr-3 animate-pulse"></i>
-                        Secure and reliable financial services
-                    </li>
-                    <li class="flex items-center text-gray-600 hover-lift interactive-element"
-                        style="animation-delay: 0.5s;">
-                        <i class="fas fa-check-circle text-green-500 mr-3 animate-pulse"></i>
-                        Competitive interest rates
-                    </li>
-                    <li class="flex items-center text-gray-600 hover-lift interactive-element"
-                        style="animation-delay: 1s;">
-                        <i class="fas fa-check-circle text-green-500 mr-3 animate-pulse"></i>
-                        Personalized customer support
-                    </li>
-                </ul>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                With over 25 years of experience, we've built a reputation for trust, transparency, and excellent service.
+            </p>
             </div>
-            <div class="scroll-animate">
-                <div class="image-reveal morphing-element">
-                    <img src="{% static 'images/pattern-light.png' %}" alt="Trust and Security illustration"
-                        class="w-full h-64 object-cover rounded-lg shadow-lg hover-scale" loading="lazy"
-                        decoding="async" width="600" height="256">
+        
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Side: Content -->
+            <div class="order-2 lg:order-1" style="opacity: 1 !important; visibility: visible !important;">
+                <div class="space-y-6">
+                    <div class="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-deuraligreen transform hover:-translate-x-2">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-14 h-14 bg-deuraligreen/10 rounded-xl flex items-center justify-center group-hover:bg-deuraligreen group-hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-shield-alt text-deuraligreen text-2xl group-hover:text-white transition-colors duration-300"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">Secure & Reliable</h3>
+                                <p class="text-gray-600 leading-relaxed">Bank-level security and regulatory compliance ensure your funds and data are always protected.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-bhanjyangred transform hover:-translate-x-2">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-14 h-14 bg-bhanjyangred/10 rounded-xl flex items-center justify-center group-hover:bg-bhanjyangred group-hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-percent text-bhanjyangred text-2xl group-hover:text-white transition-colors duration-300"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">Competitive Rates</h3>
+                                <p class="text-gray-600 leading-relaxed">Enjoy some of the best interest rates in the market, helping your savings grow faster.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="group relative bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-l-4 border-deuraligreen transform hover:-translate-x-2">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-14 h-14 bg-deuraligreen/10 rounded-xl flex items-center justify-center group-hover:bg-deuraligreen group-hover:scale-110 transition-all duration-300">
+                                <i class="fas fa-users text-deuraligreen text-2xl group-hover:text-white transition-colors duration-300"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">Personalized Support</h3>
+                                <p class="text-gray-600 leading-relaxed">Our dedicated team provides personalized assistance tailored to your financial needs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side: Image -->
+            <div class="order-1 lg:order-2" style="opacity: 1 !important; visibility: visible !important;">
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
+                    <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop" 
+                            alt="Bhanjyang Cooperative - Trusted Financial Services"
+                            class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" 
+                            loading="lazy" decoding="async" width="800" height="600">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+                    </div>
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-4 -right-4 bg-deuraligreen text-white px-6 py-3 rounded-full shadow-xl">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-award text-xl"></i>
+                            <span class="font-bold">25+ Years</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- NEW: Interactive Features Grid -->
-<section class="py-16 bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-animate">Our Features</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div
-                class="text-center p-6 rounded-lg bg-gradient-to-br from-green-50 to-green-100 hover-lift interactive-element">
-                <div
-                    class="w-16 h-16 mx-auto mb-4 bg-deuraligreen rounded-full flex items-center justify-center text-white text-2xl animate-morphing">
-                    <i class="fas fa-mobile-alt"></i>
+<!-- Our Features Section -->
+<section id="our-features" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Mobile Banking</h3>
-                <p class="text-sm text-gray-600">Bank anywhere, anytime</p>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Our Features
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                Why Choose Our Services
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Experience modern banking with features designed for your convenience and security
+            </p>
             </div>
-            <div
-                class="text-center p-6 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 hover-lift interactive-element">
-                <div class="w-16 h-16 mx-auto mb-4 bg-blue-500 rounded-full flex items-center justify-center text-white text-2xl animate-morphing"
-                    style="animation-delay: 0.5s;">
-                    <i class="fas fa-shield-alt"></i>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
+                        <i class="fas fa-mobile-alt text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Secure</h3>
-                <p class="text-sm text-gray-600">Bank-level security</p>
             </div>
-            <div
-                class="text-center p-6 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 hover-lift interactive-element">
-                <div class="w-16 h-16 mx-auto mb-4 bg-purple-500 rounded-full flex items-center justify-center text-white text-2xl animate-morphing"
-                    style="animation-delay: 1s;">
-                    <i class="fas fa-clock"></i>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">Mobile Banking</h3>
+                <p class="text-gray-600 text-center leading-relaxed">Bank anywhere, anytime with our convenient mobile banking services</p>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">24/7 Support</h3>
-                <p class="text-sm text-gray-600">Always here for you</p>
+            
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-blue-500">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-110 group-hover:bg-blue-500 transition-all duration-300">
+                        <i class="fas fa-shield-alt text-3xl text-blue-500 group-hover:text-white transition-colors duration-300"></i>
             </div>
-            <div
-                class="text-center p-6 rounded-lg bg-gradient-to-br from-red-50 to-red-100 hover-lift interactive-element">
-                <div class="w-16 h-16 mx-auto mb-4 bg-red-500 rounded-full flex items-center justify-center text-white text-2xl animate-morphing"
-                    style="animation-delay: 1.5s;">
-                    <i class="fas fa-gift"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Rewards</h3>
-                <p class="text-sm text-gray-600">Earn while you save</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">Secure</h3>
+                <p class="text-gray-600 text-center leading-relaxed">Bank-level security to protect your financial information</p>
+            </div>
+            
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-purple-500">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-purple-50 flex items-center justify-center group-hover:scale-110 group-hover:bg-purple-500 transition-all duration-300">
+                        <i class="fas fa-clock text-3xl text-purple-500 group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">24/7 Support</h3>
+                <p class="text-gray-600 text-center leading-relaxed">Always here for you with round-the-clock customer support</p>
+            </div>
+            
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-bhanjyangred transition-all duration-300">
+                        <i class="fas fa-gift text-3xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">Rewards</h3>
+                <p class="text-gray-600 text-center leading-relaxed">Earn rewards and benefits while you save with us</p>
             </div>
         </div>
     </div>
@@ -512,46 +765,67 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 
 <!-- Announcements Section -->
 {% if featured_announcements %}
-<section class="py-16 bg-gradient-to-r from-blue-50 to-indigo-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <span
-                class="text-deuraligreen font-semibold uppercase text-sm mb-2 block animated-element animate-in-up delay-100">Latest
-                Updates</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animated-element animate-in-up delay-200">
-                Important Announcements</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto animated-element animate-in-up delay-300">Stay informed with our
-                latest news and important updates</p>
+<section id="announcements" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Latest Updates
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                Important Announcements
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Stay informed with our latest news and important updates
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for announcement in featured_announcements %}
-            <div
-                class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover-lift scroll-animate stagger-{{ forloop.counter }} news-card interactive-element">
+            <div class="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 {% if announcement.priority == 'urgent' %}border-red-500{% elif announcement.priority == 'high' %}border-orange-500{% else %}border-deuraligreen{% endif %}" style="opacity: 1 !important; visibility: visible !important;">
                 {% if announcement.image %}
+                <div class="relative overflow-hidden rounded-xl mb-4">
                 <img src="{{ announcement.image.url }}" alt="{{ announcement.title|default:'Announcement image' }}"
-                    class="w-full h-48 object-cover rounded-lg mb-4" loading="lazy" decoding="async" width="400"
-                    height="192">
+                        class="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy" decoding="async" width="400" height="192">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </div>
                 {% endif %}
-                <div class="flex items-center mb-3">
+                <div class="flex items-center justify-between mb-3">
                     {% if announcement.priority == 'urgent' %}
-                    <span class="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
+                    <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">
                         {{ announcement.get_announcement_type_display }}
                     </span>
                     {% elif announcement.priority == 'high' %}
-                    <span class="inline-block bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">
+                    <span class="inline-block bg-orange-100 text-orange-800 text-xs font-semibold px-3 py-1 rounded-full">
                         {{ announcement.get_announcement_type_display }}
                     </span>
                     {% else %}
-                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                    <span class="inline-block bg-deuraligreen/10 text-deuraligreen text-xs font-semibold px-3 py-1 rounded-full">
                         {{ announcement.get_announcement_type_display }}
                     </span>
                     {% endif %}
-                    <span class="text-gray-500 text-sm ml-2">{{ announcement.publish_date|date:"M d, Y" }}</span>
+                    <span class="text-gray-600 text-sm flex items-center gap-1">
+                        <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
+                        {{ announcement.publish_date|date:"M d, Y" }}
+                    </span>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ announcement.title }}</h3>
-                <p class="text-gray-600 text-sm">{{ announcement.summary|default:announcement.content|truncatewords:20
-                    }}</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{{ announcement.title }}</h3>
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">{{ announcement.summary|default:announcement.content|truncatewords:20 }}</p>
+                <a href="{% url 'news_events:article_detail' announcement.slug %}" class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold text-sm transition-colors duration-300">
+                    <span>Read More</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+                </a>
             </div>
             {% endfor %}
         </div>
@@ -561,44 +835,67 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 
 <!-- Gallery Preview Section -->
 {% if featured_gallery %}
-<section class="py-12 md:py-16 bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <span
-                class="text-deuraligreen font-semibold uppercase text-sm mb-2 block animated-element animate-in-up delay-100">Our
-                Gallery</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animated-element animate-in-up delay-200">
-                Moments & Memories</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto animated-element animate-in-up delay-300">Capturing our journey
-                and community events</p>
+<section id="gallery-preview" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Our Gallery
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                Moments & Memories
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Capturing our journey and community events that define our cooperative spirit
+            </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
             {% for image in featured_gallery %}
             <a href="{% url 'gallery:gallery' %}"
-                class="relative group focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2 rounded-lg hover-lift interactive-element"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2"
                 aria-label="View {{ image.title|default:'gallery image' }} in full gallery">
                 {% if image.image %}
+                <div class="aspect-square overflow-hidden">
                 <img src="{{ image.image.url }}" alt="{{ image.title|default:'Gallery image' }}"
-                    class="w-full h-32 object-cover rounded-lg shadow-md group-hover:shadow-xl transition-all duration-300"
-                    loading="lazy" decoding="async" width="200" height="128">
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy" decoding="async" width="200" height="200">
+                </div>
                 {% else %}
-                <div class="w-full h-32 rounded-lg shadow-md bg-gray-200 flex items-center justify-center text-gray-500 text-sm"
-                    role="img" aria-label="No image available">No Image</div>
+                <div class="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-500 text-sm"
+                    role="img" aria-label="No image available">
+                    <i class="fas fa-image text-3xl opacity-50"></i>
+                </div>
                 {% endif %}
-                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 rounded-lg flex items-center justify-center"
-                    aria-hidden="true">
-                    <i class="fas fa-search-plus text-white opacity-0 group-hover:opacity-100 transition-all duration-300"
-                        aria-hidden="true"></i>
+                <!-- Overlay on Hover -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <i class="fas fa-search-plus text-white text-2xl mb-2"></i>
+                        {% if image.title %}
+                        <p class="text-white text-xs font-semibold px-2">{{ image.title|truncatewords:3 }}</p>
+                        {% endif %}
+                    </div>
                 </div>
             </a>
             {% endfor %}
         </div>
 
-        <div class="text-center mt-8">
+        <div class="text-center">
             <a href="{% url 'gallery:gallery' %}"
-                class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-6 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300">
-                View Full Gallery <i class="fas fa-arrow-right ml-2"></i>
+                class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-images"></i>
+                <span>View Full Gallery</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
     </div>
@@ -606,96 +903,198 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 {% endif %}
 
 <!-- Call to Action Section -->
-<section class="py-16 bg-bhanjyangred text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-bold mb-4 font-montserrat scroll-animate">Ready to Get Started?</h2>
-        <p class="text-xl mb-8 text-white scroll-animate stagger-1">Join thousands of satisfied members today!</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+<section id="get-started" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="max-w-3xl mx-auto">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Get Started Today
+            </span>
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 font-montserrat leading-tight text-gray-900">
+                Ready to Begin Your Financial Journey?
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-xl sm:text-2xl mb-4 text-gray-800 leading-relaxed">
+                Join thousands of satisfied members who trust Bhanjyang Cooperative
+            </p>
+            <p class="text-lg mb-10 text-gray-600 max-w-2xl mx-auto">
+                Experience reliable financial services, competitive rates, and personalized support designed for your success.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <a href="{% url 'contact:contact_view' %}"
-                class="bg-white text-bhanjyangred font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-all duration-300 btn-animate hover-lift ripple">Contact
-                Us</a>
+                    class="group bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 min-w-[200px]">
+                    <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300"></i>
+                    <span>Contact Us</span>
+                </a>
             <a href="{% url 'about:home' %}"
-                class="border-2 border-white text-white font-bold py-3 px-8 rounded-full hover:bg-white hover:text-bhanjyangred transition-all duration-300 btn-animate hover-lift ripple"
-                aria-label="Learn more about Bhanjyang Cooperative">Learn More</a>
+                    class="group bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 min-w-[200px]"
+                    aria-label="Learn more about Bhanjyang Cooperative">
+                    <i class="fas fa-info-circle group-hover:rotate-12 transition-transform duration-300"></i>
+                    <span>Learn More</span>
+                </a>
+            </div>
+            
+            <!-- Trust Indicators -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-200">
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold mb-2 text-bhanjyangred">25+</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wide">Years of Service</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold mb-2 text-bhanjyangred">10K+</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wide">Active Members</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold mb-2 text-bhanjyangred">98%</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wide">Satisfaction Rate</div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- What Our Members Say (Testimonials) -->
-<section class="py-12 md:py-16 bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span
-            class="text-deuraligreen font-semibold uppercase text-sm mb-2 block animated-element animate-in-up delay-100">Voices
-            of Our Community</span>
-        <h2
-            class="text-3xl sm:text-4xl font-bold font-montserrat leading-tight mb-12 text-deuraligreen animated-element animate-in-up delay-200">
+<section id="testimonials" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Testimonials
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
             What Our Members Say About Us
         </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Hear from our community members about their experiences with Bhanjyang Cooperative
+            </p>
+        </div>
+        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for testimonial in featured_testimonials %}
-            <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center animated-element animate-in-up delay-{{ forloop.counter|add:2 }}00">
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen">
+                <!-- Quote Icon -->
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-deuraligreen"></i>
+                </div>
+                
+                <div class="relative z-10">
                 {% if testimonial.photo %}
                 <img src="{{ testimonial.photo.url }}" alt="Photo of {{ testimonial.name }}"
-                    class="w-20 h-20 rounded-full object-cover mb-4 ring-2 ring-deuraligreen" width="80" height="80"
-                    loading="lazy">
+                        class="w-24 h-24 rounded-full object-cover mb-6 mx-auto ring-4 ring-deuraligreen/20 shadow-lg group-hover:ring-deuraligreen transition-all duration-300"
+                        width="96" height="96" loading="lazy">
                 {% else %}
-                <div
-                    class="w-20 h-20 rounded-full bg-deuraligreen flex items-center justify-center text-white text-2xl font-bold mb-4 ring-2 ring-deuraligreen">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-deuraligreen to-green-600 flex items-center justify-center text-white text-3xl font-bold mb-6 mx-auto ring-4 ring-deuraligreen/20 shadow-lg group-hover:ring-deuraligreen transition-all duration-300">
                     {{ testimonial.name|slice:":2"|upper }}
                 </div>
                 {% endif %}
-                <div class="flex mb-2">
+                    
+                    <div class="flex justify-center mb-4">
                     {% for i in "12345" %}
-                    <i
-                        class="fas fa-star {% if forloop.counter <= testimonial.rating %}text-yellow-400{% else %}text-gray-300{% endif %}"></i>
+                        <i class="fas fa-star {% if forloop.counter <= testimonial.rating %}text-yellow-400{% else %}text-gray-200{% endif %} text-lg"></i>
                     {% endfor %}
                 </div>
-                <p class="text-gray-700 italic mb-4">
+                    
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg relative z-10">
                     "{{ testimonial.content }}"
                 </p>
-                <p class="font-bold text-gray-800">- {{ testimonial.name }}</p>
-                <p class="text-sm text-gray-500">{{ testimonial.position }}{% if testimonial.company %}, {{
-                    testimonial.company }}{% endif %}</p>
+                    
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">{{ testimonial.name }}</p>
+                        <p class="text-sm text-gray-500">{{ testimonial.position }}{% if testimonial.company %}, {{ testimonial.company }}{% endif %}</p>
+                    </div>
+                </div>
             </div>
             {% empty %}
             <!-- Fallback static testimonials -->
-            <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center animated-element animate-in-up delay-300">
-                <div class="w-20 h-20 rounded-full bg-bhanjyangred flex items-center justify-center text-white text-2xl font-bold mb-4 ring-2 ring-deuraligreen"
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred">
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-bhanjyangred"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-bhanjyangred to-red-600 flex items-center justify-center text-white text-3xl font-bold mb-6 mx-auto ring-4 ring-bhanjyangred/20 shadow-lg group-hover:ring-bhanjyangred transition-all duration-300"
                     role="img" aria-label="Janak Puri profile">
                     JP
                 </div>
-                <p class="text-gray-700 italic mb-4">
+                    <div class="flex justify-center mb-4">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg">
                     "Bhanjyang Cooperative truly understands the needs of local businesses. Their microfinance solutions
                     helped me grow my small shop beyond my expectations!"
                 </p>
-                <p class="font-bold text-gray-800">- Janak Puri</p>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">Janak Puri</p>
                 <p class="text-sm text-gray-500">Local Entrepreneur</p>
             </div>
-            <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center animated-element animate-in-up delay-400">
-                <img src="{% static 'images/Prajjwol-Sharma.jpg' %}" alt="Photo of Tek Bahadur Gurung"
-                    class="w-20 h-20 rounded-full object-cover mb-4 ring-2 ring-bhanjyangred" width="80" height="80"
-                    loading="lazy">
-                <p class="text-gray-700 italic mb-4">
+                </div>
+            </div>
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen">
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-deuraligreen"></i>
+                </div>
+                <div class="relative z-10">
+                    <img src="{% static 'images/Prajjwol-Sharma.png' %}" alt="Photo of Tek Bahadur Gurung"
+                        class="w-24 h-24 rounded-full object-cover mb-6 mx-auto ring-4 ring-deuraligreen/20 shadow-lg group-hover:ring-deuraligreen transition-all duration-300"
+                        width="96" height="96" loading="lazy">
+                    <div class="flex justify-center mb-4">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg">
                     "The savings accounts offered by Bhanjyang Cooperative are excellent. I feel secure knowing my
                     hard-earned money is growing safely with them."
                 </p>
-                <p class="font-bold text-gray-800">- Tek Bahadur Gurung</p>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">Tek Bahadur Gurung</p>
                 <p class="text-sm text-gray-500">Community Member</p>
             </div>
-            <div
-                class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center animated-element animate-in-up delay-500">
-                <img src="{% static 'images/Prajjwol-Sharma.jpg' %}" alt="Photo of Prajjwol Sharma"
-                    class="w-20 h-20 rounded-full object-cover mb-4 ring-2 ring-deuraligreen" width="80" height="80"
-                    loading="lazy">
-                <p class="text-gray-700 italic mb-4">
+                </div>
+            </div>
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred">
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-bhanjyangred"></i>
+                </div>
+                <div class="relative z-10">
+                    <img src="{% static 'images/Prajjwol-Sharma.png' %}" alt="Photo of Prajjwol Sharma"
+                        class="w-24 h-24 rounded-full object-cover mb-6 mx-auto ring-4 ring-bhanjyangred/20 shadow-lg group-hover:ring-bhanjyangred transition-all duration-300"
+                        width="96" height="96" loading="lazy">
+                    <div class="flex justify-center mb-4">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg">
                     "Their team is incredibly supportive and always ready to help. Bhanjyang Cooperative is more than a
                     bank; it's a partner in our progress."
                 </p>
-                <p class="font-bold text-gray-800">- Prajjwol Sharma</p>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">Prajjwol Sharma</p>
                 <p class="text-sm text-gray-500">Farmer & Member</p>
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -703,96 +1102,203 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 </section>
 
 <!-- Newsletter Signup Section -->
-<section class="py-16 bg-gradient-to-r from-deuraligreen to-green-600 text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-bold mb-4">Stay Updated with Bhanjyang Cooperative</h2>
-        <p class="text-lg mb-8 opacity-90">Get the latest news, updates, and exclusive offers delivered to your inbox.
-        </p>
+<section id="newsletter" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="max-w-2xl mx-auto">
+            <span class="text-deuraligreen font-semibold uppercase text-sm mb-4 block tracking-wider">
+                Newsletter
+            </span>
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <i class="fas fa-envelope-open-text text-4xl text-deuraligreen"></i>
+                <h2 class="text-4xl sm:text-5xl font-bold font-montserrat text-gray-900">Stay Updated</h2>
+            </div>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-xl sm:text-2xl mb-2 text-gray-800 leading-relaxed">
+                Get the latest news, updates, and exclusive offers
+            </p>
+            <p class="text-lg mb-10 text-gray-600">
+                delivered directly to your inbox
+            </p>
 
-        <form id="newsletter-form" class="max-w-md mx-auto flex gap-4" aria-label="Newsletter subscription form"
-            novalidate>
+            <form id="newsletter-form" class="max-w-lg mx-auto" aria-label="Newsletter subscription form" novalidate>
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-csrf-token" value="{{ csrf_token }}">
+                
+                <div class="flex flex-col sm:flex-row gap-3 bg-white rounded-full p-2 shadow-xl border-2 border-gray-200 hover:border-deuraligreen transition-colors duration-300">
             <label for="newsletter-email" class="sr-only">Email address</label>
-            <input type="email" name="email" id="newsletter-email" placeholder="Enter your email" required
+                    <div class="flex-1 flex items-center gap-3 px-4">
+                        <i class="fas fa-envelope text-gray-400"></i>
+                        <input type="email" 
+                            name="email" 
+                            id="newsletter-email" 
+                            placeholder="Enter your email address" 
+                            required
                 autocomplete="email"
-                class="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-white"
-                aria-required="true" aria-describedby="newsletter-error newsletter-message" aria-invalid="false">
+                            class="flex-1 bg-transparent text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-0 py-3 text-lg"
+                            aria-required="true" 
+                            aria-describedby="newsletter-error newsletter-message" 
+                            aria-invalid="false">
+                    </div>
             <button type="submit"
-                class="bg-bhanjyangred hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200"
+                        class="group bg-deuraligreen hover:bg-green-700 text-white font-bold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2 min-w-[160px]"
                 aria-label="Subscribe to newsletter">
-                Subscribe
+                        <span>Subscribe</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
             </button>
+                </div>
+                
+                <!-- Benefits List -->
+                <div class="flex flex-wrap justify-center gap-6 mt-8 text-sm text-gray-600">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-check-circle text-deuraligreen"></i>
+                        <span>Latest News</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-check-circle text-deuraligreen"></i>
+                        <span>Exclusive Offers</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-check-circle text-deuraligreen"></i>
+                        <span>No Spam</span>
+                    </div>
+                </div>
         </form>
 
         <div id="newsletter-error" class="sr-only" role="alert" aria-live="polite"></div>
-        <div id="newsletter-message" class="mt-4 hidden" role="status" aria-live="polite"></div>
+            <div id="newsletter-message" class="mt-6 hidden text-lg font-semibold text-deuraligreen" role="status" aria-live="polite"></div>
+        </div>
     </div>
 </section>
 
 <!-- Quick Contact Section -->
-<section class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Have Questions?</h2>
-                <p class="text-gray-600">Get in touch with us for any inquiries or support.</p>
+<section id="quick-contact" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8">
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                    Contact Us
+                </span>
+                <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                    Have Questions?
+                </h2>
+                <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    Get in touch with us for any inquiries or support. We're here to help!
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Left Side: Contact Information -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-deuraligreen">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center gap-3">
+                        <i class="fas fa-info-circle text-deuraligreen"></i>
+                        <span>Contact Information</span>
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
+                            <div class="flex-shrink-0 w-12 h-12 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-deuraligreen text-xl"></i>
+                            </div>
                 <div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Contact Information</h3>
-                    <div class="space-y-3">
-                        <div class="flex items-center">
-                            <i class="fas fa-map-marker-alt text-deuraligreen mr-3"></i>
-                            <span>Rupa Rural Municipality, Kaski, Nepal</span>
+                                <h4 class="font-semibold text-gray-900 mb-1">Address</h4>
+                                <p class="text-gray-600">Rupa Rural Municipality, Kaski, Nepal</p>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-phone text-deuraligreen mr-3"></i>
-                            <span>+977-61-XXXXXX</span>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-envelope text-deuraligreen mr-3"></i>
-                            <span>info@bhanjyangcoop.com</span>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
+                            <div class="flex-shrink-0 w-12 h-12 bg-bhanjyangred/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-phone text-bhanjyangred text-xl"></i>
+                        </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-1">Phone</h4>
+                                <a href="tel:+9779856083101" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    +977-9856083101
+                                </a>
+                    </div>
+                </div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
+                            <div class="flex-shrink-0 w-12 h-12 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-envelope text-deuraligreen text-xl"></i>
+                            </div>
+                <div>
+                                <h4 class="font-semibold text-gray-900 mb-1">Email</h4>
+                                <a href="mailto:info@bhanjyang.coop.np" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    info@bhanjyang.coop.np
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div>
-                    <form id="quick-contact-form" class="space-y-4" aria-label="Quick contact form" novalidate>
+                <!-- Right Side: Contact Form -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-bhanjyangred">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center gap-3">
+                        <i class="fas fa-paper-plane text-bhanjyangred"></i>
+                        <span>Send Us a Message</span>
+                    </h3>
+                    <form id="quick-contact-form" class="space-y-5" aria-label="Quick contact form" novalidate>
                         <input type="hidden" name="csrfmiddlewaretoken" id="contact-csrf-token"
                             value="{{ csrf_token }}">
                         <div>
                             <label for="quick-contact-name" class="sr-only">Your Name</label>
+                            <div class="relative">
+                                <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" name="name" id="quick-contact-name" placeholder="Your Name" required
                                 autocomplete="name"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
                                 aria-required="true" aria-describedby="contact-name-error">
+                            </div>
                             <div id="contact-name-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
                         </div>
                         <div>
                             <label for="quick-contact-email" class="sr-only">Your Email</label>
+                            <div class="relative">
+                                <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="email" name="email" id="quick-contact-email" placeholder="Your Email" required
                                 autocomplete="email"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
                                 aria-required="true" aria-describedby="contact-email-error">
+                            </div>
                             <div id="contact-email-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
                         </div>
                         <div>
                             <label for="quick-contact-message" class="sr-only">Your Message</label>
-                            <textarea name="message" id="quick-contact-message" placeholder="Your Message" rows="3"
+                            <div class="relative">
+                                <i class="fas fa-comment-alt absolute left-4 top-4 text-gray-400"></i>
+                                <textarea name="message" id="quick-contact-message" placeholder="Your Message" rows="4"
                                 required autocomplete="off"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300 resize-none"
                                 aria-required="true" aria-describedby="contact-message-error"></textarea>
+                            </div>
                             <div id="contact-message-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
                         </div>
                         <button type="submit"
-                            class="w-full bg-deuraligreen hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                            class="w-full group bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2"
                             aria-label="Send contact message">
-                            Send Message
+                            <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
+                            <span>Send Message</span>
                         </button>
                     </form>
 
-                    <div id="contact-message" class="mt-4 hidden" role="status" aria-live="polite"></div>
+                    <div id="contact-message" class="mt-4 hidden text-center font-semibold" role="status" aria-live="polite"></div>
                 </div>
             </div>
         </div>
@@ -803,7 +1309,104 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 {% block extra_head %}
 <!-- Swiper.js CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <style>
+    /* ============================================
+       ENHANCED DESIGN SYSTEM - BHANJYANG COOPERATIVE
+       ============================================ */
+    
+    /* Custom Properties (CSS Variables) */
+    :root {
+        --font-serif: 'Khand', sans-serif;
+        --font-body: 'Mukta', sans-serif;
+        --color-gold: #D4AF37;
+        --color-gold-light: #F4E4BC;
+        --color-deurali-green: #059669;
+        --color-bhanjyang-red: #DC3545;
+        --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+        --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Enhanced Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: linear-gradient(to bottom, #f1f1f1, #e8e8e8);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(to bottom, var(--color-deurali-green), #004d40);
+        border-radius: 10px;
+        border: 2px solid #f1f1f1;
+        transition: var(--transition-smooth);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(to bottom, #047857, #00332a);
+    }
+
+    /* Enhanced Typography */
+    body {
+        font-feature-settings: "kern" 1;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Enhanced Button Styles */
+    .btn-primary {
+        position: relative;
+        overflow: hidden;
+        transition: var(--transition-smooth);
+    }
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn-primary:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    /* Focus Visible for Accessibility */
+    *:focus-visible {
+        outline: 3px solid var(--color-gold);
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+    /* Reduced Motion Support */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+
+    /* Existing Swiper Styles */
 .swiper-button-next {
 right: 20px !important;
 }
@@ -902,5 +1505,232 @@ bottom: 3rem;
 {% block extra_js %}
 <!-- Swiper.js JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- GSAP for advanced animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<script>
+    // ============================================
+    // ENHANCED JAVASCRIPT - BHANJYANG COOPERATIVE
+    // ============================================
+    
+    (function() {
+        'use strict';
+        
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        // Initialize AOS with error handling
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        }
+
+        // Enhanced Swiper initialization with error handling
+        let heroSwiper = null;
+        try {
+            const heroSwiperEl = document.querySelector('.swiper-container');
+            if (heroSwiperEl && typeof Swiper !== 'undefined') {
+                heroSwiper = new Swiper('.swiper-container', {
+                    effect: 'slide',
+                    speed: prefersReducedMotion ? 0 : 1000,
+                    autoplay: prefersReducedMotion ? false : {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                        dynamicBullets: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    keyboard: {
+                        enabled: true,
+                        onlyInViewport: true,
+                    },
+                    a11y: {
+                        prevSlideMessage: 'Previous slide',
+                        nextSlideMessage: 'Next slide',
+                        firstSlideMessage: 'This is the first slide',
+                        lastSlideMessage: 'This is the last slide',
+                    },
+                    on: {
+                        init: function() {
+                            heroSwiperEl.classList.add('swiper-loaded');
+                        }
+                    }
+                });
+            }
+        } catch (error) {
+            console.warn('Swiper initialization failed:', error);
+        }
+
+        // Enhanced form handling with better UX
+        const contactForm = document.getElementById('quick-contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const submitButton = this.querySelector('button[type="submit"]');
+                const messageDiv = document.getElementById('contact-message');
+                const originalButtonText = submitButton.innerHTML;
+                
+                // Disable button during submission
+                submitButton.disabled = true;
+                submitButton.setAttribute('aria-busy', 'true');
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Sending...';
+                if (messageDiv) {
+                    messageDiv.classList.add('hidden');
+                }
+                
+                // Get CSRF token
+                const csrfToken = document.getElementById('contact-csrf-token')?.value;
+                if (csrfToken) {
+                    formData.append('csrfmiddlewaretoken', csrfToken);
+                }
+                
+                fetch('{% url "home:contact_submit" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    credentials: 'same-origin'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (messageDiv) {
+                        messageDiv.classList.remove('hidden');
+                        if (data.success) {
+                            messageDiv.textContent = data.message || 'Thank you! Your message has been sent.';
+                            messageDiv.className = 'mt-4 text-center font-semibold text-green-600';
+                            this.reset();
+                        } else {
+                            messageDiv.textContent = data.message || 'An error occurred. Please try again.';
+                            messageDiv.className = 'mt-4 text-center font-semibold text-red-600';
+                        }
+                        messageDiv.setAttribute('role', 'status');
+                        messageDiv.setAttribute('aria-live', 'polite');
+                    }
+                })
+                .catch(error => {
+                    console.error('Contact form error:', error);
+                    if (messageDiv) {
+                        messageDiv.classList.remove('hidden');
+                        messageDiv.textContent = 'Unable to send message. Please check your connection and try again.';
+                        messageDiv.className = 'mt-4 text-center font-semibold text-red-600';
+                    }
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                    submitButton.removeAttribute('aria-busy');
+                    submitButton.innerHTML = originalButtonText;
+                });
+            });
+        }
+
+        // Lazy load images with Intersection Observer
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                            img.classList.add('loaded');
+                            observer.unobserve(img);
+                        }
+                    }
+                });
+            }, {
+                rootMargin: '50px'
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({
+                            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Performance: Debounce scroll events
+        let ticking = false;
+        function onScroll() {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    // Scroll-based animations can go here
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+
+        // Enhanced GSAP animations (if available)
+        if (!prefersReducedMotion && typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            try {
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Animate elements on scroll
+                gsap.utils.toArray('[data-animate]').forEach(element => {
+                    gsap.from(element, {
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top 80%",
+                            once: true,
+                        },
+                        opacity: 0,
+                        y: 50,
+                        duration: 1,
+                        ease: "power4.out"
+                    });
+                });
+            } catch (error) {
+                console.warn('GSAP animation failed:', error);
+            }
+        }
+
+    })(); // End IIFE
+</script>
+
+<!-- Original home.js (if exists) -->
 <script src="{% static 'home/js/home.js' %}"></script>
 {% endblock extra_js %}
