@@ -2,7 +2,7 @@ import logging
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.conf import settings
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 from .models import (
     CooperativeInfo, CooperativeTimeline,
@@ -19,10 +19,6 @@ class AboutService:
     Handles data fetching, caching, and business logic for 'About Us' related pages
     including cooperative information, timeline, affiliations, and team data.
     Implements caching strategies to improve performance.
-    
-    Usage:
-        context = AboutService.get_about_home_data(is_staff=False)
-        timeline = AboutService.get_timeline_events()
     """
 
     @staticmethod
@@ -30,30 +26,11 @@ class AboutService:
         """
         Retrieve all data required for the main About Us page.
         
-        Fetches cooperative information, featured timeline events,
-        statistics, affiliations, leadership messages, and team counts. Results
-        are cached for 10 minutes for non-staff users to improve performance.
-        
         Args:
             is_staff: If True, bypasses cache and shows all content including inactive items
             
         Returns:
-            Dictionary containing:
-                - cooperative_info: CooperativeInfo instance
-                - timeline_events: List of featured timeline events (max 6)
-                - statistics: List of active statistics ordered by order field
-                - affiliations: List of featured affiliations
-                - leadership_messages: List of active leadership messages
-                - total_committees: Count of active committees
-                - total_staff: Count of active staff members
-                - breadcrumbs: Navigation breadcrumbs
-                
-        Example:
-            >>> context = AboutService.get_about_home_data()
-            >>> len(context['timeline_events'])
-            6
-            >>> context['cooperative_info'].cooperative_name
-            'Bhanjyang Cooperative'
+            Dictionary containing cooperative info, timeline, stats, etc.
         """
         cache_key = f'about_home_data_{is_staff}'
         cached_data = cache.get(cache_key)
@@ -100,54 +77,24 @@ class AboutService:
 
     @staticmethod
     def get_timeline_events():
-        """
-        Retrieve all active timeline events ordered by date (newest first).
-        
-        Returns:
-            QuerySet of CooperativeTimeline objects ordered by event_date descending
-        """
+        """Retrieve all active timeline events ordered by date (newest first)."""
         return CooperativeTimeline.objects.active().order_by('-event_date')
-
-    # Removed: get_achievements() method - CooperativeAchievement model no longer exists
 
     @staticmethod
     def get_affiliations():
-        """
-        Retrieve all active affiliations ordered by display order.
-        
-        Returns:
-            QuerySet of CooperativeAffiliation objects ordered by order field
-        """
+        """Retrieve all active affiliations ordered by display order."""
         return CooperativeAffiliation.objects.active().order_by('order')
 
     @staticmethod
     def get_leadership_messages():
-        """
-        Retrieve all active leadership messages ordered by display order.
-        
-        Returns:
-            QuerySet of LeadershipMessage objects ordered by order field
-        """
+        """Retrieve all active leadership messages ordered by display order."""
         return LeadershipMessage.objects.active().order_by('order')
 
     @staticmethod
     def get_active_team() -> tuple:
         """
         Retrieve active committees and staff members with optimized queries.
-        
         Uses prefetch_related and select_related to avoid N+1 queries.
-        
-        Returns:
-            Tuple of (committees QuerySet, staff QuerySet):
-                - committees: Active committees with prefetched memberships and persons
-                - staff: Active staff members with related person data
-                
-        Example:
-            >>> committees, staff = AboutService.get_active_team()
-            >>> len(list(committees))
-            3
-            >>> len(list(staff))
-            5
         """
         committees = Committee.objects.filter(is_active=True).prefetch_related('memberships__person')
         staff = Staff.objects.filter(is_active=True).select_related('person')
@@ -155,117 +102,60 @@ class AboutService:
 
     @staticmethod
     def get_past_committees():
-        """
-        Retrieve inactive (past) committees ordered by tenure.
-        
-        Returns:
-            QuerySet of inactive Committee objects ordered by tenure_bs descending,
-            with prefetched memberships and persons to avoid N+1 queries
-        """
+        """Retrieve inactive (past) committees ordered by tenure."""
         return Committee.objects.filter(is_active=False).order_by('-tenure_bs').prefetch_related('memberships__person')
 
     @staticmethod
-    def send_contact_emails(data: Dict[str, Any]) -> bool:
+    def _send_email_safe(subject: str, message: str, recipient_list: List[str], from_email: Optional[str] = None) -> bool:
+        """
+        Helper method to send emails safely with error handling and environment checks.
+        """
+        try:
+            if not getattr(settings, 'SEND_REAL_EMAILS', False):
+                logger.info(f"Mocking email: {subject} to {recipient_list}")
+                return True
+
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=from_email or settings.DEFAULT_FROM_EMAIL,
+                recipient_list=recipient_list,
+                fail_silently=False,
+            )
+            return True
+        except Exception as e:
+            logger.error(f"Error sending email ({subject}): {e}", exc_info=True)
+            return False
+
+    @classmethod
+    def send_contact_emails(cls, data: Dict[str, Any]) -> bool:
         """
         Send contact form notification emails.
-        
-        Sends an email notification to administrators when a contact form is submitted.
-        Respects SEND_REAL_EMAILS setting - if False, only logs the action.
-        
-        Args:
-            data: Dictionary containing contact form data:
-                - name: Submitter's name
-                - email: Submitter's email
-                - subject: Email subject
-                - message: Email message content
-                
-        Returns:
-            True if email sent successfully (or mocked), False on error
-            
-        Note:
-            Email sending respects SEND_REAL_EMAILS setting in Django settings.
-            If False, the method logs the action but doesn't send actual emails.
         """
-        try:
-            if not getattr(settings, 'SEND_REAL_EMAILS', False):
-                logger.info(f"Mocking contact email for {data.get('email')}")
-                return True
+        recipient_list = [settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else [settings.DEFAULT_FROM_EMAIL]
+        subject = f"New Contact Form Submission: {data.get('subject')}"
+        message = f"Name: {data.get('name')}\nEmail: {data.get('email')}\nMessage: {data.get('message')}"
+        
+        return cls._send_email_safe(subject, message, recipient_list)
 
-            # Admin Notification
-            send_mail(
-                subject=f"New Contact Form Submission: {data.get('subject')}",
-                message=f"Name: {data.get('name')}\nEmail: {data.get('email')}\nMessage: {data.get('message')}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else [settings.DEFAULT_FROM_EMAIL],
-                fail_silently=False,
-            )
-            return True
-        except Exception as e:
-            logger.error(f"Error sending contact emails: {e}", exc_info=True)
-            return False
-
-    @staticmethod
-    def send_newsletter_welcome_email(data: Dict[str, Any]) -> bool:
+    @classmethod
+    def send_newsletter_welcome_email(cls, data: Dict[str, Any]) -> bool:
         """
         Send welcome email to new newsletter subscribers.
-        
-        Sends a welcome email when someone subscribes to the newsletter.
-        Respects SEND_REAL_EMAILS setting.
-        
-        Args:
-            data: Dictionary containing subscriber data:
-                - name: Subscriber's name
-                - email: Subscriber's email address
-                
-        Returns:
-            True if email sent successfully (or mocked), False on error
         """
-        try:
-            if not getattr(settings, 'SEND_REAL_EMAILS', False):
-                return True
-                
-            send_mail(
-                subject="Welcome to Bhanjyang Cooperative Newsletter",
-                message=f"Hello {data.get('name')},\n\nThank you for subscribing!",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[data.get('email')],
-                fail_silently=False,
-            )
-            return True
-        except Exception as e:
-            logger.error(f"Error sending newsletter email: {e}", exc_info=True)
-            return False
+        recipient_list = [data.get('email')]
+        subject = "Welcome to Bhanjyang Cooperative Newsletter"
+        message = f"Hello {data.get('name')},\n\nThank you for subscribing!"
+        
+        return cls._send_email_safe(subject, message, recipient_list)
 
-    @staticmethod
-    def send_feedback_email(data: Dict[str, Any]) -> bool:
+    @classmethod
+    def send_feedback_email(cls, data: Dict[str, Any]) -> bool:
         """
         Send feedback notification email to administrators.
-        
-        Sends an email to administrators when user feedback is submitted.
-        Respects SEND_REAL_EMAILS setting.
-        
-        Args:
-            data: Dictionary containing feedback data:
-                - feedback_type: Type of feedback
-                - rating: User's rating (if applicable)
-                - comments: Feedback comments
-                - email: Submitter's email
-                
-        Returns:
-            True if email sent successfully (or mocked), False on error
         """
-        try:
-            if not getattr(settings, 'SEND_REAL_EMAILS', False):
-                return True
-                
-            send_mail(
-                subject=f"New Feedback: {data.get('feedback_type')}",
-                message=f"Rating: {data.get('rating')}\nComments: {data.get('comments')}\nFrom: {data.get('email')}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else [settings.DEFAULT_FROM_EMAIL],
-                fail_silently=False,
-            )
-            return True
-        except Exception as e:
-            logger.error(f"Error sending feedback email: {e}", exc_info=True)
-            return False
+        recipient_list = [settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else [settings.DEFAULT_FROM_EMAIL]
+        subject = f"New Feedback: {data.get('feedback_type')}"
+        message = f"Rating: {data.get('rating')}\nComments: {data.get('comments')}\nFrom: {data.get('email')}"
+        
+        return cls._send_email_safe(subject, message, recipient_list)

@@ -6,7 +6,7 @@ from django.core.cache import cache
 from unittest.mock import patch
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Committee, Staff
 )
@@ -39,13 +39,6 @@ class AboutServiceTest(TestCase):
         self.timeline = CooperativeTimeline.objects.create(
             title='Test Event',
             event_date='2020-01-01',
-            is_featured=True,
-            is_active=True
-        )
-        
-        self.achievement = CooperativeAchievement.objects.create(
-            title='Test Achievement',
-            received_date='2020-01-01',
             is_featured=True,
             is_active=True
         )
@@ -85,12 +78,6 @@ class AboutServiceTest(TestCase):
         events = AboutService.get_timeline_events()
         self.assertIsNotNone(events)
         self.assertGreaterEqual(events.count(), 1)
-    
-    def test_get_achievements(self):
-        """Test getting achievements"""
-        achievements = AboutService.get_achievements()
-        self.assertIsNotNone(achievements)
-        self.assertGreaterEqual(achievements.count(), 1)
     
     def test_get_affiliations(self):
         """Test getting affiliations"""

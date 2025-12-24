@@ -95,7 +95,7 @@ class AboutViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'about/about.html')
         # Check context contains expected data
-        self.assertIn('cooperative', response.context)
+        self.assertIn('cooperative_info', response.context)
     
     def test_about_home_view_with_staff(self):
         """Test AboutHomeView with staff user"""
@@ -198,7 +198,8 @@ class AboutViewsTest(TestCase):
             'email': 'test@example.com',
             'phone': '1234567890',
             'subject': 'Test Subject',
-            'message': 'Test message'
+            'message': 'Test message',
+            'inquiry_type': 'general'
         }
         
         response = self.client.post(reverse('about:contact'), form_data)
@@ -267,10 +268,10 @@ class AboutViewsTest(TestCase):
     def test_feedback_view_post_valid(self):
         """Test FeedbackView POST with valid data"""
         form_data = {
-            'name': 'Test User',
             'email': 'test@example.com',
-            'feedback_type': 'general',
-            'message': 'Test feedback message'
+            'feedback_type': 'other',
+            'rating': 5,
+            'comments': 'Test feedback message'
         }
         
         response = self.client.post(

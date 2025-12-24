@@ -1,9 +1,10 @@
-from django.views.generic import TemplateView, ListView, DetailView, View
+from django.views.generic import TemplateView, ListView, DetailView, View, FormView
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
+from django.urls import reverse_lazy
 
 from .services import AboutService
 from .forms import ContactForm, NewsletterSignupForm, FeedbackForm
@@ -28,7 +29,7 @@ class AboutHomeView(TemplateView):
 class TimelineView(ListView):
     template_name = 'about/timeline.html'
     paginate_by = 12
-    context_object_name = 'page_obj' # Standard behavior for Paginator in CBV actually passes 'page_obj', but 'timeline_events' is object_list
+    context_object_name = 'page_obj'
     
     def get_queryset(self):
         return AboutService.get_timeline_events()
@@ -120,19 +121,18 @@ class CooperativeDetailView(DetailView):
 
 # Forms and APIs
 
-class ContactView(View):
-    def get(self, request):
-        return render(request, 'about/contact.html', {'form': ContactForm()})
+class ContactView(FormView):
+    template_name = 'about/contact.html'
+    form_class = ContactForm
+    success_url = reverse_lazy('about:contact_success')
 
-    def post(self, request):
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            if AboutService.send_contact_emails(form.cleaned_data):
-                messages.success(request, 'Thank you for your message! We will get back to you soon.')
-                return redirect('about:contact_success')
-            else:
-                messages.error(request, 'Sorry, there was an error sending your message.')
-        return render(request, 'about/contact.html', {'form': form})
+    def form_valid(self, form):
+        if AboutService.send_contact_emails(form.cleaned_data):
+            messages.success(self.request, 'Thank you for your message! We will get back to you soon.')
+            return super().form_valid(form)
+        else:
+            messages.error(self.request, 'Sorry, there was an error sending your message.')
+            return self.form_invalid(form)
 
 
 class ContactSuccessView(TemplateView):
