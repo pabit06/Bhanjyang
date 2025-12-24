@@ -135,9 +135,38 @@ body {
     border-top: 1px solid var(--border-color);
 }
 
-/* Theme toggle button */
-.theme-toggle {
-    position: fixed;
+/* Theme toggle button in header */
+#theme-toggle-header,
+#theme-toggle-mobile {
+    position: relative;
+    background: transparent;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#theme-toggle-header:hover,
+#theme-toggle-mobile:hover {
+    transform: scale(1.1);
+}
+
+#theme-toggle-header i,
+#theme-toggle-mobile i {
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle-header:hover i,
+#theme-toggle-mobile:hover i {
+    transform: rotate(180deg);
+}
+
+/* Fallback fixed button (only if header buttons don't exist) */
+.theme-toggle-fallback {
+    position: fixed !important;
     top: 20px;
     right: 20px;
     z-index: 1000;
@@ -146,27 +175,17 @@ body {
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
     box-shadow: var(--shadow-color) 0 4px 6px -1px;
 }
 
-.theme-toggle:hover {
+.theme-toggle-fallback:hover {
     transform: scale(1.1);
     box-shadow: var(--shadow-color) 0 10px 15px -3px;
 }
 
-.theme-toggle i {
+.theme-toggle-fallback i {
     font-size: 20px;
     color: var(--text-primary);
-    transition: transform 0.3s ease;
-}
-
-.theme-toggle:hover i {
-    transform: rotate(180deg);
 }
 
 /* Theme transition animation */

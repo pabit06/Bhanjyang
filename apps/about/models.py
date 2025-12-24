@@ -191,6 +191,8 @@ class CooperativeAffiliation(models.Model):
         ('association', _('Professional Association')),
         ('partnership', _('Partnership')),
         ('certification', _('Certification Body')),
+        ('umbrella', _('Umbrella Organization')),
+        ('cooperative_bank', _('Cooperative Bank')),
         ('other', _('Other')),
     ]
     
@@ -326,6 +328,7 @@ class Committee(models.Model):
     
     # Additional fields for better integration
     description = models.TextField(blank=True, verbose_name=_("Committee Description"))
+    photo = models.ImageField(upload_to='about/committees/', blank=True, null=True, verbose_name=_("Committee Photo"), help_text="Group photo or representative image of the committee")
     start_date = models.DateField(blank=True, null=True, verbose_name=_("Start Date"))
     end_date = models.DateField(blank=True, null=True, verbose_name=_("End Date"))
 
@@ -351,10 +354,34 @@ class Committee(models.Model):
 
 class Membership(models.Model):
     """Links a Person to a Committee"""
+    
+    POSITION_CHOICES = [
+        # Board Positions
+        ('chairman', _('Chairman')),
+        ('vice_chairman', _('Vice-Chairman')),
+        ('secretary', _('Secretary')),
+        ('treasurer', _('Treasurer')),
+        ('member', _('Member')),
+        # Account Supervisor Committee Positions
+        ('coordinator', _('Coordinator')),
+        # Other positions (can be entered as free text)
+        ('other', _('Other')),
+    ]
+    
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name="memberships")
     committee = models.ForeignKey(Committee, on_delete=models.CASCADE, related_name="memberships")
-    position = models.CharField(max_length=100, help_text="e.g., अध्यक्ष, सदस्य, ऋण संयोजक")
-    order = models.PositiveIntegerField(default=0, help_text="Order within the committee (e.g., 1 for President, 2 for VP).")
+    position = models.CharField(
+        max_length=100, 
+        choices=POSITION_CHOICES,
+        blank=True,
+        help_text="Select standard position or enter custom position below"
+    )
+    position_custom = models.CharField(
+        max_length=100, 
+        blank=True,
+        help_text="Enter custom position if 'Other' is selected above (e.g., अध्यक्ष, सदस्य, ऋण संयोजक)"
+    )
+    order = models.PositiveIntegerField(default=0, help_text="Order within the committee (e.g., 1 for Chairman, 2 for Vice-Chairman).")
     
     # Additional fields
     start_date = models.DateField(blank=True, null=True, verbose_name=_("Start Date"))
@@ -373,8 +400,35 @@ class Membership(models.Model):
             models.Index(fields=['position']),  # For filtering by position
         ]
 
+    @property
+    def position_display(self):
+        """Get display name for position (accessible in templates)"""
+        if self.position == 'other' and self.position_custom:
+            return self.position_custom
+        elif self.position and self.position != 'other':
+            # Use Django's built-in get_FOO_display() for choices
+            return dict(self.POSITION_CHOICES).get(self.position, self.position)
+        elif self.position_custom:
+            return self.position_custom
+        return "Member"
+    
     def __str__(self):
-        return f"{self.person.full_name} - {self.position} of {self.committee}"
+        person_name = "Unknown"
+        committee_name = "Unknown Committee"
+        
+        try:
+            if self.person_id:
+                person_name = self.person.full_name
+        except Exception:
+            pass
+        
+        try:
+            if self.committee_id:
+                committee_name = str(self.committee)
+        except Exception:
+            pass
+        
+        return f"{person_name} - {self.position_display} of {committee_name}"
 
 
 class Staff(models.Model):

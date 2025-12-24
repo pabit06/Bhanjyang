@@ -355,6 +355,26 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'bhanjyang'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Logging Configuration
+# Use Windows-compatible handler to avoid file locking issues
+import sys
+import platform
+
+# Choose handler based on platform
+if platform.system() == 'Windows':
+    # On Windows, use FileHandler with delay=True to avoid file locking issues
+    # Or use WatchedFileHandler which handles Windows better
+    FileHandlerClass = 'logging.handlers.WatchedFileHandler'
+    # Alternative: Use FileHandler with delay=True
+    # FileHandlerClass = 'logging.FileHandler'
+    file_handler_kwargs = {}
+else:
+    # On Unix-like systems, use RotatingFileHandler
+    FileHandlerClass = 'logging.handlers.RotatingFileHandler'
+    file_handler_kwargs = {
+        'maxBytes': 1024*1024*5,  # 5MB
+        'backupCount': 5,
+    }
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -375,19 +395,17 @@ LOGGING = {
     'handlers': {
         'file': {
             'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
+            'class': FileHandlerClass,
             'filename': BASE_DIR / 'logs' / 'django.log',
-            'maxBytes': 1024*1024*5,  # 5MB
-            'backupCount': 5,
             'formatter': 'detailed',
+            **file_handler_kwargs,
         },
         'error_file': {
             'level': 'ERROR',
-            'class': 'logging.handlers.RotatingFileHandler',
+            'class': FileHandlerClass,
             'filename': BASE_DIR / 'logs' / 'django_error.log',
-            'maxBytes': 1024*1024*5,  # 5MB
-            'backupCount': 5,
             'formatter': 'detailed',
+            **file_handler_kwargs,
         },
         'console': {
             'level': 'INFO',
@@ -396,11 +414,10 @@ LOGGING = {
         },
         'performance': {
             'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
+            'class': FileHandlerClass,
             'filename': BASE_DIR / 'logs' / 'performance.log',
-            'maxBytes': 1024*1024*10,  # 10MB
-            'backupCount': 3,
             'formatter': 'verbose',
+            **(file_handler_kwargs if platform.system() == 'Windows' else {'maxBytes': 1024*1024*10, 'backupCount': 3}),
         },
         'mail_admins': {
             'level': 'ERROR',

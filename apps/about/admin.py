@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from django.utils.html import format_html
 from django.urls import path, reverse
 from django.shortcuts import render
@@ -182,11 +183,7 @@ class CooperativeAffiliationAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('name', 'description', 'affiliation_type', 'website')
-        }),
-        ('Media', {
-            'fields': ('logo',),
-            'classes': ('collapse',)
+            'fields': ('name', 'description', 'affiliation_type', 'website', 'logo')
         }),
         ('Display Settings', {
             'fields': ('order', 'is_featured', 'is_active')
@@ -243,12 +240,148 @@ class PersonAdmin(admin.ModelAdmin):
     )
 
 
+class MembershipInlineForm(forms.ModelForm):
+    """Custom form for MembershipInline that allows creating Person on the fly"""
+    person_name = forms.CharField(
+        max_length=100,
+        required=False,
+        help_text="Enter name directly (Person will be created automatically if not exists)"
+    )
+    
+    class Meta:
+        model = Membership
+        fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # If membership exists and has person, pre-fill the name
+        if self.instance and self.instance.pk and self.instance.person:
+            self.fields['person_name'].initial = self.instance.person.full_name
+            self.fields['person_name'].widget.attrs['placeholder'] = self.instance.person.full_name
+        else:
+            self.fields['person_name'].widget.attrs['placeholder'] = 'Enter full name'
+        
+        # Make person field optional in the form
+        self.fields['person'].required = False
+        self.fields['person'].help_text = "Or select existing person (leave blank if entering name above)"
+        
+        # Make start_date optional
+        self.fields['start_date'].required = False
+        # Get committee from instance or parent (safely)
+        committee = None
+        try:
+            if self.instance and self.instance.pk and hasattr(self.instance, 'committee'):
+                committee = getattr(self.instance, 'committee', None)
+        except Exception:
+            pass
+        
+        if hasattr(self, 'committee'):
+            committee = self.committee
+        
+        if committee and hasattr(committee, 'start_date') and committee.start_date:
+            self.fields['start_date'].help_text = f"Optional - will use committee start date ({committee.start_date}) if not provided"
+        else:
+            self.fields['start_date'].help_text = "Optional - will use committee start date if not provided"
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        person = cleaned_data.get('person')
+        person_name = cleaned_data.get('person_name', '').strip()
+        
+        # Either person or person_name must be provided
+        if not person and not person_name:
+            # Check if instance already has a person (for existing memberships)
+            if self.instance and self.instance.pk and self.instance.person_id:
+                # Keep existing person
+                cleaned_data['person'] = self.instance.person
+            else:
+                raise forms.ValidationError("Either select a person or enter a name.")
+        
+        # If both are provided, prioritize person_name (it will create new person)
+        # But don't raise error, just use person_name
+        
+        return cleaned_data
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        person_name = self.cleaned_data.get('person_name', '').strip()
+        person = self.cleaned_data.get('person')
+        
+        # Priority: Use person_name if provided, otherwise use selected person
+        if person_name:
+            # Create or get Person from name
+            person_obj, created = Person.objects.get_or_create(
+                full_name=person_name,
+                defaults={'is_active': True}
+            )
+            instance.person = person_obj
+        elif person:
+            # Use selected person
+            instance.person = person
+        else:
+            # If neither is provided, this should have been caught in clean()
+            # But handle it gracefully
+            if not instance.person_id:
+                raise ValueError("Person must be provided either by name or selection")
+        
+        # Get committee from instance or from form attribute (safely)
+        committee = None
+        try:
+            if instance.committee_id:  # Check if committee FK is set
+                committee = instance.committee
+        except Exception:
+            pass
+        
+        if not committee and hasattr(self, 'committee') and self.committee:
+            committee = self.committee
+        
+        # If start_date is not provided but committee has start_date, use it
+        if not instance.start_date and committee and hasattr(committee, 'start_date') and committee.start_date:
+            instance.start_date = committee.start_date
+        
+        if commit:
+            instance.save()
+        return instance
+
+
 class MembershipInline(admin.TabularInline):
-    """Inline admin for Committee memberships"""
+    """Inline admin for Committee memberships - Tabular format for easy editing"""
     model = Membership
-    extra = 1
+    form = MembershipInlineForm
+    extra = 1  # Show one empty row for adding new members
     autocomplete_fields = ['person']
-    fields = ('person', 'position', 'order', 'is_active')
+    fields = ('person_name', 'person', 'position', 'position_custom', 'order', 'start_date', 'end_date', 'is_active')
+    verbose_name = "Committee Member"
+    verbose_name_plural = "Committee Members"
+    ordering = ('order', 'person__full_name')
+    can_delete = True
+    show_change_link = True
+    
+    # Make fields more compact and user-friendly
+    # Removed 'collapse' class so table is always visible for easy editing
+    
+    def get_queryset(self, request):
+        """Optimize queryset with select_related"""
+        qs = super().get_queryset(request)
+        return qs.select_related('person', 'committee').order_by('order', 'person__full_name')
+    
+    def get_formset(self, request, obj=None, **kwargs):
+        """Override to pass committee object to forms"""
+        formset_class = super().get_formset(request, obj, **kwargs)
+        
+        # Store committee for closure
+        committee_obj = obj
+        
+        # Create custom formset that passes committee to forms
+        class MembershipFormSet(formset_class):
+            def _construct_form(self, i, **kwargs):
+                form = super()._construct_form(i, **kwargs)
+                # Set committee on form for use in save method
+                if committee_obj:
+                    form.committee = committee_obj
+                return form
+        
+        return MembershipFormSet
 
 
 class CommitteeAdmin(admin.ModelAdmin):
@@ -258,10 +391,15 @@ class CommitteeAdmin(admin.ModelAdmin):
     search_fields = ('name', 'tenure_bs', 'description')
     prepopulated_fields = {'slug': ('name', 'tenure_bs')}
     inlines = [MembershipInline]
+    list_editable = ('order', 'is_active')  # Quick edit from list view
+    save_on_top = True  # Save buttons at top and bottom
     
     fieldsets = (
         ('Basic Information', {
             'fields': ('name', 'tenure_bs', 'slug', 'description')
+        }),
+        ('Media', {
+            'fields': ('photo',)
         }),
         ('Dates', {
             'fields': ('start_date', 'end_date')
@@ -285,7 +423,7 @@ class MembershipAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Membership Information', {
-            'fields': ('person', 'committee', 'position')
+            'fields': ('person', 'committee', 'position', 'position_custom')
         }),
         ('Dates', {
             'fields': ('start_date', 'end_date')

@@ -26,27 +26,77 @@ class DarkMode {
     }
 
     createToggleButton() {
-        // Create theme toggle button
-        const toggleButton = document.createElement('button');
-        toggleButton.className = 'theme-toggle';
-        toggleButton.setAttribute('aria-label', 'Toggle dark mode');
-        toggleButton.innerHTML = this.getToggleIcon();
+        // Check if button already exists in header (desktop)
+        let toggleButton = document.getElementById('theme-toggle-header');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeIconMobile = document.getElementById('theme-icon-mobile');
+        const mobileToggle = document.getElementById('theme-toggle-mobile');
         
-        document.body.appendChild(toggleButton);
+        if (!toggleButton) {
+            // Fallback: Create button if it doesn't exist in header
+            toggleButton = document.createElement('button');
+            toggleButton.id = 'theme-toggle-header';
+            toggleButton.className = 'theme-toggle theme-toggle-fallback';
+            toggleButton.setAttribute('aria-label', 'Toggle dark mode');
+            toggleButton.innerHTML = this.getToggleIcon();
+            document.body.appendChild(toggleButton);
+        }
+        
+        // Update icons if they exist
+        this.updateIcons();
+        
         this.toggleButton = toggleButton;
     }
 
     getToggleIcon() {
         return this.theme === 'dark' ? 
-            '<i class="fas fa-sun"></i>' : 
-            '<i class="fas fa-moon"></i>';
+            '<i class="fas fa-sun text-xl"></i>' : 
+            '<i class="fas fa-moon text-xl"></i>';
+    }
+
+    updateIcons() {
+        const themeIcon = document.getElementById('theme-icon');
+        const themeIconMobile = document.getElementById('theme-icon-mobile');
+        const themeIconMobileMenu = document.getElementById('theme-icon-mobile-menu');
+        
+        const iconClass = this.theme === 'dark' ? 
+            'fas fa-sun text-xl' : 
+            'fas fa-moon text-xl';
+        
+        if (themeIcon) {
+            themeIcon.className = iconClass;
+        }
+        if (themeIconMobile) {
+            themeIconMobile.className = iconClass;
+        }
+        if (themeIconMobileMenu) {
+            themeIconMobileMenu.className = iconClass;
+        }
     }
 
     bindEvents() {
-        // Toggle button click
-        this.toggleButton.addEventListener('click', () => {
-            this.toggleTheme();
-        });
+        // Desktop toggle button click
+        if (this.toggleButton) {
+            this.toggleButton.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+        }
+        
+        // Mobile toggle button click (header)
+        const mobileToggle = document.getElementById('theme-toggle-mobile');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+        }
+        
+        // Mobile menu toggle button click
+        const mobileMenuToggle = document.getElementById('theme-toggle-mobile-menu');
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+        }
 
         // Keyboard shortcut (Ctrl/Cmd + Shift + D)
         document.addEventListener('keydown', (e) => {
@@ -80,8 +130,13 @@ class DarkMode {
         // Update data attribute on html element
         document.documentElement.setAttribute('data-theme', this.theme);
         
-        // Update toggle button icon
-        this.toggleButton.innerHTML = this.getToggleIcon();
+        // Update toggle button icons
+        this.updateIcons();
+        
+        // Update fallback button if it exists
+        if (this.toggleButton && this.toggleButton.classList.contains('theme-toggle-fallback')) {
+            this.toggleButton.innerHTML = this.getToggleIcon();
+        }
         
         // Update meta theme-color for mobile browsers
         this.updateMetaThemeColor();
@@ -224,12 +279,9 @@ class ThemeSync {
                 const theme = e.newValue;
                 document.documentElement.setAttribute('data-theme', theme);
                 
-                // Update toggle button if it exists
-                const toggleButton = document.querySelector('.theme-toggle');
-                if (toggleButton) {
-                    toggleButton.innerHTML = theme === 'dark' ? 
-                        '<i class="fas fa-sun"></i>' : 
-                        '<i class="fas fa-moon"></i>';
+                // Update toggle button icons if they exist
+                if (window.darkMode) {
+                    window.darkMode.updateIcons();
                 }
             }
         });

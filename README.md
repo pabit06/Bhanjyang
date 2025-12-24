@@ -650,7 +650,7 @@ docker-compose down
 - File upload validation
 - API authentication and permissions
 
-See [SECURITY.md](./SECURITY.md) for details.
+See [SECURITY.md](./docs/SECURITY.md) for details.
 
 ## 📊 Monitoring
 
