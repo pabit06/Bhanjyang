@@ -2,6 +2,7 @@
 Comprehensive tests for news_events app models
 """
 from django.test import TestCase
+from django.db import IntegrityError
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import date, timedelta
@@ -381,7 +382,7 @@ class SubscriberModelTest(TestCase):
     
     def test_unique_email(self):
         """Test that email must be unique"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             Subscriber.objects.create(email="test@example.com")
     
     def test_status_choices(self):
@@ -553,7 +554,7 @@ class ContentAnalyticsModelTest(TestCase):
     def test_unique_together(self):
         """Test unique_together constraint"""
         # Same content_type, content_id, and date should fail
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             ContentAnalytics.objects.create(
                 content_type="article",
                 content_id=1,

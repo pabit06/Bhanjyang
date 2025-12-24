@@ -2,6 +2,7 @@
 Comprehensive tests for home app models
 """
 from django.test import TestCase
+from django.db import IntegrityError
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.core.exceptions import ValidationError
@@ -296,7 +297,7 @@ class NewsletterSubscriberModelTest(TestCase):
     
     def test_unique_email(self):
         """Test that email must be unique"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             NewsletterSubscriber.objects.create(email="test@example.com")
     
     def test_ordering(self):

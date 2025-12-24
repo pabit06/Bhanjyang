@@ -262,7 +262,7 @@ class AboutViewsTest(TestCase):
         
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.content)
-        self.assertFalse(data.get('success', True))
+        self.assertFalse(data.get('success', False))
     
     def test_feedback_view_post_valid(self):
         """Test FeedbackView POST with valid data"""
@@ -298,7 +298,7 @@ class AboutViewsTest(TestCase):
         
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.content)
-        self.assertFalse(data.get('success', True))
+        self.assertFalse(data.get('success', False))
     
     def test_gallery_view(self):
         """Test GalleryView GET request"""

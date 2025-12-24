@@ -3,6 +3,7 @@ Comprehensive tests for services app models
 """
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.contrib.contenttypes.models import ContentType
 from decimal import Decimal
 from apps.services.models import (
@@ -61,7 +62,7 @@ class SavingsAccountModelTest(TestCase):
     
     def test_unique_account_type(self):
         """Test that account_type must be unique"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             SavingsAccount.objects.create(
                 english_name="Another General",
                 nepali_name="Test",
@@ -139,7 +140,7 @@ class FixedDepositModelTest(TestCase):
     def test_unique_together(self):
         """Test unique_together constraint"""
         # Same duration and payment_frequency should fail
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             FixedDeposit.objects.create(
                 duration_months=12,
                 payment_frequency="monthly",
@@ -218,7 +219,7 @@ class LoanTypeModelTest(TestCase):
     
     def test_unique_loan_category(self):
         """Test that loan_category must be unique"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             LoanType.objects.create(
                 english_name="Another Business Loan",
                 nepali_name="Test",
@@ -427,7 +428,7 @@ class ServiceAnalyticsModelTest(TestCase):
         """Test unique_together constraint"""
         from datetime import date
         # Same content_type, object_id, and date should fail
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             ServiceAnalytics.objects.create(
                 content_type=self.content_type,
                 object_id=self.savings.id,

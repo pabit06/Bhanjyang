@@ -2,6 +2,7 @@
 Comprehensive tests for dashboard app models
 """
 from django.test import TestCase
+from django.db import IntegrityError
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import date, timedelta
@@ -195,7 +196,7 @@ class UserSessionModelTest(TestCase):
     
     def test_unique_session_id(self):
         """Test that session_id must be unique"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             UserSession.objects.create(
                 session_id='test_session_123',
                 ip_address='192.168.1.2',
@@ -467,7 +468,7 @@ class UserDashboardPreferenceModelTest(TestCase):
     
     def test_one_to_one_relationship(self):
         """Test that one user can only have one preference"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             UserDashboardPreference.objects.create(
                 user=self.user,
                 theme='light'

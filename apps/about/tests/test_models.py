@@ -3,6 +3,7 @@ Comprehensive tests for about app models
 """
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.utils import timezone
 from datetime import date, timedelta
 from apps.about.models import (
@@ -356,7 +357,7 @@ class PersonModelTest(TestCase):
     
     def test_unique_full_name(self):
         """Test that full_name must be unique"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             Person.objects.create(full_name="John Doe")
 
 
@@ -431,10 +432,15 @@ class MembershipModelTest(TestCase):
         """Test position_display property"""
         self.assertEqual(self.membership.position_display, "Chairman")
         
-        # Test custom position
+        # Test custom position - use different person/committee to avoid unique constraint
+        person2 = Person.objects.create(full_name="Jane Doe")
+        committee2 = Committee.objects.create(
+            name="Test Committee 2",
+            tenure_bs="2081-2084"
+        )
         membership2 = Membership.objects.create(
-            person=self.person,
-            committee=self.committee,
+            person=person2,
+            committee=committee2,
             position="other",
             position_custom="अध्यक्ष",
             order=2
@@ -443,7 +449,7 @@ class MembershipModelTest(TestCase):
     
     def test_unique_together(self):
         """Test that person and committee combination must be unique"""
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             Membership.objects.create(
                 person=self.person,
                 committee=self.committee,
@@ -481,6 +487,6 @@ class StaffModelTest(TestCase):
         self.assertNotEqual(self.staff, staff2)
         
         # But same person cannot have multiple staff profiles
-        with self.assertRaises(Exception):  # IntegrityError
+        with self.assertRaises(IntegrityError):
             Staff.objects.create(person=self.person, position="Another Position")
 
