@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.html import format_html
 from django.urls import reverse
 from django.utils.safestring import mark_safe
-from .models import ContactSubmission, KYMSubmission
+from .models import ContactSubmission, KYMSubmission, OfficeLocation
 
 
 @admin.register(ContactSubmission)
@@ -266,9 +266,72 @@ class KYMSubmissionAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         """Disable adding new submissions through admin"""
         return False
+    
+    def has_delete_permission(self, request, obj=None):
+        """Disable deleting submissions through admin"""
+        return False
+
+
+@admin.register(OfficeLocation)
+class OfficeLocationAdmin(admin.ModelAdmin):
+    """Admin interface for managing office locations."""
+    
+    list_display = [
+        'name', 'location_type_badge', 'address', 'phone', 'is_active', 'order'
+    ]
+    list_filter = ['location_type', 'is_active']
+    search_fields = ['name', 'address', 'phone', 'email']
+    list_editable = ['order', 'is_active']
+    readonly_fields = ['created_at', 'updated_at']
+    
+    fieldsets = (
+        ('Location Information', {
+            'fields': ('name', 'location_type', 'address', 'description'),
+            'classes': ('wide',)
+        }),
+        ('Coordinates', {
+            'fields': ('latitude', 'longitude'),
+            'description': 'Latitude and longitude for map display'
+        }),
+        ('Contact Details', {
+            'fields': ('phone', 'email', 'hours'),
+            'classes': ('wide',)
+        }),
+        ('Additional Information', {
+            'fields': ('image', 'services'),
+            'classes': ('wide',)
+        }),
+        ('Display Settings', {
+            'fields': ('is_active', 'order'),
+            'classes': ('wide',)
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def location_type_badge(self, obj):
+        """Display location type as a colored badge"""
+        colors = {
+            'main_office': '#3b82f6',      # blue
+            'branch_office': '#10b981',     # green
+            'service_center': '#f59e0b',   # yellow
+            'atm_center': '#8b5cf6',       # purple
+        }
+        color = colors.get(obj.location_type, '#6b7280')
+        return format_html(
+            '<span style="background-color: {}; color: white; padding: 4px 8px; '
+            'border-radius: 4px; font-size: 12px; font-weight: bold;">{}</span>',
+            color, obj.get_location_type_display()
+        )
+    location_type_badge.short_description = 'Type'
+    location_type_badge.admin_order_field = 'location_type'
+
 
 # Register with custom admin site
 from apps.admin.admin_site import admin_site
 
 admin_site.register(ContactSubmission, ContactSubmissionAdmin)
 admin_site.register(KYMSubmission, KYMSubmissionAdmin)
+admin_site.register(OfficeLocation, OfficeLocationAdmin)

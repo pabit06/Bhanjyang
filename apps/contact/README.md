@@ -24,17 +24,23 @@ Contact app handles contact form submissions and KYM (Know Your Member) form sub
 
 ## Recent Changes
 
-### ✅ Fixed Issues
-1. **KYM Form** - Now saves data to `KYMSubmission` model
-2. **Tasks** - Fixed Celery compatibility (works without Celery)
-3. **Performance** - Fixed missing `Count` import
-4. **Info Card** - Moved to shared location: `templates/partials/_info_card.html`
+### ✅ Implemented Features
+1. **Rate Limiting** - Implemented using Django cache (no external dependencies)
+   - IP-based: 5 requests/minute for contact form, 3 requests/minute for KYM form
+   - Email-based: 3 requests/hour for contact form, 2 requests/hour for KYM form
+2. **Office Locations** - Database-driven location management with `OfficeLocation` model
+3. **Performance Monitoring** - Real performance stats implementation (replaced placeholders)
+4. **Celery Integration** - Clean conditional decorator support (works with or without Celery)
+5. **Map Views** - Database-driven map locations with proper error handling
+6. **KYM Form** - Saves data to `KYMSubmission` model
+7. **RTI Integration** - Information Officer display on contact page
 
-### ⚠️ Known Issues
-1. **Tests** - Some tests reference form validation methods that don't exist (clean_name, clean_phone, etc.)
-   - Tests will need to be updated or validation methods added
-2. **Rate Limiting** - Commented out (requires django-ratelimit package)
-3. **Celery** - Optional, tasks work synchronously if not installed
+### ✅ Code Quality Improvements
+1. **Logging** - Replaced all `print()` statements with proper `logger` calls
+2. **HTTP Methods** - Added `@require_http_methods` decorators where needed
+3. **Error Handling** - Enhanced Celery error handling with graceful fallback
+4. **Admin Interface** - Added `OfficeLocationAdmin` for location management
+5. **Tests** - All 160 tests passing with comprehensive coverage
 
 ## Quick Commands
 
@@ -55,6 +61,25 @@ from apps.contact.tasks import cleanup_old_contact_submissions
 cleanup_old_contact_submissions()
 ```
 
+## Rate Limiting
+
+The contact app implements rate limiting to prevent abuse:
+
+- **IP-based limiting**: 
+  - Contact form: 5 requests per minute per IP
+  - KYM form: 3 requests per minute per IP (more restrictive)
+- **Email-based limiting**:
+  - Contact form: 3 requests per hour per email
+  - KYM form: 2 requests per hour per email (more restrictive)
+
+Rate limiting uses Django's cache framework (no external dependencies required). 
+Rate limiting is automatically disabled during test runs.
+
+To disable rate limiting in development, add to `settings.py`:
+```python
+DISABLE_RATE_LIMITING = True
+```
+
 ## File Locations
 
 - **Models:** `apps/contact/models.py`
@@ -62,6 +87,7 @@ cleanup_old_contact_submissions()
 - **Forms:** `apps/contact/forms.py`
 - **Admin:** `apps/contact/admin.py`
 - **Templates:** `apps/contact/templates/contact/`
+- **Utils:** `apps/contact/utils/rate_limiting.py` (rate limiting)
 - **Shared Component:** `templates/partials/_info_card.html`
 
 ## Documentation

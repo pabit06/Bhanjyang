@@ -1,0 +1,27 @@
+{% comment %}
+Reusable form file field component for KYM form.
+
+Usage:
+    {% include 'contact/partials/_form_file_field.html' with field=form.citizenship_front label='Citizenship/ID Card (Front)' required=True %}
+
+Parameters:
+    field: Django form field object
+    label: Custom label text (optional, uses field.label if not provided)
+    required: Boolean, show red asterisk if True
+    col_span: Grid column span (default: 1, use 'md:col-span-2' for full width)
+{% endcomment %}
+
+<div{% if col_span %} class="{{ col_span }}"{% endif %}>
+    <label for="{{ field.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">
+        {{ label|default:field.label }}
+        {% if required %}<span class="text-red-600">*</span>{% endif %}
+    </label>
+    {{ field }}
+    {% if field.errors %}
+        <div class="text-red-600 text-sm mt-1">{{ field.errors.0 }}</div>
+    {% endif %}
+    {% if field.help_text %}
+        <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+    {% endif %}
+</div>
+

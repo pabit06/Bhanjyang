@@ -69,7 +69,7 @@ class ContactValidatorsTest(TestCase):
         """Test file extension validation with valid extension"""
         for ext in ALLOWED_CONTACT_FILE_EXTENSIONS:
             file = SimpleUploadedFile(
-                f'test{ext}',
+                f'test.{ext}',
                 b'content',
                 content_type='application/pdf'
             )
@@ -334,9 +334,9 @@ class ContactConstantsTest(TestCase):
         from apps.contact.utils.constants import ALLOWED_CONTACT_FILE_EXTENSIONS
         
         self.assertIsInstance(ALLOWED_CONTACT_FILE_EXTENSIONS, list)
-        self.assertIn('.pdf', ALLOWED_CONTACT_FILE_EXTENSIONS)
-        self.assertIn('.doc', ALLOWED_CONTACT_FILE_EXTENSIONS)
-        self.assertIn('.docx', ALLOWED_CONTACT_FILE_EXTENSIONS)
+        self.assertIn('pdf', ALLOWED_CONTACT_FILE_EXTENSIONS)
+        self.assertIn('doc', ALLOWED_CONTACT_FILE_EXTENSIONS)
+        self.assertIn('docx', ALLOWED_CONTACT_FILE_EXTENSIONS)
     
     def test_allowed_contact_mime_types(self):
         """Test ALLOWED_CONTACT_MIME_TYPES constant"""

@@ -1,27 +1,62 @@
+"""
+Models for the Contact app.
+
+This module contains database models for contact form submissions and KYM submissions.
+"""
+import os
+import uuid
+
 from django.db import models
 from django.utils import timezone
-import os
+from django.utils.text import slugify
+
+from .utils.constants import SECONDS_IN_24_HOURS
 
 
 def contact_attachment_path(instance, filename):
-    """Generate secure upload path for contact form attachments"""
-    import uuid
-    import os
-    from django.utils.text import slugify
+    """
+    Generate secure upload path for contact form attachments.
     
-    # Sanitize filename
+    Args:
+        instance: ContactSubmission instance
+        filename: Original filename
+        
+    Returns:
+        str: Secure file path with timestamp and unique identifier
+    """
     name, ext = os.path.splitext(filename)
-    sanitized_name = slugify(name)
-    unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext}"
-    
+    sanitized_name = slugify(name) or 'attachment'
+    unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext.lower()}"
     timestamp = timezone.now().strftime('%Y/%m/%d')
     return f'contact_attachments/{timestamp}/{unique_filename}'
+
+
+def kym_document_path(instance, filename):
+    """
+    Generate secure upload path for KYM form documents.
+    
+    Args:
+        instance: KYMSubmission instance
+        filename: Original filename
+        
+    Returns:
+        str: Secure file path with timestamp and unique identifier
+    """
+    name, ext = os.path.splitext(filename)
+    sanitized_name = slugify(name) or 'document'
+    unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext.lower()}"
+    timestamp = timezone.now().strftime('%Y/%m/%d')
+    return f'kym_documents/{timestamp}/{unique_filename}'
 
 
 class ContactSubmission(models.Model):
     """
     Model to store contact form submissions for better record keeping and management.
+    
+    Tracks contact inquiries including sender details, message content,
+    optional file attachments, and administrative status tracking.
     """
+    
     STATUS_CHOICES = [
         ('new', 'New'),
         ('in_progress', 'In Progress'),
@@ -29,10 +64,21 @@ class ContactSubmission(models.Model):
         ('spam', 'Spam'),
     ]
     
-    name = models.CharField(max_length=100, help_text="Full name of the person submitting the form")
+    # Contact information
+    name = models.CharField(
+        max_length=100,
+        help_text="Full name of the person submitting the form"
+    )
     email = models.EmailField(help_text="Email address for response")
-    phone = models.CharField(max_length=20, blank=True, help_text="Optional phone number")
-    subject = models.CharField(max_length=200, help_text="Subject of the inquiry")
+    phone = models.CharField(
+        max_length=20,
+        blank=True,
+        help_text="Optional phone number"
+    )
+    subject = models.CharField(
+        max_length=200,
+        help_text="Subject of the inquiry"
+    )
     message = models.TextField(help_text="Detailed message content")
     attachment = models.FileField(
         upload_to=contact_attachment_path,
@@ -42,22 +88,40 @@ class ContactSubmission(models.Model):
     )
     
     # Technical tracking fields
-    ip_address = models.GenericIPAddressField(help_text="IP address of the submitter")
-    user_agent = models.TextField(blank=True, help_text="Browser user agent string")
+    ip_address = models.GenericIPAddressField(
+        help_text="IP address of the submitter"
+    )
+    user_agent = models.TextField(
+        blank=True,
+        help_text="Browser user agent string"
+    )
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True, help_text="When the submission was created")
-    updated_at = models.DateTimeField(auto_now=True, help_text="When the submission was last updated")
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text="When the submission was created"
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        help_text="When the submission was last updated"
+    )
     
     # Management fields
     status = models.CharField(
-        max_length=20, 
-        choices=STATUS_CHOICES, 
+        max_length=20,
+        choices=STATUS_CHOICES,
         default='new',
         help_text="Current status of the submission"
     )
-    admin_notes = models.TextField(blank=True, help_text="Internal notes for admin use")
-    resolved_at = models.DateTimeField(null=True, blank=True, help_text="When the submission was resolved")
+    admin_notes = models.TextField(
+        blank=True,
+        help_text="Internal notes for admin use"
+    )
+    resolved_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="When the submission was resolved"
+    )
     
     class Meta:
         ordering = ['-created_at']
@@ -70,17 +134,17 @@ class ContactSubmission(models.Model):
             models.Index(fields=['ip_address']),
             models.Index(fields=['status']),
             models.Index(fields=['resolved_at']),
-            models.Index(fields=['name']),  # For search
-            models.Index(fields=['phone']),  # For phone lookups
-            models.Index(fields=['updated_at']),  # For date-based queries
-            models.Index(fields=['subject']),  # For search
+            models.Index(fields=['name']),
+            models.Index(fields=['phone']),
+            models.Index(fields=['updated_at']),
+            models.Index(fields=['subject']),
         ]
     
     def __str__(self):
         return f"{self.name} - {self.subject} ({self.created_at.strftime('%Y-%m-%d')})"
     
     def get_status_display_color(self):
-        """Return CSS color class for status display"""
+        """Return CSS color class for status display."""
         colors = {
             'new': 'text-blue-600',
             'in_progress': 'text-yellow-600',
@@ -90,32 +154,32 @@ class ContactSubmission(models.Model):
         return colors.get(self.status, 'text-gray-600')
     
     def is_recent(self):
-        """Check if submission is from the last 24 hours"""
-        return (timezone.now() - self.created_at).total_seconds() < 86400
+        """Check if submission is from the last 24 hours."""
+        return (timezone.now() - self.created_at).total_seconds() < SECONDS_IN_24_HOURS
     
     def mark_as_resolved(self):
-        """Mark submission as resolved"""
+        """Mark submission as resolved with timestamp."""
         self.status = 'resolved'
         self.resolved_at = timezone.now()
-        self.save()
+        self.save(update_fields=['status', 'resolved_at', 'updated_at'])
     
     def mark_as_spam(self):
-        """Mark submission as spam"""
+        """Mark submission as spam."""
         self.status = 'spam'
-        self.save()
+        self.save(update_fields=['status', 'updated_at'])
     
     def has_attachment(self):
-        """Check if submission has an attachment"""
+        """Check if submission has an attachment."""
         return bool(self.attachment and self.attachment.name)
     
     def get_attachment_filename(self):
-        """Get the filename of the attachment"""
+        """Get the filename of the attachment."""
         if self.has_attachment():
             return os.path.basename(self.attachment.name)
         return None
     
     def get_attachment_size(self):
-        """Get the size of the attachment in bytes"""
+        """Get the size of the attachment in bytes."""
         if self.has_attachment():
             try:
                 return self.attachment.size
@@ -124,7 +188,7 @@ class ContactSubmission(models.Model):
         return 0
     
     def get_attachment_size_display(self):
-        """Get human-readable attachment size"""
+        """Get human-readable attachment size."""
         size = self.get_attachment_size()
         if size == 0:
             return "No attachment"
@@ -136,24 +200,14 @@ class ContactSubmission(models.Model):
         return f"{size:.1f} TB"
 
 
-def kym_document_path(instance, filename):
-    """Generate secure upload path for KYM form documents"""
-    import uuid
-    from django.utils.text import slugify
-    
-    # Sanitize filename
-    name, ext = os.path.splitext(filename)
-    sanitized_name = slugify(name)
-    unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext}"
-    
-    timestamp = timezone.now().strftime('%Y/%m/%d')
-    return f'kym_documents/{timestamp}/{unique_filename}'
-
-
 class KYMSubmission(models.Model):
     """
     Model to store Know Your Member (KYM) form submissions.
+    
+    Used for member registration and verification. Stores personal information,
+    family details, occupation data, and required documents.
     """
+    
     STATUS_CHOICES = [
         ('pending', 'Pending Review'),
         ('under_review', 'Under Review'),
@@ -161,20 +215,24 @@ class KYMSubmission(models.Model):
         ('rejected', 'Rejected'),
     ]
     
-    # Personal Details
-    full_name = models.CharField(max_length=100)
-    dob = models.DateField(verbose_name="Date of Birth")
-    gender = models.CharField(max_length=10, choices=[
+    GENDER_CHOICES = [
         ('male', 'Male'),
         ('female', 'Female'),
         ('other', 'Other')
-    ])
-    marital_status = models.CharField(max_length=20, choices=[
+    ]
+    
+    MARITAL_STATUS_CHOICES = [
         ('single', 'Single'),
         ('married', 'Married'),
         ('divorced', 'Divorced'),
         ('widowed', 'Widowed')
-    ])
+    ]
+    
+    # Personal Details
+    full_name = models.CharField(max_length=100)
+    dob = models.DateField(verbose_name="Date of Birth")
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES)
     nationality = models.CharField(max_length=50, default='Nepali')
     
     # Contact Information
@@ -194,14 +252,23 @@ class KYMSubmission(models.Model):
     # Occupation & Income
     occupation = models.CharField(max_length=100)
     income_source = models.CharField(max_length=100)
-    estimated_income = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
+    estimated_income = models.DecimalField(
+        max_digits=15,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
     
     # Documents
     citizenship_front = models.FileField(upload_to=kym_document_path)
     citizenship_back = models.FileField(upload_to=kym_document_path)
     passport_photo = models.FileField(upload_to=kym_document_path)
     address_proof = models.FileField(upload_to=kym_document_path)
-    income_proof = models.FileField(upload_to=kym_document_path, blank=True, null=True)
+    income_proof = models.FileField(
+        upload_to=kym_document_path,
+        blank=True,
+        null=True
+    )
     
     # Technical tracking
     ip_address = models.GenericIPAddressField()
@@ -212,7 +279,11 @@ class KYMSubmission(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     # Management fields
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
     admin_notes = models.TextField(blank=True)
     reviewed_at = models.DateTimeField(null=True, blank=True)
     reviewed_by = models.ForeignKey(
@@ -232,17 +303,17 @@ class KYMSubmission(models.Model):
             models.Index(fields=['email']),
             models.Index(fields=['phone']),
             models.Index(fields=['created_at']),
-            models.Index(fields=['full_name']),  # For search
-            models.Index(fields=['reviewed_by']),  # For FK lookups
-            models.Index(fields=['updated_at']),  # For date-based queries
-            models.Index(fields=['reviewed_at']),  # For date-based queries
+            models.Index(fields=['full_name']),
+            models.Index(fields=['reviewed_by']),
+            models.Index(fields=['updated_at']),
+            models.Index(fields=['reviewed_at']),
         ]
     
     def __str__(self):
         return f"{self.full_name} - {self.email} ({self.created_at.strftime('%Y-%m-%d')})"
     
     def get_status_display_color(self):
-        """Return CSS color class for status display"""
+        """Return CSS color class for status display."""
         colors = {
             'pending': 'text-blue-600',
             'under_review': 'text-yellow-600',
@@ -252,5 +323,118 @@ class KYMSubmission(models.Model):
         return colors.get(self.status, 'text-gray-600')
     
     def is_recent(self):
-        """Check if submission is from the last 24 hours"""
-        return (timezone.now() - self.created_at).total_seconds() < 86400
+        """Check if submission is from the last 24 hours."""
+        return (timezone.now() - self.created_at).total_seconds() < SECONDS_IN_24_HOURS
+    
+    def mark_as_approved(self, reviewer):
+        """Mark submission as approved."""
+        self.status = 'approved'
+        self.reviewed_at = timezone.now()
+        self.reviewed_by = reviewer
+        self.save(update_fields=['status', 'reviewed_at', 'reviewed_by', 'updated_at'])
+    
+    def mark_as_rejected(self, reviewer, notes=''):
+        """Mark submission as rejected with optional notes."""
+        self.status = 'rejected'
+        self.reviewed_at = timezone.now()
+        self.reviewed_by = reviewer
+        if notes:
+            self.admin_notes = notes
+            self.save(update_fields=['status', 'reviewed_at', 'reviewed_by', 'admin_notes', 'updated_at'])
+        else:
+            self.save(update_fields=['status', 'reviewed_at', 'reviewed_by', 'updated_at'])
+
+
+class OfficeLocation(models.Model):
+    """
+    Model to store cooperative office and branch locations.
+    
+    Used for displaying office locations on maps and contact pages.
+    Supports multiple location types: main office, branch office, service center, ATM center.
+    """
+    
+    LOCATION_TYPES = [
+        ('main_office', 'Main Office'),
+        ('branch_office', 'Branch Office'),
+        ('service_center', 'Service Center'),
+        ('atm_center', 'ATM Center'),
+    ]
+    
+    name = models.CharField(
+        max_length=200,
+        help_text="Name of the location (e.g., 'Main Office', 'Polyang Branch')"
+    )
+    address = models.CharField(
+        max_length=255,
+        help_text="Full address of the location"
+    )
+    latitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        help_text="Latitude coordinate for map display"
+    )
+    longitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        help_text="Longitude coordinate for map display"
+    )
+    location_type = models.CharField(
+        max_length=20,
+        choices=LOCATION_TYPES,
+        default='branch_office',
+        help_text="Type of location"
+    )
+    phone = models.CharField(
+        max_length=20,
+        blank=True,
+        help_text="Contact phone number for this location"
+    )
+    email = models.EmailField(
+        blank=True,
+        help_text="Contact email for this location"
+    )
+    hours = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Operating hours (e.g., '9:00 AM - 5:00 PM', '24/7')"
+    )
+    description = models.TextField(
+        blank=True,
+        help_text="Description of the location and services offered"
+    )
+    image = models.ImageField(
+        upload_to='contact/locations/',
+        blank=True,
+        null=True,
+        help_text="Image of the location"
+    )
+    services = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="List of services offered at this location (e.g., ['Savings', 'Loans'])"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Whether this location is currently active"
+    )
+    order = models.PositiveIntegerField(
+        default=0,
+        help_text="Display order (lower numbers appear first)"
+    )
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order', 'name']
+        verbose_name = 'Office Location'
+        verbose_name_plural = 'Office Locations'
+        indexes = [
+            models.Index(fields=['location_type', 'is_active']),
+            models.Index(fields=['is_active', 'order']),
+            models.Index(fields=['name']),
+        ]
+    
+    def __str__(self):
+        return f"{self.name} - {self.get_location_type_display()}"

@@ -316,10 +316,6 @@ class CacheWarming:
             CacheWarming.warm_model_cache(CooperativeTimeline)
             warmed_count += 1
         
-        # Warm achievements
-        # Removed: CooperativeAchievement cache warming - model no longer exists
-            warmed_count += 1
-        
         # Warm affiliations
         if CooperativeAffiliation.objects.exists():
             CacheWarming.warm_model_cache(CooperativeAffiliation)

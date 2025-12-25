@@ -70,7 +70,7 @@ class MonitorContactPerformanceDecoratorTest(TestCase):
         cache.clear()
     
     @monitor_contact_performance
-    def test_function(self, request):
+    def decorated_function(self, request):
         """Test function for decorator"""
         return {'success': True}
     
@@ -78,7 +78,7 @@ class MonitorContactPerformanceDecoratorTest(TestCase):
         """Test decorator with successful execution"""
         request = MagicMock()
         request.id = 'test_request_123'
-        result = self.test_function(request)
+        result = self.decorated_function(request)
         self.assertEqual(result['success'], True)
     
     def test_decorator_error(self):
@@ -102,7 +102,7 @@ class ContactAnalyticsTest(TestCase):
             email='test@example.com',
             subject='Test Subject',
             message='Test message',
-            inquiry_type='general',
+            ip_address='127.0.0.1',
             created_at=timezone.now() - timedelta(days=1)
         )
     

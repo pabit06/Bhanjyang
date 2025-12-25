@@ -183,6 +183,8 @@
                 this.createMap();
                 this.bindEvents();
                 this.loadLocations();
+                // Track map view
+                this.trackAnalytics('view', null);
             }
 
             createMap() {
@@ -253,6 +255,8 @@
                         
                         marker.on('click', () => {
                             this.showLocationDetails(location);
+                            // Track marker click
+                            this.trackAnalytics('click', location.id);
                         });
                         
                         this.markers.push(marker);
@@ -316,6 +320,8 @@
                         if (location) {
                             this.showLocationDetails(location);
                             this.map.setView([location.latitude, location.longitude], 15);
+                            // Track location list click
+                            this.trackAnalytics('click', location.id);
                         }
                     });
                 });
@@ -468,8 +474,39 @@
                 }
             }
 
+            async trackAnalytics(interactionType, locationId) {
+                /**
+                 * Track map interactions for analytics
+                 * 
+                 * @param {string} interactionType - Type of interaction: 'view', 'click', 'directions'
+                 * @param {number|null} locationId - ID of the location (null for 'view')
+                 */
+                try {
+                    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+                    
+                    await fetch('{% url "contact:map_analytics" %}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({
+                            type: interactionType,
+                            location_id: locationId
+                        })
+                    });
+                } catch (error) {
+                    // Silently fail - analytics tracking shouldn't break user experience
+                    console.debug('Analytics tracking failed:', error);
+                }
+            }
+
             async getDirections() {
                 if (!this.selectedLocation) return;
+                
+                // Track directions request
+                this.trackAnalytics('directions', this.selectedLocation.id);
                 
                 try {
                     const response = await fetch('{% url "contact:map_directions_api" %}', {

@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Scan all template and static files */
+@source "../../templates/**/*.html";
+@source "../../apps/**/templates/**/*.html";
+@source "../../static/**/*.js";
+
 /* ---------------------------------
    Theme Custom Variables (Colors)
 ---------------------------------- */
@@ -12,6 +17,7 @@
   --color-himalwhite: #F9F9F9;
   --color-light: #f8f9fa;
   --color-patrikaslate: #2D3748;
+  --color-rtiorange: #F59E0B;
   --color-gradient-primary: linear-gradient(135deg, #DC3545 0%, #28A745 100%);
   --color-gradient-secondary: linear-gradient(135deg, #28A745 0%, #1976D2 100%);
   --color-gradient-accent: linear-gradient(135deg, #1976D2 0%, #DC3545 100%);

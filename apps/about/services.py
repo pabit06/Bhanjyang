@@ -11,6 +11,7 @@ from .models import (
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Committee, Staff, Person
 )
+from .constants import CACHE_TIMEOUT_MEDIUM, ERROR_UNABLE_TO_LOAD
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +68,7 @@ class AboutService:
 
             if not is_staff:
                 try:
-                    cache.set(cache_key, context, 600)
+                    cache.set(cache_key, context, CACHE_TIMEOUT_MEDIUM)
                 except Exception as e:
                     logger.warning(f"Failed to cache about data: {e}")
             
@@ -75,7 +76,7 @@ class AboutService:
 
         except Exception as e:
             logger.error(f"Error fetching about home data: {e}", exc_info=True)
-            return {'error': 'Unable to load content'}
+            return {'error': str(ERROR_UNABLE_TO_LOAD)}
 
     @staticmethod
     def get_timeline_events():

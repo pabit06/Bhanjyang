@@ -50,56 +50,11 @@
                         <i class="fas fa-user-circle mr-3"></i> Personal Information
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="{{ form.full_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Full Name <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-user text-gray-400"></i></span>
-                                {{ form.full_name }}
-                            </div>
-                            {% if form.full_name.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.full_name.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.dob.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Date of Birth <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-calendar-alt text-gray-400"></i></span>
-                                {{ form.dob }}
-                            </div>
-                            {% if form.dob.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.dob.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.gender.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Gender <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-venus-mars text-gray-400"></i></span>
-                                {{ form.gender }}
-                            </div>
-                            {% if form.gender.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.gender.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.marital_status.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Marital Status <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-ring text-gray-400"></i></span>
-                                {{ form.marital_status }}
-                            </div>
-                            {% if form.marital_status.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.marital_status.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="{{ form.nationality.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Nationality <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-globe text-gray-400"></i></span>
-                                {{ form.nationality }}
-                            </div>
-                            {% if form.nationality.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.nationality.errors.0 }}</div>
-                            {% endif %}
-                        </div>
+                        {% include 'contact/partials/_form_field.html' with field=form.full_name icon='fa-user' label='Full Name' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.dob icon='fa-calendar-alt' label='Date of Birth' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.gender icon='fa-venus-mars' label='Gender' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.marital_status icon='fa-ring' label='Marital Status' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.nationality icon='fa-globe' label='Nationality' required=True col_span='md:col-span-2' %}
                     </div>
                 </div>
 
@@ -109,56 +64,11 @@
                         <i class="fas fa-address-book mr-3"></i> Contact Information
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="{{ form.phone.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Phone Number <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-phone text-gray-400"></i></span>
-                                {{ form.phone }}
-                            </div>
-                            {% if form.phone.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.phone.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.email.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Email Address <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-envelope text-gray-400"></i></span>
-                                {{ form.email }}
-                            </div>
-                            {% if form.email.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="{{ form.permanent_address.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Permanent Address <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-map-marker-alt text-gray-400"></i></span>
-                                {{ form.permanent_address }}
-                            </div>
-                            {% if form.permanent_address.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.permanent_address.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.district.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">District <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-city text-gray-400"></i></span>
-                                {{ form.district }}
-                            </div>
-                            {% if form.district.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.district.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.province.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Province <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-map text-gray-400"></i></span>
-                                {{ form.province }}
-                            </div>
-                            {% if form.province.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.province.errors.0 }}</div>
-                            {% endif %}
-                        </div>
+                        {% include 'contact/partials/_form_field.html' with field=form.phone icon='fa-phone' label='Phone Number' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.email icon='fa-envelope' label='Email Address' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.permanent_address icon='fa-map-marker-alt' label='Permanent Address' required=True col_span='md:col-span-2' %}
+                        {% include 'contact/partials/_form_field.html' with field=form.district icon='fa-city' label='District' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.province icon='fa-map' label='Province' required=True %}
                     </div>
                 </div>
 
@@ -168,56 +78,11 @@
                         <i class="fas fa-users mr-3"></i> Family Information
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="{{ form.father_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Father's Name <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-male text-gray-400"></i></span>
-                                {{ form.father_name }}
-                            </div>
-                            {% if form.father_name.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.father_name.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.mother_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Mother's Name <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-female text-gray-400"></i></span>
-                                {{ form.mother_name }}
-                            </div>
-                            {% if form.mother_name.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.mother_name.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.spouse_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Spouse's Name (if married)</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-heart text-gray-400"></i></span>
-                                {{ form.spouse_name }}
-                            </div>
-                            {% if form.spouse_name.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.spouse_name.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.grand_father_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Grand Father's Name <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-user-tie text-gray-400"></i></span>
-                                {{ form.grand_father_name }}
-                            </div>
-                            {% if form.grand_father_name.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.grand_father_name.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="{{ form.nominee_name.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Nominee Name (Optional)</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-hand-holding-heart text-gray-400"></i></span>
-                                {{ form.nominee_name }}
-                            </div>
-                            {% if form.nominee_name.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.nominee_name.errors.0 }}</div>
-                            {% endif %}
-                        </div>
+                        {% include 'contact/partials/_form_field.html' with field=form.father_name icon='fa-male' label="Father's Name" required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.mother_name icon='fa-female' label="Mother's Name" required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.spouse_name icon='fa-heart' label="Spouse's Name (if married)" required=False %}
+                        {% include 'contact/partials/_form_field.html' with field=form.grand_father_name icon='fa-user-tie' label="Grand Father's Name" required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.nominee_name icon='fa-hand-holding-heart' label='Nominee Name (Optional)' required=False col_span='md:col-span-2' %}
                     </div>
                 </div>
 
@@ -227,36 +92,9 @@
                         <i class="fas fa-briefcase mr-3"></i> Occupation & Income
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="{{ form.occupation.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Occupation <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-hard-hat text-gray-400"></i></span>
-                                {{ form.occupation }}
-                            </div>
-                            {% if form.occupation.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.occupation.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.income_source.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Source of Income <span class="text-red-600">*</span></label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-sack-dollar text-gray-400"></i></span>
-                                {{ form.income_source }}
-                            </div>
-                            {% if form.income_source.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.income_source.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="{{ form.estimated_income.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Estimated Annual Income (NPR)</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3"><i class="fas fa-money-bill-trend-up text-gray-400"></i></span>
-                                {{ form.estimated_income }}
-                            </div>
-                            {% if form.estimated_income.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.estimated_income.errors.0 }}</div>
-                            {% endif %}
-                        </div>
+                        {% include 'contact/partials/_form_field.html' with field=form.occupation icon='fa-hard-hat' label='Occupation' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.income_source icon='fa-sack-dollar' label='Source of Income' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.estimated_income icon='fa-money-bill-trend-up' label='Estimated Annual Income (NPR)' required=False col_span='md:col-span-2' %}
                     </div>
                 </div>
 
@@ -267,55 +105,35 @@
                     </h3>
                     <p class="text-gray-600 mb-4">Please upload clear copies of the following required documents. Max file size: 5MB per file. Accepted formats: PDF, JPG, PNG.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="{{ form.citizenship_front.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Citizenship/ID Card (Front) <span class="text-red-600">*</span></label>
-                            {{ form.citizenship_front }}
-                            {% if form.citizenship_front.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.citizenship_front.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.citizenship_back.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Citizenship/ID Card (Back) <span class="text-red-600">*</span></label>
-                            {{ form.citizenship_back }}
-                            {% if form.citizenship_back.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.citizenship_back.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.passport_photo_upload.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Passport-sized Photo <span class="text-red-600">*</span></label>
-                            {{ form.passport_photo_upload }}
-                            {% if form.passport_photo_upload.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.passport_photo_upload.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <label for="{{ form.address_proof_upload.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Address Proof (e.g., Utility Bill) <span class="text-red-600">*</span></label>
-                            {{ form.address_proof_upload }}
-                            {% if form.address_proof_upload.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.address_proof_upload.errors.0 }}</div>
-                            {% endif %}
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="{{ form.income_proof_upload.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">Occupation/Income Proof (Optional)</label>
-                            {{ form.income_proof_upload }}
-                            {% if form.income_proof_upload.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.income_proof_upload.errors.0 }}</div>
-                            {% endif %}
-                        </div>
+                        {% include 'contact/partials/_form_file_field.html' with field=form.citizenship_front label='Citizenship/ID Card (Front)' required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.citizenship_back label='Citizenship/ID Card (Back)' required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.passport_photo_upload label='Passport-sized Photo' required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.address_proof_upload label='Address Proof (e.g., Utility Bill)' required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.income_proof_upload label='Occupation/Income Proof (Optional)' required=False col_span='md:col-span-2' %}
                     </div>
                 </div>
 
                 <div class="text-center mt-8">
-                    <button type="submit"
-                            class="inline-block w-full bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out">
-                        Submit KYM Form <i class="fas fa-paper-plane ml-2"></i>
+                    <button type="submit" id="kym-submit-button"
+                            class="inline-block w-full bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="kym-submit-text">Submit KYM Form <i class="fas fa-paper-plane ml-2"></i></span>
+                        <span id="kym-loading-text" class="hidden">
+                            <i class="fas fa-spinner fa-spin mr-2"></i> Submitting...
+                        </span>
                     </button>
                 </div>
             </form>
 
-            <div id="submission-message" class="hidden mt-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
+            <!-- Success Message -->
+            <div id="submission-success" class="hidden mt-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
                 <p class="font-bold">KYM Form Submitted Successfully!</p>
                 <p>Thank you for completing your KYM. Your details are now under review. You will be notified via email once the verification process is complete.</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="submission-error" class="hidden mt-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg" role="alert">
+                <p class="font-bold" id="error-title">Error</p>
+                <p id="error-message">An error occurred while submitting your form. Please try again.</p>
             </div>
         </div>
     </section>
@@ -341,24 +159,224 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const kymForm = document.querySelector('#kym_form-section form');
-            const submissionMessage = document.getElementById('submission-message');
+            const submitButton = document.getElementById('kym-submit-button');
+            const submitText = document.getElementById('kym-submit-text');
+            const loadingText = document.getElementById('kym-loading-text');
+            const successMessage = document.getElementById('submission-success');
+            const errorMessage = document.getElementById('submission-error');
+            const errorTitle = document.getElementById('error-title');
+            const errorMsg = document.getElementById('error-message');
+
+            function showSuccess() {
+                successMessage.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+                // Scroll to success message
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            function showError(title, message) {
+                errorTitle.textContent = title || 'Error';
+                errorMsg.textContent = message || 'An error occurred while submitting your form. Please try again.';
+                errorMessage.classList.remove('hidden');
+                successMessage.classList.add('hidden');
+                // Scroll to error message
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            function hideMessages() {
+                successMessage.classList.add('hidden');
+                errorMessage.classList.add('hidden');
+            }
+
+            function clearAllFieldErrors() {
+                // Remove all existing error messages
+                document.querySelectorAll('.field-error').forEach(el => el.remove());
+                // Remove error styling from all fields
+                kymForm.querySelectorAll('input, select, textarea').forEach(field => {
+                    field.classList.remove('border-red-500', 'ring-red-500');
+                    field.classList.add('border-gray-300');
+                });
+            }
+
+            function showFieldError(field, message) {
+                // Add red border to field
+                field.classList.add('border-red-500', 'ring-red-500', 'ring-2');
+                field.classList.remove('border-gray-300');
+                
+                // Remove existing error message for this field first
+                clearFieldError(field);
+                
+                // Create and insert error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'text-red-600 text-sm mt-1 field-error';
+                errorDiv.textContent = message;
+                errorDiv.setAttribute('role', 'alert');
+                errorDiv.setAttribute('aria-live', 'polite');
+                
+                // Insert error message after the field's parent div (which contains the field)
+                const fieldContainer = field.closest('.relative') || field.parentElement;
+                if (fieldContainer && fieldContainer.parentElement) {
+                    // Insert after the field container
+                    fieldContainer.parentElement.insertBefore(errorDiv, fieldContainer.nextSibling);
+                } else {
+                    // Fallback: insert after field's parent
+                    field.parentElement.appendChild(errorDiv);
+                }
+                
+                // Set aria-invalid for accessibility
+                field.setAttribute('aria-invalid', 'true');
+                
+                // Re-add error styling (clearFieldError removed it)
+                field.classList.add('border-red-500', 'ring-red-500', 'ring-2');
+                field.classList.remove('border-gray-300');
+            }
+
+            function clearFieldError(field) {
+                // Remove error styling
+                field.classList.remove('border-red-500', 'ring-red-500', 'ring-2');
+                field.classList.add('border-gray-300');
+                
+                // Find and remove error message - search in parent containers
+                let errorDiv = null;
+                const fieldContainer = field.closest('.relative') || field.parentElement;
+                if (fieldContainer) {
+                    // Check next sibling
+                    let nextSibling = fieldContainer.nextElementSibling;
+                    if (nextSibling && nextSibling.classList.contains('field-error')) {
+                        errorDiv = nextSibling;
+                    }
+                    // Also check parent's children
+                    if (!errorDiv) {
+                        errorDiv = fieldContainer.parentElement.querySelector('.field-error');
+                    }
+                }
+                
+                if (errorDiv) {
+                    errorDiv.remove();
+                }
+                
+                // Clear aria-invalid
+                field.setAttribute('aria-invalid', 'false');
+            }
+
+            function setLoadingState(loading) {
+                if (loading) {
+                    submitButton.disabled = true;
+                    submitText.classList.add('hidden');
+                    loadingText.classList.remove('hidden');
+                } else {
+                    submitButton.disabled = false;
+                    submitText.classList.remove('hidden');
+                    loadingText.classList.add('hidden');
+                }
+            }
 
             if (kymForm) {
+                // Clear field errors when user starts typing/selecting
+                kymForm.querySelectorAll('input, select, textarea').forEach(field => {
+                    field.addEventListener('input', function() {
+                        clearFieldError(this);
+                    });
+                    field.addEventListener('change', function() {
+                        clearFieldError(this);
+                    });
+                });
+
                 kymForm.addEventListener('submit', function(event) {
-                    event.preventDefault(); // Prevent actual form submission
+                    event.preventDefault();
+                    
+                    // Hide previous messages and clear field errors
+                    hideMessages();
+                    clearAllFieldErrors();
+                    
+                    // Set loading state
+                    setLoadingState(true);
 
-                    // In a real application, you would collect form data and
-                    // send it to your backend using fetch() or XMLHttpRequest.
-                    // For demonstration, we'll just show the success message.
+                    // Collect form data
+                    const formData = new FormData(kymForm);
+                    const csrftoken = document.getElementById('kym-form-csrf-token').value;
 
-                    // Simulate form submission success
-                    submissionMessage.classList.remove('hidden');
-                    kymForm.reset(); // Clear the form after "submission"
+                    // Submit via AJAX
+                    fetch(kymForm.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken,
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
 
-                    // Optional: Hide message after a few seconds
-                    setTimeout(() => {
-                        submissionMessage.classList.add('hidden');
-                    }, 7000); // Message visible for 7 seconds
+                        // Check if response is JSON
+                        const contentType = response.headers.get('content-type');
+                        if (contentType && contentType.includes('application/json')) {
+                            return response.json();
+                        } else {
+                            return response.text().then(text => {
+                                throw new Error('Server returned non-JSON response');
+                            });
+                        }
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // Clear all field errors on success
+                            clearAllFieldErrors();
+                            showSuccess();
+                            // Clear file inputs
+                            kymForm.querySelectorAll('input[type="file"]').forEach(input => {
+                                input.value = '';
+                            });
+                            // Reset form
+                            kymForm.reset();
+                            // Scroll to top of form
+                            kymForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            // Clear previous errors first
+                            clearAllFieldErrors();
+                            
+                            // Handle validation errors
+                            if (data.errors) {
+                                let errorList = [];
+                                
+                                // Process each field's errors
+                                for (const [fieldName, errors] of Object.entries(data.errors)) {
+                                    // Get error message(s)
+                                    const errorMessages = Array.isArray(errors) ? errors : [errors];
+                                    
+                                    // Add to global error list
+                                    errorList.push(...errorMessages);
+                                    
+                                    // Find the field element
+                                    const field = kymForm.querySelector(`[name="${fieldName}"]`);
+                                    if (field) {
+                                        // Show field-level error (show first error message)
+                                        showFieldError(field, errorMessages[0]);
+                                    }
+                                }
+                                
+                                // Show global error message
+                                showError('Validation Error', errorList.join(', ') || 'Please check your form and try again.');
+                                
+                                // Scroll to first error field
+                                const firstErrorField = kymForm.querySelector('.border-red-500');
+                                if (firstErrorField) {
+                                    firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }
+                            } else {
+                                showError('Submission Failed', data.message || 'An error occurred while submitting your form. Please try again.');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('KYM form submission error:', error);
+                        showError('Network Error', 'Network error. Please check your connection and try again.');
+                    })
+                    .finally(() => {
+                        setLoadingState(false);
+                    });
                 });
             }
         });

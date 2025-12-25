@@ -30,7 +30,6 @@ class PopulateAboutCommandTest(TestCase):
         # Clear any existing data
         CooperativeInfo.objects.all().delete()
         CooperativeTimeline.objects.all().delete()
-        CooperativeAchievement.objects.all().delete()
         CooperativeStatistic.objects.all().delete()
         CooperativeAffiliation.objects.all().delete()
         LeadershipMessage.objects.all().delete()
@@ -89,25 +88,6 @@ class PopulateAboutCommandTest(TestCase):
             for event in events:
                 self.assertTrue(event.is_active)
                 self.assertTrue(event.is_featured)
-        except CommandError:
-            self.skipTest("Command not registered")
-
-    def test_command_creates_achievements(self):
-        """Test that command creates achievements"""
-        out = StringIO()
-        initial_count = CooperativeAchievement.objects.count()
-        
-        try:
-            call_command('populate_about', stdout=out)
-            final_count = CooperativeAchievement.objects.count()
-            self.assertGreater(final_count, initial_count)
-            
-            # Verify created achievements
-            achievements = CooperativeAchievement.objects.all()
-            self.assertGreater(achievements.count(), 0)
-            for achievement in achievements:
-                self.assertTrue(achievement.is_active)
-                self.assertTrue(achievement.is_featured)
         except CommandError:
             self.skipTest("Command not registered")
 
@@ -178,7 +158,6 @@ class PopulateAboutCommandTest(TestCase):
             # Check for various success messages
             self.assertIn('Created company info', output)
             self.assertIn('Created timeline event', output)
-            self.assertIn('Created achievement', output)
             self.assertIn('Created statistic', output)
             self.assertIn('Created affiliation', output)
             self.assertIn('Created leadership message', output)
@@ -214,7 +193,6 @@ class InitManagementCommandTest(TestCase):
         # Clear any existing data
         CooperativeInfo.objects.all().delete()
         CooperativeTimeline.objects.all().delete()
-        CooperativeAchievement.objects.all().delete()
         CooperativeStatistic.objects.all().delete()
         CooperativeAffiliation.objects.all().delete()
         LeadershipMessage.objects.all().delete()
@@ -243,7 +221,6 @@ class InitManagementCommandTest(TestCase):
         
         initial_info_count = CooperativeInfo.objects.count()
         initial_timeline_count = CooperativeTimeline.objects.count()
-        initial_achievement_count = CooperativeAchievement.objects.count()
         initial_stat_count = CooperativeStatistic.objects.count()
         initial_affiliation_count = CooperativeAffiliation.objects.count()
         initial_message_count = LeadershipMessage.objects.count()
@@ -259,7 +236,6 @@ class InitManagementCommandTest(TestCase):
         # Verify objects were created
         self.assertGreater(CooperativeInfo.objects.count(), initial_info_count)
         self.assertGreater(CooperativeTimeline.objects.count(), initial_timeline_count)
-        self.assertGreater(CooperativeAchievement.objects.count(), initial_achievement_count)
         self.assertGreater(CooperativeStatistic.objects.count(), initial_stat_count)
         self.assertGreater(CooperativeAffiliation.objects.count(), initial_affiliation_count)
         self.assertGreater(LeadershipMessage.objects.count(), initial_message_count)
@@ -298,24 +274,6 @@ class InitManagementCommandTest(TestCase):
             self.assertTrue(event.is_featured)
             self.assertIsNotNone(event.title)
             self.assertIsNotNone(event.event_date)
-
-    def test_init_command_creates_achievements(self):
-        """Test that command creates achievements"""
-        if not HAS_INIT_COMMAND:
-            self.skipTest("Command class not found in __init__.py")
-        
-        out = StringIO()
-        command = InitCommand()
-        command.stdout = out
-        command.handle()
-        
-        achievements = CooperativeAchievement.objects.all()
-        self.assertGreater(achievements.count(), 0)
-        for achievement in achievements:
-            self.assertTrue(achievement.is_active)
-            self.assertTrue(achievement.is_featured)
-            self.assertIsNotNone(achievement.title)
-            self.assertIsNotNone(achievement.awarding_organization)
 
     def test_init_command_creates_statistics(self):
         """Test that command creates statistics"""

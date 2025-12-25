@@ -3,6 +3,8 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.urls import reverse
 
+from .constants import DEFAULT_RTI_EMAIL
+
 
 
 class ContentManager(models.Manager):
@@ -32,6 +34,9 @@ class CooperativeInfo(models.Model):
     phone = models.CharField(max_length=20, verbose_name=_("Phone"))
     email = models.EmailField(verbose_name=_("Email"))
     website = models.URLField(blank=True, verbose_name=_("Website"))
+    
+    # Note: Information Officer is now managed through Staff model
+    # Use Staff.get_information_officer() to get the designated officer
     
     # Mission, Vision, Values
     mission = models.TextField(verbose_name=_("Mission Statement"))
@@ -450,6 +455,19 @@ class Staff(models.Model):
     department = models.CharField(max_length=100, blank=True, verbose_name=_("Department"))
     salary_range = models.CharField(max_length=50, blank=True, verbose_name=_("Salary Range"))
     qualifications = models.TextField(blank=True, verbose_name=_("Qualifications"))
+    
+    # RTI Act 2064 - Information Officer Role
+    is_information_officer = models.BooleanField(
+        default=False,
+        verbose_name=_("Information Officer (सूचना अधिकारी)"),
+        help_text=_("Designate this staff member as the Information Officer under RTI Act 2064")
+    )
+    information_officer_email = models.EmailField(
+        blank=True,
+        default='',
+        verbose_name=_("RTI Email"),
+        help_text=_("Dedicated email for RTI requests (e.g., rti@bhanjyang.coop.np)")
+    )
 
     class Meta:
         ordering = ['order']
@@ -464,3 +482,30 @@ class Staff(models.Model):
 
     def __str__(self):
         return f"{self.person.full_name} - {self.position}"
+    
+    def save(self, *args, **kwargs):
+        """Ensure only one Information Officer is active at a time"""
+        if self.is_information_officer and self.is_active:
+            # Deactivate other Information Officers
+            Staff.objects.filter(
+                is_information_officer=True,
+                is_active=True
+            ).exclude(pk=self.pk).update(is_information_officer=False)
+        super().save(*args, **kwargs)
+    
+    @classmethod
+    def get_information_officer(cls):
+        """
+        Get the current active Information Officer.
+        
+        Returns:
+            Staff: The active Information Officer or None
+        """
+        return cls.objects.filter(
+            is_information_officer=True,
+            is_active=True
+        ).select_related('person').first()
+    
+    def get_rti_email(self):
+        """Get the RTI email - use dedicated email or fallback to person's email"""
+        return self.information_officer_email or self.person.email or DEFAULT_RTI_EMAIL

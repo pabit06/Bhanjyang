@@ -6,6 +6,8 @@ from django.urls import reverse
 from django.core.cache import cache
 import json
 
+from apps.contact.models import OfficeLocation
+
 
 class MapViewsTest(TestCase):
     """Test map views"""
@@ -13,6 +15,30 @@ class MapViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
         cache.clear()
+        
+        # Create test office locations
+        OfficeLocation.objects.create(
+            name='Test Main Office',
+            address='Test Address 1',
+            latitude=28.0,
+            longitude=84.0,
+            location_type='main_office',
+            phone='+977-1234567890',
+            email='test@example.com',
+            is_active=True,
+            order=1
+        )
+        OfficeLocation.objects.create(
+            name='Test Service Center',
+            address='Test Address 2',
+            latitude=28.1,
+            longitude=84.1,
+            location_type='service_center',
+            phone='+977-0987654321',
+            email='service@example.com',
+            is_active=True,
+            order=2
+        )
     
     def test_interactive_map_view(self):
         """Test interactive map view"""

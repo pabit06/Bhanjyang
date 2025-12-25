@@ -103,8 +103,10 @@ class ContactTasksTest(TestCase):
             subject='Old Subject',
             message='Old message',
             status='resolved',
-            created_at=timezone.now() - timedelta(days=400)
+            ip_address='127.0.0.1'
         )
+        ContactSubmission.objects.filter(pk=old_submission.pk).update(created_at=timezone.now() - timedelta(days=400))
+        
         # Create recent submission (should not be deleted)
         recent_submission = ContactSubmission.objects.create(
             name='Recent User',
@@ -112,8 +114,10 @@ class ContactTasksTest(TestCase):
             subject='Recent Subject',
             message='Recent message',
             status='resolved',
-            created_at=timezone.now() - timedelta(days=100)
+            ip_address='127.0.0.1'
         )
+        ContactSubmission.objects.filter(pk=recent_submission.pk).update(created_at=timezone.now() - timedelta(days=100))
+        
         # Create unresolved old submission (should not be deleted)
         unresolved_old = ContactSubmission.objects.create(
             name='Unresolved User',
@@ -121,8 +125,9 @@ class ContactTasksTest(TestCase):
             subject='Unresolved Subject',
             message='Unresolved message',
             status='pending',
-            created_at=timezone.now() - timedelta(days=400)
+            ip_address='127.0.0.1'
         )
+        ContactSubmission.objects.filter(pk=unresolved_old.pk).update(created_at=timezone.now() - timedelta(days=400))
         
         count = cleanup_old_contact_submissions()
         self.assertEqual(count, 1)
@@ -139,6 +144,7 @@ class ContactTasksTest(TestCase):
             subject='Recent Subject',
             message='Recent message',
             status='resolved',
+            ip_address='127.0.0.1',
             created_at=timezone.now() - timedelta(days=100)
         )
         
@@ -147,8 +153,8 @@ class ContactTasksTest(TestCase):
     
     def test_cleanup_old_contact_submissions_error_handling(self):
         """Test cleanup error handling"""
-        with patch('apps.contact.tasks.ContactSubmission') as mock_model:
-            mock_model.objects.filter.side_effect = Exception("Database error")
+        with patch('apps.contact.models.ContactSubmission.objects.filter') as mock_filter:
+            mock_filter.side_effect = Exception("Database error")
             count = cleanup_old_contact_submissions()
             self.assertEqual(count, 0)
 

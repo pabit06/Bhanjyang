@@ -449,8 +449,8 @@ class MembershipAdmin(admin.ModelAdmin):
 
 class StaffAdmin(admin.ModelAdmin):
     """Admin interface for Staff model"""
-    list_display = ('person', 'position', 'department', 'is_active', 'order')
-    list_filter = ('is_active', 'department')
+    list_display = ('person', 'position', 'department', 'is_information_officer_badge', 'is_active', 'order')
+    list_filter = ('is_active', 'department', 'is_information_officer')
     search_fields = ('person__full_name', 'position', 'department')
     autocomplete_fields = ['person']
     list_select_related = ('person',)
@@ -462,10 +462,20 @@ class StaffAdmin(admin.ModelAdmin):
         ('Employment Details', {
             'fields': ('start_date', 'salary_range', 'qualifications')
         }),
+        (_('RTI Act 2064 - Information Officer (सूचना अधिकारी)'), {
+            'fields': ('is_information_officer', 'information_officer_email'),
+            'classes': ('collapse',),
+            'description': _('Designate this staff member as the Information Officer. Only one staff can be the active Information Officer at a time.')
+        }),
         ('Display Settings', {
             'fields': ('order', 'is_active')
         }),
     )
+    
+    @admin.display(boolean=True, description=_('Information Officer'))
+    def is_information_officer_badge(self, obj):
+        """Display badge for Information Officer"""
+        return obj.is_information_officer
 
 
 # Register with custom admin site

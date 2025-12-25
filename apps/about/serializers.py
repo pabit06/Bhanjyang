@@ -12,12 +12,14 @@ class CooperativeInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CooperativeInfo
         fields = [
-            'id', 'cooperative_name', 'description', 'mission', 'vision', 'values',
-            'established_date', 'registration_number', 'address', 'phone', 'email',
-            'website', 'featured_image', 'logo', 'is_active',
+            'id', 'cooperative_name', 'cooperative_name_nepali', 'slug',
+            'description', 'description_nepali', 'mission', 'vision', 'values',
+            'established_date', 'registration_number', 'license_number',
+            'address', 'phone', 'email', 'website',
+            'featured_image', 'logo', 'is_active',
             'created_at', 'updated_at'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'slug', 'created_at', 'updated_at']
 
 
 class CooperativeTimelineSerializer(serializers.ModelSerializer):
@@ -112,38 +114,46 @@ class StaffSerializer(serializers.ModelSerializer):
     """Serializer for Staff model"""
     person_name = serializers.CharField(source='person.full_name', read_only=True)
     person_photo = serializers.ImageField(source='person.photo', read_only=True)
+    person_email = serializers.EmailField(source='person.email', read_only=True)
+    person_phone = serializers.CharField(source='person.phone', read_only=True)
+    rti_email = serializers.SerializerMethodField()
     
     class Meta:
         model = Staff
         fields = [
-            'id', 'person', 'person_name', 'person_photo', 'position',
-            'department', 'start_date', 'is_active'
+            'id', 'person', 'person_name', 'person_photo', 'person_email', 'person_phone',
+            'position', 'department', 'start_date', 'is_active',
+            'is_information_officer', 'information_officer_email', 'rti_email'
         ]
-        read_only_fields = ['id']
+        read_only_fields = ['id', 'rti_email']
+    
+    def get_rti_email(self, obj):
+        """Get the RTI email address"""
+        return obj.get_rti_email() if obj.is_information_officer else None
 
 
 # Nested serializers for detailed views
 class DetailedCooperativeInfoSerializer(CooperativeInfoSerializer):
-    """Detailed serializer for CooperativeInfo with related data"""
-    statistics = CooperativeStatisticSerializer(many=True, read_only=True)
-    timeline_events = CooperativeTimelineSerializer(many=True, read_only=True)
-    affiliations = CooperativeAffiliationSerializer(many=True, read_only=True)
-    leadership_messages = LeadershipMessageSerializer(many=True, read_only=True)
+    """
+    Detailed serializer for CooperativeInfo.
+    
+    Note: CooperativeInfo doesn't have direct ForeignKey relationships to other models.
+    Use this serializer for the base cooperative info. Related data (statistics, timeline, etc.)
+    should be fetched separately via their respective endpoints or service layer.
+    """
     
     class Meta(CooperativeInfoSerializer.Meta):
-        fields = CooperativeInfoSerializer.Meta.fields + [
-            'statistics', 'timeline_events',
-            'affiliations', 'leadership_messages'
-        ]
+        # Same fields as base serializer - related data fetched separately
+        pass
 
 
 class DetailedPersonSerializer(PersonSerializer):
-    """Detailed serializer for Person with memberships"""
+    """Detailed serializer for Person with memberships and staff profile"""
     memberships = MembershipSerializer(many=True, read_only=True)
-    staff_positions = StaffSerializer(many=True, read_only=True)
+    staff_profile = StaffSerializer(read_only=True)
     
     class Meta(PersonSerializer.Meta):
-        fields = PersonSerializer.Meta.fields + ['memberships', 'staff_positions']
+        fields = PersonSerializer.Meta.fields + ['memberships', 'staff_profile']
 
 
 class DetailedCommitteeSerializer(CommitteeSerializer):

@@ -4,6 +4,8 @@ Tests for about app admin classes
 from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import User
 from django.contrib.admin.sites import AdminSite
+from django.contrib.messages.storage.fallback import FallbackStorage
+from django.contrib.sessions.backends.db import SessionStore
 from django.urls import reverse
 from django.utils import timezone
 from datetime import date
@@ -34,6 +36,9 @@ class AboutAdminTestCase(TestCase):
         )
         self.request = self.factory.get('/admin/')
         self.request.user = self.admin_user
+        # Add session and messages support for admin actions
+        self.request.session = SessionStore()
+        self.request._messages = FallbackStorage(self.request)
 
 
 class CooperativeInfoAdminTest(AboutAdminTestCase):
@@ -62,7 +67,8 @@ class CooperativeInfoAdminTest(AboutAdminTestCase):
     
     def test_list_filter(self):
         """Test list filters"""
-        self.assertTrue(any(isinstance(f, ActiveFilter) for f in self.admin.list_filter))
+        # list_filter contains class references, not instances
+        self.assertIn(ActiveFilter, self.admin.list_filter)
     
     def test_search_fields(self):
         """Test search fields"""
@@ -214,10 +220,14 @@ class FeaturedFilterTest(AboutAdminTestCase):
         )
         CooperativeTimeline.objects.create(
             title="Featured",
+            description="Test description",
+            event_date=timezone.now().date(),
             is_featured=True
         )
         CooperativeTimeline.objects.create(
             title="Not Featured",
+            description="Test description",
+            event_date=timezone.now().date(),
             is_featured=False
         )
     

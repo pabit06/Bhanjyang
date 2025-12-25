@@ -34,12 +34,29 @@ class ContactService:
         Get context data for the contact page.
         
         Returns:
-            dict: Context dictionary with form and breadcrumbs
+            dict: Context dictionary with form, breadcrumbs, cooperative info, and information officer
         """
         from .forms import ContactForm
+        from apps.about.models import CooperativeInfo, Staff
+        
+        # Fetch cooperative info
+        cooperative_info = None
+        try:
+            cooperative_info = CooperativeInfo.objects.active().first()
+        except Exception as e:
+            logger.warning(f"Could not fetch cooperative info: {e}")
+        
+        # Fetch Information Officer from Staff (RTI Act 2064)
+        information_officer = None
+        try:
+            information_officer = Staff.get_information_officer()
+        except Exception as e:
+            logger.warning(f"Could not fetch information officer: {e}")
         
         return {
             'form': ContactForm(),
+            'cooperative_info': cooperative_info,
+            'information_officer': information_officer,
             'breadcrumbs': [
                 {'name': 'Home', 'url': '/'},
                 {'name': 'Contact', 'url': '/contact/'}
@@ -135,8 +152,10 @@ You can manage it through the admin interface.
                 submission.subject,
                 submission.id
             )
-        except AttributeError:
-            # Celery not installed, send synchronously
+        except (AttributeError, Exception) as e:
+            # Celery not installed or broker not available, send synchronously
+            # Catch all exceptions to handle connection errors gracefully
+            logger.warning(f"Celery unavailable, sending emails synchronously: {e}")
             send_contact_email(email_data)
             send_auto_response_email(
                 submission.email,

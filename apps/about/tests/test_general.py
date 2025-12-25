@@ -182,15 +182,6 @@ class ViewTestCase(TestCase):
             event_type="milestone",
             is_active=True
         )
-        
-        self.achievement = CooperativeAchievement.objects.create(
-            title="Test Achievement",
-            description="Test achievement description",
-            achievement_type="award",
-            received_date=timezone.now().date(),
-            awarding_organization="Test Organization",
-            is_active=True
-        )
     
     def test_about_home_view(self):
         """Test about home view"""
@@ -307,15 +298,6 @@ class APITestCase(TestCase):
             description="Test event description",
             event_date=timezone.now().date(),
             event_type="milestone",
-            is_active=True
-        )
-        
-        self.achievement = CooperativeAchievement.objects.create(
-            title="Test Achievement",
-            description="Test achievement description",
-            achievement_type="award",
-            received_date=timezone.now().date(),
-            awarding_organization="Test Organization",
             is_active=True
         )
     
@@ -496,18 +478,6 @@ class IntegrationTestCase(TestCase):
                 is_active=True,
                 is_featured=(i < 2)
             )
-        
-        # Create achievements
-        for i in range(3):
-            CooperativeAchievement.objects.create(
-                title=f"Achievement {i+1}",
-                description=f"Description for achievement {i+1}",
-                achievement_type="award",
-                received_date=timezone.now().date() - timedelta(days=i*60),
-                awarding_organization=f"Organization {i+1}",
-                is_active=True,
-                is_featured=(i == 0)
-            )
     
     def test_full_about_page_flow(self):
         """Test complete about page flow"""
@@ -520,10 +490,6 @@ class IntegrationTestCase(TestCase):
         response = self.client.get(reverse('about:timeline'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Timeline Event")
-        
-        # Removed: achievements page test - page no longer exists
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Achievement")
         
         # Test API endpoints
         response = self.client.get('/api/v1/about/cooperative-info/')

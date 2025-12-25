@@ -3,6 +3,11 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core.cache import cache
 import json
+import logging
+
+from .models import OfficeLocation
+
+logger = logging.getLogger(__name__)
 
 
 def interactive_map_view(request):
@@ -26,65 +31,72 @@ def map_locations_api(request):
     if cached_locations:
         return JsonResponse(cached_locations)
     
-    # Sample locations data (in real implementation, this would come from database)
-    locations = [
-        {
-            'id': 1,
-            'name': 'Bhanjyang Cooperative Main Office',
-            'address': 'Bhanjyang, Kavre, Nepal',
-            'latitude': 27.7172,
-            'longitude': 85.3240,
-            'type': 'main_office',
-            'phone': '+977-11-123456',
-            'email': 'info@bhanjyangcoop.com',
-            'hours': '9:00 AM - 5:00 PM',
-            'services': ['Savings', 'Loans', 'Insurance', 'Consultation'],
-            'description': 'Our main office providing comprehensive cooperative services to the community.',
-            'image': '/static/images/office-main.jpg'
-        },
-        {
-            'id': 2,
-            'name': 'Bhanjyang Cooperative Branch Office',
-            'address': 'Panauti, Kavre, Nepal',
-            'latitude': 27.5833,
-            'longitude': 85.5167,
-            'type': 'branch_office',
-            'phone': '+977-11-234567',
-            'email': 'panauti@bhanjyangcoop.com',
-            'hours': '9:00 AM - 4:00 PM',
-            'services': ['Savings', 'Loans'],
-            'description': 'Convenient branch office serving the Panauti area.',
-            'image': '/static/images/office-branch.jpg'
-        },
-        {
-            'id': 3,
-            'name': 'Bhanjyang Cooperative ATM Center',
-            'address': 'Banepa, Kavre, Nepal',
-            'latitude': 27.6333,
-            'longitude': 85.5167,
-            'type': 'atm_center',
-            'phone': '+977-11-345678',
-            'email': 'atm@bhanjyangcoop.com',
-            'hours': '24/7',
-            'services': ['ATM Services', 'Cash Withdrawal', 'Balance Inquiry'],
-            'description': '24/7 ATM services for your convenience.',
-            'image': '/static/images/atm-center.jpg'
-        }
-    ]
-    
-    response_data = {
-        'locations': locations,
-        'center': {
-            'latitude': 27.6500,
-            'longitude': 85.4500,
+    # Fetch from database
+    try:
+        locations_qs = OfficeLocation.objects.filter(is_active=True).order_by('order', 'name')
+        
+        if not locations_qs.exists():
+            # Fallback to default location (Pokhara area)
+            logger.warning("No active office locations found in database, returning default location")
+            return JsonResponse({
+                'locations': [],
+                'center': {'latitude': 28.0, 'longitude': 84.0, 'zoom': 10}
+            })
+        
+        locations = []
+        latitudes = []
+        longitudes = []
+        
+        for loc in locations_qs:
+            location_data = {
+                'id': loc.id,
+                'name': loc.name,
+                'address': loc.address,
+                'latitude': float(loc.latitude),
+                'longitude': float(loc.longitude),
+                'type': loc.location_type,
+                'phone': loc.phone,
+                'email': loc.email,
+                'hours': loc.hours,
+                'services': loc.services or [],
+                'description': loc.description,
+            }
+            
+            # Add image URL if available
+            if loc.image:
+                location_data['image'] = loc.image.url
+            else:
+                location_data['image'] = None
+            
+            locations.append(location_data)
+            latitudes.append(float(loc.latitude))
+            longitudes.append(float(loc.longitude))
+        
+        # Calculate center from actual locations
+        center = {
+            'latitude': sum(latitudes) / len(latitudes) if latitudes else 28.0,
+            'longitude': sum(longitudes) / len(longitudes) if longitudes else 84.0,
             'zoom': 10
         }
-    }
-    
-    # Cache for 1 hour
-    cache.set(cache_key, response_data, 3600)
-    
-    return JsonResponse(response_data)
+        
+        response_data = {
+            'locations': locations,
+            'center': center
+        }
+        
+        # Cache for 1 hour
+        cache.set(cache_key, response_data, 3600)
+        
+        return JsonResponse(response_data)
+        
+    except Exception as e:
+        logger.error(f"Error fetching map locations: {e}", exc_info=True)
+        # Return empty response on error
+        return JsonResponse({
+            'locations': [],
+            'center': {'latitude': 28.0, 'longitude': 84.0, 'zoom': 10},
+            'error': 'Unable to load locations'
+        }, status=500)
 
 
 @require_http_methods(["POST"])
@@ -116,6 +128,7 @@ def map_directions_api(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
+@require_http_methods(["POST"])
 def map_analytics(request):
     """Track map interactions for analytics"""
     try:
@@ -123,11 +136,18 @@ def map_analytics(request):
         interaction_type = data.get('type')  # 'view', 'click', 'directions'
         location_id = data.get('location_id')
         
-        # Track analytics (in real implementation, store in database)
-        print(f"Map interaction: {interaction_type} for location {location_id}")
+        # Track analytics using logger
+        logger.info(f"Map interaction: {interaction_type} for location {location_id}")
+        
+        # In a real implementation, you would store this in a database
+        # For now, we just log it
         
         return JsonResponse({'status': 'success'})
         
+    except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON in map analytics request: {e}")
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     except Exception as e:
+        logger.error(f"Error tracking map analytics: {e}", exc_info=True)
         return JsonResponse({'error': 'Invalid request'}, status=400)
 

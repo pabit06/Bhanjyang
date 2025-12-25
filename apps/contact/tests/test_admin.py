@@ -36,7 +36,7 @@ class ContactSubmissionAdminTest(ContactAdminTestCase):
             email="test@example.com",
             subject="Test Subject",
             message="Test message",
-            inquiry_type="general"
+            ip_address="127.0.0.1"
         )
     
     def test_list_display(self):
@@ -44,12 +44,11 @@ class ContactSubmissionAdminTest(ContactAdminTestCase):
         self.assertIn('name', self.admin.list_display)
         self.assertIn('email', self.admin.list_display)
         self.assertIn('subject', self.admin.list_display)
-        self.assertIn('status', self.admin.list_display)
+        self.assertIn('status_badge', self.admin.list_display)
     
     def test_list_filter(self):
         """Test list filters"""
         self.assertIn('status', self.admin.list_filter)
-        self.assertIn('inquiry_type', self.admin.list_filter)
         self.assertIn('created_at', self.admin.list_filter)
     
     def test_search_fields(self):
@@ -76,15 +75,24 @@ class KYMSubmissionAdminTest(ContactAdminTestCase):
         super().setUp()
         self.admin = KYMSubmissionAdmin(KYMSubmission, self.site)
         self.submission = KYMSubmission.objects.create(
-            name="Test User",
+            full_name="Test User",
             email="test@example.com",
             phone="9800000000",
-            address="Test Address"
+            permanent_address="Test Address",
+            dob="1990-01-01",
+            gender="male",
+            marital_status="single",
+            father_name="Father",
+            mother_name="Mother",
+            grand_father_name="Grandfather",
+            occupation="Job",
+            income_source="Salary",
+            ip_address="127.0.0.1"
         )
     
     def test_list_display(self):
         """Test list display fields"""
-        self.assertIn('name', self.admin.list_display)
+        self.assertIn('full_name', self.admin.list_display)
         self.assertIn('email', self.admin.list_display)
         self.assertIn('phone', self.admin.list_display)
     
@@ -94,7 +102,7 @@ class KYMSubmissionAdminTest(ContactAdminTestCase):
     
     def test_search_fields(self):
         """Test search fields"""
-        self.assertIn('name', self.admin.search_fields)
+        self.assertIn('full_name', self.admin.search_fields)
         self.assertIn('email', self.admin.search_fields)
     
     def test_has_delete_permission(self):

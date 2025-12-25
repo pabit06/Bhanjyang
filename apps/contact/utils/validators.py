@@ -41,7 +41,10 @@ def validate_contact_file_extension(value):
     import os
     file_extension = os.path.splitext(value.name)[1].lower()
     
-    if file_extension not in ALLOWED_CONTACT_FILE_EXTENSIONS:
+    # Remove leading dot for comparison if present
+    ext_without_dot = file_extension.lstrip('.')
+    
+    if ext_without_dot not in ALLOWED_CONTACT_FILE_EXTENSIONS:
         raise ValidationError(
             f'File type "{file_extension}" is not allowed. '
             f'Allowed types: {", ".join(ALLOWED_CONTACT_FILE_EXTENSIONS)}'

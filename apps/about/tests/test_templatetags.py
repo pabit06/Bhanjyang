@@ -3,6 +3,7 @@ Tests for about app template tags
 """
 from django.test import TestCase, RequestFactory
 from django.template import Context, Template
+from unittest.mock import MagicMock
 
 from apps.about.templatetags.about_extras import build_absolute_uri
 
@@ -11,10 +12,10 @@ class TemplateTagsTest(TestCase):
     """Test template tags"""
     
     def setUp(self):
-        self.factory = RequestFactory()
-        self.request = self.factory.get('/test/')
+        # Use a mock request to have full control over properties
+        self.request = MagicMock()
         self.request.scheme = 'http'
-        self.request.get_host = lambda: 'example.com'
+        self.request.get_host.return_value = 'example.com'
     
     def test_build_absolute_uri_with_path(self):
         """Test build_absolute_uri with path"""

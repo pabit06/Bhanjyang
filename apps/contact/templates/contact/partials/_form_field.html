@@ -1,0 +1,36 @@
+{% comment %}
+Reusable form field component for KYM form.
+
+Usage:
+    {% include 'contact/partials/_form_field.html' with field=form.full_name icon='fa-user' label='Full Name' required=True %}
+
+Parameters:
+    field: Django form field object
+    icon: FontAwesome icon class (e.g., 'fa-user', 'fa-envelope')
+    label: Custom label text (optional, uses field.label if not provided)
+    required: Boolean, show red asterisk if True
+    col_span: Grid column span (default: 1, use 'md:col-span-2' for full width)
+{% endcomment %}
+
+<div{% if col_span %} class="{{ col_span }}"{% endif %}>
+    <label for="{{ field.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">
+        {{ label|default:field.label }}
+        {% if required %}<span class="text-red-600">*</span>{% endif %}
+    </label>
+    <div class="relative">
+        {% if icon %}
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+            <i class="fas {{ icon }} text-gray-400"></i>
+        </span>
+        {% endif %}
+        {{ field }}
+    </div>
+    {% comment %}Field-level error messages will be inserted here by JavaScript{% endcomment %}
+    {% if field.errors %}
+        <div class="text-red-600 text-sm mt-1">{{ field.errors.0 }}</div>
+    {% endif %}
+    {% if field.help_text %}
+        <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+    {% endif %}
+</div>
+

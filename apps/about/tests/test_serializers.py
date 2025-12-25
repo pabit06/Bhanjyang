@@ -46,7 +46,7 @@ class SerializerTestCase(TestCase):
         )
         self.statistic = CooperativeStatistic.objects.create(
             title="Test Stat",
-            value=100,
+            value="100",  # CharField, not int
             unit="members",
             is_active=True
         )
@@ -59,6 +59,7 @@ class SerializerTestCase(TestCase):
             title="Test Message",
             content="Test content",
             author_name="Test Author",
+            author_position="Chairman",
             is_active=True
         )
         self.person = Person.objects.create(
@@ -69,6 +70,7 @@ class SerializerTestCase(TestCase):
         )
         self.committee = Committee.objects.create(
             name="Test Committee",
+            tenure_bs="2080-2083",
             is_active=True
         )
         self.membership = Membership.objects.create(
@@ -102,11 +104,21 @@ class CooperativeInfoSerializerTest(SerializerTestCase):
         """Test deserializing cooperative info"""
         data = {
             'cooperative_name': 'New Cooperative',
+            'cooperative_name_nepali': 'नयाँ सहकारी',
             'description': 'New description',
+            'mission': 'New mission',
+            'vision': 'New vision',
+            'values': 'New values',
+            'established_date': '2020-01-01',
+            'registration_number': '456',
+            'license_number': 'LIC-456',
+            'address': 'Test Address',
+            'phone': '1234567890',
+            'email': 'test@test.com',
             'is_active': True
         }
         serializer = CooperativeInfoSerializer(data=data)
-        self.assertTrue(serializer.is_valid())
+        self.assertTrue(serializer.is_valid(), serializer.errors)
         instance = serializer.save()
         self.assertEqual(instance.cooperative_name, 'New Cooperative')
     
@@ -114,11 +126,22 @@ class CooperativeInfoSerializerTest(SerializerTestCase):
         """Test readonly fields are not writable"""
         data = {
             'cooperative_name': 'New Cooperative',
+            'cooperative_name_nepali': 'नयाँ सहकारी',
+            'description': 'New description',
+            'mission': 'New mission',
+            'vision': 'New vision',
+            'values': 'New values',
+            'established_date': '2020-01-01',
+            'registration_number': '789',
+            'license_number': 'LIC-789',
+            'address': 'Test Address',
+            'phone': '1234567890',
+            'email': 'test@test.com',
             'id': 999,  # Should be ignored
             'created_at': '2020-01-01'  # Should be ignored
         }
         serializer = CooperativeInfoSerializer(data=data)
-        self.assertTrue(serializer.is_valid())
+        self.assertTrue(serializer.is_valid(), serializer.errors)
         instance = serializer.save()
         self.assertNotEqual(instance.id, 999)
 
@@ -224,14 +247,15 @@ class StaffSerializerTest(SerializerTestCase):
 class DetailedCooperativeInfoSerializerTest(SerializerTestCase):
     """Test DetailedCooperativeInfoSerializer"""
     
-    def test_serialize_with_related_data(self):
-        """Test serializing with related data"""
+    def test_serialize_with_base_fields(self):
+        """Test serializing with base fields (related data fetched separately)"""
         serializer = DetailedCooperativeInfoSerializer(self.cooperative)
         data = serializer.data
-        self.assertIn('statistics', data)
-        self.assertIn('timeline_events', data)
-        self.assertIn('affiliations', data)
-        self.assertIn('leadership_messages', data)
+        # Base cooperative info fields should be present
+        self.assertIn('cooperative_name', data)
+        self.assertIn('description', data)
+        self.assertIn('mission', data)
+        self.assertIn('vision', data)
 
 
 class DetailedPersonSerializerTest(SerializerTestCase):
@@ -242,7 +266,7 @@ class DetailedPersonSerializerTest(SerializerTestCase):
         serializer = DetailedPersonSerializer(self.person)
         data = serializer.data
         self.assertIn('memberships', data)
-        self.assertIn('staff_positions', data)
+        self.assertIn('staff_profile', data)  # OneToOne, not many
 
 
 class DetailedCommitteeSerializerTest(SerializerTestCase):

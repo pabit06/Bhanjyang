@@ -118,8 +118,8 @@ class Command(BaseCommand):
                 'attachment_percentage': round(attachment_percentage, 2)
             },
             'response_time': {
-                'avg_response_hours': round(avg_response_time, 2),
-                'resolved_count': len(response_times)
+                'avg_response_hours': round(avg_response_hours, 2),
+                'resolved_count': resolved_with_times.count()
             },
             'spam_rate': round(spam_rate, 2)
         }

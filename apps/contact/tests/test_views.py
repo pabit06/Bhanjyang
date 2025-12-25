@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 import json
 
-from apps.contact.models import ContactSubmission, KYMSubmission
+from apps.contact.models import ContactSubmission, KYMSubmission, OfficeLocation
 from apps.contact.forms import ContactForm, KYMForm
 
 
@@ -16,6 +16,9 @@ class ContactViewsTest(TestCase):
     def setUp(self):
         """Set up test data"""
         self.client = Client()
+        # Clear rate limiting cache before each test
+        from django.core.cache import cache
+        cache.clear()
 
     def test_contact_view_get(self):
         """Test contact view GET request"""
@@ -127,7 +130,8 @@ class ContactViewsTest(TestCase):
         
         response = self.client.post(
             reverse('contact:kym_form'),
-            form_data
+            form_data,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
         
         self.assertEqual(response.status_code, 200)
@@ -144,6 +148,30 @@ class MapViewsTest(TestCase):
     def setUp(self):
         """Set up test data"""
         self.client = Client()
+        
+        # Create test office locations
+        OfficeLocation.objects.create(
+            name='Test Main Office',
+            address='Test Address 1',
+            latitude=28.0,
+            longitude=84.0,
+            location_type='main_office',
+            phone='+977-1234567890',
+            email='test@example.com',
+            is_active=True,
+            order=1
+        )
+        OfficeLocation.objects.create(
+            name='Test Service Center',
+            address='Test Address 2',
+            latitude=28.1,
+            longitude=84.1,
+            location_type='service_center',
+            phone='+977-0987654321',
+            email='service@example.com',
+            is_active=True,
+            order=2
+        )
 
     def test_interactive_map_view(self):
         """Test interactive map view GET request"""
