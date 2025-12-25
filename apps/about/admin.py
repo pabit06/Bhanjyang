@@ -300,6 +300,13 @@ class MembershipInlineForm(forms.ModelForm):
         # If both are provided, prioritize person_name (it will create new person)
         # But don't raise error, just use person_name
         
+        # Validate position_custom when position is 'other'
+        position = cleaned_data.get('position')
+        position_custom = cleaned_data.get('position_custom')
+        
+        if position == 'other' and not position_custom:
+            self.add_error('position_custom', "Custom position must be provided when 'Other' is selected.")
+        
         return cleaned_data
     
     def save(self, commit=True):
