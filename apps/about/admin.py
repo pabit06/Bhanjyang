@@ -297,8 +297,10 @@ class MembershipInlineForm(forms.ModelForm):
             else:
                 raise forms.ValidationError("Either select a person or enter a name.")
         
-        # If both are provided, prioritize person_name (it will create new person)
-        # But don't raise error, just use person_name
+        # If both are provided, prioritize the explicit selection (person)
+        if person and person_name:
+            # Clear person_name so save() uses the selected person
+            cleaned_data['person_name'] = ''
         
         # Validate position_custom when position is 'other'
         position = cleaned_data.get('position')
@@ -314,17 +316,17 @@ class MembershipInlineForm(forms.ModelForm):
         person_name = self.cleaned_data.get('person_name', '').strip()
         person = self.cleaned_data.get('person')
         
-        # Priority: Use person_name if provided, otherwise use selected person
-        if person_name:
+        # Priority: Use selected person if provided, otherwise use person_name
+        if person:
+            # Use selected person
+            instance.person = person
+        elif person_name:
             # Create or get Person from name
             person_obj, created = Person.objects.get_or_create(
                 full_name=person_name,
                 defaults={'is_active': True}
             )
             instance.person = person_obj
-        elif person:
-            # Use selected person
-            instance.person = person
         else:
             # If neither is provided, this should have been caught in clean()
             # But handle it gracefully

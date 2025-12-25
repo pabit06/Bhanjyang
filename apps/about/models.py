@@ -356,6 +356,7 @@ class Membership(models.Model):
     """Links a Person to a Committee"""
     
     POSITION_CHOICES = [
+        ('', _('Select Position')),
         # Board Positions
         ('chairman', _('Chairman')),
         ('vice_chairman', _('Vice-Chairman')),
@@ -403,13 +404,15 @@ class Membership(models.Model):
     @property
     def position_display(self):
         """Get display name for position (accessible in templates)"""
-        if self.position == 'other' and self.position_custom:
-            return self.position_custom
-        elif self.position and self.position != 'other':
+        # If standard position selected (not 'other' and not empty), use it
+        if self.position and self.position != 'other':
             # Use Django's built-in get_FOO_display() for choices
             return dict(self.POSITION_CHOICES).get(self.position, self.position)
-        elif self.position_custom:
+        
+        # If 'other' is selected or position is empty, use custom if available
+        if self.position_custom:
             return self.position_custom
+            
         return "Member"
     
     def __str__(self):
