@@ -302,9 +302,12 @@ class MembershipInlineForm(forms.ModelForm):
             # Clear person_name so save() uses the selected person
             cleaned_data['person_name'] = ''
         
-        # Validate position_custom when position is 'other'
+        # Validate position
         position = cleaned_data.get('position')
         position_custom = cleaned_data.get('position_custom')
+        
+        if not position:
+            self.add_error('position', "Please select a position.")
         
         if position == 'other' and not position_custom:
             self.add_error('position_custom', "Custom position must be provided when 'Other' is selected.")

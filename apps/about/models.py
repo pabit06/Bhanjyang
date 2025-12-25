@@ -409,8 +409,12 @@ class Membership(models.Model):
             # Use Django's built-in get_FOO_display() for choices
             return dict(self.POSITION_CHOICES).get(self.position, self.position)
         
-        # If 'other' is selected or position is empty, use custom if available
-        if self.position_custom:
+        # If 'other' is selected, use custom if available
+        if self.position == 'other' and self.position_custom:
+            return self.position_custom
+            
+        # Fallback for empty position (legacy)
+        if not self.position and self.position_custom:
             return self.position_custom
             
         return "Member"
