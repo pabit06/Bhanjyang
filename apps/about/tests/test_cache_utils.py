@@ -136,7 +136,13 @@ class ModelCacheMixinTest(TestCase):
         self.cooperative = CooperativeInfo.objects.create(
             cooperative_name="Test Cooperative",
             description="Test description",
-            is_active=True
+            is_active=True,
+            established_date='2020-01-01',
+            registration_number='123',
+            license_number='456',
+            address='Kathmandu',
+            phone='9800000000',
+            email='info@example.com'
         )
     
     def test_get_cached(self):
@@ -186,7 +192,13 @@ class QuerySetCacheMixinTest(TestCase):
         cache.clear()
         CooperativeInfo.objects.create(
             cooperative_name="Test Cooperative",
-            is_active=True
+            is_active=True,
+            established_date='2020-01-01',
+            registration_number='123',
+            license_number='456',
+            address='Kathmandu',
+            phone='9800000000',
+            email='info@example.com'
         )
     
     def test_cache_result(self):

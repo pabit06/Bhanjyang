@@ -10,7 +10,7 @@ import sys
 import os
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage
 )
 

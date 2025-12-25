@@ -9,7 +9,7 @@ from django.utils import timezone
 from datetime import date
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
@@ -45,7 +45,13 @@ class CooperativeInfoAdminTest(AboutAdminTestCase):
         self.cooperative = CooperativeInfo.objects.create(
             cooperative_name="Test Cooperative",
             description="Test description",
-            is_active=True
+            is_active=True,
+            established_date='2020-01-01',
+            registration_number='123',
+            license_number='456',
+            address='Kathmandu',
+            phone='9800000000',
+            email='info@example.com'
         )
     
     def test_list_display(self):
@@ -73,7 +79,13 @@ class CooperativeInfoAdminTest(AboutAdminTestCase):
         """Test activate selected action"""
         coop = CooperativeInfo.objects.create(
             cooperative_name="Inactive Coop",
-            is_active=False
+            is_active=False,
+            established_date='2020-01-01',
+            registration_number='123',
+            license_number='456',
+            address='Kathmandu',
+            phone='9800000000',
+            email='info@example.com'
         )
         queryset = CooperativeInfo.objects.filter(id=coop.id)
         self.admin.activate_selected(self.request, queryset)
@@ -148,11 +160,23 @@ class ActiveFilterTest(AboutAdminTestCase):
         )
         CooperativeInfo.objects.create(
             cooperative_name="Active",
-            is_active=True
+            is_active=True,
+            established_date='2020-01-01',
+            registration_number='123',
+            license_number='456',
+            address='Kathmandu',
+            phone='9800000000',
+            email='info@example.com'
         )
         CooperativeInfo.objects.create(
             cooperative_name="Inactive",
-            is_active=False
+            is_active=False,
+            established_date='2020-01-01',
+            registration_number='123',
+            license_number='456',
+            address='Kathmandu',
+            phone='9800000000',
+            email='info@example.com'
         )
     
     def test_lookups(self):

@@ -7,12 +7,16 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from django.db.models import Q
 from django.core.cache import cache
 from django.utils import timezone
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 
 from apps.about.models import (
     CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
+from apps.about.services import AboutService
+from apps.about.forms import ContactForm, NewsletterSignupForm
 from .serializers import (
     CooperativeInfoSerializer, CooperativeTimelineSerializer,
     CooperativeStatisticSerializer,
@@ -31,7 +35,6 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 class CooperativeInfoViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for cooperative information"""
-    queryset = CooperativeInfo.objects.filter(is_active=True)
     serializer_class = CooperativeInfoSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -39,26 +42,20 @@ class CooperativeInfoViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ['created_at', 'updated_at']
     ordering = ['-created_at']
 
-    @action(detail=False, methods=['get'])
-    def featured(self, request):
-        """Get featured cooperative information"""
-        featured_info = self.queryset.filter(is_featured=True).first()
-        if featured_info:
-            serializer = self.get_serializer(featured_info)
-            return Response(serializer.data)
-        return Response({'message': 'No featured information available'}, status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        return CooperativeInfo.objects.active()
 
     @action(detail=False, methods=['get'])
     def statistics(self, request):
         """Get cooperative statistics"""
-        stats = CooperativeStatistic.objects.filter(is_active=True).order_by('-created_at')
+        # Note: This technically belongs to CooperativeStatistic, but kept here for backward compatibility
+        stats = CooperativeStatistic.objects.active().order_by('-created_at')
         serializer = CooperativeStatisticSerializer(stats, many=True)
         return Response(serializer.data)
 
 
 class CooperativeTimelineViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for cooperative timeline events"""
-    queryset = CooperativeTimeline.objects.filter(is_active=True)
     serializer_class = CooperativeTimelineSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -67,24 +64,26 @@ class CooperativeTimelineViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ['event_date', 'created_at', 'order']
     ordering = ['-event_date']
 
+    def get_queryset(self):
+        return CooperativeTimeline.objects.active()
+
     @action(detail=False, methods=['get'])
     def featured(self, request):
         """Get featured timeline events"""
-        featured_events = self.queryset.filter(is_featured=True)[:5]
+        featured_events = self.get_queryset().filter(is_featured=True)[:5]
         serializer = self.get_serializer(featured_events, many=True)
         return Response(serializer.data)
 
     @action(detail=False, methods=['get'])
     def recent(self, request):
         """Get recent timeline events"""
-        recent_events = self.queryset.order_by('-event_date')[:10]
+        recent_events = self.get_queryset().order_by('-event_date')[:10]
         serializer = self.get_serializer(recent_events, many=True)
         return Response(serializer.data)
 
 
 class CooperativeAffiliationViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for cooperative affiliations"""
-    queryset = CooperativeAffiliation.objects.filter(is_active=True)
     serializer_class = CooperativeAffiliationSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -92,17 +91,19 @@ class CooperativeAffiliationViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ['created_at', 'order']
     ordering = ['order']
 
+    def get_queryset(self):
+        return CooperativeAffiliation.objects.active()
+
     @action(detail=False, methods=['get'])
     def featured(self, request):
         """Get featured affiliations"""
-        featured_affiliations = self.queryset.filter(is_featured=True)[:5]
+        featured_affiliations = self.get_queryset().filter(is_featured=True)[:5]
         serializer = self.get_serializer(featured_affiliations, many=True)
         return Response(serializer.data)
 
 
 class LeadershipMessageViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for leadership messages"""
-    queryset = LeadershipMessage.objects.filter(is_active=True)
     serializer_class = LeadershipMessageSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -110,17 +111,19 @@ class LeadershipMessageViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ['created_at', 'order']
     ordering = ['-created_at']
 
+    def get_queryset(self):
+        return LeadershipMessage.objects.active()
+
     @action(detail=False, methods=['get'])
     def featured(self, request):
         """Get featured leadership messages"""
-        featured_messages = self.queryset.filter(is_featured=True)[:3]
+        featured_messages = self.get_queryset().filter(is_featured=True)[:3]
         serializer = self.get_serializer(featured_messages, many=True)
         return Response(serializer.data)
 
 
 class PersonViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for team members"""
-    queryset = Person.objects.filter(is_active=True)
     serializer_class = PersonSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -128,10 +131,13 @@ class PersonViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ['created_at', 'full_name']
     ordering = ['full_name']
 
+    def get_queryset(self):
+        return Person.objects.filter(is_active=True)
+
     @action(detail=False, methods=['get'])
     def current_team(self, request):
         """Get current team members"""
-        current_members = self.queryset.filter(
+        current_members = self.get_queryset().filter(
             memberships__is_active=True,
             memberships__end_date__isnull=True
         ).distinct()
@@ -141,7 +147,7 @@ class PersonViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False, methods=['get'])
     def past_team(self, request):
         """Get past team members"""
-        past_members = self.queryset.filter(
+        past_members = self.get_queryset().filter(
             memberships__is_active=True,
             memberships__end_date__isnull=False
         ).distinct()
@@ -153,7 +159,7 @@ class PersonViewSet(viewsets.ReadOnlyModelViewSet):
         """Get team members by position"""
         position = request.query_params.get('position')
         if position:
-            members = self.queryset.filter(position_general__icontains=position)
+            members = self.get_queryset().filter(position_general__icontains=position)
             serializer = self.get_serializer(members, many=True)
             return Response(serializer.data)
         return Response({'error': 'Position parameter required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -161,13 +167,15 @@ class PersonViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CommitteeViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for committees"""
-    queryset = Committee.objects.filter(is_active=True)
     serializer_class = CommitteeSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['name', 'description']
     ordering_fields = ['created_at', 'order']
     ordering = ['order']
+
+    def get_queryset(self):
+        return Committee.objects.filter(is_active=True)
 
     @action(detail=True, methods=['get'])
     def members(self, request, pk=None):
@@ -180,7 +188,6 @@ class CommitteeViewSet(viewsets.ReadOnlyModelViewSet):
 
 class StaffViewSet(viewsets.ReadOnlyModelViewSet):
     """API endpoint for staff members"""
-    queryset = Staff.objects.filter(is_active=True)
     serializer_class = StaffSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -188,20 +195,18 @@ class StaffViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ['created_at', 'person__full_name']
     ordering = ['person__full_name']
 
+    def get_queryset(self):
+        return Staff.objects.filter(is_active=True)
+
     @action(detail=False, methods=['get'])
     def by_department(self, request):
         """Get staff by department"""
         department = request.query_params.get('department')
         if department:
-            staff = self.queryset.filter(department__icontains=department)
+            staff = self.get_queryset().filter(department__icontains=department)
             serializer = self.get_serializer(staff, many=True)
             return Response(serializer.data)
         return Response({'error': 'Department parameter required'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# Additional API Views
-from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
 
 
 class SearchAPIView(APIView):
@@ -219,58 +224,23 @@ class SearchAPIView(APIView):
         if cached_results:
             return Response(cached_results)
 
-        results = {
-            'query': query,
-            'cooperative_info': [],
-            'timeline': [],
-            'affiliations': [],
-            'leadership': [],
-            'team': []
+        # Use service to get search results
+        results = AboutService.get_search_results(query)
+        
+        # Serialize results
+        serialized_results = {
+            'query': results['query'],
+            'cooperative_info': CooperativeInfoSerializer(results['cooperative_info'], many=True).data,
+            'timeline': CooperativeTimelineSerializer(results['timeline'], many=True).data,
+            'affiliations': CooperativeAffiliationSerializer(results['affiliations'], many=True).data,
+            'leadership': LeadershipMessageSerializer(results['leadership'], many=True).data,
+            'team': PersonSerializer(results['team'], many=True).data
         }
 
-        # Search cooperative info
-        cooperative_info = CooperativeInfo.objects.filter(
-            Q(cooperative_name__icontains=query) |
-            Q(description__icontains=query) |
-            Q(mission__icontains=query) |
-            Q(vision__icontains=query)
-        ).filter(is_active=True)[:5]
-        results['cooperative_info'] = CooperativeInfoSerializer(cooperative_info, many=True).data
-
-        # Search timeline
-        timeline = CooperativeTimeline.objects.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query)
-        ).filter(is_active=True)[:5]
-        results['timeline'] = CooperativeTimelineSerializer(timeline, many=True).data
-
-        # Search affiliations
-        affiliations = CooperativeAffiliation.objects.filter(
-            Q(name__icontains=query) |
-            Q(description__icontains=query)
-        ).filter(is_active=True)[:5]
-        results['affiliations'] = CooperativeAffiliationSerializer(affiliations, many=True).data
-
-        # Search leadership messages
-        leadership = LeadershipMessage.objects.filter(
-            Q(title__icontains=query) |
-            Q(content__icontains=query) |
-            Q(author_name__icontains=query)
-        ).filter(is_active=True)[:5]
-        results['leadership'] = LeadershipMessageSerializer(leadership, many=True).data
-
-        # Search team members
-        team = Person.objects.filter(
-            Q(full_name__icontains=query) |
-            Q(bio__icontains=query) |
-            Q(position_general__icontains=query)
-        ).filter(is_active=True)[:5]
-        results['team'] = PersonSerializer(team, many=True).data
-
         # Cache results for 5 minutes
-        cache.set(cache_key, results, 300)
+        cache.set(cache_key, serialized_results, 300)
 
-        return Response(results)
+        return Response(serialized_results)
 
 
 class StatisticsAPIView(APIView):
@@ -284,16 +254,8 @@ class StatisticsAPIView(APIView):
         if cached_stats:
             return Response(cached_stats)
 
-        stats = {
-            'cooperative_info_count': CooperativeInfo.objects.filter(is_active=True).count(),
-            'timeline_events_count': CooperativeTimeline.objects.filter(is_active=True).count(),
-            'affiliations_count': CooperativeAffiliation.objects.filter(is_active=True).count(),
-            'leadership_messages_count': LeadershipMessage.objects.filter(is_active=True).count(),
-            'team_members_count': Person.objects.filter(is_active=True).count(),
-            'committees_count': Committee.objects.filter(is_active=True).count(),
-            'staff_count': Staff.objects.filter(is_active=True).count(),
-            'last_updated': timezone.now().isoformat()
-        }
+        # Use service to get statistics
+        stats = AboutService.get_site_statistics()
 
         # Cache for 1 hour
         cache.set(cache_key, stats, 3600)
@@ -306,25 +268,37 @@ class ContactAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        try:
-            data = request.data
-            # Process contact form data
-            # In a real implementation, you would save to database and send email
-            
-            response_data = {
-                'success': True,
-                'message': 'Thank you for your message. We will get back to you soon.',
-                'submission_id': f'contact_{timezone.now().timestamp()}'
-            }
-            
-            return Response(response_data, status=status.HTTP_201_CREATED)
-            
-        except Exception as e:
+        form = ContactForm(request.data)
+        if form.is_valid():
+            try:
+                # Use AboutService to handle logic and email sending
+                success = AboutService.send_contact_emails(form.cleaned_data)
+                
+                if success:
+                    response_data = {
+                        'success': True,
+                        'message': 'Thank you for your message. We will get back to you soon.',
+                        'submission_id': f'contact_{timezone.now().timestamp()}'
+                    }
+                    return Response(response_data, status=status.HTTP_201_CREATED)
+                else:
+                     return Response({
+                        'success': False,
+                        'message': 'Failed to send contact email.',
+                    }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
+            except Exception as e:
+                return Response({
+                    'success': False,
+                    'message': 'An error occurred while processing your request.',
+                    'error': str(e)
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
             return Response({
                 'success': False,
-                'message': 'An error occurred while processing your request.',
-                'error': str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                'message': 'Invalid data provided.',
+                'errors': form.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NewsletterAPIView(APIView):
@@ -332,31 +306,34 @@ class NewsletterAPIView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        try:
-            data = request.data
-            email = data.get('email')
-            name = data.get('name', '')
-            
-            if not email:
+        form = NewsletterSignupForm(request.data)
+        if form.is_valid():
+            try:
+                # Use AboutService to handle logic and email sending
+                success = AboutService.send_newsletter_welcome_email(form.cleaned_data)
+                
+                if success:
+                    response_data = {
+                        'success': True,
+                        'message': 'Thank you for subscribing to our newsletter!',
+                        'subscriber_id': f'newsletter_{timezone.now().timestamp()}'
+                    }
+                    return Response(response_data, status=status.HTTP_201_CREATED)
+                else:
+                     return Response({
+                        'success': False,
+                        'message': 'Failed to process newsletter subscription.',
+                    }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
+            except Exception as e:
                 return Response({
                     'success': False,
-                    'message': 'Email address is required.'
-                }, status=status.HTTP_400_BAD_REQUEST)
-            
-            # Process newsletter subscription
-            # In a real implementation, you would save to database
-            
-            response_data = {
-                'success': True,
-                'message': 'Thank you for subscribing to our newsletter!',
-                'subscriber_id': f'newsletter_{timezone.now().timestamp()}'
-            }
-            
-            return Response(response_data, status=status.HTTP_201_CREATED)
-            
-        except Exception as e:
+                    'message': 'An error occurred while processing your subscription.',
+                    'error': str(e)
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
             return Response({
                 'success': False,
-                'message': 'An error occurred while processing your subscription.',
-                'error': str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                'message': 'Invalid data provided.',
+                'errors': form.errors
+            }, status=status.HTTP_400_BAD_REQUEST)

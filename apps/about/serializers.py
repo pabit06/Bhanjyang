@@ -33,9 +33,6 @@ class CooperativeTimelineSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 
-# Removed: CooperativeAchievementSerializer - CooperativeAchievement model no longer exists
-
-
 class CooperativeStatisticSerializer(serializers.ModelSerializer):
     """Serializer for CooperativeStatistic model"""
     
@@ -180,9 +177,6 @@ class SummaryTimelineSerializer(serializers.ModelSerializer):
     class Meta:
         model = CooperativeTimeline
         fields = ['id', 'title', 'event_date', 'event_type', 'image', 'is_featured']
-
-
-# Removed: SummaryAchievementSerializer - CooperativeAchievement model no longer exists
 
 
 # Custom field serializers

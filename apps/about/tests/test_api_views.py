@@ -1,7 +1,8 @@
 """
 Tests for about app API views
 """
-from django.test import TestCase, APIClient
+from django.test import TestCase
+from rest_framework.test import APIClient, APITestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
@@ -9,7 +10,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
@@ -26,20 +27,18 @@ class AboutAPITestCase(APITestCase):
             mission="Test mission",
             vision="Test vision",
             is_active=True,
-            is_featured=True
+            established_date='2020-01-01',
+            registration_number='123',
+            license_number='456',
+            address='Kathmandu',
+            phone='9800000000',
+            email='info@example.com'
         )
         self.timeline = CooperativeTimeline.objects.create(
             title="Test Event",
             description="Test description",
             event_date=timezone.now().date(),
             event_type="milestone",
-            is_active=True,
-            is_featured=True
-        )
-        self.achievement = CooperativeAchievement.objects.create(
-            title="Test Achievement",
-            description="Test description",
-            achievement_type="award",
             is_active=True,
             is_featured=True
         )
@@ -96,13 +95,6 @@ class CooperativeInfoViewSetTest(AboutAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['cooperative_name'], self.cooperative.cooperative_name)
     
-    def test_featured_endpoint(self):
-        """Test featured endpoint"""
-        url = reverse('about_api:cooperative-info-featured')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn('cooperative_name', response.data)
-    
     def test_statistics_endpoint(self):
         """Test statistics endpoint"""
         CooperativeStatistic.objects.create(
@@ -134,7 +126,13 @@ class CooperativeInfoViewSetTest(AboutAPITestCase):
         for i in range(25):
             CooperativeInfo.objects.create(
                 cooperative_name=f"Coop {i}",
-                is_active=True
+                is_active=True,
+                established_date='2020-01-01',
+                registration_number=f'REG{i}',
+                license_number=f'LIC{i}',
+                address='Kathmandu',
+                phone='9800000000',
+                email='info@example.com'
             )
         url = reverse('about_api:cooperative-info-list')
         response = self.client.get(url)
@@ -180,44 +178,6 @@ class CooperativeTimelineViewSetTest(AboutAPITestCase):
         response = self.client.get(url, {'event_type': 'milestone'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(len(response.data['results']), 0)
-
-
-class CooperativeAchievementViewSetTest(AboutAPITestCase):
-    """Test CooperativeAchievementViewSet"""
-    
-    def test_list_achievements(self):
-        """Test listing achievements"""
-        url = reverse('about_api:achievements-list')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertGreater(len(response.data['results']), 0)
-    
-    def test_retrieve_achievement(self):
-        """Test retrieving single achievement"""
-        url = reverse('about_api:achievements-detail', args=[self.achievement.id])
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['title'], self.achievement.title)
-    
-    def test_featured_endpoint(self):
-        """Test featured endpoint"""
-        url = reverse('about_api:achievements-featured')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIsInstance(response.data, list)
-    
-    def test_by_type_endpoint(self):
-        """Test by type endpoint"""
-        url = reverse('about_api:achievements-by-type')
-        response = self.client.get(url, {'type': 'award'})
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIsInstance(response.data, list)
-    
-    def test_by_type_endpoint_missing_param(self):
-        """Test by type endpoint without parameter"""
-        url = reverse('about_api:achievements-by-type')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
 class CooperativeAffiliationViewSetTest(AboutAPITestCase):
@@ -347,7 +307,6 @@ class SearchAPIViewTest(AboutAPITestCase):
         self.assertIn('query', response.data)
         self.assertIn('cooperative_info', response.data)
         self.assertIn('timeline', response.data)
-        self.assertIn('achievements', response.data)
     
     def test_search_missing_query(self):
         """Test search without query parameter"""
@@ -382,7 +341,6 @@ class StatisticsAPIViewTest(AboutAPITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('cooperative_info_count', response.data)
         self.assertIn('timeline_events_count', response.data)
-        self.assertIn('achievements_count', response.data)
         self.assertIn('last_updated', response.data)
     
     def test_statistics_caching(self):
@@ -406,7 +364,8 @@ class ContactAPIViewTest(AboutAPITestCase):
             'name': 'Test User',
             'email': 'test@example.com',
             'subject': 'Test Subject',
-            'message': 'Test message'
+            'message': 'Test message',
+            'inquiry_type': 'general'
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

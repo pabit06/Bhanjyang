@@ -2,12 +2,14 @@ import logging
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.conf import settings
+from django.db.models import Q
+from django.utils import timezone
 from typing import Dict, Any, List, Optional
 
 from .models import (
     CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
-    Committee, Staff
+    Committee, Staff, Person
 )
 
 logger = logging.getLogger(__name__)
@@ -104,6 +106,56 @@ class AboutService:
     def get_past_committees():
         """Retrieve inactive (past) committees ordered by tenure."""
         return Committee.objects.filter(is_active=False).order_by('-tenure_bs').prefetch_related('memberships__person')
+
+    @staticmethod
+    def get_search_results(query: str) -> Dict[str, Any]:
+        """
+        Perform a global search across about app models.
+        """
+        results = {
+            'query': query,
+            'cooperative_info': list(CooperativeInfo.objects.active().filter(
+                Q(cooperative_name__icontains=query) |
+                Q(description__icontains=query) |
+                Q(mission__icontains=query) |
+                Q(vision__icontains=query)
+            )[:5]),
+            'timeline': list(CooperativeTimeline.objects.active().filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query)
+            )[:5]),
+            'affiliations': list(CooperativeAffiliation.objects.active().filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query)
+            )[:5]),
+            'leadership': list(LeadershipMessage.objects.active().filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(author_name__icontains=query)
+            )[:5]),
+            'team': list(Person.objects.filter(is_active=True).filter(
+                Q(full_name__icontains=query) |
+                Q(bio__icontains=query) |
+                Q(position_general__icontains=query)
+            )[:5])
+        }
+        return results
+
+    @staticmethod
+    def get_site_statistics() -> Dict[str, Any]:
+        """
+        Get aggregated site statistics.
+        """
+        return {
+            'cooperative_info_count': CooperativeInfo.objects.active().count(),
+            'timeline_events_count': CooperativeTimeline.objects.active().count(),
+            'affiliations_count': CooperativeAffiliation.objects.active().count(),
+            'leadership_messages_count': LeadershipMessage.objects.active().count(),
+            'team_members_count': Person.objects.filter(is_active=True).count(),
+            'committees_count': Committee.objects.filter(is_active=True).count(),
+            'staff_count': Staff.objects.filter(is_active=True).count(),
+            'last_updated': timezone.now().isoformat()
+        }
 
     @staticmethod
     def _send_email_safe(subject: str, message: str, recipient_list: List[str], from_email: Optional[str] = None) -> bool:

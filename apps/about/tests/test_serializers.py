@@ -7,19 +7,19 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
 from apps.about.serializers import (
     CooperativeInfoSerializer, CooperativeTimelineSerializer,
-    CooperativeAchievementSerializer, CooperativeStatisticSerializer,
+    CooperativeStatisticSerializer,
     CooperativeAffiliationSerializer, LeadershipMessageSerializer,
     PersonSerializer, CommitteeSerializer, MembershipSerializer,
     StaffSerializer, DetailedCooperativeInfoSerializer,
     DetailedPersonSerializer, DetailedCommitteeSerializer,
     SummaryCooperativeInfoSerializer, SummaryPersonSerializer,
-    SummaryTimelineSerializer, SummaryAchievementSerializer
+    SummaryTimelineSerializer
 )
 
 
@@ -42,12 +42,6 @@ class SerializerTestCase(TestCase):
             description="Test description",
             event_date=timezone.now().date(),
             event_type="milestone",
-            is_active=True
-        )
-        self.achievement = CooperativeAchievement.objects.create(
-            title="Test Achievement",
-            description="Test description",
-            achievement_type="award",
             is_active=True
         )
         self.statistic = CooperativeStatistic.objects.create(
@@ -140,17 +134,6 @@ class CooperativeTimelineSerializerTest(SerializerTestCase):
         self.assertEqual(data['event_type'], self.timeline.event_type)
         self.assertIn('is_featured', data)
         self.assertIn('order', data)
-
-
-class CooperativeAchievementSerializerTest(SerializerTestCase):
-    """Test CooperativeAchievementSerializer"""
-    
-    def test_serialize_achievement(self):
-        """Test serializing achievement"""
-        serializer = CooperativeAchievementSerializer(self.achievement)
-        data = serializer.data
-        self.assertEqual(data['title'], self.achievement.title)
-        self.assertEqual(data['achievement_type'], self.achievement.achievement_type)
 
 
 class CooperativeStatisticSerializerTest(SerializerTestCase):
@@ -247,7 +230,6 @@ class DetailedCooperativeInfoSerializerTest(SerializerTestCase):
         data = serializer.data
         self.assertIn('statistics', data)
         self.assertIn('timeline_events', data)
-        self.assertIn('achievements', data)
         self.assertIn('affiliations', data)
         self.assertIn('leadership_messages', data)
 
@@ -305,14 +287,5 @@ class SummarySerializersTest(SerializerTestCase):
         self.assertIn('id', data)
         self.assertIn('title', data)
         self.assertIn('event_date', data)
-        self.assertIn('is_featured', data)
-    
-    def test_summary_achievement(self):
-        """Test SummaryAchievementSerializer"""
-        serializer = SummaryAchievementSerializer(self.achievement)
-        data = serializer.data
-        self.assertIn('id', data)
-        self.assertIn('title', data)
-        self.assertIn('achievement_type', data)
         self.assertIn('is_featured', data)
 

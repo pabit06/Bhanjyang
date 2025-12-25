@@ -420,6 +420,7 @@ class MembershipAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'committee')
     search_fields = ('person__full_name', 'position', 'committee__name')
     autocomplete_fields = ['person', 'committee']
+    list_select_related = ('person', 'committee')
     
     fieldsets = (
         ('Membership Information', {
@@ -440,6 +441,7 @@ class StaffAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'department')
     search_fields = ('person__full_name', 'position', 'department')
     autocomplete_fields = ['person']
+    list_select_related = ('person',)
     
     fieldsets = (
         ('Staff Information', {

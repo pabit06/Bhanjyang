@@ -8,7 +8,7 @@ import json
 from datetime import datetime, timedelta
 
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeStatistic, CooperativeAffiliation, LeadershipMessage,
     Person, Committee, Membership, Staff
 )
@@ -19,10 +19,9 @@ from apps.about.models import (
 # )
 from apps.about.api_views import (
     CooperativeInfoViewSet, CooperativeTimelineViewSet,
-    CooperativeAchievementViewSet, SearchAPIView, StatisticsAPIView
+    SearchAPIView, StatisticsAPIView
 )
 from apps.about.cache_utils import CacheManager, cache_result
-from apps.about.analytics import AnalyticsTracker, AnalyticsAPI
 
 
 class ModelTestCase(TestCase):
@@ -50,16 +49,6 @@ class ModelTestCase(TestCase):
             description="Test event description",
             event_date=timezone.now().date(),
             event_type="milestone",
-            is_active=True,
-            is_featured=True
-        )
-        
-        self.achievement = CooperativeAchievement.objects.create(
-            title="Test Achievement",
-            description="Test achievement description",
-            achievement_type="award",
-            received_date=timezone.now().date(),
-            awarding_organization="Test Organization",
             is_active=True,
             is_featured=True
         )
@@ -122,13 +111,6 @@ class ModelTestCase(TestCase):
         self.assertEqual(self.timeline_event.event_type, "milestone")
         self.assertTrue(self.timeline_event.is_active)
         self.assertTrue(self.timeline_event.is_featured)
-    
-    def test_achievement_creation(self):
-        """Test CooperativeAchievement model creation"""
-        self.assertEqual(self.achievement.title, "Test Achievement")
-        self.assertEqual(self.achievement.achievement_type, "award")
-        self.assertEqual(self.achievement.awarding_organization, "Test Organization")
-        self.assertTrue(self.achievement.is_active)
     
     def test_affiliation_creation(self):
         """Test CooperativeAffiliation model creation"""
@@ -443,87 +425,6 @@ class CacheTestCase(TestCase):
         result2 = expensive_function("test")
         self.assertEqual(result2, "result_test")
         self.assertEqual(call_count, 1)  # Should not increment
-
-
-class AnalyticsTestCase(TestCase):
-    """Test cases for analytics functionality"""
-    
-    def setUp(self):
-        """Set up test data"""
-        self.client = Client()
-        self.factory = RequestFactory()
-        
-        # Create test user
-        self.user = User.objects.create_user(
-            username='testuser',
-            email='test@example.com',
-            password='testpass123'
-        )
-    
-    def test_analytics_tracker_creation(self):
-        """Test AnalyticsTracker creation"""
-        request = self.factory.get('/')
-        request.session = MagicMock()
-        request.session.session_key = 'test_session_key'
-        request.user = self.user
-        request.META.update({
-            'HTTP_USER_AGENT': 'Test Browser',
-            'REMOTE_ADDR': '127.0.0.1'
-        })
-        
-        tracker = AnalyticsTracker(request)
-        self.assertIsNotNone(tracker.session_id)
-    
-    def test_page_view_tracking(self):
-        """Test page view tracking"""
-        request = self.factory.get('/test-page/')
-        request.session = MagicMock()
-        request.session.session_key = 'test_session_key'
-        request.user = self.user
-        request.META.update({
-            'HTTP_USER_AGENT': 'Test Browser',
-            'REMOTE_ADDR': '127.0.0.1'
-        })
-        
-        tracker = AnalyticsTracker(request)
-        tracker.track_page_view(
-            url='http://test.com/test-page/',
-            title='Test Page',
-            scroll_depth=75.0
-        )
-        
-        # Verify page view was created
-        from apps.about.analytics import PageView
-        page_views = PageView.objects.filter(session=tracker.session_id)
-        self.assertEqual(page_views.count(), 1)
-        self.assertEqual(page_views.first().scroll_depth, 75.0)
-    
-    def test_event_tracking(self):
-        """Test event tracking"""
-        request = self.factory.get('/test-page/')
-        request.session = MagicMock()
-        request.session.session_key = 'test_session_key'
-        request.user = self.user
-        request.META.update({
-            'HTTP_USER_AGENT': 'Test Browser',
-            'REMOTE_ADDR': '127.0.0.1'
-        })
-        
-        tracker = AnalyticsTracker(request)
-        tracker.track_event(
-            event_type='click',
-            element_id='test-button',
-            element_class='btn',
-            element_text='Click Me',
-            metadata={'page': 'test'}
-        )
-        
-        # Verify event was created
-        from apps.about.analytics import UserEvent
-        events = UserEvent.objects.filter(session=tracker.session_id)
-        self.assertEqual(events.count(), 1)
-        self.assertEqual(events.first().event_type, 'click')
-        self.assertEqual(events.first().element_id, 'test-button')
 
 
 class SecurityTestCase(TestCase):
