@@ -59,9 +59,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
 
+    - name: Clear npm cache
+      run: npm cache clean --force
+      continue-on-error: true
+
     - name: Install Node.js dependencies
       run: |
-        npm ci --verbose
+        npm ci --verbose --prefer-offline --no-audit
+      timeout-minutes: 10
 
     - name: Build CSS assets
       run: npm run build
@@ -153,7 +158,15 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        npm ci --verbose
+    
+    - name: Clear npm cache
+      run: npm cache clean --force
+      continue-on-error: true
+
+    - name: Install Node.js dependencies
+      run: |
+        npm ci --verbose --prefer-offline --no-audit
+      timeout-minutes: 10
 
     - name: Build production assets
       run: |
