@@ -21,7 +21,7 @@ from apps.about.api_views import (
     CooperativeInfoViewSet, CooperativeTimelineViewSet,
     SearchAPIView, StatisticsAPIView
 )
-from apps.about.cache_utils import CacheManager, cache_result
+# Note: cache_utils.py removed - using Django's built-in caching
 
 
 class ModelTestCase(TestCase):
@@ -334,77 +334,8 @@ class APITestCase(TestCase):
         self.assertIn('timeline_events_count', data)
 
 
-class CacheTestCase(TestCase):
-    """Test cases for caching functionality"""
-    
-    def setUp(self):
-        """Set up test data"""
-        cache.clear()
-        self.cache_manager = CacheManager()
-    
-    def test_cache_set_get(self):
-        """Test basic cache set and get operations"""
-        key = "test_key"
-        value = "test_value"
-        
-        # Set value
-        self.cache_manager.set(key, value, timeout=300)
-        
-        # Get value
-        cached_value = self.cache_manager.get(key)
-        self.assertEqual(cached_value, value)
-    
-    def test_cache_get_or_set(self):
-        """Test cache get_or_set functionality"""
-        key = "test_key_2"
-        
-        def expensive_operation():
-            return "expensive_result"
-        
-        # First call should execute the function
-        result1 = self.cache_manager.get_or_set(key, expensive_operation)
-        self.assertEqual(result1, "expensive_result")
-        
-        # Second call should return cached result
-        result2 = self.cache_manager.get_or_set(key, expensive_operation)
-        self.assertEqual(result2, "expensive_result")
-    
-    def test_cache_delete(self):
-        """Test cache delete functionality"""
-        key = "test_key_3"
-        value = "test_value_3"
-        
-        # Set value
-        self.cache_manager.set(key, value)
-        
-        # Verify value exists
-        self.assertEqual(self.cache_manager.get(key), value)
-        
-        # Delete value
-        self.cache_manager.delete(key)
-        
-        # Verify value is deleted
-        self.assertIsNone(self.cache_manager.get(key))
-    
-    def test_cache_result_decorator(self):
-        """Test cache_result decorator"""
-        call_count = 0
-        
-        @cache_result(timeout=300)
-        def expensive_function(param):
-            nonlocal call_count
-            call_count += 1
-            return f"result_{param}"
-        
-        # First call
-        result1 = expensive_function("test")
-        self.assertEqual(result1, "result_test")
-        self.assertEqual(call_count, 1)
-        
-        # Second call should use cache
-        result2 = expensive_function("test")
-        self.assertEqual(result2, "result_test")
-        self.assertEqual(call_count, 1)  # Should not increment
+# Note: CacheTestCase removed - cache_utils.py was removed as it was redundant
+# Django's built-in caching is sufficient and is already used in services.py
 
 
 class SecurityTestCase(TestCase):

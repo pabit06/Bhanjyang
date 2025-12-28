@@ -32,11 +32,18 @@ class IntroductionView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Get cooperative info
-        from .models import CooperativeInfo
-        context['cooperative_info'] = CooperativeInfo.objects.active().first()
-        # Get timeline events (limited to 6 for introduction page)
-        context['timeline_events'] = AboutService.get_timeline_events()[:6]
+        try:
+            # Get cooperative info
+            from .models import CooperativeInfo
+            context['cooperative_info'] = CooperativeInfo.objects.active().first()
+            # Get timeline events (limited to 6 for introduction page)
+            context['timeline_events'] = AboutService.get_timeline_events()[:6]
+        except Exception as e:
+            from apps.core.error_handling import ErrorLogger
+            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
+            context['cooperative_info'] = None
+            context['timeline_events'] = []
+        
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
             ('About Us', None),
@@ -45,6 +52,8 @@ class IntroductionView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
 class TimelineView(ListView):
     template_name = 'about/timeline.html'
     paginate_by = 12
@@ -63,12 +72,20 @@ class TimelineView(ListView):
         return context
 
 
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
 class AffiliationsView(TemplateView):
     template_name = 'about/affiliations.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['affiliations'] = AboutService.get_affiliations()
+        try:
+            context['affiliations'] = AboutService.get_affiliations()
+        except Exception as e:
+            from apps.core.error_handling import ErrorLogger
+            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
+            context['affiliations'] = []
+        
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
             ('About Us', None),
@@ -86,11 +103,17 @@ class ChairpersonMessageView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from .models import LeadershipMessage
-        # Get the most recent active chairman message
-        context['message'] = LeadershipMessage.objects.filter(
-            message_type='chairman',
-            is_active=True
-        ).order_by('-order', '-created_at').first()
+        try:
+            # Get the most recent active chairman message
+            context['message'] = LeadershipMessage.objects.filter(
+                message_type='chairman',
+                is_active=True
+            ).order_by('-order', '-created_at').first()
+        except Exception as e:
+            from apps.core.error_handling import ErrorLogger
+            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
+            context['message'] = None
+        
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
             ('About Us', None),
@@ -108,11 +131,17 @@ class ManagerCommitmentView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from .models import LeadershipMessage
-        # Get the most recent active manager message
-        context['message'] = LeadershipMessage.objects.filter(
-            message_type='manager',
-            is_active=True
-        ).order_by('-order', '-created_at').first()
+        try:
+            # Get the most recent active manager message
+            context['message'] = LeadershipMessage.objects.filter(
+                message_type='manager',
+                is_active=True
+            ).order_by('-order', '-created_at').first()
+        except Exception as e:
+            from apps.core.error_handling import ErrorLogger
+            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
+            context['message'] = None
+        
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
             ('About Us', None),
@@ -130,10 +159,16 @@ class BoardOfDirectorsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from .models import Committee
-        # Get all active committees (board, audit, etc.)
-        context['committees'] = Committee.objects.filter(
-            is_active=True
-        ).prefetch_related('memberships__person').order_by('order')
+        try:
+            # Get all active committees (board, audit, etc.) with optimized query
+            context['committees'] = Committee.objects.filter(
+                is_active=True
+            ).prefetch_related('memberships__person').order_by('order')
+        except Exception as e:
+            from apps.core.error_handling import ErrorLogger
+            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
+            context['committees'] = []
+        
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
             ('About Us', None),
@@ -151,10 +186,16 @@ class ManagementView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from .models import Staff
-        # Get all active staff members
-        context['management_team'] = Staff.objects.filter(
-            is_active=True
-        ).select_related('person').order_by('order')
+        try:
+            # Get all active staff members with optimized query
+            context['management_team'] = Staff.objects.filter(
+                is_active=True
+            ).select_related('person').order_by('order')
+        except Exception as e:
+            from apps.core.error_handling import ErrorLogger
+            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
+            context['management_team'] = []
+        
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
             ('About Us', None),
@@ -165,6 +206,8 @@ class ManagementView(TemplateView):
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
 class MemberTestimonialsView(TemplateView):
     """Dedicated page for Member Testimonials"""
     template_name = 'about/member_testimonials.html'
@@ -172,10 +215,16 @@ class MemberTestimonialsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from apps.home.models import Testimonial
-        # Get all active testimonials, ordered by featured first, then order
-        context['testimonials'] = list(Testimonial.objects.filter(
-            is_active=True
-        ).order_by('-is_featured', 'order', '-created_at'))
+        try:
+            # Get all active testimonials, ordered by featured first, then order
+            context['testimonials'] = list(Testimonial.objects.filter(
+                is_active=True
+            ).order_by('-is_featured', 'order', '-created_at'))
+        except Exception as e:
+            from apps.core.error_handling import ErrorLogger
+            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
+            context['testimonials'] = []
+        
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
             ('About Us', None),
@@ -184,12 +233,18 @@ class MemberTestimonialsView(TemplateView):
         return context
 
 
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
 class CooperativeDetailView(DetailView):
     model = CooperativeInfo
     template_name = 'about/cooperative_detail.html'
     context_object_name = 'cooperative'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+    
+    def get_queryset(self):
+        """Optimize queryset with select_related if needed"""
+        return CooperativeInfo.objects.active()
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

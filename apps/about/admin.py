@@ -58,6 +58,7 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
     list_filter = (ActiveFilter, 'established_date', 'created_at')
     search_fields = ('cooperative_name', 'cooperative_name_nepali', 'description', 'our_story', 'registration_number')
     prepopulated_fields = {'slug': ('cooperative_name',)}
+    list_editable = ('is_active',)  # Allow quick editing of active status
     ordering = ('-created_at',)
     list_per_page = 25
     
@@ -94,9 +95,13 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
     
     def actions_column(self, obj):
         """Custom actions column"""
+        if obj.slug:
+            view_url = reverse('about:cooperative_detail', kwargs={'slug': obj.slug})
+        else:
+            view_url = reverse('about:introduction')
         return format_html(
-            '<a href="{}" class="button">View on Site</a>',
-            reverse('about:home')
+            '<a href="{}" class="button" target="_blank">View on Site</a>',
+            view_url
         )
     actions_column.short_description = 'Actions'
     
@@ -105,13 +110,13 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
     def activate_selected(self, request, queryset):
         """Bulk activate selected items"""
         updated = queryset.update(is_active=True)
-        self.message_user(request, f'{updated} items were successfully activated.')
+        self.message_user(request, f'{updated} item(s) were successfully activated.', messages.SUCCESS)
     activate_selected.short_description = "Activate selected items"
     
     def deactivate_selected(self, request, queryset):
         """Bulk deactivate selected items"""
         updated = queryset.update(is_active=False)
-        self.message_user(request, f'{updated} items were successfully deactivated.')
+        self.message_user(request, f'{updated} item(s) were successfully deactivated.', messages.SUCCESS)
     deactivate_selected.short_description = "Deactivate selected items"
 
 
@@ -145,21 +150,22 @@ class CooperativeTimelineAdmin(admin.ModelAdmin):
     def feature_selected(self, request, queryset):
         """Bulk feature selected items"""
         updated = queryset.update(is_featured=True)
-        self.message_user(request, f'{updated} items were successfully featured.')
+        self.message_user(request, f'{updated} item(s) were successfully featured.', messages.SUCCESS)
     feature_selected.short_description = "Feature selected items"
     
     def unfeature_selected(self, request, queryset):
         """Bulk unfeature selected items"""
         updated = queryset.update(is_featured=False)
-        self.message_user(request, f'{updated} items were successfully unfeatured.')
+        self.message_user(request, f'{updated} item(s) were successfully unfeatured.', messages.SUCCESS)
     unfeature_selected.short_description = "Unfeature selected items"
 
 
 class CooperativeStatisticAdmin(admin.ModelAdmin):
     """Admin interface for statistics"""
-    list_display = ('title', 'value', 'unit', 'statistic_type', 'is_featured')
+    list_display = ('title', 'value', 'unit', 'statistic_type', 'is_featured', 'is_active', 'order')
     list_filter = ('statistic_type', 'is_featured', 'is_active')
     search_fields = ('title', 'description')
+    list_editable = ('order', 'is_featured', 'is_active')  # Allow quick editing
     ordering = ('order', 'title')
     
     fieldsets = (
@@ -180,9 +186,10 @@ class CooperativeStatisticAdmin(admin.ModelAdmin):
 
 class CooperativeAffiliationAdmin(admin.ModelAdmin):
     """Admin interface for affiliations"""
-    list_display = ('name', 'affiliation_type', 'is_featured', 'is_active')
+    list_display = ('name', 'affiliation_type', 'is_featured', 'is_active', 'order')
     list_filter = ('affiliation_type', 'is_featured', 'is_active')
     search_fields = ('name', 'description')
+    list_editable = ('order', 'is_featured', 'is_active')  # Allow quick editing
     ordering = ('order', 'name')
     
     fieldsets = (
@@ -199,9 +206,10 @@ class CooperativeAffiliationAdmin(admin.ModelAdmin):
 
 class LeadershipMessageAdmin(admin.ModelAdmin):
     """Admin interface for leadership messages"""
-    list_display = ('title', 'author_name', 'author_position', 'message_type', 'is_featured')
+    list_display = ('title', 'author_name', 'author_position', 'message_type', 'is_featured', 'is_active', 'order')
     list_filter = ('message_type', 'is_featured', 'is_active')
     search_fields = ('title', 'author_name', 'content')
+    list_editable = ('order', 'is_featured', 'is_active')  # Allow quick editing
     ordering = ('order', 'message_type')
     
     fieldsets = (
@@ -225,6 +233,7 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'email', 'phone', 'position_general', 'is_active', 'created_at')
     list_filter = ('is_active', 'created_at')
     search_fields = ('full_name', 'email', 'bio')
+    list_editable = ('is_active',)  # Allow quick editing of active status
     readonly_fields = ('created_at', 'updated_at')
     
     fieldsets = (
@@ -426,8 +435,10 @@ class CommitteeAdmin(admin.ModelAdmin):
     )
     
     def member_count(self, obj):
-        return obj.memberships.count()
-    member_count.short_description = 'Members'
+        """Display count of active committee members"""
+        count = obj.memberships.filter(is_active=True).count()
+        return count
+    member_count.short_description = 'Active Members'
 
 
 class MembershipAdmin(admin.ModelAdmin):
@@ -436,6 +447,7 @@ class MembershipAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'committee')
     search_fields = ('person__full_name', 'position', 'committee__name')
     autocomplete_fields = ['person', 'committee']
+    list_editable = ('order', 'is_active')  # Allow quick editing
     list_select_related = ('person', 'committee')
     
     fieldsets = (
@@ -457,6 +469,7 @@ class StaffAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'department', 'is_information_officer')
     search_fields = ('person__full_name', 'position', 'department')
     autocomplete_fields = ['person']
+    list_editable = ('order', 'is_active')  # Allow quick editing
     list_select_related = ('person',)
     
     fieldsets = (

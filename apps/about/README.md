@@ -36,8 +36,8 @@ The **About App** is a comprehensive Django application that manages all "About 
 - ✅ Newsletter Signup (न्युजलेटर साइनअप)
 - ✅ Feedback System (प्रतिक्रिया प्रणाली)
 - ✅ REST API (REST API)
-- ✅ Analytics Tracking (विश्लेषण ट्र्याकिङ)
-- ✅ Advanced Caching (उन्नत क्यासिङ)
+- ✅ View-Level Caching (भ्यू-स्तर क्यासिङ)
+- ✅ Service-Level Caching (सेवा-स्तर क्यासिङ)
 - ✅ Multi-language Support (बहु-भाषा समर्थन)
 
 ---
@@ -357,47 +357,66 @@ Daily analytics summaries:
 ### Class-Based Views (क्लास-आधारित भ्यूहरू)
 
 #### 1. AboutHomeView
-- **Template:** `about/about.html`
+- **Type:** RedirectView
 - **Caching:** 600 seconds (10 minutes)
-- **Purpose:** Main About Us page
+- **Purpose:** Redirects `/about/` to `/about/introduction/`
+- **Redirect:** `about:introduction`
+
+#### 2. IntroductionView
+- **Template:** `about/introduction.html`
+- **Caching:** 600 seconds (10 minutes)
+- **Purpose:** Main introduction page with Our Story, Vision & Mission, and Timeline
 - **Context Data:**
   - `cooperative_info` - Active cooperative information
   - `timeline_events` - Featured timeline events (max 6)
-  - `statistics` - Active statistics
-  - `affiliations` - Featured affiliations
-  - `leadership_messages` - Active leadership messages
-  - `total_committees` - Count of active committees
-  - `total_staff` - Count of active staff members
   - `breadcrumbs` - Navigation breadcrumbs
 
-#### 2. TimelineView
+#### 3. TimelineView
 - **Template:** `about/timeline.html`
+- **Caching:** 600 seconds (10 minutes)
 - **Pagination:** 12 items per page
 - **Purpose:** Display all timeline events
 - **Context:** `page_obj` (paginated timeline events), `breadcrumbs`
 
-#### 3. AffiliationsView
+#### 4. AffiliationsView
 - **Template:** `about/affiliations.html`
+- **Caching:** 600 seconds (10 minutes)
 - **Purpose:** Display all affiliations
 - **Context:** `affiliations`, `breadcrumbs`
 
-#### 4. LeadershipView
-- **Template:** `about/leadership.html`
-- **Purpose:** Display leadership messages
-- **Context:** `leadership_messages`, `breadcrumbs`
+#### 5. ChairpersonMessageView
+- **Template:** `about/chairperson_message.html`
+- **Caching:** 600 seconds (10 minutes)
+- **Purpose:** Display chairperson message
+- **Context:** `message`, `breadcrumbs`
 
-#### 5. TeamView
-- **Template:** `about/team.html`
-- **Purpose:** Display current team (committees and staff)
-- **Context:** `committees`, `management_team`, `breadcrumbs`
+#### 6. ManagerCommitmentView
+- **Template:** `about/manager_commitment.html`
+- **Caching:** 600 seconds (10 minutes)
+- **Purpose:** Display manager commitment message
+- **Context:** `message`, `breadcrumbs`
 
-#### 6. PastTeamView
-- **Template:** `about/past_team.html`
-- **Purpose:** Display past committees
+#### 7. BoardOfDirectorsView
+- **Template:** `about/board_of_directors.html`
+- **Caching:** 600 seconds (10 minutes)
+- **Purpose:** Display board of directors (committees)
 - **Context:** `committees`, `breadcrumbs`
 
-#### 7. CooperativeDetailView
+#### 8. ManagementView
+- **Template:** `about/management.html`
+- **Caching:** 600 seconds (10 minutes)
+- **Purpose:** Display management team (staff)
+- **Context:** `management_team`, `breadcrumbs`
+
+#### 9. MemberTestimonialsView
+- **Template:** `about/member_testimonials.html`
+- **Caching:** 600 seconds (10 minutes)
+- **Purpose:** Display member testimonials
+- **Context:** `testimonials`, `breadcrumbs`
+
+#### 10. CooperativeDetailView
 - **Template:** `about/cooperative_detail.html`
+- **Caching:** 600 seconds (10 minutes)
 - **Purpose:** Display detailed cooperative information
 - **Lookup:** By slug
 - **Context:** `cooperative`, `breadcrumbs`
@@ -691,115 +710,37 @@ All models are registered with custom admin site (`apps.admin.admin_site`).
 
 ---
 
-## Analytics System (विश्लेषण प्रणाली)
-
-### AnalyticsTracker Class
-
-Main class for tracking analytics.
-
-**Methods:**
-- `get_or_create_session()` - Get or create user session
-- `get_client_ip()` - Get client IP address
-- `track_page_view()` - Track page view with metadata
-- `track_event()` - Track user events (clicks, scrolls, etc.)
-- `track_device_info()` - Track device information
-- `track_location()` - Track user location
-- `end_session()` - End current session
-
-### AnalyticsMiddleware
-
-Automatically tracks analytics for all requests.
-
-**Features:**
-- Skips tracking for admin, static files, media, etc.
-- Automatically tracks page views
-- Adds `request.analytics` attribute for use in views
-
-### AnalyticsAPI Class
-
-API for retrieving analytics data.
-
-**Methods:**
-- `get_session_stats(days=30)` - Get session statistics
-- `get_top_pages(days=30, limit=10)` - Get top pages
-- `get_device_breakdown(days=30)` - Get device breakdown
-- `get_browser_breakdown(days=30)` - Get browser breakdown
-- `get_country_breakdown(days=30)` - Get country breakdown
-- `get_event_stats(days=30)` - Get event statistics
-- `generate_daily_summary(date=None)` - Generate daily analytics summary
-
----
-
 ## Caching System (क्यासिङ प्रणाली)
 
-### CacheManager Class
+The About app uses Django's built-in caching framework for optimal performance.
 
-Advanced caching manager with Redis support.
+### View-Level Caching
 
-**Features:**
-- Version-based cache keys
-- Configurable timeouts
-- Pattern-based cache deletion
-- Model-specific cache invalidation
+Most views use `@cache_page(600)` decorator to cache responses for 10 minutes:
+- `AboutHomeView` - Redirects to introduction page
+- `IntroductionView` - Main introduction page
+- `TimelineView` - Timeline events list
+- `AffiliationsView` - Affiliations page
+- `ChairpersonMessageView` - Chairperson message
+- `ManagerCommitmentView` - Manager commitment
+- `BoardOfDirectorsView` - Board of directors
+- `ManagementView` - Management team
+- `MemberTestimonialsView` - Member testimonials
+- `CooperativeDetailView` - Cooperative detail page
 
-**Methods:**
-- `get_cache_key()` - Generate versioned cache key
-- `set()` - Set cache value
-- `get()` - Get cache value
-- `delete()` - Delete cache value
-- `get_or_set()` - Get or set using callable
-- `delete_pattern()` - Delete keys matching pattern
-- `invalidate_model_cache()` - Invalidate model-related cache
+### Service-Level Caching
 
-### Decorators
+The `AboutService` class implements caching for data fetching:
+- `get_about_home_data()` - Caches home page data for 10 minutes (non-staff users)
+- Uses Django's `cache` framework directly
+- Cache keys are prefixed with model names for easy invalidation
 
-#### @cache_result(timeout=300, key_prefix="", version=None)
-Caches function results based on function name and arguments.
+### Cache Configuration
 
-#### @cache_page(timeout=300, key_prefix="")
-Caches entire page responses.
-
-### Mixins
-
-#### ModelCacheMixin
-Adds caching capabilities to models:
-- `get_cached()` - Get instance from cache
-- `set_cached()` - Cache instance
-- `get_cached_list()` - Get list from cache
-- `set_cached_list()` - Cache list
-- `invalidate_cache()` - Invalidate cache for instance
-
-#### QuerySetCacheMixin
-Adds caching to QuerySets:
-- `cache_result()` - Cache QuerySet result
-
-### Cache Signals
-
-#### CacheInvalidationSignals
-Automatically invalidates cache on model save/delete:
-- `invalidate_on_save()` - On post_save signal
-- `invalidate_on_delete()` - On post_delete signal
-
-### Cache Utilities
-
-#### CacheStats
-Cache statistics and monitoring:
-- `get_cache_stats()` - Get cache statistics
-- `clear_all_cache()` - Clear all cache
-- `get_cache_keys()` - Get cache keys matching pattern
-
-#### CacheWarming
-Cache warming utilities:
-- `warm_model_cache()` - Warm cache for all model instances
-- `warm_queryset_cache()` - Warm cache for queryset
-- `warm_api_endpoints()` - Warm cache for common API endpoints
-
-### Cache Configurations
-
-Pre-configured cache settings for:
-- Development (LocMemCache)
-- Production (RedisCache)
-- Testing (DummyCache)
+Caching is configured via Django settings:
+- Uses `CACHE_TIMEOUT_MEDIUM` (600 seconds) from `constants.py`
+- Respects `is_staff` flag to bypass cache for admin users
+- Cache invalidation handled automatically on model updates
 
 ---
 
@@ -960,30 +901,28 @@ Custom template tags located in `apps/about/templatetags/`:
 ## Best Practices (उत्तम अभ्यासहरू)
 
 1. **Service Layer Pattern** - All business logic in `AboutService`
-2. **Caching** - Aggressive caching for performance (10 minutes for home page)
+2. **Caching** - View-level caching (10 minutes) and service-level caching for performance
 3. **Database Indexes** - Comprehensive indexes for all models
 4. **Query Optimization** - Use prefetch_related and select_related
-5. **Error Handling** - Use `apps.core.error_handling` utilities
+5. **Error Handling** - Comprehensive error handling with `apps.core.error_handling` utilities
 6. **Type Hints** - All service methods have type hints
 7. **Docstrings** - Comprehensive documentation for all classes and methods
 8. **Testing** - >80% test coverage maintained
 9. **API Design** - RESTful API with pagination, filtering, searching
-10. **Analytics** - Comprehensive tracking without privacy violations
+10. **View Optimization** - Optimized querysets with proper select_related/prefetch_related
 
 ---
 
 ## Future Enhancements (भविष्यका सुधारहरू)
 
-- [ ] Real-time analytics dashboard
 - [ ] Advanced search with full-text search
 - [ ] Image optimization for uploaded images
 - [ ] Multi-language content management
-- [ ] Export functionality for analytics data
-- [ ] Advanced caching strategies
 - [ ] Webhook support for API
 - [ ] GraphQL API endpoint
 - [ ] Real-time notifications
 - [ ] Advanced reporting features
+- [ ] Export functionality for data
 
 ---
 
