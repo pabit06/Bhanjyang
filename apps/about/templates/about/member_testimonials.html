@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Member Testimonials - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+<meta name="description"
+    content="Read testimonials from members of Bhanjyang Saving & Credit Cooperative Society Ltd. See what our members say about our services and community.">
+<meta name="keywords"
+    content="Bhanjyang Cooperative, Member Testimonials, Member Reviews, Customer Feedback, Cooperative Reviews, Nepal Cooperative">
+<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Member Testimonials - Bhanjyang Cooperative">
+<meta property="og:description"
+    content="Read testimonials from members of Bhanjyang Cooperative. See what our members say about our services and community.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+<link rel="stylesheet" href="{% static 'dist/output.css' %}">
+<link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock extra_head %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+{% include 'partials/_breadcrumb.html' %}
+
+<!-- Hero Section -->
+<section class="about-section relative py-20 md:py-32 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Hero Image Background -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/about/about-us-hero.jpeg' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+        </div>
+    </div>
+    
+    <!-- Background Pattern Overlay -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
+            Member Voices
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
+            Member Testimonials
+        </h1>
+        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6 shadow-lg"></div>
+        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+            Hear from our members about their experiences with Bhanjyang Cooperative
+        </p>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+{% if testimonials %}
+<section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-5">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for testimonial in testimonials %}
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 {% if testimonial.is_featured %}border-deuraligreen{% else %}border-gray-200{% endif %}">
+                <!-- Featured Badge -->
+                {% if testimonial.is_featured %}
+                <div class="absolute top-4 right-4">
+                    <span class="inline-flex items-center gap-1 bg-deuraligreen/10 text-deuraligreen text-xs font-semibold px-3 py-1 rounded-full">
+                        <i class="fas fa-star text-yellow-500"></i>
+                        Featured
+                    </span>
+                </div>
+                {% endif %}
+                
+                <!-- Quote Icon -->
+                <div class="mb-4">
+                    <i class="fas fa-quote-left text-4xl text-deuraligreen/30"></i>
+                </div>
+                
+                <!-- Testimonial Content -->
+                <p class="text-gray-700 leading-relaxed mb-6 text-lg">
+                    "{{ testimonial.content }}"
+                </p>
+                
+                <!-- Rating Stars -->
+                <div class="flex items-center gap-1 mb-6">
+                    {% for i in "12345"|make_list %}
+                        {% if forloop.counter <= testimonial.rating %}
+                            <i class="fas fa-star text-yellow-400"></i>
+                        {% else %}
+                            <i class="far fa-star text-gray-300"></i>
+                        {% endif %}
+                    {% endfor %}
+                    <span class="ml-2 text-sm text-gray-600">({{ testimonial.rating }}/5)</span>
+                </div>
+                
+                <!-- Author Info -->
+                <div class="flex items-center pt-6 border-t border-gray-200">
+                    {% if testimonial.photo %}
+                        <img src="{{ testimonial.photo.url }}" alt="{{ testimonial.name }}" 
+                            class="w-16 h-16 rounded-full object-cover mr-4 ring-2 ring-deuraligreen/20" 
+                            loading="lazy" width="64" height="64">
+                    {% else %}
+                        <div class="w-16 h-16 bg-gradient-to-br from-deuraligreen to-green-600 rounded-full flex items-center justify-center mr-4 ring-2 ring-deuraligreen/20">
+                            <i class="fas fa-user text-white text-xl"></i>
+                        </div>
+                    {% endif %}
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-900 font-montserrat">{{ testimonial.name }}</h3>
+                        {% if testimonial.position %}
+                        <p class="text-sm text-gray-600">{{ testimonial.position }}</p>
+                        {% endif %}
+                        {% if testimonial.company %}
+                        <p class="text-sm text-deuraligreen font-semibold">{{ testimonial.company }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% else %}
+<!-- No Testimonials Section -->
+<section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center py-16">
+            <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                <i class="fas fa-comments text-5xl text-gray-300 mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Testimonials Available</h3>
+                <p class="text-lg text-gray-600 mb-6">Member testimonials will be available soon. Please check back later.</p>
+                <a href="{% url 'about:introduction' %}" 
+                    class="inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to About Us</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}
+

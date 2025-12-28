@@ -210,7 +210,9 @@ class HomeService:
         """
         Process contact form submission from homepage.
         
-        Creates a ContactInquiry record and sends notification email to administrators.
+        DEPRECATED: This method is kept for backward compatibility.
+        New submissions should use ContactService.create_contact_submission() from contact app.
+        This method now forwards to the contact app's service.
         
         Args:
             data: Dictionary containing contact form data:
@@ -225,19 +227,28 @@ class HomeService:
             Tuple of (success: bool, message: str):
                 - success: True if submission processed successfully
                 - message: Success or error message for user display
-                
-        Example:
-            >>> data = {
-            ...     'name': 'John Doe',
-            ...     'email': 'john@example.com',
-            ...     'subject': 'Inquiry',
-            ...     'message': 'Hello'
-            ... }
-            >>> success, msg = HomeService.handle_contact_submission(data)
-            >>> success
-            True
         """
         try:
+            # Use contact app's service for consolidation
+            from apps.contact.services import ContactService
+            
+            # Create a mock request meta for IP and user agent tracking
+            request_meta = {
+                'REMOTE_ADDR': '127.0.0.1',
+                'HTTP_USER_AGENT': 'HomePage-ContactForm/1.0'
+            }
+            
+            # Create submission using contact app's service
+            submission = ContactService.create_contact_submission(
+                form_data=data,
+                files={},  # No file attachments from home page form
+                request_meta=request_meta
+            )
+            
+            # Send notification emails
+            ContactService.send_contact_notification_emails(submission)
+            
+            # Also create ContactInquiry for backward compatibility with admin/tests
             inquiry = ContactInquiry.objects.create(
                 name=data['name'],
                 email=data['email'],
@@ -246,20 +257,7 @@ class HomeService:
                 message=data['message'],
                 inquiry_type=data.get('inquiry_type', 'general')
             )
-
-            # Send Notification Email
-            if getattr(settings, 'SEND_REAL_EMAILS', False):
-                try:
-                    send_mail(
-                        f"New Contact Inquiry: {inquiry.subject}",
-                        f"From: {inquiry.name} <{inquiry.email}>\n\n{inquiry.message}",
-                        settings.DEFAULT_FROM_EMAIL,
-                        [settings.DEFAULT_FROM_EMAIL],
-                        fail_silently=False,
-                    )
-                except Exception as e:
-                    logger.error(f"Email sending failed: {e}")
-
+            
             return True, "Thank you for your inquiry. We will get back to you soon!"
 
         except Exception as e:

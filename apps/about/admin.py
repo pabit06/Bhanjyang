@@ -56,7 +56,7 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
     """Enhanced admin interface for cooperative information"""
     list_display = ('cooperative_name', 'established_date', 'registration_number', 'is_active', 'created_at', 'actions_column')
     list_filter = (ActiveFilter, 'established_date', 'created_at')
-    search_fields = ('cooperative_name', 'cooperative_name_nepali', 'description', 'registration_number')
+    search_fields = ('cooperative_name', 'cooperative_name_nepali', 'description', 'our_story', 'registration_number')
     prepopulated_fields = {'slug': ('cooperative_name',)}
     ordering = ('-created_at',)
     list_per_page = 25
@@ -76,6 +76,10 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
         }),
         ('Description', {
             'fields': ('description', 'description_nepali')
+        }),
+        ('Our Story', {
+            'fields': ('our_story', 'our_story_nepali', 'our_story_image'),
+            'description': _('Content displayed in the "Our Story" section on the About Us page')
         }),
         ('Media', {
             'fields': ('logo', 'featured_image'),

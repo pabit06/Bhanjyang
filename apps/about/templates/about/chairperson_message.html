@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Chairperson Message - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+<meta name="description"
+    content="Read the message from the Chairperson of Bhanjyang Saving & Credit Cooperative Society Ltd. Strategic vision and direction from our elected leadership.">
+<meta name="keywords"
+    content="Bhanjyang Cooperative, Chairperson Message, Chairman Message, Leadership, Strategic Vision">
+<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Chairperson Message - Bhanjyang Cooperative">
+<meta property="og:description"
+    content="Read the message from the Chairperson of Bhanjyang Cooperative. Strategic vision and direction from our elected leadership.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+<link rel="stylesheet" href="{% static 'dist/output.css' %}">
+<link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock extra_head %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+{% include 'partials/_breadcrumb.html' %}
+
+<!-- Hero Section -->
+<section class="about-section relative py-20 md:py-32 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Hero Image Background -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/about/about-us-hero.jpeg' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+        </div>
+    </div>
+    
+    <!-- Background Pattern Overlay -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
+            Leadership
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
+            Chairperson Message
+        </h1>
+        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6 shadow-lg"></div>
+        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+            Strategic vision and direction from our elected leadership
+        </p>
+    </div>
+</section>
+
+<!-- Message Section -->
+{% if message %}
+<section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-4xl">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 border-t-4 border-deuraligreen">
+            <!-- Author Info -->
+            <div class="flex flex-col md:flex-row items-center md:items-start mb-8 pb-8 border-b border-gray-200">
+                {% if message.author_photo %}
+                    <div class="relative mb-4 md:mb-0 md:mr-6">
+                        <img src="{{ message.author_photo.url }}" alt="{{ message.author_name }}" 
+                            class="w-32 h-32 rounded-full object-cover ring-4 ring-deuraligreen/20 shadow-lg">
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-deuraligreen rounded-full border-4 border-white flex items-center justify-center">
+                            <i class="fas fa-crown text-white text-sm"></i>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="w-32 h-32 bg-gradient-to-br from-deuraligreen to-green-600 rounded-full flex items-center justify-center mb-4 md:mb-0 md:mr-6 ring-4 ring-deuraligreen/20 shadow-lg">
+                        <i class="fas fa-user text-white text-4xl"></i>
+                    </div>
+                {% endif %}
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="text-3xl font-bold text-gray-900 font-montserrat mb-2">{{ message.author_name }}</h2>
+                    <p class="text-xl text-gray-600 mb-3">{{ message.author_position }}</p>
+                    <span class="inline-block bg-deuraligreen/10 text-deuraligreen text-sm font-semibold px-4 py-2 rounded-full">
+                        <i class="fas fa-crown mr-2"></i>{{ message.get_message_type_display }}
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Message Title -->
+            <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 font-montserrat text-center">
+                {{ message.title }}
+            </h3>
+            
+            <!-- Message Content -->
+            <div class="text-gray-700 leading-relaxed text-lg space-y-4">
+                {{ message.content|linebreaks }}
+            </div>
+            
+            {% if message.is_featured %}
+                <div class="mt-8 pt-8 border-t border-gray-200 flex items-center justify-center text-deuraligreen">
+                    <i class="fas fa-star mr-2 text-yellow-500"></i>
+                    <span class="text-sm font-semibold">Featured Message</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% else %}
+<!-- No Message Section -->
+<section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center py-16">
+            <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                <div class="mb-6">
+                    <i class="fas fa-quote-left text-6xl text-gray-300"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Chairperson Message Available</h3>
+                <p class="text-gray-600 mb-6">The chairperson message will be available soon. Please check back later.</p>
+                <a href="{% url 'about:introduction' %}" 
+                    class="inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-full transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to About Us</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}
+

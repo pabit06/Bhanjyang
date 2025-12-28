@@ -301,11 +301,6 @@ class AboutViewsTest(TestCase):
         data = json.loads(response.content)
         self.assertFalse(data.get('success', False))
     
-    def test_gallery_view(self):
-        """Test GalleryView GET request"""
-        response = self.client.get(reverse('about:gallery'))
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'about/gallery.html')
-        self.assertIn('breadcrumbs', response.context)
+    # test_gallery_view removed - gallery functionality moved to main gallery app
+    # Use gallery app tests instead
 

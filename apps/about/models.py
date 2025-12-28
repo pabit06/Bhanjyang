@@ -47,6 +47,11 @@ class CooperativeInfo(models.Model):
     description = models.TextField(verbose_name=_("Cooperative Description"))
     description_nepali = models.TextField(blank=True, verbose_name=_("Cooperative Description (Nepali)"))
     
+    # Our Story Section
+    our_story = models.TextField(blank=True, verbose_name=_("Our Story"), help_text=_("Content for the 'Our Story' section on About Us page"))
+    our_story_nepali = models.TextField(blank=True, verbose_name=_("Our Story (Nepali)"), help_text=_("Our Story content in Nepali"))
+    our_story_image = models.ImageField(upload_to='about/cooperative/', blank=True, null=True, verbose_name=_("Our Story Image"), help_text=_("Image for the Our Story section on About Us page"))
+    
     # Media
     logo = models.ImageField(upload_to='about/cooperative/', blank=True, null=True, verbose_name=_("Cooperative Logo"))
     featured_image = models.ImageField(upload_to='about/cooperative/', blank=True, null=True, verbose_name=_("Featured Image"))

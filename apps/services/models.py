@@ -115,8 +115,8 @@ class LoanType(BaseServiceModel):
         ('business', _('Business Loan')), ('agricultural', _('Agricultural Loan')),
         ('vehicle', _('Vehicle Loan')), ('foreign_employment', _('Foreign Employment Loan')),
         ('household', _('Household Loan')), ('house_construction', _('House Construction Loan')),
-        ('land_purchase', _('Land Purchase Loan')), ('education', _('Education Loan')),
-        ('personal', _('Personal Loan')),
+        ('home', _('Home Loan')), ('land_purchase', _('Land Purchase Loan')),
+        ('education', _('Education Loan')), ('personal', _('Personal Loan')),
     ]
     
     loan_category = models.CharField(max_length=30, choices=LOAN_CATEGORIES, unique=True, verbose_name=_("Loan Category"))
@@ -126,6 +126,7 @@ class LoanType(BaseServiceModel):
     max_tenure_years = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Maximum Tenure (Years)"))
     requirements = models.TextField(blank=True, verbose_name=_("Requirements"), help_text=_("List required documents, one per line."))
     benefits = models.TextField(blank=True, verbose_name=_("Benefits"), help_text=_("List key benefits, one per line."))
+    image = models.ImageField(upload_to='services/loans/', null=True, blank=True, verbose_name=_("Image"))
 
     class Meta:
         verbose_name = _("Loan Type")

@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Management Team - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+<meta name="description"
+    content="Meet the Management Team of Bhanjyang Saving & Credit Cooperative Society Ltd. Professional staff members who handle day-to-day operations and member services.">
+<meta name="keywords"
+    content="Bhanjyang Cooperative, Management Team, Staff Members, Professional Team, Operations Team, Nepal Cooperative">
+<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Management Team - Bhanjyang Cooperative">
+<meta property="og:description"
+    content="Meet the Management Team of Bhanjyang Cooperative. Professional staff members who handle day-to-day operations and member services.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+<link rel="stylesheet" href="{% static 'dist/output.css' %}">
+<link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock extra_head %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+{% include 'partials/_breadcrumb.html' %}
+
+<!-- Hero Section -->
+<section class="about-section relative py-20 md:py-32 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Hero Image Background -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/about/about-us-hero.jpeg' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+        </div>
+    </div>
+    
+    <!-- Background Pattern Overlay -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
+            Operations
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
+            Management Team
+        </h1>
+        <div class="w-24 h-1 bg-bhanjyangred mx-auto rounded-full mb-6 shadow-lg"></div>
+        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+            Professional staff members who handle day-to-day operations and member services
+        </p>
+    </div>
+</section>
+
+<!-- Management Team Section -->
+{% if management_team %}
+<section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for staff_member in management_team %}
+            <div class="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred">
+                <div class="relative w-32 h-32 mx-auto mb-4">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-bhanjyangred to-red-600 rounded-full opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
+                    <img class="relative rounded-full w-full h-full object-cover ring-4 ring-bhanjyangred/20 group-hover:ring-bhanjyangred transition-all duration-300 shadow-lg" 
+                         src="{% if staff_member.person.photo %}{{ staff_member.person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
+                         alt="Photo of {{ staff_member.person.full_name }}" loading="lazy" width="128" height="128">
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat text-center">{{ staff_member.person.full_name }}</h3>
+                <p class="text-bhanjyangred font-semibold text-center mb-2">{{ staff_member.position }}</p>
+                {% if staff_member.department %}
+                <p class="text-sm text-gray-600 text-center mb-3">{{ staff_member.department }}</p>
+                {% endif %}
+                {% if staff_member.person.bio %}
+                <p class="text-sm text-gray-600 text-center">{{ staff_member.person.bio|truncatewords:15 }}</p>
+                {% endif %}
+                {% if staff_member.person.email %}
+                <div class="mt-4 flex items-center justify-center">
+                    <a href="mailto:{{ staff_member.person.email }}" 
+                       class="text-deuraligreen hover:text-bhanjyangred transition-colors">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% else %}
+<!-- No Management Team Section -->
+<section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center py-16">
+            <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                <i class="fas fa-briefcase text-5xl text-gray-300 mb-4"></i>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Management Team Information Available</h3>
+                <p class="text-lg text-gray-600 mb-6">Management team information will be available soon.</p>
+                <a href="{% url 'about:introduction' %}" 
+                    class="inline-flex items-center gap-2 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to About Us</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}
+

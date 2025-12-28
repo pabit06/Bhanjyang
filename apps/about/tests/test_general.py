@@ -212,10 +212,8 @@ class ViewTestCase(TestCase):
         response = self.client.get(reverse('about:team'))
         self.assertEqual(response.status_code, 200)
     
-    def test_gallery_view(self):
-        """Test gallery view"""
-        response = self.client.get(reverse('about:gallery'))
-        self.assertEqual(response.status_code, 200)
+    # test_gallery_view removed - gallery functionality moved to main gallery app
+    # Use gallery app tests instead
     
     def test_contact_view_get(self):
         """Test contact view GET request"""

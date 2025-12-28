@@ -33,7 +33,6 @@ The **About App** is a comprehensive Django application that manages all "About 
 - ✅ Leadership Messages (नेतृत्व सन्देशहरू)
 - ✅ Team & Committee Management (टोली र समिति व्यवस्थापन)
 - ✅ Staff Management (कर्मचारी व्यवस्थापन)
-- ✅ Contact Forms (सम्पर्क फर्महरू)
 - ✅ Newsletter Signup (न्युजलेटर साइनअप)
 - ✅ Feedback System (प्रतिक्रिया प्रणाली)
 - ✅ REST API (REST API)
@@ -403,33 +402,23 @@ Daily analytics summaries:
 - **Lookup:** By slug
 - **Context:** `cooperative`, `breadcrumbs`
 
-#### 8. GalleryView
-- **Template:** `about/gallery.html`
-- **Purpose:** Display gallery (redirects to gallery app)
-- **Context:** `breadcrumbs`
+**Note:** GalleryView has been removed. Use the main gallery app at `/gallery/` instead.
 
 ### Function-Based Views (फंक्शन-आधारित भ्यूहरू)
 
-#### 9. ContactView
-- **Methods:** GET, POST
-- **Template:** `about/contact.html`
-- **Purpose:** Handle contact form submissions
-- **Form:** `ContactForm`
-- **Success Redirect:** `about:contact_success`
-- **Email:** Sends notification email to administrators
+#### 8. ContactView
+- **Type:** RedirectView
+- **Purpose:** Redirects to main contact app (`contact:contact_view`)
+- **Note:** Contact form functionality has been consolidated to the contact app for unified database storage
 
-#### 10. ContactSuccessView
-- **Template:** `about/contact_success.html`
-- **Purpose:** Display success message after contact form submission
-
-#### 11. NewsletterSignupView
+#### 9. NewsletterSignupView
 - **Method:** POST (JSON)
 - **Purpose:** Handle newsletter signup
 - **Form:** `NewsletterSignupForm`
 - **Response:** JSON success/error
 - **Email:** Sends welcome email to subscriber
 
-#### 12. FeedbackView
+#### 10. FeedbackView
 - **Method:** POST (JSON)
 - **Purpose:** Handle feedback form submissions
 - **Form:** `FeedbackForm`
@@ -470,7 +459,9 @@ Service layer for business logic and data fetching.
    - Uses prefetch_related for optimization
 
 7. **`send_contact_emails(data)`**
-   - Sends contact form notification emails
+   - **DEPRECATED:** Sends contact form notification emails
+   - **Note:** This method is kept for backward compatibility with tests only
+   - New contact submissions should use `ContactService` from contact app
    - Respects SEND_REAL_EMAILS setting
    - Returns: True/False
 
@@ -581,10 +572,9 @@ All viewsets support:
 - **Caching:** 1 hour
 
 #### 10. ContactAPIView
-- **URL:** `/api/v1/about/contact/`
-- **Method:** POST
-- **Purpose:** Handle contact form submissions via API
-- **Returns:** Success/error response with submission_id
+- **REMOVED:** ContactAPIView has been removed from about app.
+- **Use:** Contact app's API endpoint instead
+- **Reason:** Consolidation ensures all contact submissions are saved to the database
 
 #### 11. NewsletterAPIView
 - **URL:** `/api/v1/about/newsletter/`
@@ -597,21 +587,9 @@ All viewsets support:
 ## Forms (फर्महरू)
 
 ### 1. ContactForm
-**Purpose:** Contact form for inquiries
-
-**Fields:**
-- `name` - Full Name (required)
-- `email` - Email Address (required)
-- `phone` - Phone Number (optional)
-- `subject` - Subject (required)
-- `message` - Message (required)
-- `inquiry_type` - Inquiry Type (required)
-  - Options: general, membership, loan, savings, complaint, other
-
-**Validation:**
-- Phone number validation (if provided)
-
-**Styling:** Tailwind CSS classes for modern UI
+**REMOVED:** ContactForm has been removed from about app.
+**Use:** Contact app's `ContactForm` instead (`apps/contact/forms.py`)
+**Reason:** Consolidation ensures all contact submissions are saved to the database
 
 ---
 
@@ -836,9 +814,10 @@ All templates are located in `apps/about/templates/about/`:
 5. **team.html** - Current team page
 6. **past_team.html** - Past committees page
 7. **cooperative_detail.html** - Cooperative detail page
-8. **contact.html** - Contact form page
-9. **contact_success.html** - Contact success page
-10. **gallery.html** - Gallery page (redirects to gallery app)
+
+**Note:** 
+- Contact form templates have been removed - use main contact app at `/contact/` instead
+- Gallery template has been removed - use main gallery app at `/gallery/` instead
 
 All templates extend `base.html` and include breadcrumbs for navigation.
 
@@ -910,9 +889,10 @@ urlpatterns = [
     path('leadership/', views.LeadershipView.as_view(), name='leadership'),
     path('team/', views.TeamView.as_view(), name='team'),
     path('team/past/', views.PastTeamView.as_view(), name='past_team'),
-    path('gallery/', views.GalleryView.as_view(), name='gallery'),
-    path('contact/', views.ContactView.as_view(), name='contact'),
-    path('contact/success/', views.ContactSuccessView.as_view(), name='contact_success'),
+    
+    # Note: Gallery removed - use main gallery app at /gallery/ instead
+    # Note: Contact form removed - use main contact app at /contact/ instead
+    path('contact/', views.ContactView.as_view(), name='contact'),  # Redirects to main contact app
     path('api/newsletter-signup/', views.NewsletterSignupView.as_view(), name='newsletter_signup'),
     path('api/feedback/', views.FeedbackView.as_view(), name='feedback'),
     path('cooperative/<slug:slug>/', views.CooperativeDetailView.as_view(), name='cooperative_detail'),
@@ -928,7 +908,7 @@ urlpatterns = [
     path('', include(router.urls)),  # All viewsets
     path('search/', SearchAPIView.as_view(), name='search'),
     path('statistics/', StatisticsAPIView.as_view(), name='statistics'),
-    path('contact/', ContactAPIView.as_view(), name='contact'),
+    # Note: Contact API endpoint removed - use contact app's API instead
     path('newsletter/', NewsletterAPIView.as_view(), name='newsletter'),
 ]
 ```

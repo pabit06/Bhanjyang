@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load about_extras %}
+
+{% block title %}Introduction - Bhanjyang Cooperative{% endblock title %}
+
+{% block extra_head %}
+<meta name="description"
+    content="Learn about Bhanjyang Cooperative's story, vision, mission, values, and journey. Discover our establishment, principles, and key milestones.">
+<meta name="keywords"
+    content="Bhanjyang Cooperative, Our Story, Vision, Mission, Values, Timeline, History, Cooperative Society, Kaski">
+<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="Introduction - Bhanjyang Cooperative">
+<meta property="og:description"
+    content="Learn about Bhanjyang Cooperative's story, vision, mission, and journey. Empowering communities through cooperative principles.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+<link rel="stylesheet" href="{% static 'dist/output.css' %}">
+<link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock extra_head %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+{% include 'partials/_breadcrumb.html' %}
+
+<!-- Hero Section -->
+<section class="about-section relative py-20 md:py-32 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Hero Image Background -->
+    <div class="absolute inset-0 z-0">
+        {% if cooperative_info and cooperative_info.featured_image %}
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ cooperative_info.featured_image.url }}');">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+            </div>
+        {% else %}
+            {% static 'images/about/about-us-hero.jpeg' as hero_img %}
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Background Pattern Overlay -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
+            Introduction
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
+            Our Story, Vision & Journey
+        </h1>
+        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6 shadow-lg"></div>
+        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
+            Discover our foundation, principles, and the milestones that shaped our cooperative
+        </p>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+{% if cooperative_info %}
+<section id="our-story" class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="order-2 lg:order-1">
+                <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
+                    Our Story
+                </span>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-montserrat leading-tight mb-6 text-gray-900">
+                    {{ cooperative_info.cooperative_name }}
+                </h2>
+                <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
+                <p class="text-lg text-gray-700 leading-relaxed mb-8">
+                    {% if cooperative_info.our_story %}
+                        {{ cooperative_info.our_story }}
+                    {% else %}
+                        {{ cooperative_info.description }}
+                    {% endif %}
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-deuraligreen">
+                        <h4 class="font-bold text-deuraligreen mb-2 text-lg">Established</h4>
+                        <p class="text-gray-700 font-semibold">{{ cooperative_info.established_date|date:"F d, Y" }}</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-bhanjyangred">
+                        <h4 class="font-bold text-bhanjyangred mb-2 text-lg">Registration</h4>
+                        <p class="text-gray-700 font-semibold">{{ cooperative_info.registration_number }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="order-1 lg:order-2">
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
+                    {% if cooperative_info.our_story_image %}
+                    <img src="{{ cooperative_info.our_story_image.url }}"
+                        alt="{{ cooperative_info.cooperative_name|default:'Bhanjyang Cooperative Our Story image' }}"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                        decoding="async" width="800" height="600">
+                    {% elif cooperative_info.featured_image %}
+                    <img src="{{ cooperative_info.featured_image.url }}"
+                        alt="{{ cooperative_info.cooperative_name|default:'Bhanjyang Cooperative featured image' }}"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                        decoding="async" width="800" height="600">
+                    {% else %}
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop"
+                        alt="Bhanjyang Cooperative - Empowering financial journey"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                        decoding="async" width="800" height="400">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Mission, Vision, Values Section -->
+{% if cooperative_info %}
+<section id="vision-mission" class="about-section relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Our Foundation
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
+                Our Foundation
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                The principles that guide our commitment to community development and financial excellence
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Mission -->
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
+                        <i class="fas fa-bullseye text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">Our Mission</h3>
+                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.mission|default:"To provide exceptional financial services and support community development through cooperative principles." }}</p>
+            </div>
+
+            <!-- Vision -->
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-bhanjyangred transition-all duration-300">
+                        <i class="fas fa-eye text-3xl text-bhanjyangred group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">Our Vision</h3>
+                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.vision|default:"To be the leading cooperative society that empowers communities and fosters sustainable development." }}</p>
+            </div>
+
+            <!-- Values -->
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
+                <div class="mb-6 flex justify-center">
+                    <div class="w-20 h-20 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
+                        <i class="fas fa-heart text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">Our Values</h3>
+                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.values|default:"Integrity, transparency, member focus, community service, and sustainable growth." }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Timeline Section -->
+{% if timeline_events %}
+<section id="timeline" class="about-section relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                Our Journey
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
+                Our Journey
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Key milestones in our growth and development as a trusted financial institution
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+            {% for event in timeline_events %}
+            <div class="group relative flex items-start mb-8 about-section">
+                <div class="flex-shrink-0 w-14 h-14 bg-deuraligreen rounded-full flex items-center justify-center mr-6 shadow-lg group-hover:scale-110 transition-transform duration-300 z-10">
+                    <i class="fas fa-calendar text-white text-lg"></i>
+                </div>
+                <div class="flex-grow bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-t-4 border-deuraligreen">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900 font-montserrat">{{ event.title }}</h3>
+                        <span class="text-sm text-gray-600 bg-gray-100 px-4 py-2 rounded-full font-semibold">
+                            {{ event.event_date|date:"M Y" }}
+                        </span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed">{{ event.description }}</p>
+                    {% if event.image %}
+                    <img src="{{ event.image.url }}" alt="{{ event.title|default:'Timeline event image' }}"
+                        class="mt-4 w-full h-48 object-cover rounded-xl" loading="lazy" decoding="async" width="600"
+                        height="192">
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+            <a href="{% url 'about:timeline' %}"
+                class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                aria-label="View complete timeline of cooperative events">
+                <i class="fas fa-history"></i>
+                <span>View Complete Timeline</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock content %}
+

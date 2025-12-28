@@ -78,26 +78,40 @@
 {% block content %}
 
 <!-- Hero Section -->
-<section class="about-section relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
+<section class="about-section relative py-20 md:py-32 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Hero Image Background -->
+    <div class="absolute inset-0 z-0">
+        {% if cooperative_info and cooperative_info.hero_image %}
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ cooperative_info.hero_image.url }}');">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+            </div>
+        {% else %}
+            {% static 'images/about/about-us-hero.jpeg' as hero_img %}
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"></div>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Background Pattern Overlay -->
+    <div class="absolute inset-0 opacity-10 z-0">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
         <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
     </div>
     
     <!-- Decorative Elements -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
             About Us
         </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
             Our Story & Mission
         </h1>
-        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
-        <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6 shadow-lg"></div>
+        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
             Empowering communities, fostering growth, and building a sustainable future together
         </p>
     </div>
@@ -127,7 +141,11 @@
                 </h2>
                 <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
                 <p class="text-lg text-gray-700 leading-relaxed mb-8">
-                    {{ cooperative_info.description }}
+                    {% if cooperative_info.our_story %}
+                        {{ cooperative_info.our_story }}
+                    {% else %}
+                        {{ cooperative_info.description }}
+                    {% endif %}
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-deuraligreen">
@@ -143,7 +161,12 @@
             <div class="order-1 lg:order-2">
                 <div class="relative group">
                     <div class="absolute -inset-4 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
-                    {% if cooperative_info.featured_image %}
+                    {% if cooperative_info.our_story_image %}
+                    <img src="{{ cooperative_info.our_story_image.url }}"
+                        alt="{{ cooperative_info.cooperative_name|default:'Bhanjyang Cooperative Our Story image' }}"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                        decoding="async" width="800" height="600">
+                    {% elif cooperative_info.featured_image %}
                     <img src="{{ cooperative_info.featured_image.url }}"
                         alt="{{ cooperative_info.cooperative_name|default:'Bhanjyang Cooperative featured image' }}"
                         class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
@@ -393,12 +416,19 @@
             {% endfor %}
         </div>
 
-        <div class="text-center mt-12">
-            <a href="{% url 'about:leadership' %}"
+        <div class="text-center mt-12 space-x-4">
+            <a href="{% url 'about:chairperson_message' %}"
                 class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-                aria-label="Read all leadership messages">
-                <i class="fas fa-comments"></i>
-                <span>Read All Messages</span>
+                aria-label="Read Chairperson Message">
+                <i class="fas fa-crown"></i>
+                <span>Chairperson Message</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+            </a>
+            <a href="{% url 'about:manager_commitment' %}"
+                class="group inline-flex items-center gap-3 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                aria-label="Read Manager Commitment">
+                <i class="fas fa-briefcase"></i>
+                <span>Manager Commitment</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
@@ -518,7 +548,7 @@
                 {% if total_committees %}
                 <p class="text-deuraligreen font-semibold mb-6">{{ total_committees }} Active Committee{{ total_committees|pluralize }}</p>
                 {% endif %}
-                <a href="{% url 'about:team' %}"
+                <a href="{% url 'about:board_of_directors' %}"
                     class="group/link inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
                     <span>View Board Members</span>
                     <i class="fas fa-arrow-right group-hover/link:translate-x-1 transition-transform duration-200" aria-hidden="true"></i>
@@ -535,19 +565,26 @@
                 {% if total_staff %}
                 <p class="text-bhanjyangred font-semibold mb-6">{{ total_staff }} Active Staff Member{{ total_staff|pluralize }}</p>
                 {% endif %}
-                <a href="{% url 'about:team' %}"
-                    class="group/link inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
+                <a href="{% url 'about:management' %}"
+                    class="group/link inline-flex items-center gap-2 text-bhanjyangred hover:text-red-700 font-semibold transition-colors duration-300">
                     <span>View Management Team</span>
                     <i class="fas fa-arrow-right group-hover/link:translate-x-1 transition-transform duration-200" aria-hidden="true"></i>
                 </a>
             </article>
         </div>
-        <div class="text-center">
-            <a href="{% url 'about:team' %}"
+        <div class="text-center space-x-4">
+            <a href="{% url 'about:board_of_directors' %}"
                 class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-                aria-label="View complete team members">
+                aria-label="View Board of Directors">
                 <i class="fas fa-users" aria-hidden="true"></i>
-                <span>Meet Our Complete Team</span>
+                <span>Board of Directors</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+            </a>
+            <a href="{% url 'about:management' %}"
+                class="group inline-flex items-center gap-3 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                aria-label="View Management Team">
+                <i class="fas fa-briefcase" aria-hidden="true"></i>
+                <span>Management Team</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>

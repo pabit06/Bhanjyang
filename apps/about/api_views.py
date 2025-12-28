@@ -16,7 +16,7 @@ from apps.about.models import (
     Person, Committee, Membership, Staff
 )
 from apps.about.services import AboutService
-from apps.about.forms import ContactForm, NewsletterSignupForm
+from apps.about.forms import NewsletterSignupForm
 from .serializers import (
     CooperativeInfoSerializer, CooperativeTimelineSerializer,
     CooperativeStatisticSerializer,
@@ -263,42 +263,8 @@ class StatisticsAPIView(APIView):
         return Response(stats)
 
 
-class ContactAPIView(APIView):
-    """API endpoint for contact form submissions"""
-    permission_classes = [AllowAny]
-
-    def post(self, request):
-        form = ContactForm(request.data)
-        if form.is_valid():
-            try:
-                # Use AboutService to handle logic and email sending
-                success = AboutService.send_contact_emails(form.cleaned_data)
-                
-                if success:
-                    response_data = {
-                        'success': True,
-                        'message': 'Thank you for your message. We will get back to you soon.',
-                        'submission_id': f'contact_{timezone.now().timestamp()}'
-                    }
-                    return Response(response_data, status=status.HTTP_201_CREATED)
-                else:
-                     return Response({
-                        'success': False,
-                        'message': 'Failed to send contact email.',
-                    }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                
-            except Exception as e:
-                return Response({
-                    'success': False,
-                    'message': 'An error occurred while processing your request.',
-                    'error': str(e)
-                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        else:
-            return Response({
-                'success': False,
-                'message': 'Invalid data provided.',
-                'errors': form.errors
-            }, status=status.HTTP_400_BAD_REQUEST)
+# ContactAPIView has been removed - use contact app's API endpoint instead
+# This consolidation ensures all contact submissions are saved to the database
 
 
 class NewsletterAPIView(APIView):

@@ -1,4 +1,7 @@
 from django.core.management.base import BaseCommand
+from django.core.files import File
+from django.conf import settings
+import os
 from apps.services.models import SavingsAccount, FixedDeposit, LoanType, RemittanceService, MemberRelief
 
 
@@ -158,6 +161,21 @@ class Command(BaseCommand):
                 'is_featured': False
             },
             {
+                'loan_category': 'home',
+                'nepali_name': 'घर ऋण',
+                'english_name': 'Home Loan',
+                'monthly_interest_rate': 14.5,
+                'minimum_amount': 500000,
+                'maximum_amount': 15000000,
+                'max_tenure_years': 20,
+                'description': 'Comprehensive home loans for purchasing, constructing, or renovating your dream home with competitive interest rates and flexible repayment options.',
+                'requirements': '• Property documents\n• Land ownership certificate\n• Building plan approval\n• Income proof\n• Collateral security\n• Credit history',
+                'benefits': '• Competitive interest rates\n• Long repayment tenure\n• Flexible payment options\n• Quick approval process\n• Home insurance support\n• Property valuation assistance',
+                'icon': 'fas fa-home',
+                'color': 'deuraligreen',
+                'is_featured': True
+            },
+            {
                 'loan_category': 'vehicle',
                 'nepali_name': 'सवारी खरिद ऋण',
                 'english_name': 'Vehicle Purchase Loan',
@@ -190,10 +208,19 @@ class Command(BaseCommand):
         ]
         
         for data in loan_data:
-            LoanType.objects.get_or_create(
+            loan, created = LoanType.objects.get_or_create(
                 loan_category=data['loan_category'],
                 defaults=data
             )
+            
+            # Set image for home loan if it exists
+            if data['loan_category'] == 'home' and not loan.image:
+                image_path = os.path.join(settings.MEDIA_ROOT, 'services', 'loans', 'Home.png')
+                if os.path.exists(image_path):
+                    with open(image_path, 'rb') as f:
+                        loan.image.save('Home.png', File(f), save=True)
+                        self.stdout.write(f"  Image set for {data['english_name']}")
+            
             self.stdout.write(f"Created/Updated: {data['english_name']}")
         
         # Create Enhanced Remittance Services

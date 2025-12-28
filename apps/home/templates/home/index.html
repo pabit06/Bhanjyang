@@ -1280,6 +1280,17 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                             <div id="contact-email-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
                         </div>
                         <div>
+                            <label for="quick-contact-subject" class="sr-only">Subject</label>
+                            <div class="relative">
+                                <i class="fas fa-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" name="subject" id="quick-contact-subject" placeholder="Subject" required
+                                autocomplete="off"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
+                                aria-required="true" aria-describedby="contact-subject-error">
+                            </div>
+                            <div id="contact-subject-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
+                        </div>
+                        <div>
                             <label for="quick-contact-message" class="sr-only">Your Message</label>
                             <div class="relative">
                                 <i class="fas fa-comment-alt absolute left-4 top-4 text-gray-400"></i>
@@ -1606,10 +1617,12 @@ bottom: 3rem;
                     formData.append('csrfmiddlewaretoken', csrfToken);
                 }
                 
-                fetch('{% url "home:contact_submit" %}', {
+                // Submit to contact app endpoint
+                fetch('{% url "contact:contact_view" %}', {
                     method: 'POST',
                     body: formData,
                     headers: {
+                        'X-CSRFToken': csrfToken,
                         'X-Requested-With': 'XMLHttpRequest',
                     },
                     credentials: 'same-origin'
@@ -1618,7 +1631,15 @@ bottom: 3rem;
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    return response.json();
+                    // Check if response is JSON
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json();
+                    } else {
+                        return response.text().then(text => {
+                            throw new Error('Server returned non-JSON response');
+                        });
+                    }
                 })
                 .then(data => {
                     if (messageDiv) {
@@ -1628,7 +1649,21 @@ bottom: 3rem;
                             messageDiv.className = 'mt-4 text-center font-semibold text-green-600';
                             this.reset();
                         } else {
-                            messageDiv.textContent = data.message || 'An error occurred. Please try again.';
+                            // Handle validation errors
+                            if (data.errors) {
+                                let errorMessages = [];
+                                Object.keys(data.errors).forEach(field => {
+                                    const fieldErrors = Array.isArray(data.errors[field]) 
+                                        ? data.errors[field] 
+                                        : [data.errors[field]];
+                                    fieldErrors.forEach(error => {
+                                        errorMessages.push(`${field}: ${error}`);
+                                    });
+                                });
+                                messageDiv.textContent = errorMessages.join(', ') || 'Please correct the errors in the form.';
+                            } else {
+                                messageDiv.textContent = data.message || 'An error occurred. Please try again.';
+                            }
                             messageDiv.className = 'mt-4 text-center font-semibold text-red-600';
                         }
                         messageDiv.setAttribute('role', 'status');

@@ -1,28 +1,47 @@
-from django.views.generic import TemplateView, ListView, DetailView, View, FormView
+from django.views.generic import TemplateView, ListView, DetailView, View, RedirectView
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from .services import AboutService
-from .forms import ContactForm, NewsletterSignupForm, FeedbackForm
+from .forms import NewsletterSignupForm, FeedbackForm
 from .models import CooperativeInfo
 from apps.core.error_handling import (
     ErrorResponse, ErrorLogger, handle_view_errors, safe_json_parse
 )
+from apps.core.view_mixins import create_breadcrumbs
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class AboutHomeView(TemplateView):
-    template_name = 'about/about.html'
+class AboutHomeView(RedirectView):
+    """Redirect /about/ to introduction page"""
+    permanent = False
+    
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse('about:introduction')
 
+
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+class IntroductionView(TemplateView):
+    """Introduction page with Our Story, Vision & Mission, and Timeline"""
+    template_name = 'about/introduction.html'
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(AboutService.get_about_home_data(
-            is_staff=self.request.user.is_staff
-        ))
+        # Get cooperative info
+        from .models import CooperativeInfo
+        context['cooperative_info'] = CooperativeInfo.objects.active().first()
+        # Get timeline events (limited to 6 for introduction page)
+        context['timeline_events'] = AboutService.get_timeline_events()[:6]
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Introduction', 'about:introduction')
+        )
         return context
 
 
@@ -36,11 +55,11 @@ class TimelineView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = [
-             {'name': 'Home', 'url': '/'},
-             {'name': 'About Us', 'url': '/about/'},
-             {'name': 'Timeline', 'url': '/about/timeline/'}
-        ]
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Timeline', 'about:timeline')
+        )
         return context
 
 
@@ -50,56 +69,118 @@ class AffiliationsView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['affiliations'] = AboutService.get_affiliations()
-        context['breadcrumbs'] = [
-             {'name': 'Home', 'url': '/'},
-             {'name': 'About Us', 'url': '/about/'},
-             {'name': 'Affiliations', 'url': '/about/affiliations/'}
-        ]
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Affiliations', 'about:affiliations')
+        )
         return context
 
 
-class LeadershipView(TemplateView):
-    template_name = 'about/leadership.html'
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+class ChairpersonMessageView(TemplateView):
+    """Dedicated page for Chairperson Message"""
+    template_name = 'about/chairperson_message.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['leadership_messages'] = AboutService.get_leadership_messages()
-        context['breadcrumbs'] = [
-             {'name': 'Home', 'url': '/'},
-             {'name': 'About Us', 'url': '/about/'},
-             {'name': 'Leadership', 'url': '/about/leadership/'}
-        ]
+        from .models import LeadershipMessage
+        # Get the most recent active chairman message
+        context['message'] = LeadershipMessage.objects.filter(
+            message_type='chairman',
+            is_active=True
+        ).order_by('-order', '-created_at').first()
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Chairperson Message', 'about:chairperson_message')
+        )
         return context
 
 
-class TeamView(TemplateView):
-    template_name = 'about/team.html'
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+class ManagerCommitmentView(TemplateView):
+    """Dedicated page for Manager Commitment"""
+    template_name = 'about/manager_commitment.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        comm, management = AboutService.get_active_team()
-        context['committees'] = comm
-        context['management_team'] = management
-        context['breadcrumbs'] = [
-             {'name': 'Home', 'url': '/'},
-             {'name': 'About Us', 'url': '/about/'},
-             {'name': 'Our Team', 'url': '/about/team/'}
-        ]
+        from .models import LeadershipMessage
+        # Get the most recent active manager message
+        context['message'] = LeadershipMessage.objects.filter(
+            message_type='manager',
+            is_active=True
+        ).order_by('-order', '-created_at').first()
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Manager Commitment', 'about:manager_commitment')
+        )
         return context
 
 
-class PastTeamView(TemplateView):
-    template_name = 'about/past_team.html'
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+class BoardOfDirectorsView(TemplateView):
+    """Dedicated page for Board of Directors (Committees)"""
+    template_name = 'about/board_of_directors.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['committees'] = AboutService.get_past_committees()
-        context['breadcrumbs'] = [
-             {'name': 'Home', 'url': '/'},
-             {'name': 'About Us', 'url': '/about/'},
-             {'name': 'Our Team', 'url': '/about/team/'},
-             {'name': 'Past Committees', 'url': '/about/team/past/'}
-        ]
+        from .models import Committee
+        # Get all active committees (board, audit, etc.)
+        context['committees'] = Committee.objects.filter(
+            is_active=True
+        ).prefetch_related('memberships__person').order_by('order')
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Board of Directors', 'about:board_of_directors')
+        )
+        return context
+
+
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+class ManagementView(TemplateView):
+    """Dedicated page for Management Team (Staff)"""
+    template_name = 'about/management.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from .models import Staff
+        # Get all active staff members
+        context['management_team'] = Staff.objects.filter(
+            is_active=True
+        ).select_related('person').order_by('order')
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Management', 'about:management')
+        )
+        return context
+
+
+@method_decorator(cache_page(600), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+class MemberTestimonialsView(TemplateView):
+    """Dedicated page for Member Testimonials"""
+    template_name = 'about/member_testimonials.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from apps.home.models import Testimonial
+        # Get all active testimonials, ordered by featured first, then order
+        context['testimonials'] = list(Testimonial.objects.filter(
+            is_active=True
+        ).order_by('-is_featured', 'order', '-created_at'))
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            ('Member Testimonials', 'about:member_testimonials')
+        )
         return context
 
 
@@ -112,31 +193,22 @@ class CooperativeDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = [
-            {'name': 'Home', 'url': '/'},
-            {'name': 'About Us', 'url': '/about/'},
-            {'name': self.object.cooperative_name, 'url': self.object.get_absolute_url()}
-        ]
+        context['breadcrumbs'] = create_breadcrumbs(
+            ('Home', 'home:index'),
+            ('About Us', None),
+            (self.object.cooperative_name, 'about:cooperative_detail', {'slug': self.object.slug})
+        )
         return context
 
 # Forms and APIs
 
-class ContactView(FormView):
-    template_name = 'about/contact.html'
-    form_class = ContactForm
-    success_url = reverse_lazy('about:contact_success')
-
-    def form_valid(self, form):
-        if AboutService.send_contact_emails(form.cleaned_data):
-            messages.success(self.request, 'Thank you for your message! We will get back to you soon.')
-            return super().form_valid(form)
-        else:
-            messages.error(self.request, 'Sorry, there was an error sending your message.')
-            return self.form_invalid(form)
-
-
-class ContactSuccessView(TemplateView):
-    template_name = 'about/contact_success.html'
+class ContactView(RedirectView):
+    """
+    DEPRECATED: Redirects to main contact app.
+    This view is kept for backward compatibility with any existing links.
+    """
+    permanent = False
+    pattern_name = 'contact:contact_view'
 
 
 class NewsletterSignupView(View):
@@ -210,14 +282,4 @@ class FeedbackView(View):
                 error_code='VALIDATION_ERROR'
             )
 
-class GalleryView(TemplateView):
-    template_name = 'about/gallery.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['breadcrumbs'] = [
-            {'name': 'Home', 'url': '/'},
-            {'name': 'About Us', 'url': '/about/'},
-            {'name': 'Gallery', 'url': '/gallery/'}
-        ]
-        return context
+# GalleryView removed - use main gallery app at /gallery/ instead

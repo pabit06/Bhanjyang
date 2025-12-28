@@ -208,11 +208,12 @@ document.addEventListener('DOMContentLoaded', function () {
     if (contactForm) {
         const nameInput = document.getElementById('quick-contact-name');
         const emailInput = document.getElementById('quick-contact-email');
+        const subjectInput = document.getElementById('quick-contact-subject');
         const messageInput = document.getElementById('quick-contact-message');
         const submitButton = contactForm.querySelector('button[type="submit"]');
 
         // Real-time validation
-        [nameInput, emailInput, messageInput].forEach(input => {
+        [nameInput, emailInput, subjectInput, messageInput].forEach(input => {
             if (input) {
                 input.addEventListener('blur', function () {
                     const errorId = this.id + '-error';
@@ -258,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Client-side validation
             let isValid = true;
-            [nameInput, emailInput, messageInput].forEach(input => {
+            [nameInput, emailInput, subjectInput, messageInput].forEach(input => {
                 if (input) {
                     const errorId = input.id + '-error';
                     const errorDiv = document.getElementById(errorId);
@@ -291,8 +292,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             const formData = new FormData(this);
-            formData.append('subject', 'Quick Contact Inquiry');
-            formData.append('inquiry_type', 'general');
+            // Subject is now a required field in the form, so we don't need to append it
+            // Only append if it's not already in the form data
+            if (!formData.has('subject') || !formData.get('subject')) {
+                formData.append('subject', 'Quick Contact Inquiry');
+            }
 
             // Disable submit button during request
             if (submitButton) {
@@ -301,14 +305,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             try {
-                // Get URL from form action attribute
-                const submitUrl = this.getAttribute('action') || '/contact/submit/';
+                // Use contact app endpoint (consolidated)
+                // Note: This code may be overridden by inline JavaScript in the template
+                const submitUrl = this.getAttribute('action') || '/contact/';
 
                 const response = await fetch(submitUrl, {
                     method: 'POST',
                     body: formData,
                     headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'X-Requested-With': 'XMLHttpRequest'
                     }
                 });
 
@@ -325,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     this.reset();
                     // Clear all error states
-                    [nameInput, emailInput, messageInput].forEach(input => {
+                    [nameInput, emailInput, subjectInput, messageInput].forEach(input => {
                         if (input) {
                             input.setAttribute('aria-invalid', 'false');
                             const errorId = input.id + '-error';

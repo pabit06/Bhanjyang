@@ -12,6 +12,7 @@ from .models import (
     Committee, Staff, Person
 )
 from .constants import CACHE_TIMEOUT_MEDIUM, ERROR_UNABLE_TO_LOAD
+from apps.core.view_mixins import create_breadcrumbs
 
 logger = logging.getLogger(__name__)
 
@@ -60,10 +61,10 @@ class AboutService:
                 'leadership_messages': messages,
                 'total_committees': total_committees,
                 'total_staff': total_staff,
-                'breadcrumbs': [
-                    {'name': 'Home', 'url': '/'},
-                    {'name': 'About Us', 'url': '/about/'}
-                ]
+                'breadcrumbs': create_breadcrumbs(
+                    ('Home', 'home:index'),
+                    ('About Us', None)
+                )
             }
 
             if not is_staff:
@@ -184,6 +185,10 @@ class AboutService:
     def send_contact_emails(cls, data: Dict[str, Any]) -> bool:
         """
         Send contact form notification emails.
+        
+        DEPRECATED: This method is kept for backward compatibility with tests.
+        New contact submissions should use ContactService from contact app
+        which saves submissions to the database.
         """
         recipient_list = [settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else [settings.DEFAULT_FROM_EMAIL]
         subject = f"New Contact Form Submission: {data.get('subject')}"

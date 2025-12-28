@@ -99,18 +99,19 @@ class LoanTypeAdmin(admin.ModelAdmin):
     """Admin interface for Loan Types with calculated fields."""
     list_display = [
         'english_name', 'monthly_interest_rate', 'annual_interest_display',
-        'is_featured_icon', 'is_active_icon'
+        'is_featured_icon', 'is_active_icon', 'image_preview'
     ]
     list_filter = ['is_active', 'is_featured', 'loan_category']
     search_fields = ['nepali_name', 'english_name']
     list_editable = ['monthly_interest_rate']
-    readonly_fields = ['created_at', 'updated_at', 'slug']
+    readonly_fields = ['created_at', 'updated_at', 'slug', 'image_preview']
     
     fieldsets = (
         ('Basic Information', {'fields': ('loan_category', 'english_name', 'nepali_name', 'slug')}),
         ('Interest Rates', {'fields': ('monthly_interest_rate',)}),
         ('Loan Limits', {'fields': ('minimum_amount', 'maximum_amount', 'max_tenure_years')}),
         ('Display Settings', {'fields': ('icon', 'color', 'is_featured', 'is_active')}),
+        ('Media', {'fields': ('image', 'image_preview')}),
         ('Additional Information', {'fields': ('description', 'requirements', 'benefits')}),
         ('Timestamps', {'fields': ('created_at', 'updated_at'), 'classes': ('collapse',)}),
     )
@@ -121,6 +122,12 @@ class LoanTypeAdmin(admin.ModelAdmin):
     @admin.display(description='Annual Interest Rate (%)')
     def annual_interest_display(self, obj):
         return obj.annual_interest_rate
+
+    @admin.display(description='Image Preview')
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" width="100" height="auto" />', obj.image.url)
+        return "No Image"
 
 @admin.register(RemittanceService)
 class RemittanceServiceAdmin(admin.ModelAdmin):

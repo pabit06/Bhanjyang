@@ -60,27 +60,21 @@ class RemittanceView(TemplateView):
 class ContactSubmissionView(View):
     """
     Handle Contact Form POST requests.
+    
+    DEPRECATED: This view is kept for backward compatibility.
+    New submissions should use the contact app endpoint directly.
+    This view forwards requests to the contact app.
     """
     def post(self, request):
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            success, message = HomeService.handle_contact_submission(form.cleaned_data)
-            
-            if request.headers.get('Content-Type') == 'application/json':
-                return JsonResponse({'success': success, 'message': message})
-            
-            if success:
-                messages.success(request, message)
-            else:
-                messages.error(request, message)
-            return redirect('home:index')
+        # Forward to contact app endpoint for consolidation
+        from django.urls import reverse
+        from django.http import HttpResponseRedirect
         
-        # Invalid Form
-        if request.headers.get('Content-Type') == 'application/json':
-             return JsonResponse({'success': False, 'message': 'Invalid form data', 'errors': form.errors}, status=400)
+        # Import contact app view to reuse its logic
+        from apps.contact.views import contact_view
         
-        messages.error(request, "Please correct the errors in the form.")
-        return redirect('home:index')
+        # Call contact app view directly
+        return contact_view(request)
 
 
 class NewsletterSignupView(View):
