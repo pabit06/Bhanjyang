@@ -1,18 +1,15 @@
-from django.views.generic import TemplateView, ListView, DetailView, View, RedirectView
-from django.shortcuts import render, redirect
-from django.contrib import messages
+from typing import Dict, Any
+from django.db.models import QuerySet
+from django.views.generic import TemplateView, ListView, DetailView, RedirectView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
-from django.urls import reverse_lazy, reverse
-
+from django.urls import reverse
 from .services import AboutService
-from .forms import NewsletterSignupForm, FeedbackForm
-from .models import CooperativeInfo
-from apps.core.error_handling import (
-    ErrorResponse, ErrorLogger, handle_view_errors, safe_json_parse
-)
+from .models import CooperativeInfo, LeadershipMessage, Committee, Staff
+from .view_mixins import SafeContextDataMixin
 from apps.core.view_mixins import create_breadcrumbs
+from apps.home.models import Testimonial
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
@@ -20,29 +17,32 @@ class AboutHomeView(RedirectView):
     """Redirect /about/ to introduction page"""
     permanent = False
     
-    def get_redirect_url(self, *args, **kwargs):
+    def get_redirect_url(self, *args, **kwargs) -> str:
         return reverse('about:introduction')
 
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class IntroductionView(TemplateView):
+class IntroductionView(SafeContextDataMixin, TemplateView):
     """Introduction page with Our Story, Vision & Mission, and Timeline"""
     template_name = 'about/introduction.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        try:
-            # Get cooperative info
-            from .models import CooperativeInfo
-            context['cooperative_info'] = CooperativeInfo.objects.active().first()
-            # Get timeline events (limited to 6 for introduction page)
-            context['timeline_events'] = AboutService.get_timeline_events()[:6]
-        except Exception as e:
-            from apps.core.error_handling import ErrorLogger
-            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
-            context['cooperative_info'] = None
-            context['timeline_events'] = []
+        
+        # Safely get cooperative info
+        context.update(self.safe_get_data(
+            'cooperative_info',
+            lambda: CooperativeInfo.objects.active().first(),
+            default=None
+        ))
+        
+        # Safely get timeline events (limited to 6 for introduction page)
+        context.update(self.safe_get_data(
+            'timeline_events',
+            lambda: list(AboutService.get_timeline_events()[:6]),
+            default=[]
+        ))
         
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -59,10 +59,10 @@ class TimelineView(ListView):
     paginate_by = 12
     context_object_name = 'page_obj'
     
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         return AboutService.get_timeline_events()
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -74,17 +74,18 @@ class TimelineView(ListView):
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class AffiliationsView(TemplateView):
+class AffiliationsView(SafeContextDataMixin, TemplateView):
     template_name = 'about/affiliations.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        try:
-            context['affiliations'] = AboutService.get_affiliations()
-        except Exception as e:
-            from apps.core.error_handling import ErrorLogger
-            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
-            context['affiliations'] = []
+        
+        # Safely get affiliations
+        context.update(self.safe_get_data(
+            'affiliations',
+            lambda: list(AboutService.get_affiliations()),
+            default=[]
+        ))
         
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -96,23 +97,22 @@ class AffiliationsView(TemplateView):
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class ChairpersonMessageView(TemplateView):
+class ChairpersonMessageView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Chairperson Message"""
     template_name = 'about/chairperson_message.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        from .models import LeadershipMessage
-        try:
-            # Get the most recent active chairman message
-            context['message'] = LeadershipMessage.objects.filter(
+        
+        # Safely get the most recent active chairman message
+        context.update(self.safe_get_data(
+            'message',
+            lambda: LeadershipMessage.objects.filter(
                 message_type='chairman',
                 is_active=True
-            ).order_by('-order', '-created_at').first()
-        except Exception as e:
-            from apps.core.error_handling import ErrorLogger
-            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
-            context['message'] = None
+            ).order_by('-order', '-created_at').first(),
+            default=None
+        ))
         
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -124,23 +124,22 @@ class ChairpersonMessageView(TemplateView):
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class ManagerCommitmentView(TemplateView):
+class ManagerCommitmentView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Manager Commitment"""
     template_name = 'about/manager_commitment.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        from .models import LeadershipMessage
-        try:
-            # Get the most recent active manager message
-            context['message'] = LeadershipMessage.objects.filter(
+        
+        # Safely get the most recent active manager message
+        context.update(self.safe_get_data(
+            'message',
+            lambda: LeadershipMessage.objects.filter(
                 message_type='manager',
                 is_active=True
-            ).order_by('-order', '-created_at').first()
-        except Exception as e:
-            from apps.core.error_handling import ErrorLogger
-            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
-            context['message'] = None
+            ).order_by('-order', '-created_at').first(),
+            default=None
+        ))
         
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -152,22 +151,21 @@ class ManagerCommitmentView(TemplateView):
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class BoardOfDirectorsView(TemplateView):
+class BoardOfDirectorsView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Board of Directors (Committees)"""
     template_name = 'about/board_of_directors.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        from .models import Committee
-        try:
-            # Get all active committees (board, audit, etc.) with optimized query
-            context['committees'] = Committee.objects.filter(
+        
+        # Safely get all active committees with optimized query
+        context.update(self.safe_get_data(
+            'committees',
+            lambda: list(Committee.objects.filter(
                 is_active=True
-            ).prefetch_related('memberships__person').order_by('order')
-        except Exception as e:
-            from apps.core.error_handling import ErrorLogger
-            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
-            context['committees'] = []
+            ).prefetch_related('memberships__person').order_by('order')),
+            default=[]
+        ))
         
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -179,22 +177,21 @@ class BoardOfDirectorsView(TemplateView):
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class ManagementView(TemplateView):
+class ManagementView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Management Team (Staff)"""
     template_name = 'about/management.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        from .models import Staff
-        try:
-            # Get all active staff members with optimized query
-            context['management_team'] = Staff.objects.filter(
+        
+        # Safely get all active staff members with optimized query
+        context.update(self.safe_get_data(
+            'management_team',
+            lambda: list(Staff.objects.filter(
                 is_active=True
-            ).select_related('person').order_by('order')
-        except Exception as e:
-            from apps.core.error_handling import ErrorLogger
-            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
-            context['management_team'] = []
+            ).select_related('person').order_by('order')),
+            default=[]
+        ))
         
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -206,24 +203,21 @@ class ManagementView(TemplateView):
 
 @method_decorator(cache_page(600), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class MemberTestimonialsView(TemplateView):
+class MemberTestimonialsView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Member Testimonials"""
     template_name = 'about/member_testimonials.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        from apps.home.models import Testimonial
-        try:
-            # Get all active testimonials, ordered by featured first, then order
-            context['testimonials'] = list(Testimonial.objects.filter(
+        
+        # Safely get all active testimonials, ordered by featured first, then order
+        context.update(self.safe_get_data(
+            'testimonials',
+            lambda: list(Testimonial.objects.filter(
                 is_active=True
-            ).order_by('-is_featured', 'order', '-created_at'))
-        except Exception as e:
-            from apps.core.error_handling import ErrorLogger
-            ErrorLogger.log_error(e, self.request if hasattr(self, 'request') else None)
-            context['testimonials'] = []
+            ).order_by('-is_featured', 'order', '-created_at')),
+            default=[]
+        ))
         
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -242,11 +236,11 @@ class CooperativeDetailView(DetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
     
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         """Optimize queryset with select_related if needed"""
         return CooperativeInfo.objects.active()
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = create_breadcrumbs(
             ('Home', 'home:index'),
@@ -266,75 +260,6 @@ class ContactView(RedirectView):
     pattern_name = 'contact:contact_view'
 
 
-class NewsletterSignupView(View):
-    @handle_view_errors
-    def post(self, request):
-        """Handle newsletter signup form submission"""
-        # Parse JSON safely
-        data, error_response = safe_json_parse(request)
-        if error_response:
-            return error_response
-        
-        form = NewsletterSignupForm(data)
-        if form.is_valid():
-            try:
-                AboutService.send_newsletter_welcome_email(form.cleaned_data)
-                return ErrorResponse.json_success(message='Subscribed successfully!')
-            except Exception as e:
-                ErrorLogger.log_error(e, request)
-                return ErrorResponse.json_error(
-                    message='Failed to process subscription. Please try again later.',
-                    status_code=500,
-                    error_code='SUBSCRIPTION_ERROR'
-                )
-        else:
-            # Convert form.errors to dict for proper JSON serialization
-            errors_dict = {
-                field: errors if isinstance(errors, list) else [str(errors)]
-                for field, errors in form.errors.items()
-            }
-            ErrorLogger.log_validation_error(errors_dict, request, form_name='NewsletterSignupForm')
-            return ErrorResponse.json_error(
-                message='Please correct the errors below.',
-                status_code=400,
-                errors=errors_dict,
-                error_code='VALIDATION_ERROR'
-            )
-
-
-class FeedbackView(View):
-    @handle_view_errors
-    def post(self, request):
-        """Handle feedback form submission"""
-        # Parse JSON safely
-        data, error_response = safe_json_parse(request)
-        if error_response:
-            return error_response
-        
-        form = FeedbackForm(data)
-        if form.is_valid():
-            try:
-                AboutService.send_feedback_email(form.cleaned_data)
-                return ErrorResponse.json_success(message='Feedback sent successfully!')
-            except Exception as e:
-                ErrorLogger.log_error(e, request)
-                return ErrorResponse.json_error(
-                    message='Failed to send feedback. Please try again later.',
-                    status_code=500,
-                    error_code='FEEDBACK_ERROR'
-                )
-        else:
-            # Convert form.errors to dict for proper JSON serialization
-            errors_dict = {
-                field: errors if isinstance(errors, list) else [str(errors)]
-                for field, errors in form.errors.items()
-            }
-            ErrorLogger.log_validation_error(errors_dict, request, form_name='FeedbackForm')
-            return ErrorResponse.json_error(
-                message='Please correct the errors below.',
-                status_code=400,
-                errors=errors_dict,
-                error_code='VALIDATION_ERROR'
-            )
+# NewsletterSignupView and FeedbackView removed - no longer needed
 
 # GalleryView removed - use main gallery app at /gallery/ instead

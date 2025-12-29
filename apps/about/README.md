@@ -33,8 +33,7 @@ The **About App** is a comprehensive Django application that manages all "About 
 - ✅ Leadership Messages (नेतृत्व सन्देशहरू)
 - ✅ Team & Committee Management (टोली र समिति व्यवस्थापन)
 - ✅ Staff Management (कर्मचारी व्यवस्थापन)
-- ✅ Newsletter Signup (न्युजलेटर साइनअप)
-- ✅ Feedback System (प्रतिक्रिया प्रणाली)
+# Newsletter Signup and Feedback System removed - no longer needed
 - ✅ REST API (REST API)
 - ✅ View-Level Caching (भ्यू-स्तर क्यासिङ)
 - ✅ Service-Level Caching (सेवा-स्तर क्यासिङ)
@@ -330,7 +329,7 @@ Tracks user events and interactions with:
 - `video_play`, `video_pause`, `video_complete`
 - `gallery_view`, `map_interaction`
 - `dark_mode_toggle`, `pwa_install`
-- `newsletter_signup`, `contact_form`, `feedback`
+- `contact_form` (Note: Newsletter and Feedback removed)
 
 #### UserDevice
 Tracks device information:
@@ -430,19 +429,7 @@ Daily analytics summaries:
 - **Purpose:** Redirects to main contact app (`contact:contact_view`)
 - **Note:** Contact form functionality has been consolidated to the contact app for unified database storage
 
-#### 9. NewsletterSignupView
-- **Method:** POST (JSON)
-- **Purpose:** Handle newsletter signup
-- **Form:** `NewsletterSignupForm`
-- **Response:** JSON success/error
-- **Email:** Sends welcome email to subscriber
-
-#### 10. FeedbackView
-- **Method:** POST (JSON)
-- **Purpose:** Handle feedback form submissions
-- **Form:** `FeedbackForm`
-- **Response:** JSON success/error
-- **Email:** Sends notification email to administrators
+# NewsletterSignupView and FeedbackView removed - no longer needed
 
 ---
 
@@ -484,15 +471,7 @@ Service layer for business logic and data fetching.
    - Respects SEND_REAL_EMAILS setting
    - Returns: True/False
 
-8. **`send_newsletter_welcome_email(data)`**
-   - Sends welcome email to newsletter subscribers
-   - Respects SEND_REAL_EMAILS setting
-   - Returns: True/False
-
-9. **`send_feedback_email(data)`**
-   - Sends feedback notification emails
-   - Respects SEND_REAL_EMAILS setting
-   - Returns: True/False
+# send_newsletter_welcome_email and send_feedback_email methods removed - no longer needed
 
 ---
 
@@ -595,11 +574,7 @@ All viewsets support:
 - **Use:** Contact app's API endpoint instead
 - **Reason:** Consolidation ensures all contact submissions are saved to the database
 
-#### 11. NewsletterAPIView
-- **URL:** `/api/v1/about/newsletter/`
-- **Method:** POST
-- **Purpose:** Handle newsletter subscriptions via API
-- **Returns:** Success/error response with subscriber_id
+# NewsletterAPIView removed - no longer needed
 
 ---
 
@@ -612,31 +587,7 @@ All viewsets support:
 
 ---
 
-### 2. NewsletterSignupForm
-**Purpose:** Newsletter signup form
-
-**Fields:**
-- `email` - Email Address (required)
-- `name` - Name (optional)
-- `interests` - Areas of Interest (multiple choice, optional)
-  - Options: news, services, events, financial_tips, community
-
-**Styling:** Tailwind CSS classes
-
----
-
-### 3. FeedbackForm
-**Purpose:** Feedback form for website improvements
-
-**Fields:**
-- `rating` - Overall Rating (required)
-  - Options: 5 (Excellent), 4 (Very Good), 3 (Good), 2 (Fair), 1 (Poor)
-- `feedback_type` - Feedback Category (required)
-  - Options: website, content, services, performance, mobile, other
-- `comments` - Additional Comments (optional)
-- `email` - Email (optional)
-
-**Styling:** Tailwind CSS classes
+# NewsletterSignupForm and FeedbackForm removed - no longer needed
 
 ---
 
@@ -748,15 +699,18 @@ Caching is configured via Django settings:
 
 All templates are located in `apps/about/templates/about/`:
 
-1. **about.html** - Main About Us page
+1. **introduction.html** - Main About Us introduction page (redirected from `/about/`)
 2. **timeline.html** - Timeline events page
 3. **affiliations.html** - Affiliations page
-4. **leadership.html** - Leadership messages page
-5. **team.html** - Current team page
-6. **past_team.html** - Past committees page
-7. **cooperative_detail.html** - Cooperative detail page
+4. **chairperson_message.html** - Chairperson message page
+5. **manager_commitment.html** - Manager commitment page
+6. **board_of_directors.html** - Board of directors page
+7. **management.html** - Management team page
+8. **member_testimonials.html** - Member testimonials page
+9. **cooperative_detail.html** - Cooperative detail page
 
 **Note:** 
+- The `about.html` template has been removed - `/about/` now redirects to `/about/introduction/`
 - Contact form templates have been removed - use main contact app at `/contact/` instead
 - Gallery template has been removed - use main gallery app at `/gallery/` instead
 
@@ -834,8 +788,7 @@ urlpatterns = [
     # Note: Gallery removed - use main gallery app at /gallery/ instead
     # Note: Contact form removed - use main contact app at /contact/ instead
     path('contact/', views.ContactView.as_view(), name='contact'),  # Redirects to main contact app
-    path('api/newsletter-signup/', views.NewsletterSignupView.as_view(), name='newsletter_signup'),
-    path('api/feedback/', views.FeedbackView.as_view(), name='feedback'),
+    # Newsletter and Feedback API endpoints removed - no longer needed
     path('cooperative/<slug:slug>/', views.CooperativeDetailView.as_view(), name='cooperative_detail'),
 ]
 ```

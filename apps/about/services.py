@@ -30,6 +30,11 @@ class AboutService:
         """
         Retrieve all data required for the main About Us page.
         
+        NOTE: This method is currently not used in views but kept for:
+        - Potential future use (e.g., API endpoints, dashboard)
+        - Backward compatibility with tests
+        - Reference implementation for similar data aggregation
+        
         Args:
             is_staff: If True, bypasses cache and shows all content including inactive items
             
@@ -80,17 +85,17 @@ class AboutService:
             return {'error': str(ERROR_UNABLE_TO_LOAD)}
 
     @staticmethod
-    def get_timeline_events():
+    def get_timeline_events() -> Any:
         """Retrieve all active timeline events ordered by date (newest first)."""
         return CooperativeTimeline.objects.active().order_by('-event_date')
 
     @staticmethod
-    def get_affiliations():
+    def get_affiliations() -> Any:
         """Retrieve all active affiliations ordered by display order."""
         return CooperativeAffiliation.objects.active().order_by('order')
 
     @staticmethod
-    def get_leadership_messages():
+    def get_leadership_messages() -> Any:
         """Retrieve all active leadership messages ordered by display order."""
         return LeadershipMessage.objects.active().order_by('order')
 
@@ -105,7 +110,7 @@ class AboutService:
         return committees, staff
 
     @staticmethod
-    def get_past_committees():
+    def get_past_committees() -> Any:
         """Retrieve inactive (past) committees ordered by tenure."""
         return Committee.objects.filter(is_active=False).order_by('-tenure_bs').prefetch_related('memberships__person')
 
@@ -196,24 +201,4 @@ class AboutService:
         
         return cls._send_email_safe(subject, message, recipient_list)
 
-    @classmethod
-    def send_newsletter_welcome_email(cls, data: Dict[str, Any]) -> bool:
-        """
-        Send welcome email to new newsletter subscribers.
-        """
-        recipient_list = [data.get('email')]
-        subject = "Welcome to Bhanjyang Cooperative Newsletter"
-        message = f"Hello {data.get('name')},\n\nThank you for subscribing!"
-        
-        return cls._send_email_safe(subject, message, recipient_list)
-
-    @classmethod
-    def send_feedback_email(cls, data: Dict[str, Any]) -> bool:
-        """
-        Send feedback notification email to administrators.
-        """
-        recipient_list = [settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else [settings.DEFAULT_FROM_EMAIL]
-        subject = f"New Feedback: {data.get('feedback_type')}"
-        message = f"Rating: {data.get('rating')}\nComments: {data.get('comments')}\nFrom: {data.get('email')}"
-        
-        return cls._send_email_safe(subject, message, recipient_list)
+    # send_newsletter_welcome_email and send_feedback_email methods removed - no longer needed

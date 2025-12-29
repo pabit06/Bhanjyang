@@ -4,7 +4,8 @@ from .api_views import (
     CooperativeInfoViewSet, CooperativeTimelineViewSet,
     CooperativeAffiliationViewSet, LeadershipMessageViewSet,
     PersonViewSet, CommitteeViewSet, StaffViewSet,
-    SearchAPIView, StatisticsAPIView, NewsletterAPIView
+    SearchAPIView, StatisticsAPIView
+    # NewsletterAPIView removed - no longer needed
 )
 
 # Create router and register viewsets
@@ -27,5 +28,5 @@ urlpatterns = [
     path('search/', SearchAPIView.as_view(), name='search'),
     path('statistics/', StatisticsAPIView.as_view(), name='statistics'),
     # Note: Contact API endpoint removed - use contact app's API instead
-    path('newsletter/', NewsletterAPIView.as_view(), name='newsletter'),
+    # Newsletter API endpoint removed - no longer needed
 ]

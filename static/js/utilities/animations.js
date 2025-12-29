@@ -883,7 +883,7 @@ class BhanjyangAnimations {
      */
     setupScrollProgress() {
         const progressBar = document.createElement('div');
-        progressBar.className = 'fixed top-0 left-0 w-0 h-1 bg-gradient-to-r from-deuraligreen to-bhanjyangred z-50 transition-all duration-300';
+        progressBar.className = 'fixed top-0 left-0 w-0 h-1 bg-deuraligreen z-50 transition-all duration-300';
         progressBar.id = 'scroll-progress';
         document.body.appendChild(progressBar);
         

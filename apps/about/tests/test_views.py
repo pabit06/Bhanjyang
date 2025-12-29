@@ -14,7 +14,8 @@ from apps.about.models import (
     CooperativeAffiliation, LeadershipMessage, Person, Committee,
     Membership, Staff
 )
-from apps.about.forms import ContactForm, NewsletterSignupForm, FeedbackForm
+from apps.about.forms import ContactForm
+# NewsletterSignupForm and FeedbackForm removed - no longer needed
 
 User = get_user_model()
 
@@ -89,22 +90,23 @@ class AboutViewsTest(TestCase):
         )
     
     def test_about_home_view(self):
-        """Test AboutHomeView GET request"""
+        """Test AboutHomeView GET request - should redirect to introduction"""
         response = self.client.get(reverse('about:home'))
         
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'about/about.html')
-        # Check context contains expected data
-        self.assertIn('cooperative_info', response.context)
+        # Should redirect to introduction page
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('about:introduction'))
     
     def test_about_home_view_with_staff(self):
-        """Test AboutHomeView with staff user"""
+        """Test AboutHomeView with staff user - should still redirect"""
         self.user.is_staff = True
         self.user.save()
         self.client.login(username='testuser', password='testpass123')
         
         response = self.client.get(reverse('about:home'))
-        self.assertEqual(response.status_code, 200)
+        # Should redirect to introduction page even for staff
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('about:introduction'))
     
     def test_timeline_view(self):
         """Test TimelineView GET request"""
@@ -231,75 +233,7 @@ class AboutViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'about/contact_success.html')
     
-    def test_newsletter_signup_view_post_valid(self):
-        """Test NewsletterSignupView POST with valid data"""
-        form_data = {
-            'email': 'new@example.com',
-            'name': 'New Subscriber'
-        }
-        
-        response = self.client.post(
-            reverse('about:newsletter_signup'),
-            json.dumps(form_data),
-            content_type='application/json'
-        )
-        
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content)
-        self.assertTrue(data.get('success', False))
-    
-    def test_newsletter_signup_view_post_invalid(self):
-        """Test NewsletterSignupView POST with invalid data"""
-        form_data = {
-            'email': 'invalid-email',  # Invalid
-            'name': ''
-        }
-        
-        response = self.client.post(
-            reverse('about:newsletter_signup'),
-            json.dumps(form_data),
-            content_type='application/json'
-        )
-        
-        self.assertEqual(response.status_code, 400)
-        data = json.loads(response.content)
-        self.assertFalse(data.get('success', False))
-    
-    def test_feedback_view_post_valid(self):
-        """Test FeedbackView POST with valid data"""
-        form_data = {
-            'email': 'test@example.com',
-            'feedback_type': 'other',
-            'rating': 5,
-            'comments': 'Test feedback message'
-        }
-        
-        response = self.client.post(
-            reverse('about:feedback'),
-            json.dumps(form_data),
-            content_type='application/json'
-        )
-        
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.content)
-        self.assertTrue(data.get('success', False))
-    
-    def test_feedback_view_post_invalid(self):
-        """Test FeedbackView POST with invalid data"""
-        form_data = {
-            'email': 'invalid-email',  # Invalid
-            'message': ''  # Invalid
-        }
-        
-        response = self.client.post(
-            reverse('about:feedback'),
-            json.dumps(form_data),
-            content_type='application/json'
-        )
-        
-        self.assertEqual(response.status_code, 400)
-        data = json.loads(response.content)
-        self.assertFalse(data.get('success', False))
+    # Newsletter and Feedback view tests removed - forms no longer needed
     
     # test_gallery_view removed - gallery functionality moved to main gallery app
     # Use gallery app tests instead

@@ -124,46 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Form validation and submission
-    const forms = document.querySelectorAll('form');
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Add loading state
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Sending...';
-                
-                // Simulate form submission (replace with actual submission logic)
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Send Message';
-                    // Show success message
-                    showNotification('Message sent successfully!', 'success');
-                }, 2000);
-            }
-        });
-    });
-
-    // Notification system
-    function showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
-            type === 'success' ? 'bg-green-500 text-white' : 
-            type === 'error' ? 'bg-red-500 text-white' : 
-            'bg-blue-500 text-white'
-        }`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        // Auto remove after 3 seconds
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
-    }
+    // Form validation and submission code removed - no forms needed in about app
 
     // Search functionality (if search input exists)
     const searchInput = document.querySelector('#search-input');

@@ -23,8 +23,7 @@ urlpatterns = [
     
     # Form handling
     path('contact/', views.ContactView.as_view(), name='contact'),  # Redirects to main contact app
-    path('api/newsletter-signup/', views.NewsletterSignupView.as_view(), name='newsletter_signup'),
-    path('api/feedback/', views.FeedbackView.as_view(), name='feedback'),
+    # Newsletter and Feedback forms removed - no longer needed
     
     # Cooperative detail
     path('cooperative/<slug:slug>/', views.CooperativeDetailView.as_view(), name='cooperative_detail'),

@@ -15,7 +15,7 @@ from apps.about.models import (
 # from apps.about.views import (
 #     about_home_view, timeline_view, achievements_view,
 #     affiliations_view, leadership_view, team_view, gallery_view,
-#     contact_view, newsletter_signup_view, feedback_view
+#     contact_view (newsletter_signup_view and feedback_view removed)
 # )
 from apps.about.api_views import (
     CooperativeInfoViewSet, CooperativeTimelineViewSet,
@@ -234,38 +234,7 @@ class ViewTestCase(TestCase):
         response = self.client.post(reverse('about:contact'), data)
         self.assertEqual(response.status_code, 302)  # Redirect after successful submission
     
-    def test_newsletter_signup_view(self):
-        """Test newsletter signup API view"""
-        data = {
-            'name': 'Test User',
-            'email': 'test@example.com',
-            'interests': ['news']
-        }
-        response = self.client.post(
-            reverse('about:newsletter_signup'),
-            data=json.dumps(data),
-            content_type='application/json'
-        )
-        self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.content)
-        self.assertTrue(response_data['success'])
-    
-    def test_feedback_view(self):
-        """Test feedback API view"""
-        data = {
-            'feedback_type': 'website',
-            'rating': '5',
-            'comments': 'Great website!',
-            'email': 'test@example.com'
-        }
-        response = self.client.post(
-            reverse('about:feedback'),
-            data=json.dumps(data),
-            content_type='application/json'
-        )
-        self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.content)
-        self.assertTrue(response_data['success'])
+    # test_newsletter_signup_view and test_feedback_view removed - forms no longer needed
 
 
 class APITestCase(TestCase):
@@ -453,20 +422,7 @@ class IntegrationTestCase(TestCase):
         response = self.client.post(reverse('about:contact'), data)
         self.assertEqual(response.status_code, 302)  # Redirect after success
         
-        # Test newsletter signup
-        data = {
-            'name': 'Integration Test User',
-            'email': 'integration@example.com',
-            'interests': ['news']
-        }
-        response = self.client.post(
-            reverse('about:newsletter_signup'),
-            data=json.dumps(data),
-            content_type='application/json'
-        )
-        self.assertEqual(response.status_code, 200)
-        response_data = json.loads(response.content)
-        self.assertTrue(response_data['success'])
+        # Newsletter signup test removed - form no longer needed
 
 
 class PerformanceTestCase(TestCase):
@@ -579,35 +535,4 @@ class ServiceTestCase(TestCase):
             self.assertTrue(result)
             self.assertEqual(mock_send_mail.call_count, 1)
 
-    @patch('apps.about.services.send_mail')
-    def test_send_newsletter_email(self, mock_send_mail):
-        """Test send_newsletter_welcome_email service logic"""
-        from apps.about.services import AboutService
-        
-        data = {
-            'name': 'Subscriber',
-            'email': 'sub@example.com',
-            'interests': ['News', 'Events']
-        }
-        
-        with self.settings(SEND_REAL_EMAILS=True):
-            result = AboutService.send_newsletter_welcome_email(data)
-            self.assertTrue(result)
-            mock_send_mail.assert_called_once()
-    
-    @patch('apps.about.services.send_mail')
-    def test_send_feedback_email(self, mock_send_mail):
-        """Test send_feedback_email service logic"""
-        from apps.about.services import AboutService
-        
-        data = {
-            'feedback_type': 'Bug',
-            'rating': 1,
-            'comments': 'Fix it!',
-            'email': 'user@example.com'
-        }
-        
-        with self.settings(SEND_REAL_EMAILS=True):
-            result = AboutService.send_feedback_email(data)
-            self.assertTrue(result)
-            mock_send_mail.assert_called_once()
+    # Newsletter and feedback email service tests removed - methods no longer needed

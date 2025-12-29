@@ -152,55 +152,5 @@ class AboutServiceTest(TestCase):
                 # Function catches exception and returns False
                 self.assertFalse(result)
     
-    def test_send_newsletter_welcome_email_without_real_emails(self):
-        """Test sending newsletter welcome email when SEND_REAL_EMAILS is False"""
-        data = {
-            'name': 'John Doe',
-            'email': 'john@example.com'
-        }
-        
-        with patch('apps.about.services.settings.SEND_REAL_EMAILS', False):
-            result = AboutService.send_newsletter_welcome_email(data)
-            self.assertTrue(result)
-    
-    def test_send_newsletter_welcome_email_with_real_emails(self):
-        """Test sending newsletter welcome email when SEND_REAL_EMAILS is True"""
-        data = {
-            'name': 'John Doe',
-            'email': 'john@example.com'
-        }
-        
-        with patch('apps.about.services.settings.SEND_REAL_EMAILS', True):
-            with patch('apps.about.services.send_mail') as mock_send:
-                result = AboutService.send_newsletter_welcome_email(data)
-                self.assertTrue(result)
-                mock_send.assert_called_once()
-    
-    def test_send_feedback_email_without_real_emails(self):
-        """Test sending feedback email when SEND_REAL_EMAILS is False"""
-        data = {
-            'feedback_type': 'General',
-            'rating': 5,
-            'comments': 'Great!',
-            'email': 'john@example.com'
-        }
-        
-        with patch('apps.about.services.settings.SEND_REAL_EMAILS', False):
-            result = AboutService.send_feedback_email(data)
-            self.assertTrue(result)
-    
-    def test_send_feedback_email_with_real_emails(self):
-        """Test sending feedback email when SEND_REAL_EMAILS is True"""
-        data = {
-            'feedback_type': 'General',
-            'rating': 5,
-            'comments': 'Great!',
-            'email': 'john@example.com'
-        }
-        
-        with patch('apps.about.services.settings.SEND_REAL_EMAILS', True):
-            with patch('apps.about.services.send_mail') as mock_send:
-                result = AboutService.send_feedback_email(data)
-                self.assertTrue(result)
-                mock_send.assert_called_once()
+    # Newsletter and feedback email service tests removed - methods no longer needed
 
