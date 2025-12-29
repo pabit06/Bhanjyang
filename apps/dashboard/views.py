@@ -4,10 +4,12 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from django.utils.translation import activate
 from datetime import datetime
 import json
 import logging
 
+from apps.core.view_mixins import NepaliLanguageMixin
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -28,7 +30,7 @@ from .services import (
 logger = logging.getLogger(__name__)
 
 @method_decorator(staff_member_required, name='dispatch')
-class DashboardView(TemplateView):
+class DashboardView(NepaliLanguageMixin, TemplateView):
     """Main website dashboard with comprehensive analytics"""
     template_name = 'dashboard/dashboard.html'
     
@@ -97,6 +99,11 @@ class DashboardDataView(APIView):
     """Enhanced API endpoint for dashboard data with filtering capabilities"""
     permission_classes = [IsAdminUser]
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     @extend_schema(
         parameters=[DashboardFilterSerializer],
         responses=DashboardDataResponseSerializer
@@ -123,6 +130,11 @@ class DashboardDataView(APIView):
 class TrackPageView(APIView):
     """Track page view performance"""
     permission_classes = [AllowAny]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
     
     @extend_schema(request=PageViewSerializer, responses={200: dict})
     def post(self, request):
@@ -164,6 +176,11 @@ class TrackErrorView(APIView):
     """Track errors and exceptions"""
     permission_classes = [AllowAny]
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     @extend_schema(request=ErrorLogSerializer, responses={200: dict})
     def post(self, request):
         try:
@@ -186,6 +203,11 @@ class TrackErrorView(APIView):
 class DashboardReportView(APIView):
     """Generate dashboard report"""
     permission_classes = [IsAdminUser]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
 
     @extend_schema(
         request=DashboardReportRequestSerializer,
@@ -212,6 +234,11 @@ class DashboardReportView(APIView):
 class ExportDashboardDataView(APIView):
     """Export dashboard data"""
     permission_classes = [IsAdminUser]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
 
     @extend_schema(
         parameters=[
@@ -241,6 +268,11 @@ class AlertsView(APIView):
     """Get active alerts"""
     permission_classes = [IsAdminUser]
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     @extend_schema(responses=AlertLogSerializer(many=True))
     def get(self, request):
         alerts = DashboardMonitoringService.get_active_alerts()
@@ -251,6 +283,11 @@ class AlertsView(APIView):
 class ResolveAlertView(APIView):
     """Resolve an alert"""
     permission_classes = [IsAdminUser]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, alert_id):
         if DashboardMonitoringService.resolve_alert(alert_id, request.user):
@@ -262,6 +299,11 @@ class DashboardWidgetsView(APIView):
     """Get dashboard widgets configuration"""
     permission_classes = [IsAdminUser]
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     @extend_schema(responses=DashboardWidgetSerializer(many=True))
     def get(self, request):
         config = DashboardWidgetService.get_user_config(request.user)
@@ -272,6 +314,11 @@ class UserPreferenceView(APIView):
     """Update user dashboard preferences"""
     permission_classes = [IsAdminUser]
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def post(self, request):
         if DashboardWidgetService.update_preferences(request.user, request.data):
              return Response({'success': True})
@@ -279,7 +326,7 @@ class UserPreferenceView(APIView):
 
 
 @method_decorator(staff_member_required, name='dispatch')
-class PerformanceDashboardView(TemplateView):
+class PerformanceDashboardView(NepaliLanguageMixin, TemplateView):
     """Dedicated Performance Monitoring Dashboard"""
     template_name = 'dashboard/performance.html'
     
@@ -296,30 +343,33 @@ class PerformanceDashboardView(TemplateView):
 
 # Wrappers for legacy URLs
 @method_decorator(staff_member_required, name='dispatch')
-class AnalyticsDashboardView(TemplateView):
+class AnalyticsDashboardView(NepaliLanguageMixin, TemplateView):
     template_name = 'dashboard/analytics.html'
 
 @method_decorator(staff_member_required, name='dispatch')
-class ErrorDashboardView(TemplateView):
+class ErrorDashboardView(NepaliLanguageMixin, TemplateView):
     template_name = 'dashboard/errors.html'
 
 @method_decorator(staff_member_required, name='dispatch')
-class ReportsDashboardView(TemplateView):
+class ReportsDashboardView(NepaliLanguageMixin, TemplateView):
     template_name = 'dashboard/reports.html'
 
 class PerformanceDataView(DashboardDataView):
+    """Performance data view - inherits dispatch from DashboardDataView"""
     def get(self, request):
         request.GET = request.GET.copy()
         request.GET['type'] = 'page_load'
         return super().get(request)
 
 class AnalyticsDataView(DashboardDataView):
+    """Analytics data view - inherits dispatch from DashboardDataView"""
     def get(self, request):
         request.GET = request.GET.copy()
         request.GET['type'] = 'traffic'
         return super().get(request)
 
 class ErrorsDataView(DashboardDataView):
+    """Errors data view - inherits dispatch from DashboardDataView"""
     def get(self, request):
         request.GET = request.GET.copy()
         request.GET['type'] = 'errors'

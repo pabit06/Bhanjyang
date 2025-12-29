@@ -10,6 +10,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+from django.utils.translation import activate
 
 from apps.core.error_handling import ErrorLogger, ErrorResponse
 
@@ -31,6 +32,7 @@ def contact_view(request):
     
     Returns JSON response for POST requests, rendered template for GET.
     """
+    activate('ne')
     start_time = time.time()
     
     if request.method == 'GET':
@@ -113,6 +115,7 @@ def kym_form_view(request):
     
     Returns JSON response for POST requests, rendered template for GET.
     """
+    activate('ne')
     if request.method == 'GET':
         context = KYMService.get_kym_page_context()
         return render(request, 'contact/kym_form.html', context)
@@ -174,6 +177,7 @@ def kym_form_view(request):
 
 def privacy_policy_view(request):
     """Render the privacy policy page."""
+    activate('ne')
     from apps.about.models import CooperativeInfo
     
     # Fetch cooperative info for dynamic contact details

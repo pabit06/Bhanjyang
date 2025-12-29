@@ -202,14 +202,24 @@ class ViewTestCase(TestCase):
         response = self.client.get(reverse('about:affiliations'))
         self.assertEqual(response.status_code, 200)
     
-    def test_leadership_view(self):
-        """Test leadership view"""
-        response = self.client.get(reverse('about:leadership'))
+    def test_chairperson_message_view(self):
+        """Test chairperson message view"""
+        response = self.client.get(reverse('about:chairperson_message'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_manager_commitment_view(self):
+        """Test manager commitment view"""
+        response = self.client.get(reverse('about:manager_commitment'))
         self.assertEqual(response.status_code, 200)
     
-    def test_team_view(self):
-        """Test team view"""
-        response = self.client.get(reverse('about:team'))
+    def test_board_of_directors_view(self):
+        """Test board of directors view"""
+        response = self.client.get(reverse('about:board_of_directors'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_management_view(self):
+        """Test management view"""
+        response = self.client.get(reverse('about:management'))
         self.assertEqual(response.status_code, 200)
     
     # test_gallery_view removed - gallery functionality moved to main gallery app

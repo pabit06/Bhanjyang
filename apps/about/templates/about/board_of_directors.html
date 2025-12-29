@@ -52,14 +52,14 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
-            Governance
+            {% trans "Governance" %}
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
-            Board of Directors
+            {% trans "Board of Directors" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6 shadow-lg"></div>
         <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Meet our elected leadership who guide our cooperative's vision and governance
+            {% trans "Meet our elected leadership who guide our cooperative's vision and governance" %}
         </p>
     </div>
 </section>
@@ -81,7 +81,7 @@
             <div class="mb-16">
                 <div class="text-center mb-12">
                     <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
-                        Committee
+                        {% trans "Committee" %}
                     </span>
                     <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
                         {{ committee.name }}
@@ -89,7 +89,7 @@
                     <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-4"></div>
                     {% if committee.tenure_bs %}
                     <p class="text-lg text-gray-600 mb-2">
-                        <span class="text-deuraligreen font-semibold">Tenure:</span> {{ committee.tenure_bs }}
+                        <span class="text-deuraligreen font-semibold">{% trans "Tenure:" %}</span> {{ committee.tenure_bs }}
                     </p>
                     {% endif %}
                     {% if committee.description %}

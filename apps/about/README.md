@@ -306,49 +306,6 @@ The **About App** is a comprehensive Django application that manages all "About 
 
 ---
 
-### 10. Analytics Models (विश्लेषण मोडेलहरू)
-
-#### UserSession
-Tracks user sessions with:
-- `session_id`, `user`, `ip_address`, `user_agent`, `referrer`
-- `start_time`, `end_time`, `duration`
-- `page_views`, `is_active`
-
-#### PageView
-Tracks individual page views with:
-- `session`, `url`, `path`, `title`, `referrer`
-- `timestamp`, `duration`, `scroll_depth`, `exit_page`
-
-#### UserEvent
-Tracks user events and interactions with:
-- `session`, `event_type`, `element_id`, `element_class`, `element_text`
-- `url`, `timestamp`, `metadata` (JSON)
-
-**Event Types:**
-- `click`, `scroll`, `form_submit`, `download`, `search`
-- `video_play`, `video_pause`, `video_complete`
-- `gallery_view`, `map_interaction`
-- `dark_mode_toggle`, `pwa_install`
-- `contact_form` (Note: Newsletter and Feedback removed)
-
-#### UserDevice
-Tracks device information:
-- `session`, `device_type`, `browser`, `browser_version`
-- `operating_system`, `screen_resolution`, `viewport_size`
-- `is_mobile`, `is_tablet`, `is_desktop`
-
-#### UserLocation
-Tracks user location:
-- `session`, `country`, `country_code`, `region`, `city`
-- `latitude`, `longitude`, `timezone`
-
-#### AnalyticsSummary
-Daily analytics summaries:
-- `date`, `total_sessions`, `unique_visitors`, `total_page_views`
-- `average_session_duration`, `bounce_rate`
-- `top_pages`, `top_referrers` (JSON)
-- `device_breakdown`, `browser_breakdown`, `country_breakdown` (JSON)
-
 ---
 
 ## Views (भ्यूहरू)
@@ -778,17 +735,28 @@ pytest apps/about/tests/ --cov=apps.about
 app_name = 'about'
 
 urlpatterns = [
+    # Main about page - redirect to introduction
     path('', views.AboutHomeView.as_view(), name='home'),
+    
+    # Sub-pages
+    path('introduction/', views.IntroductionView.as_view(), name='introduction'),
     path('timeline/', views.TimelineView.as_view(), name='timeline'),
     path('affiliations/', views.AffiliationsView.as_view(), name='affiliations'),
-    path('leadership/', views.LeadershipView.as_view(), name='leadership'),
-    path('team/', views.TeamView.as_view(), name='team'),
-    path('team/past/', views.PastTeamView.as_view(), name='past_team'),
+    path('chairperson-message/', views.ChairpersonMessageView.as_view(), name='chairperson_message'),
+    path('manager-commitment/', views.ManagerCommitmentView.as_view(), name='manager_commitment'),
     
-    # Note: Gallery removed - use main gallery app at /gallery/ instead
-    # Note: Contact form removed - use main contact app at /contact/ instead
+    # Team pages
+    path('board-of-directors/', views.BoardOfDirectorsView.as_view(), name='board_of_directors'),
+    path('management/', views.ManagementView.as_view(), name='management'),
+    
+    # Testimonials
+    path('member-testimonials/', views.MemberTestimonialsView.as_view(), name='member_testimonials'),
+    
+    # Form handling
     path('contact/', views.ContactView.as_view(), name='contact'),  # Redirects to main contact app
-    # Newsletter and Feedback API endpoints removed - no longer needed
+    # Newsletter and Feedback forms removed - no longer needed
+    
+    # Cooperative detail
     path('cooperative/<slug:slug>/', views.CooperativeDetailView.as_view(), name='cooperative_detail'),
 ]
 ```
@@ -799,11 +767,14 @@ urlpatterns = [
 app_name = 'about_api'
 
 urlpatterns = [
-    path('', include(router.urls)),  # All viewsets
+    # API router URLs
+    path('', include(router.urls)),
+    
+    # Additional API endpoints
     path('search/', SearchAPIView.as_view(), name='search'),
     path('statistics/', StatisticsAPIView.as_view(), name='statistics'),
     # Note: Contact API endpoint removed - use contact app's API instead
-    path('newsletter/', NewsletterAPIView.as_view(), name='newsletter'),
+    # Newsletter API endpoint removed - no longer needed
 ]
 ```
 
@@ -889,7 +860,7 @@ For issues, questions, or contributions:
 
 ---
 
-**Last Updated:** 2024
+**Last Updated:** 2025
 **Version:** 1.0
 **Maintained By:** Bhanjyang Cooperative Development Team
 

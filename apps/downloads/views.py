@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.utils.translation import activate
 from .models import DownloadableFile, FileCategory, PriorityLevel
 from .security import (
     rate_limit_downloads, rate_limit_bulk_downloads, require_download_permission,
@@ -26,6 +27,7 @@ def download_center_view(request):
     Only active, non-expired files are displayed.
     Enhanced with caching for better performance.
     """
+    activate('ne')
     category_code = request.GET.get('category')
     priority_code = request.GET.get('priority')
     featured_only = request.GET.get('featured') == 'true'
@@ -140,6 +142,7 @@ def download_file_view(request, pk):
     Increment the download count and redirect to the actual file URL.
     Handles login requirements and expiration checks with enhanced security.
     """
+    activate('ne')
     file_obj = get_object_or_404(DownloadableFile, pk=pk, is_active=True)
 
     # Check if file has expired
@@ -171,6 +174,7 @@ def file_detail_view(request, pk):
     """
     Display detailed information about a file and increment view count.
     """
+    activate('ne')
     file_obj = get_object_or_404(DownloadableFile, pk=pk, is_active=True)
 
     # Check if file has expired
@@ -200,6 +204,7 @@ def bulk_download_view(request):
     """
     Create a ZIP file containing multiple downloadable files.
     """
+    activate('ne')
     try:
         import zipfile
         import tempfile
@@ -263,6 +268,7 @@ def download_history_view(request):
     """
     Show user's download history.
     """
+    activate('ne')
     # This would typically query a download history table
     # For now, we'll show recent downloads from the user's session
     context = {
@@ -276,6 +282,7 @@ def file_preview_view(request, pk):
     """
     Preview file content (for supported file types).
     """
+    activate('ne')
     file_obj = get_object_or_404(DownloadableFile, pk=pk, is_active=True)
     
     # Check access permissions

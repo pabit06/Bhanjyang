@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!-- Top Bar -->
 <div class="bg-white text-gray-700 py-2 px-4 sm:px-20 text-xs sm:text-sm shadow-md">
     <div class="container mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-x-2 gap-y-1">
@@ -13,10 +14,10 @@
         </div>
         <div class="flex items-center space-x-2">
             <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
-                <i class="fas fa-headset mr-1 text-bhanjyangred"></i> Support
+                <i class="fas fa-headset mr-1 text-bhanjyangred"></i> {% trans "Support" %}
             </a>
             <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
-                <i class="fas fa-user-circle mr-1 text-bhanjyangred"></i> Login
+                <i class="fas fa-user-circle mr-1 text-bhanjyangred"></i> {% trans "Login" %}
             </a>
         </div>
     </div>
@@ -43,53 +44,53 @@
             {% with request.resolver_match.app_name as app_name %}
             
             <!-- Home -->
-            <a href="{% url 'home:index' %}" class="nav-link nav-link-underline {% if url_name == 'index' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Home</a>
+            <a href="{% url 'home:index' %}" class="nav-link nav-link-underline {% if url_name == 'index' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "Home" %}</a>
             
             <!-- About Us -->
             <div class="group relative">
                 <span class="nav-link nav-link-underline cursor-pointer {% if app_name == 'about' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">
-                    About Us
+                    {% trans "About Us" %}
                 </span>
                 <!-- Invisible bridge to maintain hover when moving to dropdown -->
                 <div class="absolute left-0 top-full w-full h-2 pointer-events-none group-hover:pointer-events-auto"></div>
                 <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
                     <div class="bg-white shadow-lg rounded-md py-2 w-56">
                         <a href="{% url 'about:introduction' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-book-open mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> Introduction
+                            <i class="fas fa-book-open mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Introduction" %}
                         </a>
                         <a href="{% url 'about:chairperson_message' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-crown mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> Chairperson Message
+                            <i class="fas fa-crown mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Chairperson Message" %}
                         </a>
                         <a href="{% url 'about:manager_commitment' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> Manager Commitment
+                            <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Manager Commitment" %}
                         </a>
                         <a href="{% url 'about:board_of_directors' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-users mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> Board of Directors
+                            <i class="fas fa-users mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Board of Directors" %}
                         </a>
                         <a href="{% url 'about:management' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> Management
+                            <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Management" %}
                         </a>
                         <a href="{% url 'about:affiliations' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-handshake mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> Affiliations
+                            <i class="fas fa-handshake mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Affiliations" %}
                         </a>
                         <a href="{% url 'about:member_testimonials' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-comments mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> Member Testimonials
+                            <i class="fas fa-comments mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Member Testimonials" %}
                         </a>
                     </div>
                 </div>
             </div>
             
             <!-- Services -->
-            <a href="{% url 'services:overview' %}" class="nav-link nav-link-underline {% if app_name == 'services' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Services</a>
+            <a href="{% url 'services:overview' %}" class="nav-link nav-link-underline {% if app_name == 'services' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "Services" %}</a>
             
             <!-- News & Events -->
-            <a href="{% url 'news_events:home' %}" class="nav-link nav-link-underline {% if app_name == 'news_events' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">News & Events</a>
+            <a href="{% url 'news_events:home' %}" class="nav-link nav-link-underline {% if app_name == 'news_events' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "News & Events" %}</a>
             
             <!-- Downloads -->
-            <a href="{% url 'downloads:download_center' %}" class="nav-link nav-link-underline {% if app_name == 'downloads' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Downloads</a>
+            <a href="{% url 'downloads:download_center' %}" class="nav-link nav-link-underline {% if app_name == 'downloads' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "Downloads" %}</a>
             
             <!-- Contact Us -->
-            <a href="{% url 'contact:contact_view' %}" class="nav-link nav-link-underline {% if app_name == 'contact' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">Contact Us</a>
+            <a href="{% url 'contact:contact_view' %}" class="nav-link nav-link-underline {% if app_name == 'contact' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "Contact Us" %}</a>
 
             {% endwith %}
             {% endwith %}
@@ -117,7 +118,7 @@
             <!-- Search Input (Hidden by default) -->
             <div id="search-container" class="hidden absolute right-0 top-full mt-2 bg-white shadow-lg rounded-md p-4 w-80 z-50 transition-all duration-300 opacity-0 transform translate-y-2 scale-95">
                 <form action="{% url 'search:advanced_search' %}" method="get" class="flex items-center gap-2">
-                    <input type="text" name="q" id="search-input" placeholder="Search..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" autocomplete="off">
+                    <input type="text" name="q" id="search-input" placeholder="{% trans 'Search...' %}" class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" autocomplete="off">
                     <button type="submit" id="search-submit" class="bg-deuraligreen text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors" aria-label="Search">
                         <i class="fas fa-search"></i>
                     </button>
@@ -166,57 +167,57 @@
                     {% with request.resolver_match.app_name as app_name %}
                     
                     <a href="{% url 'home:index' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if url_name == 'index' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-home mr-3"></i> Home
+                        <i class="fas fa-home mr-3"></i> {% trans "Home" %}
                     </a>
                     
                     <!-- About Us with Dropdown -->
                     <div>
                         <button id="mobile-about-toggle" type="button" class="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'about' %}bg-white text-bhanjyangred{% endif %}">
                             <div class="flex items-center">
-                                <i class="fas fa-info-circle mr-3"></i> About Us
+                                <i class="fas fa-info-circle mr-3"></i> {% trans "About Us" %}
                             </div>
                             <i class="fas fa-chevron-down transition-transform duration-300" id="mobile-about-icon"></i>
                         </button>
                         
                         <div id="mobile-about-submenu" class="hidden ml-4 pl-4 border-l-2 border-gray-200 space-y-1 mt-1">
                             <a href="{% url 'about:introduction' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-book-open mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> Introduction
+                                <i class="fas fa-book-open mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Introduction" %}
                             </a>
                             <a href="{% url 'about:chairperson_message' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-crown mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> Chairperson Message
+                                <i class="fas fa-crown mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Chairperson Message" %}
                             </a>
                             <a href="{% url 'about:manager_commitment' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> Manager Commitment
+                                <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Manager Commitment" %}
                             </a>
                             <a href="{% url 'about:board_of_directors' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-users mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> Board of Directors
+                                <i class="fas fa-users mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Board of Directors" %}
                             </a>
                             <a href="{% url 'about:management' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> Management
+                                <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Management" %}
                             </a>
                             <a href="{% url 'about:affiliations' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-handshake mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> Affiliations
+                                <i class="fas fa-handshake mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Affiliations" %}
                             </a>
                             <a href="{% url 'about:member_testimonials' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-comments mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> Member Testimonials
+                                <i class="fas fa-comments mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Member Testimonials" %}
                             </a>
                         </div>
                     </div>
                     
                     <a href="{% url 'services:overview' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'services' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-briefcase mr-3"></i> Services
+                        <i class="fas fa-briefcase mr-3"></i> {% trans "Services" %}
                     </a>
                     
                     <a href="{% url 'news_events:home' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'news_events' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-newspaper mr-3"></i> News & Events
+                        <i class="fas fa-newspaper mr-3"></i> {% trans "News & Events" %}
                     </a>
                     
                     <a href="{% url 'downloads:download_center' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'downloads' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-download mr-3"></i> Downloads
+                        <i class="fas fa-download mr-3"></i> {% trans "Downloads" %}
                     </a>
                     
                     <a href="{% url 'contact:contact_view' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'contact' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-envelope mr-3"></i> Contact Us
+                        <i class="fas fa-envelope mr-3"></i> {% trans "Contact Us" %}
                     </a>
                     
                     {% endwith %}
@@ -227,7 +228,7 @@
                 <div class="mt-6 pt-6 border-t border-gray-200 space-y-4">
                     <!-- Dark Mode Toggle in Mobile Menu -->
                     <div class="flex items-center justify-between px-4 py-3 bg-gray-100 rounded-md">
-                        <span class="text-sm font-medium text-gray-700">Dark Mode</span>
+                        <span class="text-sm font-medium text-gray-700">{% trans "Dark Mode" %}</span>
                         <button id="theme-toggle-mobile-menu" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2" aria-label="Toggle dark mode">
                             <i class="fas fa-moon text-xl" id="theme-icon-mobile-menu"></i>
                         </button>
@@ -235,7 +236,7 @@
                     
                     <!-- Search Form -->
                     <form action="{% url 'search:advanced_search' %}" method="get" class="flex items-center gap-2">
-                        <input type="text" name="q" id="mobile-search-input" placeholder="Search..." class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" autocomplete="off">
+                        <input type="text" name="q" id="mobile-search-input" placeholder="{% trans 'Search...' %}" class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" autocomplete="off">
                         <button type="submit" id="mobile-search-submit" class="bg-deuraligreen text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors" aria-label="Search">
                             <i class="fas fa-search"></i>
                         </button>

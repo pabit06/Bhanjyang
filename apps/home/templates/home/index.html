@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Bhanjyang Cooperative - Home{% endblock title %}
 
@@ -64,34 +65,33 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
                         <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                            Welcome to Bhanjyang Cooperative
+                            {% trans "Welcome to Bhanjyang Cooperative" %}
                         </span>
                         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
                             style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
-                            Empowering Your Financial Journey in Rupa
+                            {% trans "Empowering Your Financial Journey in Rupa" %}
                         </h1>
                         <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
                         <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
                             style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
-                            Bhanjyang Cooperative is dedicated to fostering economic growth and community development in
-                            Rupa Rural Municipality through reliable and accessible financial services.
+                            {% trans "Bhanjyang Cooperative is dedicated to fostering economic growth and community development in Rupa Rural Municipality through reliable and accessible financial services." %}
                         </p>
                         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:overview' %}"
                                 class="btn-primary group bg-bhanjyangred text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-red-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-red-500/50 focus:outline-none focus:ring-4 focus:ring-white/50"
-                                aria-label="Explore our financial services">
+                                aria-label="{% trans 'Explore our financial services' %}">
                                 <span class="relative z-10 flex items-center gap-2">
                                     <i class="fas fa-search group-hover:rotate-12 transition-transform duration-300" aria-hidden="true"></i>
-                                    <span>Explore Services</span>
+                                    <span>{% trans "Explore Services" %}</span>
                                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
                                         aria-hidden="true"></i>
                                 </span>
                             </a>
                             <a href="{% url 'contact:contact_view' %}"
                                 class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50 focus:outline-none focus:ring-4 focus:ring-white/50"
-                                aria-label="Contact Bhanjyang Cooperative">
+                                aria-label="{% trans 'Contact Bhanjyang Cooperative' %}">
                                 <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300" aria-hidden="true"></i>
-                                <span>Contact Us</span>
+                                <span>{% trans "Contact Us" %}</span>
                             </a>
                         </div>
                     </div>
@@ -120,30 +120,29 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
                         <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                            Savings & Investments
+                            {% trans "Savings & Investments" %}
                         </span>
                         <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
                             style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
-                            Secure Your Future with Smart Savings
+                            {% trans "Secure Your Future with Smart Savings" %}
                         </h2>
                         <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
                         <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
                             style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
-                            Our flexible savings plans offer competitive interest rates, helping you achieve your
-                            financial goals faster and with peace of mind.
+                            {% trans "Our flexible savings plans offer competitive interest rates, helping you achieve your financial goals faster and with peace of mind." %}
                         </p>
                         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:savings_list' %}"
                                 class="group bg-deuraligreen text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-green-500/50">
                                 <i class="fas fa-piggy-bank group-hover:scale-110 transition-transform duration-300"></i>
-                                <span>View Savings Plans</span>
+                                <span>{% trans "View Savings Plans" %}</span>
                                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
                                     aria-hidden="true"></i>
                             </a>
                             <a href="{% url 'contact:contact_view' %}"
                                 class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50">
                                 <i class="fas fa-file-invoice-dollar group-hover:rotate-12 transition-transform duration-300"></i>
-                                <span>Open Account</span>
+                                <span>{% trans "Open Account" %}</span>
                             </a>
                         </div>
                     </div>
@@ -168,31 +167,30 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
                         <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                            Loan Services
+                            {% trans "Loan Services" %}
                         </span>
                         <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
                             style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
-                            Loans Tailored to Your Ambition
+                            {% trans "Loans Tailored to Your Ambition" %}
                         </h2>
                         <div class="w-32 h-1 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
                         <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
                             style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
-                            Whether for personal needs, business expansion, or agricultural projects, our flexible loan
-                            products are designed to fuel your success.
+                            {% trans "Whether for personal needs, business expansion, or agricultural projects, our flexible loan products are designed to fuel your success." %}
                         </p>
                         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:loan_list' %}"
                                 class="group bg-bhanjyangred text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-red-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-red-500/50">
                                 <i class="fas fa-hand-holding-usd group-hover:translate-x-1 transition-transform duration-200"></i>
-                                <span>Apply for a Loan</span>
+                                <span>{% trans "Apply for a Loan" %}</span>
                                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
                                     aria-hidden="true"></i>
                             </a>
                             <a href="{% url 'services:loan_calculator' %}"
                                 class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-bhanjyangred hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50"
-                                aria-label="Calculate loan EMI and payment">
+                                aria-label="{% trans 'Calculate loan EMI and payment' %}">
                                 <i class="fas fa-calculator group-hover:rotate-12 transition-transform duration-300"></i>
-                                <span>Loan Calculator</span>
+                                <span>{% trans "Loan Calculator" %}</span>
                             </a>
                         </div>
                     </div>
@@ -217,7 +215,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
                     <div class="animate-fade-in-up">
                         <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                            Remittance Services
+                            {% trans "Remittance Services" %}
                         </span>
                         <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
                             style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
@@ -232,16 +230,16 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
                             <a href="{% url 'services:remittance_list' %}"
                                 class="group bg-deuraligreen text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-green-500/50"
-                                aria-label="View remittance services">
+                                aria-label="{% trans 'View remittance services' %}">
                                 <i class="fas fa-money-bill-transfer group-hover:translate-x-1 transition-transform duration-200"></i>
-                                <span>रेमिट्यान्स सेवा</span>
+                                <span>{% trans "Remittance Services" %}</span>
                                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
                                     aria-hidden="true"></i>
                             </a>
                             <a href="{% url 'contact:contact_view' %}"
                                 class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50">
                                 <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300"></i>
-                                <span>Contact Us</span>
+                                <span>{% trans "Contact Us" %}</span>
                             </a>
                         </div>
                         <!-- Remittance Partner Logos -->

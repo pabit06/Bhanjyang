@@ -66,6 +66,11 @@ class TimelineView(ListView):
     paginate_by = 12
     context_object_name = 'page_obj'
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_queryset(self) -> QuerySet:
         return AboutService.get_timeline_events()
     
@@ -83,6 +88,11 @@ class TimelineView(ListView):
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
 class AffiliationsView(SafeContextDataMixin, TemplateView):
     template_name = 'about/affiliations.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -107,6 +117,11 @@ class AffiliationsView(SafeContextDataMixin, TemplateView):
 class ChairpersonMessageView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Chairperson Message"""
     template_name = 'about/chairperson_message.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -135,6 +150,11 @@ class ManagerCommitmentView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Manager Commitment"""
     template_name = 'about/manager_commitment.html'
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         
@@ -162,6 +182,11 @@ class BoardOfDirectorsView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Board of Directors (Committees)"""
     template_name = 'about/board_of_directors.html'
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         
@@ -188,6 +213,11 @@ class ManagementView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Management Team (Staff)"""
     template_name = 'about/management.html'
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         
@@ -213,6 +243,11 @@ class ManagementView(SafeContextDataMixin, TemplateView):
 class MemberTestimonialsView(SafeContextDataMixin, TemplateView):
     """Dedicated page for Member Testimonials"""
     template_name = 'about/member_testimonials.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -248,10 +283,10 @@ class CooperativeDetailView(DetailView):
         return CooperativeInfo.objects.active()
     
     def dispatch(self, request, *args, **kwargs):
-        """
-        If there's only one active cooperative, redirect to introduction page
-        since introduction already shows the cooperative info.
-        """
+        """Force Nepali language and handle redirect if needed"""
+        activate('ne')
+        # If there's only one active cooperative, redirect to introduction page
+        # since introduction already shows the cooperative info.
         active_count = CooperativeInfo.objects.active().count()
         if active_count == 1:
             # Only one cooperative exists, redirect to introduction

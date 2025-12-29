@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Bhanjyang Cooperative - Download Center{% endblock title %}
+{% load i18n %}
+{% block title %}{% trans "Bhanjyang Cooperative - Download Center" %}{% endblock title %}
 
-{% block meta_description %}Download important forms, documents, and resources from Bhanjyang Saving & Credit
-Cooperative Society Ltd. Access our downloadable files, policies, and applications.{% endblock meta_description %}
-{% block meta_keywords %}Bhanjyang Cooperative, Download, Downloadable Files, Forms, Documents, Resources, Policies,
-Applications, PDF, Word, Excel{% endblock meta_keywords %}
+{% block meta_description %}{% trans "Download important forms, documents, and resources from Bhanjyang Saving & Credit Cooperative Society Ltd. Access our downloadable files, policies, and applications." %}{% endblock meta_description %}
+{% block meta_keywords %}{% trans "Bhanjyang Cooperative, Download, Downloadable Files, Forms, Documents, Resources, Policies, Applications, PDF, Word, Excel" %}{% endblock meta_keywords %}
 
 {% block content %}
 
@@ -23,14 +22,14 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-            Download Center
+            {% trans "Download Center" %}
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            Available Resources
+            {% trans "Available Resources" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Access important documents, forms, and resources from our cooperative. Download files instantly and stay updated with our latest materials.
+            {% trans "Access important documents, forms, and resources from our cooperative. Download files instantly and stay updated with our latest materials." %}
         </p>
     </div>
 </section>
@@ -53,11 +52,11 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
                     <label class="block text-sm font-bold text-gray-800 mb-2">
-                        <i class="fas fa-filter text-deuraligreen mr-2"></i>Category
+                        <i class="fas fa-filter text-deuraligreen mr-2"></i>{% trans "Category" %}
                     </label>
                     <select name="category"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                        <option value="">All Categories</option>
+                        <option value="">{% trans "All Categories" %}</option>
                         {% for code,label in categories %}
                         <option value="{{ code }}" {% if active_category == code %}selected{% endif %}>{{ label }}
                         </option>
@@ -66,11 +65,11 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-800 mb-2">
-                        <i class="fas fa-star text-deuraligreen mr-2"></i>Priority
+                        <i class="fas fa-star text-deuraligreen mr-2"></i>{% trans "Priority" %}
                     </label>
                     <select name="priority"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                        <option value="">All Priorities</option>
+                        <option value="">{% trans "All Priorities" %}</option>
                         {% for code,label in priorities %}
                         <option value="{{ code }}" {% if active_priority == code %}selected{% endif %}>{{ label }}
                         </option>
@@ -79,11 +78,11 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
                 </div>
                 <div>
                     <label class="block text-sm font-bold text-gray-800 mb-2">
-                        <i class="fas fa-search text-deuraligreen mr-2"></i>Search Files
+                        <i class="fas fa-search text-deuraligreen mr-2"></i>{% trans "Search Files" %}
                     </label>
                     <div class="relative">
                         <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" name="q" placeholder="Search by title, description, or tags..." value="{{ q }}"
+                        <input type="text" name="q" placeholder="{% trans 'Search by title, description, or tags...' %}" value="{{ q }}"
                             class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" />
                     </div>
                 </div>
@@ -92,7 +91,7 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
                         <input type="checkbox" name="featured" value="true" {% if featured_only %}checked{% endif %}
                             class="w-5 h-5 rounded border-gray-300 text-deuraligreen focus:ring-deuraligreen focus:ring-2">
                         <span class="text-sm font-bold text-gray-800">
-                            <i class="fas fa-star text-yellow-500 mr-1"></i>Featured Only
+                            <i class="fas fa-star text-yellow-500 mr-1"></i>{% trans "Featured Only" %}
                         </span>
                     </label>
                 </div>
@@ -101,12 +100,12 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
                 <button type="submit"
                     class="group inline-flex items-center justify-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                     <i class="fas fa-search"></i>
-                    <span>Search Files</span>
+                    <span>{% trans "Search Files" %}</span>
                 </button>
                 <a href="{% url 'downloads:download_center' %}"
                     class="group inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                     <i class="fas fa-refresh"></i>
-                    <span>Reset Filters</span>
+                    <span>{% trans "Reset Filters" %}</span>
                 </a>
             </div>
         </form>
@@ -118,25 +117,25 @@ Applications, PDF, Word, Excel{% endblock meta_keywords %}
                     <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center mr-3">
                         <i class="fas fa-download text-deuraligreen"></i>
                     </div>
-                    Bulk Download
+                    {% trans "Bulk Download" %}
                 </h3>
                 <div class="flex items-center space-x-4">
                     <button type="button" onclick="selectAllFiles()"
                         class="text-sm text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
-                        <i class="fas fa-check-square mr-1"></i>Select All
+                        <i class="fas fa-check-square mr-1"></i>{% trans "Select All" %}
                     </button>
                     <button type="button" onclick="clearSelection()"
                         class="text-sm text-gray-600 hover:text-gray-800 font-semibold transition-colors duration-300">
-                        <i class="fas fa-square mr-1"></i>Clear All
+                        <i class="fas fa-square mr-1"></i>{% trans "Clear All" %}
                     </button>
                 </div>
             </div>
             <div class="flex items-center space-x-4">
-                <span id="selected-count" class="text-sm text-gray-600 font-semibold">0 files selected</span>
+                <span id="selected-count" class="text-sm text-gray-600 font-semibold">0 {% trans "files selected" %}</span>
                 <button type="button" onclick="downloadSelected()" id="bulk-download-btn" disabled
                     class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                     <i class="fas fa-download"></i>
-                    <span>Download Selected</span>
+                    <span>{% trans "Download Selected" %}</span>
                 </button>
             </div>
         </div>

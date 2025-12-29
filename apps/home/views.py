@@ -9,14 +9,16 @@ from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
+from django.utils.translation import activate
 
+from apps.core.view_mixins import NepaliLanguageMixin
 from .services import HomeService
 from .forms import ContactForm, NewsletterSignupForm
 from .models import Statistic, Testimonial
 
 @method_decorator(cache_page(300), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class IndexView(TemplateView):
+class IndexView(NepaliLanguageMixin, TemplateView):
     """
     Main Homepage View.
     Uses HomeService for data fetching and caching strategy.
@@ -41,7 +43,7 @@ class IndexView(TemplateView):
 
 
 @method_decorator(cache_page(1800), name='dispatch')
-class RemittanceView(TemplateView):
+class RemittanceView(NepaliLanguageMixin, TemplateView):
     """
     Remittance Services Page.
     """
@@ -65,6 +67,11 @@ class ContactSubmissionView(View):
     New submissions should use the contact app endpoint directly.
     This view forwards requests to the contact app.
     """
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def post(self, request):
         # Forward to contact app endpoint for consolidation
         from django.urls import reverse
@@ -81,6 +88,11 @@ class NewsletterSignupView(View):
     """
     Handle Newsletter Signup POST requests (AJAX).
     """
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def post(self, request):
         form = NewsletterSignupForm(request.POST)
         if form.is_valid():
@@ -94,7 +106,7 @@ class NewsletterSignupView(View):
 
 
 @method_decorator(cache_page(180), name='dispatch')
-class StatisticsAPI(generics.ListAPIView):
+class StatisticsAPI(NepaliLanguageMixin, generics.ListAPIView):
     """
     API endpoint that allows statistics to be viewed.
     """
@@ -104,7 +116,7 @@ class StatisticsAPI(generics.ListAPIView):
 
 
 @method_decorator(cache_page(180), name='dispatch')
-class TestimonialsAPI(generics.ListAPIView):
+class TestimonialsAPI(NepaliLanguageMixin, generics.ListAPIView):
     """
     API endpoint that allows testimonials to be viewed.
     """

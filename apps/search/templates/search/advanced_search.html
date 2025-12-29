@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load about_extras %}
+{% load i18n %}
 {% load search_extras %}
 
-{% block title %}Advanced Search - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Advanced Search - Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block extra_head %}
 <meta name="description"
@@ -21,10 +21,10 @@
     class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
     <div class="container mx-auto text-center max-w-4xl">
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-montserrat mb-4 sm:mb-6">
-            Advanced Search
+            {% trans "Advanced Search" %}
         </h1>
         <p class="text-base sm:text-lg md:text-xl opacity-90 leading-relaxed px-4">
-            Find exactly what you're looking for across all our content
+            {% trans "Find exactly what you're looking for across all our content" %}
         </p>
     </div>
 </section>
@@ -34,38 +34,38 @@
     <div class="container mx-auto max-w-4xl">
         <form method="get" class="search-form">
             <div class="relative mb-6">
-                <input type="text" name="q" value="{{ query }}" placeholder="Search for anything..."
+                <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search for anything...' %}"
                     class="w-full px-6 py-4 pl-12 pr-4 text-lg border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent transition-all duration-300"
                     id="search-input" autocomplete="off">
                 <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
                 <button type="submit"
                     class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-deuraligreen hover:bg-bhanjyangred text-white px-6 py-2 rounded-lg transition-colors">
-                    Search
+                    {% trans "Search" %}
                 </button>
             </div>
 
             <!-- Search Filters -->
             <div class="flex flex-col sm:flex-row gap-4 mb-6">
                 <div class="flex-1">
-                    <label for="search-type" class="block text-sm font-medium text-gray-700 mb-2">Search Type</label>
+                    <label for="search-type" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Search Type" %}</label>
                     <select name="type" id="search-type"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                        <option value="all" {% if search_type == 'all' %}selected{% endif %}>All Content</option>
-                        <option value="team" {% if search_type == 'team' %}selected{% endif %}>Team Members</option>
-                        <option value="events" {% if search_type == 'events' %}selected{% endif %}>Timeline Events
+                        <option value="all" {% if search_type == 'all' %}selected{% endif %}>{% trans "All Content" %}</option>
+                        <option value="team" {% if search_type == 'team' %}selected{% endif %}>{% trans "Team Members" %}</option>
+                        <option value="events" {% if search_type == 'events' %}selected{% endif %}>{% trans "Timeline Events" %}
                         </option>
                         <option value="affiliations" {% if search_type == 'affiliations' %}selected{% endif %}>
-                            Affiliations</option>
+                            {% trans "Affiliations" %}</option>
                     </select>
                 </div>
 
                 <div class="flex-1">
-                    <label for="sort-by" class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                    <label for="sort-by" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Sort By" %}</label>
                     <select name="sort" id="sort-by"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                        <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>Relevance</option>
-                        <option value="date" {% if sort_by == 'date' %}selected{% endif %}>Date</option>
-                        <option value="title" {% if sort_by == 'title' %}selected{% endif %}>Title</option>
+                        <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>{% trans "Relevance" %}</option>
+                        <option value="date" {% if sort_by == 'date' %}selected{% endif %}>{% trans "Date" %}</option>
+                        <option value="title" {% if sort_by == 'title' %}selected{% endif %}>{% trans "Title" %}</option>
                     </select>
                 </div>
             </div>

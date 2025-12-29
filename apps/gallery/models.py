@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q, F
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from PIL import Image
 from typing import Optional, Tuple
 import io
@@ -33,7 +34,7 @@ class GalleryAlbum(models.Model):
         validators=[
             FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp']),
         ],
-        help_text="Album cover image (JPG, PNG, WEBP only)"
+        help_text=_("Album cover image (JPG, PNG, WEBP only)")
     )
     parent_album = models.ForeignKey(
         'self', 
@@ -41,9 +42,9 @@ class GalleryAlbum(models.Model):
         blank=True, 
         null=True,
         related_name='sub_albums',
-        help_text="Leave blank for root album"
+        help_text=_("Leave blank for root album")
     )
-    is_featured = models.BooleanField(default=False, help_text="Show on home page")
+    is_featured = models.BooleanField(default=False, help_text=_("Show on home page"))
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -51,8 +52,8 @@ class GalleryAlbum(models.Model):
     
     class Meta:
         ordering = ['order', '-created_at']
-        verbose_name = "Gallery Album"
-        verbose_name_plural = "Gallery Albums"
+        verbose_name = _("Gallery Album")
+        verbose_name_plural = _("Gallery Albums")
         indexes = [
             models.Index(fields=['is_active', 'is_featured']),
             models.Index(fields=['parent_album', 'is_active']),
@@ -125,7 +126,7 @@ class GalleryImage(models.Model):
             FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp']),
             validate_image_size,
         ],
-        help_text="Upload images (JPG, PNG, WEBP only, max 10MB)"
+        help_text=_("Upload images (JPG, PNG, WEBP only, max 10MB)")
     )
     album = models.ForeignKey(
         GalleryAlbum, 
@@ -133,48 +134,48 @@ class GalleryImage(models.Model):
         related_name='images',
         blank=True, 
         null=True,
-        help_text="Album this image belongs to"
+        help_text=_("Album this image belongs to")
     )
     category = models.CharField(
         max_length=20,
         choices=[
-            ('events', 'Events'),
-            ('team', 'Team'),
-            ('office', 'Office'),
-            ('community', 'Community'),
-            ('awards', 'Awards'),
+            ('events', _('Events')),
+            ('team', _('Team')),
+            ('office', _('Office')),
+            ('community', _('Community')),
+            ('awards', _('Awards')),
         ],
         default='events'
     )
-    is_featured = models.BooleanField(default=False, help_text="Show on home page")
+    is_featured = models.BooleanField(default=False, help_text=_("Show on home page"))
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
     
     # AI-powered features
-    ai_tags = models.JSONField(default=list, blank=True, help_text="AI-generated tags")
-    ai_description = models.TextField(blank=True, help_text="AI-generated description")
-    ai_color_palette = models.JSONField(default=list, blank=True, help_text="AI-detected color palette")
-    ai_objects = models.JSONField(default=list, blank=True, help_text="AI-detected objects")
-    ai_scene_type = models.CharField(max_length=100, blank=True, help_text="AI-detected scene type")
-    ai_sentiment = models.CharField(max_length=50, blank=True, help_text="AI-detected sentiment")
-    ai_quality_score = models.FloatField(default=0.0, help_text="AI quality score (0-1)")
+    ai_tags = models.JSONField(default=list, blank=True, help_text=_("AI-generated tags"))
+    ai_description = models.TextField(blank=True, help_text=_("AI-generated description"))
+    ai_color_palette = models.JSONField(default=list, blank=True, help_text=_("AI-detected color palette"))
+    ai_objects = models.JSONField(default=list, blank=True, help_text=_("AI-detected objects"))
+    ai_scene_type = models.CharField(max_length=100, blank=True, help_text=_("AI-detected scene type"))
+    ai_sentiment = models.CharField(max_length=50, blank=True, help_text=_("AI-detected sentiment"))
+    ai_quality_score = models.FloatField(default=0.0, help_text=_("AI quality score (0-1)"))
     
     # Social features
-    likes_count = models.PositiveIntegerField(default=0, help_text="Number of likes")
-    shares_count = models.PositiveIntegerField(default=0, help_text="Number of shares")
-    views_count = models.PositiveIntegerField(default=0, help_text="Number of views")
-    comments_count = models.PositiveIntegerField(default=0, help_text="Number of comments")
-    is_public = models.BooleanField(default=True, help_text="Publicly visible")
-    allow_comments = models.BooleanField(default=True, help_text="Allow comments")
-    allow_downloads = models.BooleanField(default=False, help_text="Allow downloads")
+    likes_count = models.PositiveIntegerField(default=0, help_text=_("Number of likes"))
+    shares_count = models.PositiveIntegerField(default=0, help_text=_("Number of shares"))
+    views_count = models.PositiveIntegerField(default=0, help_text=_("Number of views"))
+    comments_count = models.PositiveIntegerField(default=0, help_text=_("Number of comments"))
+    is_public = models.BooleanField(default=True, help_text=_("Publicly visible"))
+    allow_comments = models.BooleanField(default=True, help_text=_("Allow comments"))
+    allow_downloads = models.BooleanField(default=False, help_text=_("Allow downloads"))
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
         ordering = ['order', '-created_at']
-        verbose_name = "Gallery Image"
-        verbose_name_plural = "Gallery Images"
+        verbose_name = _("Gallery Image")
+        verbose_name_plural = _("Gallery Images")
         indexes = [
             models.Index(fields=['is_active', 'is_featured']),
             models.Index(fields=['category', 'is_active']),
@@ -618,8 +619,8 @@ class AutoCategorizationRule(models.Model):
     
     class Meta:
         ordering = ['-priority', 'name']
-        verbose_name = "Auto Categorization Rule"
-        verbose_name_plural = "Auto Categorization Rules"
+        verbose_name = _("Auto Categorization Rule")
+        verbose_name_plural = _("Auto Categorization Rules")
         indexes = [
             models.Index(fields=['is_active', 'auto_apply', 'priority']),
         ]
@@ -702,8 +703,8 @@ class ImageAnalysisJob(models.Model):
     
     class Meta:
         ordering = ['-created_at']
-        verbose_name = "Image Analysis Job"
-        verbose_name_plural = "Image Analysis Jobs"
+        verbose_name = _("Image Analysis Job")
+        verbose_name_plural = _("Image Analysis Jobs")
     
     def __str__(self):
         return f"Analysis for {self.image.title} - {self.status}"

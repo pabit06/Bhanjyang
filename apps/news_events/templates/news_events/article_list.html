@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}News Articles - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
+{% block title %}{% trans "News Articles - Bhanjyang Cooperative" %}{% endblock title %}
 
-{% block meta_description %}Browse all news articles and updates from Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock meta_description %}
-{% block meta_keywords %}Bhanjyang Cooperative, News Articles, Updates, Cooperative News{% endblock meta_keywords %}
+{% block meta_description %}{% trans "Browse all news articles and updates from Bhanjyang Saving & Credit Cooperative Society Ltd." %}{% endblock meta_description %}
+{% block meta_keywords %}{% trans "Bhanjyang Cooperative, News Articles, Updates, Cooperative News" %}{% endblock meta_keywords %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -20,14 +21,14 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-            Articles
+            {% trans "Articles" %}
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            News Articles
+            {% trans "News Articles" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Stay updated with the latest news and announcements
+            {% trans "Stay updated with the latest news and announcements" %}
         </p>
     </div>
 </section>
@@ -52,13 +53,13 @@
                         <div class="relative">
                             <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" name="search" value="{{ request.GET.search }}" 
-                                   placeholder="Search articles..." 
+                                   placeholder="{% trans 'Search articles...' %}" 
                                    class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
                         </div>
                     </div>
                     <div class="sm:w-48">
                         <select name="category" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                            <option value="">All Categories</option>
+                            <option value="">{% trans "All Categories" %}</option>
                             {% for category in categories %}
                                 <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>
                                     {{ category.name }}
@@ -68,15 +69,15 @@
                     </div>
                     <div class="sm:w-48">
                         <select name="sort" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                            <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>Newest First</option>
-                            <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>Oldest First</option>
-                            <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>Most Popular</option>
-                            <option value="featured" {% if request.GET.sort == 'featured' %}selected{% endif %}>Featured Only</option>
+                            <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>{% trans "Newest First" %}</option>
+                            <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>{% trans "Oldest First" %}</option>
+                            <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>{% trans "Most Popular" %}</option>
+                            <option value="featured" {% if request.GET.sort == 'featured' %}selected{% endif %}>{% trans "Featured Only" %}</option>
                         </select>
                     </div>
                     <button type="submit" class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                         <i class="fas fa-search"></i>
-                        <span>Search</span>
+                        <span>{% trans "Search" %}</span>
                     </button>
                 </div>
             </form>
@@ -109,7 +110,7 @@
                             {% if article.is_featured %}
                             <div class="absolute top-4 left-4">
                                 <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                    <i class="fas fa-star mr-1"></i>Featured
+                                    <i class="fas fa-star mr-1"></i>{% trans "Featured" %}
                                 </span>
                             </div>
                             {% endif %}
@@ -120,7 +121,7 @@
                             {% if article.is_featured %}
                             <div class="absolute top-4 left-4">
                                 <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                    <i class="fas fa-star mr-1"></i>Featured
+                                    <i class="fas fa-star mr-1"></i>{% trans "Featured" %}
                                 </span>
                             </div>
                             {% endif %}
@@ -152,7 +153,7 @@
                                 </div>
                                 <span class="flex items-center text-xs text-gray-500">
                                     <i class="fas fa-clock mr-1"></i>
-                                    {{ article.read_time }} min
+                                    {{ article.read_time }} {% trans "min" %}
                                 </span>
                             </div>
                         </div>
@@ -195,11 +196,11 @@
                         <div class="mb-6">
                             <i class="fas fa-newspaper text-6xl text-gray-300"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Articles Found</h3>
-                        <p class="text-gray-600 mb-6">We couldn't find any articles matching your criteria.</p>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Articles Found" %}</h3>
+                        <p class="text-gray-600 mb-6">{% trans "We couldn't find any articles matching your criteria." %}</p>
                         <a href="{% url 'news_events:article-list' %}" class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                             <i class="fas fa-list"></i>
-                            <span>View All Articles</span>
+                            <span>{% trans "View All Articles" %}</span>
                             <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                         </a>
                     </div>

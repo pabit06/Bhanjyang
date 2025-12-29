@@ -9,6 +9,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import activate
+
+from apps.core.view_mixins import NepaliLanguageMixin
 
 # Direct imports from model for specific non-service needs (like RSS)
 from .models import NewsArticle, Event, Category, Subscriber
@@ -28,7 +31,7 @@ from .performance import (
 
 logger = logging.getLogger(__name__)
 
-class NewsHomeView(View):
+class NewsHomeView(NepaliLanguageMixin, View):
     """Main news and events page"""
     
     @method_decorator(performance_monitor)
@@ -37,7 +40,7 @@ class NewsHomeView(View):
         context['subscription_form'] = SubscriptionForm()
         return render(request, 'news_events/home.html', context)
 
-class ArticleDetailView(View):
+class ArticleDetailView(NepaliLanguageMixin, View):
     """Article detail page"""
     
     @method_decorator(performance_monitor)
@@ -61,7 +64,7 @@ class ArticleDetailView(View):
         }
         return render(request, 'news_events/article_detail.html', context)
 
-class EventDetailView(View):
+class EventDetailView(NepaliLanguageMixin, View):
     """Event detail page"""
     
     @method_decorator(performance_monitor)
@@ -79,7 +82,7 @@ class EventDetailView(View):
         }
         return render(request, 'news_events/event_detail.html', context)
 
-class ArticleListView(View):
+class ArticleListView(NepaliLanguageMixin, View):
     """Article listing with filters"""
     
     @method_decorator(performance_monitor)
@@ -93,7 +96,7 @@ class ArticleListView(View):
         ]
         return render(request, 'news_events/article_list.html', context)
 
-class EventListView(View):
+class EventListView(NepaliLanguageMixin, View):
     """Event listing with filters"""
     
     @method_decorator(performance_monitor)
@@ -107,7 +110,7 @@ class EventListView(View):
         ]
         return render(request, 'news_events/event_list.html', context)
 
-class SubscriptionView(View):
+class SubscriptionView(NepaliLanguageMixin, View):
     """Handle newsletter subscriptions"""
     
     @method_decorator(rate_limit_subscriptions)
@@ -124,7 +127,7 @@ class SubscriptionView(View):
             # Simplified for brevity as service layer handles logic.
             return JsonResponse({'success': False, 'message': error})
 
-class CommentSubmissionView(View):
+class CommentSubmissionView(NepaliLanguageMixin, View):
     """Handle comment submissions"""
     
     @method_decorator(rate_limit_comments)
@@ -138,14 +141,14 @@ class CommentSubmissionView(View):
         else:
             return JsonResponse({'success': False, 'message': 'Invalid comment data.'})
 
-class ArticleShareView(View):
+class ArticleShareView(NepaliLanguageMixin, View):
     """Handle article sharing analytics"""
     
     def post(self, request, article_slug):
         success, message = InteractionService.handle_share(article_slug, request)
         return JsonResponse({'success': success, 'message': message})
 
-class SearchView(View):
+class SearchView(NepaliLanguageMixin, View):
     """Global search view"""
     
     @method_decorator(performance_monitor)
@@ -172,11 +175,13 @@ class SearchView(View):
 @staff_member_required
 def analytics_dashboard_view(request):
     """Staff analytics dashboard"""
+    activate('ne')
     context = {'GA_TRACKING_ID': getattr(settings, 'GA_TRACKING_ID', '')}
     return render(request, 'news_events/analytics_dashboard.html', context)
 
 @login_required
 def confirm_subscription_view(request, token):
+    activate('ne')
     try:
         subscriber = Subscriber.objects.get(confirmation_token=token)
         if not subscriber.is_confirmed:
@@ -192,6 +197,7 @@ def confirm_subscription_view(request, token):
 
 @login_required
 def unsubscribe_view(request, token):
+    activate('ne')
     try:
         subscriber = Subscriber.objects.get(confirmation_token=token)
         subscriber.status = Subscriber.Status.UNSUBSCRIBED
@@ -203,6 +209,7 @@ def unsubscribe_view(request, token):
 
 def rss_feed_view(request):
     """RSS Feed"""
+    activate('ne')
     articles = NewsEventsQueryOptimizer.get_optimized_article_queryset().filter(
         status=NewsArticle.Status.PUBLISHED
     ).order_by('-published_date')[:15]

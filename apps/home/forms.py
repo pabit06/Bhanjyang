@@ -3,6 +3,7 @@ from django.core.validators import EmailValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 from .models import ContactInquiry, NewsletterSubscriber
 import re
 
@@ -14,13 +15,13 @@ class ContactForm(forms.Form):
         validators=[
             RegexValidator(
                 regex=r'^[a-zA-Z\s\u0900-\u097F]+$',
-                message='Name can only contain letters and spaces.',
+                message=_('Name can only contain letters and spaces.'),
                 code='invalid_name'
             )
         ],
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-            'placeholder': 'Your Full Name',
+            'placeholder': _('Your Full Name'),
             'required': True,
             'autocomplete': 'name'
         })
@@ -30,7 +31,7 @@ class ContactForm(forms.Form):
         validators=[EmailValidator()],
         widget=forms.EmailInput(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-            'placeholder': 'your.email@example.com',
+            'placeholder': _('your.email@example.com'),
             'required': True,
             'autocomplete': 'email'
         })
@@ -42,24 +43,24 @@ class ContactForm(forms.Form):
         validators=[
             RegexValidator(
                 regex=r'^[\+]?[0-9\s\-\(\)]{7,15}$',
-                message='Please enter a valid phone number.',
+                message=_('Please enter a valid phone number.'),
                 code='invalid_phone'
             )
         ],
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-            'placeholder': 'Your Phone Number (Optional)',
+            'placeholder': _('Your Phone Number (Optional)'),
             'autocomplete': 'tel'
         })
     )
     
     inquiry_type = forms.ChoiceField(
         choices=[
-            ('general', 'General Inquiry'),
-            ('service', 'Service Information'),
-            ('complaint', 'Complaint'),
-            ('suggestion', 'Suggestion'),
-            ('support', 'Technical Support'),
+            ('general', _('General Inquiry')),
+            ('service', _('Service Information')),
+            ('complaint', _('Complaint')),
+            ('suggestion', _('Suggestion')),
+            ('support', _('Technical Support')),
         ],
         widget=forms.Select(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent'
@@ -70,7 +71,7 @@ class ContactForm(forms.Form):
         max_length=200,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-            'placeholder': 'Subject of your inquiry',
+            'placeholder': _('Subject of your inquiry'),
             'required': True,
             'autocomplete': 'off'
         })
@@ -79,7 +80,7 @@ class ContactForm(forms.Form):
     message = forms.CharField(
         widget=forms.Textarea(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-            'placeholder': 'Please describe your inquiry in detail...',
+            'placeholder': _('Please describe your inquiry in detail...'),
             'rows': 5,
             'required': True
         })
@@ -89,21 +90,21 @@ class ContactForm(forms.Form):
         """Clean and validate name field"""
         name = self.cleaned_data.get('name', '').strip()
         if len(name) < 2:
-            raise ValidationError('Name must be at least 2 characters long.')
+            raise ValidationError(_('Name must be at least 2 characters long.'))
         return escape(name)
     
     def clean_subject(self):
         """Clean and validate subject field"""
         subject = self.cleaned_data.get('subject', '').strip()
         if len(subject) < 5:
-            raise ValidationError('Subject must be at least 5 characters long.')
+            raise ValidationError(_('Subject must be at least 5 characters long.'))
         return escape(subject)
     
     def clean_message(self):
         """Clean and validate message field"""
         message = self.cleaned_data.get('message', '').strip()
         if len(message) < 10:
-            raise ValidationError('Message must be at least 10 characters long.')
+            raise ValidationError(_('Message must be at least 10 characters long.'))
         
         # Check for potential spam patterns
         spam_patterns = [
@@ -116,7 +117,7 @@ class ContactForm(forms.Form):
             if re.search(pattern, message, re.IGNORECASE):
                 # Allow some URLs/emails but flag suspicious patterns
                 if len(re.findall(pattern, message, re.IGNORECASE)) > 2:
-                    raise ValidationError('Message contains too many links or email addresses.')
+                    raise ValidationError(_('Message contains too many links or email addresses.'))
         
         return escape(message)
     
@@ -140,13 +141,13 @@ class NewsletterSignupForm(forms.Form):
         validators=[
             RegexValidator(
                 regex=r'^[a-zA-Z\s\u0900-\u097F]*$',
-                message='Name can only contain letters and spaces.',
+                message=_('Name can only contain letters and spaces.'),
                 code='invalid_name'
             )
         ],
         widget=forms.TextInput(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-            'placeholder': 'Your Name (Optional)',
+            'placeholder': _('Your Name (Optional)'),
             'autocomplete': 'name'
         })
     )
@@ -155,7 +156,7 @@ class NewsletterSignupForm(forms.Form):
         validators=[EmailValidator()],
         widget=forms.EmailInput(attrs={
             'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-            'placeholder': 'your.email@example.com',
+            'placeholder': _('your.email@example.com'),
             'required': True,
             'autocomplete': 'email'
         })
@@ -165,7 +166,7 @@ class NewsletterSignupForm(forms.Form):
         """Clean and validate name field"""
         name = self.cleaned_data.get('name', '').strip()
         if name and len(name) < 2:
-            raise ValidationError('Name must be at least 2 characters long.')
+            raise ValidationError(_('Name must be at least 2 characters long.'))
         return escape(name) if name else ''
     
     def clean_email(self):

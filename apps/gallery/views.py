@@ -4,18 +4,20 @@ from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
+from django.utils.translation import activate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAdminUser, AllowAny
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
 
+from apps.core.view_mixins import NepaliLanguageMixin
 from .services import GalleryService
 from .models import GalleryAlbum, SmartCollection
 
 # --- Class-Based Views (CBVs) for Pages ---
 
-class GalleryHomeView(TemplateView):
+class GalleryHomeView(NepaliLanguageMixin, TemplateView):
     """Main Gallery Page displaying optimized grid"""
     template_name = 'gallery/gallery.html'
 
@@ -24,7 +26,7 @@ class GalleryHomeView(TemplateView):
         context.update(GalleryService.get_gallery_home_data())
         return context
 
-class VRGalleryView(TemplateView):
+class VRGalleryView(NepaliLanguageMixin, TemplateView):
     """Virtual Reality Gallery Experience"""
     template_name = 'gallery/vr_gallery.html'
 
@@ -33,7 +35,7 @@ class VRGalleryView(TemplateView):
         context.update(GalleryService.get_vr_gallery_data())
         return context
 
-class AlbumDetailView(DetailView):
+class AlbumDetailView(NepaliLanguageMixin, DetailView):
     model = GalleryAlbum
     template_name = 'gallery/album_detail.html'
     context_object_name = 'album'
@@ -45,7 +47,7 @@ class AlbumDetailView(DetailView):
         context['images'] = service_data['images']
         return context
 
-class GalleryAnalyticsRawView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class GalleryAnalyticsRawView(NepaliLanguageMixin, LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     """Standard Django Template View for internal Staff Analytics"""
     template_name = 'gallery/analytics.html'
 
@@ -57,7 +59,7 @@ class GalleryAnalyticsRawView(LoginRequiredMixin, UserPassesTestMixin, TemplateV
         context.update(GalleryService.get_analytics_data())
         return context
 
-class SmartCollectionsView(TemplateView):
+class SmartCollectionsView(NepaliLanguageMixin, TemplateView):
     template_name = 'gallery/smart_collections.html'
 
     def get_context_data(self, **kwargs):
@@ -65,7 +67,7 @@ class SmartCollectionsView(TemplateView):
         context.update(GalleryService.get_smart_collections())
         return context
 
-class SmartCollectionDetailView(DetailView):
+class SmartCollectionDetailView(NepaliLanguageMixin, DetailView):
     model = SmartCollection
     template_name = 'gallery/smart_collection_detail.html'
     context_object_name = 'collection'
@@ -76,7 +78,7 @@ class SmartCollectionDetailView(DetailView):
         context['images'] = self.object.get_images()
         return context
 
-class AutoCategorizationView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class AutoCategorizationView(NepaliLanguageMixin, LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'gallery/auto_categorization.html'
     
     def test_func(self):
@@ -87,6 +89,11 @@ class AutoCategorizationView(LoginRequiredMixin, UserPassesTestMixin, TemplateVi
 
 class GallerySearchAPI(APIView):
     permission_classes = [AllowAny]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
     
     @extend_schema(
         parameters=[OpenApiParameter(name='q', type=str, description='Search Query')],
@@ -100,6 +107,11 @@ class GallerySearchAPI(APIView):
 class GalleryStatsAPI(APIView):
     permission_classes = [AllowAny]
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get(self, request):
         time_range = request.GET.get('time_range', '30d')
         return Response(GalleryService.get_analytics_data(time_range))
@@ -107,6 +119,11 @@ class GalleryStatsAPI(APIView):
 class GalleryInteractionAPI(APIView):
     """API to record likes, shares, downloads"""
     permission_classes = [AllowAny]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
     
     def post(self, request):
         image_id = request.data.get('image_id')
@@ -130,6 +147,11 @@ class GalleryInteractionAPI(APIView):
 
 class UpdateSmartCollectionAPI(APIView):
     permission_classes = [IsAdminUser]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, collection_id):
         try:
@@ -140,6 +162,11 @@ class UpdateSmartCollectionAPI(APIView):
 
 class ApplyAutoCategorizationAPI(APIView):
     permission_classes = [IsAdminUser]
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request):
         try:

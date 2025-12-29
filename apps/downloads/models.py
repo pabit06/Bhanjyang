@@ -4,23 +4,24 @@ import os
 from django.db import models
 from django.core.validators import FileExtensionValidator
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 # Define choices for categories using a TextChoices class for cleaner code.
 class FileCategory(models.TextChoices):
-    FORM = 'FRM', 'Application Form'
-    REPORT = 'RPT', 'Financial Report'
-    POLICY = 'PCY', 'Policy & Bylaw'
-    PUBLICATION = 'PUB', 'Publication'
-    MANUAL = 'MAN', 'User Manual'
-    CERTIFICATE = 'CERT', 'Certificate'
-    BROCHURE = 'BRO', 'Brochure'
-    OTHER = 'OTH', 'Other Document'
+    FORM = 'FRM', _('Application Form')
+    REPORT = 'RPT', _('Financial Report')
+    POLICY = 'PCY', _('Policy & Bylaw')
+    PUBLICATION = 'PUB', _('Publication')
+    MANUAL = 'MAN', _('User Manual')
+    CERTIFICATE = 'CERT', _('Certificate')
+    BROCHURE = 'BRO', _('Brochure')
+    OTHER = 'OTH', _('Other Document')
 
 class PriorityLevel(models.TextChoices):
-    LOW = 'LOW', 'Low Priority'
-    MEDIUM = 'MED', 'Medium Priority'
-    HIGH = 'HIGH', 'High Priority'
-    URGENT = 'URG', 'Urgent'
+    LOW = 'LOW', _('Low Priority')
+    MEDIUM = 'MED', _('Medium Priority')
+    HIGH = 'HIGH', _('High Priority')
+    URGENT = 'URG', _('Urgent')
 
 class DownloadableFile(models.Model):
     """
@@ -30,60 +31,60 @@ class DownloadableFile(models.Model):
         max_length=4,
         choices=FileCategory.choices,
         default=FileCategory.OTHER,
-        help_text="फाइलको श्रेणी (जस्तै: फारम, रिपोर्ट)।"
+        help_text=_("फाइलको श्रेणी (जस्तै: फारम, रिपोर्ट)।")
     )
-    title = models.CharField(max_length=200, help_text="फाइलको शीर्षक।")
-    description = models.TextField(blank=True, help_text="फाइलको संक्षिप्त विवरण।")
+    title = models.CharField(max_length=200, help_text=_("फाइलको शीर्षक।"))
+    description = models.TextField(blank=True, help_text=_("फाइलको संक्षिप्त विवरण।"))
     file = models.FileField(
         upload_to='downloads/', 
-        help_text="अपलोड गर्ने फाइल।",
+        help_text=_("अपलोड गर्ने फाइल।"),
         validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'jpg', 'jpeg', 'png'])]
     )
 
     is_active = models.BooleanField(
         default=True,
-        help_text="यो फाइल वेबसाइटमा देखाउने कि नदेखाउने?"
+        help_text=_("यो फाइल वेबसाइटमा देखाउने कि नदेखाउने?")
     )
     is_featured = models.BooleanField(
         default=False,
-        help_text="यो फाइल फिचर्ड सूचीमा देखाउने?"
+        help_text=_("यो फाइल फिचर्ड सूचीमा देखाउने?")
     )
     priority = models.CharField(
         max_length=4,
         choices=PriorityLevel.choices,
         default=PriorityLevel.MEDIUM,
-        help_text="फाइलको प्राथमिकता स्तर।"
+        help_text=_("फाइलको प्राथमिकता स्तर।")
     )
     requires_login = models.BooleanField(
         default=False,
-        help_text="यो फाइल डाउनलोड गर्न लगइन आवश्यक छ?"
+        help_text=_("यो फाइल डाउनलोड गर्न लगइन आवश्यक छ?")
     )
     expires_at = models.DateTimeField(
         blank=True,
         null=True,
-        help_text="फाइलको समाप्ति मिति (वैकल्पिक)।"
+        help_text=_("फाइलको समाप्ति मिति (वैकल्पिक)।")
     )
     tags = models.CharField(
         max_length=500,
         blank=True,
-        help_text="फाइलका ट्यागहरू (कमा द्वारा अलग)।"
+        help_text=_("फाइलका ट्यागहरू (कमा द्वारा अलग)।")
     )
     thumbnail = models.ImageField(
         upload_to='downloads/thumbnails/',
         blank=True,
         null=True,
-        help_text="फाइलको थम्बनेल छवि (वैकल्पिक)।"
+        help_text=_("फाइलको थम्बनेल छवि (वैकल्पिक)।")
     )
 
     download_count = models.PositiveIntegerField(
         default=0,
         editable=False,
-        help_text="यो फाइल कति पटक डाउनलोड भयो।"
+        help_text=_("यो फाइल कति पटक डाउनलोड भयो।")
     )
     view_count = models.PositiveIntegerField(
         default=0,
         editable=False,
-        help_text="यो फाइल कति पटक हेरियो।"
+        help_text=_("यो फाइल कति पटक हेरियो।")
     )
 
     uploaded_at = models.DateTimeField(auto_now_add=True)
@@ -100,29 +101,29 @@ class DownloadableFile(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        help_text="User who uploaded this file."
+        help_text=_("User who uploaded this file.")
     )
     last_accessed = models.DateTimeField(
         blank=True,
         null=True,
-        help_text="Last time this file was accessed."
+        help_text=_("Last time this file was accessed.")
     )
     access_count = models.PositiveIntegerField(
         default=0,
         editable=False,
-        help_text="Total number of times this file has been accessed."
+        help_text=_("Total number of times this file has been accessed.")
     )
     file_type = models.CharField(
         max_length=10,
         blank=True,
         editable=False,
-        help_text="फाइलको प्रकार (स्वचालित रूपमा पत्ता लगाइन्छ)।"
+        help_text=_("फाइलको प्रकार (स्वचालित रूपमा पत्ता लगाइन्छ)।")
     )
 
     class Meta:
         ordering = ['-priority', '-uploaded_at']
-        verbose_name = "डाउनलोड फाइल"
-        verbose_name_plural = "डाउनलोड फाइलहरू"
+        verbose_name = _("डाउनलोड फाइल")
+        verbose_name_plural = _("डाउनलोड फाइलहरू")
         get_latest_by = 'uploaded_at'
         indexes = [
             models.Index(fields=['category', 'is_active'], name='downloads_d_categor_0ca7e6_idx'),

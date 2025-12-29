@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core.cache import cache
+from django.utils.translation import activate
 import json
 import logging
 
@@ -12,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 def interactive_map_view(request):
     """Interactive map view showing office locations"""
+    activate('ne')
     context = {
         'breadcrumbs': [
             {'name': 'Home', 'url': '/'},
@@ -25,6 +27,7 @@ def interactive_map_view(request):
 @require_http_methods(["GET"])
 def map_locations_api(request):
     """API endpoint for map locations"""
+    activate('ne')
     # Check cache first
     cache_key = 'map_locations'
     cached_locations = cache.get(cache_key)
@@ -102,6 +105,7 @@ def map_locations_api(request):
 @require_http_methods(["POST"])
 def map_directions_api(request):
     """API endpoint for getting directions"""
+    activate('ne')
     try:
         data = json.loads(request.body)
         origin = data.get('origin')
@@ -131,6 +135,7 @@ def map_directions_api(request):
 @require_http_methods(["POST"])
 def map_analytics(request):
     """Track map interactions for analytics"""
+    activate('ne')
     try:
         data = json.loads(request.body)
         interaction_type = data.get('type')  # 'view', 'click', 'directions'

@@ -7,6 +7,7 @@ import os
 import uuid
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -58,52 +59,52 @@ class ContactSubmission(models.Model):
     """
     
     STATUS_CHOICES = [
-        ('new', 'New'),
-        ('in_progress', 'In Progress'),
-        ('resolved', 'Resolved'),
-        ('spam', 'Spam'),
+        ('new', _('New')),
+        ('in_progress', _('In Progress')),
+        ('resolved', _('Resolved')),
+        ('spam', _('Spam')),
     ]
     
     # Contact information
     name = models.CharField(
         max_length=100,
-        help_text="Full name of the person submitting the form"
+        help_text=_("Full name of the person submitting the form")
     )
-    email = models.EmailField(help_text="Email address for response")
+    email = models.EmailField(help_text=_("Email address for response"))
     phone = models.CharField(
         max_length=20,
         blank=True,
-        help_text="Optional phone number"
+        help_text=_("Optional phone number")
     )
     subject = models.CharField(
         max_length=200,
-        help_text="Subject of the inquiry"
+        help_text=_("Subject of the inquiry")
     )
-    message = models.TextField(help_text="Detailed message content")
+    message = models.TextField(help_text=_("Detailed message content"))
     attachment = models.FileField(
         upload_to=contact_attachment_path,
         blank=True,
         null=True,
-        help_text="Optional file attachment"
+        help_text=_("Optional file attachment")
     )
     
     # Technical tracking fields
     ip_address = models.GenericIPAddressField(
-        help_text="IP address of the submitter"
+        help_text=_("IP address of the submitter")
     )
     user_agent = models.TextField(
         blank=True,
-        help_text="Browser user agent string"
+        help_text=_("Browser user agent string")
     )
     
     # Timestamps
     created_at = models.DateTimeField(
         auto_now_add=True,
-        help_text="When the submission was created"
+        help_text=_("When the submission was created")
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        help_text="When the submission was last updated"
+        help_text=_("When the submission was last updated")
     )
     
     # Management fields
@@ -111,22 +112,22 @@ class ContactSubmission(models.Model):
         max_length=20,
         choices=STATUS_CHOICES,
         default='new',
-        help_text="Current status of the submission"
+        help_text=_("Current status of the submission")
     )
     admin_notes = models.TextField(
         blank=True,
-        help_text="Internal notes for admin use"
+        help_text=_("Internal notes for admin use")
     )
     resolved_at = models.DateTimeField(
         null=True,
         blank=True,
-        help_text="When the submission was resolved"
+        help_text=_("When the submission was resolved")
     )
     
     class Meta:
         ordering = ['-created_at']
-        verbose_name = 'Contact Submission'
-        verbose_name_plural = 'Contact Submissions'
+        verbose_name = _('Contact Submission')
+        verbose_name_plural = _('Contact Submissions')
         indexes = [
             models.Index(fields=['status', 'created_at']),
             models.Index(fields=['email']),
@@ -209,28 +210,28 @@ class KYMSubmission(models.Model):
     """
     
     STATUS_CHOICES = [
-        ('pending', 'Pending Review'),
-        ('under_review', 'Under Review'),
-        ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
+        ('pending', _('Pending Review')),
+        ('under_review', _('Under Review')),
+        ('approved', _('Approved')),
+        ('rejected', _('Rejected')),
     ]
     
     GENDER_CHOICES = [
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('other', 'Other')
+        ('male', _('Male')),
+        ('female', _('Female')),
+        ('other', _('Other'))
     ]
     
     MARITAL_STATUS_CHOICES = [
-        ('single', 'Single'),
-        ('married', 'Married'),
-        ('divorced', 'Divorced'),
-        ('widowed', 'Widowed')
+        ('single', _('Single')),
+        ('married', _('Married')),
+        ('divorced', _('Divorced')),
+        ('widowed', _('Widowed'))
     ]
     
     # Personal Details
     full_name = models.CharField(max_length=100)
-    dob = models.DateField(verbose_name="Date of Birth")
+    dob = models.DateField(verbose_name=_("Date of Birth"))
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES)
     nationality = models.CharField(max_length=50, default='Nepali')
@@ -296,8 +297,8 @@ class KYMSubmission(models.Model):
     
     class Meta:
         ordering = ['-created_at']
-        verbose_name = 'KYM Submission'
-        verbose_name_plural = 'KYM Submissions'
+        verbose_name = _('KYM Submission')
+        verbose_name_plural = _('KYM Submissions')
         indexes = [
             models.Index(fields=['status', 'created_at']),
             models.Index(fields=['email']),
@@ -354,72 +355,72 @@ class OfficeLocation(models.Model):
     """
     
     LOCATION_TYPES = [
-        ('main_office', 'Main Office'),
-        ('branch_office', 'Branch Office'),
-        ('service_center', 'Service Center'),
-        ('atm_center', 'ATM Center'),
+        ('main_office', _('Main Office')),
+        ('branch_office', _('Branch Office')),
+        ('service_center', _('Service Center')),
+        ('atm_center', _('ATM Center')),
     ]
     
     name = models.CharField(
         max_length=200,
-        help_text="Name of the location (e.g., 'Main Office', 'Polyang Branch')"
+        help_text=_("Name of the location (e.g., 'Main Office', 'Polyang Branch')")
     )
     address = models.CharField(
         max_length=255,
-        help_text="Full address of the location"
+        help_text=_("Full address of the location")
     )
     latitude = models.DecimalField(
         max_digits=9,
         decimal_places=6,
-        help_text="Latitude coordinate for map display"
+        help_text=_("Latitude coordinate for map display")
     )
     longitude = models.DecimalField(
         max_digits=9,
         decimal_places=6,
-        help_text="Longitude coordinate for map display"
+        help_text=_("Longitude coordinate for map display")
     )
     location_type = models.CharField(
         max_length=20,
         choices=LOCATION_TYPES,
         default='branch_office',
-        help_text="Type of location"
+        help_text=_("Type of location")
     )
     phone = models.CharField(
         max_length=20,
         blank=True,
-        help_text="Contact phone number for this location"
+        help_text=_("Contact phone number for this location")
     )
     email = models.EmailField(
         blank=True,
-        help_text="Contact email for this location"
+        help_text=_("Contact email for this location")
     )
     hours = models.CharField(
         max_length=100,
         blank=True,
-        help_text="Operating hours (e.g., '9:00 AM - 5:00 PM', '24/7')"
+        help_text=_("Operating hours (e.g., '9:00 AM - 5:00 PM', '24/7')")
     )
     description = models.TextField(
         blank=True,
-        help_text="Description of the location and services offered"
+        help_text=_("Description of the location and services offered")
     )
     image = models.ImageField(
         upload_to='contact/locations/',
         blank=True,
         null=True,
-        help_text="Image of the location"
+        help_text=_("Image of the location")
     )
     services = models.JSONField(
         default=list,
         blank=True,
-        help_text="List of services offered at this location (e.g., ['Savings', 'Loans'])"
+        help_text=_("List of services offered at this location (e.g., ['Savings', 'Loans'])")
     )
     is_active = models.BooleanField(
         default=True,
-        help_text="Whether this location is currently active"
+        help_text=_("Whether this location is currently active")
     )
     order = models.PositiveIntegerField(
         default=0,
-        help_text="Display order (lower numbers appear first)"
+        help_text=_("Display order (lower numbers appear first)")
     )
     
     # Timestamps
@@ -428,8 +429,8 @@ class OfficeLocation(models.Model):
     
     class Meta:
         ordering = ['order', 'name']
-        verbose_name = 'Office Location'
-        verbose_name_plural = 'Office Locations'
+        verbose_name = _('Office Location')
+        verbose_name_plural = _('Office Locations')
         indexes = [
             models.Index(fields=['location_type', 'is_active']),
             models.Index(fields=['is_active', 'order']),

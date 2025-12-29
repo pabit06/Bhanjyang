@@ -8,10 +8,10 @@ from django.http import HttpRequest, HttpResponse
 from django.forms import Form
 from .utils import FinancialCalculator
 from .services import ServiceAnalyticsService
-from apps.core.view_mixins import create_breadcrumbs
+from apps.core.view_mixins import NepaliLanguageMixin, create_breadcrumbs
 
 
-class BaseCalculatorView(View):
+class BaseCalculatorView(NepaliLanguageMixin, View):
     """Base class for calculator views to reduce duplication."""
     
     form_class: Type[Form]

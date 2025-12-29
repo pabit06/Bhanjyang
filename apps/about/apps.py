@@ -7,9 +7,6 @@ class AboutConfig(AppConfig):
     verbose_name = 'About Us'
     
     def ready(self):
-        """Import signal handlers when the app is ready."""
-        # Import signals if needed
-        try:
-            from . import signals  # noqa: F401
-        except ImportError:
-            pass
+        """App initialization when Django starts."""
+        # Signal handlers can be imported here if needed in the future
+        pass

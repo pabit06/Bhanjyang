@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Financial Services - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Financial Services - Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}भञ्ज्याङ सहकारीको वित्तीय सेवाहरू। बचत खाता, ऋण सेवा, सदस्य राहत कार्यक्रम, र अन्य वित्तीय
 समाधानहरू। प्रतिस्पर्धी ब्याज दरमा।{% endblock meta_description %}
@@ -47,26 +48,26 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-            Our Services
+            {% trans "Our Services" %}
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            Our Financial Services
+            {% trans "Our Financial Services" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
-            Comprehensive financial solutions designed for the Rupa community, featuring competitive rates and member-focused support
+            {% trans "Comprehensive financial solutions designed for the Rupa community, featuring competitive rates and member-focused support" %}
         </p>
         <div class="flex flex-wrap justify-center gap-4">
             <a href="#all-services"
                 class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                 <i class="fas fa-search"></i>
-                <span>Explore All Services</span>
+                <span>{% trans "Explore All Services" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
             <a href="{% url 'services:service_application' %}"
                 class="group inline-flex items-center gap-2 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                 <i class="fas fa-file-alt"></i>
-                <span>Apply Now</span>
+                <span>{% trans "Apply Now" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
@@ -88,14 +89,14 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Service Portfolio
+                {% trans "Service Portfolio" %}
             </span>
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                Complete Service Portfolio
+                {% trans "Complete Service Portfolio" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Explore all our financial products and services
+                {% trans "Explore all our financial products and services" %}
             </p>
         </div>
 
@@ -109,12 +110,12 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                             <i class="fas fa-piggy-bank text-4xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">Savings Accounts</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{% trans "Savings Accounts" %}</h3>
                     <p class="text-gray-600 leading-relaxed mb-4">
-                        Multiple savings options with competitive interest rates up to 8%
+                        {% trans "Multiple savings options with competitive interest rates up to 8%" %}
                     </p>
                     <div class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
-                        <span>View All Options</span>
+                        <span>{% trans "View All Options" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </div>
                 </div>
@@ -128,12 +129,12 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                             <i class="fas fa-certificate text-4xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">Fixed Deposits</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{% trans "Fixed Deposits" %}</h3>
                     <p class="text-gray-600 leading-relaxed mb-4">
-                        Secure your future with rates up to 7% for 1+ year terms
+                        {% trans "Secure your future with rates up to 7% for 1+ year terms" %}
                     </p>
                     <div class="inline-flex items-center gap-2 text-bhanjyangred hover:text-red-700 font-semibold transition-colors duration-300">
-                        <span>View Rates</span>
+                        <span>{% trans "View Rates" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </div>
                 </div>
@@ -147,12 +148,12 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                             <i class="fas fa-hand-holding-usd text-4xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">Loan Services</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{% trans "Loan Services" %}</h3>
                     <p class="text-gray-600 leading-relaxed mb-4">
-                        Flexible loan options from 10.5% for all your financial needs
+                        {% trans "Flexible loan options from 10.5% for all your financial needs" %}
                     </p>
                     <div class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
-                        <span>Explore Loans</span>
+                        <span>{% trans "Explore Loans" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </div>
                 </div>
@@ -166,12 +167,12 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                             <i class="fas fa-money-bill-wave text-4xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">Remittance Services</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{% trans "Remittance Services" %}</h3>
                     <p class="text-gray-600 leading-relaxed mb-4">
-                        Fast and secure money transfer services domestic and international
+                        {% trans "Fast and secure money transfer services domestic and international" %}
                     </p>
                     <div class="inline-flex items-center gap-2 text-bhanjyangred hover:text-red-700 font-semibold transition-colors duration-300">
-                        <span>Send Money</span>
+                        <span>{% trans "Send Money" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </div>
                 </div>
@@ -185,12 +186,12 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                             <i class="fas fa-heart text-4xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">Member Relief</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{% trans "Member Relief" %}</h3>
                     <p class="text-gray-600 leading-relaxed mb-4">
-                        Support programs for medical, education, and disaster relief
+                        {% trans "Support programs for medical, education, and disaster relief" %}
                     </p>
                     <div class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
-                        <span>Learn More</span>
+                        <span>{% trans "Learn More" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </div>
                 </div>
@@ -218,7 +219,7 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                 Savings
             </span>
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                Our Best Savings Accounts
+                {% trans "Our Best Savings Accounts" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         </div>
@@ -232,7 +233,7 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                     <h4 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">{{ account.nepali_name }}</h4>
                     <p class="text-sm text-gray-600 mb-3">{{ account.english_name }}</p>
                     <div class="text-4xl font-extrabold text-bhanjyangred mb-2">{{ account.interest_rate }}%</div>
-                    <p class="text-xs text-gray-500">Annual Interest Rate</p>
+                    <p class="text-xs text-gray-500">{% trans "Annual Interest Rate" %}</p>
                 </div>
                 {% if account.features %}
                 <ul class="space-y-2 text-sm text-gray-600 mb-6">
@@ -245,7 +246,7 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                     <div class="flex flex-col gap-2">
                         <a href="{{ account.get_absolute_url }}"
                             class="bg-deuraligreen hover:bg-green-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition duration-300">
-                            <i class="fas fa-eye mr-1"></i>View Details
+                            <i class="fas fa-eye mr-1"></i>{% trans "View Details" %}
                         </a>
                         <a href="{% url 'services:service_application' %}?service_type=savings&service_id={{ account.id }}"
                             class="bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition duration-300">
@@ -314,7 +315,7 @@ banking, nepal financial services, kaski banking{% endblock meta_keywords %}
                     <div class="flex flex-col gap-2">
                         <a href="{{ loan.get_absolute_url }}"
                             class="bg-bhanjyangred hover:bg-red-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition duration-300">
-                            <i class="fas fa-eye mr-1"></i>View Details
+                            <i class="fas fa-eye mr-1"></i>{% trans "View Details" %}
                         </a>
                         <a href="{% url 'services:service_application' %}?service_type=loan&service_id={{ loan.id }}"
                             class="bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition duration-300">

@@ -12,8 +12,8 @@
 {% block content %}
 <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8">
     <div class="container mx-auto text-center z-10">
-        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">Our Affiliations</h1>
-        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">We are proud to be associated with these organizations and regulatory bodies, including our local regulatory authority Rupa Rural Municipality.</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">{% trans "Our Affiliations" %}</h1>
+        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">{% trans "We are proud to be associated with these organizations and regulatory bodies, including our local regulatory authority Rupa Rural Municipality." %}</p>
     </div>
 </section>
 
@@ -46,7 +46,7 @@
                     {% if affiliation.website %}
                         <a href="{{ affiliation.website }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-colors">
                             <i class="fas fa-external-link-alt mr-2"></i>
-                            Visit Website
+                            {% trans "Visit Website" %}
                         </a>
                     {% endif %}
                 </div>
@@ -55,8 +55,8 @@
         {% else %}
             <div class="text-center py-16">
                 <i class="fas fa-handshake text-6xl text-gray-300 mb-4"></i>
-                <p class="text-gray-600 text-xl scroll-animate">No affiliations are available yet.</p>
-                <p class="text-gray-500 mt-2">Affiliation information will be added as it becomes available.</p>
+                <p class="text-gray-600 text-xl scroll-animate">{% trans "No affiliations are available yet." %}</p>
+                <p class="text-gray-500 mt-2">{% trans "Affiliation information will be added as it becomes available." %}</p>
             </div>
         {% endif %}
     </div>
@@ -66,8 +66,8 @@
 <section class="py-16 bg-white px-4 sm:px-6 lg:px-8">
     <div class="container mx-auto">
         <div class="text-center mb-16">
-            <h2 class="text-3xl font-bold text-deuraligreen mb-4">Types of Affiliations</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">Understanding our various partnerships and regulatory relationships.</p>
+            <h2 class="text-3xl font-bold text-deuraligreen mb-4">{% trans "Types of Affiliations" %}</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">{% trans "Understanding our various partnerships and regulatory relationships." %}</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8">
@@ -75,48 +75,48 @@
                 <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-gavel text-white text-2xl"></i>
                 </div>
-                <h3 class="text-lg font-bold text-deuraligreen mb-2">Regulatory Bodies</h3>
-                <p class="text-gray-600 text-sm">Government agencies that oversee cooperative operations and ensure compliance.</p>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">{% trans "Regulatory Bodies" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Government agencies that oversee cooperative operations and ensure compliance." %}</p>
             </div>
             
             <div class="text-center">
                 <div class="w-16 h-16 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-users text-white text-2xl"></i>
                 </div>
-                <h3 class="text-lg font-bold text-deuraligreen mb-2">Professional Associations</h3>
-                <p class="text-gray-600 text-sm">Industry organizations that promote best practices and professional development.</p>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">{% trans "Professional Associations" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Industry organizations that promote best practices and professional development." %}</p>
             </div>
             
             <div class="text-center">
                 <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-handshake text-white text-2xl"></i>
                 </div>
-                <h3 class="text-lg font-bold text-deuraligreen mb-2">Partnerships</h3>
-                <p class="text-gray-600 text-sm">Strategic collaborations that enhance our services and community impact.</p>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">{% trans "Partnerships" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Strategic collaborations that enhance our services and community impact." %}</p>
             </div>
             
             <div class="text-center">
                 <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-certificate text-white text-2xl"></i>
                 </div>
-                <h3 class="text-lg font-bold text-deuraligreen mb-2">Certification Bodies</h3>
-                <p class="text-gray-600 text-sm">Organizations that provide certifications and quality assurance standards.</p>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">{% trans "Certification Bodies" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Organizations that provide certifications and quality assurance standards." %}</p>
             </div>
             
             <div class="text-center">
                 <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-sitemap text-white text-2xl"></i>
                 </div>
-                <h3 class="text-lg font-bold text-deuraligreen mb-2">Umbrella Organizations</h3>
-                <p class="text-gray-600 text-sm">Parent organizations that coordinate and support multiple cooperatives and institutions.</p>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">{% trans "Umbrella Organizations" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Parent organizations that coordinate and support multiple cooperatives and institutions." %}</p>
             </div>
             
             <div class="text-center">
                 <div class="w-16 h-16 bg-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-university text-white text-2xl"></i>
                 </div>
-                <h3 class="text-lg font-bold text-deuraligreen mb-2">Cooperative Banks</h3>
-                <p class="text-gray-600 text-sm">Financial institutions that provide banking services and support to cooperatives.</p>
+                <h3 class="text-lg font-bold text-deuraligreen mb-2">{% trans "Cooperative Banks" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Financial institutions that provide banking services and support to cooperatives." %}</p>
             </div>
         </div>
     </div>

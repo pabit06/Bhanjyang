@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Search Results - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Search Results - Bhanjyang Cooperative" %}{% endblock title %}
 
-{% block meta_description %}Search through Bhanjyang Cooperative's news articles, services, and team members. Find exactly what you're looking for quickly and easily.{% endblock meta_description %}
+{% block meta_description %}{% trans "Search through Bhanjyang Cooperative's news articles, services, and team members. Find exactly what you're looking for quickly and easily." %}{% endblock meta_description %}
 
-{% block meta_keywords %}search, bhanjyang cooperative, news search, services search, team search, find information{% endblock meta_keywords %}
+{% block meta_keywords %}{% trans "search, bhanjyang cooperative, news search, services search, team search, find information" %}{% endblock meta_keywords %}
 
 {% block og_title %}Search Results - Bhanjyang Cooperative{% endblock og_title %}
 
@@ -30,13 +31,13 @@
         <!-- Search Header -->
         <div class="text-center mb-12">
             <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 text-deuraligreen">
-                Search Results
+                {% trans "Search Results" %}
             </h1>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto">
                 {% if query %}
-                    Found {{ total_results }} result{{ total_results|pluralize }} for "{{ query }}"
+                    {% blocktrans with count=total_results query=query %}Found {{ count }} result{{ count|pluralize }} for "{{ query }}"{% endblocktrans %}
                 {% else %}
-                    Search through our news articles, services, and team members
+                    {% trans "Search through our news articles, services, and team members" %}
                 {% endif %}
             </p>
         </div>
@@ -60,7 +61,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
-                        Search
+                        {% trans "Search" %}
                     </button>
                 </div>
             </form>

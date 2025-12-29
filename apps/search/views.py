@@ -3,14 +3,16 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from django.core.cache import cache
+from django.utils.translation import activate
 
+from apps.core.view_mixins import NepaliLanguageMixin
 from .services import SearchService, SearchAnalytics, SearchUtilities
 from apps.about.models import (
     CooperativeTimeline,
     CooperativeAffiliation, LeadershipMessage, Person
 )
 
-class AdvancedSearchView(ListView):
+class AdvancedSearchView(NepaliLanguageMixin, ListView):
     """Advanced search view with full-text search capabilities"""
     template_name = 'search/advanced_search.html'
     context_object_name = 'results'
@@ -72,6 +74,7 @@ class AdvancedSearchView(ListView):
 @require_http_methods(["GET"])
 def search_api(request):
     """API endpoint for search suggestions and autocomplete"""
+    activate('ne')
     query = request.GET.get('q', '').strip()
     limit = int(request.GET.get('limit', 10))
     

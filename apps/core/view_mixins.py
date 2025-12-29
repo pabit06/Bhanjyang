@@ -5,7 +5,17 @@ from typing import Dict, List, Any, Optional, Union, Tuple
 from django.http import HttpRequest, JsonResponse
 from django.views.generic import DetailView
 from django.urls import reverse, NoReverseMatch
+from django.utils.translation import activate
 from apps.services.services import ServiceAnalyticsService
+
+
+class NepaliLanguageMixin:
+    """Mixin to force Nepali language for views."""
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view."""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class BreadcrumbMixin:

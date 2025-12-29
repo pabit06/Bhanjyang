@@ -14,8 +14,8 @@ from apps.about.models import (
     CooperativeAffiliation, LeadershipMessage, Person, Committee,
     Membership, Staff
 )
-from apps.about.forms import ContactForm
-# NewsletterSignupForm and FeedbackForm removed - no longer needed
+# ContactForm removed - legacy tests updated
+
 
 User = get_user_model()
 
@@ -127,39 +127,40 @@ class AboutViewsTest(TestCase):
         self.assertIn('affiliations', response.context)
         self.assertIn('breadcrumbs', response.context)
     
-    def test_leadership_view(self):
-        """Test LeadershipView GET request"""
-        response = self.client.get(reverse('about:leadership'))
+    def test_chairperson_message_view(self):
+        """Test ChairpersonMessageView GET request"""
+        response = self.client.get(reverse('about:chairperson_message'))
         
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'about/leadership.html')
-        self.assertIn('leadership_messages', response.context)
+        self.assertTemplateUsed(response, 'about/chairperson_message.html')
+        self.assertIn('message', response.context)
         self.assertIn('breadcrumbs', response.context)
-    
-    def test_team_view(self):
-        """Test TeamView GET request"""
-        response = self.client.get(reverse('about:team'))
+        
+    def test_manager_commitment_view(self):
+        """Test ManagerCommitmentView GET request"""
+        response = self.client.get(reverse('about:manager_commitment'))
         
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'about/team.html')
+        self.assertTemplateUsed(response, 'about/manager_commitment.html')
+        self.assertIn('message', response.context)
+        self.assertIn('breadcrumbs', response.context)
+
+    def test_board_of_directors_view(self):
+        """Test BoardOfDirectorsView GET request"""
+        response = self.client.get(reverse('about:board_of_directors'))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'about/board_of_directors.html')
         self.assertIn('committees', response.context)
+        self.assertIn('breadcrumbs', response.context)
+        
+    def test_management_view(self):
+        """Test ManagementView GET request"""
+        response = self.client.get(reverse('about:management'))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'about/management.html')
         self.assertIn('management_team', response.context)
-        self.assertIn('breadcrumbs', response.context)
-    
-    def test_past_team_view(self):
-        """Test PastTeamView GET request"""
-        # Create inactive committee
-        past_committee = Committee.objects.create(
-            name="Past Committee",
-            tenure_bs="2079-2082",
-            is_active=False
-        )
-        
-        response = self.client.get(reverse('about:past_team'))
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'about/past_team.html')
-        self.assertIn('committees', response.context)
         self.assertIn('breadcrumbs', response.context)
     
     def test_cooperative_detail_view(self):
@@ -184,56 +185,13 @@ class AboutViewsTest(TestCase):
         
         self.assertEqual(response.status_code, 404)
     
-    def test_contact_view_get(self):
-        """Test ContactView GET request"""
+    def test_contact_view(self):
+        """Test ContactView redirects to main contact app"""
         response = self.client.get(reverse('about:contact'))
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'about/contact.html')
-        self.assertIn('form', response.context)
-        self.assertIsInstance(response.context['form'], ContactForm)
-    
-    def test_contact_view_post_valid(self):
-        """Test ContactView POST with valid data"""
-        form_data = {
-            'name': 'Test User',
-            'email': 'test@example.com',
-            'phone': '1234567890',
-            'subject': 'Test Subject',
-            'message': 'Test message',
-            'inquiry_type': 'general'
-        }
-        
-        response = self.client.post(reverse('about:contact'), form_data)
-        
-        # Should redirect on success
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('about:contact_success'))
-    
-    def test_contact_view_post_invalid(self):
-        """Test ContactView POST with invalid data"""
-        form_data = {
-            'name': '',  # Invalid
-            'email': 'invalid-email',  # Invalid
-            'subject': '',
-            'message': ''
-        }
-        
-        response = self.client.post(reverse('about:contact'), form_data)
-        
-        # Should render form with errors
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('form', response.context)
-        self.assertFalse(response.context['form'].is_valid())
-    
-    def test_contact_success_view(self):
-        """Test ContactSuccessView GET request"""
-        response = self.client.get(reverse('about:contact_success'))
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'about/contact_success.html')
-    
-    # Newsletter and Feedback view tests removed - forms no longer needed
+        # Verify redirect pattern or location if possible, or just the status code
+        # pattern_name='contact:contact_view' usually redirects to /contact/
+
     
     # test_gallery_view removed - gallery functionality moved to main gallery app
     # Use gallery app tests instead

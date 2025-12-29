@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"POT-Creation-Date: 2025-12-29 20:47+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,207 +18,3557 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/about/templates/about/introduction.html:5
-#: apps/about/templates/about/introduction.html:61
-#: apps/about/views.py:51
-msgid "Introduction"
-msgstr "परिचय"
+#: .\apps\about\admin.py:21 .\apps\services\models.py:241
+msgid "Status"
+msgstr "स्थिति"
 
-#: apps/about/templates/about/introduction.html:64
-msgid "Our Story, Vision & Journey"
-msgstr "हाम्रो कथा, दृष्टिकोण र यात्रा"
+#: .\apps\about\admin.py:26 .\apps\about\models.py:60
+#: .\apps\about\models.py:118 .\apps\about\models.py:171
+#: .\apps\about\models.py:222 .\apps\about\models.py:271
+#: .\apps\about\models.py:310 .\apps\about\models.py:400
+#: .\apps\news_events\models.py:313 .\apps\services\models.py:24
+#: .\apps\services\models.py:91
+msgid "Active"
+msgstr "सक्रिय"
 
-#: apps/about/templates/about/introduction.html:68
-msgid "Discover our foundation, principles, and the milestones that shaped our cooperative"
-msgstr "हाम्रो आधार, सिद्धान्तहरू, र हाम्रो सहकारी संस्थालाई आकार दिने महत्वपूर्ण घटनाहरू पत्ता लगाउनुहोस्"
+#: .\apps\about\admin.py:27
+msgid "Inactive"
+msgstr "निष्क्रिय"
 
-#: apps/about/templates/about/introduction.html:90
-msgid "Our Story"
-msgstr "हाम्रो कथा"
+#: .\apps\about\admin.py:39 .\apps\about\admin.py:44
+#: .\apps\news_events\templates\news_events\article_list.html:113
+#: .\apps\news_events\templates\news_events\article_list.html:124
+#: .\apps\about\templates\about\member_testimonials.html:89
+msgid "Featured"
+msgstr "विशेष"
 
-#: apps/about/models.py:28
-#: apps/about/templates/about/introduction.html:113
-#: apps/about/templates/about/cooperative_detail.html:78
+#: .\apps\about\admin.py:45
+msgid "Not Featured"
+msgstr "विशेष नभएको"
+
+#: .\apps\about\admin.py:83
+msgid "Content displayed in the \"Our Story\" section on the About Us page"
+msgstr ""
+
+#: .\apps\about\admin.py:482
+msgid "RTI Act 2064 - Information Officer (सूचना अधिकारी)"
+msgstr ""
+
+#: .\apps\about\admin.py:485
+msgid ""
+"Designate this staff member as the Information Officer. Only one staff can "
+"be the active Information Officer at a time."
+msgstr ""
+
+#: .\apps\about\admin.py:492
+msgid "Information Officer"
+msgstr ""
+
+#: .\apps\about\constants.py:18 .\apps\about\models.py:468
+msgid ""
+"Designate this staff member as the Information Officer under RTI Act 2064"
+msgstr ""
+
+#: .\apps\about\constants.py:19 .\apps\about\models.py:474
+msgid "Dedicated email for RTI requests (e.g., rti@bhanjyang.coop.np)"
+msgstr ""
+
+#: .\apps\about\constants.py:109
+msgid "Unable to load content"
+msgstr ""
+
+#: .\apps\about\constants.py:110
+msgid "Either select a person or enter a name."
+msgstr ""
+
+#: .\apps\about\constants.py:111
+msgid "Please select a position."
+msgstr ""
+
+#: .\apps\about\constants.py:112
+msgid "Custom position must be provided when 'Other' is selected."
+msgstr ""
+
+#: .\apps\about\models.py:23
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Cooperative Name"
+msgstr "सहकारी विवरण"
+
+#: .\apps\about\models.py:24
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Cooperative Name (Nepali)"
+msgstr "सहकारी विवरण"
+
+#: .\apps\about\models.py:25
+msgid "URL-friendly identifier"
+msgstr "URL-अनुकूल पहिचानकर्ता"
+
+#: .\apps\about\models.py:28
+#: .\apps\about\templates\about\cooperative_detail.html:78
+#: .\apps\about\templates\about\introduction.html:113
 msgid "Established Date"
 msgstr "स्थापना मिति"
 
-#: apps/about/templates/about/introduction.html:116
-msgid "Registration"
-msgstr "दर्ता"
-
-#: apps/about/templates/about/introduction.html:164
-#: apps/about/templates/about/introduction.html:167
-msgid "Our Foundation"
-msgstr "हाम्रो आधार"
-
-#: apps/about/templates/about/introduction.html:171
-msgid "The principles that guide our commitment to community development and financial excellence"
-msgstr "समुदाय विकास र वित्तीय उत्कृष्टतामा हाम्रो प्रतिबद्धतालाई निर्देशन गर्ने सिद्धान्तहरू"
-
-#: apps/about/templates/about/introduction.html:174
-msgid "Our Mission"
-msgstr "हाम्रो उद्देश्य"
-
-#: apps/about/templates/about/introduction.html:175
-msgid "To provide exceptional financial services and support community development through cooperative principles."
-msgstr "सहकारी सिद्धान्तहरू मार्फत असाधारण वित्तीय सेवाहरू प्रदान गर्ने र समुदाय विकासलाई समर्थन गर्ने।"
-
-#: apps/about/templates/about/introduction.html:185
-msgid "Our Vision"
-msgstr "हाम्रो दृष्टिकोण"
-
-#: apps/about/templates/about/introduction.html:186
-msgid "To be the leading cooperative society that empowers communities and fosters sustainable development."
-msgstr "समुदायहरूलाई सशक्त बनाउने र टिकाउ विकासलाई बढावा दिने अग्रणी सहकारी संस्था बन्ने।"
-
-#: apps/about/templates/about/introduction.html:196
-msgid "Our Values"
-msgstr "हाम्रो मूल्यहरू"
-
-#: apps/about/templates/about/introduction.html:197
-msgid "Integrity, transparency, member focus, community service, and sustainable growth."
-msgstr "ईमान्दारी, पारदर्शिता, सदस्य फोकस, समुदाय सेवा, र टिकाउ वृद्धि।"
-
-#: apps/about/templates/about/introduction.html:220
-#: apps/about/templates/about/introduction.html:223
-#: apps/about/templates/about/timeline.html:99
-msgid "Our Journey"
-msgstr "हाम्रो यात्रा"
-
-#: apps/about/templates/about/introduction.html:227
-msgid "Key milestones in our growth and development as a trusted financial institution"
-msgstr "विश्वसनीय वित्तीय संस्थाको रूपमा हाम्रो वृद्धि र विकासका महत्वपूर्ण माइलस्टोनहरू"
-
-#: apps/about/templates/about/introduction.html:260
-msgid "View Complete Timeline"
-msgstr "पूर्ण टाइमलाइन हेर्नुहोस्"
-
-#: apps/about/templates/about/cooperative_detail.html:31
-msgid "About"
-msgstr "बारेमा"
-
-#: apps/about/templates/about/cooperative_detail.html:48
-msgid "Mission"
-msgstr "उद्देश्य"
-
-#: apps/about/templates/about/cooperative_detail.html:55
-msgid "Vision"
-msgstr "दृष्टिकोण"
-
-#: apps/about/templates/about/cooperative_detail.html:62
-msgid "Values"
-msgstr "मूल्यहरू"
-
-#: apps/about/templates/about/cooperative_detail.html:72
-msgid "Cooperative Details"
-msgstr "सहकारी विवरण"
-
-#: apps/about/templates/about/cooperative_detail.html:82
+#: .\apps\about\models.py:29
+#: .\apps\about\templates\about\cooperative_detail.html:83
 msgid "Registration Number"
 msgstr "दर्ता नम्बर"
 
-#: apps/about/templates/about/cooperative_detail.html:88
+#: .\apps\about\models.py:30
+#: .\apps\about\templates\about\cooperative_detail.html:88
 msgid "License Number"
 msgstr "इजाजतपत्र नम्बर"
 
-#: apps/about/templates/about/cooperative_detail.html:94
-msgid "Website"
-msgstr "वेबसाइट"
-
-#: apps/about/templates/about/cooperative_detail.html:101
-msgid "Contact Information"
-msgstr "सम्पर्क जानकारी"
-
-#: apps/about/templates/about/cooperative_detail.html:107
+#: .\apps\about\models.py:33
+#: .\apps\about\templates\about\cooperative_detail.html:109
+#: .\apps\services\models.py:239
 msgid "Address"
 msgstr "ठेगाना"
 
-#: apps/about/templates/about/cooperative_detail.html:115
+#: .\apps\about\models.py:34 .\apps\about\models.py:306
+#: .\apps\about\templates\about\cooperative_detail.html:117
+#: .\apps\contact\templates\contact\contact.html:482
+#: .\apps\services\models.py:238
 msgid "Phone"
 msgstr "फोन"
 
-#: apps/about/templates/about/cooperative_detail.html:123
+#: .\apps\about\models.py:35 .\apps\about\models.py:305
+#: .\apps\about\templates\about\cooperative_detail.html:125
+#: .\apps\contact\forms.py:60 .\apps\services\models.py:237
 msgid "Email"
 msgstr "इमेल"
 
-#: apps/about/templates/about/timeline.html:4
-#: apps/about/views.py:71
-msgid "Timeline"
-msgstr "टाइमलाइन"
+#: .\apps\about\models.py:36 .\apps\about\models.py:212
+#: .\apps\about\templates\about\cooperative_detail.html:94
+msgid "Website"
+msgstr "वेबसाइट"
 
-#: apps/about/templates/about/timeline.html:102
-msgid "Timeline Infographic"
-msgstr "टाइमलाइन सूचना चित्र"
+#: .\apps\about\models.py:42
+msgid "Mission Statement"
+msgstr "लक्ष्य वक्तव्य"
 
-#: apps/about/templates/about/timeline.html:106
-msgid "Explore our key milestones, achievements, and growth journey over the years"
-msgstr "वर्षौंदेखि हाम्रो महत्वपूर्ण माइलस्टोनहरू, उपलब्धिहरू, र वृद्धि यात्रा अन्वेषण गर्नुहोस्"
+#: .\apps\about\models.py:43
+msgid "Vision Statement"
+msgstr "दृष्टिकोण वक्तव्य"
 
-#: apps/about/templates/about/timeline.html:218
-msgid "No Timeline Events"
+#: .\apps\about\models.py:44
+#, fuzzy
+#| msgid "Our Values"
+msgid "Core Values"
+msgstr "हाम्रो मूल्यहरू"
+
+#: .\apps\about\models.py:47
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Cooperative Description"
+msgstr "सहकारी विवरण"
+
+#: .\apps\about\models.py:48
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Cooperative Description (Nepali)"
+msgstr "सहकारी विवरण"
+
+#: .\apps\about\models.py:51 .\apps\about\templates\about\introduction.html:90
+msgid "Our Story"
+msgstr "हाम्रो कथा"
+
+#: .\apps\about\models.py:51
+msgid "Content for the 'Our Story' section on About Us page"
+msgstr ""
+
+#: .\apps\about\models.py:52
+#, fuzzy
+#| msgid "Our Story"
+msgid "Our Story (Nepali)"
+msgstr "हाम्रो कथा"
+
+#: .\apps\about\models.py:52
+msgid "Our Story content in Nepali"
+msgstr ""
+
+#: .\apps\about\models.py:53
+#, fuzzy
+#| msgid "Our Story"
+msgid "Our Story Image"
+msgstr "हाम्रो कथा"
+
+#: .\apps\about\models.py:53
+msgid "Image for the Our Story section on About Us page"
+msgstr ""
+
+#: .\apps\about\models.py:56
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Cooperative Logo"
+msgstr "सहकारी विवरण"
+
+#: .\apps\about\models.py:57
+msgid "Featured Image"
+msgstr "विशेष छवि"
+
+#: .\apps\about\models.py:70 .\apps\about\models.py:71
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Cooperative Information"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\about\models.py:97
+msgid "Milestone"
+msgstr ""
+
+#: .\apps\about\models.py:98
+msgid "Achievement"
+msgstr ""
+
+#: .\apps\about\models.py:99
+msgid "Expansion"
+msgstr ""
+
+#: .\apps\about\models.py:100
+msgid "Award"
+msgstr ""
+
+#: .\apps\about\models.py:101 .\apps\about\models.py:202
+msgid "Partnership"
+msgstr ""
+
+#: .\apps\about\models.py:102 .\apps\about\models.py:153
+#: .\apps\about\models.py:206 .\apps\about\models.py:254
+#: .\apps\about\models.py:379 .\apps\contact\forms.py:226
+#: .\apps\contact\models.py:222 .\apps\news_events\models.py:209
+msgid "Other"
+msgstr ""
+
+#: .\apps\about\models.py:105
+msgid "Event Title"
+msgstr ""
+
+#: .\apps\about\models.py:106
+msgid "Event Description"
+msgstr ""
+
+#: .\apps\about\models.py:107
+msgid "Event Date"
+msgstr ""
+
+#: .\apps\about\models.py:108
+msgid "Event Type"
+msgstr ""
+
+#: .\apps\about\models.py:111
+msgid "Event Image"
+msgstr ""
+
+#: .\apps\about\models.py:114 .\apps\about\models.py:167
+#: .\apps\about\models.py:218 .\apps\about\models.py:267
+msgid "Display Order"
+msgstr ""
+
+#: .\apps\about\models.py:117
+msgid "Featured Event"
+msgstr ""
+
+#: .\apps\about\models.py:128
+#, fuzzy
+#| msgid "No Timeline Events"
+msgid "Timeline Event"
 msgstr "टाइमलाइन घटनाहरू छैनन्"
 
-#: apps/about/templates/about/timeline.html:219
-msgid "No timeline events are available yet."
-msgstr "अहिलेसम्म कुनै टाइमलाइन घटनाहरू उपलब्ध छैनन्।"
+#: .\apps\about\models.py:129
+#: .\apps\search\templates\search\advanced_search.html:55
+#, fuzzy
+#| msgid "No Timeline Events"
+msgid "Timeline Events"
+msgstr "टाइमलाइन घटनाहरू छैनन्"
 
-#: apps/about/templates/about/timeline.html:220
-msgid "Timeline information will be added as it becomes available."
-msgstr "उपलब्ध भएमा टाइमलाइन जानकारी थपिनेछ।"
+#: .\apps\about\models.py:147
+msgid "Total Members"
+msgstr ""
 
-#: apps/about/templates/about/affiliations.html:4
-#: apps/about/views.py:94
+#: .\apps\about\models.py:148
+msgid "Total Deposits"
+msgstr ""
+
+#: .\apps\about\models.py:149
+msgid "Total Loans Disbursed"
+msgstr ""
+
+#: .\apps\about\models.py:150
+msgid "Number of Branches"
+msgstr ""
+
+#: .\apps\about\models.py:151
+msgid "Number of Employees"
+msgstr ""
+
+#: .\apps\about\models.py:152
+msgid "Total Assets"
+msgstr ""
+
+#: .\apps\about\models.py:156
+msgid "Statistic Title"
+msgstr ""
+
+#: .\apps\about\models.py:157
+#, fuzzy
+#| msgid "Values"
+msgid "Value"
+msgstr "मूल्यहरू"
+
+#: .\apps\about\models.py:158
+msgid "Unit"
+msgstr ""
+
+#: .\apps\about\models.py:159 .\apps\about\models.py:210
+#: .\apps\services\models.py:20
+#, fuzzy
+#| msgid "Registration"
+msgid "Description"
+msgstr "दर्ता"
+
+#: .\apps\about\models.py:160
+msgid "Statistic Type"
+msgstr ""
+
+#: .\apps\about\models.py:163
+msgid "Icon Class"
+msgstr ""
+
+#: .\apps\about\models.py:164 .\apps\services\models.py:22
+msgid "Color Theme"
+msgstr ""
+
+#: .\apps\about\models.py:170
+msgid "Featured Statistic"
+msgstr ""
+
+#: .\apps\about\models.py:181 .\apps\home\models.py:86
+msgid "Statistic"
+msgstr ""
+
+#: .\apps\about\models.py:182 .\apps\home\models.py:87
+msgid "Statistics"
+msgstr ""
+
+#: .\apps\about\models.py:200
+msgid "Regulatory Body"
+msgstr ""
+
+#: .\apps\about\models.py:201
+msgid "Professional Association"
+msgstr ""
+
+#: .\apps\about\models.py:203
+msgid "Certification Body"
+msgstr ""
+
+#: .\apps\about\models.py:204
+msgid "Umbrella Organization"
+msgstr ""
+
+#: .\apps\about\models.py:205
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Cooperative Bank"
+msgstr "सहकारी विवरण"
+
+#: .\apps\about\models.py:209
+#, fuzzy
+#| msgid "Registration Number"
+msgid "Organization Name"
+msgstr "दर्ता नम्बर"
+
+#: .\apps\about\models.py:211
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Affiliation Type"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\about\models.py:215
+msgid "Organization Logo"
+msgstr ""
+
+#: .\apps\about\models.py:221
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Featured Affiliation"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\about\models.py:232
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Affiliation"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\about\templates\about\affiliations.html:15
+msgid "Our Affiliations"
+msgstr "हाम्रो सम्बन्धहरू"
+
+#: .\apps\about\templates\about\affiliations.html:16
+msgid "We are proud to be associated with these organizations and regulatory bodies, including our local regulatory authority Rupa Rural Municipality."
+msgstr "हामी यी संस्थाहरू र नियामक निकायहरूसँग सम्बन्धित भएर गर्व गर्छौं, जसमा हाम्रो स्थानीय नियामक प्राधिकरण रुपा गाउँपालिका समावेश छ।"
+
+#: .\apps\about\templates\about\affiliations.html:49
+msgid "Visit Website"
+msgstr "वेबसाइट भ्रमण गर्नुहोस्"
+
+#: .\apps\about\templates\about\affiliations.html:58
+msgid "No affiliations are available yet."
+msgstr "अहिलेसम्म कुनै सम्बन्धहरू उपलब्ध छैनन्।"
+
+#: .\apps\about\templates\about\affiliations.html:59
+msgid "Affiliation information will be added as it becomes available."
+msgstr "उपलब्ध भएमा सम्बन्ध जानकारी थपिनेछ।"
+
+#: .\apps\about\templates\about\affiliations.html:69
+msgid "Types of Affiliations"
+msgstr "सम्बन्धहरूका प्रकारहरू"
+
+#: .\apps\about\templates\about\affiliations.html:70
+msgid "Understanding our various partnerships and regulatory relationships."
+msgstr "हाम्रो विभिन्न साझेदारीहरू र नियामक सम्बन्धहरू बुझ्नुहोस्।"
+
+#: .\apps\about\templates\about\affiliations.html:78
+msgid "Regulatory Bodies"
+msgstr "नियामक निकायहरू"
+
+#: .\apps\about\templates\about\affiliations.html:79
+msgid "Government agencies that oversee cooperative operations and ensure compliance."
+msgstr "सहकारी सञ्चालनको निरीक्षण गर्ने र अनुपालन सुनिश्चित गर्ने सरकारी एजेन्सीहरू।"
+
+#: .\apps\about\templates\about\affiliations.html:86
+msgid "Professional Associations"
+msgstr "व्यावसायिक संघहरू"
+
+#: .\apps\about\templates\about\affiliations.html:87
+msgid "Industry organizations that promote best practices and professional development."
+msgstr "उत्कृष्ट अभ्यासहरू र व्यावसायिक विकासलाई बढावा दिने उद्योग संस्थाहरू।"
+
+#: .\apps\about\templates\about\affiliations.html:94
+msgid "Partnerships"
+msgstr "साझेदारीहरू"
+
+#: .\apps\about\templates\about\affiliations.html:95
+msgid "Strategic collaborations that enhance our services and community impact."
+msgstr "हाम्रो सेवाहरू र समुदायिक प्रभावलाई बढाउने रणनीतिक सहयोगहरू।"
+
+#: .\apps\about\templates\about\affiliations.html:102
+msgid "Certification Bodies"
+msgstr "प्रमाणीकरण निकायहरू"
+
+#: .\apps\about\templates\about\affiliations.html:103
+msgid "Organizations that provide certifications and quality assurance standards."
+msgstr "प्रमाणीकरण र गुणस्तर आश्वासन मानकहरू प्रदान गर्ने संस्थाहरू।"
+
+#: .\apps\about\templates\about\affiliations.html:110
+msgid "Umbrella Organizations"
+msgstr "छाता संस्थाहरू"
+
+#: .\apps\about\templates\about\affiliations.html:111
+msgid "Parent organizations that coordinate and support multiple cooperatives and institutions."
+msgstr "धेरै सहकारीहरू र संस्थाहरूको समन्वय र समर्थन गर्ने मूल संस्थाहरू।"
+
+#: .\apps\about\templates\about\affiliations.html:118
+msgid "Cooperative Banks"
+msgstr "सहकारी बैंकहरू"
+
+#: .\apps\about\templates\about\affiliations.html:119
+msgid "Financial institutions that provide banking services and support to cooperatives."
+msgstr "सहकारीहरूलाई बैंकिङ सेवाहरू र समर्थन प्रदान गर्ने वित्तीय संस्थाहरू।"
+
+#: .\apps\about\models.py:233 .\apps\about\templates\about\affiliations.html:5
+#: .\apps\about\views.py:110
+#: .\apps\search\templates\search\advanced_search.html:58
+#: .\templates\partials\_header.html:74 .\templates\partials\_header.html:199
 msgid "Affiliations"
 msgstr "सम्बन्धहरू"
 
-#: apps/about/templates/about/board_of_directors.html:4
-#: apps/about/views.py:174
-msgid "Board of Directors"
-msgstr "सञ्चालक समिति"
-
-#: apps/about/templates/about/board_of_directors.html:132
-msgid "No Board Information Available"
-msgstr "सञ्चालक समिति जानकारी उपलब्ध छैन"
-
-#: apps/about/templates/about/board_of_directors.html:133
-msgid "Board of Directors information will be available soon."
-msgstr "सञ्चालक समिति जानकारी चाँडै उपलब्ध हुनेछ।"
-
-#: apps/about/templates/about/board_of_directors.html:137
-#: apps/about/templates/about/chairperson_message.html:138
-#: apps/about/templates/about/manager_commitment.html:138
-#: apps/about/templates/about/management.html:122
-#: apps/about/templates/about/member_testimonials.html:153
-msgid "Back to About Us"
-msgstr "हाम्रो बारेमा फर्कनुहोस्"
-
-#: apps/about/templates/about/chairperson_message.html:4
-#: apps/about/views.py:121
-msgid "Chairperson Message"
+#: .\apps\about\models.py:251
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Chairman Message"
 msgstr "अध्यक्षको सन्देश"
 
-#: apps/about/templates/about/manager_commitment.html:4
-#: apps/about/views.py:148
-msgid "Manager Commitment"
-msgstr "प्रबन्धकको प्रतिबद्धता"
+#: .\apps\about\models.py:252
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Manager Message"
+msgstr "अध्यक्षको सन्देश"
 
-#: apps/about/templates/about/management.html:4
-msgid "Management Team"
-msgstr "प्रबन्धन टोली"
+#: .\apps\about\models.py:253
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Director Message"
+msgstr "अध्यक्षको सन्देश"
 
-#: apps/about/views.py:200
-msgid "Management"
-msgstr "प्रबन्धन"
+#: .\apps\about\models.py:257
+msgid "Message Title"
+msgstr ""
 
-#: apps/about/templates/about/member_testimonials.html:4
-#: apps/about/views.py:226
-msgid "Member Testimonials"
-msgstr "सदस्यहरूको प्रशंसा"
+#: .\apps\about\models.py:258
+msgid "Message Type"
+msgstr ""
 
-#: apps/about/views.py:49
+#: .\apps\about\models.py:259
+msgid "Message Content"
+msgstr ""
+
+#: .\apps\about\models.py:260
+msgid "Author Name"
+msgstr ""
+
+#: .\apps\about\models.py:261
+msgid "Author Position"
+msgstr ""
+
+#: .\apps\about\models.py:264
+msgid "Author Photo"
+msgstr ""
+
+#: .\apps\about\models.py:270
+#: .\apps\about\templates\about\chairperson_message.html:119
+msgid "Featured Message"
+msgstr "विशेष सन्देश"
+
+#: .\apps\about\models.py:281
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Leadership Message"
+msgstr "अध्यक्षको सन्देश"
+
+#: .\apps\about\models.py:282
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Leadership Messages"
+msgstr "अध्यक्षको सन्देश"
+
+#: .\apps\about\models.py:307
+msgid "General Position"
+msgstr ""
+
+#: .\apps\about\models.py:318
+msgid "Person"
+msgstr ""
+
+#: .\apps\about\models.py:319
+msgid "People"
+msgstr ""
+
+#: .\apps\about\models.py:340
+msgid "Committee Description"
+msgstr ""
+
+#: .\apps\about\models.py:341
+msgid "Committee Photo"
+msgstr ""
+
+#: .\apps\about\models.py:342 .\apps\about\models.py:398
+msgid "Start Date"
+msgstr ""
+
+#: .\apps\about\models.py:343 .\apps\about\models.py:399
+msgid "End Date"
+msgstr ""
+
+#: .\apps\about\models.py:347 .\apps\about\templates\about\board_of_directors.html:84
+msgid "Committee"
+msgstr "समिति"
+
+#: .\apps\about\models.py:348
+msgid "Committees"
+msgstr ""
+
+#: .\apps\about\models.py:369
+msgid "Select Position"
+msgstr ""
+
+#: .\apps\about\models.py:371
+msgid "Chairman"
+msgstr ""
+
+#: .\apps\about\models.py:372
+msgid "Vice-Chairman"
+msgstr ""
+
+#: .\apps\about\models.py:373
+msgid "Secretary"
+msgstr ""
+
+#: .\apps\about\models.py:374
+msgid "Treasurer"
+msgstr ""
+
+#: .\apps\about\models.py:375
+msgid "Member"
+msgstr ""
+
+#: .\apps\about\models.py:377
+msgid "Coordinator"
+msgstr ""
+
+#: .\apps\about\models.py:405
+msgid "Committee Membership"
+msgstr ""
+
+#: .\apps\about\models.py:406
+msgid "Committee Memberships"
+msgstr ""
+
+#: .\apps\about\models.py:460
+msgid "Department"
+msgstr ""
+
+#: .\apps\about\models.py:461
+msgid "Salary Range"
+msgstr ""
+
+#: .\apps\about\models.py:462
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Qualifications"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\about\models.py:467
+msgid "Information Officer (सूचना अधिकारी)"
+msgstr ""
+
+#: .\apps\about\models.py:473
+#, fuzzy
+#| msgid "Email"
+msgid "RTI Email"
+msgstr "इमेल"
+
+#: .\apps\about\models.py:479
+msgid "Staff Member"
+msgstr ""
+
+#: .\apps\about\models.py:480
+msgid "Staff Members"
+msgstr ""
+
+#: .\apps\about\services.py:71 .\apps\about\views.py:55
+#: .\apps\about\views.py:80 .\apps\about\views.py:108 .\apps\about\views.py:140
+#: .\apps\about\views.py:172 .\apps\about\views.py:203
+#: .\apps\about\views.py:234 .\apps\about\views.py:265
+#: .\apps\about\views.py:299 .\templates\partials\_header.html:47
+#: .\templates\partials\_header.html:170
 msgid "Home"
 msgstr "गृह पृष्ठ"
 
-#: apps/about/views.py:50
+#: .\apps\about\services.py:72 .\apps\about\views.py:56
+#: .\apps\about\views.py:81 .\apps\about\views.py:109 .\apps\about\views.py:141
+#: .\apps\about\views.py:173 .\apps\about\views.py:204
+#: .\apps\about\views.py:235 .\apps\about\views.py:266
+#: .\apps\about\views.py:300 .\templates\partials\_header.html:52
+#: .\templates\partials\_header.html:177
 msgid "About Us"
 msgstr "हाम्रो बारेमा"
+
+#: .\apps\about\templates\about\board_of_directors.html:5
+#: .\apps\about\views.py:205 .\templates\partials\_header.html:68
+#: .\templates\partials\_header.html:193
+msgid "Board of Directors"
+msgstr "सञ्चालक समिति"
+
+#: .\apps\about\templates\about\board_of_directors.html:133
+msgid "No Board Information Available"
+msgstr "सञ्चालक समिति जानकारी उपलब्ध छैन"
+
+#: .\apps\about\templates\about\board_of_directors.html:134
+msgid "Board of Directors information will be available soon."
+msgstr "सञ्चालक समिति जानकारी चाँडै उपलब्ध हुनेछ।"
+
+#: .\apps\about\templates\about\board_of_directors.html:55
+msgid "Governance"
+msgstr "शासन"
+
+#: .\apps\about\templates\about\board_of_directors.html:62
+msgid "Meet our elected leadership who guide our cooperative's vision and governance"
+msgstr "हाम्रो सहकारीको दृष्टि र शासन निर्देशन गर्ने हाम्रो निर्वाचित नेतृत्वसँग भेट्नुहोस्"
+
+#: .\apps\about\templates\about\board_of_directors.html:92
+msgid "Tenure:"
+msgstr "कार्यकाल:"
+
+#: .\apps\about\templates\about\board_of_directors.html:138
+#: .\apps\about\templates\about\chairperson_message.html:139
+#: .\apps\about\templates\about\management.html:123
+#: .\apps\about\templates\about\manager_commitment.html:139
+#: .\apps\about\templates\about\member_testimonials.html:154
+msgid "Back to About Us"
+msgstr "हाम्रो बारेमा फर्कनुहोस्"
+
+#: .\apps\about\templates\about\chairperson_message.html:5
+#: .\apps\about\templates\about\chairperson_message.html:58
+#: .\apps\about\views.py:142 .\templates\partials\_header.html:62
+#: .\templates\partials\_header.html:187
+msgid "Chairperson Message"
+msgstr "अध्यक्षको सन्देश"
+
+#: .\apps\about\templates\about\chairperson_message.html:55
+msgid "Leadership"
+msgstr "नेतृत्व"
+
+#: .\apps\about\templates\about\chairperson_message.html:62
+msgid "Strategic vision and direction from our elected leadership"
+msgstr "हाम्रो निर्वाचित नेतृत्वबाट रणनीतिक दृष्टिकोण र दिशा"
+
+#: .\apps\about\templates\about\chairperson_message.html:134
+msgid "No Chairperson Message Available"
+msgstr "अध्यक्षको सन्देश उपलब्ध छैन"
+
+#: .\apps\about\templates\about\chairperson_message.html:135
+msgid ""
+"The chairperson message will be available soon. Please check back later."
+msgstr "अध्यक्षको सन्देश चाँडै उपलब्ध हुनेछ। कृपया पछि फेरि जाँच गर्नुहोस्।"
+
+#: .\apps\about\templates\about\cooperative_detail.html:31
+msgid "About"
+msgstr "बारेमा"
+
+#: .\apps\about\templates\about\cooperative_detail.html:50
+msgid "Mission"
+msgstr "उद्देश्य"
+
+#: .\apps\about\templates\about\cooperative_detail.html:57
+msgid "Vision"
+msgstr "दृष्टिकोण"
+
+#: .\apps\about\templates\about\cooperative_detail.html:64
+msgid "Values"
+msgstr "मूल्यहरू"
+
+#: .\apps\about\templates\about\cooperative_detail.html:74
+msgid "Cooperative Details"
+msgstr "सहकारी विवरण"
+
+#: .\apps\about\templates\about\cooperative_detail.html:103
+msgid "Contact Information"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\about\templates\about\introduction.html:5
+#: .\apps\about\templates\about\introduction.html:61 .\apps\about\views.py:57
+#: .\templates\partials\_header.html:59 .\templates\partials\_header.html:184
+msgid "Introduction"
+msgstr "परिचय"
+
+#: .\apps\about\templates\about\introduction.html:64
+msgid "Our Story, Vision & Journey"
+msgstr "हाम्रो कथा, दृष्टिकोण र यात्रा"
+
+#: .\apps\about\templates\about\introduction.html:68
+msgid ""
+"Discover our foundation, principles, and the milestones that shaped our "
+"cooperative"
+msgstr ""
+"हाम्रो आधार, सिद्धान्तहरू, र हाम्रो सहकारी संस्थालाई आकार दिने महत्वपूर्ण घटनाहरू पत्ता "
+"लगाउनुहोस्"
+
+#: .\apps\about\templates\about\introduction.html:117
+msgid "Registration"
+msgstr "दर्ता"
+
+#: .\apps\about\templates\about\introduction.html:164
+#: .\apps\about\templates\about\introduction.html:167
+msgid "Our Foundation"
+msgstr "हाम्रो आधार"
+
+#: .\apps\about\templates\about\introduction.html:171
+msgid ""
+"The principles that guide our commitment to community development and "
+"financial excellence"
+msgstr "समुदाय विकास र वित्तीय उत्कृष्टतामा हाम्रो प्रतिबद्धतालाई निर्देशन गर्ने सिद्धान्तहरू"
+
+#: .\apps\about\templates\about\introduction.html:183
+msgid "Our Mission"
+msgstr "हाम्रो उद्देश्य"
+
+#: .\apps\about\templates\about\introduction.html:184
+msgid ""
+"To provide exceptional financial services and support community development "
+"through cooperative principles."
+msgstr ""
+"सहकारी सिद्धान्तहरू मार्फत असाधारण वित्तीय सेवाहरू प्रदान गर्ने र समुदाय विकासलाई समर्थन "
+"गर्ने।"
+
+#: .\apps\about\templates\about\introduction.html:194
+msgid "Our Vision"
+msgstr "हाम्रो दृष्टिकोण"
+
+#: .\apps\about\templates\about\introduction.html:195
+msgid ""
+"To be the leading cooperative society that empowers communities and fosters "
+"sustainable development."
+msgstr ""
+"समुदायहरूलाई सशक्त बनाउने र टिकाउ विकासलाई बढावा दिने अग्रणी सहकारी संस्था बन्ने।"
+
+#: .\apps\about\templates\about\introduction.html:205
+msgid "Our Values"
+msgstr "हाम्रो मूल्यहरू"
+
+#: .\apps\about\templates\about\introduction.html:206
+msgid ""
+"Integrity, transparency, member focus, community service, and sustainable "
+"growth."
+msgstr "ईमान्दारी, पारदर्शिता, सदस्य फोकस, समुदाय सेवा, र टिकाउ वृद्धि।"
+
+#: .\apps\about\templates\about\introduction.html:229
+#: .\apps\about\templates\about\introduction.html:232
+#: .\apps\about\templates\about\timeline.html:100
+msgid "Our Journey"
+msgstr "हाम्रो यात्रा"
+
+#: .\apps\about\templates\about\introduction.html:236
+msgid ""
+"Key milestones in our growth and development as a trusted financial "
+"institution"
+msgstr "विश्वसनीय वित्तीय संस्थाको रूपमा हाम्रो वृद्धि र विकासका महत्वपूर्ण माइलस्टोनहरू"
+
+#: .\apps\about\templates\about\introduction.html:269
+msgid "View Complete Timeline"
+msgstr "पूर्ण टाइमलाइन हेर्नुहोस्"
+
+#: .\apps\about\templates\about\management.html:5
+#: .\apps\about\templates\about\management.html:58
+msgid "Management Team"
+msgstr "प्रबन्धन टोली"
+
+#: .\apps\about\templates\about\management.html:55
+msgid "Operations"
+msgstr "सञ्चालन"
+
+#: .\apps\about\templates\about\management.html:62
+msgid "Professional staff members who handle day-to-day operations and member services"
+msgstr "दैनिक सञ्चालन र सदस्य सेवाहरू सम्हाल्ने व्यावसायिक कर्मचारीहरू"
+
+#: .\apps\about\templates\about\management.html:118
+msgid "No Management Team Information Available"
+msgstr "प्रबन्धन टोली जानकारी उपलब्ध छैन"
+
+#: .\apps\about\templates\about\management.html:119
+msgid "Management team information will be available soon."
+msgstr "प्रबन्धन टोली जानकारी चाँडै उपलब्ध हुनेछ।"
+
+#: .\apps\about\templates\about\manager_commitment.html:5
+#: .\apps\about\views.py:174 .\templates\partials\_header.html:65
+#: .\templates\partials\_header.html:190
+msgid "Manager Commitment"
+msgstr "प्रबन्धकको प्रतिबद्धता"
+
+#: .\apps\about\templates\about\member_testimonials.html:5
+#: .\apps\about\templates\about\member_testimonials.html:58
+#: .\apps\about\views.py:267 .\templates\partials\_header.html:77
+#: .\templates\partials\_header.html:202
+msgid "Member Testimonials"
+msgstr "सदस्यहरूको प्रशंसा"
+
+#: .\apps\about\templates\about\member_testimonials.html:55
+msgid "Member Voices"
+msgstr "सदस्यहरूको आवाजहरू"
+
+#: .\apps\about\templates\about\member_testimonials.html:62
+msgid "Hear from our members about their experiences with Bhanjyang Cooperative"
+msgstr "भान्ज्याङ सहकारीको साथको हाम्रो सदस्यहरूको अनुभवहरू सुन्नुहोस्"
+
+#: .\apps\about\templates\about\member_testimonials.html:149
+msgid "No Testimonials Available"
+msgstr "कुनै प्रशंसा उपलब्ध छैन"
+
+#: .\apps\about\templates\about\member_testimonials.html:150
+msgid "Member testimonials will be available soon. Please check back later."
+msgstr "सदस्यहरूको प्रशंसा चाँडै उपलब्ध हुनेछ। कृपया पछि फेरि जाँच गर्नुहोस्।"
+
+#: .\apps\about\templates\about\timeline.html:5 .\apps\about\views.py:82
+msgid "Timeline"
+msgstr "टाइमलाइन"
+
+#: .\apps\about\templates\about\timeline.html:103
+msgid "Timeline Infographic"
+msgstr "टाइमलाइन सूचना चित्र"
+
+#: .\apps\about\templates\about\timeline.html:107
+msgid ""
+"Explore our key milestones, achievements, and growth journey over the years"
+msgstr "वर्षौंदेखि हाम्रो महत्वपूर्ण माइलस्टोनहरू, उपलब्धिहरू, र वृद्धि यात्रा अन्वेषण गर्नुहोस्"
+
+#: .\apps\about\templates\about\timeline.html:218
+msgid "No Timeline Events"
+msgstr "टाइमलाइन घटनाहरू छैनन्"
+
+#: .\apps\about\templates\about\timeline.html:219
+msgid "No timeline events are available yet."
+msgstr "अहिलेसम्म कुनै टाइमलाइन घटनाहरू उपलब्ध छैनन्।"
+
+#: .\apps\about\templates\about\timeline.html:220
+msgid "Timeline information will be added as it becomes available."
+msgstr "उपलब्ध भएमा टाइमलाइन जानकारी थपिनेछ।"
+
+#: .\apps\about\views.py:236 .\templates\partials\_header.html:71
+#: .\templates\partials\_header.html:196
+msgid "Management"
+msgstr "प्रबन्धन"
+
+#: .\apps\about\templates\about\manager_commitment.html:62
+msgid "Operational insights and service commitments from our management team"
+msgstr "हाम्रो प्रबन्धन टोलीबाट सञ्चालनिक अन्तर्दृष्टि र सेवा प्रतिबद्धताहरू"
+
+#: .\apps\about\templates\about\manager_commitment.html:119
+msgid "Featured Commitment"
+msgstr "विशेष प्रतिबद्धता"
+
+#: .\apps\about\templates\about\manager_commitment.html:134
+msgid "No Manager Commitment Available"
+msgstr "प्रबन्धकको प्रतिबद्धता उपलब्ध छैन"
+
+#: .\apps\about\templates\about\manager_commitment.html:135
+msgid "The manager commitment message will be available soon. Please check back later."
+msgstr "प्रबन्धकको प्रतिबद्धता सन्देश चाँडै उपलब्ध हुनेछ। कृपया पछि फेरि जाँच गर्नुहोस्।"
+
+#: .\apps\contact\forms.py:45
+msgid "Your full name"
+msgstr ""
+
+#: .\apps\contact\forms.py:48
+msgid "Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:50
+#, python-brace-format
+msgid "Name must be at least {min_length} characters long."
+msgstr ""
+
+#: .\apps\contact\forms.py:57 .\apps\contact\forms.py:267
+#: .\apps\home\forms.py:34 .\apps\home\forms.py:159
+#: .\apps\services\forms.py:144
+msgid "your.email@example.com"
+msgstr ""
+
+#: .\apps\contact\forms.py:68 .\apps\contact\forms.py:259
+msgid "+977-XXXXXXXXXX"
+msgstr ""
+
+#: .\apps\contact\forms.py:71
+msgid "Phone (Optional)"
+msgstr ""
+
+#: .\apps\contact\forms.py:79
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Subject of your message"
+msgstr "अध्यक्षको सन्देश"
+
+#: .\apps\contact\forms.py:82 .\apps\contact\templates\contact\contact.html:493
+msgid "Subject"
+msgstr "विषय"
+
+#: .\apps\contact\forms.py:89
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Your message here..."
+msgstr "अध्यक्षको सन्देश"
+
+#: .\apps\contact\forms.py:92
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Message"
+msgstr "सन्देश"
+
+#: .\apps\contact\forms.py:102
+msgid "Attachment (Optional)"
+msgstr ""
+
+#: .\apps\contact\forms.py:110
+msgid "Invalid subject."
+msgstr ""
+
+#: .\apps\contact\forms.py:117
+msgid "Name should not contain numbers."
+msgstr ""
+
+#: .\apps\contact\forms.py:207
+msgid "As per your ID"
+msgstr ""
+
+#: .\apps\contact\forms.py:209
+msgid "Full Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:210
+msgid "Enter your full name as it appears on your citizenship/ID card"
+msgstr ""
+
+#: .\apps\contact\forms.py:218 .\apps\contact\models.py:234
+msgid "Date of Birth"
+msgstr ""
+
+#: .\apps\contact\forms.py:223
+msgid "Select Gender"
+msgstr ""
+
+#: .\apps\contact\forms.py:224 .\apps\contact\models.py:220
+msgid "Male"
+msgstr "पुरुष"
+
+#: .\apps\contact\forms.py:225 .\apps\contact\models.py:221
+msgid "Female"
+msgstr "महिला"
+
+#: .\apps\contact\forms.py:229
+msgid "Gender"
+msgstr "लिङ्ग"
+
+#: .\apps\contact\forms.py:234
+msgid "Select Status"
+msgstr ""
+
+#: .\apps\contact\forms.py:235 .\apps\contact\models.py:226
+msgid "Single"
+msgstr "अविवाहित"
+
+#: .\apps\contact\forms.py:236 .\apps\contact\models.py:227
+msgid "Married"
+msgstr "विवाहित"
+
+#: .\apps\contact\forms.py:237 .\apps\contact\models.py:228
+msgid "Divorced"
+msgstr ""
+
+#: .\apps\contact\forms.py:238 .\apps\contact\models.py:229
+msgid "Widowed"
+msgstr ""
+
+#: .\apps\contact\forms.py:241
+msgid "Marital Status"
+msgstr "वैवाहिक स्थिति"
+
+#: .\apps\contact\forms.py:248
+msgid "e.g., Nepali"
+msgstr ""
+
+#: .\apps\contact\forms.py:250
+msgid "Nationality"
+msgstr "राष्ट्रियता"
+
+#: .\apps\contact\forms.py:261
+#, fuzzy
+#| msgid "License Number"
+msgid "Phone Number"
+msgstr "इजाजतपत्र नम्बर"
+
+#: .\apps\contact\forms.py:269
+#, fuzzy
+#| msgid "Address"
+msgid "Email Address"
+msgstr "ठेगाना"
+
+#: .\apps\contact\forms.py:276
+msgid "Street, Village, Ward No."
+msgstr ""
+
+#: .\apps\contact\forms.py:278
+msgid "Permanent Address"
+msgstr ""
+
+#: .\apps\contact\forms.py:285
+msgid "e.g., Kaski"
+msgstr ""
+
+#: .\apps\contact\forms.py:287
+msgid "District"
+msgstr "जिल्ला"
+
+#: .\apps\contact\forms.py:295
+msgid "e.g., Gandaki Province"
+msgstr ""
+
+#: .\apps\contact\forms.py:297
+msgid "Province"
+msgstr "प्रदेश"
+
+#: .\apps\contact\forms.py:306
+msgid "Father's Full Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:308
+msgid "Father's Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:315
+msgid "Mother's Full Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:317
+msgid "Mother's Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:325
+msgid "Spouse's Full Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:327
+msgid "Spouse's Name (if married)"
+msgstr ""
+
+#: .\apps\contact\forms.py:334
+msgid "Grand Father's Full Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:336
+msgid "Grand Father's Name"
+msgstr ""
+
+#: .\apps\contact\forms.py:344
+msgid "Full name of your nominee"
+msgstr ""
+
+#: .\apps\contact\forms.py:346
+msgid "Nominee Name (Optional)"
+msgstr ""
+
+#: .\apps\contact\forms.py:354
+msgid "Your profession/business"
+msgstr ""
+
+#: .\apps\contact\forms.py:356
+#, fuzzy
+#| msgid "Our Foundation"
+msgid "Occupation"
+msgstr "पेशा"
+
+#: .\apps\contact\forms.py:363
+msgid "e.g., Salary, Business, Agriculture"
+msgstr ""
+
+#: .\apps\contact\forms.py:365
+msgid "Source of Income"
+msgstr ""
+
+#: .\apps\contact\forms.py:374 .\apps\services\forms.py:42
+msgid "e.g., 500000"
+msgstr ""
+
+#: .\apps\contact\forms.py:376
+msgid "Estimated Annual Income (NPR)"
+msgstr ""
+
+#: .\apps\contact\forms.py:385
+msgid "Citizenship/ID Card (Front)"
+msgstr ""
+
+#: .\apps\contact\forms.py:394
+msgid "Citizenship/ID Card (Back)"
+msgstr ""
+
+#: .\apps\contact\forms.py:403
+msgid "Passport-sized Photo"
+msgstr ""
+
+#: .\apps\contact\forms.py:412
+msgid "Address Proof (e.g., Utility Bill)"
+msgstr ""
+
+#: .\apps\contact\forms.py:422
+msgid "Occupation/Income Proof (Optional)"
+msgstr ""
+
+#: .\apps\contact\forms.py:439
+#, python-brace-format
+msgid "{field_label} file size must be less than 5MB."
+msgstr ""
+
+#: .\apps\contact\models.py:62
+msgid "New"
+msgstr ""
+
+#: .\apps\contact\models.py:63
+msgid "In Progress"
+msgstr ""
+
+#: .\apps\contact\models.py:64
+msgid "Resolved"
+msgstr ""
+
+#: .\apps\contact\models.py:65 .\apps\news_events\models.py:316
+#: .\apps\news_events\models.py:374
+msgid "Spam"
+msgstr ""
+
+#: .\apps\contact\models.py:71
+msgid "Full name of the person submitting the form"
+msgstr ""
+
+#: .\apps\contact\models.py:73
+msgid "Email address for response"
+msgstr ""
+
+#: .\apps\contact\models.py:77
+msgid "Optional phone number"
+msgstr ""
+
+#: .\apps\contact\models.py:81
+msgid "Subject of the inquiry"
+msgstr ""
+
+#: .\apps\contact\models.py:83
+msgid "Detailed message content"
+msgstr ""
+
+#: .\apps\contact\models.py:88
+msgid "Optional file attachment"
+msgstr ""
+
+#: .\apps\contact\models.py:93
+msgid "IP address of the submitter"
+msgstr ""
+
+#: .\apps\contact\models.py:97
+msgid "Browser user agent string"
+msgstr ""
+
+#: .\apps\contact\models.py:103
+msgid "When the submission was created"
+msgstr ""
+
+#: .\apps\contact\models.py:107
+msgid "When the submission was last updated"
+msgstr ""
+
+#: .\apps\contact\models.py:115
+msgid "Current status of the submission"
+msgstr ""
+
+#: .\apps\contact\models.py:119
+msgid "Internal notes for admin use"
+msgstr ""
+
+#: .\apps\contact\models.py:124
+msgid "When the submission was resolved"
+msgstr ""
+
+#: .\apps\contact\models.py:129
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Contact Submission"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\contact\models.py:130
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Contact Submissions"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\contact\models.py:213
+msgid "Pending Review"
+msgstr ""
+
+#: .\apps\contact\models.py:214 .\apps\services\models.py:227
+msgid "Under Review"
+msgstr ""
+
+#: .\apps\contact\models.py:215 .\apps\news_events\models.py:372
+#: .\apps\services\models.py:228
+msgid "Approved"
+msgstr ""
+
+#: .\apps\contact\models.py:216 .\apps\news_events\models.py:373
+#: .\apps\services\models.py:228
+msgid "Rejected"
+msgstr ""
+
+#: .\apps\contact\models.py:300
+#, fuzzy
+#| msgid "Mission"
+msgid "KYM Submission"
+msgstr "उद्देश्य"
+
+#: .\apps\contact\models.py:301
+#, fuzzy
+#| msgid "Mission"
+msgid "KYM Submissions"
+msgstr "उद्देश्य"
+
+#: .\apps\contact\models.py:358
+#: .\apps\contact\templates\contact\contact.html:604
+msgid "Main Office"
+msgstr ""
+
+#: .\apps\contact\models.py:359
+msgid "Branch Office"
+msgstr ""
+
+#: .\apps\contact\models.py:360
+#: .\apps\contact\templates\contact\contact.html:621
+#, fuzzy
+#| msgid "Services"
+msgid "Service Center"
+msgstr "सेवाहरू"
+
+#: .\apps\contact\models.py:361
+msgid "ATM Center"
+msgstr ""
+
+#: .\apps\contact\models.py:366
+msgid "Name of the location (e.g., 'Main Office', 'Polyang Branch')"
+msgstr ""
+
+#: .\apps\contact\models.py:370
+msgid "Full address of the location"
+msgstr ""
+
+#: .\apps\contact\models.py:375
+msgid "Latitude coordinate for map display"
+msgstr ""
+
+#: .\apps\contact\models.py:380
+msgid "Longitude coordinate for map display"
+msgstr ""
+
+#: .\apps\contact\models.py:386
+msgid "Type of location"
+msgstr ""
+
+#: .\apps\contact\models.py:391
+msgid "Contact phone number for this location"
+msgstr ""
+
+#: .\apps\contact\models.py:395
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Contact email for this location"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\contact\models.py:400
+msgid "Operating hours (e.g., '9:00 AM - 5:00 PM', '24/7')"
+msgstr ""
+
+#: .\apps\contact\models.py:404
+msgid "Description of the location and services offered"
+msgstr ""
+
+#: .\apps\contact\models.py:410
+msgid "Image of the location"
+msgstr ""
+
+#: .\apps\contact\models.py:415
+msgid "List of services offered at this location (e.g., ['Savings', 'Loans'])"
+msgstr ""
+
+#: .\apps\contact\models.py:419
+msgid "Whether this location is currently active"
+msgstr ""
+
+#: .\apps\contact\models.py:423
+msgid "Display order (lower numbers appear first)"
+msgstr ""
+
+#: .\apps\contact\models.py:432
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Office Location"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\contact\models.py:433
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Office Locations"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\contact\templates\contact\contact.html:4
+msgid "Bhanjyang Cooperative - Contact Us"
+msgstr ""
+
+#: .\apps\contact\templates\contact\contact.html:461
+msgid "Your Name"
+msgstr ""
+
+#: .\apps\contact\templates\contact\contact.html:466
+msgid "Enter full name"
+msgstr ""
+
+#: .\apps\contact\templates\contact\contact.html:473
+#, fuzzy
+#| msgid "Email"
+msgid "Your Email"
+msgstr "इमेल"
+
+#: .\apps\contact\templates\contact\contact.html:482
+#: .\apps\contact\templates\contact\contact.html:513
+msgid "Optional"
+msgstr ""
+
+#: .\apps\contact\templates\contact\contact.html:503
+#, fuzzy
+#| msgid "Chairperson Message"
+msgid "Your Message"
+msgstr "अध्यक्षको सन्देश"
+
+#: .\apps\contact\templates\contact\contact.html:513
+msgid "File Attachment"
+msgstr ""
+
+#: .\apps\contact\templates\contact\contact.html:522
+#, fuzzy
+#| msgid "Featured Message"
+msgid "Send Message"
+msgstr "विशेष सन्देश"
+
+#: .\apps\downloads\models.py:11
+msgid "Application Form"
+msgstr ""
+
+#: .\apps\downloads\models.py:12
+msgid "Financial Report"
+msgstr ""
+
+#: .\apps\downloads\models.py:13
+msgid "Policy & Bylaw"
+msgstr ""
+
+#: .\apps\downloads\models.py:14
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Publication"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\downloads\models.py:15
+msgid "User Manual"
+msgstr ""
+
+#: .\apps\downloads\models.py:16
+msgid "Certificate"
+msgstr ""
+
+#: .\apps\downloads\models.py:17
+msgid "Brochure"
+msgstr ""
+
+#: .\apps\downloads\models.py:18
+msgid "Other Document"
+msgstr ""
+
+#: .\apps\downloads\models.py:21 .\apps\news_events\models.py:74
+msgid "Low Priority"
+msgstr ""
+
+#: .\apps\downloads\models.py:22 .\apps\news_events\models.py:75
+msgid "Medium Priority"
+msgstr ""
+
+#: .\apps\downloads\models.py:23 .\apps\news_events\models.py:76
+msgid "High Priority"
+msgstr ""
+
+#: .\apps\downloads\models.py:24 .\apps\home\models.py:116
+#: .\apps\news_events\models.py:77
+msgid "Urgent"
+msgstr ""
+
+#: .\apps\downloads\models.py:34
+msgid "फाइलको श्रेणी (जस्तै: फारम, रिपोर्ट)।"
+msgstr ""
+
+#: .\apps\downloads\models.py:36
+msgid "फाइलको शीर्षक।"
+msgstr ""
+
+#: .\apps\downloads\models.py:37
+msgid "फाइलको संक्षिप्त विवरण।"
+msgstr ""
+
+#: .\apps\downloads\models.py:40
+msgid "अपलोड गर्ने फाइल।"
+msgstr ""
+
+#: .\apps\downloads\models.py:46
+msgid "यो फाइल वेबसाइटमा देखाउने कि नदेखाउने?"
+msgstr ""
+
+#: .\apps\downloads\models.py:50
+msgid "यो फाइल फिचर्ड सूचीमा देखाउने?"
+msgstr ""
+
+#: .\apps\downloads\models.py:56
+msgid "फाइलको प्राथमिकता स्तर।"
+msgstr ""
+
+#: .\apps\downloads\models.py:60
+msgid "यो फाइल डाउनलोड गर्न लगइन आवश्यक छ?"
+msgstr ""
+
+#: .\apps\downloads\models.py:65
+msgid "फाइलको समाप्ति मिति (वैकल्पिक)।"
+msgstr ""
+
+#: .\apps\downloads\models.py:70
+msgid "फाइलका ट्यागहरू (कमा द्वारा अलग)।"
+msgstr ""
+
+#: .\apps\downloads\models.py:76
+msgid "फाइलको थम्बनेल छवि (वैकल्पिक)।"
+msgstr ""
+
+#: .\apps\downloads\models.py:82
+msgid "यो फाइल कति पटक डाउनलोड भयो।"
+msgstr ""
+
+#: .\apps\downloads\models.py:87
+msgid "यो फाइल कति पटक हेरियो।"
+msgstr ""
+
+#: .\apps\downloads\models.py:104
+msgid "User who uploaded this file."
+msgstr ""
+
+#: .\apps\downloads\models.py:109
+msgid "Last time this file was accessed."
+msgstr ""
+
+#: .\apps\downloads\models.py:114
+msgid "Total number of times this file has been accessed."
+msgstr ""
+
+#: .\apps\downloads\models.py:120
+msgid "फाइलको प्रकार (स्वचालित रूपमा पत्ता लगाइन्छ)।"
+msgstr ""
+
+#: .\apps\downloads\models.py:125
+msgid "डाउनलोड फाइल"
+msgstr ""
+
+#: .\apps\downloads\models.py:126
+msgid "डाउनलोड फाइलहरू"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:4
+msgid "Bhanjyang Cooperative - Download Center"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:6
+msgid ""
+"Download important forms, documents, and resources from Bhanjyang Saving & "
+"Credit Cooperative Society Ltd. Access our downloadable files, policies, and "
+"applications."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:7
+msgid ""
+"Bhanjyang Cooperative, Download, Downloadable Files, Forms, Documents, "
+"Resources, Policies, Applications, PDF, Word, Excel"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:25
+#, fuzzy
+#| msgid "Downloads"
+msgid "Download Center"
+msgstr "डाउनलोडहरू"
+
+#: .\apps\downloads\templates\downloads\download.html:28
+msgid "Available Resources"
+msgstr "उपलब्ध स्रोतहरू"
+
+#: .\apps\downloads\templates\downloads\download.html:32
+msgid ""
+"Access important documents, forms, and resources from our cooperative. "
+"Download files instantly and stay updated with our latest materials."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:55
+#: .\apps\news_events\models.py:42
+msgid "Category"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:59
+#: .\apps\news_events\templates\news_events\article_list.html:62
+msgid "All Categories"
+msgstr "सबै श्रेणीहरू"
+
+#: .\apps\downloads\templates\downloads\download.html:68
+msgid "Priority"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:72
+msgid "All Priorities"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:81
+#: .\apps\downloads\templates\downloads\download.html:103
+msgid "Search Files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:85
+msgid "Search by title, description, or tags..."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:94
+#: .\apps\news_events\templates\news_events\article_list.html:75
+#, fuzzy
+#| msgid "Featured Message"
+msgid "Featured Only"
+msgstr "विशेष सन्देश"
+
+#: .\apps\downloads\templates\downloads\download.html:108
+msgid "Reset Filters"
+msgstr "फिल्टर रिसेट गर्नुहोस्"
+
+#: .\apps\downloads\templates\downloads\download.html:120
+#, fuzzy
+#| msgid "Downloads"
+msgid "Bulk Download"
+msgstr "डाउनलोडहरू"
+
+#: .\apps\downloads\templates\downloads\download.html:125
+msgid "Select All"
+msgstr "सबै छान्नुहोस्"
+
+#: .\apps\downloads\templates\downloads\download.html:129
+msgid "Clear All"
+msgstr "सबै सफा गर्नुहोस्"
+
+#: .\apps\downloads\templates\downloads\download.html:134
+msgid "files selected"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:138
+#, fuzzy
+#| msgid "Downloads"
+msgid "Download Selected"
+msgstr "डाउनलोडहरू"
+
+#: .\apps\gallery\models.py:37
+msgid "Album cover image (JPG, PNG, WEBP only)"
+msgstr ""
+
+#: .\apps\gallery\models.py:45
+msgid "Leave blank for root album"
+msgstr ""
+
+#: .\apps\gallery\models.py:47 .\apps\gallery\models.py:150
+#: .\apps\home\models.py:53 .\apps\home\models.py:80 .\apps\home\models.py:120
+#: .\apps\home\models.py:149
+msgid "Show on home page"
+msgstr ""
+
+#: .\apps\gallery\models.py:55
+msgid "Gallery Album"
+msgstr ""
+
+#: .\apps\gallery\models.py:56
+msgid "Gallery Albums"
+msgstr ""
+
+#: .\apps\gallery\models.py:129
+msgid "Upload images (JPG, PNG, WEBP only, max 10MB)"
+msgstr ""
+
+#: .\apps\gallery\models.py:137
+msgid "Album this image belongs to"
+msgstr ""
+
+#: .\apps\gallery\models.py:142
+#: .\apps\gallery\templates\gallery\gallery.html:103
+#: .\apps\news_events\models.py:259
+#, fuzzy
+#| msgid "News & Events"
+msgid "Events"
+msgstr "समाचार र घटनाहरू"
+
+#: .\apps\gallery\models.py:143
+#: .\apps\gallery\templates\gallery\gallery.html:106
+msgid "Team"
+msgstr "टोली"
+
+#: .\apps\gallery\models.py:144
+#: .\apps\gallery\templates\gallery\gallery.html:109
+msgid "Office"
+msgstr "कार्यालय"
+
+#: .\apps\gallery\models.py:145
+#: .\apps\gallery\templates\gallery\gallery.html:112
+msgid "Community"
+msgstr "समुदाय"
+
+#: .\apps\gallery\models.py:146
+msgid "Awards"
+msgstr ""
+
+#: .\apps\gallery\models.py:155
+msgid "AI-generated tags"
+msgstr ""
+
+#: .\apps\gallery\models.py:156
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "AI-generated description"
+msgstr "सहकारी विवरण"
+
+#: .\apps\gallery\models.py:157
+msgid "AI-detected color palette"
+msgstr ""
+
+#: .\apps\gallery\models.py:158
+msgid "AI-detected objects"
+msgstr ""
+
+#: .\apps\gallery\models.py:159
+msgid "AI-detected scene type"
+msgstr ""
+
+#: .\apps\gallery\models.py:160
+msgid "AI-detected sentiment"
+msgstr ""
+
+#: .\apps\gallery\models.py:161
+msgid "AI quality score (0-1)"
+msgstr ""
+
+#: .\apps\gallery\models.py:164 .\apps\news_events\models.py:388
+msgid "Number of likes"
+msgstr ""
+
+#: .\apps\gallery\models.py:165 .\apps\news_events\models.py:105
+#: .\apps\news_events\models.py:463
+msgid "Number of shares"
+msgstr ""
+
+#: .\apps\gallery\models.py:166 .\apps\news_events\models.py:104
+#: .\apps\news_events\models.py:246 .\apps\news_events\models.py:461
+msgid "Number of views"
+msgstr ""
+
+#: .\apps\gallery\models.py:167 .\apps\news_events\models.py:106
+#: .\apps\news_events\models.py:464
+msgid "Number of comments"
+msgstr ""
+
+#: .\apps\gallery\models.py:168
+msgid "Publicly visible"
+msgstr ""
+
+#: .\apps\gallery\models.py:169 .\apps\news_events\models.py:111
+msgid "Allow comments"
+msgstr ""
+
+#: .\apps\gallery\models.py:170
+#, fuzzy
+#| msgid "Downloads"
+msgid "Allow downloads"
+msgstr "डाउनलोडहरू"
+
+#: .\apps\gallery\models.py:177
+msgid "Gallery Image"
+msgstr ""
+
+#: .\apps\gallery\models.py:178
+msgid "Gallery Images"
+msgstr ""
+
+#: .\apps\gallery\models.py:622
+msgid "Auto Categorization Rule"
+msgstr ""
+
+#: .\apps\gallery\models.py:623
+msgid "Auto Categorization Rules"
+msgstr ""
+
+#: .\apps\gallery\models.py:706
+msgid "Image Analysis Job"
+msgstr ""
+
+#: .\apps\gallery\models.py:707
+msgid "Image Analysis Jobs"
+msgstr ""
+
+#: .\apps\gallery\templates\admin\gallery\assign_album.html:4
+#: .\apps\gallery\templates\admin\gallery\batch_operations.html:4
+#: .\apps\gallery\templates\admin\gallery\bulk_upload.html:4
+#: .\apps\home\templates\admin\gallery\assign_album.html:4
+#: .\apps\home\templates\admin\gallery\batch_operations.html:4
+#: .\apps\home\templates\admin\gallery\bulk_upload.html:4
+msgid "Django site admin"
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:5
+msgid "Gallery - Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:36
+msgid "Gallery"
+msgstr "ग्यालेरी"
+
+#: .\apps\gallery\templates\gallery\gallery.html:39
+#, fuzzy
+#| msgid "Our Story"
+msgid "Our Visual Story"
+msgstr "हाम्रो कथा"
+
+#: .\apps\gallery\templates\gallery\gallery.html:43
+msgid ""
+"Capturing moments of community, growth, and celebration through the lens of "
+"our cooperative journey."
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:48
+msgid "Photos"
+msgstr "फोटोहरू"
+
+#: .\apps\gallery\templates\gallery\gallery.html:52
+msgid "Albums"
+msgstr "एल्बमहरू"
+
+#: .\apps\gallery\templates\gallery\gallery.html:73
+msgid "Discover"
+msgstr "फेला पार्नुहोस्"
+
+#: .\apps\gallery\templates\gallery\gallery.html:76
+msgid "Discover Our Gallery"
+msgstr "हाम्रो ग्यालेरी फेला पार्नुहोस्"
+
+#: .\apps\gallery\templates\gallery\gallery.html:80
+msgid "Search and filter through our collection of memories"
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:89
+msgid "Search photos, albums, or categories..."
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:100
+msgid "All Photos"
+msgstr "सबै फोटोहरू"
+
+#: .\apps\gallery\templates\gallery\gallery.html:115
+msgid "Activities"
+msgstr "गतिविधिहरू"
+
+#: .\apps\gallery\templates\gallery\gallery.html:136
+#: .\apps\gallery\templates\gallery\gallery.html:139
+#, fuzzy
+#| msgid "Featured Message"
+msgid "Featured Albums"
+msgstr "विशेष सन्देश"
+
+#: .\apps\gallery\templates\gallery\gallery.html:143
+msgid "Explore our curated collections of memorable moments"
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:166
+msgid "Explore our collection of memorable moments and special events."
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:172
+msgid "photos"
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:175
+msgid "View Album"
+msgstr "एल्बम हेर्नुहोस्"
+
+#: .\apps\gallery\templates\gallery\gallery.html:221
+msgid "Loading more photos..."
+msgstr ""
+
+#: .\apps\gallery\templates\gallery\gallery.html:229
+msgid "Load More Photos"
+msgstr "थप फोटोहरू लोड गर्नुहोस्"
+
+#: .\apps\gallery\templates\gallery\gallery.html:240
+msgid "Analytics"
+msgstr "विश्लेषण"
+
+#: .\apps\gallery\templates\gallery\gallery.html:244
+msgid "Smart Collections"
+msgstr "स्मार्ट संग्रहहरू"
+
+#: .\apps\gallery\templates\gallery\gallery.html:248
+msgid "Enter VR Gallery"
+msgstr "VR ग्यालेरीमा प्रवेश गर्नुहोस्"
+
+#: .\apps\home\forms.py:18 .\apps\home\forms.py:144
+msgid "Name can only contain letters and spaces."
+msgstr ""
+
+#: .\apps\home\forms.py:24 .\apps\services\forms.py:143
+msgid "Your Full Name"
+msgstr ""
+
+#: .\apps\home\forms.py:46
+msgid "Please enter a valid phone number."
+msgstr ""
+
+#: .\apps\home\forms.py:52
+msgid "Your Phone Number (Optional)"
+msgstr ""
+
+#: .\apps\home\forms.py:59 .\apps\home\models.py:189
+msgid "General Inquiry"
+msgstr ""
+
+#: .\apps\home\forms.py:60 .\apps\home\models.py:190
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Service Information"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\home\forms.py:61 .\apps\home\models.py:191
+msgid "Complaint"
+msgstr ""
+
+#: .\apps\home\forms.py:62 .\apps\home\models.py:192
+msgid "Suggestion"
+msgstr ""
+
+#: .\apps\home\forms.py:63 .\apps\home\models.py:193
+msgid "Technical Support"
+msgstr ""
+
+#: .\apps\home\forms.py:74
+msgid "Subject of your inquiry"
+msgstr ""
+
+#: .\apps\home\forms.py:83
+msgid "Please describe your inquiry in detail..."
+msgstr ""
+
+#: .\apps\home\forms.py:93 .\apps\home\forms.py:169
+msgid "Name must be at least 2 characters long."
+msgstr ""
+
+#: .\apps\home\forms.py:100
+msgid "Subject must be at least 5 characters long."
+msgstr ""
+
+#: .\apps\home\forms.py:107
+msgid "Message must be at least 10 characters long."
+msgstr ""
+
+#: .\apps\home\forms.py:120
+msgid "Message contains too many links or email addresses."
+msgstr ""
+
+#: .\apps\home\forms.py:150
+msgid "Your Name (Optional)"
+msgstr ""
+
+#: .\apps\home\models.py:19
+msgid "Main title for the home page"
+msgstr ""
+
+#: .\apps\home\models.py:20
+msgid "Subtitle or tagline"
+msgstr ""
+
+#: .\apps\home\models.py:21
+#, fuzzy
+#| msgid "Registration"
+msgid "Main description text"
+msgstr "दर्ता"
+
+#: .\apps\home\models.py:25
+msgid "Display order"
+msgstr ""
+
+#: .\apps\home\models.py:34
+msgid "Home Page Content"
+msgstr ""
+
+#: .\apps\home\models.py:35
+msgid "Home Page Contents"
+msgstr ""
+
+#: .\apps\home\models.py:44
+msgid "Job title or role"
+msgstr ""
+
+#: .\apps\home\models.py:45
+msgid "Company or organization"
+msgstr ""
+
+#: .\apps\home\models.py:46
+#, fuzzy
+#| msgid "Member Testimonials"
+msgid "Testimonial text"
+msgstr "सदस्यहरूको प्रशंसा"
+
+#: .\apps\home\models.py:51
+msgid "Rating from 1 to 5 stars"
+msgstr ""
+
+#: .\apps\home\models.py:66
+#, fuzzy
+#| msgid "Member Testimonials"
+msgid "Testimonial"
+msgstr "सदस्यहरूको प्रशंसा"
+
+#: .\apps\home\models.py:67
+#, fuzzy
+#| msgid "Member Testimonials"
+msgid "Testimonials"
+msgstr "सदस्यहरूको प्रशंसा"
+
+#: .\apps\home\models.py:75
+msgid "e.g., 'Total Members'"
+msgstr ""
+
+#: .\apps\home\models.py:76
+msgid "e.g., '2,500+' or 'Rs. 50M'"
+msgstr ""
+
+#: .\apps\home\models.py:77
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Additional context"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\home\models.py:78 .\apps\home\models.py:144
+#: .\apps\news_events\models.py:34
+msgid "FontAwesome icon class"
+msgstr ""
+
+#: .\apps\home\models.py:79 .\apps\home\models.py:145
+msgid "Color theme"
+msgstr ""
+
+#: .\apps\home\models.py:97
+msgid "Short summary for cards"
+msgstr ""
+
+#: .\apps\home\models.py:102
+msgid "General"
+msgstr ""
+
+#: .\apps\home\models.py:103
+#, fuzzy
+#| msgid "Services"
+msgid "Service Update"
+msgstr "सेवाहरू"
+
+#: .\apps\home\models.py:104 .\apps\news_events\models.py:258
+msgid "Event"
+msgstr ""
+
+#: .\apps\home\models.py:105
+msgid "Holiday Notice"
+msgstr ""
+
+#: .\apps\home\models.py:106
+msgid "Maintenance"
+msgstr ""
+
+#: .\apps\home\models.py:113
+msgid "Low"
+msgstr ""
+
+#: .\apps\home\models.py:114
+msgid "Medium"
+msgstr ""
+
+#: .\apps\home\models.py:115
+msgid "High"
+msgstr ""
+
+#: .\apps\home\models.py:123
+msgid "When to stop showing"
+msgstr ""
+
+#: .\apps\home\models.py:127
+msgid "Announcement"
+msgstr ""
+
+#: .\apps\home\models.py:128
+msgid "Announcements"
+msgstr ""
+
+#: .\apps\home\models.py:146
+msgid "e.g., 'Up to 8%'"
+msgstr ""
+
+#: .\apps\home\models.py:147
+msgid "Link to detailed service page"
+msgstr ""
+
+#: .\apps\home\models.py:148
+#: .\apps\services\templates\services\services.html:194
+msgid "Learn More"
+msgstr ""
+
+#: .\apps\home\models.py:155
+msgid "Service Highlight"
+msgstr ""
+
+#: .\apps\home\models.py:156
+#, fuzzy
+#| msgid "Services"
+msgid "Service Highlights"
+msgstr "सेवाहरू"
+
+#: .\apps\home\models.py:172
+msgid "Newsletter Subscriber"
+msgstr ""
+
+#: .\apps\home\models.py:173
+msgid "Newsletter Subscribers"
+msgstr ""
+
+#: .\apps\home\models.py:200
+msgid "Response to the inquiry"
+msgstr ""
+
+#: .\apps\home\models.py:204
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Contact Inquiry"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\home\models.py:205
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Contact Inquiries"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\home\models.py:222
+msgid "Page View"
+msgstr ""
+
+#: .\apps\home\models.py:223
+msgid "Page Views"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:68
+msgid "Welcome to Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:72
+msgid "Empowering Your Financial Journey in Rupa"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:77
+msgid ""
+"Bhanjyang Cooperative is dedicated to fostering economic growth and "
+"community development in Rupa Rural Municipality through reliable and "
+"accessible financial services."
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:82
+msgid "Explore our financial services"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:85
+#, fuzzy
+#| msgid "Services"
+msgid "Explore Services"
+msgstr "सेवाहरू"
+
+#: .\apps\home\templates\home\index.html:92
+msgid "Contact Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:94
+#: .\apps\home\templates\home\index.html:242
+#: .\templates\partials\_header.html:93 .\templates\partials\_header.html:220
+msgid "Contact Us"
+msgstr "सम्पर्क"
+
+#: .\apps\home\templates\home\index.html:123
+msgid "Savings & Investments"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:127
+msgid "Secure Your Future with Smart Savings"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:132
+msgid ""
+"Our flexible savings plans offer competitive interest rates, helping you "
+"achieve your financial goals faster and with peace of mind."
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:138
+msgid "View Savings Plans"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:145
+msgid "Open Account"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:170 .\apps\services\forms.py:177
+#: .\apps\services\forms.py:226
+#: .\apps\services\templates\services\services.html:151
+msgid "Loan Services"
+msgstr "ऋण सेवाहरू"
+
+#: .\apps\home\templates\home\index.html:174
+msgid "Loans Tailored to Your Ambition"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:179
+msgid ""
+"Whether for personal needs, business expansion, or agricultural projects, "
+"our flexible loan products are designed to fuel your success."
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:185
+msgid "Apply for a Loan"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:191
+msgid "Calculate loan EMI and payment"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:193
+msgid "Loan Calculator"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:218
+#: .\apps\home\templates\home\index.html:235 .\apps\services\models.py:169
+#: .\apps\services\templates\services\services.html:170
+msgid "Remittance Services"
+msgstr "रिमिटेन्स सेवाहरू"
+
+#: .\apps\home\templates\home\index.html:233
+msgid "View remittance services"
+msgstr ""
+
+#: .\apps\news_events\models.py:30
+msgid "Category name"
+msgstr ""
+
+#: .\apps\news_events\models.py:31
+msgid "URL-friendly version of name"
+msgstr ""
+
+#: .\apps\news_events\models.py:32
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Category description"
+msgstr "सहकारी विवरण"
+
+#: .\apps\news_events\models.py:33
+msgid "Hex color code for category"
+msgstr ""
+
+#: .\apps\news_events\models.py:35
+msgid "Whether this category is active"
+msgstr ""
+
+#: .\apps\news_events\models.py:36
+msgid "Sort order for display"
+msgstr ""
+
+#: .\apps\news_events\models.py:43
+msgid "Categories"
+msgstr ""
+
+#: .\apps\news_events\models.py:68 .\apps\news_events\models.py:212
+#: .\apps\news_events\models.py:414
+msgid "Draft"
+msgstr ""
+
+#: .\apps\news_events\models.py:69 .\apps\news_events\models.py:213
+msgid "Published"
+msgstr ""
+
+#: .\apps\news_events\models.py:70
+msgid "Archived"
+msgstr ""
+
+#: .\apps\news_events\models.py:71 .\apps\news_events\models.py:415
+msgid "Scheduled"
+msgstr ""
+
+#: .\apps\news_events\models.py:80
+msgid "Article title"
+msgstr ""
+
+#: .\apps\news_events\models.py:81 .\apps\news_events\models.py:219
+msgid "URL-friendly version of title"
+msgstr ""
+
+#: .\apps\news_events\models.py:82
+msgid "Article category"
+msgstr ""
+
+#: .\apps\news_events\models.py:83
+msgid "Article author"
+msgstr ""
+
+#: .\apps\news_events\models.py:86
+msgid "Article content"
+msgstr ""
+
+#: .\apps\news_events\models.py:87
+msgid "Short article summary"
+msgstr ""
+
+#: .\apps\news_events\models.py:88
+#, fuzzy
+#| msgid "Featured Message"
+msgid "Featured image"
+msgstr "विशेष सन्देश"
+
+#: .\apps\news_events\models.py:89 .\apps\news_events\models.py:238
+msgid "Alt text for image"
+msgstr ""
+
+#: .\apps\news_events\models.py:92
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Publication status"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\news_events\models.py:93
+msgid "Content priority"
+msgstr ""
+
+#: .\apps\news_events\models.py:94
+#, fuzzy
+#| msgid "Affiliations"
+msgid "Publication date"
+msgstr "सम्बन्धहरू"
+
+#: .\apps\news_events\models.py:95
+msgid "Scheduled publication date"
+msgstr ""
+
+#: .\apps\news_events\models.py:98
+msgid "SEO title"
+msgstr ""
+
+#: .\apps\news_events\models.py:99
+#, fuzzy
+#| msgid "Registration"
+msgid "SEO description"
+msgstr "दर्ता"
+
+#: .\apps\news_events\models.py:100
+msgid "SEO keywords"
+msgstr ""
+
+#: .\apps\news_events\models.py:103
+msgid "Estimated read time in minutes"
+msgstr ""
+
+#: .\apps\news_events\models.py:109
+msgid "SHA-256 hash of content"
+msgstr ""
+
+#: .\apps\news_events\models.py:110
+#, fuzzy
+#| msgid "Featured Message"
+msgid "Featured article"
+msgstr "विशेष सन्देश"
+
+#: .\apps\news_events\models.py:112
+msgid "Require login to view"
+msgstr ""
+
+#: .\apps\news_events\models.py:117 .\apps\news_events\models.py:252
+msgid "Last access time"
+msgstr ""
+
+#: .\apps\news_events\models.py:123
+msgid "News Article"
+msgstr ""
+
+#: .\apps\news_events\models.py:124
+#: .\apps\news_events\templates\news_events\article_list.html:27
+msgid "News Articles"
+msgstr "समाचार लेखहरू"
+
+#: .\apps\news_events\models.py:203
+msgid "Meeting"
+msgstr ""
+
+#: .\apps\news_events\models.py:204
+msgid "Workshop"
+msgstr ""
+
+#: .\apps\news_events\models.py:205
+msgid "Conference"
+msgstr ""
+
+#: .\apps\news_events\models.py:206
+msgid "Seminar"
+msgstr ""
+
+#: .\apps\news_events\models.py:207
+#, fuzzy
+#| msgid "No Timeline Events"
+msgid "Social Event"
+msgstr "टाइमलाइन घटनाहरू छैनन्"
+
+#: .\apps\news_events\models.py:208
+msgid "Training"
+msgstr ""
+
+#: .\apps\news_events\models.py:214
+msgid "Cancelled"
+msgstr ""
+
+#: .\apps\news_events\models.py:215
+msgid "Completed"
+msgstr ""
+
+#: .\apps\news_events\models.py:218
+msgid "Event title"
+msgstr ""
+
+#: .\apps\news_events\models.py:220
+#, fuzzy
+#| msgid "Registration"
+msgid "Event description"
+msgstr "दर्ता"
+
+#: .\apps\news_events\models.py:221
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "Short event description"
+msgstr "सहकारी विवरण"
+
+#: .\apps\news_events\models.py:224
+msgid "Type of event"
+msgstr ""
+
+#: .\apps\news_events\models.py:225
+#, fuzzy
+#| msgid "Introduction"
+msgid "Event location"
+msgstr "परिचय"
+
+#: .\apps\news_events\models.py:226
+msgid "Full event address"
+msgstr ""
+
+#: .\apps\news_events\models.py:227
+msgid "Event date and time"
+msgstr ""
+
+#: .\apps\news_events\models.py:228
+msgid "Event end date and time"
+msgstr ""
+
+#: .\apps\news_events\models.py:231
+msgid "Maximum number of attendees"
+msgstr ""
+
+#: .\apps\news_events\models.py:232
+#, fuzzy
+#| msgid "Registration Number"
+msgid "Registration required"
+msgstr "दर्ता नम्बर"
+
+#: .\apps\news_events\models.py:233
+#, fuzzy
+#| msgid "Registration"
+msgid "Registration deadline"
+msgstr "दर्ता"
+
+#: .\apps\news_events\models.py:234
+#, fuzzy
+#| msgid "Registration"
+msgid "Registration URL"
+msgstr "दर्ता"
+
+#: .\apps\news_events\models.py:237
+msgid "Event image"
+msgstr ""
+
+#: .\apps\news_events\models.py:241
+msgid "Event status"
+msgstr ""
+
+#: .\apps\news_events\models.py:242
+#, fuzzy
+#| msgid "Featured Message"
+msgid "Featured event"
+msgstr "विशेष सन्देश"
+
+#: .\apps\news_events\models.py:243
+msgid "Recurring event"
+msgstr ""
+
+#: .\apps\news_events\models.py:247
+#, fuzzy
+#| msgid "Registration"
+msgid "Number of registrations"
+msgstr "दर्ता"
+
+#: .\apps\news_events\models.py:314
+msgid "Unsubscribed"
+msgstr ""
+
+#: .\apps\news_events\models.py:315
+msgid "Bounced"
+msgstr ""
+
+#: .\apps\news_events\models.py:318
+msgid "Subscriber email"
+msgstr ""
+
+#: .\apps\news_events\models.py:319
+msgid "First name"
+msgstr ""
+
+#: .\apps\news_events\models.py:320
+msgid "Last name"
+msgstr ""
+
+#: .\apps\news_events\models.py:321
+#, fuzzy
+#| msgid "Registration"
+msgid "Subscription status"
+msgstr "दर्ता"
+
+#: .\apps\news_events\models.py:324
+msgid "Preferred categories"
+msgstr ""
+
+#: .\apps\news_events\models.py:325
+msgid "Email frequency preference"
+msgstr ""
+
+#: .\apps\news_events\models.py:328
+msgid "Number of emails opened"
+msgstr ""
+
+#: .\apps\news_events\models.py:329
+msgid "Number of links clicked"
+msgstr ""
+
+#: .\apps\news_events\models.py:332
+msgid "IP address when subscribed"
+msgstr ""
+
+#: .\apps\news_events\models.py:333
+msgid "User agent when subscribed"
+msgstr ""
+
+#: .\apps\news_events\models.py:334
+msgid "Email confirmation token"
+msgstr ""
+
+#: .\apps\news_events\models.py:335
+msgid "Email confirmed"
+msgstr ""
+
+#: .\apps\news_events\models.py:339
+msgid "Email confirmation date"
+msgstr ""
+
+#: .\apps\news_events\models.py:340
+msgid "Last activity date"
+msgstr ""
+
+#: .\apps\news_events\models.py:344
+msgid "Subscriber"
+msgstr ""
+
+#: .\apps\news_events\models.py:345
+msgid "Subscribers"
+msgstr ""
+
+#: .\apps\news_events\models.py:371
+msgid "Pending Approval"
+msgstr ""
+
+#: .\apps\news_events\models.py:376
+msgid "Related article"
+msgstr ""
+
+#: .\apps\news_events\models.py:377
+msgid "Comment author name"
+msgstr ""
+
+#: .\apps\news_events\models.py:378
+msgid "Comment author email"
+msgstr ""
+
+#: .\apps\news_events\models.py:379
+msgid "Comment content"
+msgstr ""
+
+#: .\apps\news_events\models.py:380
+msgid "Comment status"
+msgstr ""
+
+#: .\apps\news_events\models.py:383
+msgid "Comment approved"
+msgstr ""
+
+#: .\apps\news_events\models.py:384
+msgid "Moderated by"
+msgstr ""
+
+#: .\apps\news_events\models.py:385
+msgid "Moderation notes"
+msgstr ""
+
+#: .\apps\news_events\models.py:391
+#, fuzzy
+#| msgid "Address"
+msgid "IP address"
+msgstr "ठेगाना"
+
+#: .\apps\news_events\models.py:392
+msgid "User agent"
+msgstr ""
+
+#: .\apps\news_events\models.py:400
+msgid "Comment"
+msgstr ""
+
+#: .\apps\news_events\models.py:401
+msgid "Comments"
+msgstr ""
+
+#: .\apps\news_events\models.py:416
+msgid "Sending"
+msgstr ""
+
+#: .\apps\news_events\models.py:417
+msgid "Sent"
+msgstr ""
+
+#: .\apps\news_events\models.py:418
+msgid "Failed"
+msgstr ""
+
+#: .\apps\news_events\models.py:420
+msgid "Newsletter title"
+msgstr ""
+
+#: .\apps\news_events\models.py:421
+msgid "Email subject"
+msgstr ""
+
+#: .\apps\news_events\models.py:422
+msgid "Newsletter content"
+msgstr ""
+
+#: .\apps\news_events\models.py:423
+msgid "Newsletter status"
+msgstr ""
+
+#: .\apps\news_events\models.py:426
+msgid "Target categories"
+msgstr ""
+
+#: .\apps\news_events\models.py:427
+msgid "Send to all subscribers"
+msgstr ""
+
+#: .\apps\news_events\models.py:430
+msgid "Scheduled send date"
+msgstr ""
+
+#: .\apps\news_events\models.py:431
+msgid "Actual send date"
+msgstr ""
+
+#: .\apps\news_events\models.py:434
+msgid "Total emails sent"
+msgstr ""
+
+#: .\apps\news_events\models.py:435
+msgid "Total emails opened"
+msgstr ""
+
+#: .\apps\news_events\models.py:436
+msgid "Total links clicked"
+msgstr ""
+
+#: .\apps\news_events\models.py:444
+msgid "Newsletter"
+msgstr ""
+
+#: .\apps\news_events\models.py:445
+msgid "Newsletters"
+msgstr ""
+
+#: .\apps\news_events\models.py:456
+msgid "Type of content (article, event)"
+msgstr ""
+
+#: .\apps\news_events\models.py:457
+#, fuzzy
+#| msgid "Contact Us"
+msgid "Content ID"
+msgstr "सम्पर्क"
+
+#: .\apps\news_events\models.py:458
+msgid "Analytics date"
+msgstr ""
+
+#: .\apps\news_events\models.py:462
+msgid "Number of unique views"
+msgstr ""
+
+#: .\apps\news_events\models.py:465
+msgid "Average time on page (seconds)"
+msgstr ""
+
+#: .\apps\news_events\models.py:468
+msgid "Organic search views"
+msgstr ""
+
+#: .\apps\news_events\models.py:469
+msgid "Social media views"
+msgstr ""
+
+#: .\apps\news_events\models.py:470
+msgid "Direct traffic views"
+msgstr ""
+
+#: .\apps\news_events\models.py:471
+msgid "Referral traffic views"
+msgstr ""
+
+#: .\apps\news_events\models.py:480 .\apps\news_events\models.py:481
+msgid "Content Analytics"
+msgstr ""
+
+#: .\apps\news_events\templates\news_events\article_list.html:4
+msgid "News Articles - Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\news_events\templates\news_events\article_list.html:6
+msgid ""
+"Browse all news articles and updates from Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+
+#: .\apps\news_events\templates\news_events\article_list.html:7
+msgid "Bhanjyang Cooperative, News Articles, Updates, Cooperative News"
+msgstr ""
+
+#: .\apps\news_events\templates\news_events\article_list.html:24
+msgid "Articles"
+msgstr "लेखहरू"
+
+#: .\apps\news_events\templates\news_events\article_list.html:31
+msgid "Stay updated with the latest news and announcements"
+msgstr "नवीनतम समाचार र घोषणाहरूसँग अपडेट रहनुहोस्"
+
+#: .\apps\news_events\templates\news_events\article_list.html:56
+#, fuzzy
+#| msgid "Search..."
+msgid "Search articles..."
+msgstr "खोज्नुहोस्..."
+
+#: .\apps\news_events\templates\news_events\article_list.html:72
+msgid "Newest First"
+msgstr "नयाँ पहिले"
+
+#: .\apps\news_events\templates\news_events\article_list.html:73
+msgid "Oldest First"
+msgstr "पुरानो पहिले"
+
+#: .\apps\news_events\templates\news_events\article_list.html:74
+msgid "Most Popular"
+msgstr "सबैभन्दा लोकप्रिय"
+
+#: .\apps\news_events\templates\news_events\article_list.html:80
+#: .\apps\search\templates\search\advanced_search.html:43
+#: .\apps\search\templates\search\search_results.html:64
+#, fuzzy
+#| msgid "Search..."
+msgid "Search"
+msgstr "खोज्नुहोस्..."
+
+#: .\apps\news_events\templates\news_events\article_list.html:156
+msgid "min"
+msgstr "मिनेट"
+
+#: .\apps\news_events\templates\news_events\article_list.html:199
+msgid "No Articles Found"
+msgstr "कुनै लेख फेला परेन"
+
+#: .\apps\news_events\templates\news_events\article_list.html:200
+msgid "We couldn't find any articles matching your criteria."
+msgstr "तपाईंको मापदण्डसँग मिल्ने कुनै लेख फेला परेन।"
+
+#: .\apps\news_events\templates\news_events\article_list.html:203
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "View All Articles"
+msgstr "सहकारी विवरण"
+
+#: .\apps\search\templates\search\advanced_search.html:6
+msgid "Advanced Search - Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\search\templates\search\advanced_search.html:24
+msgid "Advanced Search"
+msgstr "उन्नत खोज"
+
+#: .\apps\search\templates\search\advanced_search.html:27
+msgid "Find exactly what you're looking for across all our content"
+msgstr ""
+
+#: .\apps\search\templates\search\advanced_search.html:37
+msgid "Search for anything..."
+msgstr ""
+
+#: .\apps\search\templates\search\advanced_search.html:50
+#, fuzzy
+#| msgid "Search..."
+msgid "Search Type"
+msgstr "खोज्नुहोस्..."
+
+#: .\apps\search\templates\search\advanced_search.html:53
+#, fuzzy
+#| msgid "Contact Us"
+msgid "All Content"
+msgstr "सम्पर्क"
+
+#: .\apps\search\templates\search\advanced_search.html:54
+msgid "Team Members"
+msgstr "टोलीका सदस्यहरू"
+
+#: .\apps\search\templates\search\advanced_search.html:63
+msgid "Sort By"
+msgstr "क्रमबद्ध गर्नुहोस्"
+
+#: .\apps\search\templates\search\advanced_search.html:66
+msgid "Relevance"
+msgstr "प्रासंगिकता"
+
+#: .\apps\search\templates\search\advanced_search.html:67
+#: .\apps\services\models.py:275
+msgid "Date"
+msgstr "मिति"
+
+#: .\apps\search\templates\search\advanced_search.html:68
+msgid "Title"
+msgstr "शीर्षक"
+
+#: .\apps\search\templates\search\search_results.html:5
+msgid "Search Results - Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\search\templates\search\search_results.html:7
+msgid ""
+"Search through Bhanjyang Cooperative's news articles, services, and team "
+"members. Find exactly what you're looking for quickly and easily."
+msgstr ""
+
+#: .\apps\search\templates\search\search_results.html:9
+msgid ""
+"search, bhanjyang cooperative, news search, services search, team search, "
+"find information"
+msgstr ""
+
+#: .\apps\search\templates\search\search_results.html:34
+msgid "Search Results"
+msgstr "खोज परिणामहरू"
+
+#: .\apps\search\templates\search\search_results.html:38
+#, python-format
+msgid "Found %(count)s result%(count|pluralize)s for \"%(query)s\""
+msgstr ""
+
+#: .\apps\search\templates\search\search_results.html:40
+msgid "Search through our news articles, services, and team members"
+msgstr ""
+
+#: .\apps\services\apps.py:15
+msgid "Financial Services"
+msgstr ""
+
+#: .\apps\services\forms.py:33
+msgid "Select a Loan Product"
+msgstr ""
+
+#: .\apps\services\forms.py:34
+msgid "Loan Product"
+msgstr ""
+
+#: .\apps\services\forms.py:39
+msgid "Loan Amount (NPR)"
+msgstr ""
+
+#: .\apps\services\forms.py:48
+msgid "Loan Tenure (in Years)"
+msgstr ""
+
+#: .\apps\services\forms.py:51
+msgid "e.g., 5"
+msgstr ""
+
+#: .\apps\services\forms.py:55
+msgid "Monthly"
+msgstr ""
+
+#: .\apps\services\forms.py:55
+msgid "Quarterly"
+msgstr ""
+
+#: .\apps\services\forms.py:56
+msgid "Payment Frequency"
+msgstr ""
+
+#: .\apps\services\forms.py:81
+msgid "Select a Savings Product"
+msgstr ""
+
+#: .\apps\services\forms.py:82
+msgid "Savings Product"
+msgstr ""
+
+#: .\apps\services\forms.py:87
+msgid "Monthly Deposit (NPR)"
+msgstr ""
+
+#: .\apps\services\forms.py:88
+msgid "e.g., 10000"
+msgstr ""
+
+#: .\apps\services\forms.py:92
+msgid "Savings Period (in Years)"
+msgstr ""
+
+#: .\apps\services\forms.py:93
+msgid "e.g., 10"
+msgstr ""
+
+#: .\apps\services\forms.py:100
+msgid "Select a Deposit Scheme"
+msgstr ""
+
+#: .\apps\services\forms.py:101
+msgid "Fixed Deposit Scheme"
+msgstr ""
+
+#: .\apps\services\forms.py:106
+msgid "Deposit Amount (NPR)"
+msgstr ""
+
+#: .\apps\services\forms.py:107
+msgid "e.g., 100000"
+msgstr ""
+
+#: .\apps\services\forms.py:132
+msgid "I agree to the Terms and Conditions and Privacy Policy."
+msgstr ""
+
+#: .\apps\services\forms.py:145
+msgid "+977-98XXXXXXXX"
+msgstr ""
+
+#: .\apps\services\forms.py:146
+msgid "Your Full Address"
+msgstr ""
+
+#: .\apps\services\forms.py:147
+msgid "Optional: Any additional details..."
+msgstr ""
+
+#: .\apps\services\forms.py:158
+msgid "Please enter a valid Nepali mobile number, e.g., +977-98..."
+msgstr ""
+
+#: .\apps\services\forms.py:175
+msgid "Select Service Type"
+msgstr ""
+
+#: .\apps\services\forms.py:176 .\apps\services\forms.py:225
+#: .\apps\services\models.py:62
+#: .\apps\services\templates\services\services.html:113
+msgid "Savings Accounts"
+msgstr "बचत खाताहरू"
+
+#: .\apps\services\forms.py:178 .\apps\services\forms.py:227
+#: .\apps\services\models.py:97
+#: .\apps\services\templates\services\services.html:132
+msgid "Fixed Deposits"
+msgstr "निश्चित जम्मा"
+
+#: .\apps\services\forms.py:180 .\apps\services\models.py:163
+#: .\apps\services\models.py:232
+msgid "Service Type"
+msgstr ""
+
+#: .\apps\services\forms.py:184
+msgid "Select Services to Compare"
+msgstr ""
+
+#: .\apps\services\forms.py:209
+msgid "Please select between 2 and 4 services to compare."
+msgstr ""
+
+#: .\apps\services\forms.py:218
+msgid "Search by name or keyword..."
+msgstr ""
+
+#: .\apps\services\forms.py:224
+msgid "All Service Types"
+msgstr ""
+
+#: .\apps\services\forms.py:233
+msgid "Min Rate (%)"
+msgstr ""
+
+#: .\apps\services\forms.py:237
+msgid "Show Featured Only"
+msgstr ""
+
+#: .\apps\services\forms.py:247
+msgid "Your Age"
+msgstr ""
+
+#: .\apps\services\forms.py:248
+msgid "e.g., 35"
+msgstr ""
+
+#: .\apps\services\forms.py:251
+msgid "Your Monthly Income (NPR)"
+msgstr ""
+
+#: .\apps\services\forms.py:252
+msgid "e.g., 75000"
+msgstr ""
+
+#: .\apps\services\forms.py:255
+msgid "What are your financial goals? (Select multiple)"
+msgstr ""
+
+#: .\apps\services\forms.py:257
+msgid "Buy a House or Land"
+msgstr ""
+
+#: .\apps\services\forms.py:258
+#, fuzzy
+#| msgid "Our Foundation"
+msgid "Fund Education"
+msgstr "हाम्रो आधार"
+
+#: .\apps\services\forms.py:259
+msgid "Start or Grow a Business"
+msgstr ""
+
+#: .\apps\services\forms.py:260
+msgid "Purchase a Vehicle"
+msgstr ""
+
+#: .\apps\services\forms.py:261
+msgid "Save for Retirement"
+msgstr ""
+
+#: .\apps\services\forms.py:266
+msgid "Your Risk Tolerance"
+msgstr ""
+
+#: .\apps\services\forms.py:268
+msgid "Conservative (I prefer guaranteed returns)"
+msgstr ""
+
+#: .\apps\services\forms.py:269
+msgid "Moderate (I can take some risk for better returns)"
+msgstr ""
+
+#: .\apps\services\forms.py:270
+msgid "Aggressive (I aim for high growth, even with higher risk)"
+msgstr ""
+
+#: .\apps\services\models.py:17
+msgid "English Name"
+msgstr ""
+
+#: .\apps\services\models.py:18
+msgid "Nepali Name"
+msgstr ""
+
+#: .\apps\services\models.py:19
+msgid "A unique, URL-friendly identifier. Auto-generated if left blank."
+msgstr ""
+
+#: .\apps\services\models.py:21
+msgid "Icon Class (e.g., 'fas fa-piggy-bank')"
+msgstr ""
+
+#: .\apps\services\models.py:22
+msgid "Tailwind CSS color name for branding."
+msgstr ""
+
+#: .\apps\services\models.py:23
+msgid "Featured Product"
+msgstr ""
+
+#: .\apps\services\models.py:23
+msgid "Featured products appear prominently on the site."
+msgstr ""
+
+#: .\apps\services\models.py:24
+msgid "Only active services are visible to users."
+msgstr ""
+
+#: .\apps\services\models.py:43
+msgid "General Savings"
+msgstr ""
+
+#: .\apps\services\models.py:43
+msgid "Daily Savings"
+msgstr ""
+
+#: .\apps\services\models.py:44
+msgid "Institutional Savings"
+msgstr ""
+
+#: .\apps\services\models.py:44
+msgid "Child Savings"
+msgstr ""
+
+#: .\apps\services\models.py:45
+msgid "Senior Citizen Savings"
+msgstr ""
+
+#: .\apps\services\models.py:45
+msgid "Remit Savings"
+msgstr ""
+
+#: .\apps\services\models.py:46
+msgid "Insurance Savings"
+msgstr ""
+
+#: .\apps\services\models.py:46
+msgid "Monthly Savings"
+msgstr ""
+
+#: .\apps\services\models.py:49
+msgid "Account Type"
+msgstr ""
+
+#: .\apps\services\models.py:52 .\apps\services\models.py:87
+msgid "Interest Rate (%)"
+msgstr ""
+
+#: .\apps\services\models.py:52
+msgid "Annual interest rate."
+msgstr ""
+
+#: .\apps\services\models.py:56
+msgid "Minimum Balance (NPR)"
+msgstr ""
+
+#: .\apps\services\models.py:56
+msgid "Required minimum balance to maintain."
+msgstr ""
+
+#: .\apps\services\models.py:58
+msgid "Key Features"
+msgstr ""
+
+#: .\apps\services\models.py:58
+msgid "List key features, one per line."
+msgstr ""
+
+#: .\apps\services\models.py:61
+msgid "Savings Account"
+msgstr ""
+
+#: .\apps\services\models.py:82
+msgid "3 Months"
+msgstr ""
+
+#: .\apps\services\models.py:82
+msgid "6 Months"
+msgstr ""
+
+#: .\apps\services\models.py:82
+msgid "1 Year"
+msgstr ""
+
+#: .\apps\services\models.py:82
+msgid "2 Years"
+msgstr ""
+
+#: .\apps\services\models.py:82
+msgid "3 Years"
+msgstr ""
+
+#: .\apps\services\models.py:83
+msgid "Monthly Payout"
+msgstr ""
+
+#: .\apps\services\models.py:83
+msgid "Quarterly Payout"
+msgstr ""
+
+#: .\apps\services\models.py:83
+msgid "Maturity Payout"
+msgstr ""
+
+#: .\apps\services\models.py:85
+#, fuzzy
+#| msgid "Our Foundation"
+msgid "Duration"
+msgstr "हाम्रो आधार"
+
+#: .\apps\services\models.py:86
+msgid "Interest Payout"
+msgstr ""
+
+#: .\apps\services\models.py:88
+msgid "Minimum Amount (NPR)"
+msgstr ""
+
+#: .\apps\services\models.py:89
+msgid "Maximum Amount (NPR)"
+msgstr ""
+
+#: .\apps\services\models.py:90 .\apps\services\models.py:128
+msgid "Benefits"
+msgstr ""
+
+#: .\apps\services\models.py:90 .\apps\services\models.py:128
+msgid "List key benefits, one per line."
+msgstr ""
+
+#: .\apps\services\models.py:96
+msgid "Fixed Deposit"
+msgstr ""
+
+#: .\apps\services\models.py:115
+msgid "Business Loan"
+msgstr ""
+
+#: .\apps\services\models.py:115
+msgid "Agricultural Loan"
+msgstr ""
+
+#: .\apps\services\models.py:116
+msgid "Vehicle Loan"
+msgstr ""
+
+#: .\apps\services\models.py:116
+msgid "Foreign Employment Loan"
+msgstr ""
+
+#: .\apps\services\models.py:117
+msgid "Household Loan"
+msgstr ""
+
+#: .\apps\services\models.py:117
+msgid "House Construction Loan"
+msgstr ""
+
+#: .\apps\services\models.py:118
+#, fuzzy
+#| msgid "Home"
+msgid "Home Loan"
+msgstr "गृह पृष्ठ"
+
+#: .\apps\services\models.py:118
+msgid "Land Purchase Loan"
+msgstr ""
+
+#: .\apps\services\models.py:119
+msgid "Education Loan"
+msgstr ""
+
+#: .\apps\services\models.py:119
+msgid "Personal Loan"
+msgstr ""
+
+#: .\apps\services\models.py:122
+msgid "Loan Category"
+msgstr ""
+
+#: .\apps\services\models.py:123
+msgid "Monthly Interest Rate (%)"
+msgstr ""
+
+#: .\apps\services\models.py:124
+msgid "Minimum Loan Amount (NPR)"
+msgstr ""
+
+#: .\apps\services\models.py:125
+msgid "Maximum Loan Amount (NPR)"
+msgstr ""
+
+#: .\apps\services\models.py:126
+msgid "Maximum Tenure (Years)"
+msgstr ""
+
+#: .\apps\services\models.py:127
+msgid "Requirements"
+msgstr ""
+
+#: .\apps\services\models.py:127
+msgid "List required documents, one per line."
+msgstr ""
+
+#: .\apps\services\models.py:129 .\apps\services\models.py:197
+msgid "Image"
+msgstr ""
+
+#: .\apps\services\models.py:132
+msgid "Loan Type"
+msgstr ""
+
+#: .\apps\services\models.py:133
+msgid "Loan Types"
+msgstr ""
+
+#: .\apps\services\models.py:160
+msgid "Domestic Transfer"
+msgstr ""
+
+#: .\apps\services\models.py:160
+msgid "International Remittance"
+msgstr ""
+
+#: .\apps\services\models.py:161
+msgid "Mobile Banking Transfer"
+msgstr ""
+
+#: .\apps\services\models.py:164
+msgid "Processing Time"
+msgstr ""
+
+#: .\apps\services\models.py:164
+msgid "e.g., 'Instant' or '1-2 business days'"
+msgstr ""
+
+#: .\apps\services\models.py:165
+msgid "Fees & Charges"
+msgstr ""
+
+#: .\apps\services\models.py:168
+msgid "Remittance Service"
+msgstr ""
+
+#: .\apps\services\models.py:190
+msgid "Medical Relief"
+msgstr ""
+
+#: .\apps\services\models.py:190
+msgid "Educational Support"
+msgstr ""
+
+#: .\apps\services\models.py:191
+msgid "Disaster Relief"
+msgstr ""
+
+#: .\apps\services\models.py:191
+msgid "Welfare Support"
+msgstr ""
+
+#: .\apps\services\models.py:193
+msgid "Relief Type"
+msgstr ""
+
+#: .\apps\services\models.py:194
+msgid "Eligibility Criteria"
+msgstr ""
+
+#: .\apps\services\models.py:195
+msgid "Benefits & Support"
+msgstr ""
+
+#: .\apps\services\models.py:196
+msgid "Application Process"
+msgstr ""
+
+#: .\apps\services\models.py:200
+msgid "Member Relief Program"
+msgstr ""
+
+#: .\apps\services\models.py:201
+msgid "Member Relief Programs"
+msgstr ""
+
+#: .\apps\services\models.py:227
+msgid "Pending"
+msgstr ""
+
+#: .\apps\services\models.py:233
+msgid "Service ID"
+msgstr ""
+
+#: .\apps\services\models.py:236
+msgid "Applicant Name"
+msgstr ""
+
+#: .\apps\services\models.py:240
+#, fuzzy
+#| msgid "Contact Information"
+msgid "Additional Information"
+msgstr "सम्पर्क जानकारी"
+
+#: .\apps\services\models.py:244
+msgid "Reviewed By"
+msgstr ""
+
+#: .\apps\services\models.py:245
+msgid "Review Notes"
+msgstr ""
+
+#: .\apps\services\models.py:248
+msgid "Service Application"
+msgstr ""
+
+#: .\apps\services\models.py:249
+msgid "Service Applications"
+msgstr ""
+
+#: .\apps\services\models.py:266
+msgid "N/A"
+msgstr ""
+
+#: .\apps\services\models.py:281 .\apps\services\models.py:282
+msgid "Service Analytics"
+msgstr ""
+
+#: .\apps\services\models.py:297
+msgid "User Profile"
+msgstr ""
+
+#: .\apps\services\models.py:298
+msgid "Recommended Services"
+msgstr ""
+
+#: .\apps\services\models.py:299
+msgid "Recommendation Reason"
+msgstr ""
+
+#: .\apps\services\models.py:303
+msgid "Confidence Score"
+msgstr ""
+
+#: .\apps\services\models.py:308
+msgid "Service Recommendation"
+msgstr ""
+
+#: .\apps\services\models.py:309
+msgid "Service Recommendations"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:5
+msgid "Financial Services - Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:51
+#, fuzzy
+#| msgid "Services"
+msgid "Our Services"
+msgstr "सेवाहरू"
+
+#: .\apps\services\templates\services\services.html:54
+msgid "Our Financial Services"
+msgstr "हाम्रो वित्तीय सेवाहरू"
+
+#: .\apps\services\templates\services\services.html:58
+msgid ""
+"Comprehensive financial solutions designed for the Rupa community, featuring "
+"competitive rates and member-focused support"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:64
+msgid "Explore All Services"
+msgstr "सबै सेवाहरू अन्वेषण गर्नुहोस्"
+
+#: .\apps\services\templates\services\services.html:70
+msgid "Apply Now"
+msgstr "अहिले आवेदन दिनुहोस्"
+
+#: .\apps\services\templates\services\services.html:92
+msgid "Service Portfolio"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:95
+msgid "Complete Service Portfolio"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:99
+msgid "Explore all our financial products and services"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:115
+#, python-format
+msgid "Multiple savings options with competitive interest rates up to 8%%"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:118
+msgid "View All Options"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:134
+#, python-format
+msgid "Secure your future with rates up to 7%% for 1+ year terms"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:137
+msgid "View Rates"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:153
+#, python-format
+msgid "Flexible loan options from 10.5%% for all your financial needs"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:156
+#, fuzzy
+#| msgid "Home"
+msgid "Explore Loans"
+msgstr "गृह पृष्ठ"
+
+#: .\apps\services\templates\services\services.html:172
+msgid "Fast and secure money transfer services domestic and international"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:175
+msgid "Send Money"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:189
+msgid "Member Relief"
+msgstr "सदस्य राहत"
+
+#: .\apps\services\templates\services\services.html:191
+msgid "Support programs for medical, education, and disaster relief"
+msgstr ""
+
+#: .\apps\services\templates\services\services.html:222
+msgid "Our Best Savings Accounts"
+msgstr "हाम्रा उत्कृष्ट बचत खाताहरू"
+
+#: .\apps\services\templates\services\services.html:236
+msgid "Annual Interest Rate"
+msgstr "वार्षिक ब्याज दर"
+
+#: .\apps\services\templates\services\services.html:249
+#: .\apps\services\templates\services\services.html:318
+#, fuzzy
+#| msgid "Cooperative Details"
+msgid "View Details"
+msgstr "विवरण हेर्नुहोस्"
+
+#: .\templates\partials\_header.html:17
+msgid "Support"
+msgstr "सहयोग"
+
+#: .\templates\partials\_header.html:20
+msgid "Login"
+msgstr "लगइन"
+
+#: .\templates\partials\_header.html:84 .\templates\partials\_header.html:208
+msgid "Services"
+msgstr "सेवाहरू"
+
+#: .\templates\partials\_header.html:87 .\templates\partials\_header.html:212
+msgid "News & Events"
+msgstr "समाचार र घटनाहरू"
+
+#: .\templates\partials\_header.html:90 .\templates\partials\_header.html:216
+msgid "Downloads"
+msgstr "डाउनलोडहरू"
+
+#: .\templates\partials\_header.html:121 .\templates\partials\_header.html:239
+msgid "Search..."
+msgstr "खोज्नुहोस्..."
+
+#: .\templates\partials\_header.html:231
+msgid "Dark Mode"
+msgstr "अँध्यारो मोड"

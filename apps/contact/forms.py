@@ -9,6 +9,7 @@ from collections import Counter
 import bleach
 from django import forms
 from django.core.validators import FileExtensionValidator
+from django.utils.translation import gettext_lazy as _
 
 from .utils.constants import (
     ALLOWED_CONTACT_FILE_EXTENSIONS,
@@ -41,22 +42,22 @@ class ContactForm(forms.Form):
         min_length=MIN_NAME_LENGTH,
         widget=forms.TextInput(attrs={
             'class': FORM_INPUT_CSS,
-            'placeholder': 'Your full name',
+            'placeholder': _('Your full name'),
             'autocomplete': 'name'
         }),
-        label='Name',
+        label=_('Name'),
         error_messages={
-            'min_length': f'Name must be at least {MIN_NAME_LENGTH} characters long.',
+            'min_length': _('Name must be at least {min_length} characters long.').format(min_length=MIN_NAME_LENGTH),
         }
     )
     
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
             'class': FORM_INPUT_CSS,
-            'placeholder': 'your.email@example.com',
+            'placeholder': _('your.email@example.com'),
             'autocomplete': 'email'
         }),
-        label='Email'
+        label=_('Email')
     )
     
     phone = forms.CharField(
@@ -64,10 +65,10 @@ class ContactForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': FORM_INPUT_CSS,
-            'placeholder': '+977-XXXXXXXXXX',
+            'placeholder': _('+977-XXXXXXXXXX'),
             'autocomplete': 'tel'
         }),
-        label='Phone (Optional)'
+        label=_('Phone (Optional)')
     )
 
     subject = forms.CharField(
@@ -75,20 +76,20 @@ class ContactForm(forms.Form):
         min_length=MIN_SUBJECT_LENGTH,
         widget=forms.TextInput(attrs={
             'class': FORM_INPUT_CSS,
-            'placeholder': 'Subject of your message',
+            'placeholder': _('Subject of your message'),
             'autocomplete': 'off'
         }),
-        label='Subject'
+        label=_('Subject')
     )
     
     message = forms.CharField(
         widget=forms.Textarea(attrs={
             'class': f'{FORM_INPUT_CSS} resize-none',
             'rows': 5,
-            'placeholder': 'Your message here...',
+            'placeholder': _('Your message here...'),
             'autocomplete': 'off'
         }),
-        label='Message',
+        label=_('Message'),
         min_length=MIN_MESSAGE_LENGTH
     )
     
@@ -98,7 +99,7 @@ class ContactForm(forms.Form):
             'class': FORM_INPUT_CSS,
             'accept': '.pdf,.doc,.docx,.jpg,.jpeg,.png'
         }),
-        label='Attachment (Optional)',
+        label=_('Attachment (Optional)'),
         validators=[FileExtensionValidator(allowed_extensions=ALLOWED_CONTACT_FILE_EXTENSIONS)]
     )
 
@@ -106,14 +107,14 @@ class ContactForm(forms.Form):
         """Validate subject field for spam content."""
         subject = self.cleaned_data.get('subject', '')
         if 'spam' in subject.lower():
-            raise forms.ValidationError("Invalid subject.")
+            raise forms.ValidationError(_("Invalid subject."))
         return subject
 
     def clean_name(self):
         """Validate name field - should not contain numbers."""
         name = self.cleaned_data.get('name', '')
         if any(char.isdigit() for char in name):
-            raise forms.ValidationError("Name should not contain numbers.")
+            raise forms.ValidationError(_("Name should not contain numbers."))
         return name
 
     def clean_phone(self):
@@ -203,10 +204,10 @@ class KYMForm(forms.Form):
         max_length=MAX_NAME_LENGTH,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'As per your ID'
+            'placeholder': _('As per your ID')
         }),
-        label='Full Name',
-        help_text='Enter your full name as it appears on your citizenship/ID card'
+        label=_('Full Name'),
+        help_text=_('Enter your full name as it appears on your citizenship/ID card')
     )
     
     dob = forms.DateField(
@@ -214,39 +215,39 @@ class KYMForm(forms.Form):
             'class': KYM_INPUT_CSS,
             'type': 'date'
         }),
-        label='Date of Birth'
+        label=_('Date of Birth')
     )
     
     gender = forms.ChoiceField(
         choices=[
-            ('', 'Select Gender'),
-            ('male', 'Male'),
-            ('female', 'Female'),
-            ('other', 'Other')
+            ('', _('Select Gender')),
+            ('male', _('Male')),
+            ('female', _('Female')),
+            ('other', _('Other'))
         ],
         widget=forms.Select(attrs={'class': KYM_INPUT_CSS}),
-        label='Gender'
+        label=_('Gender')
     )
     
     marital_status = forms.ChoiceField(
         choices=[
-            ('', 'Select Status'),
-            ('single', 'Single'),
-            ('married', 'Married'),
-            ('divorced', 'Divorced'),
-            ('widowed', 'Widowed')
+            ('', _('Select Status')),
+            ('single', _('Single')),
+            ('married', _('Married')),
+            ('divorced', _('Divorced')),
+            ('widowed', _('Widowed'))
         ],
         widget=forms.Select(attrs={'class': KYM_INPUT_CSS}),
-        label='Marital Status'
+        label=_('Marital Status')
     )
     
     nationality = forms.CharField(
         max_length=50,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'e.g., Nepali'
+            'placeholder': _('e.g., Nepali')
         }),
-        label='Nationality',
+        label=_('Nationality'),
         initial='Nepali'
     )
     
@@ -255,35 +256,35 @@ class KYMForm(forms.Form):
         max_length=MAX_PHONE_LENGTH,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': '+977-XXXXXXXXXX'
+            'placeholder': _('+977-XXXXXXXXXX')
         }),
-        label='Phone Number'
+        label=_('Phone Number')
     )
     
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'your.email@example.com'
+            'placeholder': _('your.email@example.com')
         }),
-        label='Email Address'
+        label=_('Email Address')
     )
     
     permanent_address = forms.CharField(
         max_length=255,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'Street, Village, Ward No.'
+            'placeholder': _('Street, Village, Ward No.')
         }),
-        label='Permanent Address'
+        label=_('Permanent Address')
     )
     
     district = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'e.g., Kaski'
+            'placeholder': _('e.g., Kaski')
         }),
-        label='District',
+        label=_('District'),
         initial='Kaski'
     )
     
@@ -291,9 +292,9 @@ class KYMForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'e.g., Gandaki Province'
+            'placeholder': _('e.g., Gandaki Province')
         }),
-        label='Province',
+        label=_('Province'),
         initial='Gandaki Province'
     )
     
@@ -302,18 +303,18 @@ class KYMForm(forms.Form):
         max_length=MAX_NAME_LENGTH,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': "Father's Full Name"
+            'placeholder': _("Father's Full Name")
         }),
-        label="Father's Name"
+        label=_("Father's Name")
     )
     
     mother_name = forms.CharField(
         max_length=MAX_NAME_LENGTH,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': "Mother's Full Name"
+            'placeholder': _("Mother's Full Name")
         }),
-        label="Mother's Name"
+        label=_("Mother's Name")
     )
     
     spouse_name = forms.CharField(
@@ -321,18 +322,18 @@ class KYMForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': "Spouse's Full Name"
+            'placeholder': _("Spouse's Full Name")
         }),
-        label="Spouse's Name (if married)"
+        label=_("Spouse's Name (if married)")
     )
     
     grand_father_name = forms.CharField(
         max_length=MAX_NAME_LENGTH,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': "Grand Father's Full Name"
+            'placeholder': _("Grand Father's Full Name")
         }),
-        label="Grand Father's Name"
+        label=_("Grand Father's Name")
     )
     
     nominee_name = forms.CharField(
@@ -340,9 +341,9 @@ class KYMForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'Full name of your nominee'
+            'placeholder': _('Full name of your nominee')
         }),
-        label='Nominee Name (Optional)'
+        label=_('Nominee Name (Optional)')
     )
     
     # Occupation & Income Details
@@ -350,18 +351,18 @@ class KYMForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'Your profession/business'
+            'placeholder': _('Your profession/business')
         }),
-        label='Occupation'
+        label=_('Occupation')
     )
     
     income_source = forms.CharField(
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'e.g., Salary, Business, Agriculture'
+            'placeholder': _('e.g., Salary, Business, Agriculture')
         }),
-        label='Source of Income'
+        label=_('Source of Income')
     )
     
     estimated_income = forms.DecimalField(
@@ -370,9 +371,9 @@ class KYMForm(forms.Form):
         required=False,
         widget=forms.NumberInput(attrs={
             'class': KYM_INPUT_CSS,
-            'placeholder': 'e.g., 500000'
+            'placeholder': _('e.g., 500000')
         }),
-        label='Estimated Annual Income (NPR)'
+        label=_('Estimated Annual Income (NPR)')
     )
     
     # Document Uploads
@@ -381,7 +382,7 @@ class KYMForm(forms.Form):
             'class': FORM_INPUT_CSS,
             'accept': '.pdf,.jpg,.jpeg,.png'
         }),
-        label='Citizenship/ID Card (Front)',
+        label=_('Citizenship/ID Card (Front)'),
         validators=[FileExtensionValidator(allowed_extensions=ALLOWED_KYM_FILE_EXTENSIONS)]
     )
     
@@ -390,7 +391,7 @@ class KYMForm(forms.Form):
             'class': FORM_INPUT_CSS,
             'accept': '.pdf,.jpg,.jpeg,.png'
         }),
-        label='Citizenship/ID Card (Back)',
+        label=_('Citizenship/ID Card (Back)'),
         validators=[FileExtensionValidator(allowed_extensions=ALLOWED_KYM_FILE_EXTENSIONS)]
     )
     
@@ -399,7 +400,7 @@ class KYMForm(forms.Form):
             'class': FORM_INPUT_CSS,
             'accept': '.jpg,.jpeg,.png'
         }),
-        label='Passport-sized Photo',
+        label=_('Passport-sized Photo'),
         validators=[FileExtensionValidator(allowed_extensions=ALLOWED_KYM_IMAGE_EXTENSIONS)]
     )
     
@@ -408,7 +409,7 @@ class KYMForm(forms.Form):
             'class': FORM_INPUT_CSS,
             'accept': '.pdf,.jpg,.jpeg,.png'
         }),
-        label='Address Proof (e.g., Utility Bill)',
+        label=_('Address Proof (e.g., Utility Bill)'),
         validators=[FileExtensionValidator(allowed_extensions=ALLOWED_KYM_FILE_EXTENSIONS)]
     )
     
@@ -418,7 +419,7 @@ class KYMForm(forms.Form):
             'class': FORM_INPUT_CSS,
             'accept': '.pdf,.jpg,.jpeg,.png'
         }),
-        label='Occupation/Income Proof (Optional)',
+        label=_('Occupation/Income Proof (Optional)'),
         validators=[FileExtensionValidator(allowed_extensions=ALLOWED_KYM_FILE_EXTENSIONS)]
     )
     
@@ -435,6 +436,6 @@ class KYMForm(forms.Form):
             file = cleaned_data.get(field)
             if file and file.size > MAX_CONTACT_FILE_SIZE_BYTES:
                 field_label = field.replace('_', ' ').title()
-                raise forms.ValidationError(f'{field_label} file size must be less than 5MB.')
+                raise forms.ValidationError(_('{field_label} file size must be less than 5MB.').format(field_label=field_label))
         
         return cleaned_data

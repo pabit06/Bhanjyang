@@ -55,19 +55,83 @@ class LanguageToggle {
     }
 
     toggleLanguage() {
-        const newLang = this.currentLanguage === 'en' ? 'ne' : 'en';
-        console.log('Toggling language from', this.currentLanguage, 'to', newLang);
-        this.updateLanguage(newLang);
+        // Get current language from Django (check cookie or default to 'ne')
+        const currentLang = this.getCurrentDjangoLanguage();
+        const newLang = currentLang === 'en' ? 'ne' : 'en';
+        console.log('Toggling language from', currentLang, 'to', newLang);
+        this.switchDjangoLanguage(newLang);
+    }
+
+    getCurrentDjangoLanguage() {
+        // Try to get from cookie first
+        const cookieLang = this.getCookie('django_language');
+        if (cookieLang) {
+            return cookieLang;
+        }
+        // Default to Nepali (as per settings)
+        return 'ne';
+    }
+
+    getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    switchDjangoLanguage(lang) {
+        // Use Django's set_language view to switch language
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/i18n/setlang/';
+        
+        // Add CSRF token
+        const csrfToken = this.getCookie('csrftoken') || this.getCSRFToken();
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrfmiddlewaretoken';
+        csrfInput.value = csrfToken;
+        form.appendChild(csrfInput);
+        
+        // Add language input
+        const langInput = document.createElement('input');
+        langInput.type = 'hidden';
+        langInput.name = 'language';
+        langInput.value = lang;
+        form.appendChild(langInput);
+        
+        // Add next URL (current page)
+        const nextInput = document.createElement('input');
+        nextInput.type = 'hidden';
+        nextInput.name = 'next';
+        nextInput.value = window.location.pathname + window.location.search;
+        form.appendChild(nextInput);
+        
+        // Submit form
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    getCSRFToken() {
+        // Try to get CSRF token from meta tag or cookie
+        const metaTag = document.querySelector('meta[name="csrf-token"]');
+        if (metaTag) {
+            return metaTag.getAttribute('content');
+        }
+        // Fallback: try to get from cookie
+        return this.getCookie('csrftoken');
     }
 
     updateLanguage(lang, saveToStorage = true) {
+        // This method is kept for backward compatibility
+        // But now we use Django's language switching
         this.currentLanguage = lang;
         
         if (saveToStorage) {
             localStorage.setItem('site_language', lang);
         }
 
-        // Update all elements with data-en and data-ne attributes
+        // Update all elements with data-en and data-ne attributes (for client-side only elements)
         const elementsToUpdate = document.querySelectorAll('[data-en][data-ne]');
         console.log('Found', elementsToUpdate.length, 'elements to update');
         elementsToUpdate.forEach(element => {

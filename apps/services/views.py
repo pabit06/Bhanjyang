@@ -25,8 +25,9 @@ from apps.core.error_handling import (
     ErrorResponse, ErrorLogger, handle_api_errors, safe_json_parse,
     safe_float_conversion, safe_int_conversion
 )
-from apps.core.view_mixins import ServiceDetailViewMixin, create_breadcrumbs
+from apps.core.view_mixins import ServiceDetailViewMixin, NepaliLanguageMixin, create_breadcrumbs
 from apps.core.query_utils import get_active_queryset, get_featured_queryset
+from django.utils.translation import activate
 
 
 def services_overview(request: HttpRequest) -> HttpResponse:
@@ -39,6 +40,7 @@ def services_overview(request: HttpRequest) -> HttpResponse:
     Returns:
         Rendered services overview page
     """
+    activate('ne')
     breadcrumbs = create_breadcrumbs(
         ('Home', '/'),
         ('Services', '/services/')
@@ -91,7 +93,7 @@ def services_overview(request: HttpRequest) -> HttpResponse:
     return render(request, 'services/services.html', context)
 
 
-class SavingsAccountsView(ListView):
+class SavingsAccountsView(NepaliLanguageMixin, ListView):
     """Display all savings account types"""
     model = SavingsAccount
     template_name = 'services/savings/savings_list.html'
@@ -114,7 +116,7 @@ class SavingsAccountsView(ListView):
         return context
 
 
-class FixedDepositsView(ListView):
+class FixedDepositsView(NepaliLanguageMixin, ListView):
     """Display all fixed deposit options"""
     model = FixedDeposit
     template_name = 'services/fixed_deposit/list.html'
@@ -143,7 +145,7 @@ class FixedDepositsView(ListView):
         return context
 
 
-class LoanServicesView(ListView):
+class LoanServicesView(NepaliLanguageMixin, ListView):
     """Display all loan services"""
     model = LoanType
     template_name = 'services/loan/list.html'
@@ -166,7 +168,7 @@ class LoanServicesView(ListView):
         return context
 
 
-class RemittanceServicesView(ListView):
+class RemittanceServicesView(NepaliLanguageMixin, ListView):
     """Display remittance services"""
     model = RemittanceService
     template_name = 'services/remittance/list.html'
@@ -182,7 +184,7 @@ class RemittanceServicesView(ListView):
         return context
 
 
-class MemberReliefView(ListView):
+class MemberReliefView(NepaliLanguageMixin, ListView):
     """Display member relief programs"""
     model = MemberRelief
     template_name = 'services/member_relief/list.html'
@@ -210,7 +212,7 @@ class MemberReliefView(ListView):
 
 # --- Detail Views (Refactored with Mixins) ---
 
-class SavingsDetailView(ServiceDetailViewMixin, DetailView):
+class SavingsDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific savings account."""
     model = SavingsAccount
     template_name = 'services/savings/detail.html'
@@ -223,7 +225,7 @@ class SavingsDetailView(ServiceDetailViewMixin, DetailView):
     )
 
 
-class LoanDetailView(ServiceDetailViewMixin, DetailView):
+class LoanDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific loan type."""
     model = LoanType
     template_name = 'services/loan/detail.html'
@@ -236,7 +238,7 @@ class LoanDetailView(ServiceDetailViewMixin, DetailView):
     )
 
 
-class FixedDepositDetailView(ServiceDetailViewMixin, DetailView):
+class FixedDepositDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific fixed deposit scheme."""
     model = FixedDeposit
     template_name = 'services/fixed_deposit/detail.html'
@@ -249,7 +251,7 @@ class FixedDepositDetailView(ServiceDetailViewMixin, DetailView):
     )
 
 
-class RemittanceDetailView(ServiceDetailViewMixin, DetailView):
+class RemittanceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific remittance service."""
     model = RemittanceService
     template_name = 'services/remittance/detail.html'
@@ -262,7 +264,7 @@ class RemittanceDetailView(ServiceDetailViewMixin, DetailView):
     )
 
 
-class MemberReliefDetailView(ServiceDetailViewMixin, DetailView):
+class MemberReliefDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific member relief program."""
     model = MemberRelief
     template_name = 'services/member_relief/detail.html'
@@ -361,6 +363,7 @@ fixed_deposit_calculator = FixedDepositCalculatorView.as_view()
 
 def service_application(request):
     """Service application form view"""
+    activate('ne')
     # Get service info from GET params (for pre-filling) or POST data
     service_type = request.GET.get('service_type', '') or request.POST.get('service_type', '')
     service_id = request.GET.get('service_id', '') or request.POST.get('service_id', '')
@@ -432,6 +435,7 @@ def service_application(request):
 
 def service_comparison(request):
     """Service comparison view"""
+    activate('ne')
     if request.method == 'POST':
         form = ServiceComparisonForm(request.POST)
         if form.is_valid():
@@ -475,6 +479,7 @@ def service_comparison(request):
 
 def service_search(request):
     """Enhanced service search view"""
+    activate('ne')
     form = ServiceSearchForm(request.GET)
     page = request.GET.get('page', 1)
     
@@ -503,6 +508,7 @@ def service_search(request):
 
 def service_recommendations(request):
     """Service recommendations based on user profile"""
+    activate('ne')
     if request.method == 'POST':
         user_profile = {
             'age': int(request.POST.get('age', 30)),
@@ -538,6 +544,7 @@ from apps.core.error_handling import (
 @handle_api_errors
 def calculator_api(request):
     """API endpoint for calculator calculations"""
+    activate('ne')
     if request.method != 'POST':
         return ErrorResponse.json_error(
             message='Method not allowed',
