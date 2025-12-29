@@ -1,89 +1,157 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Savings Accounts - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Savings Accounts" %} - Bhanjyang Cooperative{% endblock title %}
 
 {% block extra_css %}
 <style>
-    .savings-header-bg {
-        background-image: url("{% static 'images/backgrounds/pattern-light.png' %}");
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    .category-section {
+        scroll-margin-top: 100px;
     }
 </style>
 {% endblock extra_css %}
 
 {% block content %}
-<!-- Standard Page Header -->
-<section class="relative bg-white py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
-    <div class="container mx-auto text-center z-10">
-        <span class="block text-sm md:text-base font-semibold uppercase tracking-wider mb-2 text-deuraligreen">Financial
-            Growth</span>
-        <h1
-            class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-sm">
-            Savings Accounts
+<!-- Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
+<!-- Enhanced Hero Section -->
+<section class="relative py-20 md:py-28 bg-gradient-to-br from-deuraligreen via-green-600 to-green-700 text-white overflow-hidden">
+    <!-- Hero Image Background -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/monthly-saving-hero.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');">
+            <div class="absolute inset-0 bg-gradient-to-b from-deuraligreen/80 via-green-600/70 to-green-700/80"></div>
+        </div>
+    </div>
+    
+    <!-- Background Pattern Overlay -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30 animate-fade-in-up">
+            {% trans "Financial Growth" %}
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg animate-fade-in-up" style="animation-delay: 0.1s;">
+            {% trans "Savings Accounts" %}
         </h1>
-        <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">
-            Secure your future with our range of savings products designed to help you grow your wealth with competitive
-            interest rates.
+        <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6 shadow-lg animate-fade-in-up" style="animation-delay: 0.2s;"></div>
+        <p class="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md animate-fade-in-up" style="animation-delay: 0.3s;">
+            {% trans "Secure your future with our range of savings products designed to help you grow your wealth with competitive interest rates." %}
         </p>
+        
+        <!-- Quick Stats -->
+        <div class="mt-10 flex flex-wrap justify-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
+                <div class="text-3xl font-bold text-white mb-1">{% trans "Up to 8%" %}</div>
+                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Interest Rate" %}</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
+                <div class="text-3xl font-bold text-white mb-1">4</div>
+                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Categories" %}</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
+                <div class="text-3xl font-bold text-white mb-1">24/7</div>
+                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Access" %}</div>
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- Featured Savings Section -->
 {% if featured_accounts %}
-<section class="py-16 md:py-20 bg-white">
+<section class="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <span class="text-bhanjyangred font-semibold uppercase text-sm mb-2 block">Recommended</span>
-            <h2 class="text-3xl font-bold text-deuraligreen font-montserrat mb-4">Featured Savings Plans</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">Our most popular savings accounts tailored for your specific
-                needs.</p>
+            <span class="inline-block text-bhanjyangred bg-red-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Recommended" %}</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-deuraligreen font-montserrat mb-4">{% trans "Featured Savings Plans" %}</h2>
+            <div class="w-20 h-1 bg-deuraligreen mx-auto rounded-full mb-4"></div>
+            <p class="text-gray-600 max-w-2xl mx-auto text-lg">{% trans "Our most popular savings accounts tailored for your specific needs." %}</p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for account in featured_accounts %}
-            <div class="card-modern group relative overflow-hidden border-t-4 border-{{ account.color }}">
-                <div
-                    class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border-t-4 border-{{ account.color }} group relative overflow-hidden transform hover:-translate-y-2">
+                <!-- Background Pattern -->
+                <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
                     <i class="{{ account.icon }} text-8xl text-{{ account.color }}"></i>
                 </div>
 
                 <div class="relative z-10">
-                    <div
-                        class="w-16 h-16 bg-{{ account.color }}/10 rounded-2xl flex items-center justify-center mb-6 text-{{ account.color }} group-hover:scale-110 transition-transform duration-300">
-                        <i class="{{ account.icon }} text-3xl"></i>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-16 h-16 bg-{{ account.color }}/10 rounded-2xl flex items-center justify-center text-{{ account.color }} group-hover:scale-110 transition-transform duration-300">
+                            <i class="{{ account.icon }} text-3xl"></i>
+                        </div>
+                        <div class="flex flex-col gap-2 items-end">
+                            {% if account.category == 'regular' %}
+                            <span class="bg-deuraligreen text-white text-xs font-bold px-3 py-1 rounded-full">{% trans "Mandatory" %}</span>
+                            {% endif %}
+                            {% if account.is_featured %}
+                            <span class="bg-{{ account.color }} text-white text-xs font-bold px-3 py-1 rounded-full">{% trans "Featured" %}</span>
+                            {% endif %}
+                        </div>
                     </div>
 
-                    <h3
-                        class="text-xl font-bold text-gray-800 mb-2 group-hover:text-{{ account.color }} transition-colors">
-                        {{ account.english_name }}
-                    </h3>
-                    <h4 class="text-sm font-semibold text-gray-500 mb-4 font-montserrat">{{ account.nepali_name }}</h4>
+                    <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-{{ account.color }} transition-colors">{{ account.nepali_name }}</h3>
+                    <p class="text-sm font-semibold text-gray-500 mb-4 font-montserrat">
+                        {% if account.account_type == 'monthly' %}
+                            {% trans "Regular Saving" %}
+                        {% else %}
+                            {{ account.english_name }}
+                        {% endif %}
+                    </p>
 
-                    <div class="flex items-baseline mb-4">
-                        <span class="text-4xl font-bold text-{{ account.color }}">{{ account.interest_rate }}%</span>
-                        <span class="text-gray-500 ml-2 text-sm">p.a.</span>
+                    <div class="flex items-baseline mb-4 pb-4 border-b border-gray-100">
+                        <span class="text-4xl font-extrabold text-{{ account.color }}">{{ account.interest_rate }}%</span>
+                        <span class="text-gray-500 ml-2 text-sm font-medium">{% trans "p.a." %}</span>
                     </div>
 
                     {% if account.description %}
-                    <p class="text-gray-600 mb-6 text-sm line-clamp-3">{{ account.description }}</p>
+                    <p class="text-gray-600 mb-6 text-sm line-clamp-3 leading-relaxed">{{ account.description }}</p>
                     {% endif %}
 
                     {% if account.features %}
                     <div class="space-y-2 mb-6">
                         {% for feature in account.features.splitlines|slice:":3" %}
                         <div class="flex items-start text-sm text-gray-600">
-                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2 flex-shrink-0"></i>
-                            <span>{{ feature|cut:"• " }}</span>
+                            <i class="fas fa-check-circle text-deuraligreen mt-1 mr-2 flex-shrink-0"></i>
+                            <span>{{ feature|cut:"• "|truncatewords:10 }}</span>
                         </div>
                         {% endfor %}
                     </div>
                     {% endif %}
 
-                    <a href="{% url 'services:savings_detail' account.slug %}"
-                        class="inline-flex items-center font-semibold text-{{ account.color }} hover:text-gray-800 transition-colors">
-                        View Details <i
-                            class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
+                    <div class="flex gap-3">
+                        <a href="{% url 'services:savings_detail' account.slug %}" class="flex-1 inline-flex justify-center items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-xl text-sm transition-all duration-300">
+                            {% trans "Details" %}
+                        </a>
+                        <a href="{% url 'services:service_application' %}?service_type=savings&service_id={{ account.id }}" class="flex-1 inline-flex justify-center items-center bg-{{ account.color }} hover:opacity-90 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-all duration-300">
+                            {% trans "Apply" %}
+                        </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -92,122 +160,249 @@
 </section>
 {% endif %}
 
-<!-- All Savings Accounts -->
-<section class="py-16 md:py-20 {% if featured_accounts %}bg-himalwhite{% else %}bg-white{% endif %}">
+<!-- All Savings Accounts Categorized -->
+<section class="py-16 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-deuraligreen font-montserrat mb-4">All Savings Products</h2>
-            <p class="text-gray-600 max-w-2xl mx-auto">Explore our complete range of savings options suited for
-                everyone.</p>
+        
+        <!-- Regular & Optional Savings (No category headers, just products) -->
+        {% if regular_savings or optional_savings %}
+        <div class="mb-20">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {% for account in regular_savings %}
+                {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                {% endfor %}
+                {% for account in optional_savings %}
+                {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                {% endfor %}
+            </div>
         </div>
+        {% endif %}
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {% for account in savings_accounts %}
-            <div
-                class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-gray-100 group">
-                <div class="flex items-center justify-between mb-4">
-                    <div
-                        class="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center text-{{ account.color }}">
-                        <i class="{{ account.icon }} text-xl"></i>
+        <!-- Recurring Savings (Only show if products exist) -->
+        {% if recurring_savings %}
+        <div id="recurring-savings" class="category-section mb-20 scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-8 border-l-4 border-rupablue">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl font-bold text-rupablue">क्रमिक बचत</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-rupablue font-montserrat">(Recurring Savings)</h2>
+                        </div>
+                        <p class="text-gray-600 text-base leading-relaxed">निश्चित समयको लागि नियमित अन्तरालमा गरिने बचत।</p>
                     </div>
-                    <span class="bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded-full">{{
-                        account.interest_rate }}%</span>
                 </div>
-
-                <h3 class="text-lg font-bold text-gray-800 mb-1 group-hover:text-deuraligreen transition-colors">{{
-                    account.english_name }}</h3>
-                <p class="text-xs text-gray-500 mb-3">{{ account.nepali_name }}</p>
-
-                <p class="text-sm text-gray-600 mb-4 line-clamp-2">{{ account.description }}</p>
-
-                <a href="{% url 'services:savings_detail' account.slug %}"
-                    class="text-sm font-semibold text-deuraligreen hover:text-bhanjyangred flex items-center">
-                    Learn More <i class="fas fa-chevron-right ml-1 text-xs"></i>
-                </a>
             </div>
-            {% empty %}
-            <div class="col-span-full text-center py-12">
-                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-piggy-bank text-gray-400 text-3xl"></i>
-                </div>
-                <h3 class="text-gray-500 font-medium">No additional savings accounts found</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for account in recurring_savings %}
+                {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
+        {% endif %}
+
+        <!-- आवधिक बचत (Periodic Savings / Fixed Deposits) -->
+        <div id="periodic-savings" class="category-section mb-10 scroll-mt-20">
+            <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-8 border-l-4 border-orange-500">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-3">
+                            <h2 class="text-2xl md:text-3xl font-bold text-orange-600 font-montserrat">आवधिक बचत (Periodic Savings)</h2>
+                        </div>
+                        <p class="text-gray-600 text-base leading-relaxed">३ महिना देखी ३ बर्ष सम्मको निश्चित अवधिको लागि मुद्दती बचत।</p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <span class="inline-block bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-bold shadow-md">{% trans "High Interest Rate" %}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fixed Deposit Rates Table -->
+            {% if periodic_savings %}
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 mb-8 border border-gray-100">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-3">ब्याजदर तालिका (Interest Rates)</h3>
+                    <div class="w-16 h-1 bg-orange-500 mx-auto rounded-full mb-4"></div>
+                    <p class="text-gray-600 text-base">मासिक, त्रैमासिक, र मुद्दतमा ब्याज भुक्तानी विकल्पहरू</p>
+                </div>
+                <div class="relative">
+                    <!-- Mobile scroll hint -->
+                    <div class="md:hidden absolute top-2 right-2 z-10 bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full shadow-sm flex items-center gap-1 pointer-events-none">
+                        <i class="fas fa-arrows-alt-h"></i>
+                        <span>{% trans "Scroll" %}</span>
+                    </div>
+                    <div class="overflow-x-auto rounded-xl border border-gray-200">
+                    <table class="w-full text-center">
+                        <thead>
+                            <tr class="border-b-2 border-gray-300 bg-gradient-to-r from-orange-50 to-orange-100">
+                                <th class="py-4 px-6 text-left text-gray-800 font-bold text-sm uppercase tracking-wider">अवधि (Duration)</th>
+                                <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">मासिक (Monthly)</th>
+                                <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">त्रैमासिक (Quarterly)</th>
+                                <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">मुद्दतमा (Lump Sum)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% regroup periodic_savings by duration_months as deposits_by_duration %}
+                            {% for duration_group in deposits_by_duration %}
+                            <tr class="border-b border-gray-200 hover:bg-orange-50/50 transition-colors duration-200">
+                                <td class="py-5 px-6 text-left font-bold text-gray-800 text-base">
+                                    {{ duration_group.list.0.get_duration_months_display }}
+                                </td>
+                                <td class="py-5 px-6">
+                                    {% for deposit in duration_group.list %}
+                                        {% if deposit.payment_frequency == 'monthly' %}
+                                            <div class="flex flex-col items-center">
+                                                <span class="text-orange-600 font-extrabold text-2xl mb-1">{{ deposit.interest_rate }}%</span>
+                                                {% if deposit.minimum_amount %}
+                                                    <span class="text-xs text-gray-500 font-medium">न्यूनतम: रू. {{ deposit.minimum_amount|floatformat:0 }}</span>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    {% empty %}
+                                        <span class="text-gray-400 text-lg">-</span>
+                                    {% endfor %}
+                                </td>
+                                <td class="py-5 px-6">
+                                    {% for deposit in duration_group.list %}
+                                        {% if deposit.payment_frequency == 'quarterly' %}
+                                            <div class="flex flex-col items-center">
+                                                <span class="text-orange-600 font-extrabold text-2xl mb-1">{{ deposit.interest_rate }}%</span>
+                                                {% if deposit.minimum_amount %}
+                                                    <span class="text-xs text-gray-500 font-medium">न्यूनतम: रू. {{ deposit.minimum_amount|floatformat:0 }}</span>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    {% empty %}
+                                        <span class="text-gray-400 text-lg">-</span>
+                                    {% endfor %}
+                                </td>
+                                <td class="py-5 px-6">
+                                    {% for deposit in duration_group.list %}
+                                        {% if deposit.payment_frequency == 'lump_sum' %}
+                                            <div class="flex flex-col items-center">
+                                                <span class="text-orange-600 font-extrabold text-2xl mb-1">{{ deposit.interest_rate }}%</span>
+                                                {% if deposit.minimum_amount %}
+                                                    <span class="text-xs text-gray-500 font-medium">न्यूनतम: रू. {{ deposit.minimum_amount|floatformat:0 }}</span>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    {% empty %}
+                                        <span class="text-gray-400 text-lg">-</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call to Action -->
+            <div class="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-8 md:p-10 text-center text-white shadow-2xl relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div class="absolute inset-0 opacity-10">
+                    <div class="absolute inset-0" style="background-image: url(&quot;{% static 'images/backgrounds/pattern-light.png' %}&quot;); background-repeat: repeat; background-size: 200px;"></div>
+                </div>
+                <div class="relative z-10">
+                    <h3 class="text-2xl md:text-3xl font-bold font-montserrat mb-3">{% trans "Want to open a Fixed Deposit?" %}</h3>
+                    <p class="text-orange-100 mb-8 text-lg max-w-2xl mx-auto">{% trans "Contact our team to choose the best plan for you." %}</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="{% url 'contact:contact_view' %}" class="bg-white text-orange-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center">
+                            <i class="fas fa-phone mr-2"></i> {% trans "Contact Us" %}
+                        </a>
+                        <a href="{% url 'services:fixed_deposit_calculator' %}" class="bg-orange-800 hover:bg-orange-900 text-white font-bold py-3 px-8 rounded-full border-2 border-white transition-all duration-300 inline-flex items-center justify-center">
+                            <i class="fas fa-calculator mr-2"></i> {% trans "Calculator" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="bg-white p-12 rounded-2xl shadow-sm text-center border-2 border-dashed border-gray-200">
+                <i class="fas fa-certificate text-5xl text-gray-300 mb-4 block"></i>
+                <p class="text-gray-500 text-lg">आवधिक बचत योजनाहरू थपिँदै छन्।</p>
+            </div>
+            {% endif %}
+        </div>
+
     </div>
 </section>
 
 <!-- Benefits / Why Choose Us -->
-<section class="py-16 md:py-20 bg-white">
+<section class="py-16 md:py-20 bg-gradient-to-b from-white via-gray-50 to-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <span class="inline-block text-bhanjyangred bg-red-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Why Choose Us" %}</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-deuraligreen font-montserrat mb-4">{% trans "Growing Together With Your Savings" %}</h2>
+            <div class="w-20 h-1 bg-deuraligreen mx-auto rounded-full"></div>
+        </div>
+        
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1">
-                <span class="text-bhanjyangred font-semibold uppercase text-sm mb-2 block">Why Choose Us</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-deuraligreen font-montserrat mb-6">Growing Together With
-                    Your Savings</h2>
-                <div class="space-y-6">
-                    <div class="flex">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center text-white shadow-lg">
+                <div class="space-y-8">
+                    <div class="flex items-start group">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-deuraligreen to-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-chart-line text-xl"></i>
                         </div>
                         <div class="ml-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">High Interest Rates</h3>
-                            <p class="text-gray-600">Enjoy some of the most competitive interest rates in the market,
-                                calculated daily and posted quarterly.</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">{% trans "High Interest Rates" %}</h3>
+                            <p class="text-gray-600 leading-relaxed">{% trans "Enjoy some of the most competitive interest rates in the market, calculated daily and posted quarterly." %}</p>
                         </div>
                     </div>
-                    <div class="flex">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center text-white shadow-lg">
+                    <div class="flex items-start group">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-deuraligreen to-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-shield-alt text-xl"></i>
                         </div>
                         <div class="ml-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Secure & Insured</h3>
-                            <p class="text-gray-600">Your deposits are safe with us. We are fully regulated and follow
-                                strict financial guidelines.</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">{% trans "Secure & Insured" %}</h3>
+                            <p class="text-gray-600 leading-relaxed">{% trans "Your deposits are safe with us. We are fully regulated and follow strict financial guidelines." %}</p>
                         </div>
                     </div>
-                    <div class="flex">
-                        <div
-                            class="flex-shrink-0 w-12 h-12 bg-deuraligreen rounded-full flex items-center justify-center text-white shadow-lg">
+                    <div class="flex items-start group">
+                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-deuraligreen to-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                             <i class="fas fa-mobile-alt text-xl"></i>
                         </div>
                         <div class="ml-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">Easy Access</h3>
-                            <p class="text-gray-600">Manage your savings anytime via our mobile app, SMS banking, or
-                                visit any of our service centers.</p>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">{% trans "Easy Access" %}</h3>
+                            <p class="text-gray-600 leading-relaxed">{% trans "Manage your savings anytime via our mobile app, SMS banking, or visit any of our service centers." %}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="order-1 lg:order-2 relative">
-                <div
-                    class="absolute inset-0 bg-gradient-to-tr from-deuraligreen to-green-300 transform rotate-3 rounded-2xl opacity-20">
+                <div class="absolute inset-0 bg-gradient-to-tr from-deuraligreen to-green-300 transform rotate-3 rounded-3xl opacity-20 blur-xl"></div>
+                <div class="relative rounded-3xl shadow-2xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                        alt="{% trans 'Savings Growth' %}"
+                        class="w-full object-cover h-[500px] transform hover:scale-105 transition-transform duration-500">
                 </div>
-                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    alt="Savings Growth"
-                    class="relative rounded-2xl shadow-xl transform hover:-translate-y-2 transition-transform duration-500 w-full object-cover h-[500px]">
             </div>
         </div>
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="py-16 bg-bhanjyangred text-white relative overflow-hidden">
-    <!-- Removed bg-pattern here -->
+<section class="py-20 bg-gradient-to-r from-bhanjyangred via-red-700 to-bhanjyangred text-white relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+        <div class="absolute inset-0" style="background-image: url(&quot;{% static 'images/backgrounds/pattern-light.png' %}&quot;); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <h2 class="text-3xl md:text-4xl font-bold font-montserrat mb-6">Ready to Start Saving?</h2>
-        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">Open an account today and take the first step towards
-            your financial freedom.</p>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold font-montserrat mb-6 drop-shadow-lg">{% trans "Ready to Start Saving?" %}</h2>
+        <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
+        <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">{% trans "Open an account today and take the first step towards your financial freedom." %}</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{% url 'contact:contact_view' %}"
-                class="bg-white text-bhanjyangred font-bold py-4 px-10 rounded-full shadow-lg hover:shadow-xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1">
-                Open an Account
+                class="bg-white text-bhanjyangred font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 inline-flex items-center justify-center">
+                <i class="fas fa-user-plus mr-2"></i> {% trans "Open an Account" %}
             </a>
             <a href="{% url 'services:savings_calculator' %}"
-                class="bg-transparent border-2 border-white text-white font-bold py-4 px-10 rounded-full hover:bg-white hover:text-bhanjyangred transition-all duration-300">
-                Calculate Returns
+                class="bg-transparent border-2 border-white text-white font-bold py-4 px-10 rounded-full hover:bg-white hover:text-bhanjyangred transition-all duration-300 inline-flex items-center justify-center">
+                <i class="fas fa-calculator mr-2"></i> {% trans "Calculate Returns" %}
             </a>
         </div>
     </div>

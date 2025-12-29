@@ -7,14 +7,14 @@ import json
 
 from .models import (
     SavingsAccount, FixedDeposit, LoanType, 
-    RemittanceService, MemberRelief,
+    RemittanceService, MemberRelief, DigitalService,
     ServiceApplication, ServiceAnalytics, ServiceRecommendation
 )
 
 # HELPER FUNCTIONS for common admin enhancements
 def create_boolean_icon(field_name, description):
     """Creates a method that returns a check or cross icon for a boolean field."""
-    def boolean_icon(obj):
+    def boolean_icon(self, obj):
         is_true = getattr(obj, field_name)
         icon = '✅' if is_true else '❌'
         return icon
@@ -23,7 +23,7 @@ def create_boolean_icon(field_name, description):
 
 def create_color_preview(field_name):
     """Creates a method that displays a color swatch."""
-    def color_preview(obj):
+    def color_preview(self, obj):
         color = getattr(obj, field_name)
         if not color:
             return "N/A"
@@ -40,10 +40,10 @@ def create_color_preview(field_name):
 class SavingsAccountAdmin(admin.ModelAdmin):
     """Admin interface for Savings Accounts with visual enhancements."""
     list_display = [
-        'english_name', 'nepali_name', 'interest_rate', 'minimum_balance', 
+        'english_name', 'nepali_name', 'category', 'interest_rate', 'minimum_balance', 
         'is_featured_icon', 'is_active_icon', 'display_color'
     ]
-    list_filter = ['is_active', 'is_featured', 'account_type']
+    list_filter = ['category', 'is_active', 'is_featured', 'account_type']
     search_fields = ['nepali_name', 'english_name', 'description']
     list_editable = ['interest_rate', 'minimum_balance']
     readonly_fields = ['created_at', 'updated_at', 'slug']
@@ -155,6 +155,42 @@ class MemberReliefAdmin(admin.ModelAdmin):
     )
 
     is_active_icon = create_boolean_icon('is_active', 'Active')
+
+    @admin.display(description='Image Preview')
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-width: 200px; max-height: 200px;" />',
+                obj.image.url
+            )
+        return "No Image"
+
+@admin.register(DigitalService)
+class DigitalServiceAdmin(admin.ModelAdmin):
+    """Admin interface for Digital Services."""
+    list_display = ['english_name', 'service_type', 'is_featured_icon', 'is_active_icon', 'image_preview']
+    list_filter = ['is_active', 'is_featured', 'service_type']
+    search_fields = ['english_name', 'nepali_name', 'description']
+    readonly_fields = ['created_at', 'updated_at', 'slug', 'image_preview']
+    fieldsets = (
+        ('Basic Information', {'fields': ('service_type', 'english_name', 'nepali_name', 'slug')}),
+        ('Content', {'fields': ('description', 'features', 'requirements', 'fees')}),
+        ('Media', {'fields': ('image', 'image_preview')}),
+        ('Display Settings', {'fields': ('icon', 'color', 'is_featured', 'is_active')}),
+        ('Timestamps', {'fields': ('created_at', 'updated_at'), 'classes': ('collapse',)}),
+    )
+    
+    is_featured_icon = create_boolean_icon('is_featured', 'Featured')
+    is_active_icon = create_boolean_icon('is_active', 'Active')
+    
+    @admin.display(description='Image Preview')
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-width: 200px; max-height: 200px;" />',
+                obj.image.url
+            )
+        return "No Image"
 
     @admin.display(description='Image Preview')
     def image_preview(self, obj):
@@ -275,6 +311,7 @@ admin_site.register(SavingsAccount, SavingsAccountAdmin)
 admin_site.register(FixedDeposit, FixedDepositAdmin)
 admin_site.register(LoanType, LoanTypeAdmin)
 admin_site.register(RemittanceService, RemittanceServiceAdmin)
+admin_site.register(DigitalService, DigitalServiceAdmin)
 admin_site.register(MemberRelief, MemberReliefAdmin)
 admin_site.register(ServiceApplication, ServiceApplicationAdmin)
 admin_site.register(ServiceAnalytics, ServiceAnalyticsAdmin)

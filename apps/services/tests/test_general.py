@@ -234,11 +234,10 @@ class ServicesViewsTest(TestCase):
         )
 
     def test_services_overview_view(self):
-        """Test that the main services overview page loads and contains service names."""
+        """Test that the main services overview redirects to savings list."""
         response = self.client.get(reverse('services:overview'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'General Savings')
-        self.assertContains(response, 'Business Loan')
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
 
     def test_savings_list_view(self):
         """Test the savings account list page."""
@@ -282,7 +281,7 @@ class ServicesViewsTest(TestCase):
         self.assertContains(response, 'Monthly EMI') # Assuming template contains this text for results
     
     def test_services_overview_post(self):
-        """Test services overview with POST (recommendation form)"""
+        """Test services overview POST also redirects to savings list"""
         data = {
             'age': '30',
             'monthly_income': '50000',
@@ -290,7 +289,8 @@ class ServicesViewsTest(TestCase):
             'risk_tolerance': 'moderate'
         }
         response = self.client.post(reverse('services:overview'), data)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
     
     def test_fixed_deposits_view(self):
         """Test fixed deposits list view"""

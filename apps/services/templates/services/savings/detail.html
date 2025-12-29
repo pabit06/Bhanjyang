@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}{{ service.english_name }} - Bhanjyang Cooperative{% endblock %}
+{% block title %}{% if service.account_type == 'monthly' %}{% trans "Regular Saving" %}{% else %}{{ service.english_name }}{% endif %} - Bhanjyang Cooperative{% endblock %}
 
 {% block meta_description %}{{ service.description|truncatewords:20 }}{% endblock meta_description %}
 
@@ -18,7 +19,18 @@
             <h1 class="text-3xl md:text-5xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-sm">
                 {{ service.nepali_name }}
             </h1>
-            <p class="text-xl text-gray-600 mb-6 font-medium">{{ service.english_name }}</p>
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <p class="text-xl text-gray-600 font-medium">
+                    {% if service.account_type == 'monthly' %}
+                        {% trans "Regular Saving" %}
+                    {% else %}
+                        {{ service.english_name }}
+                    {% endif %}
+                </p>
+                {% if service.category == 'regular' %}
+                <span class="bg-deuraligreen text-white text-sm font-bold px-4 py-1 rounded-full">{% trans "Mandatory" %}</span>
+                {% endif %}
+            </div>
 
             <!-- Quick Stats -->
             <div class="flex flex-wrap justify-center gap-4 mb-8">
@@ -33,7 +45,13 @@
                 </div>
                 {% endif %}
                 <div class="bg-white border border-gray-100 shadow-sm rounded-full px-6 py-2 flex items-center gap-3">
-                    <div class="text-lg font-bold text-gray-700">{{ service.get_account_type_display }}</div>
+                    <div class="text-lg font-bold text-gray-700">
+                        {% if service.account_type == 'monthly' %}
+                            {% trans "Regular Saving" %}
+                        {% else %}
+                            {{ service.get_account_type_display }}
+                        {% endif %}
+                    </div>
                     <div class="text-xs uppercase tracking-wide text-gray-500 font-semibold">Type</div>
                 </div>
             </div>
@@ -191,7 +209,13 @@
 
                             <div class="flex justify-between items-center py-3 border-b border-gray-200">
                                 <span class="text-gray-600">Account Type</span>
-                                <span class="font-semibold">{{ service.get_account_type_display }}</span>
+                                <span class="font-semibold">
+                                    {% if service.account_type == 'monthly' %}
+                                        {% trans "Regular Saving" %}
+                                    {% else %}
+                                        {{ service.get_account_type_display }}
+                                    {% endif %}
+                                </span>
                             </div>
 
                             <div class="flex justify-between items-center py-3">

@@ -21,7 +21,7 @@ User = get_user_model()
 
 
 class ServicesOverviewTest(TestCase):
-    """Test suite for services_overview view"""
+    """Test suite for services_overview view (now redirects)"""
     
     def setUp(self):
         """Set up test data"""
@@ -50,17 +50,14 @@ class ServicesOverviewTest(TestCase):
         )
     
     def test_services_overview_get(self):
-        """Test services overview GET request"""
+        """Test services overview redirects to savings list"""
         response = self.client.get(reverse('services:overview'))
         
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('savings_accounts', response.context)
-        self.assertIn('loan_types', response.context)
-        self.assertIn('breadcrumbs', response.context)
-        self.assertIn('recommendation_form', response.context)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
     
     def test_services_overview_post_with_recommendations(self):
-        """Test services overview POST with recommendation form"""
+        """Test services overview POST also redirects to savings list"""
         form_data = {
             'age': '30',
             'income': '50000',
@@ -69,8 +66,8 @@ class ServicesOverviewTest(TestCase):
         
         response = self.client.post(reverse('services:overview'), form_data)
         
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('recommendations', response.context)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
 
 
 class SavingsAccountsViewTest(TestCase):
@@ -540,16 +537,13 @@ class ServiceRecommendationsViewTest(TestCase):
     
     def test_service_recommendations_get(self):
         """Test service recommendations GET request"""
-        # service_recommendations view doesn't have a URL, it's handled in services_overview
-        # So we'll test it through services_overview POST
-        response = self.client.get(reverse('services:overview'))
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('recommendation_form', response.context)
+        # Note: service_recommendations functionality was removed with services_overview
+        # These tests are now skipped as recommendations are no longer available
+        pass
     
     def test_service_recommendations_post_valid(self):
-        """Test service recommendations POST with valid data"""
-        # Recommendations are handled in services_overview POST
+        """Test service recommendations - now redirects (functionality removed)"""
+        # Recommendations were handled in services_overview which now redirects
         form_data = {
             'age': '30',
             'monthly_income': '50000',
@@ -559,22 +553,21 @@ class ServiceRecommendationsViewTest(TestCase):
         
         response = self.client.post(reverse('services:overview'), form_data)
         
-        self.assertEqual(response.status_code, 200)
-        # Recommendations might be in context if form is valid
-        if 'recommendations' in response.context:
-            self.assertIsNotNone(response.context['recommendations'])
+        # Now redirects to savings_list
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
     
     def test_service_recommendations_post_invalid(self):
-        """Test service recommendations POST with invalid data"""
+        """Test service recommendations POST - now redirects (functionality removed)"""
         form_data = {
             'age': 'invalid',  # Invalid age
         }
         
         response = self.client.post(reverse('services:overview'), form_data)
         
-        # Should return 200
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('recommendation_form', response.context)
+        # Now redirects to savings_list
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
 
 
 class CalculatorApiViewTest(TestCase):

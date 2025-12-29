@@ -39,13 +39,21 @@ class BaseServiceModel(models.Model):
 
 class SavingsAccount(BaseServiceModel):
     """Model for different types of savings accounts offered."""
+    SAVING_CATEGORIES = [
+        ('regular', _('Regular Savings (नियमित बचत)')),
+        ('optional', _('Optional Savings (एच्छिक बचत)')),
+        ('recurring', _('Recurring Savings (क्रमिक बचत)')),
+    ]
+    
     ACCOUNT_TYPES = [
         ('general', _('General Savings')), ('daily', _('Daily Savings')),
         ('institutional', _('Institutional Savings')), ('child', _('Child Savings')),
         ('senior_citizen', _('Senior Citizen Savings')), ('remit', _('Remit Savings')),
         ('insurance', _('Insurance Savings')), ('monthly', _('Monthly Savings')),
+        ('regular_saving', _('Regular Savings')), ('recurring_saving', _('Recurring Savings')),
     ]
     
+    category = models.CharField(max_length=20, choices=SAVING_CATEGORIES, default='optional', verbose_name=_("Category"))
     account_type = models.CharField(max_length=20, choices=ACCOUNT_TYPES, unique=True, verbose_name=_("Account Type"))
     interest_rate = models.DecimalField(
         max_digits=5, decimal_places=2, validators=[MinValueValidator(0)],
@@ -215,6 +223,40 @@ class MemberRelief(BaseServiceModel):
 
     def get_absolute_url(self):
         return reverse('services:relief_detail', kwargs={'slug': self.slug})
+
+class DigitalService(BaseServiceModel):
+    """Model for digital services like mobile banking, online banking, etc."""
+    SERVICE_TYPES = [
+        ('mobile_banking', _('Mobile Banking')), ('online_banking', _('Online Banking')),
+        ('atm_card', _('ATM Card')), ('debit_card', _('Debit Card')),
+        ('credit_card', _('Credit Card')), ('e_wallet', _('E-Wallet')),
+        ('qr_payment', _('QR Payment')), ('sms_banking', _('SMS Banking')),
+    ]
+    service_type = models.CharField(max_length=20, choices=SERVICE_TYPES, verbose_name=_("Service Type"))
+    features = models.TextField(blank=True, verbose_name=_("Key Features"), help_text=_("List key features, one per line."))
+    requirements = models.TextField(blank=True, verbose_name=_("Requirements"), help_text=_("List requirements, one per line."))
+    fees = models.TextField(blank=True, verbose_name=_("Fees & Charges"))
+    image = models.ImageField(upload_to='services/digital/', null=True, blank=True, verbose_name=_("Image"))
+
+    class Meta:
+        verbose_name = _("Digital Service")
+        verbose_name_plural = _("Digital Services")
+        ordering = ['english_name']
+        indexes = [
+            models.Index(fields=['is_active', 'is_featured']),
+            models.Index(fields=['service_type', 'is_active']),
+            models.Index(fields=['slug']),
+            models.Index(fields=['english_name']),  # For search
+            models.Index(fields=['nepali_name']),  # For search
+            models.Index(fields=['created_at']),  # For date-based queries
+            models.Index(fields=['updated_at']),  # For date-based queries
+        ]
+
+    def __str__(self):
+        return self.english_name
+
+    def get_absolute_url(self):
+        return reverse('services:digital_detail', kwargs={'slug': self.slug})
 
 # --- Tracking & Analytics Models ---
 

@@ -1,6 +1,6 @@
 from typing import Dict, Any, Optional, Type, Tuple
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, RedirectView
 from django.contrib import messages
 from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -10,7 +10,7 @@ from datetime import date
 
 from .models import (
     SavingsAccount, FixedDeposit, LoanType, 
-    RemittanceService, MemberRelief
+    RemittanceService, MemberRelief, DigitalService
 )
 from .forms import (
     LoanCalculatorForm, SavingsCalculatorForm, FixedDepositCalculatorForm,
@@ -30,67 +30,13 @@ from apps.core.query_utils import get_active_queryset, get_featured_queryset
 from django.utils.translation import activate
 
 
-def services_overview(request: HttpRequest) -> HttpResponse:
-    """
-    Main services overview page.
+class ServicesOverviewView(RedirectView):
+    """Redirect services overview to savings list page"""
+    permanent = False
     
-    Args:
-        request: HTTP request object
-        
-    Returns:
-        Rendered services overview page
-    """
-    activate('ne')
-    breadcrumbs = create_breadcrumbs(
-        ('Home', '/'),
-        ('Services', '/services/')
-    )
-    
-    recommendation_form = ServiceRecommendationForm()
-    recommendations = None
-
-    if request.method == 'POST':
-        recommendation_form = ServiceRecommendationForm(request.POST)
-        if recommendation_form.is_valid():
-            user_profile = recommendation_form.cleaned_data
-            recommendations = ServiceRecommendationService.get_recommendations(user_profile)
-            ServiceRecommendationService.save_recommendation(user_profile, recommendations)
-
-    # Use query utilities for optimized queries
-    savings_fields = [
-        'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
-        'interest_rate', 'minimum_balance', 'is_featured', 'icon', 'color'
-    ]
-    loan_fields = [
-        'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
-        'monthly_interest_rate', 'is_featured', 'icon', 'color'
-    ]
-    remittance_fields = [
-        'id', 'english_name', 'nepali_name', 'slug', 'service_type',
-        'is_featured', 'icon', 'color'
-    ]
-    relief_fields = [
-        'id', 'english_name', 'nepali_name', 'slug', 'relief_type',
-        'is_featured', 'icon', 'color'
-    ]
-    
-    context = {
-        'savings_accounts': get_active_queryset(SavingsAccount, fields=savings_fields),
-        'fixed_deposits': get_active_queryset(
-            FixedDeposit, 
-            fields=['id', 'duration_months', 'payment_frequency', 'interest_rate', 
-                   'minimum_amount', 'maximum_amount', 'is_active']
-        ),
-        'loan_types': get_active_queryset(LoanType, fields=loan_fields),
-        'remittance_services': get_active_queryset(RemittanceService, fields=remittance_fields),
-        'member_reliefs': get_active_queryset(MemberRelief, fields=relief_fields),
-        'featured_savings': get_featured_queryset(SavingsAccount, fields=savings_fields, limit=3),
-        'featured_loans': get_featured_queryset(LoanType, fields=loan_fields, limit=3),
-        'breadcrumbs': breadcrumbs,
-        'recommendation_form': recommendation_form,
-        'recommendations': recommendations,
-    }
-    return render(request, 'services/services.html', context)
+    def get_redirect_url(self, *args, **kwargs):
+        from django.urls import reverse
+        return reverse('services:savings_list')
 
 
 class SavingsAccountsView(NepaliLanguageMixin, ListView):
@@ -109,40 +55,42 @@ class SavingsAccountsView(NepaliLanguageMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Savings Accounts'
         context['page_description'] = 'Choose from our range of savings accounts with competitive interest rates'
-        context['featured_accounts'] = SavingsAccount.objects.filter(is_active=True, is_featured=True).only(
+        
+        # Add breadcrumbs
+        from apps.core.view_mixins import create_breadcrumbs
+        from django.utils.translation import gettext_lazy as _
+        context['breadcrumbs'] = create_breadcrumbs(
+            (_('Home'), 'home:index'),
+            (_('Services'), 'services:overview'),
+            (_('Savings Accounts'), 'services:savings_list')
+        )
+        
+        # Get all active savings accounts
+        all_savings = SavingsAccount.objects.filter(is_active=True).order_by('category', '-interest_rate')
+        
+        # Group by category
+        context['regular_savings'] = all_savings.filter(category='regular')
+        context['optional_savings'] = all_savings.filter(category='optional')
+        context['recurring_savings'] = all_savings.filter(category='recurring')
+        
+        # Periodic Savings (Fixed Deposits)
+        context['periodic_savings'] = FixedDeposit.objects.filter(is_active=True).order_by('duration_months')
+        
+        context['featured_accounts'] = all_savings.filter(is_featured=True).only(
             'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
             'interest_rate', 'is_featured', 'icon', 'color'
         )
         return context
 
 
-class FixedDepositsView(NepaliLanguageMixin, ListView):
-    """Display all fixed deposit options"""
-    model = FixedDeposit
-    template_name = 'services/fixed_deposit/list.html'
-    context_object_name = 'fixed_deposits'
+class FixedDepositsView(RedirectView):
+    """Redirect fixed deposits page to savings page (आवधिक बचत section)"""
+    permanent = False
     
-    def get_queryset(self):
-        return FixedDeposit.objects.filter(is_active=True).order_by('duration_months', 'payment_frequency').only(
-            'id', 'duration_months', 'payment_frequency', 'interest_rate', 
-            'minimum_amount', 'maximum_amount', 'benefits', 'is_active'
-        )
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['page_title'] = 'Fixed Deposits'
-        context['page_description'] = 'Secure your future with our fixed deposit schemes'
-        
-        # Group by duration for better display
-        deposits_by_duration = {}
-        for deposit in context['fixed_deposits']:
-            duration = deposit.get_duration_months_display()
-            if duration not in deposits_by_duration:
-                deposits_by_duration[duration] = []
-            deposits_by_duration[duration].append(deposit)
-        
-        context['deposits_by_duration'] = deposits_by_duration
-        return context
+    def get_redirect_url(self, *args, **kwargs):
+        from django.urls import reverse
+        # Redirect to savings page with anchor to periodic savings section
+        return reverse('services:savings_list') + '#periodic-savings'
 
 
 class LoanServicesView(NepaliLanguageMixin, ListView):
@@ -161,9 +109,18 @@ class LoanServicesView(NepaliLanguageMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Loan Services'
         context['page_description'] = 'Flexible loan options for all your financial needs'
+        
+        # Add breadcrumbs
+        from django.utils.translation import gettext_lazy as _
+        context['breadcrumbs'] = create_breadcrumbs(
+            (_('Home'), 'home:index'),
+            (_('Services'), 'services:overview'),
+            (_('Loan Services'), 'services:loan_list')
+        )
+        
         context['featured_loans'] = LoanType.objects.filter(is_active=True, is_featured=True).only(
             'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
-            'monthly_interest_rate', 'is_featured', 'icon', 'color'
+            'monthly_interest_rate', 'is_featured', 'icon', 'color', 'description'
         )
         return context
 
@@ -181,6 +138,19 @@ class RemittanceServicesView(NepaliLanguageMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Remittance Services'
         context['page_description'] = 'Fast and secure money transfer services'
+        
+        # Add breadcrumbs
+        from django.utils.translation import gettext_lazy as _
+        context['breadcrumbs'] = create_breadcrumbs(
+            (_('Home'), 'home:index'),
+            (_('Services'), 'services:overview'),
+            (_('Remittance Services'), 'services:remittance_list')
+        )
+        
+        context['featured_remittances'] = RemittanceService.objects.filter(is_active=True, is_featured=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+            'is_featured', 'icon', 'color', 'description'
+        )
         return context
 
 
@@ -197,6 +167,14 @@ class MemberReliefView(NepaliLanguageMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Member Relief Programs'
         context['page_description'] = 'Support and assistance programs for our valued members'
+        
+        # Add breadcrumbs
+        from django.utils.translation import gettext_lazy as _
+        context['breadcrumbs'] = create_breadcrumbs(
+            (_('Home'), 'home:index'),
+            (_('Services'), 'services:overview'),
+            (_('Member Relief'), 'services:member_relief_list')
+        )
         
         # Group by relief type
         reliefs_by_type = {}
@@ -241,7 +219,7 @@ class LoanDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
 class FixedDepositDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific fixed deposit scheme."""
     model = FixedDeposit
-    template_name = 'services/fixed_deposit/detail.html'
+    template_name = 'services/savings/fixed_deposit/detail.html'
     context_object_name = 'service'
     service_type = 'fixed_deposit'
     breadcrumbs = create_breadcrumbs(
@@ -274,6 +252,58 @@ class MemberReliefDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, Detail
         ('Home', '/'),
         ('Services', '/services/'),
         ('Member Relief', None)
+    )
+
+
+class DigitalServicesView(NepaliLanguageMixin, ListView):
+    """Display digital services"""
+    model = DigitalService
+    template_name = 'services/digital/list.html'
+    context_object_name = 'digital_services'
+    
+    def get_queryset(self):
+        return DigitalService.objects.filter(is_active=True).order_by('service_type', 'english_name')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'Digital Services'
+        context['page_description'] = 'Modern digital banking solutions for your convenience'
+        
+        # Add breadcrumbs
+        from django.utils.translation import gettext_lazy as _
+        context['breadcrumbs'] = create_breadcrumbs(
+            (_('Home'), 'home:index'),
+            (_('Services'), 'services:overview'),
+            (_('Digital Services'), 'services:digital_list')
+        )
+        
+        # Group by service type
+        services_by_type = {}
+        for service in context['digital_services']:
+            service_type = service.get_service_type_display()
+            if service_type not in services_by_type:
+                services_by_type[service_type] = []
+            services_by_type[service_type].append(service)
+        
+        context['services_by_type'] = services_by_type
+        
+        context['featured_digital'] = DigitalService.objects.filter(is_active=True, is_featured=True).only(
+            'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+            'is_featured', 'icon', 'color', 'description'
+        )
+        return context
+
+
+class DigitalServiceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
+    """Display details for a specific digital service."""
+    model = DigitalService
+    template_name = 'services/digital/detail.html'
+    context_object_name = 'service'
+    service_type = 'digital'
+    breadcrumbs = create_breadcrumbs(
+        ('Home', '/'),
+        ('Services', '/services/'),
+        ('Digital Service', None)
     )
 
 
@@ -386,6 +416,8 @@ def service_application(request):
                 service = RemittanceService.objects.get(slug=service_slug)
             elif service_type == 'relief':
                 service = MemberRelief.objects.get(slug=service_slug)
+            elif service_type == 'digital':
+                service = DigitalService.objects.get(slug=service_slug)
             else:
                 service = None
             
@@ -408,6 +440,8 @@ def service_application(request):
                 service_object = RemittanceService.objects.get(id=int(service_id))
             elif service_type == 'relief':
                 service_object = MemberRelief.objects.get(id=int(service_id))
+            elif service_type == 'digital':
+                service_object = DigitalService.objects.get(id=int(service_id))
         except (ValueError, Exception):
             service_object = None
     

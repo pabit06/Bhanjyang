@@ -1,0 +1,67 @@
+{% load i18n %}
+<div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 border-t-4 border-{{ loan.color|default:'bhanjyangred' }} group flex flex-col h-full transform hover:-translate-y-1 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
+        <i class="{{ loan.icon|default:'fas fa-hand-holding-usd' }} text-7xl text-{{ loan.color|default:'bhanjyangred' }}"></i>
+    </div>
+    
+    <div class="relative z-10 flex flex-col h-full">
+        <div class="flex justify-between items-start mb-6">
+            <div class="w-16 h-16 bg-{{ loan.color|default:'bhanjyangred' }}/10 rounded-2xl flex items-center justify-center text-{{ loan.color|default:'bhanjyangred' }} group-hover:scale-110 transition-transform duration-300 shadow-sm">
+                <i class="{{ loan.icon|default:'fas fa-hand-holding-usd' }} text-3xl"></i>
+            </div>
+            {% if loan.is_featured %}
+            <span class="bg-{{ loan.color|default:'bhanjyangred' }} text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">{% trans "Featured" %}</span>
+            {% endif %}
+        </div>
+        
+        <div class="text-right mb-4 pb-4 border-b border-gray-100">
+            <span class="text-3xl font-extrabold text-{{ loan.color|default:'bhanjyangred' }}">{{ loan.monthly_interest_rate }}%</span>
+            <p class="text-xs text-gray-500 uppercase tracking-wider font-bold mt-1">{% trans "Monthly Interest" %}</p>
+        </div>
+        
+        <div class="flex-grow mb-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-{{ loan.color|default:'bhanjyangred' }} transition-colors">{{ loan.nepali_name }}</h3>
+            <p class="text-sm text-gray-500 mb-4 font-montserrat">{{ loan.english_name }}</p>
+            
+            {% if loan.description %}
+            <p class="text-gray-600 mb-4 text-sm line-clamp-3 leading-relaxed">{{ loan.description|truncatewords:20 }}</p>
+            {% endif %}
+        </div>
+
+        <div class="mt-auto space-y-4">
+            {% if loan.minimum_amount or loan.maximum_amount or loan.max_tenure_years %}
+            <div class="space-y-2">
+                {% if loan.minimum_amount %}
+                <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
+                    <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Min Amount" %}</span>
+                    <span class="text-sm font-bold text-gray-800">रू. {{ loan.minimum_amount|floatformat:0 }}</span>
+                </div>
+                {% endif %}
+                {% if loan.maximum_amount %}
+                <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
+                    <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Max Amount" %}</span>
+                    <span class="text-sm font-bold text-gray-800">रू. {{ loan.maximum_amount|floatformat:0 }}</span>
+                </div>
+                {% endif %}
+                {% if loan.max_tenure_years %}
+                <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
+                    <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Max Tenure" %}</span>
+                    <span class="text-sm font-bold text-gray-800">{{ loan.max_tenure_years }} {% trans "Years" %}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <div class="grid grid-cols-2 gap-3">
+                <a href="{% url 'services:loan_detail' loan.slug %}" class="inline-flex justify-center items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-sm hover:shadow-md">
+                    {% trans "Details" %}
+                </a>
+                <a href="{% url 'services:service_application' %}?service_type=loan&service_id={{ loan.id }}" class="inline-flex justify-center items-center bg-{{ loan.color|default:'bhanjyangred' }} hover:opacity-90 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-md hover:shadow-lg">
+                    {% trans "Apply" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

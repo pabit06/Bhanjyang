@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ service.nepali_name }} - Bhanjyang Cooperative{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-deuraligreen to-green-700 py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="{{ service.icon|default:'fas fa-mobile-alt' }} text-4xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-montserrat">{{ service.nepali_name }}</h1>
+            <p class="text-xl opacity-90">{{ service.english_name }}</p>
+            <p class="text-lg opacity-80 mt-2">{{ service.get_service_type_display }}</p>
+        </div>
+    </section>
+
+    <!-- Service Details -->
+    <section class="py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6">{% trans "Service Details" %}</h2>
+                        {% if service.description %}
+                        <div class="prose max-w-none mb-6">
+                            {{ service.description|linebreaks }}
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.features %}
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Key Features" %}</h3>
+                            <div class="prose max-w-none">
+                                {{ service.features|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.requirements %}
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Requirements" %}</h3>
+                            <div class="prose max-w-none">
+                                {{ service.requirements|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {% if service.fees %}
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Fees & Charges" %}</h3>
+                            <div class="prose max-w-none">
+                                {{ service.fees|linebreaks }}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">{% trans "Service Information" %}</h3>
+                        
+                        {% if service.image %}
+                        <div class="mb-6">
+                            <img src="{{ service.image.url }}" alt="{{ service.nepali_name }}" 
+                                 class="w-full h-48 object-cover rounded-lg">
+                        </div>
+                        {% endif %}
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">{% trans "Service Type" %}</span>
+                                <span class="font-semibold">{{ service.get_service_type_display }}</span>
+                            </div>
+                            
+                            {% if service.is_featured %}
+                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                                <span class="text-gray-600">{% trans "Status" %}</span>
+                                <span class="px-3 py-1 bg-deuraligreen text-white rounded-full text-sm font-semibold">
+                                    {% trans "Featured" %}
+                                </span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mt-8 space-y-3">
+                            <a href="{% url 'services:service_application' %}?service_type=digital&service_slug={{ service.slug }}" 
+                               class="w-full bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                                {% trans "Apply Now" %}
+                            </a>
+                            <a href="{% url 'contact:contact_view' %}" 
+                               class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                                {% trans "Contact Us" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Services -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">{% trans "Other Digital Services" %}</h2>
+            <div class="text-center">
+                <a href="{% url 'services:digital_list' %}" class="text-deuraligreen hover:underline font-semibold">
+                    {% trans "View All Digital Services" %}
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+

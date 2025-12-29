@@ -23,23 +23,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # Delete models in reverse dependency order (children first, then parents)
-        migrations.DeleteModel(
-            name='UserLocation',
-        ),
-        migrations.DeleteModel(
-            name='UserEvent',
-        ),
-        migrations.DeleteModel(
-            name='UserDevice',
-        ),
-        migrations.DeleteModel(
-            name='PageView',
-        ),
-        migrations.DeleteModel(
-            name='UserSession',
-        ),
-        migrations.DeleteModel(
-            name='AnalyticsSummary',
-        ),
+        # Note: These models were already deleted in migration 0010_add_umbrella_organization_type.py
+        # This migration is kept for documentation purposes but has no operations
+        # to avoid duplicate deletion errors.
     ]

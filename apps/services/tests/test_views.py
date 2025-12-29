@@ -64,16 +64,14 @@ class ServicesViewsTest(TestCase):
         )
     
     def test_services_overview_get(self):
-        """Test services overview GET request"""
+        """Test services overview redirects to savings list"""
         response = self.client.get(reverse('services:overview'))
         
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('savings_accounts', response.context)
-        self.assertIn('loan_types', response.context)
-        self.assertIn('breadcrumbs', response.context)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
     
     def test_services_overview_post_recommendation(self):
-        """Test services overview POST with recommendation form"""
+        """Test services overview POST also redirects to savings list"""
         form_data = {
             'age': '30',
             'income': '50000',
@@ -82,7 +80,8 @@ class ServicesViewsTest(TestCase):
         
         response = self.client.post(reverse('services:overview'), form_data)
         
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('services:savings_list'))
         self.assertIn('recommendations', response.context)
     
     def test_savings_accounts_view(self):
