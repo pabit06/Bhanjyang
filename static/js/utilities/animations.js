@@ -37,7 +37,8 @@ class BhanjyangAnimations {
         this.setupRippleEffects();
         this.setupFloatingElements();
         this.setupScrollProgress();
-        this.setupCursorEffects();
+        // Custom cursor effect disabled - uncomment to enable
+        // this.setupCursorEffects();
     }
 
     /**
