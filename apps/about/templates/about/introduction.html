@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Introduction - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Introduction" %} - Bhanjyang Cooperative{% endblock title %}
 
 {% block extra_head %}
 <meta name="description"
@@ -57,14 +58,14 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
-            Introduction
+            {% trans "Introduction" %}
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
-            Our Story, Vision & Journey
+            {% trans "Our Story, Vision & Journey" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6 shadow-lg"></div>
         <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            Discover our foundation, principles, and the milestones that shaped our cooperative
+            {% trans "Discover our foundation, principles, and the milestones that shaped our cooperative" %}
         </p>
     </div>
 </section>
@@ -86,26 +87,34 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div class="order-2 lg:order-1">
                 <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
-                    Our Story
+                    {% trans "Our Story" %}
                 </span>
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-montserrat leading-tight mb-6 text-gray-900">
-                    {{ cooperative_info.cooperative_name }}
+                    {% if cooperative_info.cooperative_name_nepali %}
+                        {{ cooperative_info.cooperative_name_nepali }}
+                    {% else %}
+                        {{ cooperative_info.cooperative_name }}
+                    {% endif %}
                 </h2>
                 <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
                 <p class="text-lg text-gray-700 leading-relaxed mb-8">
-                    {% if cooperative_info.our_story %}
+                    {% if cooperative_info.our_story_nepali %}
+                        {{ cooperative_info.our_story_nepali }}
+                    {% elif cooperative_info.our_story %}
                         {{ cooperative_info.our_story }}
+                    {% elif cooperative_info.description_nepali %}
+                        {{ cooperative_info.description_nepali }}
                     {% else %}
                         {{ cooperative_info.description }}
                     {% endif %}
                 </p>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-deuraligreen">
-                        <h4 class="font-bold text-deuraligreen mb-2 text-lg">Established</h4>
+                        <h4 class="font-bold text-deuraligreen mb-2 text-lg">{% trans "Established Date" %}</h4>
                         <p class="text-gray-700 font-semibold">{{ cooperative_info.established_date|date:"F d, Y" }}</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-bhanjyangred">
-                        <h4 class="font-bold text-bhanjyangred mb-2 text-lg">Registration</h4>
+                        <h4 class="font-bold text-bhanjyangred mb-2 text-lg">{% trans "Registration" %}</h4>
                         <p class="text-gray-700 font-semibold">{{ cooperative_info.registration_number }}</p>
                     </div>
                 </div>
@@ -152,14 +161,14 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Our Foundation
+                {% trans "Our Foundation" %}
             </span>
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                Our Foundation
+                {% trans "Our Foundation" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                The principles that guide our commitment to community development and financial excellence
+                {% trans "The principles that guide our commitment to community development and financial excellence" %}
             </p>
         </div>
 
@@ -171,8 +180,8 @@
                         <i class="fas fa-bullseye text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">Our Mission</h3>
-                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.mission|default:"To provide exceptional financial services and support community development through cooperative principles." }}</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "Our Mission" %}</h3>
+                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.mission|default:_("To provide exceptional financial services and support community development through cooperative principles.") }}</p>
             </div>
 
             <!-- Vision -->
@@ -182,8 +191,8 @@
                         <i class="fas fa-eye text-3xl text-bhanjyangred group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">Our Vision</h3>
-                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.vision|default:"To be the leading cooperative society that empowers communities and fosters sustainable development." }}</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "Our Vision" %}</h3>
+                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.vision|default:_("To be the leading cooperative society that empowers communities and fosters sustainable development.") }}</p>
             </div>
 
             <!-- Values -->
@@ -193,8 +202,8 @@
                         <i class="fas fa-heart text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">Our Values</h3>
-                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.values|default:"Integrity, transparency, member focus, community service, and sustainable growth." }}</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "Our Values" %}</h3>
+                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.values|default:_("Integrity, transparency, member focus, community service, and sustainable growth.") }}</p>
             </div>
         </div>
     </div>
@@ -217,14 +226,14 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Our Journey
+                {% trans "Our Journey" %}
             </span>
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                Our Journey
+                {% trans "Our Journey" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Key milestones in our growth and development as a trusted financial institution
+                {% trans "Key milestones in our growth and development as a trusted financial institution" %}
             </p>
         </div>
 
@@ -257,7 +266,7 @@
                 class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
                 aria-label="View complete timeline of cooperative events">
                 <i class="fas fa-history"></i>
-                <span>View Complete Timeline</span>
+                <span>{% trans "View Complete Timeline" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>

@@ -5,6 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
 from django.urls import reverse
+from django.shortcuts import redirect
+from django.utils.translation import gettext_lazy as _, activate
 from .services import AboutService
 from .models import CooperativeInfo, LeadershipMessage, Committee, Staff
 from .view_mixins import SafeContextDataMixin
@@ -27,6 +29,11 @@ class IntroductionView(SafeContextDataMixin, TemplateView):
     """Introduction page with Our Story, Vision & Mission, and Timeline"""
     template_name = 'about/introduction.html'
     
+    def dispatch(self, request, *args, **kwargs):
+        """Force Nepali language for this view"""
+        activate('ne')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         
@@ -45,9 +52,9 @@ class IntroductionView(SafeContextDataMixin, TemplateView):
         ))
         
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Introduction', 'about:introduction')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Introduction'), 'about:introduction')
         )
         return context
 
@@ -65,9 +72,9 @@ class TimelineView(ListView):
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Timeline', 'about:timeline')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Timeline'), 'about:timeline')
         )
         return context
 
@@ -88,9 +95,9 @@ class AffiliationsView(SafeContextDataMixin, TemplateView):
         ))
         
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Affiliations', 'about:affiliations')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Affiliations'), 'about:affiliations')
         )
         return context
 
@@ -115,9 +122,9 @@ class ChairpersonMessageView(SafeContextDataMixin, TemplateView):
         ))
         
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Chairperson Message', 'about:chairperson_message')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Chairperson Message'), 'about:chairperson_message')
         )
         return context
 
@@ -142,9 +149,9 @@ class ManagerCommitmentView(SafeContextDataMixin, TemplateView):
         ))
         
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Manager Commitment', 'about:manager_commitment')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Manager Commitment'), 'about:manager_commitment')
         )
         return context
 
@@ -168,9 +175,9 @@ class BoardOfDirectorsView(SafeContextDataMixin, TemplateView):
         ))
         
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Board of Directors', 'about:board_of_directors')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Board of Directors'), 'about:board_of_directors')
         )
         return context
 
@@ -194,9 +201,9 @@ class ManagementView(SafeContextDataMixin, TemplateView):
         ))
         
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Management', 'about:management')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Management'), 'about:management')
         )
         return context
 
@@ -220,9 +227,9 @@ class MemberTestimonialsView(SafeContextDataMixin, TemplateView):
         ))
         
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            ('Member Testimonials', 'about:member_testimonials')
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (_('Member Testimonials'), 'about:member_testimonials')
         )
         return context
 
@@ -240,12 +247,23 @@ class CooperativeDetailView(DetailView):
         """Optimize queryset with select_related if needed"""
         return CooperativeInfo.objects.active()
     
+    def dispatch(self, request, *args, **kwargs):
+        """
+        If there's only one active cooperative, redirect to introduction page
+        since introduction already shows the cooperative info.
+        """
+        active_count = CooperativeInfo.objects.active().count()
+        if active_count == 1:
+            # Only one cooperative exists, redirect to introduction
+            return redirect('about:introduction')
+        return super().dispatch(request, *args, **kwargs)
+    
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['breadcrumbs'] = create_breadcrumbs(
-            ('Home', 'home:index'),
-            ('About Us', None),
-            (self.object.cooperative_name, 'about:cooperative_detail', {'slug': self.object.slug})
+            (_('Home'), 'home:index'),
+            (_('About Us'), None),
+            (self.object.cooperative_name_nepali or self.object.cooperative_name, 'about:cooperative_detail', {'slug': self.object.slug})
         )
         return context
 

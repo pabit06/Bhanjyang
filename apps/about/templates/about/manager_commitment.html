@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Manager Commitment - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Manager Commitment" %} - Bhanjyang Cooperative{% endblock title %}
 
 {% block extra_head %}
 <meta name="description"
@@ -135,7 +136,7 @@
                 <a href="{% url 'about:introduction' %}" 
                     class="inline-flex items-center gap-2 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full transition-colors">
                     <i class="fas fa-arrow-left"></i>
-                    <span>Back to About Us</span>
+                    <span>{% trans "Back to About Us" %}</span>
                 </a>
             </div>
         </div>

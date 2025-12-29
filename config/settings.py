@@ -98,6 +98,7 @@ MIDDLEWARE = [
     'apps.core.middleware.SecurityHeadersMiddleware',  # Security headers (before static files)
     'whitenoise.middleware.WhiteNoiseMiddleware',  # For static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'apps.about.middleware.ForceNepaliLanguageMiddleware',  # Force Nepali language
     'django.middleware.locale.LocaleMiddleware',  # Enable language switching
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -128,6 +129,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',  # Enable i18n in templates
                 'apps.downloads.context_processors.admin_stats',
                 'apps.core.context_processors.site_settings',
             ],
@@ -174,7 +176,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ne'  # Nepali as default language
 
 LANGUAGES = [
     ('en', 'English'),

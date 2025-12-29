@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Timeline - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Timeline" %} - Bhanjyang Cooperative{% endblock title %}
 
 {% block meta_description %}Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our key
 milestones, achievements, and growth journey over the years.{% endblock meta_description %}
@@ -96,14 +97,14 @@ cooperative journey{% endblock meta_keywords %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-            Our Journey
+            {% trans "Our Journey" %}
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            Timeline Infographic
+            {% trans "Timeline Infographic" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Explore our key milestones, achievements, and growth journey over the years
+            {% trans "Explore our key milestones, achievements, and growth journey over the years" %}
         </p>
     </div>
 </section>
@@ -214,9 +215,9 @@ cooperative journey{% endblock meta_keywords %}
                 <div class="mb-6">
                     <i class="fas fa-history text-6xl text-gray-300"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Timeline Events</h3>
-                <p class="text-lg text-gray-600 mb-2">No timeline events are available yet.</p>
-                <p class="text-sm text-gray-500">Timeline information will be added as it becomes available.</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Timeline Events" %}</h3>
+                <p class="text-lg text-gray-600 mb-2">{% trans "No timeline events are available yet." %}</p>
+                <p class="text-sm text-gray-500">{% trans "Timeline information will be added as it becomes available." %}</p>
             </div>
         </div>
         {% endif %}

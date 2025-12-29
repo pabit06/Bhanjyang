@@ -4,6 +4,7 @@ from django.core.cache import cache
 from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from typing import Dict, Any, List, Optional
 
 from .models import (
@@ -67,8 +68,8 @@ class AboutService:
                 'total_committees': total_committees,
                 'total_staff': total_staff,
                 'breadcrumbs': create_breadcrumbs(
-                    ('Home', 'home:index'),
-                    ('About Us', None)
+                    (_('Home'), 'home:index'),
+                    (_('About Us'), None)
                 )
             }
 

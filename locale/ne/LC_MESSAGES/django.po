@@ -1,0 +1,224 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 12:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ne\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/about/templates/about/introduction.html:5
+#: apps/about/templates/about/introduction.html:61
+#: apps/about/views.py:51
+msgid "Introduction"
+msgstr "परिचय"
+
+#: apps/about/templates/about/introduction.html:64
+msgid "Our Story, Vision & Journey"
+msgstr "हाम्रो कथा, दृष्टिकोण र यात्रा"
+
+#: apps/about/templates/about/introduction.html:68
+msgid "Discover our foundation, principles, and the milestones that shaped our cooperative"
+msgstr "हाम्रो आधार, सिद्धान्तहरू, र हाम्रो सहकारी संस्थालाई आकार दिने महत्वपूर्ण घटनाहरू पत्ता लगाउनुहोस्"
+
+#: apps/about/templates/about/introduction.html:90
+msgid "Our Story"
+msgstr "हाम्रो कथा"
+
+#: apps/about/models.py:28
+#: apps/about/templates/about/introduction.html:113
+#: apps/about/templates/about/cooperative_detail.html:78
+msgid "Established Date"
+msgstr "स्थापना मिति"
+
+#: apps/about/templates/about/introduction.html:116
+msgid "Registration"
+msgstr "दर्ता"
+
+#: apps/about/templates/about/introduction.html:164
+#: apps/about/templates/about/introduction.html:167
+msgid "Our Foundation"
+msgstr "हाम्रो आधार"
+
+#: apps/about/templates/about/introduction.html:171
+msgid "The principles that guide our commitment to community development and financial excellence"
+msgstr "समुदाय विकास र वित्तीय उत्कृष्टतामा हाम्रो प्रतिबद्धतालाई निर्देशन गर्ने सिद्धान्तहरू"
+
+#: apps/about/templates/about/introduction.html:174
+msgid "Our Mission"
+msgstr "हाम्रो उद्देश्य"
+
+#: apps/about/templates/about/introduction.html:175
+msgid "To provide exceptional financial services and support community development through cooperative principles."
+msgstr "सहकारी सिद्धान्तहरू मार्फत असाधारण वित्तीय सेवाहरू प्रदान गर्ने र समुदाय विकासलाई समर्थन गर्ने।"
+
+#: apps/about/templates/about/introduction.html:185
+msgid "Our Vision"
+msgstr "हाम्रो दृष्टिकोण"
+
+#: apps/about/templates/about/introduction.html:186
+msgid "To be the leading cooperative society that empowers communities and fosters sustainable development."
+msgstr "समुदायहरूलाई सशक्त बनाउने र टिकाउ विकासलाई बढावा दिने अग्रणी सहकारी संस्था बन्ने।"
+
+#: apps/about/templates/about/introduction.html:196
+msgid "Our Values"
+msgstr "हाम्रो मूल्यहरू"
+
+#: apps/about/templates/about/introduction.html:197
+msgid "Integrity, transparency, member focus, community service, and sustainable growth."
+msgstr "ईमान्दारी, पारदर्शिता, सदस्य फोकस, समुदाय सेवा, र टिकाउ वृद्धि।"
+
+#: apps/about/templates/about/introduction.html:220
+#: apps/about/templates/about/introduction.html:223
+#: apps/about/templates/about/timeline.html:99
+msgid "Our Journey"
+msgstr "हाम्रो यात्रा"
+
+#: apps/about/templates/about/introduction.html:227
+msgid "Key milestones in our growth and development as a trusted financial institution"
+msgstr "विश्वसनीय वित्तीय संस्थाको रूपमा हाम्रो वृद्धि र विकासका महत्वपूर्ण माइलस्टोनहरू"
+
+#: apps/about/templates/about/introduction.html:260
+msgid "View Complete Timeline"
+msgstr "पूर्ण टाइमलाइन हेर्नुहोस्"
+
+#: apps/about/templates/about/cooperative_detail.html:31
+msgid "About"
+msgstr "बारेमा"
+
+#: apps/about/templates/about/cooperative_detail.html:48
+msgid "Mission"
+msgstr "उद्देश्य"
+
+#: apps/about/templates/about/cooperative_detail.html:55
+msgid "Vision"
+msgstr "दृष्टिकोण"
+
+#: apps/about/templates/about/cooperative_detail.html:62
+msgid "Values"
+msgstr "मूल्यहरू"
+
+#: apps/about/templates/about/cooperative_detail.html:72
+msgid "Cooperative Details"
+msgstr "सहकारी विवरण"
+
+#: apps/about/templates/about/cooperative_detail.html:82
+msgid "Registration Number"
+msgstr "दर्ता नम्बर"
+
+#: apps/about/templates/about/cooperative_detail.html:88
+msgid "License Number"
+msgstr "इजाजतपत्र नम्बर"
+
+#: apps/about/templates/about/cooperative_detail.html:94
+msgid "Website"
+msgstr "वेबसाइट"
+
+#: apps/about/templates/about/cooperative_detail.html:101
+msgid "Contact Information"
+msgstr "सम्पर्क जानकारी"
+
+#: apps/about/templates/about/cooperative_detail.html:107
+msgid "Address"
+msgstr "ठेगाना"
+
+#: apps/about/templates/about/cooperative_detail.html:115
+msgid "Phone"
+msgstr "फोन"
+
+#: apps/about/templates/about/cooperative_detail.html:123
+msgid "Email"
+msgstr "इमेल"
+
+#: apps/about/templates/about/timeline.html:4
+#: apps/about/views.py:71
+msgid "Timeline"
+msgstr "टाइमलाइन"
+
+#: apps/about/templates/about/timeline.html:102
+msgid "Timeline Infographic"
+msgstr "टाइमलाइन सूचना चित्र"
+
+#: apps/about/templates/about/timeline.html:106
+msgid "Explore our key milestones, achievements, and growth journey over the years"
+msgstr "वर्षौंदेखि हाम्रो महत्वपूर्ण माइलस्टोनहरू, उपलब्धिहरू, र वृद्धि यात्रा अन्वेषण गर्नुहोस्"
+
+#: apps/about/templates/about/timeline.html:218
+msgid "No Timeline Events"
+msgstr "टाइमलाइन घटनाहरू छैनन्"
+
+#: apps/about/templates/about/timeline.html:219
+msgid "No timeline events are available yet."
+msgstr "अहिलेसम्म कुनै टाइमलाइन घटनाहरू उपलब्ध छैनन्।"
+
+#: apps/about/templates/about/timeline.html:220
+msgid "Timeline information will be added as it becomes available."
+msgstr "उपलब्ध भएमा टाइमलाइन जानकारी थपिनेछ।"
+
+#: apps/about/templates/about/affiliations.html:4
+#: apps/about/views.py:94
+msgid "Affiliations"
+msgstr "सम्बन्धहरू"
+
+#: apps/about/templates/about/board_of_directors.html:4
+#: apps/about/views.py:174
+msgid "Board of Directors"
+msgstr "सञ्चालक समिति"
+
+#: apps/about/templates/about/board_of_directors.html:132
+msgid "No Board Information Available"
+msgstr "सञ्चालक समिति जानकारी उपलब्ध छैन"
+
+#: apps/about/templates/about/board_of_directors.html:133
+msgid "Board of Directors information will be available soon."
+msgstr "सञ्चालक समिति जानकारी चाँडै उपलब्ध हुनेछ।"
+
+#: apps/about/templates/about/board_of_directors.html:137
+#: apps/about/templates/about/chairperson_message.html:138
+#: apps/about/templates/about/manager_commitment.html:138
+#: apps/about/templates/about/management.html:122
+#: apps/about/templates/about/member_testimonials.html:153
+msgid "Back to About Us"
+msgstr "हाम्रो बारेमा फर्कनुहोस्"
+
+#: apps/about/templates/about/chairperson_message.html:4
+#: apps/about/views.py:121
+msgid "Chairperson Message"
+msgstr "अध्यक्षको सन्देश"
+
+#: apps/about/templates/about/manager_commitment.html:4
+#: apps/about/views.py:148
+msgid "Manager Commitment"
+msgstr "प्रबन्धकको प्रतिबद्धता"
+
+#: apps/about/templates/about/management.html:4
+msgid "Management Team"
+msgstr "प्रबन्धन टोली"
+
+#: apps/about/views.py:200
+msgid "Management"
+msgstr "प्रबन्धन"
+
+#: apps/about/templates/about/member_testimonials.html:4
+#: apps/about/views.py:226
+msgid "Member Testimonials"
+msgstr "सदस्यहरूको प्रशंसा"
+
+#: apps/about/views.py:49
+msgid "Home"
+msgstr "गृह पृष्ठ"
+
+#: apps/about/views.py:50
+msgid "About Us"
+msgstr "हाम्रो बारेमा"
