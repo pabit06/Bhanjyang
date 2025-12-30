@@ -16,7 +16,7 @@ urlpatterns = [
     # Detail Pages using Slugs
     path('savings/<slug:slug>/', views.SavingsDetailView.as_view(), name='savings_detail'),
     path('loans/<slug:slug>/', views.LoanDetailView.as_view(), name='loan_detail'),
-    path('fixed-deposits/<int:pk>/', views.FixedDepositDetailView.as_view(), name='fixed_deposit_detail'),
+    path('fixed-deposits/<slug:slug>/', views.FixedDepositDetailView.as_view(), name='fixed_deposit_detail'),
     path('remittance/<slug:slug>/', views.RemittanceDetailView.as_view(), name='remittance_detail'),
     path('digital-services/<slug:slug>/', views.DigitalServiceDetailView.as_view(), name='digital_detail'),
     path('member-relief/<slug:slug>/', views.MemberReliefDetailView.as_view(), name='relief_detail'),

@@ -132,12 +132,17 @@ class RemittanceServicesView(NepaliLanguageMixin, ListView):
     context_object_name = 'remittance_services'
     
     def get_queryset(self):
-        return RemittanceService.objects.filter(is_active=True).order_by('service_type')
+        # Exclude mobile_banking as it belongs to digital services
+        return RemittanceService.objects.filter(
+            is_active=True
+        ).exclude(
+            service_type='mobile_banking'
+        ).order_by('service_type', 'english_name')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_title'] = 'Remittance Services'
-        context['page_description'] = 'Fast and secure money transfer services'
+        context['page_description'] = 'Available remittance services for receiving money from abroad'
         
         # Add breadcrumbs
         from django.utils.translation import gettext_lazy as _
@@ -147,10 +152,22 @@ class RemittanceServicesView(NepaliLanguageMixin, ListView):
             (_('Remittance Services'), 'services:remittance_list')
         )
         
-        context['featured_remittances'] = RemittanceService.objects.filter(is_active=True, is_featured=True).only(
+        # Get featured remittances (excluding mobile_banking)
+        context['featured_remittances'] = RemittanceService.objects.filter(
+            is_active=True, 
+            is_featured=True
+        ).exclude(
+            service_type='mobile_banking'
+        ).only(
             'id', 'english_name', 'nepali_name', 'slug', 'service_type',
-            'is_featured', 'icon', 'color', 'description'
+            'is_featured', 'icon', 'color', 'description', 'processing_time', 'fees'
         )
+        
+        # Group remittances by service type
+        queryset = self.get_queryset()
+        context['international_remittances'] = queryset.filter(service_type='international')
+        context['domestic_remittances'] = queryset.filter(service_type='domestic')
+        
         return context
 
 
@@ -222,6 +239,7 @@ class FixedDepositDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, Detail
     template_name = 'services/savings/fixed_deposit/detail.html'
     context_object_name = 'service'
     service_type = 'fixed_deposit'
+    # Base mixin handles slug lookup automatically
     breadcrumbs = create_breadcrumbs(
         ('Home', '/'),
         ('Services', '/services/'),

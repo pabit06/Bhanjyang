@@ -19,6 +19,12 @@
     .animate-fade-in-up {
         animation: fadeInUp 0.6s ease-out;
     }
+    .info-banner {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .warning-banner {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
 </style>
 {% endblock extra_css %}
 
@@ -49,50 +55,92 @@
         </h1>
         <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6 shadow-lg animate-fade-in-up" style="animation-delay: 0.2s;"></div>
         <p class="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md animate-fade-in-up" style="animation-delay: 0.3s;">
-            {% trans "Fast, reliable, and secure money transfers, both domestically and internationally." %}
+            {% trans "Receive money from abroad through our trusted remittance partners. We facilitate payouts for various international remittance services." %}
         </p>
         
         <!-- Quick Stats -->
         <div class="mt-10 flex flex-wrap justify-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
             <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
-                <div class="text-3xl font-bold text-white mb-1">{% trans "24/7" %}</div>
-                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Service" %}</div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
-                <div class="text-3xl font-bold text-white mb-1">{{ remittance_services|length }}</div>
-                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Partners" %}</div>
+                <div class="text-3xl font-bold text-white mb-1">{{ international_remittances|length }}</div>
+                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "International Partners" %}</div>
             </div>
             <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
                 <div class="text-3xl font-bold text-white mb-1">{% trans "Secure" %}</div>
-                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Transfer" %}</div>
+                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Payout" %}</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
+                <div class="text-3xl font-bold text-white mb-1">{% trans "24/7" %}</div>
+                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Service" %}</div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Featured Remittance Services Section -->
-{% if featured_remittances %}
+<!-- Important Information Banner -->
+<section class="py-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-b-4 border-rupablue">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 border-l-4 border-rupablue">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-rupablue/10 rounded-full flex items-center justify-center">
+                    <i class="fas fa-info-circle text-rupablue text-2xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "About Our Remittance Services" %}</h3>
+                    <div class="space-y-3 text-gray-700 leading-relaxed">
+                        <p class="flex items-start gap-2">
+                            <i class="fas fa-check-circle text-green-500 mt-1 flex-shrink-0"></i>
+                            <span>{% trans "We receive money from various countries through different remittance companies and facilitate payouts to beneficiaries in Nepal." %}</span>
+                        </p>
+                        <p class="flex items-start gap-2">
+                            <i class="fas fa-times-circle text-red-500 mt-1 flex-shrink-0"></i>
+                            <span>{% trans "We do not send remittances abroad. Our service is limited to receiving and paying out remittances within Nepal." %}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Domestic Remittance Notice -->
+{% if domestic_remittances %}
+<section class="py-6 bg-yellow-50 border-b-2 border-yellow-400">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-4 bg-yellow-100 rounded-lg p-4 border-l-4 border-yellow-500">
+            <i class="fas fa-exclamation-triangle text-yellow-600 text-2xl flex-shrink-0"></i>
+            <div>
+                <p class="text-yellow-800 font-semibold">
+                    {% trans "Notice: Domestic remittance services are currently suspended by Nepal Rastra Bank. Please contact us for more information." %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Available International Remittance Services -->
+{% if international_remittances %}
 <section class="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Recommended" %}</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "Featured Remittance Partners" %}</h2>
+            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Available Services" %}</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "International Remittance Partners" %}</h2>
             <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mb-4"></div>
-            <p class="text-gray-600 max-w-2xl mx-auto text-lg">{% trans "Our trusted partners for fast and secure money transfers." %}</p>
+            <p class="text-gray-600 max-w-2xl mx-auto text-lg">{% trans "We partner with leading international remittance companies to facilitate money transfers from abroad to Nepal." %}</p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for service in featured_remittances %}
+            {% for service in international_remittances %}
             <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border-t-4 border-{{ service.color|default:'rupablue' }} group relative overflow-hidden transform hover:-translate-y-2">
                 <!-- Background Pattern -->
                 <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
-                    <i class="{{ service.icon|default:'fas fa-money-bill-wave' }} text-8xl text-{{ service.color|default:'rupablue' }}"></i>
+                    <i class="{{ service.icon|default:'fas fa-globe-americas' }} text-8xl text-{{ service.color|default:'rupablue' }}"></i>
                 </div>
 
                 <div class="relative z-10">
                     <div class="flex items-center justify-between mb-6">
                         <div class="w-16 h-16 bg-{{ service.color|default:'rupablue' }}/10 rounded-2xl flex items-center justify-center text-{{ service.color|default:'rupablue' }} group-hover:scale-110 transition-transform duration-300">
-                            <i class="{{ service.icon|default:'fas fa-money-bill-wave' }} text-3xl"></i>
+                            <i class="{{ service.icon|default:'fas fa-globe-americas' }} text-3xl"></i>
                         </div>
                         {% if service.is_featured %}
                         <span class="bg-{{ service.color|default:'rupablue' }} text-white text-xs font-bold px-3 py-1 rounded-full">{% trans "Featured" %}</span>
@@ -101,7 +149,6 @@
 
                     <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-{{ service.color|default:'rupablue' }} transition-colors">{{ service.nepali_name }}</h3>
                     <p class="text-sm font-semibold text-gray-500 mb-4 font-montserrat">{{ service.english_name }}</p>
-                    <p class="text-xs text-rupablue font-semibold mb-4">{{ service.get_service_type_display }}</p>
 
                     {% if service.description %}
                     <p class="text-gray-600 mb-6 text-sm line-clamp-3 leading-relaxed">{{ service.description|truncatewords:20 }}</p>
@@ -117,7 +164,7 @@
                         {% if service.fees %}
                         <div class="flex justify-between">
                             <span class="text-gray-600 font-medium">{% trans "Fees:" %}</span>
-                            <span class="font-bold text-gray-800">{{ service.fees }}</span>
+                            <span class="font-bold text-gray-800">{{ service.fees|truncatewords:5 }}</span>
                         </div>
                         {% endif %}
                     </div>
@@ -138,28 +185,32 @@
 </section>
 {% endif %}
 
-<!-- All Remittance Services -->
+<!-- Featured Remittance Services (if any) -->
+{% if featured_remittances %}
 <section class="py-16 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "All Services" %}</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "Our Remittance Partners" %}</h2>
+            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Recommended" %}</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "Featured Remittance Partners" %}</h2>
             <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mb-4"></div>
-            <p class="text-gray-600 max-w-2xl mx-auto text-lg">{% trans "We partner with leading services to give you the best options." %}</p>
+            <p class="text-gray-600 max-w-2xl mx-auto text-lg">{% trans "Our most trusted partners for reliable remittance payouts." %}</p>
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for service in remittance_services %}
+            {% for service in featured_remittances %}
             <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-{{ service.color|default:'rupablue' }} group">
                 <div class="text-center mb-6">
                     <div class="w-20 h-20 bg-{{ service.color|default:'rupablue' }} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                         <i class="{{ service.icon|default:'fas fa-money-bill-wave' }} text-3xl text-white"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ service.english_name }}</h3>
-                    <p class="text-sm font-semibold text-rupablue">{{ service.get_service_type_display }}</p>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ service.nepali_name }}</h3>
+                    <p class="text-sm font-semibold text-rupablue mb-2">{{ service.english_name }}</p>
+                    <span class="inline-block bg-{{ service.color|default:'rupablue' }}/10 text-{{ service.color|default:'rupablue' }} text-xs font-bold px-3 py-1 rounded-full">{% trans "Featured" %}</span>
                 </div>
+                {% if service.description %}
                 <p class="text-gray-600 text-center mb-6">{{ service.description|truncatewords:20 }}</p>
-                <div class="space-y-3 text-sm border-t border-gray-200 pt-4">
+                {% endif %}
+                <div class="space-y-3 text-sm border-t border-gray-200 pt-4 mb-6">
                     {% if service.processing_time %}
                     <div class="flex justify-between">
                         <span class="text-gray-600 font-medium">{% trans "Processing Time:" %}</span>
@@ -168,76 +219,73 @@
                     {% endif %}
                     {% if service.fees %}
                     <div class="flex justify-between">
-                        <span class="text-gray-600 font-medium">{% trans "Fees & Charges:" %}</span>
-                        <span class="font-bold text-gray-800">{{ service.fees }}</span>
+                        <span class="text-gray-600 font-medium">{% trans "Fees:" %}</span>
+                        <span class="font-bold text-gray-800">{{ service.fees|truncatewords:5 }}</span>
                     </div>
                     {% endif %}
                 </div>
-                <div class="mt-6 text-center">
+                <div class="text-center">
                     <a href="{{ service.get_absolute_url }}" class="inline-flex items-center gap-2 bg-{{ service.color|default:'rupablue' }} hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">
                         <span>{% trans "Learn More" %}</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
-            {% empty %}
-            <div class="col-span-full bg-white p-12 rounded-2xl shadow-sm text-center border-2 border-dashed border-gray-200">
-                <i class="fas fa-money-bill-wave text-5xl text-gray-300 mb-4 block"></i>
-                <p class="text-gray-500 text-lg">{% trans "Remittance services are being added." %}</p>
-            </div>
             {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 
-<!-- Benefits / Why Choose Us -->
+<!-- Empty State -->
+{% if not international_remittances and not featured_remittances %}
+<section class="py-16 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white p-12 rounded-2xl shadow-sm text-center border-2 border-dashed border-gray-200">
+            <i class="fas fa-money-bill-wave text-5xl text-gray-300 mb-4 block"></i>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3">{% trans "Remittance Services" %}</h3>
+            <p class="text-gray-500 text-lg mb-6">{% trans "Remittance services are being added. Please contact us for more information." %}</p>
+            <a href="{% url 'contact:contact_view' %}" class="inline-flex items-center gap-2 bg-rupablue hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">
+                <i class="fas fa-phone"></i>
+                <span>{% trans "Contact Us" %}</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- How It Works Section -->
 <section class="py-16 md:py-20 bg-gradient-to-b from-white via-gray-50 to-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Why Choose Us" %}</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "Secure & Reliable Money Transfers" %}</h2>
+            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "How It Works" %}</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "Receiving Remittances" %}</h2>
             <div class="w-20 h-1 bg-rupablue mx-auto rounded-full"></div>
         </div>
         
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div class="order-2 lg:order-1">
-                <div class="space-y-8">
-                    <div class="flex items-start group">
-                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-rupablue to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-shield-alt text-xl"></i>
-                        </div>
-                        <div class="ml-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">{% trans "Secure & Reliable" %}</h3>
-                            <p class="text-gray-600 leading-relaxed">{% trans "Your funds are protected with industry-standard security measures." %}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start group">
-                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-rupablue to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-hand-holding-usd text-xl"></i>
-                        </div>
-                        <div class="ml-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">{% trans "Competitive Fees" %}</h3>
-                            <p class="text-gray-600 leading-relaxed">{% trans "We offer some of the most competitive rates for sending money." %}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start group">
-                        <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-rupablue to-blue-700 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <i class="fas fa-globe-asia text-xl"></i>
-                        </div>
-                        <div class="ml-6">
-                            <h3 class="text-xl font-bold text-gray-800 mb-2">{% trans "Wide Network" %}</h3>
-                            <p class="text-gray-600 leading-relaxed">{% trans "Our network of partners ensures your money can be sent where it needs to go." %}</p>
-                        </div>
-                    </div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg p-8 text-center border-t-4 border-rupablue">
+                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-globe-americas text-rupablue text-3xl"></i>
                 </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "1. Money Sent from Abroad" %}</h3>
+                <p class="text-gray-600 leading-relaxed">{% trans "Your family or friends send money from abroad through one of our remittance partners." %}</p>
             </div>
-            <div class="order-1 lg:order-2 relative">
-                <div class="absolute inset-0 bg-gradient-to-tr from-rupablue to-blue-300 transform rotate-3 rounded-3xl opacity-20 blur-xl"></div>
-                <div class="relative rounded-3xl shadow-2xl overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                        alt="{% trans 'Remittance Services' %}"
-                        class="w-full object-cover h-[500px] transform hover:scale-105 transition-transform duration-500">
+            
+            <div class="bg-white rounded-2xl shadow-lg p-8 text-center border-t-4 border-rupablue">
+                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-building text-rupablue text-3xl"></i>
                 </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "2. We Receive & Process" %}</h3>
+                <p class="text-gray-600 leading-relaxed">{% trans "We receive the remittance through our partner network and process it for payout." %}</p>
+            </div>
+            
+            <div class="bg-white rounded-2xl shadow-lg p-8 text-center border-t-4 border-rupablue">
+                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-hand-holding-usd text-rupablue text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "3. Collect Your Money" %}</h3>
+                <p class="text-gray-600 leading-relaxed">{% trans "Visit our branch with valid ID to collect your remittance payout." %}</p>
             </div>
         </div>
     </div>
@@ -255,9 +303,9 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold font-montserrat mb-6 drop-shadow-lg">{% trans "Ready to Send Money?" %}</h2>
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold font-montserrat mb-6 drop-shadow-lg">{% trans "Need Help with Remittances?" %}</h2>
         <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
-        <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">{% trans "Visit one of our branches today to use our remittance services, or contact us if you have any questions." %}</p>
+        <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">{% trans "Visit one of our branches to collect your remittance or contact us if you have any questions about our remittance services." %}</p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{% url 'contact:contact_view' %}"
                 class="bg-white text-rupablue font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 inline-flex items-center justify-center">

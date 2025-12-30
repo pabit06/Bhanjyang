@@ -108,11 +108,13 @@
 
                     {% if service.features %}
                     <div class="space-y-2 mb-6">
-                        {% for feature in service.features|linebreaksbr|slice:":3" %}
+                        {% for feature in service.features|linebreaks|slice:":3" %}
+                        {% if feature.strip %}
                         <div class="flex items-start text-sm text-gray-600">
                             <i class="fas fa-check-circle text-deuraligreen mt-1 mr-2 flex-shrink-0"></i>
                             <span>{{ feature|safe|truncatewords:10 }}</span>
                         </div>
+                        {% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}
@@ -158,11 +160,13 @@
                     {% endif %}
                     {% if service.features %}
                     <div class="space-y-2 text-sm mb-6">
-                        {% for feature in service.features|linebreaksbr|slice:":3" %}
+                        {% for feature in service.features|linebreaks|slice:":3" %}
+                        {% if feature.strip %}
                         <div class="flex items-start text-gray-600">
                             <i class="fas fa-check-circle text-deuraligreen mt-1 mr-2"></i>
                             <span>{{ feature|safe|truncatewords:10 }}</span>
                         </div>
+                        {% endif %}
                         {% endfor %}
                     </div>
                     {% endif %}

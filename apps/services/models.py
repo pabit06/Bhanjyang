@@ -85,7 +85,7 @@ class SavingsAccount(BaseServiceModel):
     def get_absolute_url(self) -> str:
         return reverse('services:savings_detail', kwargs={'slug': self.slug})
 
-class FixedDeposit(models.Model):
+class FixedDeposit(BaseServiceModel):
     """Model for fixed deposit schemes with various terms and rates."""
     DURATION_CHOICES = [(3, _('3 Months')), (6, _('6 Months')), (12, _('1 Year')), (24, _('2 Years')), (36, _('3 Years'))]
     PAYMENT_CHOICES = [('monthly', _('Monthly Payout')), ('quarterly', _('Quarterly Payout')), ('lump_sum', _('Maturity Payout'))]
@@ -96,9 +96,7 @@ class FixedDeposit(models.Model):
     minimum_amount = models.DecimalField(max_digits=12, decimal_places=2, validators=[MinValueValidator(0)], verbose_name=_("Minimum Amount (NPR)"))
     maximum_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, validators=[MinValueValidator(0)], verbose_name=_("Maximum Amount (NPR)"))
     benefits = models.TextField(blank=True, verbose_name=_("Benefits"), help_text=_("List key benefits, one per line."))
-    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    # is_active, created_at, updated_at are inherited from BaseServiceModel
 
     class Meta:
         verbose_name = _("Fixed Deposit")

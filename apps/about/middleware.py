@@ -23,6 +23,13 @@ class ForceNepaliLanguageMiddleware:
         if not language:
             cookie_name = getattr(settings, 'LANGUAGE_COOKIE_NAME', 'django_language')
             language = request.COOKIES.get(cookie_name)
+
+            # If not in cookie either, force Nepali in session
+            # This ensures LocaleMiddleware (which runs next) uses this preference
+            # instead of the browser's Accept-Language header.
+            if not language:
+                request.session['django_language'] = 'ne'
+                language = 'ne'
         
         # If still not set, use default (Nepali)
         if not language or language not in dict(settings.LANGUAGES):

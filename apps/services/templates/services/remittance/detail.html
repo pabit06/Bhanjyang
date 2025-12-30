@@ -2,18 +2,47 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ service.name }} - Bhanjyang Cooperative{% endblock %}
+{% block title %}{{ service.english_name }} - Bhanjyang Cooperative{% endblock %}
+
+{% block extra_css %}
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .partner-logo {
+        animation: fadeIn 0.5s ease-in;
+    }
+    .carousel-container {
+        scroll-behavior: smooth;
+    }
+</style>
+{% endblock extra_css %}
 
 {% block content %}
 <div class="min-h-screen bg-gray-50">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-purple-600 to-purple-800 py-20">
+    <section class="bg-gradient-to-r from-rupablue via-blue-700 to-rupablue py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
             <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="{{ service.icon }} text-4xl"></i>
+                <i class="{{ service.icon|default:'fas fa-money-bill-wave' }} text-4xl"></i>
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">{{ service.name }}</h1>
-            <p class="text-xl opacity-90">{{ service.get_service_type_display }}</p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-montserrat">{{ service.nepali_name }}</h1>
+            <p class="text-xl opacity-90 font-montserrat">{{ service.english_name }}</p>
+            {% if service.english_name|lower == 'city express' %}
+            <div class="mt-6">
+                <p class="text-2xl md:text-3xl font-bold mb-2">{% trans "सजिलो छ, छिटो छ, सुरक्षित छ" %}</p>
+                <p class="text-lg opacity-90">{% trans "Easy, Fast, Secure" %}</p>
+            </div>
+            {% elif service.english_name|lower == 'ime remittance' or service.english_name|lower == 'ime remit' %}
+            <div class="mt-6">
+                <p class="text-2xl md:text-3xl font-bold mb-2">{% trans "Nepal's No.1 Remittance Service" %}</p>
+                <p class="text-lg opacity-90">{% trans "Swift. Secure. Simple." %}</p>
+                <p class="text-base opacity-80 mt-2">{% trans "Trusted by Millions | 25+ Years of Service" %}</p>
+            </div>
+            {% else %}
+            <p class="text-lg opacity-80 mt-2">{{ service.get_service_type_display }}</p>
+            {% endif %}
         </div>
     </section>
 
@@ -24,17 +53,17 @@
                 <!-- Main Content -->
                 <div class="lg:col-span-2">
                     <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-6">Service Details</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Service Details" %}</h2>
                         {% if service.description %}
-                        <div class="prose max-w-none mb-6">
+                        <div class="prose max-w-none mb-6 text-gray-700 leading-relaxed">
                             {{ service.description|linebreaks }}
                         </div>
                         {% endif %}
                         
                         {% if service.features %}
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Features</h3>
-                            <div class="prose max-w-none">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 font-montserrat">{% trans "Features" %}</h3>
+                            <div class="prose max-w-none text-gray-700">
                                 {{ service.features|linebreaks }}
                             </div>
                         </div>
@@ -42,43 +71,413 @@
                         
                         {% if service.fees %}
                         <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Fees & Charges</h3>
-                            <div class="prose max-w-none">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3 font-montserrat">{% trans "Fees & Charges" %}</h3>
+                            <div class="prose max-w-none text-gray-700">
                                 {{ service.fees|linebreaks }}
                             </div>
                         </div>
                         {% endif %}
                     </div>
+
+                    <!-- Stats Section (for City Express) -->
+                    {% if service.english_name|lower == 'city express' %}
+                    <div class="bg-gradient-to-br from-rupablue to-blue-700 rounded-2xl shadow-lg p-8 mb-8 text-white">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold mb-4 font-montserrat">{% trans "City Express at a Glance" %}</h2>
+                            <div class="w-20 h-1 bg-white mx-auto rounded-full"></div>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">25,000+</div>
+                                <div class="text-sm opacity-90">{% trans "Payout Locations" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">100+</div>
+                                <div class="text-sm opacity-90">{% trans "Global Partners" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">18+</div>
+                                <div class="text-sm opacity-90">{% trans "Years Experience" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">5M+</div>
+                                <div class="text-sm opacity-90">{% trans "Customers Served" %}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payout Methods Section (for City Express) -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "How to Receive Money" %}</h2>
+                            <p class="text-gray-600">{% trans "Choose your preferred payout method" %}</p>
+                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-hand-holding-usd text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Cash Pickup" %}</h3>
+                                <p class="text-sm text-gray-600 text-center">{% trans "Visit one of our 25,000+ authorized City Express agents and counters across Nepal" %}</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-university text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Bank Deposit" %}</h3>
+                                <p class="text-sm text-gray-600 text-center">{% trans "Receive your remittance money directly into your Nepali bank account" %}</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-mobile-alt text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "City Pay App" %}</h3>
+                                <p class="text-sm text-gray-600 text-center">{% trans "Track and receive your remittance directly in the City Pay App" %}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Available Remittance Partners Section (for City Express) -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "In Partnership with World's Top Money Transfer Companies" %}</h2>
+                            <p class="text-gray-600">{% trans "Receive money from these international remittance services through City Express" %}</p>
+                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
+                        </div>
+                        
+                        <!-- Carousel/Slider for Partners -->
+                        <div class="relative">
+                            <div class="carousel-container overflow-x-auto scrollbar-hide pb-4" style="scrollbar-width: none; -ms-overflow-style: none;">
+                                <div class="flex gap-6 px-2" id="partners-carousel">
+                                    <!-- Partner Cards -->
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-globe-americas text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1">Ria Money Transfer</h3>
+                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-money-bill-wave text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1 text-sm">EZ Remit BFC Bank</h3>
+                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-exchange-alt text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1">Remitly Inc</h3>
+                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-paper-plane text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1 text-sm">DIGIT9 LULU</h3>
+                                            <p class="text-xs text-gray-500">{% trans "Singapore" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-bolt text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1">INSTANT CASH FZE</h3>
+                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-globe text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1">MoneyGram</h3>
+                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-hand-holding-usd text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1">SINGX</h3>
+                                            <p class="text-xs text-gray-500">{% trans "Singapore" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-shield-alt text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1">Terra Payment</h3>
+                                            <p class="text-xs text-gray-500">{% trans "Services" %}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-rocket text-rupablue text-2xl"></i>
+                                            </div>
+                                            <h3 class="font-bold text-gray-800 mb-1">Transfast</h3>
+                                            <p class="text-xs text-gray-500">{% trans "Remittance LLC" %}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Navigation Arrows (Optional) -->
+                            <button onclick="scrollCarousel('left')" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-10 hidden md:block">
+                                <i class="fas fa-chevron-left text-rupablue"></i>
+                            </button>
+                            <button onclick="scrollCarousel('right')" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-10 hidden md:block">
+                                <i class="fas fa-chevron-right text-rupablue"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="mt-6 text-center">
+                            <p class="text-sm text-gray-600">{% trans "Scroll horizontally to view all partners" %}</p>
+                        </div>
+                    </div>
+
+                    <!-- Why Choose City Express Section -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Why Choose City Express" %}</h2>
+                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-globe-asia text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Global Reach" %}</h3>
+                                <p class="text-sm text-gray-600">{% trans "With over 25,000+ payout locations in Nepal and 100+ partnerships worldwide, City Express ensures seamless money transfers wherever you are." %}</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-shield-alt text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Excellent Security" %}</h3>
+                                <p class="text-sm text-gray-600">{% trans "Licensed by Nepal Rastra Bank, we adhere to strict anti-money laundering standards, providing secure and reliable transactions globally." %}</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-users text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Customer-Centric" %}</h3>
+                                <p class="text-sm text-gray-600">{% trans "From cash pickup to bank deposits, City Express makes money transfers easy and efficient, putting you in control of your financial needs." %}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countries Served Section -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Send Money from Around the Globe" %}</h2>
+                            <p class="text-gray-600">{% trans "City Express facilitates money transfers from multiple countries" %}</p>
+                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Australia</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Kuwait</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Malaysia</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Qatar</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Saudi Arabia</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">South Korea</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UAE</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Iraq</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Oman</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UK</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Singapore</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Hong Kong</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Brunei</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Japan</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Europe</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- IME Remittance Specific Sections -->
+                    {% if service.english_name|lower == 'ime remittance' or service.english_name|lower == 'ime remit' %}
+                    <!-- Stats Section -->
+                    <div class="bg-gradient-to-br from-rupablue to-blue-700 rounded-2xl shadow-lg p-8 mb-8 text-white">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold mb-4 font-montserrat">{% trans "IME Remit at a Glance" %}</h2>
+                            <div class="w-20 h-1 bg-white mx-auto rounded-full"></div>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">45K+</div>
+                                <div class="text-sm opacity-90">{% trans "Nationwide Agents" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">5K+</div>
+                                <div class="text-sm opacity-90">{% trans "Franchise Outlets" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">10M+</div>
+                                <div class="text-sm opacity-90">{% trans "Households Benefitted" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">150K+</div>
+                                <div class="text-sm opacity-90">{% trans "Global Locations" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">200+</div>
+                                <div class="text-sm opacity-90">{% trans "Countries" %}</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold mb-2">25+</div>
+                                <div class="text-sm opacity-90">{% trans "Years Experience" %}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payout Methods Section -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "How to Receive Money" %}</h2>
+                            <p class="text-gray-600">{% trans "Choose your preferred payout method" %}</p>
+                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-hand-holding-usd text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Pick Up Your Cash" %}</h3>
+                                <p class="text-sm text-gray-600 text-center">{% trans "Visit an IME counter or our agent near you to receive cash instantly" %}</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-university text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Get Money in Your Bank" %}</h3>
+                                <p class="text-sm text-gray-600 text-center">{% trans "Receive remittance directly into your bank account in Nepal" %}</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-mobile-alt text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Receive Money In Khalti" %}</h3>
+                                <p class="text-sm text-gray-600 text-center">{% trans "Track and receive the remittance funds in your Khalti by IME wallet at ZERO extra fee" %}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Why Choose IME Section -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Difference with IME" %}</h2>
+                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
+                        </div>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-bolt text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Fast, Reliable & Secure" %}</h3>
+                                <p class="text-sm text-gray-600">{% trans "At IME, fast, secure money transfers are our priority. We swiftly deliver funds to your loved ones while safeguarding the money." %}</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-award text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "25 Years of Experience" %}</h3>
+                                <p class="text-sm text-gray-600">{% trans "With over 25 years perfecting money transfers, rest assured that your money's safe with us." %}</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-globe text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Global Network" %}</h3>
+                                <p class="text-sm text-gray-600">{% trans "Our vast global network spans 150K+ locations in 200+ countries. Count on us for all your local and international money transfers." %}</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-heart text-rupablue text-2xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Ease & Convenience" %}</h3>
+                                <p class="text-sm text-gray-600">{% trans "We realize how important money transfer is for you and your loved ones and prioritize your ease and convenience." %}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Countries Served Section -->
+                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Send Money to Nepal from Anywhere" %}</h2>
+                            <p class="text-gray-600">{% trans "IME facilitates money transfers from 200+ countries worldwide" %}</p>
+                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Kuwait</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Saudi Arabia</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Malaysia</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Bahrain</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">USA</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Qatar</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UAE</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Korea</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Japan</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Australia</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UK</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Europe</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">New Zealand</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Canada</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Portugal</span>
+                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Oman</span>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <!-- Sidebar -->
                 <div class="lg:col-span-1">
                     <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-6">Service Information</h3>
+                        <h3 class="text-xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Service Information" %}</h3>
                         
                         <div class="space-y-4">
                             <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">Service Type</span>
+                                <span class="text-gray-600">{% trans "Service Type" %}</span>
                                 <span class="font-semibold">{{ service.get_service_type_display }}</span>
                             </div>
                             
                             {% if service.transfer_limit_min %}
                             <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">Min Transfer</span>
+                                <span class="text-gray-600">{% trans "Min Transfer" %}</span>
                                 <span class="font-semibold">NPR {{ service.transfer_limit_min|floatformat:0 }}</span>
                             </div>
                             {% endif %}
                             
                             {% if service.transfer_limit_max %}
                             <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">Max Transfer</span>
+                                <span class="text-gray-600">{% trans "Max Transfer" %}</span>
                                 <span class="font-semibold">NPR {{ service.transfer_limit_max|floatformat:0 }}</span>
                             </div>
                             {% endif %}
                             
                             {% if service.processing_time %}
                             <div class="flex justify-between items-center py-3">
-                                <span class="text-gray-600">Processing Time</span>
+                                <span class="text-gray-600">{% trans "Processing Time" %}</span>
                                 <span class="font-semibold">{{ service.processing_time }}</span>
                             </div>
                             {% endif %}
@@ -86,8 +485,8 @@
                         
                         <div class="mt-8">
                             <a href="{% url 'contact:contact_view' %}" 
-                               class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
-                                Get Started
+                               class="w-full bg-rupablue hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                                {% trans "Get Started" %}
                             </a>
                         </div>
                     </div>
@@ -99,17 +498,49 @@
     <!-- Related Services -->
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Other Remittance Services</h2>
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">{% trans "Other Remittance Services" %}</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- This would be populated with related services -->
                 <div class="text-center text-gray-600">
-                    <p>Explore our other remittance options</p>
-                    <a href="{% url 'services:remittance_list' %}" class="text-purple-600 hover:underline">
-                        View All Remittance Services
+                    <p>{% trans "Explore our other remittance options" %}</p>
+                    <a href="{% url 'services:remittance_list' %}" class="text-rupablue hover:underline font-semibold">
+                        {% trans "View All Remittance Services" %}
                     </a>
                 </div>
             </div>
         </div>
     </section>
 </div>
+
+<script>
+function scrollCarousel(direction) {
+    const carousel = document.getElementById('partners-carousel');
+    const scrollAmount = 300;
+    if (direction === 'left') {
+        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+}
+
+// Auto-scroll carousel (optional)
+// setInterval(() => {
+//     const carousel = document.getElementById('partners-carousel');
+//     if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
+//         carousel.scrollTo({ left: 0, behavior: 'smooth' });
+//     } else {
+//         carousel.scrollBy({ left: 300, behavior: 'smooth' });
+//     }
+// }, 3000);
+</script>
+
+<style>
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+</style>
 {% endblock %}
