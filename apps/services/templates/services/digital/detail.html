@@ -5,117 +5,292 @@
 {% block title %}{{ service.nepali_name }} - Bhanjyang Cooperative{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50">
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-deuraligreen to-green-700 py-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="{{ service.icon|default:'fas fa-mobile-alt' }} text-4xl"></i>
+<div class="min-h-screen bg-gray-50 font-sans selection:bg-deuraligreen selection:text-white pb-20">
+
+    <!-- Hero Section with Glassmorphism -->
+    <section
+        class="relative bg-gradient-to-br from-green-900 via-deuraligreen to-emerald-800 pt-32 pb-24 overflow-hidden">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
+            <div
+                class="absolute -top-20 -left-20 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-blob">
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-montserrat">{{ service.nepali_name }}</h1>
-            <p class="text-xl opacity-90">{{ service.english_name }}</p>
-            <p class="text-lg opacity-80 mt-2">{{ service.get_service_type_display }}</p>
+            <div
+                class="absolute top-40 right-10 w-80 h-80 bg-yellow-400 rounded-full mix-blend-overlay filter blur-3xl animate-blob animation-delay-2000">
+            </div>
+            <div
+                class="absolute -bottom-20 left-1/3 w-80 h-80 bg-pink-400 rounded-full mix-blend-overlay filter blur-3xl animate-blob animation-delay-4000">
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div
+                class="inline-flex items-center justify-center p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl mb-8 shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <i class="{{ service.icon|default:'fas fa-mobile-alt' }} text-5xl text-white drop-shadow-md"></i>
+            </div>
+            <h1
+                class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-sm font-mukta">
+                {{ service.nepali_name }}
+            </h1>
+            <p class="text-xl md:text-2xl text-green-50 font-medium mb-4 tracking-wide font-heading">
+                {{ service.english_name }}
+            </p>
+            <div
+                class="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm font-semibold tracking-wider uppercase">
+                {{ service.get_service_type_display }}
+            </div>
         </div>
     </section>
 
-    <!-- Service Details -->
-    <section class="py-16">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-3 gap-12">
-                <!-- Main Content -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-6">{% trans "Service Details" %}</h2>
+    <!-- Main Content & Sidebar Grid -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
+        <div class="grid lg:grid-cols-12 gap-8">
+
+            <!-- Left Content Column -->
+            <div class="lg:col-span-8 space-y-8">
+
+                <!-- Description Card -->
+                <div
+                    class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 group hover:shadow-2xl transition-all duration-300">
+                    <div class="p-8 md:p-10">
+                        <div class="flex items-center mb-8">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-green-100 text-deuraligreen flex items-center justify-center mr-4 group-hover:bg-deuraligreen group-hover:text-white transition-colors duration-300">
+                                <i class="fas fa-info-circle text-xl"></i>
+                            </div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 font-mukta">{% trans "Service
+                                Details" %}</h2>
+                        </div>
+
                         {% if service.description %}
-                        <div class="prose max-w-none mb-6">
+                        <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed font-body">
                             {{ service.description|linebreaks }}
                         </div>
-                        {% endif %}
-                        
-                        {% if service.features %}
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Key Features" %}</h3>
-                            <div class="prose max-w-none">
-                                {{ service.features|linebreaks }}
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        {% if service.requirements %}
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Requirements" %}</h3>
-                            <div class="prose max-w-none">
-                                {{ service.requirements|linebreaks }}
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        {% if service.fees %}
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">{% trans "Fees & Charges" %}</h3>
-                            <div class="prose max-w-none">
-                                {{ service.fees|linebreaks }}
-                            </div>
-                        </div>
+                        {% else %}
+                        <p class="text-gray-500 italic">{% trans "No detailed description available." %}</p>
                         {% endif %}
                     </div>
                 </div>
 
-                <!-- Sidebar -->
-                <div class="lg:col-span-1">
-                    <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-6">{% trans "Service Information" %}</h3>
-                        
-                        {% if service.image %}
-                        <div class="mb-6">
-                            <img src="{{ service.image.url }}" alt="{{ service.nepali_name }}" 
-                                 class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                        {% endif %}
-                        
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">{% trans "Service Type" %}</span>
-                                <span class="font-semibold">{{ service.get_service_type_display }}</span>
+                <!-- Features Section -->
+                {% if service.features %}
+                <div
+                    class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                    <div class="p-8 md:p-10">
+                        <div class="flex items-center mb-8">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mr-4">
+                                <i class="fas fa-star text-xl"></i>
                             </div>
-                            
-                            {% if service.is_featured %}
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">{% trans "Status" %}</span>
-                                <span class="px-3 py-1 bg-deuraligreen text-white rounded-full text-sm font-semibold">
-                                    {% trans "Featured" %}
-                                </span>
-                            </div>
-                            {% endif %}
+                            <h2 class="text-2xl font-bold text-gray-800 font-heading">{% trans "Key Features" %}</h2>
                         </div>
-                        
-                        <div class="mt-8 space-y-3">
-                            <a href="{% url 'services:service_application' %}?service_type=digital&service_slug={{ service.slug }}" 
-                               class="w-full bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
-                                {% trans "Apply Now" %}
-                            </a>
-                            <a href="{% url 'contact:contact_view' %}" 
-                               class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
-                                {% trans "Contact Us" %}
-                            </a>
+                        <div class="prose prose-indigo max-w-none text-gray-600">
+                            {{ service.features|linebreaks }}
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+                {% endif %}
 
-    <!-- Related Services -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">{% trans "Other Digital Services" %}</h2>
-            <div class="text-center">
-                <a href="{% url 'services:digital_list' %}" class="text-deuraligreen hover:underline font-semibold">
-                    {% trans "View All Digital Services" %}
-                </a>
+                <!-- Requirements & Fees Grid -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    {% if service.requirements %}
+                    <div
+                        class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+                        <div class="flex items-center mb-6">
+                            <div
+                                class="w-10 h-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mr-3">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">{% trans "Requirements" %}</h3>
+                        </div>
+                        <div class="prose prose-sm text-gray-600 flex-grow">
+                            {{ service.requirements|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if service.fees %}
+                    <div
+                        class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+                        <div class="flex items-center mb-6">
+                            <div
+                                class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center mr-3">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">{% trans "Fees & Charges" %}</h3>
+                        </div>
+                        <div class="prose prose-sm text-gray-600 flex-grow">
+                            {{ service.fees|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- SPECIAL SECTION: MOBILE BANKING PROMO -->
+                <!-- Only show or generally show for all digital services as a cross-sell -->
+                <div
+                    class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl shadow-2xl p-8 md:p-12 text-white relative overflow-hidden group">
+                    <div
+                        class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl group-hover:opacity-10 transition-opacity duration-500">
+                    </div>
+
+                    <div class="relative z-10 grid md:grid-cols-3 gap-8 items-center">
+                        <div class="md:col-span-2">
+                            <h3 class="text-3xl font-bold mb-4 font-mukta">सहकारीको डिजिटल सेवा</h3>
+                            <p class="text-gray-300 mb-8 text-lg leading-relaxed">
+                                Experience banking at your fingertips. Download the Bhanjyang Smart App today for secure
+                                and convenient transactions.
+                            </p>
+
+                            <div class="flex flex-wrap gap-4">
+                                <!-- Android Play Store -->
+                                <a href="https://play.google.com/store/apps/details?id=com.devanasoft.bhanjyang&hl=en"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="flex items-center bg-white text-gray-900 px-6 py-3 rounded-xl hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg group/btn">
+                                    <i
+                                        class="fab fa-google-play text-2xl mr-3 text-green-600 group-hover/btn:text-green-700"></i>
+                                    <div class="text-left">
+                                        <div class="text-xs uppercase font-bold tracking-wider text-gray-500">Get it on
+                                        </div>
+                                        <div class="text-lg font-bold leading-none">Google Play</div>
+                                    </div>
+                                </a>
+
+                                <!-- Apple App Store -->
+                                <a href="https://apps.apple.com/np/app/bhanjyang-coop-ismart/id6463041487"
+                                    target="_blank" rel="noopener noreferrer"
+                                    class="flex items-center bg-white/10 backdrop-blur-sm px-6 py-3 rounded-xl border border-white/20 hover:bg-white/20 hover:scale-105 transition-all duration-300 shadow-lg">
+                                    <i class="fab fa-apple text-3xl mr-3"></i>
+                                    <div class="text-left">
+                                        <div class="text-xs uppercase font-bold tracking-wider text-gray-400">Download
+                                            on the</div>
+                                        <div class="text-lg font-bold leading-none">App Store</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex justify-center items-center">
+                            <img src="{% static 'images/digital_services/bhanjyang_smart_app_mockup.png' %}"
+                                alt="Bhanjyang Smart App"
+                                class="w-40 h-auto object-contain transform group-hover:-rotate-3 transition-transform duration-500 drop-shadow-2xl">
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- Right Sidebar -->
+            <div class="lg:col-span-4 space-y-8">
+
+                <!-- Main Info Card -->
+                <div class="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 sticky top-24">
+                    {% if service.image %}
+                    <div class="mb-8 rounded-2xl overflow-hidden shadow-md group relative">
+                        <img src="{{ service.image.url }}" alt="{{ service.nepali_name }}"
+                            class="w-full h-56 object-cover transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 text-white">
+                            <p class="text-sm font-medium opacity-90">{% trans "Featured Service" %}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-4">{% trans "At a
+                        Glance" %}</h3>
+
+                    <div class="space-y-5">
+                        <div class="flex justify-between items-center group">
+                            <span class="text-gray-500 font-medium group-hover:text-gray-700 transition-colors">{% trans
+                                "Service Type" %}</span>
+                            <span
+                                class="text-gray-800 font-semibold px-3 py-1 bg-gray-100 rounded-lg group-hover:bg-gray-200 transition-colors">{{
+                                service.get_service_type_display }}</span>
+                        </div>
+
+                        {% if service.is_featured %}
+                        <div class="flex justify-between items-center group">
+                            <span class="text-gray-500 font-medium">{% trans "Status" %}</span>
+                            <span
+                                class="px-3 py-1 bg-green-100 text-green-700 rounded-lg text-sm font-bold flex items-center gap-1">
+                                <i class="fas fa-check-circle text-xs"></i> {% trans "Featured" %}
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mt-10 space-y-4">
+                        <a href="{% url 'services:service_application' %}?service_type=digital&service_slug={{ service.slug }}"
+                            class="w-full flex items-center justify-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-1">
+                            {% trans "Apply Now" %} <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                        <a href="{% url 'contact:contact_view' %}"
+                            class="w-full flex items-center justify-center gap-2 bg-white border-2 border-gray-200 hover:border-gray-300 text-gray-700 font-bold py-4 px-6 rounded-xl transition-all duration-200 hover:bg-gray-50">
+                            {% trans "Contact Support" %}
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Related Links -->
+                <div class="bg-green-50 rounded-3xl p-8 border border-green-100">
+                    <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-link text-deuraligreen"></i>
+                        {% trans "Quick Links" %}
+                    </h4>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="{% url 'services:digital_list' %}"
+                                class="flex items-center text-gray-600 hover:text-deuraligreen transition-colors group">
+                                <span
+                                    class="w-2 h-2 rounded-full bg-gray-300 group-hover:bg-deuraligreen mr-3 transition-colors"></span>
+                                {% trans "View All Digital Services" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="flex items-center text-gray-600 hover:text-deuraligreen transition-colors group">
+                                <span
+                                    class="w-2 h-2 rounded-full bg-gray-300 group-hover:bg-deuraligreen mr-3 transition-colors"></span>
+                                {% trans "Sitemap" %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </div>
 </div>
-{% endblock %}
 
+<style>
+    /* Custom Gradients and Animations */
+    .animate-blob {
+        animation: blob 7s infinite;
+    }
+
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
+
+    @keyframes blob {
+        0% {
+            transform: translate(0px, 0px) scale(1);
+        }
+
+        33% {
+            transform: translate(30px, -50px) scale(1.1);
+        }
+
+        66% {
+            transform: translate(-20px, 20px) scale(0.9);
+        }
+
+        100% {
+            transform: translate(0px, 0px) scale(1);
+        }
+    }
+</style>
+{% endblock %}

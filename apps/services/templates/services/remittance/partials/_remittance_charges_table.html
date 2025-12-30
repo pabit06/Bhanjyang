@@ -1,0 +1,40 @@
+{% comment %}
+Partial for remittance charges table
+Usage: {% include 'services/remittance/partials/_remittance_charges_table.html' with service=service %}
+{% endcomment %}
+
+{% if service.is_himalremit and service.charges.exists %}
+    <div class="bg-white rounded-3xl shadow-xl p-8 overflow-x-auto">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 font-montserrat">Remittance Sending Charges</h2>
+            <p class="text-gray-500 text-sm mt-2">Competitive rates for sending money from various countries</p>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-deuraligreen text-white">
+                        <th class="px-4 py-3 text-left font-bold">S.No</th>
+                        <th class="px-4 py-3 text-left font-bold">Country</th>
+                        <th class="px-4 py-3 text-right font-bold">Remittance Sending Charge</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for charge in service.charges.all %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-semibold text-gray-700">{{ forloop.counter }}</td>
+                        <td class="px-4 py-3 text-gray-800">{{ charge.country }}</td>
+                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">{{ charge.charge }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-500">For more information, visit <a
+                    href="https://www.himalayanbank.com/en/himalremit%E2%84%A2/" target="_blank"
+                    class="text-deuraligreen hover:underline font-semibold">HimalRemit™ Official
+                    Website</a></p>
+        </div>
+    </div>
+{% endif %}
+

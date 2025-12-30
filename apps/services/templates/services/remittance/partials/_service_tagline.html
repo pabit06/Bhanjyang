@@ -1,0 +1,30 @@
+{% comment %}
+Partial for service-specific taglines
+Usage: {% include 'services/remittance/partials/_service_tagline.html' with service=service %}
+{% endcomment %}
+
+{% if service.is_city_express %}
+    <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+        <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+            <span class="text-yellow-400 text-xl"><i class="fas fa-star"></i></span>
+            <span class="font-bold text-lg">"सजिलो छ, छिटो छ, सुरक्षित छ"</span>
+        </div>
+        <p class="text-sm text-white/70 mt-3 font-light tracking-widest uppercase">Easy • Fast • Secure</p>
+    </div>
+{% elif service.is_himalremit %}
+    <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+        <div class="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-yellow-500/20 backdrop-blur-md px-8 py-4 rounded-full border-2 border-yellow-400/40 shadow-xl">
+            <span class="text-yellow-300 text-2xl drop-shadow-lg"><i class="fas fa-mountain"></i></span>
+            <span class="font-bold text-lg text-white drop-shadow-md">"Premium Online Money Transfer"</span>
+        </div>
+        <p class="text-sm text-blue-100 mt-4 font-semibold tracking-widest uppercase drop-shadow-md">HimalRemit™ by Himalayan Bank</p>
+    </div>
+{% elif service.is_ime %}
+    <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+        <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+            <span class="text-bhanjyangred text-xl"><i class="fas fa-check-circle"></i></span>
+            <span class="font-bold text-lg">"नेपालको नं. १ रेमिट्यान्स सेवा"</span>
+        </div>
+    </div>
+{% endif %}
+

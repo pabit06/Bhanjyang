@@ -16,10 +16,7 @@ The following documentation files have been updated to remove member portal refe
 
 - ✅ `static/css/README.md`
 - ✅ `static/js/README.md`
-- ✅ `docs/migrations/css-files-migration.md`
-- ✅ `docs/migrations/static-files-migration.md`
-- ✅ `docs/migrations/medium-priority-improvements.md`
-- ✅ `docs/migrations/folder-structure-summary.md`
+- ✅ Migration documentation (consolidated into `docs/migrations/migration-complete.md`)
 
 ## 📊 Updated Statistics
 

@@ -5,54 +5,11 @@
 {% block title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock %}
 
 {% block extra_css %}
-<style>
-    /* Custom animations */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .animate-fade-in-up {
-        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .partner-card {
-        transition: all 0.3s ease;
-    }
-
-    .partner-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Hide scrollbar but keep functionality */
-    .scrollbar-hide {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .glass-premium {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    }
-
-    .text-glow {
-        text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
-    }
-
-    .scrollbar-hide::-webkit-scrollbar {
-        display: none;
-    }
-</style>
+    <!-- Resource hints for CDN assets -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <link rel="stylesheet" href="{% static 'services/css/remittance.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
@@ -63,105 +20,37 @@
     {% endif %}
 
     <!-- Premium Hero Section -->
-    <section class="relative py-20 md:py-28 bg-deuraligreen text-white overflow-hidden">
+    <section class="relative py-20 md:py-28 bg-deuraligreen text-white overflow-hidden" aria-label="Service hero section">
         <!-- Background Image -->
         <div class="absolute inset-0 z-0">
-            {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
-            <!-- HimalRemit Hero Background -->
-            <img src="{% static 'images/remit_logos/himalremit-hero.jpg' %}" alt="HimalRemit Hero"
-                class="w-full h-full object-cover">
-            {% elif service.image %}
-            <img src="{{ service.image.url }}" alt="{{ service.english_name }}" class="w-full h-full object-cover">
-            {% else %}
-            <!-- Fallback Image -->
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?w=1920&h=1080&fit=crop"
-                class="w-full h-full object-cover">
-            {% endif %}
+            {% include 'services/remittance/partials/_service_specific_hero.html' with service=service %}
             <!-- Gradient Overlay -->
-            {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
-            <!-- HimalRemit Blue Gradient Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-indigo-900/80">
-            </div>
+            {% if service.is_himalremit %}
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-blue-800/85 to-indigo-900/80"></div>
             {% else %}
-            <div class="absolute inset-0 bg-gradient-to-r from-deuraligreen/95 via-deuraligreen/90 to-deuraligreen/70">
-            </div>
+            <div class="absolute inset-0 bg-gradient-to-r from-deuraligreen/95 via-deuraligreen/90 to-deuraligreen/70"></div>
             {% endif %}
         </div>
-
-        <!-- Decorative Elements -->
-        {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
-        <!-- HimalRemit Decorative Elements -->
-        <div
-            class="absolute top-0 right-0 w-96 h-96 bg-yellow-400/20 rounded-full translate-x-1/3 -translate-y-1/3 blur-3xl z-0">
-        </div>
-        <div
-            class="absolute bottom-0 left-0 w-80 h-80 bg-blue-400/20 rounded-full -translate-x-1/3 translate-y-1/3 blur-3xl z-0">
-        </div>
-        {% else %}
-        <div
-            class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-x-1/3 -translate-y-1/3 blur-3xl z-0">
-        </div>
-        <div
-            class="absolute bottom-0 left-0 w-80 h-80 bg-bhanjyangred/20 rounded-full -translate-x-1/3 translate-y-1/3 blur-3xl z-0">
-        </div>
-        {% endif %}
 
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <!-- Icon/Logo -->
             <div
-                class="w-32 h-32 {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}bg-gradient-to-br from-white to-blue-50 border-4 border-yellow-400/50{% else %}bg-white{% endif %} rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl animate-fade-in-up p-4 transform hover:scale-105 transition-transform duration-300 ring-4 ring-white/20 backdrop-blur-sm">
-                {% if service.english_name|lower == 'city express' %}
-                <img src="{% static 'images/remit_logos/cityexpress.jpg' %}" alt="City Express Logo"
-                    class="w-full h-full object-contain">
-                {% elif 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
-                <img src="{% static 'images/remit_logos/himalremit.png' %}" alt="HimalRemit Logo"
-                    class="w-full h-full object-contain drop-shadow-lg">
-                {% elif 'ime' in service.english_name|lower %}
-                <!-- Placeholder for IME if available, else standard icon -->
-                <i class="{{ service.icon|default:'fas fa-globe' }} text-5xl text-bhanjyangred"></i>
-                {% else %}
-                <i class="{{ service.icon|default:'fas fa-globe' }} text-5xl text-deuraligreen"></i>
-                {% endif %}
+                class="w-32 h-32 {% if service.is_himalremit %}bg-gradient-to-br from-white to-blue-50 border-4 border-yellow-400/50{% else %}bg-white{% endif %} rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl animate-fade-in-up p-4 transform hover:scale-105 transition-transform duration-300 ring-4 ring-white/20 backdrop-blur-sm"
+                role="img" aria-label="{{ service.english_name }} logo">
+                {% include 'services/remittance/partials/_service_logo.html' with service=service %}
             </div>
 
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 font-montserrat tracking-tight animate-fade-in-up {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}text-white{% else %}text-white{% endif %}"
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 font-montserrat tracking-tight animate-fade-in-up text-white"
                 style="animation-delay: 0.1s;">
                 {{ service.nepali_name }}
             </h1>
-            <p class="text-xl md:text-2xl font-medium animate-fade-in-up {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}text-blue-100 font-semibold{% else %}text-white opacity-90{% endif %}"
+            <p class="text-xl md:text-2xl font-medium animate-fade-in-up {% if service.is_himalremit %}text-blue-100 font-semibold{% else %}text-white opacity-90{% endif %}"
                 style="animation-delay: 0.2s;">
                 {{ service.english_name }}
             </p>
 
             <!-- Custom Taglines based on Service -->
-            {% if service.english_name|lower == 'city express' %}
-            <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
-                <div
-                    class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
-                    <span class="text-yellow-400 text-xl"><i class="fas fa-star"></i></span>
-                    <span class="font-bold text-lg">"सजिलो छ, छिटो छ, सुरक्षित छ"</span>
-                </div>
-                <p class="text-sm text-white/70 mt-3 font-light tracking-widest uppercase">Easy • Fast • Secure</p>
-            </div>
-            {% elif 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
-            <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
-                <div
-                    class="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-400/20 via-amber-400/20 to-yellow-500/20 backdrop-blur-md px-8 py-4 rounded-full border-2 border-yellow-400/40 shadow-xl">
-                    <span class="text-yellow-300 text-2xl drop-shadow-lg"><i class="fas fa-mountain"></i></span>
-                    <span class="font-bold text-lg text-white drop-shadow-md">"Premium Online Money Transfer"</span>
-                </div>
-                <p class="text-sm text-blue-100 mt-4 font-semibold tracking-widest uppercase drop-shadow-md">HimalRemit™
-                    by Himalayan Bank</p>
-            </div>
-            {% elif 'ime' in service.english_name|lower %}
-            <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
-                <div
-                    class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
-                    <span class="text-bhanjyangred text-xl"><i class="fas fa-check-circle"></i></span>
-                    <span class="font-bold text-lg">"नेपालको नं. १ रेमिट्यान्स सेवा"</span>
-                </div>
-            </div>
-            {% endif %}
+            {% include 'services/remittance/partials/_service_tagline.html' with service=service %}
         </div>
     </section>
 
@@ -200,7 +89,7 @@
                     </div>
 
                     <!-- CITY EXPRESS EXCLUSIVE: Stats Block -->
-                    {% if service.english_name|lower == 'city express' %}
+                    {% if service.is_city_express %}
                     <div
                         class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
                         <!-- Decorative bg -->
@@ -238,7 +127,7 @@
                     {% endif %}
 
                     <!-- HIMALREMIT EXCLUSIVE: About Section -->
-                    {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
+                    {% if service.is_himalremit %}
                     <div
                         class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
                         <!-- Decorative bg -->
@@ -269,122 +158,11 @@
                     </div>
                     {% endif %}
 
-                    <!-- HIMALREMIT EXCLUSIVE: Remittance Charges Table -->
-                    {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
-                    <div class="bg-white rounded-3xl shadow-xl p-8 overflow-x-auto">
-                        <div class="text-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800 font-montserrat">Remittance Sending Charges</h2>
-                            <p class="text-gray-500 text-sm mt-2">Competitive rates for sending money from various
-                                countries</p>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full border-collapse">
-                                <thead>
-                                    <tr class="bg-deuraligreen text-white">
-                                        <th class="px-4 py-3 text-left font-bold">S.No</th>
-                                        <th class="px-4 py-3 text-left font-bold">Country</th>
-                                        <th class="px-4 py-3 text-right font-bold">Remittance Sending Charge</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200">
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">1</td>
-                                        <td class="px-4 py-3 text-gray-800">Australia</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Australian Dollar -
-                                            2.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">2</td>
-                                        <td class="px-4 py-3 text-gray-800">Bahrain</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Bahraini Dinar -
-                                            1.50</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">3</td>
-                                        <td class="px-4 py-3 text-gray-800">Israel</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Shekels - 10.00
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">4</td>
-                                        <td class="px-4 py-3 text-gray-800">Japan</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Japanese Yen -
-                                            1,500.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">5</td>
-                                        <td class="px-4 py-3 text-gray-800">Kuwait</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Kuwaiti Dinar -
-                                            1.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">6</td>
-                                        <td class="px-4 py-3 text-gray-800">Malaysia</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Malaysia Ringgit -
-                                            12.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">7</td>
-                                        <td class="px-4 py-3 text-gray-800">Oman</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Omani Riyal - 2.10
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">8</td>
-                                        <td class="px-4 py-3 text-gray-800">Qatar</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Qatari Riyal -
-                                            23.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">9</td>
-                                        <td class="px-4 py-3 text-gray-800">Saudi Arabia</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Saudi Riyal - 25.00
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">10</td>
-                                        <td class="px-4 py-3 text-gray-800">Singapore</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Singapore Dollar -
-                                            1.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">11</td>
-                                        <td class="px-4 py-3 text-gray-800">South Korea</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">South Korea Won -
-                                            5,000.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">12</td>
-                                        <td class="px-4 py-3 text-gray-800">United Arab Emirates</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">UAE Dirham - 26.00
-                                        </td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">13</td>
-                                        <td class="px-4 py-3 text-gray-800">United Kingdom</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">Great Britain Pound
-                                            - 2.00</td>
-                                    </tr>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-4 py-3 font-semibold text-gray-700">14</td>
-                                        <td class="px-4 py-3 text-gray-800">United States of America</td>
-                                        <td class="px-4 py-3 text-right font-bold text-deuraligreen">US Dollar - 3.99
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="mt-6 text-center">
-                            <p class="text-sm text-gray-500">For more information, visit <a
-                                    href="https://www.himalayanbank.com/en/himalremit%E2%84%A2/" target="_blank"
-                                    class="text-deuraligreen hover:underline font-semibold">HimalRemit™ Official
-                                    Website</a></p>
-                        </div>
-                    </div>
-                    {% endif %}
+                    <!-- Remittance Charges Table -->
+                    {% include 'services/remittance/partials/_remittance_charges_table.html' with service=service %}
 
                     <!-- IME EXCLUSIVE: Stats Block -->
-                    {% if 'ime' in service.english_name|lower %}
+                    {% if service.is_ime %}
                     <div
                         class="bg-gradient-to-br from-red-700 to-red-600 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden">
                         <div class="absolute top-[-50px] right-[-50px] w-64 h-64 bg-white/10 rounded-full blur-3xl">
@@ -469,7 +247,7 @@
                     </div>
 
                     <!-- HIMALREMIT EXCLUSIVE: Service Partners & Features -->
-                    {% if 'himal' in service.english_name|lower or 'himalremit' in service.english_name|lower or 'cfs' in service.english_name|lower %}
+                    {% if service.is_himalremit %}
                     <div class="bg-white rounded-3xl shadow-xl p-8">
                         <div class="text-center mb-8">
                             <h2 class="text-2xl font-bold text-gray-800 font-montserrat">Service Partners & Features
@@ -519,7 +297,7 @@
                     {% endif %}
 
                     <!-- City Express Specific Partners Carousel -->
-                    {% if service.english_name|lower == 'city express' %}
+                    {% if service.is_city_express %}
                     <div class="bg-white rounded-3xl shadow-xl p-8 overflow-hidden relative">
                         <div class="text-center mb-8">
                             <h2 class="text-2xl font-bold text-gray-800 font-montserrat">City Express का विश्वव्यापी
@@ -532,18 +310,24 @@
                         <div class="relative group px-4">
                             <!-- Scroll Buttons -->
                             <button onclick="scrollCarousel('left')"
-                                class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50">
-                                <i class="fas fa-chevron-left"></i>
+                                class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50"
+                                aria-label="Scroll carousel left"
+                                aria-controls="partners-carousel">
+                                <i class="fas fa-chevron-left" aria-hidden="true"></i>
                             </button>
                             <button onclick="scrollCarousel('right')"
-                                class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50">
-                                <i class="fas fa-chevron-right"></i>
+                                class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50"
+                                aria-label="Scroll carousel right"
+                                aria-controls="partners-carousel">
+                                <i class="fas fa-chevron-right" aria-hidden="true"></i>
                             </button>
 
                             <!-- Slider -->
                             <div id="partners-carousel"
-                                class="flex gap-4 overflow-x-auto scrollbar-hide py-4 snap-x snap-mandatory">
-                                <!-- Partner Items -->
+                                class="flex gap-4 overflow-x-auto scrollbar-hide py-4 snap-x snap-mandatory"
+                                role="region"
+                                aria-label="Service partners carousel"
+                                tabindex="0">
                                 <div
                                     class="snap-center flex-shrink-0 w-40 bg-gray-50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-gray-100 hover:border-deuraligreen transition-colors">
                                     <div
@@ -657,15 +441,40 @@
     </section>
 </div>
 
-<script>
-    function scrollCarousel(direction) {
-        const carousel = document.getElementById('partners-carousel');
-        const scrollAmount = 200;
-        if (direction === 'left') {
-            carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        } else {
-            carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        }
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'services/js/remittance.js' %}" defer></script>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "{{ service.english_name }}",
+    "alternateName": "{{ service.nepali_name }}",
+    "description": "{{ service.description|striptags|truncatewords:50|default:'Remittance service for money transfer' }}",
+    "provider": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ सहकारी",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/"
+    },
+    "serviceType": "MoneyTransfer",
+    "areaServed": {
+        "@type": "Country",
+        "name": "Nepal"
+    },
+    "url": "{{ request.build_absolute_uri }}",
+    {% if service.processing_time %}
+    "hoursAvailable": {
+        "@type": "OpeningHoursSpecification",
+        "description": "{{ service.processing_time }}"
+    },
+    {% endif %}
+    "offers": {
+        "@type": "Offer",
+        "description": "{{ service.fees|striptags|truncatewords:20|default:'Competitive rates' }}"
     }
+}
 </script>
-{% endblock %}
+{% endblock extra_js %}

@@ -513,15 +513,30 @@ class ExchangeRateViewSet(viewsets.ViewSet):
         """Fetch latest rates from NRB (Public endpoint for manual refresh)."""
         try:
             count = ExchangeRateService.fetch_nrb_rates()
+            if count == 0:
+                return Response({
+                    'success': False,
+                    'message': 'No new rates fetched. Rates may already be up to date or NRB API returned no data.',
+                    'count': count,
+                    'date': timezone.now().date().isoformat()
+                }, status=status.HTTP_200_OK)
             return Response({
                 'success': True,
                 'message': f'Successfully fetched {count} exchange rate(s) from NRB.',
                 'count': count,
                 'date': timezone.now().date().isoformat()
             })
-        except Exception as e:
-            logger.error(f"Error fetching NRB rates: {str(e)}")
+        except ImportError as e:
+            logger.error(f"Import error fetching NRB rates: {str(e)}")
             return Response(
-                {'error': f'Failed to fetch rates: {str(e)}'},
+                {'error': f'Missing dependency: {str(e)}. Please install requests library.'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        except Exception as e:
+            import traceback
+            error_trace = traceback.format_exc()
+            logger.error(f"Error fetching NRB rates: {str(e)}\n{error_trace}")
+            return Response(
+                {'error': f'Failed to fetch rates: {str(e)}', 'details': str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )

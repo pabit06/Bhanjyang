@@ -158,6 +158,8 @@ class ActiveFilterTest(AboutAdminTestCase):
     
     def setUp(self):
         super().setUp()
+        from django.utils.translation import activate
+        activate('en')
         self.filter = ActiveFilter(
             request=self.request,
             params={},

@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import re
 
-from .models import SavingsAccount, FixedDeposit, LoanType, ServiceApplication
+from .models import SavingsAccount, FixedDeposit, LoanType, ServiceApplication, RemittanceService, MemberRelief, DigitalService
 
 # --- Base Widget Attributes for Brand Consistency ---
 
@@ -147,8 +147,38 @@ class ServiceApplicationForm(forms.ModelForm):
             'additional_info': forms.Textarea(attrs={**COMMON_INPUT_ATTRS, 'rows': 4, 'placeholder': _('Optional: Any additional details...')}),
         }
 
+    service_type = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput()
+    )
+    service_id = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput()
+    )
+
     def __init__(self, *args, **kwargs):
         self.service_object = kwargs.pop('service_object', None)
+        initial = kwargs.get('initial', {})
+        
+        # Pre-fill service_type and service_id if service_object is provided
+        if self.service_object:
+            # Determine service type from the object
+            if isinstance(self.service_object, SavingsAccount):
+                initial['service_type'] = 'savings'
+            elif isinstance(self.service_object, LoanType):
+                initial['service_type'] = 'loan'
+            elif isinstance(self.service_object, FixedDeposit):
+                initial['service_type'] = 'fixed_deposit'
+            elif isinstance(self.service_object, RemittanceService):
+                initial['service_type'] = 'remittance'
+            elif isinstance(self.service_object, MemberRelief):
+                initial['service_type'] = 'relief'
+            elif isinstance(self.service_object, DigitalService):
+                initial['service_type'] = 'digital'
+            
+            initial['service_id'] = str(self.service_object.id)
+            kwargs['initial'] = initial
+        
         super().__init__(*args, **kwargs)
 
     def clean_applicant_phone(self):

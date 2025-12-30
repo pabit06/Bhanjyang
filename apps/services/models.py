@@ -190,6 +190,76 @@ class RemittanceService(BaseServiceModel):
     def get_absolute_url(self):
         return reverse('services:remittance_detail', kwargs={'slug': self.slug})
 
+    # Helper methods for template logic
+    def is_himalremit(self):
+        """Check if this service is HimalRemit/CFS."""
+        name_lower = self.english_name.lower()
+        return 'himal' in name_lower or 'himalremit' in name_lower or 'cfs' in name_lower
+
+    def is_city_express(self):
+        """Check if this service is City Express."""
+        return 'city express' in self.english_name.lower()
+
+    def is_ime(self):
+        """Check if this service is IME."""
+        return 'ime' in self.english_name.lower()
+
+    def get_brand_color(self):
+        """Get the brand color theme for this service."""
+        if self.is_himalremit():
+            return 'blue'
+        elif self.is_city_express():
+            return 'blue'
+        elif self.is_ime():
+            return 'red'
+        return self.color or 'green'
+
+    def get_brand_gradient(self):
+        """Get the gradient classes for this service."""
+        if self.is_himalremit():
+            return 'from-blue-900 to-blue-800'
+        elif self.is_city_express():
+            return 'from-blue-900 to-blue-800'
+        elif self.is_ime():
+            return 'from-red-700 to-red-600'
+        return 'from-deuraligreen to-green-800'
+
+    def get_logo_path(self):
+        """Get the static path to the service logo."""
+        if self.is_himalremit():
+            return 'images/remit_logos/himalremit.png'
+        elif self.is_city_express():
+            return 'images/remit_logos/cityexpress.jpg'
+        elif self.is_ime():
+            return 'images/remit_logos/ime.png'
+        return None
+
+
+class RemittanceCharge(models.Model):
+    """Model for remittance service charges by country."""
+    service = models.ForeignKey(
+        RemittanceService,
+        on_delete=models.CASCADE,
+        related_name='charges',
+        verbose_name=_("Remittance Service")
+    )
+    country = models.CharField(max_length=100, verbose_name=_("Country"))
+    charge = models.CharField(max_length=100, verbose_name=_("Charge"), help_text=_("e.g., 'US Dollar - 3.99'"))
+    currency = models.CharField(max_length=10, blank=True, verbose_name=_("Currency Code"))
+    display_order = models.PositiveIntegerField(default=0, verbose_name=_("Display Order"))
+    
+    class Meta:
+        verbose_name = _("Remittance Charge")
+        verbose_name_plural = _("Remittance Charges")
+        ordering = ['service', 'display_order', 'country']
+        indexes = [
+            models.Index(fields=['service', 'display_order']),
+            models.Index(fields=['country']),
+        ]
+
+    def __str__(self):
+        return f"{self.service.english_name} - {self.country}: {self.charge}"
+
 
 class ExchangeRate(models.Model):
     """Model for storing foreign exchange rates, primarily from NRB."""
@@ -269,9 +339,9 @@ class ExchangeRate(models.Model):
         return f"{self.currency_code} - {self.rate_date} (Buy: {self.buy_rate}, Sell: {self.sell_rate})"
 
     def save(self, *args, **kwargs):
-        """Calculate mid_rate if not provided."""
-        if not self.mid_rate:
-            self.mid_rate = (self.buy_rate + self.sell_rate) / 2
+        """Calculate mid_rate from buy_rate and sell_rate."""
+        # Always recalculate mid_rate to ensure accuracy
+        self.mid_rate = (self.buy_rate + self.sell_rate) / 2
         super().save(*args, **kwargs)
 
     @classmethod

@@ -161,13 +161,11 @@ User guides and how-to documentation:
 - [Error Reporting Guide](./guides/error-reporting.md) - Error reporting configuration
 - [Performance Monitoring](./guides/performance-monitoring.md) - Performance monitoring system
 - [Static Files Guide](./guides/static-files.md) - Static files organization
-- [Image Upload Guidelines](./guides/image-upload-guidelines.md) - Image upload best practices
+- [Image Upload Guidelines](./guides/image-upload-guidelines.md) - Comprehensive image upload guide with optimization tools
 
 ### 🔄 [Migrations](./migrations/)
 Migration and refactoring history:
-- Folder structure improvements
-- Standardization progress
-- Migration completion status
+- [Migration Complete Status](./migrations/migration-complete.md) - Final migration status and summary
 
 ### 📱 [Apps](./apps/)
 App-specific documentation:
@@ -180,9 +178,8 @@ Design and coding standards:
 
 ### 🚀 [Deployment](./deployment/)
 Deployment guides and configuration:
-- Production deployment
-- Docker setup
-- Nginx configuration
+- [Production Deployment Guide](./deployment/production.md) - Complete production deployment guide
+- [Production Readiness Checklist](./deployment/PRODUCTION_READINESS_CHECKLIST.md) - Pre-deployment checklist
 
 ### 💻 [Development](./development/)
 Development guides and workflows

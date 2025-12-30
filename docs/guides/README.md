@@ -14,10 +14,11 @@ This directory contains user guides and how-to documentation for the Bhanjyang C
 ### Static Files & Media
 - **[static-files.md](./static-files.md)** - Static files and media organization guide
 
+### Development Setup
+- **[install-gettext-windows.md](./install-gettext-windows.md)** - Installing gettext tools on Windows for translation compilation
+
 ### Image Management
-- **[image-upload-guidelines.md](./image-upload-guidelines.md)** - Comprehensive image upload guidelines
-- **[image-upload-quick-reference.md](./image-upload-quick-reference.md)** - Quick reference card for image uploads
-- **[image-optimization.md](./image-optimization.md)** - Image optimization tools and usage
+- **[image-upload-guidelines.md](./image-upload-guidelines.md)** - Comprehensive image upload guidelines, quick reference, and optimization tools
 
 ## Quick Links
 

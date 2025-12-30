@@ -4,16 +4,47 @@
 This document provides comprehensive guidelines for uploading and managing images on the Bhanjyang Cooperative website. Following these guidelines ensures optimal performance, accessibility, and user experience.
 
 ## 📋 Table of Contents
-1. [Image Requirements](#image-requirements)
-2. [File Formats](#file-formats)
-3. [Size Specifications](#size-specifications)
-4. [Naming Conventions](#naming-conventions)
-5. [Content Guidelines](#content-guidelines)
-6. [Technical Specifications](#technical-specifications)
-7. [Accessibility Requirements](#accessibility-requirements)
-8. [Upload Process](#upload-process)
-9. [Troubleshooting](#troubleshooting)
-10. [Best Practices](#best-practices)
+1. [Quick Reference](#quick-reference)
+2. [Image Requirements](#image-requirements)
+3. [File Formats](#file-formats)
+4. [Size Specifications](#size-specifications)
+5. [Naming Conventions](#naming-conventions)
+6. [Content Guidelines](#content-guidelines)
+7. [Technical Specifications](#technical-specifications)
+8. [Image Optimization Tools](#image-optimization-tools)
+9. [Accessibility Requirements](#accessibility-requirements)
+10. [Upload Process](#upload-process)
+11. [Troubleshooting](#troubleshooting)
+12. [Best Practices](#best-practices)
+
+---
+
+## 🚀 Quick Reference
+
+### Size Requirements Quick Reference
+
+| Image Type | Dimensions | Max Size | Format |
+|------------|------------|----------|---------|
+| **Hero Images** | 1920x1080px | 500KB | JPEG |
+| **News Articles** | 800x600px | 200KB | JPEG |
+| **Team Photos** | 400x400px | 100KB | JPEG |
+| **Service Images** | 600x400px | 150KB | JPEG/PNG |
+| **Logos** | 300x100px | 50KB | PNG |
+
+### Quick Checklist
+- [ ] Image resized to correct dimensions
+- [ ] File size under limit
+- [ ] Descriptive filename
+- [ ] Alt text written
+- [ ] Image quality good
+- [ ] Content appropriate
+
+### Quick Naming Rules
+- ✅ Use lowercase: `news-annual-meeting.jpg`
+- ✅ Use hyphens: `team-manager-profile.jpg`
+- ✅ Be descriptive: `service-savings-account.jpg`
+- ❌ No spaces: `team member photo.jpg`
+- ❌ No special chars: `news@article.jpg`
 
 ---
 
@@ -141,6 +172,63 @@ This document provides comprehensive guidelines for uploading and managing image
 - Total page image size should not exceed 2MB
 - Use appropriate image dimensions for display size
 - Consider using WebP format for modern browsers (future enhancement)
+
+---
+
+## 🛠️ Image Optimization Tools
+
+### Django Management Command (Recommended)
+
+```bash
+# Optimize all images
+python manage.py optimize_images
+
+# Optimize specific type
+python manage.py optimize_images --type hero
+python manage.py optimize_images --type news
+python manage.py optimize_images --type team
+
+# Optimize specific path
+python manage.py optimize_images --path person_photos/
+
+# Dry run (see what would be optimized)
+python manage.py optimize_images --dry-run
+```
+
+### Standalone Python Script
+
+```bash
+# Optimize single image
+python optimize_images.py optimize input.jpg output.jpg --type hero
+
+# Batch optimize directory
+python optimize_images.py batch input_dir/ output_dir/ --type news
+
+# Validate image
+python optimize_images.py validate image.jpg --type team
+```
+
+### Optimization Features
+
+- **Automatic Resizing**: Images are resized to exact specifications
+- **Quality Optimization**: Maintains visual quality while reducing file size
+- **Format Conversion**: Converts to appropriate format (JPEG/PNG)
+- **Backup Creation**: Creates backups before optimization
+- **Batch Processing**: Process multiple images at once
+- **Validation**: Check if images meet specifications
+
+### Recommended Tools
+
+- **Online**: TinyPNG.com, ImageOptim.net
+- **Desktop**: Photoshop, GIMP, Canva
+- **Mobile**: Snapseed, VSCO
+
+### Important Notes
+
+- Always backup your images before optimization
+- Test optimized images on the website
+- Use appropriate image types for content
+- Follow naming conventions for better organization
 
 ---
 

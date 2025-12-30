@@ -7,7 +7,7 @@ from unittest.mock import patch, MagicMock
 import json
 
 from apps.about.models import (
-    CooperativeTimeline, CooperativeAchievement,
+    CooperativeTimeline,
     CooperativeAffiliation, LeadershipMessage, Person
 )
 from apps.search.services import SearchService, SearchAnalytics
@@ -27,10 +27,10 @@ class AdvancedSearchViewTest(TestCase):
             event_date='2024-01-01'
         )
         
-        self.achievement = CooperativeAchievement.objects.create(
-            title='Test Achievement',
-            description='Test description',
-            received_date='2024-01-01'
+        self.timeline2 = CooperativeTimeline.objects.create(
+            title='Another Timeline Event',
+            description='Test description 2',
+            event_date='2024-02-01'
         )
     
     def test_advanced_search_view_no_query(self):
@@ -44,7 +44,7 @@ class AdvancedSearchViewTest(TestCase):
     @patch('apps.search.services.SearchAnalytics.track_search')
     def test_advanced_search_view_all(self, mock_track, mock_search):
         """Test advanced search view with 'all' type"""
-        mock_search.return_value = [self.timeline, self.achievement]
+        mock_search.return_value = [self.timeline, self.timeline2]
         
         response = self.client.get(reverse('search:advanced_search'), {'q': 'Test'})
         
@@ -78,17 +78,7 @@ class AdvancedSearchViewTest(TestCase):
         self.assertEqual(response.context['search_type'], 'events')
         mock_search.assert_called_once_with('Test')
     
-    @patch('apps.search.services.SearchService.search_achievements')
-    @patch('apps.search.services.SearchAnalytics.track_search')
-    def test_advanced_search_view_achievements(self, mock_track, mock_search):
-        """Test advanced search view with 'achievements' type"""
-        mock_search.return_value = [self.achievement]
-        
-        response = self.client.get(reverse('search:advanced_search'), {'q': 'Test', 'type': 'achievements'})
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['search_type'], 'achievements')
-        mock_search.assert_called_once_with('Test')
+
     
     @patch('apps.search.services.SearchService.search_affiliations')
     @patch('apps.search.services.SearchAnalytics.track_search')
@@ -105,7 +95,7 @@ class AdvancedSearchViewTest(TestCase):
     def test_advanced_search_view_sort_by_date(self):
         """Test advanced search view with date sorting"""
         with patch('apps.search.services.SearchService.search_all_content') as mock_search:
-            mock_search.return_value = [self.timeline, self.achievement]
+            mock_search.return_value = [self.timeline, self.timeline2]
             
             response = self.client.get(reverse('search:advanced_search'), {'q': 'Test', 'sort': 'date'})
             
@@ -115,7 +105,7 @@ class AdvancedSearchViewTest(TestCase):
     def test_advanced_search_view_sort_by_title(self):
         """Test advanced search view with title sorting"""
         with patch('apps.search.services.SearchService.search_all_content') as mock_search:
-            mock_search.return_value = [self.timeline, self.achievement]
+            mock_search.return_value = [self.timeline, self.timeline2]
             
             response = self.client.get(reverse('search:advanced_search'), {'q': 'Test', 'sort': 'title'})
             

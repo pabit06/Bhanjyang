@@ -730,12 +730,21 @@ class ExchangeRateService:
             payload = data.get('data', {}).get('payload', [])
             
             if not payload:
-                logger.warning(f"No data found for date {date}")
-                return 0
+                logger.warning(f"No data found for date {date}. Response structure: {list(data.keys())}")
+                # Try to get rates directly from data if payload structure is different
+                if 'data' in data and 'rates' in data['data']:
+                    rates_array = data['data']['rates']
+                    logger.info("Found rates in alternative location")
+                else:
+                    return 0
             
             # Get the first (and likely only) payload item for the date
-            payload_item = payload[0]
-            rates_array = payload_item.get('rates', [])
+            if isinstance(payload, list) and len(payload) > 0:
+                payload_item = payload[0]
+                rates_array = payload_item.get('rates', [])
+            else:
+                logger.error(f"Invalid payload structure: {type(payload)}")
+                return 0
             
             # Handle case where rates might be a string (needs JSON parsing)
             if isinstance(rates_array, str):
@@ -764,13 +773,29 @@ class ExchangeRateService:
                 if currency_code not in [code for code, _ in ExchangeRate.CURRENCY_CHOICES]:
                     continue
                 
+                # Get unit - NRB API provides rates per unit (not per 1 currency)
+                # Examples: JPY has unit=10 (rate is per 10 yen), KRW has unit=100 (rate is per 100 won)
+                # Most currencies have unit=1 (rate is per 1 unit)
+                unit = Decimal(str(currency_obj.get('unit', 1)))
+                if unit <= 0:
+                    unit = Decimal('1')
+                
                 # Per official docs: buy and sell are Currency Buying/Selling Rate (in NRs.)
-                buy_rate = Decimal(str(rate_item.get('buy', 0)))
-                sell_rate = Decimal(str(rate_item.get('sell', 0)))
+                # If unit > 1, we need to divide by unit to get rate per 1 unit of currency
+                buy_rate_raw = Decimal(str(rate_item.get('buy', 0)))
+                sell_rate_raw = Decimal(str(rate_item.get('sell', 0)))
+                
+                # Convert to rate per 1 unit of currency
+                # Example: If NRB says 10 JPY = 14.347 NPR, then unit=10, buy_rate_raw=14.347
+                # After division: buy_rate = 14.347 / 10 = 1.4347 NPR per 1 JPY
+                buy_rate = buy_rate_raw / unit
+                sell_rate = sell_rate_raw / unit
                 
                 if buy_rate <= 0 or sell_rate <= 0:
-                    logger.warning(f"Invalid rates for {currency_code}: buy={buy_rate}, sell={sell_rate}")
+                    logger.warning(f"Invalid rates for {currency_code}: buy={buy_rate}, sell={sell_rate} (unit={unit})")
                     continue
+                
+                logger.info(f"Processing {currency_code}: buy_raw={buy_rate_raw}, sell_raw={sell_rate_raw}, unit={unit}, buy={buy_rate}, sell={sell_rate}")
                 
                 # Create or update exchange rate
                 # Using update_or_create to handle duplicate dates gracefully
@@ -794,13 +819,19 @@ class ExchangeRateService:
             return count
             
         except requests.exceptions.RequestException as e:
-            logger.error(f"Error fetching NRB rates: {str(e)}")
-            # Fallback: Return 0 if API fails, but don't raise exception
-            # This allows manual entry in admin
-            return 0
+            logger.error(f"Network error fetching NRB rates: {str(e)}")
+            raise Exception(f"Failed to connect to NRB API: {str(e)}")
+        except KeyError as e:
+            logger.error(f"Missing key in NRB API response: {str(e)}")
+            raise Exception(f"Invalid NRB API response format: missing {str(e)}")
+        except (ValueError, TypeError) as e:
+            logger.error(f"Data parsing error: {str(e)}")
+            raise Exception(f"Failed to parse NRB API data: {str(e)}")
         except Exception as e:
-            logger.error(f"Unexpected error fetching NRB rates: {str(e)}")
-            raise
+            import traceback
+            error_trace = traceback.format_exc()
+            logger.error(f"Unexpected error fetching NRB rates: {str(e)}\n{error_trace}")
+            raise Exception(f"Error fetching NRB rates: {str(e)}")
     
     @staticmethod
     def get_current_rate(currency_code: str, rate_type: str = 'mid'):

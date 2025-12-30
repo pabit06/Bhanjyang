@@ -466,14 +466,20 @@ def service_application(request):
     if request.method == 'POST':
         form = ServiceApplicationForm(request.POST, service_object=service_object)
         if form.is_valid():
-            if service_type and service_id:
-                ServiceApplicationService.process_application(form, service_type, service_id)
+            # Get service_type and service_id from form or request
+            form_service_type = form.cleaned_data.get('service_type') or service_type
+            form_service_id = form.cleaned_data.get('service_id') or service_id
+            if form_service_type and form_service_id:
+                ServiceApplicationService.process_application(form, form_service_type, form_service_id)
                 messages.success(request, 'Your application has been submitted successfully! We will contact you soon.')
                 return redirect('services:overview')
             else:
                 messages.error(request, 'Service information is missing. Please select a service first.')
     else:
-        form = ServiceApplicationForm(service_object=service_object)
+        form = ServiceApplicationForm(service_object=service_object, initial={
+            'service_type': service_type,
+            'service_id': service_id
+        })
     
     context = {
         'form': form,

@@ -1,0 +1,18 @@
+{% load static %}
+{% comment %}
+Partial for service logo/icon display
+Usage: {% include 'services/remittance/partials/_service_logo.html' with service=service %}
+{% endcomment %}
+
+{% if service.is_city_express %}
+    <img src="{% static 'images/remit_logos/cityexpress.jpg' %}" alt="City Express Logo"
+        class="w-full h-full object-contain">
+{% elif service.is_himalremit %}
+    <img src="{% static 'images/remit_logos/himalremit.png' %}" alt="HimalRemit Logo"
+        class="w-full h-full object-contain drop-shadow-lg">
+{% elif service.is_ime %}
+    <i class="{{ service.icon|default:'fas fa-globe' }} text-5xl text-bhanjyangred"></i>
+{% else %}
+    <i class="{{ service.icon|default:'fas fa-globe' }} text-5xl text-deuraligreen"></i>
+{% endif %}
+

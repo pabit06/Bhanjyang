@@ -7,18 +7,42 @@ This directory contains guides for developers working on the Bhanjyang Cooperati
 ```
 development/
 ├── README.md                # This file
-├── setup.md                 # Development environment setup
-├── contributing.md          # Contribution guidelines
-├── coding-standards.md      # Code style and standards
-└── workflow.md              # Development workflow
+├── DEVELOPMENT_HISTORY.md  # Comprehensive history of all improvements
+├── DEVELOPMENT_STATUS.md    # Current development status
+├── NEXT_STEPS.md            # Next steps for development
+├── TEST_COVERAGE_SUMMARY.md # Test coverage summary and status
+└── PROJECT_REVIEW_SUGGESTIONS.md # Project review and recommendations
 ```
 
 ## Getting Started
 
-1. Read [setup.md](./setup.md) to set up your development environment
-2. Review [coding-standards.md](./coding-standards.md) for code style
-3. Check [workflow.md](./workflow.md) for development process
-4. Read [contributing.md](./contributing.md) before contributing
+1. Review [DEVELOPMENT_STATUS.md](./DEVELOPMENT_STATUS.md) for current project status
+2. Check [TEST_COVERAGE_SUMMARY.md](./TEST_COVERAGE_SUMMARY.md) for test coverage information
+3. Read [NEXT_STEPS.md](./NEXT_STEPS.md) for recommended next steps
+4. Review [DEVELOPMENT_HISTORY.md](./DEVELOPMENT_HISTORY.md) for comprehensive history of all improvements
+
+## Documentation Overview
+
+### [DEVELOPMENT_HISTORY.md](./DEVELOPMENT_HISTORY.md)
+Comprehensive record of all development improvements including:
+- Critical fixes applied
+- Code quality and refactoring improvements
+- Error handling improvements
+- Database indexing improvements
+- Documentation improvements
+- Project review and recommendations
+
+### [DEVELOPMENT_STATUS.md](./DEVELOPMENT_STATUS.md)
+Current development status, completed tasks, and remaining work.
+
+### [NEXT_STEPS.md](./NEXT_STEPS.md)
+Recommended next steps and priorities for continued development.
+
+### [TEST_COVERAGE_SUMMARY.md](./TEST_COVERAGE_SUMMARY.md)
+Current test coverage status, metrics, and recommendations.
+
+### [PROJECT_REVIEW_SUGGESTIONS.md](./PROJECT_REVIEW_SUGGESTIONS.md)
+Comprehensive project review with recommendations and action items.
 
 ## Development Environment
 

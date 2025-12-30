@@ -25,10 +25,7 @@ locale/
 ## Generating Translation Files
 
 ### Prerequisites (Windows Users)
-You must install **GNU gettext** tools to generate translation files.
-1. Download `gettext` binaries for Windows (e.g., from https://mlocati.github.io/articles/gettext-iconv-windows.html).
-2. Install the `static` version.
-3. Add the `bin` folder to your system PATH.
+You must install **GNU gettext** tools to generate translation files. See the detailed guide: [Install gettext on Windows](../docs/guides/install-gettext-windows.md)
 
 ### 1. Extract translatable strings:
 ```bash

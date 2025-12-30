@@ -5,7 +5,7 @@ from unittest.mock import patch, MagicMock
 
 from apps.search.services import SearchService
 from apps.about.models import (
-    CooperativeInfo, CooperativeTimeline, CooperativeAchievement,
+    CooperativeInfo, CooperativeTimeline,
     CooperativeAffiliation, LeadershipMessage, Person
 )
 
