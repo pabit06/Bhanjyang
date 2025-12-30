@@ -1,5 +1,6 @@
 import os
 from celery import Celery
+from celery.schedules import crontab
 
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
@@ -12,6 +13,15 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
+
+# Celery Beat Schedule for periodic tasks
+app.conf.beat_schedule = {
+    'fetch-nrb-exchange-rates-daily': {
+        'task': 'services.fetch_nrb_exchange_rates_daily',
+        'schedule': crontab(hour=6, minute=0),  # Run daily at 6:00 AM Nepal time
+        'options': {'expires': 3600}  # Task expires after 1 hour if not executed
+    },
+}
 
 @app.task(bind=True)
 def debug_task(self):

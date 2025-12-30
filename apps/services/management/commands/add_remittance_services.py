@@ -26,12 +26,13 @@ class Command(BaseCommand):
                 'service_type': 'international',
                 'english_name': 'CFS',
                 'nepali_name': 'सीएफएस',
-                'description': 'CFS (Cash for Service) remittance service for receiving money from abroad.',
+                'slug': 'himalremit',  # Custom slug for URL
+                'description': 'HimalRemit™, a premium online customer focused and technology oriented Money Transfer product, is brought to you by Himalayan Bank Limited - the leading joint venture bank of Nepal. CFS is the Principal Agent for HimalRemit™, offering secure and reliable remittance services with competitive rates. Himalayan Bank is a pioneer in the field of retail money transfer business with almost two decades long customized service delivery experience.',
                 'processing_time': '1-3 hours',
-                'fees': 'Competitive rates',
-                'icon': 'fas fa-money-bill-wave',
+                'fees': 'Competitive rates. See detailed charges for each country.',
+                'icon': 'fas fa-mountain',
                 'color': 'rupablue',
-                'is_featured': False,
+                'is_featured': True,
                 'is_active': True
             },
             {
@@ -92,18 +93,22 @@ class Command(BaseCommand):
         
         # Add Remittance Services
         for data in remittance_services:
-            service, created = RemittanceService.objects.get_or_create(
-                english_name=data['english_name'],
-                defaults=data
-            )
-            if created:
-                self.stdout.write(self.style.SUCCESS(f'Created: {data["english_name"]}'))
-            else:
+            # Check by slug first if provided, otherwise by english_name
+            lookup_field = 'slug' if 'slug' in data else 'english_name'
+            lookup_value = data.get('slug') or data['english_name']
+            
+            service = RemittanceService.objects.filter(**{lookup_field: lookup_value}).first()
+            
+            if service:
                 # Update existing service
                 for key, value in data.items():
                     setattr(service, key, value)
                 service.save()
-                self.stdout.write(self.style.WARNING(f'Updated: {data["english_name"]}'))
+                self.stdout.write(self.style.WARNING(f'Updated: {data["english_name"]} (slug: {service.slug})'))
+            else:
+                # Create new service
+                service = RemittanceService.objects.create(**data)
+                self.stdout.write(self.style.SUCCESS(f'Created: {data["english_name"]} (slug: {service.slug})'))
         
         # Add Digital Services
         for data in digital_services:

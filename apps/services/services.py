@@ -673,7 +673,7 @@ class ExchangeRateService:
         amount = ExchangeRateService.convert_currency(1000, 'USD', 'NPR')
     """
     
-    # NRB API endpoint (may need to be updated based on actual NRB API)
+    # NRB API endpoint
     NRB_API_URL = 'https://www.nrb.org.np/api/forex/v1/rates'
     
     @staticmethod
@@ -701,40 +701,79 @@ class ExchangeRateService:
             date = timezone.now().date()
         
         try:
-            # Try to fetch from NRB API
-            # Note: NRB API format may vary, this is a common structure
+            # NRB API requires 'from' and 'to' parameters with date range
+            # Fetch rates for the specified date
             response = requests.get(
                 ExchangeRateService.NRB_API_URL,
-                params={'date': date.isoformat()} if date else {},
+                params={
+                    'page': 1,
+                    'per_page': 50,
+                    'from': date.isoformat(),
+                    'to': date.isoformat()
+                },
                 timeout=10
             )
             response.raise_for_status()
             
-            # Parse response - adjust based on actual NRB API format
+            # Parse response per official API documentation
+            # Structure: {"status": {"code": 200}, "data": {"payload": [{"date": "...", "rates": [...]}]}}
             data = response.json()
             
-            # NRB API typically returns data in format:
-            # {"data": [{"currency": "USD", "buy": 133.50, "sell": 134.00, ...}, ...]}
-            rates_data = data.get('data', [])
-            if not rates_data:
-                # Try alternative format
-                rates_data = data.get('rates', [])
+            # Check status code
+            status_code = data.get('status', {}).get('code', 0)
+            if status_code != 200:
+                error_msg = data.get('errors', {}).get('validation', 'Unknown error')
+                logger.error(f"NRB API returned error status {status_code}: {error_msg}")
+                return 0
+            
+            # NRB API structure per docs: data.payload is array of FOREX rates for different dates
+            payload = data.get('data', {}).get('payload', [])
+            
+            if not payload:
+                logger.warning(f"No data found for date {date}")
+                return 0
+            
+            # Get the first (and likely only) payload item for the date
+            payload_item = payload[0]
+            rates_array = payload_item.get('rates', [])
+            
+            # Handle case where rates might be a string (needs JSON parsing)
+            if isinstance(rates_array, str):
+                import json
+                try:
+                    rates_array = json.loads(rates_array)
+                except json.JSONDecodeError:
+                    logger.error(f"Failed to parse rates string: {rates_array[:100]}")
+                    return 0
+            
+            if not rates_array or not isinstance(rates_array, list):
+                logger.warning(f"No rates array found in payload for date {date}")
+                return 0
             
             count = 0
-            for rate_data in rates_data:
-                currency_code = rate_data.get('currency', rate_data.get('currencyCode', '')).upper()
+            for rate_item in rates_array:
+                # NRB API format per official docs: {"currency": {"ISO3": "USD", "name": "...", "unit": 1}, "buy": "143.47", "sell": "144.07"}
+                # Note: Currency field is "ISO3" (uppercase) per official documentation
+                currency_obj = rate_item.get('currency', {})
+                currency_code = currency_obj.get('ISO3', currency_obj.get('iso3', '')).upper()
+                
+                if not currency_code:
+                    continue
                 
                 # Skip if currency not in our choices
                 if currency_code not in [code for code, _ in ExchangeRate.CURRENCY_CHOICES]:
                     continue
                 
-                buy_rate = Decimal(str(rate_data.get('buy', rate_data.get('buyRate', 0))))
-                sell_rate = Decimal(str(rate_data.get('sell', rate_data.get('sellRate', 0))))
+                # Per official docs: buy and sell are Currency Buying/Selling Rate (in NRs.)
+                buy_rate = Decimal(str(rate_item.get('buy', 0)))
+                sell_rate = Decimal(str(rate_item.get('sell', 0)))
                 
                 if buy_rate <= 0 or sell_rate <= 0:
+                    logger.warning(f"Invalid rates for {currency_code}: buy={buy_rate}, sell={sell_rate}")
                     continue
                 
                 # Create or update exchange rate
+                # Using update_or_create to handle duplicate dates gracefully
                 exchange_rate, created = ExchangeRate.objects.update_or_create(
                     currency_code=currency_code,
                     rate_date=date,
@@ -748,9 +787,9 @@ class ExchangeRateService:
                 
                 if created:
                     count += 1
-                    logger.info(f"Created exchange rate: {currency_code} for {date}")
+                    logger.info(f"Created exchange rate: {currency_code} for {date} (Buy: {buy_rate}, Sell: {sell_rate})")
                 else:
-                    logger.info(f"Updated exchange rate: {currency_code} for {date}")
+                    logger.info(f"Updated exchange rate: {currency_code} for {date} (Buy: {buy_rate}, Sell: {sell_rate})")
             
             return count
             

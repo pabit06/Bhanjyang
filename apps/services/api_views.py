@@ -508,15 +508,16 @@ class ExchangeRateViewSet(viewsets.ViewSet):
             'rate_type': rate_type,
         })
     
-    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    @action(detail=False, methods=['post'], permission_classes=[permissions.AllowAny])
     def fetch_nrb(self, request):
-        """Fetch latest rates from NRB (Admin only)."""
+        """Fetch latest rates from NRB (Public endpoint for manual refresh)."""
         try:
             count = ExchangeRateService.fetch_nrb_rates()
             return Response({
                 'success': True,
                 'message': f'Successfully fetched {count} exchange rate(s) from NRB.',
-                'count': count
+                'count': count,
+                'date': timezone.now().date().isoformat()
             })
         except Exception as e:
             logger.error(f"Error fetching NRB rates: {str(e)}")
