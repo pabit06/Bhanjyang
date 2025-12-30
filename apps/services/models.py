@@ -190,6 +190,118 @@ class RemittanceService(BaseServiceModel):
     def get_absolute_url(self):
         return reverse('services:remittance_detail', kwargs={'slug': self.slug})
 
+
+class ExchangeRate(models.Model):
+    """Model for storing foreign exchange rates, primarily from NRB."""
+    CURRENCY_CHOICES = [
+        ('USD', _('US Dollar')), ('EUR', _('Euro')), ('GBP', _('British Pound')),
+        ('AUD', _('Australian Dollar')), ('CAD', _('Canadian Dollar')),
+        ('JPY', _('Japanese Yen')), ('CHF', _('Swiss Franc')),
+        ('CNY', _('Chinese Yuan')), ('INR', _('Indian Rupee')),
+        ('AED', _('UAE Dirham')), ('SAR', _('Saudi Riyal')),
+        ('QAR', _('Qatari Riyal')), ('KWD', _('Kuwaiti Dinar')),
+        ('BHD', _('Bahraini Dinar')), ('OMR', _('Omani Rial')),
+        ('SGD', _('Singapore Dollar')), ('MYR', _('Malaysian Ringgit')),
+        ('THB', _('Thai Baht')), ('HKD', _('Hong Kong Dollar')),
+    ]
+    
+    currency_code = models.CharField(
+        max_length=3, 
+        choices=CURRENCY_CHOICES, 
+        verbose_name=_("Currency Code"),
+        help_text=_("ISO 4217 currency code")
+    )
+    buy_rate = models.DecimalField(
+        max_digits=10, 
+        decimal_places=4, 
+        verbose_name=_("Buy Rate (NPR)"),
+        help_text=_("Rate at which bank buys foreign currency")
+    )
+    sell_rate = models.DecimalField(
+        max_digits=10, 
+        decimal_places=4, 
+        verbose_name=_("Sell Rate (NPR)"),
+        help_text=_("Rate at which bank sells foreign currency")
+    )
+    mid_rate = models.DecimalField(
+        max_digits=10, 
+        decimal_places=4, 
+        null=True, 
+        blank=True,
+        verbose_name=_("Mid Rate (NPR)"),
+        help_text=_("Average of buy and sell rate")
+    )
+    rate_date = models.DateField(
+        verbose_name=_("Rate Date"),
+        help_text=_("Date for which this rate is valid")
+    )
+    source = models.CharField(
+        max_length=50, 
+        default='NRB',
+        verbose_name=_("Source"),
+        help_text=_("Source of exchange rate (e.g., NRB, Manual)")
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("Active"),
+        help_text=_("Only active rates are used in calculations")
+    )
+    notes = models.TextField(
+        blank=True,
+        verbose_name=_("Notes"),
+        help_text=_("Additional notes or remarks")
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("Exchange Rate")
+        verbose_name_plural = _("Exchange Rates")
+        ordering = ['-rate_date', 'currency_code']
+        unique_together = [['currency_code', 'rate_date']]
+        indexes = [
+            models.Index(fields=['currency_code', 'rate_date']),
+            models.Index(fields=['is_active', 'rate_date']),
+            models.Index(fields=['rate_date']),
+        ]
+
+    def __str__(self):
+        return f"{self.currency_code} - {self.rate_date} (Buy: {self.buy_rate}, Sell: {self.sell_rate})"
+
+    def save(self, *args, **kwargs):
+        """Calculate mid_rate if not provided."""
+        if not self.mid_rate:
+            self.mid_rate = (self.buy_rate + self.sell_rate) / 2
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_latest_rate(cls, currency_code: str, date=None):
+        """Get the latest exchange rate for a currency."""
+        queryset = cls.objects.filter(
+            currency_code=currency_code,
+            is_active=True
+        )
+        if date:
+            queryset = queryset.filter(rate_date__lte=date)
+        return queryset.order_by('-rate_date').first()
+
+    @classmethod
+    def get_latest_rates(cls, date=None):
+        """Get all latest exchange rates for all currencies."""
+        from django.utils import timezone
+        
+        if date is None:
+            date = timezone.now().date()
+        
+        # Get the latest rate for each currency
+        latest_rates = {}
+        for currency_code, _ in cls.CURRENCY_CHOICES:
+            rate = cls.get_latest_rate(currency_code, date)
+            if rate:
+                latest_rates[currency_code] = rate
+        return latest_rates
+
+
 class MemberRelief(BaseServiceModel):
     """Model for member relief and social support programs."""
     RELIEF_TYPES = [

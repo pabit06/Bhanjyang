@@ -16,8 +16,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import (
     SavingsAccount, FixedDeposit, LoanType, RemittanceService, 
-    MemberRelief, ServiceApplication, ServiceAnalytics, ServiceRecommendation
+    MemberRelief, ServiceApplication, ServiceAnalytics, ServiceRecommendation,
+    ExchangeRate
 )
+from .services import ExchangeRateService
 from .serializers import (
     SavingsAccountSerializer, FixedDepositSerializer, LoanTypeSerializer,
     RemittanceServiceSerializer, MemberReliefSerializer, ServiceApplicationSerializer,
@@ -421,3 +423,104 @@ class ServiceSearchViewSet(viewsets.ViewSet):
             results['member_relief'] = MemberReliefSerializer(relief_qs[:10], many=True).data
         
         return Response(results)
+
+
+class ExchangeRateViewSet(viewsets.ViewSet):
+    """ViewSet for Exchange Rate operations."""
+    
+    permission_classes = [permissions.AllowAny]
+    
+    def list(self, request):
+        """Get all current exchange rates."""
+        rates = ExchangeRateService.get_all_current_rates()
+        
+        result = []
+        for currency_code, rate_obj in rates.items():
+            result.append({
+                'currency_code': currency_code,
+                'buy_rate': str(rate_obj.buy_rate),
+                'sell_rate': str(rate_obj.sell_rate),
+                'mid_rate': str(rate_obj.mid_rate),
+                'rate_date': rate_obj.rate_date.isoformat(),
+                'source': rate_obj.source,
+            })
+        
+        return Response({
+            'rates': result,
+            'count': len(result)
+        })
+    
+    @action(detail=False, methods=['get'])
+    def current(self, request):
+        """Get current exchange rate for a specific currency."""
+        currency_code = request.query_params.get('currency', 'USD').upper()
+        rate_type = request.query_params.get('type', 'mid')  # buy, sell, or mid
+        
+        rate = ExchangeRateService.get_current_rate(currency_code, rate_type)
+        
+        if not rate:
+            return Response(
+                {'error': f'Exchange rate not found for {currency_code}'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        rate_obj = ExchangeRate.get_latest_rate(currency_code)
+        return Response({
+            'currency_code': currency_code,
+            'rate': str(rate),
+            'rate_type': rate_type,
+            'buy_rate': str(rate_obj.buy_rate),
+            'sell_rate': str(rate_obj.sell_rate),
+            'mid_rate': str(rate_obj.mid_rate),
+            'rate_date': rate_obj.rate_date.isoformat(),
+            'source': rate_obj.source,
+        })
+    
+    @action(detail=False, methods=['post'])
+    def convert(self, request):
+        """Convert currency amount."""
+        amount = Decimal(str(request.data.get('amount', 0)))
+        from_currency = request.data.get('from', 'USD').upper()
+        to_currency = request.data.get('to', 'NPR').upper()
+        rate_type = request.data.get('rate_type', 'mid')
+        
+        if amount <= 0:
+            return Response(
+                {'error': 'Amount must be greater than 0'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        converted_amount = ExchangeRateService.convert_currency(
+            amount, from_currency, to_currency, rate_type
+        )
+        
+        if converted_amount is None:
+            return Response(
+                {'error': f'Unable to convert {from_currency} to {to_currency}. Rate not available.'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        return Response({
+            'from_currency': from_currency,
+            'to_currency': to_currency,
+            'amount': str(amount),
+            'converted_amount': str(converted_amount),
+            'rate_type': rate_type,
+        })
+    
+    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    def fetch_nrb(self, request):
+        """Fetch latest rates from NRB (Admin only)."""
+        try:
+            count = ExchangeRateService.fetch_nrb_rates()
+            return Response({
+                'success': True,
+                'message': f'Successfully fetched {count} exchange rate(s) from NRB.',
+                'count': count
+            })
+        except Exception as e:
+            logger.error(f"Error fetching NRB rates: {str(e)}")
+            return Response(
+                {'error': f'Failed to fetch rates: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

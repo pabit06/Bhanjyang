@@ -2,545 +2,426 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ service.english_name }} - Bhanjyang Cooperative{% endblock %}
+{% block title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock %}
 
 {% block extra_css %}
 <style>
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+    /* Custom animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    .partner-logo {
-        animation: fadeIn 0.5s ease-in;
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .carousel-container {
-        scroll-behavior: smooth;
+
+    .partner-card {
+        transition: all 0.3s ease;
+    }
+
+    .partner-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Hide scrollbar but keep functionality */
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
     }
 </style>
 {% endblock extra_css %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50">
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-rupablue via-blue-700 to-rupablue py-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="{{ service.icon|default:'fas fa-money-bill-wave' }} text-4xl"></i>
-            </div>
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 font-montserrat">{{ service.nepali_name }}</h1>
-            <p class="text-xl opacity-90 font-montserrat">{{ service.english_name }}</p>
-            {% if service.english_name|lower == 'city express' %}
-            <div class="mt-6">
-                <p class="text-2xl md:text-3xl font-bold mb-2">{% trans "सजिलो छ, छिटो छ, सुरक्षित छ" %}</p>
-                <p class="text-lg opacity-90">{% trans "Easy, Fast, Secure" %}</p>
-            </div>
-            {% elif service.english_name|lower == 'ime remittance' or service.english_name|lower == 'ime remit' %}
-            <div class="mt-6">
-                <p class="text-2xl md:text-3xl font-bold mb-2">{% trans "Nepal's No.1 Remittance Service" %}</p>
-                <p class="text-lg opacity-90">{% trans "Swift. Secure. Simple." %}</p>
-                <p class="text-base opacity-80 mt-2">{% trans "Trusted by Millions | 25+ Years of Service" %}</p>
-            </div>
+<div class="min-h-screen bg-gray-50 font-poppins">
+    <!-- Breadcrumb -->
+    {% if breadcrumbs %}
+    {% include 'partials/_breadcrumb.html' %}
+    {% endif %}
+
+    <!-- Premium Hero Section -->
+    <section class="relative py-20 md:py-28 bg-deuraligreen text-white overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            {% if service.image %}
+            <img src="{{ service.image.url }}" alt="{{ service.english_name }}" class="w-full h-full object-cover">
             {% else %}
-            <p class="text-lg opacity-80 mt-2">{{ service.get_service_type_display }}</p>
+            <!-- Fallback Image -->
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?w=1920&h=1080&fit=crop"
+                class="w-full h-full object-cover">
+            {% endif %}
+            <!-- Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-r from-deuraligreen/95 via-deuraligreen/90 to-deuraligreen/70">
+            </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div
+            class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-x-1/3 -translate-y-1/3 blur-3xl z-0">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-80 h-80 bg-bhanjyangred/20 rounded-full -translate-x-1/3 translate-y-1/3 blur-3xl z-0">
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <!-- Icon/Logo -->
+            <div
+                class="w-32 h-32 bg-white rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl animate-fade-in-up p-4 transform hover:scale-105 transition-transform duration-300">
+                {% if service.english_name|lower == 'city express' %}
+                <img src="{% static 'images/remit_logos/cityexpress.jpg' %}" alt="City Express Logo"
+                    class="w-full h-full object-contain">
+                {% elif 'ime' in service.english_name|lower %}
+                <!-- Placeholder for IME if available, else standard icon -->
+                <i class="{{ service.icon|default:'fas fa-globe' }} text-5xl text-bhanjyangred"></i>
+                {% else %}
+                <i class="{{ service.icon|default:'fas fa-globe' }} text-5xl text-deuraligreen"></i>
+                {% endif %}
+            </div>
+
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 font-montserrat tracking-tight animate-fade-in-up"
+                style="animation-delay: 0.1s;">
+                {{ service.nepali_name }}
+            </h1>
+            <p class="text-xl md:text-2xl opacity-90 font-medium animate-fade-in-up" style="animation-delay: 0.2s;">
+                {{ service.english_name }}
+            </p>
+
+            <!-- Custom Taglines based on Service -->
+            {% if service.english_name|lower == 'city express' %}
+            <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+                <div
+                    class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+                    <span class="text-yellow-400 text-xl"><i class="fas fa-star"></i></span>
+                    <span class="font-bold text-lg">"सजिलो छ, छिटो छ, सुरक्षित छ"</span>
+                </div>
+                <p class="text-sm text-white/70 mt-3 font-light tracking-widest uppercase">Easy • Fast • Secure</p>
+            </div>
+            {% elif 'ime' in service.english_name|lower %}
+            <div class="mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+                <div
+                    class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+                    <span class="text-bhanjyangred text-xl"><i class="fas fa-check-circle"></i></span>
+                    <span class="font-bold text-lg">"नेपालको नं. १ रेमिट्यान्स सेवा"</span>
+                </div>
+            </div>
             {% endif %}
         </div>
     </section>
 
-    <!-- Service Details -->
-    <section class="py-16">
+    <!-- Main Content Grid -->
+    <section class="relative -mt-10 z-20 pb-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-3 gap-12">
-                <!-- Main Content -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Service Details" %}</h2>
+            <div class="grid lg:grid-cols-3 gap-8">
+
+                <!-- Left Column: Details & Specifics -->
+                <div class="lg:col-span-2 space-y-8">
+
+                    <!-- About Service Card -->
+                    <div class="bg-white rounded-3xl shadow-xl p-8 border-t-4 border-deuraligreen">
+                        <div class="flex items-center gap-4 mb-6">
+                            <i class="fas fa-info-circle text-2xl text-deuraligreen"></i>
+                            <h2 class="text-2xl font-bold text-gray-800 font-montserrat">सेवा विवरण</h2>
+                        </div>
+
                         {% if service.description %}
-                        <div class="prose max-w-none mb-6 text-gray-700 leading-relaxed">
+                        <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed">
                             {{ service.description|linebreaks }}
                         </div>
+                        {% else %}
+                        <p class="text-gray-500 italic">विवरण उपलब्ध छैन।</p>
                         {% endif %}
-                        
+
                         {% if service.features %}
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3 font-montserrat">{% trans "Features" %}</h3>
-                            <div class="prose max-w-none text-gray-700">
+                        <div class="mt-8">
+                            <h3 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-bhanjyangred pl-3">
+                                विशेषताहरू</h3>
+                            <div class="prose max-w-none text-gray-600 bg-gray-50 p-6 rounded-xl">
                                 {{ service.features|linebreaks }}
                             </div>
                         </div>
                         {% endif %}
-                        
-                        {% if service.fees %}
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3 font-montserrat">{% trans "Fees & Charges" %}</h3>
-                            <div class="prose max-w-none text-gray-700">
-                                {{ service.fees|linebreaks }}
-                            </div>
-                        </div>
-                        {% endif %}
                     </div>
 
-                    <!-- Stats Section (for City Express) -->
+                    <!-- CITY EXPRESS EXCLUSIVE: Stats Block -->
                     {% if service.english_name|lower == 'city express' %}
-                    <div class="bg-gradient-to-br from-rupablue to-blue-700 rounded-2xl shadow-lg p-8 mb-8 text-white">
-                        <div class="text-center mb-6">
-                            <h2 class="text-2xl font-bold mb-4 font-montserrat">{% trans "City Express at a Glance" %}</h2>
-                            <div class="w-20 h-1 bg-white mx-auto rounded-full"></div>
+                    <div
+                        class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
+                        <!-- Decorative bg -->
+                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <i class="fas fa-city text-9xl text-white"></i>
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">25,000+</div>
-                                <div class="text-sm opacity-90">{% trans "Payout Locations" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">100+</div>
-                                <div class="text-sm opacity-90">{% trans "Global Partners" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">18+</div>
-                                <div class="text-sm opacity-90">{% trans "Years Experience" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">5M+</div>
-                                <div class="text-sm opacity-90">{% trans "Customers Served" %}</div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Payout Methods Section (for City Express) -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                        <div class="text-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "How to Receive Money" %}</h2>
-                            <p class="text-gray-600">{% trans "Choose your preferred payout method" %}</p>
-                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
-                        </div>
-                        <div class="grid md:grid-cols-3 gap-6">
-                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-hand-holding-usd text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Cash Pickup" %}</h3>
-                                <p class="text-sm text-gray-600 text-center">{% trans "Visit one of our 25,000+ authorized City Express agents and counters across Nepal" %}</p>
+                        <div class="relative z-10">
+                            <div class="text-center mb-10">
+                                <h2 class="text-2xl font-bold font-montserrat mb-2">City Express एक झलकमा</h2>
+                                <div class="w-16 h-1 bg-yellow-400 mx-auto rounded-full"></div>
                             </div>
-                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-university text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Bank Deposit" %}</h3>
-                                <p class="text-sm text-gray-600 text-center">{% trans "Receive your remittance money directly into your Nepali bank account" %}</p>
-                            </div>
-                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-mobile-alt text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "City Pay App" %}</h3>
-                                <p class="text-sm text-gray-600 text-center">{% trans "Track and receive your remittance directly in the City Pay App" %}</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Available Remittance Partners Section (for City Express) -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8">
-                        <div class="text-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "In Partnership with World's Top Money Transfer Companies" %}</h2>
-                            <p class="text-gray-600">{% trans "Receive money from these international remittance services through City Express" %}</p>
-                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
-                        </div>
-                        
-                        <!-- Carousel/Slider for Partners -->
-                        <div class="relative">
-                            <div class="carousel-container overflow-x-auto scrollbar-hide pb-4" style="scrollbar-width: none; -ms-overflow-style: none;">
-                                <div class="flex gap-6 px-2" id="partners-carousel">
-                                    <!-- Partner Cards -->
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-globe-americas text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1">Ria Money Transfer</h3>
-                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-money-bill-wave text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1 text-sm">EZ Remit BFC Bank</h3>
-                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-exchange-alt text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1">Remitly Inc</h3>
-                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-paper-plane text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1 text-sm">DIGIT9 LULU</h3>
-                                            <p class="text-xs text-gray-500">{% trans "Singapore" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-bolt text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1">INSTANT CASH FZE</h3>
-                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-globe text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1">MoneyGram</h3>
-                                            <p class="text-xs text-gray-500">{% trans "International" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-hand-holding-usd text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1">SINGX</h3>
-                                            <p class="text-xs text-gray-500">{% trans "Singapore" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-shield-alt text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1">Terra Payment</h3>
-                                            <p class="text-xs text-gray-500">{% trans "Services" %}</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="partner-card flex-shrink-0 w-48 bg-gradient-to-br from-gray-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 border border-gray-200 transform hover:-translate-y-2">
-                                        <div class="text-center">
-                                            <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                                <i class="fas fa-rocket text-rupablue text-2xl"></i>
-                                            </div>
-                                            <h3 class="font-bold text-gray-800 mb-1">Transfast</h3>
-                                            <p class="text-xs text-gray-500">{% trans "Remittance LLC" %}</p>
-                                        </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                                <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">२५K+</div>
+                                    <div class="text-xs text-blue-100 uppercase tracking-wide">भुक्तानी केन्द्रहरू</div>
+                                </div>
+                                <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">१००+</div>
+                                    <div class="text-xs text-blue-100 uppercase tracking-wide">विश्वव्यापी साझेदारहरू
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <!-- Navigation Arrows (Optional) -->
-                            <button onclick="scrollCarousel('left')" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-10 hidden md:block">
-                                <i class="fas fa-chevron-left text-rupablue"></i>
-                            </button>
-                            <button onclick="scrollCarousel('right')" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-all z-10 hidden md:block">
-                                <i class="fas fa-chevron-right text-rupablue"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="mt-6 text-center">
-                            <p class="text-sm text-gray-600">{% trans "Scroll horizontally to view all partners" %}</p>
-                        </div>
-                    </div>
-
-                    <!-- Why Choose City Express Section -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
-                        <div class="text-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Why Choose City Express" %}</h2>
-                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
-                        </div>
-                        <div class="grid md:grid-cols-3 gap-6">
-                            <div class="text-center">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-globe-asia text-rupablue text-2xl"></i>
+                                <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">१८+</div>
+                                    <div class="text-xs text-blue-100 uppercase tracking-wide">वर्षको अनुभव</div>
                                 </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Global Reach" %}</h3>
-                                <p class="text-sm text-gray-600">{% trans "With over 25,000+ payout locations in Nepal and 100+ partnerships worldwide, City Express ensures seamless money transfers wherever you are." %}</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-shield-alt text-rupablue text-2xl"></i>
+                                <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">५० लाख+</div>
+                                    <div class="text-xs text-blue-100 uppercase tracking-wide">सन्तुष्ट ग्राहकहरू</div>
                                 </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Excellent Security" %}</h3>
-                                <p class="text-sm text-gray-600">{% trans "Licensed by Nepal Rastra Bank, we adhere to strict anti-money laundering standards, providing secure and reliable transactions globally." %}</p>
                             </div>
-                            <div class="text-center">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-users text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Customer-Centric" %}</h3>
-                                <p class="text-sm text-gray-600">{% trans "From cash pickup to bank deposits, City Express makes money transfers easy and efficient, putting you in control of your financial needs." %}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Countries Served Section -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
-                        <div class="text-center mb-6">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Send Money from Around the Globe" %}</h2>
-                            <p class="text-gray-600">{% trans "City Express facilitates money transfers from multiple countries" %}</p>
-                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
-                        </div>
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Australia</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Kuwait</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Malaysia</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Qatar</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Saudi Arabia</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">South Korea</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UAE</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Iraq</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Oman</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UK</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Singapore</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Hong Kong</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Brunei</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Japan</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Europe</span>
                         </div>
                     </div>
                     {% endif %}
 
-                    <!-- IME Remittance Specific Sections -->
-                    {% if service.english_name|lower == 'ime remittance' or service.english_name|lower == 'ime remit' %}
-                    <!-- Stats Section -->
-                    <div class="bg-gradient-to-br from-rupablue to-blue-700 rounded-2xl shadow-lg p-8 mb-8 text-white">
-                        <div class="text-center mb-6">
-                            <h2 class="text-2xl font-bold mb-4 font-montserrat">{% trans "IME Remit at a Glance" %}</h2>
-                            <div class="w-20 h-1 bg-white mx-auto rounded-full"></div>
+                    <!-- IME EXCLUSIVE: Stats Block -->
+                    {% if 'ime' in service.english_name|lower %}
+                    <div
+                        class="bg-gradient-to-br from-red-700 to-red-600 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden">
+                        <div class="absolute top-[-50px] right-[-50px] w-64 h-64 bg-white/10 rounded-full blur-3xl">
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">45K+</div>
-                                <div class="text-sm opacity-90">{% trans "Nationwide Agents" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">5K+</div>
-                                <div class="text-sm opacity-90">{% trans "Franchise Outlets" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">10M+</div>
-                                <div class="text-sm opacity-90">{% trans "Households Benefitted" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">150K+</div>
-                                <div class="text-sm opacity-90">{% trans "Global Locations" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">200+</div>
-                                <div class="text-sm opacity-90">{% trans "Countries" %}</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl md:text-4xl font-bold mb-2">25+</div>
-                                <div class="text-sm opacity-90">{% trans "Years Experience" %}</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Payout Methods Section -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mb-8">
-                        <div class="text-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "How to Receive Money" %}</h2>
-                            <p class="text-gray-600">{% trans "Choose your preferred payout method" %}</p>
-                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
-                        </div>
-                        <div class="grid md:grid-cols-3 gap-6">
-                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-hand-holding-usd text-rupablue text-2xl"></i>
+                        <div class="relative z-10">
+                            <h2
+                                class="text-2xl font-bold font-montserrat mb-8 text-center border-b border-white/20 pb-4">
+                                IME को व्यापक सञ्जाल</h2>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                                <div class="text-center">
+                                    <div class="text-4xl font-extrabold mb-1">४५K+</div>
+                                    <div class="text-xs opacity-80 uppercase">एजेन्टहरू</div>
                                 </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Pick Up Your Cash" %}</h3>
-                                <p class="text-sm text-gray-600 text-center">{% trans "Visit an IME counter or our agent near you to receive cash instantly" %}</p>
-                            </div>
-                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-university text-rupablue text-2xl"></i>
+                                <div class="text-center">
+                                    <div class="text-4xl font-extrabold mb-1">२००+</div>
+                                    <div class="text-xs opacity-80 uppercase">देशहरू</div>
                                 </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Get Money in Your Bank" %}</h3>
-                                <p class="text-sm text-gray-600 text-center">{% trans "Receive remittance directly into your bank account in Nepal" %}</p>
-                            </div>
-                            <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border border-gray-200 hover:shadow-lg transition-all">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-mobile-alt text-rupablue text-2xl"></i>
+                                <div class="text-center">
+                                    <div class="text-4xl font-extrabold mb-1">१ करोड+</div>
+                                    <div class="text-xs opacity-80 uppercase">लाभान्वित घरधुरी</div>
                                 </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{% trans "Receive Money In Khalti" %}</h3>
-                                <p class="text-sm text-gray-600 text-center">{% trans "Track and receive the remittance funds in your Khalti by IME wallet at ZERO extra fee" %}</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Why Choose IME Section -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
-                        <div class="text-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Difference with IME" %}</h2>
-                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
-                        </div>
-                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div class="text-center">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-bolt text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Fast, Reliable & Secure" %}</h3>
-                                <p class="text-sm text-gray-600">{% trans "At IME, fast, secure money transfers are our priority. We swiftly deliver funds to your loved ones while safeguarding the money." %}</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-award text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "25 Years of Experience" %}</h3>
-                                <p class="text-sm text-gray-600">{% trans "With over 25 years perfecting money transfers, rest assured that your money's safe with us." %}</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-globe text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Global Network" %}</h3>
-                                <p class="text-sm text-gray-600">{% trans "Our vast global network spans 150K+ locations in 200+ countries. Count on us for all your local and international money transfers." %}</p>
-                            </div>
-                            <div class="text-center">
-                                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-heart text-rupablue text-2xl"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-gray-800 mb-2">{% trans "Ease & Convenience" %}</h3>
-                                <p class="text-sm text-gray-600">{% trans "We realize how important money transfer is for you and your loved ones and prioritize your ease and convenience." %}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Countries Served Section -->
-                    <div class="bg-white rounded-2xl shadow-lg p-8 mt-8">
-                        <div class="text-center mb-6">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">{% trans "Send Money to Nepal from Anywhere" %}</h2>
-                            <p class="text-gray-600">{% trans "IME facilitates money transfers from 200+ countries worldwide" %}</p>
-                            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mt-4"></div>
-                        </div>
-                        <div class="flex flex-wrap justify-center gap-3">
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Kuwait</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Saudi Arabia</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Malaysia</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Bahrain</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">USA</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Qatar</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UAE</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Korea</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Japan</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Australia</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">UK</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Europe</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">New Zealand</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Canada</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Portugal</span>
-                            <span class="px-4 py-2 bg-rupablue/10 text-rupablue rounded-full text-sm font-semibold">Oman</span>
                         </div>
                     </div>
                     {% endif %}
+
+                    <!-- Payout Methods (Generic for all, styled premium) -->
+                    <div class="bg-white rounded-3xl shadow-xl p-8">
+                        <div class="text-center mb-10">
+                            <span
+                                class="text-deuraligreen font-bold tracking-wider text-sm uppercase bg-deuraligreen/10 px-4 py-1 rounded-full">प्रक्रिया</span>
+                            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mt-3 font-montserrat">रकम कसरी
+                                प्राप्त गर्ने?</h2>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <!-- Card 1 -->
+                            <div
+                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-deuraligreen/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                </div>
+                                <div
+                                    class="w-16 h-16 bg-white shadow-md rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-hand-holding-usd text-2xl text-deuraligreen"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-800 mb-2 relative z-10">नगद भुक्तानी</h3>
+                                <p class="text-sm text-gray-500 relative z-10">हाम्रो सहकारी वा नजिकैको एजेन्टबाट
+                                    परिचयपत्र देखाई नगद लिनुहोस्।</p>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div
+                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-bhanjyangred/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                </div>
+                                <div
+                                    class="w-16 h-16 bg-white shadow-md rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-university text-2xl text-bhanjyangred"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-800 mb-2 relative z-10">बैंक निक्षेप</h3>
+                                <p class="text-sm text-gray-500 relative z-10">सीधै आफ्नो भञ्ज्याङ सहकारी वा अन्य बैंक
+                                    खातामा रकम जम्मा गर्नुहोस्।</p>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div
+                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden">
+                                <div
+                                    class="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                </div>
+                                <div
+                                    class="w-16 h-16 bg-white shadow-md rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-mobile-alt text-2xl text-blue-500"></i>
+                                </div>
+                                <h3 class="font-bold text-gray-800 mb-2 relative z-10">वालेट लोड</h3>
+                                <p class="text-sm text-gray-500 relative z-10">eSewa, Khalti वा मोबाइल बैंकिङ एपमा रकम
+                                    प्राप्त गर्नुहोस्।</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- City Express Specific Partners Carousel -->
+                    {% if service.english_name|lower == 'city express' %}
+                    <div class="bg-white rounded-3xl shadow-xl p-8 overflow-hidden relative">
+                        <div class="text-center mb-8">
+                            <h2 class="text-2xl font-bold text-gray-800 font-montserrat">City Express का विश्वव्यापी
+                                साझेदारहरू</h2>
+                            <p class="text-gray-500 text-sm mt-2">यि रेमिट्यान्स कम्पनीहरू मार्फत विश्वभरबाट पैसा पठाउन
+                                सकिन्छ</p>
+                        </div>
+
+                        <!-- Carousel Controls/Container -->
+                        <div class="relative group px-4">
+                            <!-- Scroll Buttons -->
+                            <button onclick="scrollCarousel('left')"
+                                class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button onclick="scrollCarousel('right')"
+                                class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+
+                            <!-- Slider -->
+                            <div id="partners-carousel"
+                                class="flex gap-4 overflow-x-auto scrollbar-hide py-4 snap-x snap-mandatory">
+                                <!-- Partner Items -->
+                                <div
+                                    class="snap-center flex-shrink-0 w-40 bg-gray-50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-gray-100 hover:border-deuraligreen transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mb-3">
+                                        <i class="fas fa-globe text-deuraligreen"></i>
+                                    </div>
+                                    <span class="font-bold text-gray-700 text-sm">Ria</span>
+                                </div>
+                                <div
+                                    class="snap-center flex-shrink-0 w-40 bg-gray-50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-gray-100 hover:border-deuraligreen transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mb-3">
+                                        <i class="fas fa-money-bill-wave text-deuraligreen"></i>
+                                    </div>
+                                    <span class="font-bold text-gray-700 text-sm">Remitly</span>
+                                </div>
+                                <div
+                                    class="snap-center flex-shrink-0 w-40 bg-gray-50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-gray-100 hover:border-deuraligreen transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mb-3">
+                                        <i class="fas fa-exchange-alt text-deuraligreen"></i>
+                                    </div>
+                                    <span class="font-bold text-gray-700 text-sm">MoneyGram</span>
+                                </div>
+                                <div
+                                    class="snap-center flex-shrink-0 w-40 bg-gray-50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-gray-100 hover:border-deuraligreen transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mb-3">
+                                        <i class="fas fa-rocket text-deuraligreen"></i>
+                                    </div>
+                                    <span class="font-bold text-gray-700 text-sm">Transfast</span>
+                                </div>
+                                <div
+                                    class="snap-center flex-shrink-0 w-40 bg-gray-50 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-gray-100 hover:border-deuraligreen transition-colors">
+                                    <div
+                                        class="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center mb-3">
+                                        <i class="fas fa-bolt text-deuraligreen"></i>
+                                    </div>
+                                    <span class="font-bold text-gray-700 text-sm">Instant Cash</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
                 </div>
 
-                <!-- Sidebar -->
-                <div class="lg:col-span-1">
-                    <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Service Information" %}</h3>
-                        
+                <!-- Right Column: Quick Info & Sidebar -->
+                <div class="lg:col-span-1 space-y-8">
+                    <!-- Key Information Card -->
+                    <div class="bg-white rounded-3xl shadow-xl p-6 sticky top-24">
+                        <div class="text-center mb-6">
+                            <h3 class="text-xl font-bold text-gray-800 font-montserrat">सेवा जानकारी</h3>
+                            <div class="w-12 h-1 bg-bhanjyangred mx-auto rounded-full mt-2"></div>
+                        </div>
+
                         <div class="space-y-4">
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">{% trans "Service Type" %}</span>
-                                <span class="font-semibold">{{ service.get_service_type_display }}</span>
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-gray-600 text-sm"><i
+                                        class="fas fa-tag mr-2 text-deuraligreen"></i>प्रकार</span>
+                                <span class="font-semibold text-gray-800">{{ service.get_service_type_display }}</span>
                             </div>
-                            
-                            {% if service.transfer_limit_min %}
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">{% trans "Min Transfer" %}</span>
-                                <span class="font-semibold">NPR {{ service.transfer_limit_min|floatformat:0 }}</span>
+
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-gray-600 text-sm"><i
+                                        class="far fa-clock mr-2 text-deuraligreen"></i>समय</span>
+                                <span class="font-semibold text-gray-800">{{ service.processing_time|default:"तत्काल"
+                                    }}</span>
                             </div>
-                            {% endif %}
-                            
-                            {% if service.transfer_limit_max %}
-                            <div class="flex justify-between items-center py-3 border-b border-gray-200">
-                                <span class="text-gray-600">{% trans "Max Transfer" %}</span>
-                                <span class="font-semibold">NPR {{ service.transfer_limit_max|floatformat:0 }}</span>
-                            </div>
-                            {% endif %}
-                            
-                            {% if service.processing_time %}
-                            <div class="flex justify-between items-center py-3">
-                                <span class="text-gray-600">{% trans "Processing Time" %}</span>
-                                <span class="font-semibold">{{ service.processing_time }}</span>
+
+                            {% if service.fees %}
+                            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                <span class="text-gray-600 text-sm"><i
+                                        class="fas fa-coins mr-2 text-deuraligreen"></i>शुल्क</span>
+                                <span class="font-semibold text-gray-800 text-xs text-right max-w-[150px]">{{
+                                    service.fees|truncatewords:4 }}</span>
                             </div>
                             {% endif %}
                         </div>
-                        
-                        <div class="mt-8">
-                            <a href="{% url 'contact:contact_view' %}" 
-                               class="w-full bg-rupablue hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
-                                {% trans "Get Started" %}
+
+                        <div class="mt-8 space-y-3">
+                            <a href="{% url 'contact:contact_view' %}"
+                                class="block w-full bg-bhanjyangred text-white font-bold py-4 rounded-xl text-center shadow-lg hover:bg-red-700 hover:shadow-xl transition-all transform hover:-translate-y-1">
+                                <i class="fas fa-phone-alt mr-2"></i> सम्पर्क गर्नुहोस्
+                            </a>
+                            <a href="{% url 'services:remittance_list' %}"
+                                class="block w-full bg-white border-2 border-gray-200 text-gray-600 font-bold py-3 rounded-xl text-center hover:bg-gray-50 hover:text-deuraligreen hover:border-deuraligreen transition-all">
+                                <i class="fas fa-arrow-left mr-2"></i> पछाडि जानुहोस्
                             </a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Related Services -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 font-montserrat">{% trans "Other Remittance Services" %}</h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- This would be populated with related services -->
-                <div class="text-center text-gray-600">
-                    <p>{% trans "Explore our other remittance options" %}</p>
-                    <a href="{% url 'services:remittance_list' %}" class="text-rupablue hover:underline font-semibold">
-                        {% trans "View All Remittance Services" %}
-                    </a>
+                    <!-- Help Box -->
+                    <div
+                        class="bg-gradient-to-br from-deuraligreen to-green-700 rounded-3xl shadow-xl p-6 text-white text-center">
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-headset text-2xl"></i>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">केहि समस्या छ?</h4>
+                        <p class="text-green-100 text-sm mb-4">हाम्रो ग्राहक सेवा प्रतिनिधिहरू तपाईंलाई सहयोग गर्न तयार
+                            छन्।</p>
+                        <p class="font-bold text-xl">+९७७-०६१-५६१६६६</p>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
 </div>
 
 <script>
-function scrollCarousel(direction) {
-    const carousel = document.getElementById('partners-carousel');
-    const scrollAmount = 300;
-    if (direction === 'left') {
-        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    } else {
-        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    function scrollCarousel(direction) {
+        const carousel = document.getElementById('partners-carousel');
+        const scrollAmount = 200;
+        if (direction === 'left') {
+            carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
     }
-}
-
-// Auto-scroll carousel (optional)
-// setInterval(() => {
-//     const carousel = document.getElementById('partners-carousel');
-//     if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
-//         carousel.scrollTo({ left: 0, behavior: 'smooth' });
-//     } else {
-//         carousel.scrollBy({ left: 300, behavior: 'smooth' });
-//     }
-// }, 3000);
 </script>
-
-<style>
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-</style>
 {% endblock %}

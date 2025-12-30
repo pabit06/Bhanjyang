@@ -9,7 +9,8 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 from .api_views import (
     SavingsAccountViewSet, FixedDepositViewSet, LoanTypeViewSet,
     RemittanceServiceViewSet, MemberReliefViewSet, ServiceApplicationViewSet,
-    ServiceAnalyticsViewSet, ServiceRecommendationViewSet, ServiceSearchViewSet
+    ServiceAnalyticsViewSet, ServiceRecommendationViewSet, ServiceSearchViewSet,
+    ExchangeRateViewSet
 )
 
 # Create router for API endpoints
@@ -23,6 +24,7 @@ router.register(r'applications', ServiceApplicationViewSet, basename='applicatio
 router.register(r'analytics', ServiceAnalyticsViewSet, basename='analytics')
 router.register(r'recommendations', ServiceRecommendationViewSet, basename='recommendations')
 router.register(r'search', ServiceSearchViewSet, basename='search')
+router.register(r'exchange-rates', ExchangeRateViewSet, basename='exchange-rates')
 
 app_name = 'services_api'
 

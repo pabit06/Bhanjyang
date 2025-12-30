@@ -7,7 +7,8 @@ from django.core.paginator import Paginator
 from .models import (
     SavingsAccount, FixedDeposit, LoanType, 
     RemittanceService, MemberRelief,
-    ServiceApplication, ServiceAnalytics, ServiceRecommendation
+    ServiceApplication, ServiceAnalytics, ServiceRecommendation,
+    ExchangeRate
 )
 
 class ServiceAnalyticsService:
@@ -654,3 +655,180 @@ class ServiceApplicationService:
         ServiceAnalyticsService.track_usage(service_type, int(service_id), 'applications_received')
         
         return application
+
+
+class ExchangeRateService:
+    """
+    Service class for managing exchange rates, including fetching from NRB API.
+    
+    This service handles:
+    - Fetching exchange rates from Nepal Rastra Bank (NRB) API
+    - Storing rates in the database
+    - Providing rate calculation utilities
+    - Caching rates for performance
+    
+    Usage:
+        ExchangeRateService.fetch_nrb_rates()
+        rate = ExchangeRateService.get_current_rate('USD')
+        amount = ExchangeRateService.convert_currency(1000, 'USD', 'NPR')
+    """
+    
+    # NRB API endpoint (may need to be updated based on actual NRB API)
+    NRB_API_URL = 'https://www.nrb.org.np/api/forex/v1/rates'
+    
+    @staticmethod
+    def fetch_nrb_rates(date=None):
+        """
+        Fetch exchange rates from NRB API and store in database.
+        
+        Args:
+            date: Optional date to fetch rates for. If None, fetches latest rates.
+            
+        Returns:
+            int: Number of rates fetched and saved
+            
+        Raises:
+            Exception: If API request fails or data is invalid
+        """
+        import requests
+        from django.utils import timezone
+        from decimal import Decimal
+        import logging
+        
+        logger = logging.getLogger(__name__)
+        
+        if date is None:
+            date = timezone.now().date()
+        
+        try:
+            # Try to fetch from NRB API
+            # Note: NRB API format may vary, this is a common structure
+            response = requests.get(
+                ExchangeRateService.NRB_API_URL,
+                params={'date': date.isoformat()} if date else {},
+                timeout=10
+            )
+            response.raise_for_status()
+            
+            # Parse response - adjust based on actual NRB API format
+            data = response.json()
+            
+            # NRB API typically returns data in format:
+            # {"data": [{"currency": "USD", "buy": 133.50, "sell": 134.00, ...}, ...]}
+            rates_data = data.get('data', [])
+            if not rates_data:
+                # Try alternative format
+                rates_data = data.get('rates', [])
+            
+            count = 0
+            for rate_data in rates_data:
+                currency_code = rate_data.get('currency', rate_data.get('currencyCode', '')).upper()
+                
+                # Skip if currency not in our choices
+                if currency_code not in [code for code, _ in ExchangeRate.CURRENCY_CHOICES]:
+                    continue
+                
+                buy_rate = Decimal(str(rate_data.get('buy', rate_data.get('buyRate', 0))))
+                sell_rate = Decimal(str(rate_data.get('sell', rate_data.get('sellRate', 0))))
+                
+                if buy_rate <= 0 or sell_rate <= 0:
+                    continue
+                
+                # Create or update exchange rate
+                exchange_rate, created = ExchangeRate.objects.update_or_create(
+                    currency_code=currency_code,
+                    rate_date=date,
+                    defaults={
+                        'buy_rate': buy_rate,
+                        'sell_rate': sell_rate,
+                        'source': 'NRB',
+                        'is_active': True,
+                    }
+                )
+                
+                if created:
+                    count += 1
+                    logger.info(f"Created exchange rate: {currency_code} for {date}")
+                else:
+                    logger.info(f"Updated exchange rate: {currency_code} for {date}")
+            
+            return count
+            
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Error fetching NRB rates: {str(e)}")
+            # Fallback: Return 0 if API fails, but don't raise exception
+            # This allows manual entry in admin
+            return 0
+        except Exception as e:
+            logger.error(f"Unexpected error fetching NRB rates: {str(e)}")
+            raise
+    
+    @staticmethod
+    def get_current_rate(currency_code: str, rate_type: str = 'mid'):
+        """
+        Get current exchange rate for a currency.
+        
+        Args:
+            currency_code: ISO currency code (e.g., 'USD')
+            rate_type: 'buy', 'sell', or 'mid' (default: 'mid')
+            
+        Returns:
+            Decimal: Exchange rate, or None if not found
+        """
+        rate = ExchangeRate.get_latest_rate(currency_code)
+        if not rate:
+            return None
+        
+        if rate_type == 'buy':
+            return rate.buy_rate
+        elif rate_type == 'sell':
+            return rate.sell_rate
+        else:
+            return rate.mid_rate
+    
+    @staticmethod
+    def convert_currency(amount: Decimal, from_currency: str, to_currency: str, rate_type: str = 'mid'):
+        """
+        Convert currency amount from one currency to another.
+        
+        Args:
+            amount: Amount to convert
+            from_currency: Source currency code
+            to_currency: Target currency code
+            rate_type: 'buy', 'sell', or 'mid' (default: 'mid')
+            
+        Returns:
+            Decimal: Converted amount, or None if rate not available
+        """
+        # If converting to NPR, use direct rate
+        if to_currency == 'NPR':
+            rate = ExchangeRateService.get_current_rate(from_currency, rate_type)
+            if rate:
+                return amount * rate
+        
+        # If converting from NPR, use inverse rate
+        elif from_currency == 'NPR':
+            rate = ExchangeRateService.get_current_rate(to_currency, rate_type)
+            if rate:
+                return amount / rate
+        
+        # Converting between two foreign currencies via NPR
+        else:
+            from_rate = ExchangeRateService.get_current_rate(from_currency, rate_type)
+            to_rate = ExchangeRateService.get_current_rate(to_currency, rate_type)
+            if from_rate and to_rate:
+                # Convert to NPR first, then to target currency
+                npr_amount = amount * from_rate
+                return npr_amount / to_rate
+        
+        return None
+    
+    @staticmethod
+    def get_all_current_rates():
+        """
+        Get all current exchange rates.
+        
+        Returns:
+            dict: Dictionary mapping currency codes to ExchangeRate objects
+        """
+        return ExchangeRate.get_latest_rates()

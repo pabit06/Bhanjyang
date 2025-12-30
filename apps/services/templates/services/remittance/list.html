@@ -2,320 +2,663 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Remittance Services" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Remittance Services" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
 {% block extra_css %}
 <style>
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
+    /* Swiper CSS */
+    @import url('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
+
+    /* Premium Animations */
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+        50% {
+            transform: translateY(-10px);
+        }
+
+        100% {
+            transform: translateY(0px);
         }
     }
-    .animate-fade-in-up {
-        animation: fadeInUp 0.6s ease-out;
+
+    @keyframes slide {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
     }
-    .info-banner {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
     }
-    .warning-banner {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+    .animate-float-delayed {
+        animation: float 6s ease-in-out 3s infinite;
+    }
+
+    /* Logo Marquee */
+    .marquee-container {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .marquee-content {
+        animation: slide 30s linear infinite;
+        width: max-content;
+    }
+
+    .marquee-content:hover {
+        animation-play-state: paused;
+    }
+
+    /* Glassmorphism & Cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .service-card-premium {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .service-card-premium:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Process Timeline Line */
+    .timeline-line {
+        background: linear-gradient(to bottom, transparent, #e5e7eb 10%, #e5e7eb 90%, transparent);
+    }
+
+    @media (min-width: 768px) {
+        .timeline-line {
+            background: linear-gradient(to right, transparent, #e5e7eb 10%, #e5e7eb 90%, transparent);
+        }
+    }
+
+    /* Hero Background Images - Set via JavaScript to avoid CSS parser issues with Django template tags */
+    .pattern-bg {
+        background-size: cover;
+        background-position: center;
+        background-repeat: repeat;
     }
 </style>
 {% endblock extra_css %}
 
 {% block content %}
-<!-- Breadcrumb -->
-{% if breadcrumbs %}
-{% include 'partials/_breadcrumb.html' %}
-{% endif %}
+<!-- Modern Breadcrumb (Overlay style) -->
+<div class="bg-gray-50 border-b border-gray-200">
+    {% if breadcrumbs %}
+    {% include 'partials/_breadcrumb.html' %}
+    {% endif %}
+</div>
 
-<!-- Enhanced Hero Section -->
-<section class="relative py-20 md:py-28 bg-gradient-to-br from-rupablue via-blue-700 to-blue-800 text-white overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-10 z-0">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
-    </div>
-    
-    <!-- Decorative Elements -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
-    
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30 animate-fade-in-up">
-            {% trans "Money Transfer" %}
-        </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg animate-fade-in-up" style="animation-delay: 0.1s;">
-            {% trans "Remittance Services" %}
-        </h1>
-        <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6 shadow-lg animate-fade-in-up" style="animation-delay: 0.2s;"></div>
-        <p class="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md animate-fade-in-up" style="animation-delay: 0.3s;">
-            {% trans "Receive money from abroad through our trusted remittance partners. We facilitate payouts for various international remittance services." %}
-        </p>
-        
-        <!-- Quick Stats -->
-        <div class="mt-10 flex flex-wrap justify-center gap-6 animate-fade-in-up" style="animation-delay: 0.4s;">
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
-                <div class="text-3xl font-bold text-white mb-1">{{ international_remittances|length }}</div>
-                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "International Partners" %}</div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
-                <div class="text-3xl font-bold text-white mb-1">{% trans "Secure" %}</div>
-                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Payout" %}</div>
-            </div>
-            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
-                <div class="text-3xl font-bold text-white mb-1">{% trans "24/7" %}</div>
-                <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Service" %}</div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- TOP CLASS HERO SECTION: Asymmetrical & Interactive -->
+<section
+    class="relative pt-16 pb-24 md:pt-24 md:pb-32 bg-gradient-to-br from-green-950 via-green-900 to-emerald-950 overflow-hidden text-white">
+    <!-- Abstract Background -->
+    <!-- HERO BACKGROUND SLIDER -->
+    <div class="absolute inset-0 z-0">
+        <div class="swiper heroSwiper h-full w-full">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide relative">
+                    <div class="absolute inset-0 bg-cover bg-center hero-slide-bg" data-bg-image="{% static 'images/heroes/remit_hero_1.png' %}"></div>
 
-<!-- Important Information Banner -->
-<section class="py-8 bg-gradient-to-r from-blue-50 to-indigo-50 border-b-4 border-rupablue">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 border-l-4 border-rupablue">
-            <div class="flex items-start gap-4">
-                <div class="flex-shrink-0 w-12 h-12 bg-rupablue/10 rounded-full flex items-center justify-center">
-                    <i class="fas fa-info-circle text-rupablue text-2xl"></i>
                 </div>
-                <div class="flex-1">
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "About Our Remittance Services" %}</h3>
-                    <div class="space-y-3 text-gray-700 leading-relaxed">
-                        <p class="flex items-start gap-2">
-                            <i class="fas fa-check-circle text-green-500 mt-1 flex-shrink-0"></i>
-                            <span>{% trans "We receive money from various countries through different remittance companies and facilitate payouts to beneficiaries in Nepal." %}</span>
-                        </p>
-                        <p class="flex items-start gap-2">
-                            <i class="fas fa-times-circle text-red-500 mt-1 flex-shrink-0"></i>
-                            <span>{% trans "We do not send remittances abroad. Our service is limited to receiving and paying out remittances within Nepal." %}</span>
-                        </p>
+                <!-- Slide 2 -->
+                <div class="swiper-slide relative">
+                    <div class="absolute inset-0 bg-cover bg-center hero-slide-bg" data-bg-image="{% static 'images/heroes/remit_hero_2.png' %}"></div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-green-950/90 via-green-900/80 to-emerald-950/90 mix-blend-multiply">
+                    </div>
+                </div>
+                <!-- Slide 3 -->
+                <div class="swiper-slide relative">
+                    <div class="absolute inset-0 bg-cover bg-center hero-slide-bg" data-bg-image="{% static 'images/heroes/remit_hero_3.png' %}"></div>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-green-950/90 via-green-900/80 to-emerald-950/90 mix-blend-multiply">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
 
-<!-- Domestic Remittance Notice -->
-{% if domestic_remittances %}
-<section class="py-6 bg-yellow-50 border-b-2 border-yellow-400">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center gap-4 bg-yellow-100 rounded-lg p-4 border-l-4 border-yellow-500">
-            <i class="fas fa-exclamation-triangle text-yellow-600 text-2xl flex-shrink-0"></i>
-            <div>
-                <p class="text-yellow-800 font-semibold">
-                    {% trans "Notice: Domestic remittance services are currently suspended by Nepal Rastra Bank. Please contact us for more information." %}
+    <!-- Reduced distraction blobs (Overlay on top of slider) -->
+    <div
+        class="absolute top-0 right-0 w-[800px] h-[800px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0">
+    </div>
+    <div
+        class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-black/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 pointer-events-none z-0">
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+            <!-- Left: Content -->
+            <div class="text-center lg:text-left space-y-8">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold animate-fade-in-up shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                    {% trans "Global Money Transfer" %}
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-lg"
+                    style="animation-delay: 0.1s;">
+                    विदेशको कमाई,<br>
+                    <span class="text-yellow-400">स्वदेशमा रमाई</span>
+                </h1>
+
+                <!-- Improved Readability: Heavier font, high contrast white -->
+                <p class="text-lg md:text-xl text-white max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
+                    style="animation-delay: 0.2s;">
+                    विश्वको जुनसुकै कुनाबाट पठाएको माया (पैसा), भञ्ज्याङ सहकारी मार्फत सुरक्षित र छिटो प्राप्त
+                    गर्नुहोस्।
                 </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in-up"
+                    style="animation-delay: 0.3s;">
+                    <a href="{% url 'contact:contact_view' %}"
+                        class="px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-green-950 font-bold rounded-xl shadow-lg shadow-yellow-500/20 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                        <i class="fas fa-paper-plane"></i> सम्पर्क गर्नुहोस्
+                    </a>
+                    <button onclick="document.getElementById('partners-section').scrollIntoView({behavior: 'smooth'})"
+                        class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 backdrop-blur-md transition-all">
+                        साझेदारहरू
+                    </button>
+                </div>
+
+                <!-- Live Stats (Static Visual) -->
+                <div class="pt-6 flex items-center justify-center lg:justify-start gap-8 border-t border-white/10 animate-fade-in-up"
+                    style="animation-delay: 0.4s;">
+                    <div>
+                        <p class="text-3xl font-bold text-white">१२+</p>
+                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">Partners</p>
+                    </div>
+                    <div>
+                        <p class="text-3xl font-bold text-white">२००+</p>
+                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">Countries</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Widget Visual -->
+            <div class="hidden lg:block relative mx-auto w-full max-w-md animate-fade-in-up exchange-rate-widget"
+                style="animation-delay: 0.3s;">
+                <!-- Main Glass Card -->
+                <div
+                    class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl relative z-10 transition-transform hover:scale-[1.02] duration-500">
+                    <!-- Header -->
+                    <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                                <i class="fas fa-exchange-alt text-white"></i>
+                            </div>
+                            <span class="font-bold text-lg text-white">Exchange Rate</span>
+                        </div>
+                        <span
+                            class="text-xs bg-green-500/20 text-green-100 border border-green-500/30 px-2 py-1 rounded font-bold">Live</span>
+                    </div>
+
+                    <!-- Input Mockup -->
+                    <div class="space-y-4">
+                        <div class="bg-black/30 rounded-xl p-4 border border-white/10">
+                            <div class="flex justify-between text-sm text-gray-300 mb-1">
+                                <span>You Send</span>
+                                <span>USD</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-3xl font-bold text-white from-amount">1,000</span>
+                                <div
+                                    class="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-lg border border-white/10">
+                                    <img src="https://flagcdn.com/w40/us.png" class="w-6 h-auto rounded shadow-sm">
+                                    <span class="font-bold text-white">USD</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Connector -->
+                        <div class="flex justify-center -my-2 relative z-20">
+                            <div
+                                class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center shadow-lg border-4 border-emerald-900">
+                                <i class="fas fa-arrow-down text-emerald-900 text-xs"></i>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/30 rounded-xl p-4 border border-white/10">
+                            <div class="flex justify-between text-sm text-gray-300 mb-1">
+                                <span>Recipient Gets (Approx)</span>
+                                <span>NPR</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-3xl font-bold text-yellow-400 to-amount">1,35,000</span>
+                                <div
+                                    class="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-lg border border-white/10">
+                                    <img src="https://flagcdn.com/w40/np.png" class="w-6 h-auto rounded shadow-sm">
+                                    <span class="font-bold text-white">NPR</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="mt-6">
+                        <button
+                            class="w-full py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-green-950 font-bold rounded-xl shadow-lg transition-all">
+                            Check Today's Rate
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Floating Elements Behind -->
+                <div
+                    class="absolute -top-10 -right-10 w-24 h-24 bg-green-500 rounded-2xl rotate-12 opacity-30 blur-2xl animate-pulse">
+                </div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-yellow-500 rounded-full opacity-20 blur-2xl animate-pulse"
+                    style="animation-delay: 1s;"></div>
             </div>
         </div>
     </div>
 </section>
-{% endif %}
 
-<!-- Available International Remittance Services -->
-{% if international_remittances %}
-<section class="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Available Services" %}</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "International Remittance Partners" %}</h2>
-            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mb-4"></div>
-            <p class="text-gray-600 max-w-2xl mx-auto text-lg">{% trans "We partner with leading international remittance companies to facilitate money transfers from abroad to Nepal." %}</p>
-        </div>
+<!-- INFINITE LOGO MARQUEE -->
+<div class="bg-white border-b border-gray-100 py-10 overflow-hidden relative">
+    <div class="container mx-auto px-4 mb-6">
+        <p class="text-center text-sm font-bold text-gray-400 uppercase tracking-widest">Our Global Partners</p>
+    </div>
+    <div class="marquee-container relative w-full flex overflow-hidden">
+        <div class="marquee-content flex gap-12 items-center px-4">
+            <!-- Duplicate content to ensure seamless loop -->
+            <!-- PARTNER MARQUEE ITEMS (Repeated for infinite scroll) -->
+            {% for i in "123" %}
+            <!-- COOPERATIVE / LOCAL -->
+            <img src="{% static 'images/remit_logos/cityexpress.jpg' %}" alt="City Express details"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+            <img src="{% static 'images/remit_logos/ime.png' %}" alt="IME"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+            <img src="{% static 'images/remit_logos/himalremit.png' %}" alt="Himal Remit"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+            <img src="{% static 'images/remit_logos/westernunion.png' %}" alt="Western Union"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for service in international_remittances %}
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border-t-4 border-{{ service.color|default:'rupablue' }} group relative overflow-hidden transform hover:-translate-y-2">
-                <!-- Background Pattern -->
-                <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-300">
-                    <i class="{{ service.icon|default:'fas fa-globe-americas' }} text-8xl text-{{ service.color|default:'rupablue' }}"></i>
-                </div>
+            <!-- GLOBAL LOGOS (Now using images) -->
+            <img src="{% static 'images/remit_logos/ria.png' %}" alt="Ria"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+            
+            <img src="{% static 'images/remit_logos/remitly.png' %}" alt="Remitly"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+            
+            <img src="{% static 'images/remit_logos/moneygram.png' %}" alt="MoneyGram"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
 
-                <div class="relative z-10">
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="w-16 h-16 bg-{{ service.color|default:'rupablue' }}/10 rounded-2xl flex items-center justify-center text-{{ service.color|default:'rupablue' }} group-hover:scale-110 transition-transform duration-300">
-                            <i class="{{ service.icon|default:'fas fa-globe-americas' }} text-3xl"></i>
-                        </div>
-                        {% if service.is_featured %}
-                        <span class="bg-{{ service.color|default:'rupablue' }} text-white text-xs font-bold px-3 py-1 rounded-full">{% trans "Featured" %}</span>
-                        {% endif %}
-                    </div>
+            <!-- DIGITAL WALLETS -->
+            <img src="{% static 'images/remit_logos/esewa.png' %}" alt="eSewa"
+                class="h-8 md:h-10 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
+            <img src="{% static 'images/remit_logos/khalti.png' %}" alt="Khalti"
+                class="h-8 md:h-10 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
 
-                    <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-{{ service.color|default:'rupablue' }} transition-colors">{{ service.nepali_name }}</h3>
-                    <p class="text-sm font-semibold text-gray-500 mb-4 font-montserrat">{{ service.english_name }}</p>
+            <!-- MORE GLOBAL -->
+            <div
+                class="flex items-center gap-2 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300 select-none">
+                <i class="fas fa-bolt text-red-500 text-xl"></i>
+                <span class="text-xl font-bold text-red-600 font-sans">Prabhu</span>
+            </div>
 
-                    {% if service.description %}
-                    <p class="text-gray-600 mb-6 text-sm line-clamp-3 leading-relaxed">{{ service.description|truncatewords:20 }}</p>
-                    {% endif %}
+            <img src="{% static 'images/remit_logos/transfast.jpg' %}" alt="TransFast"
+                class="h-10 md:h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300">
 
-                    <div class="space-y-3 text-sm border-t border-gray-200 pt-4 mb-6">
-                        {% if service.processing_time %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600 font-medium">{% trans "Processing Time:" %}</span>
-                            <span class="font-bold text-gray-800">{{ service.processing_time }}</span>
-                        </div>
-                        {% endif %}
-                        {% if service.fees %}
-                        <div class="flex justify-between">
-                            <span class="text-gray-600 font-medium">{% trans "Fees:" %}</span>
-                            <span class="font-bold text-gray-800">{{ service.fees|truncatewords:5 }}</span>
-                        </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="flex gap-3">
-                        <a href="{{ service.get_absolute_url }}" class="flex-1 inline-flex justify-center items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-xl text-sm transition-all duration-300">
-                            {% trans "Details" %}
-                        </a>
-                        <a href="{% url 'contact:contact_view' %}" class="flex-1 inline-flex justify-center items-center bg-{{ service.color|default:'rupablue' }} hover:opacity-90 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-all duration-300">
-                            {% trans "Contact" %}
-                        </a>
-                    </div>
-                </div>
+            <div
+                class="flex items-center gap-2 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300 select-none">
+                <span class="text-lg font-bold text-pink-600 font-sans uppercase">InstantCash</span>
             </div>
             {% endfor %}
         </div>
     </div>
-</section>
-{% endif %}
+</div>
 
-<!-- Featured Remittance Services (if any) -->
-{% if featured_remittances %}
-<section class="py-16 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
+<!-- MAIN SERVICES GRID (Bento Style) -->
+<section id="partners-section" class="py-20 bg-gray-50">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Recommended" %}</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "Featured Remittance Partners" %}</h2>
-            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full mb-4"></div>
-            <p class="text-gray-600 max-w-2xl mx-auto text-lg">{% trans "Our most trusted partners for reliable remittance payouts." %}</p>
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 font-montserrat mb-6">अन्तर्राष्ट्रिय साझेदारहरू
+            </h2>
+            <div class="w-20 h-1.5 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-gray-600 text-lg leading-relaxed">
+                हामीले विश्वका २००+ देशहरूबाट पैसा प्राप्त गर्न सहज बनाएका छौं। आफ्नो मनपर्ने रेमिट्यान्स सेवा
+                छान्नुहोस्।
+            </p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for service in featured_remittances %}
-            <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-{{ service.color|default:'rupablue' }} group">
-                <div class="text-center mb-6">
-                    <div class="w-20 h-20 bg-{{ service.color|default:'rupablue' }} rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                        <i class="{{ service.icon|default:'fas fa-money-bill-wave' }} text-3xl text-white"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">{{ service.nepali_name }}</h3>
-                    <p class="text-sm font-semibold text-rupablue mb-2">{{ service.english_name }}</p>
-                    <span class="inline-block bg-{{ service.color|default:'rupablue' }}/10 text-{{ service.color|default:'rupablue' }} text-xs font-bold px-3 py-1 rounded-full">{% trans "Featured" %}</span>
+        {% if international_remittances %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for service in international_remittances %}
+            <div
+                class="service-card-premium bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col relative overflow-hidden group">
+                <!-- Top Color Line -->
+                <div
+                    class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-{{ service.color|default:'gray-400' }} to-{{ service.color|default:'gray-300' }}/50">
                 </div>
-                {% if service.description %}
-                <p class="text-gray-600 text-center mb-6">{{ service.description|truncatewords:20 }}</p>
-                {% endif %}
-                <div class="space-y-3 text-sm border-t border-gray-200 pt-4 mb-6">
-                    {% if service.processing_time %}
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 font-medium">{% trans "Processing Time:" %}</span>
-                        <span class="font-bold text-gray-800">{{ service.processing_time }}</span>
+
+                <div class="flex items-start justify-between mb-6">
+                    <div
+                        class="w-20 h-20 bg-gray-50 rounded-2xl p-3 flex items-center justify-center border border-gray-100 group-hover:bg-white group-hover:shadow-lg transition-all">
+                        {% if 'city express' in service.english_name|lower %}
+                        <img src="{% static 'images/remit_logos/cityexpress.jpg' %}"
+                            class="w-full h-full object-contain">
+                        {% elif 'ime' in service.english_name|lower %}
+                        <img src="{% static 'images/remit_logos/ime.png' %}" class="w-full h-full object-contain">
+                        {% elif 'western union' in service.english_name|lower %}
+                        <img src="{% static 'images/remit_logos/westernunion.png' %}"
+                            class="w-full h-full object-contain">
+                        {% elif 'himal' in service.english_name|lower %}
+                        <img src="{% static 'images/remit_logos/himalremit.png' %}"
+                            class="w-full h-full object-contain">
+                        {% elif 'esewa' in service.english_name|lower %}
+                        <img src="{% static 'images/remit_logos/esewa.png' %}" class="w-full h-full object-contain">
+                        {% elif 'khalti' in service.english_name|lower %}
+                        <img src="{% static 'images/remit_logos/khalti.png' %}" class="w-full h-full object-contain">
+                        {% elif 'prabhu' in service.english_name|lower %}
+                        <i class="fas fa-coins text-3xl text-red-600"></i>
+                        {% else %}
+                        <i class="{{ service.icon|default:'fas fa-globe-americas' }} text-3xl text-gray-400"></i>
+                        {% endif %}
                     </div>
-                    {% endif %}
-                    {% if service.fees %}
-                    <div class="flex justify-between">
-                        <span class="text-gray-600 font-medium">{% trans "Fees:" %}</span>
-                        <span class="font-bold text-gray-800">{{ service.fees|truncatewords:5 }}</span>
-                    </div>
+                    {% if service.is_featured %}
+                    <span
+                        class="px-3 py-1 bg-red-50 text-bhanjyangred text-[10px] font-bold uppercase tracking-wider rounded-full border border-red-100">Featured</span>
                     {% endif %}
                 </div>
-                <div class="text-center">
-                    <a href="{{ service.get_absolute_url }}" class="inline-flex items-center gap-2 bg-{{ service.color|default:'rupablue' }} hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">
-                        <span>{% trans "Learn More" %}</span>
+
+                <h3 class="text-xl font-bold text-gray-900 mb-1 group-hover:text-deuraligreen transition-colors">{{ service.nepali_name }}</h3>
+                <p class="text-sm font-medium text-gray-400 mb-6 uppercase tracking-wide font-montserrat">{{ service.english_name }}</p>
+
+                <div class="grid grid-cols-2 gap-4 mb-8 bg-gray-50 rounded-xl p-4 text-sm">
+                    <div>
+                        <p class="text-gray-400 text-xs mb-1">Processing</p>
+                        <p class="font-bold text-gray-800">{{ service.processing_time|default:"Instant" }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-400 text-xs mb-1">Fees</p>
+                        <p class="font-bold text-gray-800">{{ service.fees|truncatewords:2|default:"Low Rate" }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-auto pt-6 border-t border-gray-100 flex gap-3">
+                    <a href="{{ service.get_absolute_url }}"
+                        class="flex-1 bg-gray-900 text-white text-center py-3 rounded-xl font-bold text-sm hover:bg-gray-800 transition-colors">
+                        विवरण
+                    </a>
+                    <a href="{% url 'contact:contact_view' %}"
+                        class="px-4 py-3 bg-gray-100 text-gray-900 rounded-xl hover:bg-gray-200 transition-colors">
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 </section>
-{% endif %}
 
-<!-- Empty State -->
-{% if not international_remittances and not featured_remittances %}
-<section class="py-16 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
+<!-- HOW IT WORKS (Responsive Vertical/Horizontal) -->
+<section class="py-20 bg-white relative">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-white p-12 rounded-2xl shadow-sm text-center border-2 border-dashed border-gray-200">
-            <i class="fas fa-money-bill-wave text-5xl text-gray-300 mb-4 block"></i>
-            <h3 class="text-2xl font-bold text-gray-800 mb-3">{% trans "Remittance Services" %}</h3>
-            <p class="text-gray-500 text-lg mb-6">{% trans "Remittance services are being added. Please contact us for more information." %}</p>
-            <a href="{% url 'contact:contact_view' %}" class="inline-flex items-center gap-2 bg-rupablue hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300">
-                <i class="fas fa-phone"></i>
-                <span>{% trans "Contact Us" %}</span>
-            </a>
+        <div class="flex flex-col md:flex-row gap-12 items-center">
+
+            <!-- Left: Title -->
+            <div class="md:w-1/3">
+                <div class="sticky top-24">
+                    <span
+                        class="text-bhanjyangred font-bold tracking-widest uppercase text-sm mb-2 block">Process</span>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 font-montserrat mb-6 leading-tight">
+                        पैसा प्राप्त गर्ने <br><span class="text-deuraligreen">३ सरल चरणहरू</span>
+                    </h2>
+                    <p class="text-gray-500 text-lg mb-8">
+                        तपाईंको पैसा सुरक्षित रूपमा तपाईंको हातमा पुग्न ३ चरण मात्र लाग्छ। कुनै झन्झट छैन।
+                    </p>
+                    <a href="{% url 'contact:contact_view' %}"
+                        class="inline-flex items-center gap-2 text-gray-900 font-bold border-b-2 border-gray-900 pb-1 hover:text-bhanjyangred hover:border-bhanjyangred transition-all">
+                        सहयोग माग्नुहोस् <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: Steps -->
+            <div class="md:w-2/3 space-y-8 md:space-y-0 relative">
+                <!-- Connecting Line -->
+                <div class="hidden md:block absolute left-8 top-8 bottom-8 w-0.5 timeline-line"></div>
+
+                <!-- Step 1 -->
+                <div class="flex gap-6 relative group">
+                    <div
+                        class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-deuraligreen shadow-lg z-10 group-hover:border-deuraligreen group-hover:scale-110 transition-all duration-300">
+                        1
+                    </div>
+                    <div
+                        class="bg-gray-50 p-8 rounded-3xl w-full group-hover:bg-green-50 transition-colors duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i class="fas fa-paper-plane text-2xl text-deuraligreen"></i>
+                            <h3 class="text-xl font-bold text-gray-900">प्रेषकले पैसा पठाउनुहुन्छ</h3>
+                        </div>
+                        <p class="text-gray-600">तपाईंको आफन्तले विदेशमा रहेको साझेदार एजेन्ट मार्फत पैसा पठाउनुहुन्छ।
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex gap-6 relative group md:ml-12">
+                    <div
+                        class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-bhanjyangred shadow-lg z-10 group-hover:border-bhanjyangred group-hover:scale-110 transition-all duration-300">
+                        2
+                    </div>
+                    <div class="bg-gray-50 p-8 rounded-3xl w-full group-hover:bg-red-50 transition-colors duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i class="fas fa-sms text-2xl text-bhanjyangred"></i>
+                            <h3 class="text-xl font-bold text-gray-900">कोड प्राप्त गर्नुहोस्</h3>
+                        </div>
+                        <p class="text-gray-600">तपाईंले एसएमएस वा फोन मार्फत गोप्य पिन/नम्बर प्राप्त गर्नुहुन्छ।</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex gap-6 relative group md:ml-24">
+                    <div
+                        class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-gray-900 shadow-lg z-10 group-hover:border-gray-900 group-hover:scale-110 transition-all duration-300">
+                        3
+                    </div>
+                    <div
+                        class="bg-gray-50 p-8 rounded-3xl w-full group-hover:bg-gray-100 transition-colors duration-300">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i class="fas fa-hand-holding-usd text-2xl text-gray-900"></i>
+                            <h3 class="text-xl font-bold text-gray-900">नगद लिनुहोस्</h3>
+                        </div>
+                        <p class="text-gray-600">आफ्नो परिचयपत्र लिएर भञ्ज्याङ सहकारीको काउन्टरमा आउनुहोस्।</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
-{% endif %}
 
-<!-- How It Works Section -->
-<section class="py-16 md:py-20 bg-gradient-to-b from-white via-gray-50 to-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <span class="inline-block text-rupablue bg-blue-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "How It Works" %}</span>
-            <h2 class="text-3xl md:text-4xl font-bold text-rupablue font-montserrat mb-4">{% trans "Receiving Remittances" %}</h2>
-            <div class="w-20 h-1 bg-rupablue mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div class="bg-white rounded-2xl shadow-lg p-8 text-center border-t-4 border-rupablue">
-                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-globe-americas text-rupablue text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "1. Money Sent from Abroad" %}</h3>
-                <p class="text-gray-600 leading-relaxed">{% trans "Your family or friends send money from abroad through one of our remittance partners." %}</p>
-            </div>
-            
-            <div class="bg-white rounded-2xl shadow-lg p-8 text-center border-t-4 border-rupablue">
-                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-building text-rupablue text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "2. We Receive & Process" %}</h3>
-                <p class="text-gray-600 leading-relaxed">{% trans "We receive the remittance through our partner network and process it for payout." %}</p>
-            </div>
-            
-            <div class="bg-white rounded-2xl shadow-lg p-8 text-center border-t-4 border-rupablue">
-                <div class="w-16 h-16 bg-rupablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-hand-holding-usd text-rupablue text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "3. Collect Your Money" %}</h3>
-                <p class="text-gray-600 leading-relaxed">{% trans "Visit our branch with valid ID to collect your remittance payout." %}</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="py-20 bg-gradient-to-r from-rupablue via-blue-700 to-rupablue text-white relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute inset-0" style="background-image: url(&quot;{% static 'images/backgrounds/pattern-light.png' %}&quot;); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
-    
-    <!-- Decorative Elements -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold font-montserrat mb-6 drop-shadow-lg">{% trans "Need Help with Remittances?" %}</h2>
-        <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
-        <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">{% trans "Visit one of our branches to collect your remittance or contact us if you have any questions about our remittance services." %}</p>
+<!-- CALL TO ACTION: Full Width Gradient -->
+<section class="py-24 bg-gradient-to-r from-deuraligreen to-green-800 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-20 pattern-bg" data-bg-image="{% static 'images/backgrounds/pattern-light.png' %}"></div>
+    <div class="container mx-auto px-4 text-center relative z-10 text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">तपाईंको विश्वास, हाम्रो जिम्मेवारी</h2>
+        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto">
+            रेमिट्यान्स सम्बन्धी कुनै पनि जानकारीको लागि हामी सधैं तयार छौं।
+        </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="{% url 'contact:contact_view' %}"
-                class="bg-white text-rupablue font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-1 inline-flex items-center justify-center">
-                <i class="fas fa-phone mr-2"></i> {% trans "Contact Us" %}
+            <a href="tel:+97761561666"
+                class="px-10 py-5 bg-white text-deuraligreen rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-all flex items-center justify-center gap-3">
+                <i class="fas fa-phone-alt"></i> हामीलाई कल गर्नुहोस्
             </a>
-            <a href="{% url 'services:overview' %}"
-                class="bg-transparent border-2 border-white text-white font-bold py-4 px-10 rounded-full hover:bg-white hover:text-rupablue transition-all duration-300 inline-flex items-center justify-center">
-                <i class="fas fa-arrow-left mr-2"></i> {% trans "Back to Services" %}
+            <a href="{% url 'services:remittance_list' %}"
+                class="px-10 py-5 bg-transparent border-2 border-white/30 text-white rounded-full font-bold hover:bg-white/10 transition-all">
+                सोधपुछ गर्नुहोस्
             </a>
         </div>
     </div>
 </section>
 {% endblock content %}
+
+{% block extra_js %}
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    // Set background images from data attributes
+    document.addEventListener('DOMContentLoaded', function() {
+        var bgElements = document.querySelectorAll('.hero-slide-bg, .pattern-bg');
+        bgElements.forEach(function(element) {
+            var bgImage = element.getAttribute('data-bg-image');
+            if (bgImage) {
+                element.style.backgroundImage = 'url(' + bgImage + ')';
+            }
+        });
+    });
+
+    var swiper = new Swiper(".heroSwiper", {
+        spaceBetween: 0,
+        effect: "fade",
+        speed: 2000,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        loop: true,
+        allowTouchMove: false, // Background shouldn't be swipeable by user
+    });
+
+    // Exchange Rate Calculator
+    (function() {
+        var exchangeRateWidget = {
+            fromAmount: 1000,
+            fromCurrency: 'USD',
+            toCurrency: 'NPR',
+            currentRate: null,
+            
+            init: function() {
+                this.loadExchangeRate();
+                this.setupEventListeners();
+            },
+            
+            loadExchangeRate: function() {
+                var self = this;
+                fetch('/api/v1/exchange-rates/current/?currency=' + self.fromCurrency + '&type=mid')
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Failed to fetch rate');
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        self.currentRate = parseFloat(data.rate);
+                        self.updateDisplay();
+                    })
+                    .catch(function(error) {
+                        console.error('Error loading exchange rate:', error);
+                        // Fallback to default rate if API fails
+                        self.currentRate = 135.0; // Default USD to NPR rate
+                        self.updateDisplay();
+                    });
+            },
+            
+            setupEventListeners: function() {
+                var self = this;
+                var checkRateBtn = document.querySelector('.exchange-rate-widget button');
+                if (checkRateBtn) {
+                    checkRateBtn.addEventListener('click', function() {
+                        self.loadExchangeRate();
+                    });
+                }
+            },
+            
+            updateDisplay: function() {
+                if (this.currentRate === null) return;
+                
+                var fromAmount = this.fromAmount;
+                var toAmount = fromAmount * this.currentRate;
+                
+                // Format numbers with commas
+                var formattedFrom = this.formatNumber(fromAmount);
+                var formattedTo = this.formatNumber(toAmount);
+                
+                // Update display (if elements exist)
+                var fromAmountEl = document.querySelector('.exchange-rate-widget .from-amount');
+                var toAmountEl = document.querySelector('.exchange-rate-widget .to-amount');
+                
+                if (fromAmountEl) {
+                    fromAmountEl.textContent = formattedFrom;
+                }
+                if (toAmountEl) {
+                    toAmountEl.textContent = formattedTo;
+                }
+            },
+            
+            formatNumber: function(num) {
+                return num.toLocaleString('en-US', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+            },
+            
+            convert: function(amount, from, to) {
+                var self = this;
+                return fetch('/api/v1/exchange-rates/convert/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': this.getCsrfToken()
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        from: from,
+                        to: to,
+                        rate_type: 'mid'
+                    })
+                })
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Conversion failed');
+                    return response.json();
+                })
+                .then(function(data) {
+                    return parseFloat(data.converted_amount);
+                })
+                .catch(function(error) {
+                    console.error('Conversion error:', error);
+                    // Fallback calculation
+                    if (self.currentRate) {
+                        return amount * self.currentRate;
+                    }
+                    return null;
+                });
+            },
+            
+            getCsrfToken: function() {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.startsWith('csrftoken=')) {
+                        return cookie.substring('csrftoken='.length);
+                    }
+                }
+                return '';
+            }
+        };
+        
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                exchangeRateWidget.init();
+            });
+        } else {
+            exchangeRateWidget.init();
+        }
+    })();
+</script>
+{% endblock extra_js %}

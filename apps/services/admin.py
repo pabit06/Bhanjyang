@@ -8,7 +8,8 @@ import json
 from .models import (
     SavingsAccount, FixedDeposit, LoanType, 
     RemittanceService, MemberRelief, DigitalService,
-    ServiceApplication, ServiceAnalytics, ServiceRecommendation
+    ServiceApplication, ServiceAnalytics, ServiceRecommendation,
+    ExchangeRate
 )
 
 # HELPER FUNCTIONS for common admin enhancements
@@ -128,6 +129,67 @@ class LoanTypeAdmin(admin.ModelAdmin):
         if obj.image:
             return format_html('<img src="{}" width="100" height="auto" />', obj.image.url)
         return "No Image"
+
+@admin.register(ExchangeRate)
+class ExchangeRateAdmin(admin.ModelAdmin):
+    """Admin interface for Exchange Rates with NRB integration."""
+    list_display = [
+        'currency_code', 'buy_rate', 'sell_rate', 'mid_rate', 
+        'rate_date', 'source', 'is_active'
+    ]
+    list_filter = ['currency_code', 'rate_date', 'source', 'is_active']
+    search_fields = ['currency_code', 'notes']
+    list_editable = ['buy_rate', 'sell_rate', 'is_active']
+    readonly_fields = ['mid_rate', 'created_at', 'updated_at']
+    date_hierarchy = 'rate_date'
+    ordering = ['-rate_date', 'currency_code']
+    
+    fieldsets = (
+        ('Rate Information', {
+            'fields': ('currency_code', 'rate_date', 'buy_rate', 'sell_rate', 'mid_rate')
+        }),
+        ('Metadata', {
+            'fields': ('source', 'is_active', 'notes')
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    is_active_icon = create_boolean_icon('is_active', 'Active')
+    
+    actions = ['fetch_nrb_rates', 'deactivate_old_rates']
+    
+    @admin.action(description='Fetch latest rates from NRB')
+    def fetch_nrb_rates(self, request, queryset):
+        """Action to fetch rates from NRB API."""
+        from .services import ExchangeRateService
+        try:
+            count = ExchangeRateService.fetch_nrb_rates()
+            self.message_user(
+                request, 
+                f'Successfully fetched {count} exchange rate(s) from NRB.', 
+                'success'
+            )
+        except Exception as e:
+            self.message_user(
+                request, 
+                f'Error fetching rates: {str(e)}', 
+                'error'
+            )
+    
+    @admin.action(description='Deactivate rates older than today')
+    def deactivate_old_rates(self, request, queryset):
+        """Deactivate rates that are not current."""
+        from django.utils import timezone
+        today = timezone.now().date()
+        updated = queryset.filter(rate_date__lt=today).update(is_active=False)
+        self.message_user(
+            request, 
+            f'Deactivated {updated} old rate(s).', 
+            'success'
+        )
 
 @admin.register(RemittanceService)
 class RemittanceServiceAdmin(admin.ModelAdmin):
@@ -310,6 +372,7 @@ from apps.admin.admin_site import admin_site
 admin_site.register(SavingsAccount, SavingsAccountAdmin)
 admin_site.register(FixedDeposit, FixedDepositAdmin)
 admin_site.register(LoanType, LoanTypeAdmin)
+admin_site.register(ExchangeRate, ExchangeRateAdmin)
 admin_site.register(RemittanceService, RemittanceServiceAdmin)
 admin_site.register(DigitalService, DigitalServiceAdmin)
 admin_site.register(MemberRelief, MemberReliefAdmin)
