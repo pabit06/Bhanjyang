@@ -13,12 +13,10 @@
 {% endblock extra_css %}
 
 {% block content %}
-<!-- Modern Breadcrumb (Overlay style) -->
-<div class="bg-gray-50 border-b border-gray-200">
-    {% if breadcrumbs %}
-    {% include 'partials/_breadcrumb.html' %}
-    {% endif %}
-</div>
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
 
 <!-- TOP CLASS HERO SECTION: Asymmetrical & Interactive -->
 <section
@@ -209,8 +207,10 @@
                     class="absolute inset-0 bg-gradient-to-tr from-blue-200 to-transparent rounded-full filter blur-3xl opacity-30 transform scale-90">
                 </div>
                 <div class="relative z-10 transform hover:scale-105 transition-transform duration-500">
-                    <img src="{% static 'images/digital_services/bhanjyang_smart_app_mockup.png' %}"
-                        alt="Bhanjyang Smart App Interface" class="w-auto h-[300px] md:h-[400px] object-contain drop-shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        alt="Digital Banking Services" 
+                        class="w-auto h-[300px] md:h-[400px] object-contain drop-shadow-2xl rounded-2xl"
+                        loading="lazy">
                 </div>
             </div>
         </div>
@@ -227,7 +227,7 @@
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
             <h2 class="text-3xl md:text-5xl font-bold text-gray-900 font-montserrat mb-6">
                 <span class="text-gray-800">अन्य</span> <span class="text-deuraligreen font-extrabold">डिजिटल</span> <span class="text-bhanjyangred font-extrabold">सुविधाहरू</span>
             </h2>
@@ -238,11 +238,12 @@
             </p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 service-grid-mobile">
             {% for service in digital_services %}
             {% if service.service_type != 'mobile_banking' %}
             <div
-                class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 {% if forloop.counter0|divisibleby:2 %}border-t-4 border-deuraligreen{% else %}border-t-4 border-bhanjyangred{% endif %} group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden">
+                class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 {% if forloop.counter0|divisibleby:2 %}border-t-4 border-deuraligreen{% else %}border-t-4 border-bhanjyangred{% endif %} group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden service-card-enhanced scroll-reveal-scale"
+                style="animation-delay: {{ forloop.counter0|add:'0.1'|floatformat:1 }}s;">
                 <!-- Card Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
                     {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}

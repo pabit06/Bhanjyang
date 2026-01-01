@@ -20,8 +20,8 @@ dev-install: ## Install development dependencies
 	pre-commit install
 
 # Development targets
-dev: ## Start development server
-	python manage.py runserver
+dev: ## Start development server (accessible from network)
+	python manage.py runserver 0.0.0.0:8000
 
 run: ## Start production server
 	gunicorn coop.wsgi:application --bind 0.0.0.0:8000

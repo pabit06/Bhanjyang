@@ -30,6 +30,11 @@
             {% else %}
             <div class="absolute inset-0 bg-gradient-to-r from-deuraligreen/95 via-deuraligreen/90 to-deuraligreen/70"></div>
             {% endif %}
+            <!-- Pattern Overlay -->
+            <div class="absolute inset-0 opacity-10">
+                {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+                <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+            </div>
         </div>
 
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -55,15 +60,21 @@
     </section>
 
     <!-- Main Content Grid -->
-    <section class="relative -mt-10 z-20 pb-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="relative -mt-10 z-20 pb-20 bg-gray-50">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-[0.03]">
+            {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-3 gap-8">
 
                 <!-- Left Column: Details & Specifics -->
                 <div class="lg:col-span-2 space-y-8">
 
                     <!-- About Service Card -->
-                    <div class="bg-white rounded-3xl shadow-xl p-8 border-t-4 border-deuraligreen">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 border-t-4 border-deuraligreen scroll-reveal">
                         <div class="flex items-center gap-4 mb-6">
                             <i class="fas fa-info-circle text-2xl text-deuraligreen"></i>
                             <h2 class="text-2xl font-bold text-gray-800 font-montserrat">सेवा विवरण</h2>
@@ -91,9 +102,14 @@
                     <!-- CITY EXPRESS EXCLUSIVE: Stats Block -->
                     {% if service.is_city_express %}
                     <div
-                        class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
+                        class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group scroll-reveal">
+                        <!-- Pattern Background -->
+                        <div class="absolute inset-0 opacity-10">
+                            {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+                            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+                        </div>
                         <!-- Decorative bg -->
-                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity z-0">
                             <i class="fas fa-city text-9xl text-white"></i>
                         </div>
 
@@ -129,9 +145,14 @@
                     <!-- HIMALREMIT EXCLUSIVE: About Section -->
                     {% if service.is_himalremit %}
                     <div
-                        class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group">
+                        class="bg-gradient-to-br from-blue-900 to-blue-800 rounded-3xl shadow-xl p-8 text-white relative overflow-hidden group scroll-reveal">
+                        <!-- Pattern Background -->
+                        <div class="absolute inset-0 opacity-10">
+                            {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+                            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+                        </div>
                         <!-- Decorative bg -->
-                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity z-0">
                             <i class="fas fa-mountain text-9xl text-white"></i>
                         </div>
 
@@ -190,7 +211,7 @@
                     {% endif %}
 
                     <!-- Payout Methods (Generic for all, styled premium) -->
-                    <div class="bg-white rounded-3xl shadow-xl p-8">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 scroll-reveal">
                         <div class="text-center mb-10">
                             <span
                                 class="text-deuraligreen font-bold tracking-wider text-sm uppercase bg-deuraligreen/10 px-4 py-1 rounded-full">प्रक्रिया</span>
@@ -201,7 +222,7 @@
                         <div class="grid md:grid-cols-3 gap-6">
                             <!-- Card 1 -->
                             <div
-                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden">
+                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden scroll-reveal-scale">
                                 <div
                                     class="absolute inset-0 bg-deuraligreen/5 opacity-0 group-hover:opacity-100 transition-opacity">
                                 </div>
@@ -216,7 +237,8 @@
 
                             <!-- Card 2 -->
                             <div
-                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden">
+                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden scroll-reveal-scale"
+                                style="animation-delay: 0.1s;">
                                 <div
                                     class="absolute inset-0 bg-bhanjyangred/5 opacity-0 group-hover:opacity-100 transition-opacity">
                                 </div>
@@ -231,7 +253,8 @@
 
                             <!-- Card 3 -->
                             <div
-                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden">
+                                class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100 relative overflow-hidden scroll-reveal-scale"
+                                style="animation-delay: 0.2s;">
                                 <div
                                     class="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity">
                                 </div>
@@ -248,7 +271,7 @@
 
                     <!-- HIMALREMIT EXCLUSIVE: Service Partners & Features -->
                     {% if service.is_himalremit %}
-                    <div class="bg-white rounded-3xl shadow-xl p-8">
+                    <div class="bg-white rounded-3xl shadow-xl p-8 scroll-reveal">
                         <div class="text-center mb-8">
                             <h2 class="text-2xl font-bold text-gray-800 font-montserrat">Service Partners & Features
                             </h2>

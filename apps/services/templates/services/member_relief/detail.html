@@ -2,90 +2,137 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ service.title }} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{{ service.title }} - भञ्ज्याङ सहकारी{% endblock title %}
+
+{% block extra_css %}
+    <!-- Resource hints for CDN assets -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <link rel="stylesheet" href="{% static 'services/css/remittance.css' %}">
+{% endblock extra_css %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="relative bg-gradient-to-br from-{{ service.color }} via-{{ service.color }} to-{{ service.color }} text-white py-20">
-    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <div class="w-24 h-24 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i class="{{ service.icon }} text-4xl text-white"></i>
+<!-- Modern Breadcrumb -->
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
+<!-- Premium Hero Section -->
+<section class="relative py-20 md:py-28 bg-gradient-to-br from-purple-950 via-purple-800 to-indigo-900 text-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <i class="{{ service.icon|default:'fas fa-heart' }} text-4xl text-white"></i>
         </div>
-        <h1 class="text-4xl md:text-5xl font-bold mb-6 font-montserrat">{{ service.title }}</h1>
-        <p class="text-xl text-white text-opacity-90 max-w-3xl mx-auto">{{ service.nepali_title }}</p>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-montserrat drop-shadow-lg animate-fade-in-up">
+            {{ service.title }}
+        </h1>
+        <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md animate-fade-in-up" style="animation-delay: 0.1s;">
+            {{ service.nepali_title }}
+        </p>
+        
+        <!-- Quick Action Buttons -->
+        <div class="mt-10 flex flex-wrap justify-center gap-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+            <a href="{% url 'contact:contact_view' %}"
+                class="px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold rounded-xl border border-white/30 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+                <i class="fas fa-phone"></i> {% trans "Contact Relief Committee" %}
+            </a>
+            <a href="{% url 'services:member_relief_list' %}"
+                class="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold rounded-xl border border-white/30 transition-all">
+                <i class="fas fa-arrow-left"></i> {% trans "Back to Programs" %}
+            </a>
+        </div>
     </div>
 </section>
 
 <!-- Relief Details -->
-<section class="py-20 bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-20 bg-white relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-4xl mx-auto">
             <!-- Description -->
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">Program Overview</h2>
-                <div class="bg-gray-50 p-8 rounded-2xl">
-                    <p class="text-lg text-gray-700 leading-relaxed">{{ service.description }}</p>
+            <div class="mb-12 scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 font-montserrat">
+                    <span class="text-gray-800">कार्यक्रम</span> <span class="text-purple-600 font-extrabold">अवलोकन</span>
+                </h2>
+                <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-8 rounded-2xl border-l-4 border-purple-600 shadow-lg">
+                    <p class="text-lg text-gray-700 leading-relaxed">{{ service.description|linebreaks }}</p>
                 </div>
             </div>
             
-            <!-- Eligibility & Benefits -->
+            <!-- Eligibility & Benefits Grid -->
             <div class="grid md:grid-cols-2 gap-8 mb-12">
                 {% if service.eligibility %}
-                <div class="bg-green-50 p-8 rounded-2xl border-l-4 border-green-500">
+                <div class="bg-green-50 p-8 rounded-2xl border-l-4 border-green-500 shadow-lg scroll-reveal-left">
                     <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-check-circle text-green-500 mr-3"></i>Eligibility Criteria
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>{% trans "Eligibility Criteria" %}
                     </h3>
-                    <div class="text-gray-700">{{ service.eligibility|linebreaks }}</div>
+                    <div class="text-gray-700 leading-relaxed">{{ service.eligibility|linebreaks }}</div>
                 </div>
                 {% endif %}
                 
                 {% if service.benefits %}
-                <div class="bg-blue-50 p-8 rounded-2xl border-l-4 border-blue-500">
+                <div class="bg-blue-50 p-8 rounded-2xl border-l-4 border-blue-500 shadow-lg scroll-reveal-right">
                     <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-gift text-blue-500 mr-3"></i>Benefits & Support
+                        <i class="fas fa-gift text-blue-500 mr-3"></i>{% trans "Benefits & Support" %}
                     </h3>
-                    <div class="text-gray-700">{{ service.benefits|linebreaks }}</div>
+                    <div class="text-gray-700 leading-relaxed">{{ service.benefits|linebreaks }}</div>
                 </div>
                 {% endif %}
             </div>
             
             <!-- Application Process -->
             {% if service.application_process %}
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">Application Process</h2>
-                <div class="bg-yellow-50 p-8 rounded-2xl border-l-4 border-yellow-500">
-                    <div class="text-gray-700">{{ service.application_process|linebreaks }}</div>
+            <div class="mb-12 scroll-reveal">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Application Process" %}</h2>
+                <div class="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-2xl border-l-4 border-yellow-500 shadow-lg">
+                    <div class="text-gray-700 leading-relaxed">{{ service.application_process|linebreaks }}</div>
                 </div>
             </div>
             {% endif %}
             
             <!-- Required Documents -->
             {% if service.required_documents %}
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">Required Documents</h2>
-                <div class="bg-purple-50 p-8 rounded-2xl border-l-4 border-purple-500">
-                    <div class="text-gray-700">{{ service.required_documents|linebreaks }}</div>
+            <div class="mb-12 scroll-reveal">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Required Documents" %}</h2>
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border-l-4 border-purple-500 shadow-lg">
+                    <div class="text-gray-700 leading-relaxed">{{ service.required_documents|linebreaks }}</div>
                 </div>
             </div>
             {% endif %}
             
             <!-- Contact Information -->
             {% if service.contact_info %}
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">Contact Information</h2>
-                <div class="bg-green-50 p-8 rounded-2xl border-l-4 border-green-500">
-                    <div class="text-gray-700">{{ service.contact_info|linebreaks }}</div>
+            <div class="mb-12 scroll-reveal">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Contact Information" %}</h2>
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl border-l-4 border-green-500 shadow-lg">
+                    <div class="text-gray-700 leading-relaxed">{{ service.contact_info|linebreaks }}</div>
                 </div>
             </div>
             {% endif %}
             
             <!-- Relief Image -->
             {% if service.image %}
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">Program Image</h2>
+            <div class="mb-12 scroll-reveal-scale">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Program Image" %}</h2>
                 <div class="text-center">
-                    <img src="{{ service.image.url }}" alt="{{ service.title }}" class="max-w-full h-auto rounded-2xl shadow-lg" loading="lazy">
+                    <img src="{{ service.image.url }}" alt="{{ service.title }}" class="max-w-full h-auto rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500" loading="lazy">
                 </div>
             </div>
             {% endif %}
@@ -94,20 +141,53 @@
 </section>
 
 <!-- Call to Action -->
-<section class="py-20 bg-gradient-to-r from-{{ service.color }} to-{{ service.color }} text-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl font-bold mb-6 font-montserrat">Ready to Apply?</h2>
-        <p class="text-xl text-white text-opacity-90 mb-8 max-w-3xl mx-auto">
-            Contact our relief committee to start your application process for {{ service.title }}.
+<section class="py-24 bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-800 text-white relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-20">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 text-center relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">तपाईंको विश्वास, हाम्रो जिम्मेवारी</h2>
+        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-3xl mx-auto">
+            {% trans "Ready to apply? Contact our relief committee to start your application process for" %} {{ service.title }}.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="{% url 'contact:contact_view' %}" class="bg-white text-{{ service.color }} font-bold py-4 px-8 rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300 hover:bg-gray-100">
-                <i class="fas fa-phone mr-2"></i>Contact Relief Committee
+            <a href="{% url 'contact:contact_view' %}"
+                class="px-10 py-5 bg-white text-purple-600 rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-all flex items-center justify-center gap-3 touch-target">
+                <i class="fas fa-phone-alt"></i> {% trans "Contact Relief Committee" %}
             </a>
-            <a href="{% url 'services:member_relief_list' %}" class="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-{{ service.color }} transition-all duration-300">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Relief Programs
+            <a href="{% url 'services:member_relief_list' %}"
+                class="px-10 py-5 bg-transparent border-2 border-white/30 text-white rounded-full font-bold hover:bg-white/10 transition-all touch-target">
+                <i class="fas fa-arrow-left"></i> {% trans "Back to Relief Programs" %}
             </a>
         </div>
     </div>
 </section>
 {% endblock content %}
+
+{% block extra_js %}
+<!-- Remittance Services JS (reused for animations) -->
+<script src="{% static 'services/js/remittance.js' %}" defer></script>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "{{ service.title }}",
+    "description": "{{ service.description|truncatewords:30|striptags }}",
+    "provider": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ सहकारी",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/"
+    },
+    "serviceType": "MemberRelief",
+    "areaServed": {
+        "@type": "Country",
+        "name": "Nepal"
+    }
+}
+</script>
+{% endblock extra_js %}

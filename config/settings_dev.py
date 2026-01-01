@@ -7,7 +7,7 @@ from .settings import *
 
 # Development-specific settings
 DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.82']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.82', '192.168.1.117']
 
 # Disable heavy middleware in development for better performance
 MIDDLEWARE = [

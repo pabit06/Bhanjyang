@@ -1,6 +1,6 @@
 /**
  * Remittance Services Scripts
- * Handles Hero Slider, Exchange Rate Widget, and Partner Carousel
+ * Handles Hero Slider, Exchange Rate Widget, Partner Carousel, and Enhanced Interactions
  */
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -442,6 +442,179 @@ document.addEventListener('DOMContentLoaded', function () {
 
         exchangeRateWidget.init();
     }
+
+    // -----------------------------------------
+    // Scroll Reveal Animations (Intersection Observer)
+    // -----------------------------------------
+    function initScrollReveal() {
+        // Check if user prefers reduced motion
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    // Optional: unobserve after animation to improve performance
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll-reveal elements
+        const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-scale');
+        revealElements.forEach(function(el) {
+            observer.observe(el);
+        });
+    }
+
+    // -----------------------------------------
+    // Lazy Loading Images
+    // -----------------------------------------
+    function initLazyLoading() {
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.classList.add('loaded');
+                            img.classList.remove('lazy-load');
+                            observer.unobserve(img);
+                        }
+                    }
+                });
+            }, {
+                rootMargin: '50px'
+            });
+
+            const lazyImages = document.querySelectorAll('img[data-src]');
+            lazyImages.forEach(function(img) {
+                imageObserver.observe(img);
+            });
+        } else {
+            // Fallback for browsers without IntersectionObserver
+            const lazyImages = document.querySelectorAll('img[data-src]');
+            lazyImages.forEach(function(img) {
+                img.src = img.dataset.src;
+                img.classList.add('loaded');
+            });
+        }
+    }
+
+    // -----------------------------------------
+    // Enhanced Card Interactions
+    // -----------------------------------------
+    function initCardInteractions() {
+        const cards = document.querySelectorAll('.service-card-enhanced, .service-card-premium');
+        cards.forEach(function(card) {
+            // Add ripple effect on click
+            card.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = card.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+                
+                card.appendChild(ripple);
+                
+                setTimeout(function() {
+                    ripple.remove();
+                }, 600);
+            });
+
+            // Parallax effect on mouse move (desktop only)
+            if (window.innerWidth > 768) {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-12px) scale(1.02)`;
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    card.style.transform = '';
+                });
+            }
+        });
+    }
+
+    // -----------------------------------------
+    // Smooth Scroll with Offset
+    // -----------------------------------------
+    function initSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                const href = anchor.getAttribute('href');
+                if (href === '#') return;
+                
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80; // Header height
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+
+    // -----------------------------------------
+    // Performance: Debounce function
+    // -----------------------------------------
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction() {
+            const context = this;
+            const args = arguments;
+            const later = function() {
+                timeout = null;
+                func.apply(context, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // -----------------------------------------
+    // Initialize all enhancements
+    // -----------------------------------------
+    initScrollReveal();
+    initLazyLoading();
+    initCardInteractions();
+    initSmoothScroll();
+
+    // Performance: Throttle scroll events
+    let ticking = false;
+    window.addEventListener('scroll', debounce(function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                // Any scroll-based animations here
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, 16)); // ~60fps
 });
 
 // -----------------------------------------
