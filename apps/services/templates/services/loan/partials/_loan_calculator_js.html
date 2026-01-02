@@ -17,13 +17,12 @@ Usage: {% include 'services/loan/partials/_loan_calculator_js.html' with service
             return; // Calculator elements not present
         }
 
-        // Create unique storage keys for this loan service
-        const serviceSlug = '{{ service.slug|default:"default" }}';
-        const STORAGE_KEY_AMOUNT = `loan_calculator_${serviceSlug}_amount`;
-        const STORAGE_KEY_TENURE = `loan_calculator_${serviceSlug}_tenure`;
-        const STORAGE_KEY_FREQUENCY = `loan_calculator_${serviceSlug}_frequency`;
+        // Storage keys for persisting calculator data
+        const STORAGE_KEY_AMOUNT = 'loan_amount';
+        const STORAGE_KEY_TENURE = 'loan_tenure';
+        const STORAGE_KEY_FREQUENCY = 'loan_frequency';
 
-        // Load saved values from localStorage
+        // Load saved values from localStorage on page load
         const savedAmount = localStorage.getItem(STORAGE_KEY_AMOUNT);
         const savedTenure = localStorage.getItem(STORAGE_KEY_TENURE);
         const savedFrequency = localStorage.getItem(STORAGE_KEY_FREQUENCY);

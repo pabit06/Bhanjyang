@@ -389,15 +389,14 @@ class LoanCalculatorView(BaseCalculatorView):
         tenure_years = form.cleaned_data['tenure_years']
         payment_frequency = form.cleaned_data['payment_frequency']
         
-        # Get interest rate based on payment frequency
-        interest_rate = loan_type.monthly_interest_rate
-        if payment_frequency != 'monthly':
-            # For quarterly, use monthly rate (simplified)
-            interest_rate = loan_type.monthly_interest_rate
+        # Convert monthly interest rate to annual rate
+        # FinancialCalculator.calculate_loan_emi expects annual_rate
+        # It will handle quarterly conversion internally (dividing by 400 for quarterly, 1200 for monthly)
+        annual_rate = loan_type.monthly_interest_rate * 12
         
         tenure_months = tenure_years * 12
         calculation = FinancialCalculator.calculate_loan_emi(
-            principal, interest_rate, tenure_months, payment_frequency
+            principal, annual_rate, tenure_months, payment_frequency
         )
         
         return calculation, loan_type
