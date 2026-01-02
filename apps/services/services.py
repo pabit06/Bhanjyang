@@ -810,6 +810,14 @@ class ExchangeRateService:
                     }
                 )
                 
+                # Invalidate cache for this currency when rates are updated
+                from django.core.cache import cache
+                cache.delete(f"exchange_rate_{currency_code.upper()}_buy")
+                cache.delete(f"exchange_rate_{currency_code.upper()}_sell")
+                cache.delete(f"exchange_rate_{currency_code.upper()}_mid")
+                # Also invalidate all_rates cache
+                cache.delete("exchange_rate_all_rates")
+                
                 if created:
                     count += 1
                     logger.info(f"Created exchange rate: {currency_code} for {date} (Buy: {buy_rate}, Sell: {sell_rate})")
@@ -838,6 +846,8 @@ class ExchangeRateService:
         """
         Get current exchange rate for a currency.
         
+        Uses Django cache to reduce database load. Rates are cached for 1 hour.
+        
         Args:
             currency_code: ISO currency code (e.g., 'USD')
             rate_type: 'buy', 'sell', or 'mid' (default: 'mid')
@@ -845,16 +855,33 @@ class ExchangeRateService:
         Returns:
             Decimal: Exchange rate, or None if not found
         """
+        from django.core.cache import cache
+        
+        # Create cache key based on currency and rate type
+        cache_key = f"exchange_rate_{currency_code.upper()}_{rate_type}"
+        
+        # Try to get from cache first
+        cached_rate = cache.get(cache_key)
+        if cached_rate is not None:
+            return cached_rate
+        
+        # Cache miss - fetch from database
         rate = ExchangeRate.get_latest_rate(currency_code)
         if not rate:
             return None
         
+        # Extract the requested rate type
         if rate_type == 'buy':
-            return rate.buy_rate
+            result = rate.buy_rate
         elif rate_type == 'sell':
-            return rate.sell_rate
+            result = rate.sell_rate
         else:
-            return rate.mid_rate
+            result = rate.mid_rate
+        
+        # Cache for 1 hour (3600 seconds)
+        cache.set(cache_key, result, timeout=3600)
+        
+        return result
     
     @staticmethod
     def convert_currency(amount: Decimal, from_currency: str, to_currency: str, rate_type: str = 'mid'):
@@ -898,7 +925,23 @@ class ExchangeRateService:
         """
         Get all current exchange rates.
         
+        Uses Django cache to reduce database load. Rates are cached for 1 hour.
+        
         Returns:
             dict: Dictionary mapping currency codes to ExchangeRate objects
         """
-        return ExchangeRate.get_latest_rates()
+        from django.core.cache import cache
+        
+        # Try to get from cache first
+        cache_key = "exchange_rate_all_rates"
+        cached_rates = cache.get(cache_key)
+        if cached_rates is not None:
+            return cached_rates
+        
+        # Cache miss - fetch from database
+        rates = ExchangeRate.get_latest_rates()
+        
+        # Cache for 1 hour (3600 seconds)
+        cache.set(cache_key, rates, timeout=3600)
+        
+        return rates

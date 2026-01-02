@@ -12,7 +12,13 @@
 
 {% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Fixed deposit with" }} {{ service.interest_rate }}% p.a. interest rate.{% endblock og_description %}
 
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+{% block og_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock og_image %}
 
 {% block og_type %}website{% endblock og_type %}
 
@@ -20,7 +26,13 @@
 
 {% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Fixed deposit account from Bhanjyang Cooperative." }}{% endblock twitter_description %}
 
-{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+{% block twitter_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock twitter_image %}
 
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
@@ -331,16 +343,56 @@
         <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
             <span class="text-gray-800">अन्य</span> <span class="text-orange-600 font-extrabold">आवधिक बचत</span>
         </h2>
+        {% if related_deposits %}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="text-center text-gray-600 scroll-reveal">
-                <p>{% trans "Explore our other fixed deposit options" %}</p>
-                <a href="{% url 'services:fixed_deposit_list' %}" class="text-orange-600 hover:underline font-semibold">
-                    {% trans "View All Fixed Deposits" %}
+            {% for deposit in related_deposits %}
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-orange-600 scroll-reveal">
+                <div class="text-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">{{ deposit.get_duration_months_display }}</h3>
+                    <p class="text-3xl font-extrabold text-orange-600 mb-1">{{ deposit.interest_rate }}%</p>
+                    <p class="text-xs text-gray-500 uppercase">{% trans "Interest Rate p.a." %}</p>
+                </div>
+                {% if deposit.description %}
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ deposit.description|truncatewords:15 }}</p>
+                {% endif %}
+                <a href="{% url 'services:fixed_deposit_detail' deposit.slug %}" 
+                   class="inline-flex items-center justify-center gap-2 w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-md hover:shadow-lg">
+                    {% trans "View Details" %}
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
                 </a>
             </div>
+            {% endfor %}
         </div>
+        <div class="text-center mt-12 scroll-reveal">
+            <a href="{% url 'services:savings_list' %}#periodic-savings" class="inline-flex items-center gap-2 text-orange-600 hover:underline font-semibold text-lg">
+                {% trans "View All Fixed Deposits" %}
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+        {% else %}
+        <div class="text-center text-gray-600 scroll-reveal">
+            <p>{% trans "Explore our other fixed deposit options" %}</p>
+            <a href="{% url 'services:savings_list' %}#periodic-savings" class="text-orange-600 hover:underline font-semibold">
+                {% trans "View All Fixed Deposits" %}
+            </a>
+        </div>
+        {% endif %}
     </div>
 </section>
+
+<!-- Mobile Sticky Footer - Apply Button -->
+<div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 shadow-lg md:hidden z-50 flex justify-between items-center animate-slide-up">
+    <div>
+        <p class="text-xs text-gray-500 uppercase font-bold tracking-wide">{% trans "Interest Rate" %}</p>
+        <p class="text-lg font-bold text-orange-600">{{ service.interest_rate }}%</p>
+    </div>
+    <a href="{% url 'services:service_application' %}?service_type=fixed_deposit&service_slug={{ service.id }}" 
+       class="bg-orange-600 text-white px-6 py-2.5 rounded-lg font-bold shadow-md hover:bg-orange-700 transition-colors duration-200 flex items-center gap-2"
+       aria-label="{% trans 'Apply for' %} {{ service.get_duration_months_display }} {% trans 'Fixed Deposit' %}">
+        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+        {% trans "Apply Now" %}
+    </a>
+</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -353,6 +405,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const depositAmountInput = document.getElementById('deposit-amount');
     const resultsDiv = document.getElementById('calculation-results');
     const noResultsDiv = document.getElementById('no-results');
+    
+    // Storage keys for persisting calculator data
+    const STORAGE_KEY_DEPOSIT = 'fd_deposit_amount';
+    
+    // Load saved values from localStorage on page load
+    const savedDeposit = localStorage.getItem(STORAGE_KEY_DEPOSIT);
+    
+    if (savedDeposit) {
+        depositAmountInput.value = savedDeposit;
+    }
+    
+    // Auto-calculate if saved value exists
+    if (savedDeposit) {
+        setTimeout(() => {
+            calculateBtn.click();
+        }, 100);
+    }
     
     const interestRate = parseFloat('{{ service.interest_rate|default:0|floatformat:2 }}') || 0;
     const durationMonths = parseInt('{{ service.duration_months|default:0 }}') || 0;
@@ -399,10 +468,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show results
         resultsDiv.classList.remove('hidden');
         noResultsDiv.classList.add('hidden');
+        
+        // Save value to localStorage for future use
+        localStorage.setItem(STORAGE_KEY_DEPOSIT, depositAmount.toString());
     });
     
     // Auto-calculate on input change
     depositAmountInput.addEventListener('input', function() {
+        // Save to localStorage as user types
+        if (depositAmountInput.value) {
+            localStorage.setItem(STORAGE_KEY_DEPOSIT, depositAmountInput.value);
+        }
+        
         if (depositAmountInput.value) {
             calculateBtn.click();
         }

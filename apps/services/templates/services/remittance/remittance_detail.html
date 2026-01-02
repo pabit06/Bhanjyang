@@ -12,7 +12,13 @@
 
 {% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Remittance service for money transfer to Nepal." }}{% endblock og_description %}
 
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+{% block og_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock og_image %}
 
 {% block og_type %}website{% endblock og_type %}
 
@@ -20,7 +26,13 @@
 
 {% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Remittance service for money transfer to Nepal." }}{% endblock twitter_description %}
 
-{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+{% block twitter_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock twitter_image %}
 
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
@@ -485,6 +497,65 @@
             </div>
         </div>
     </section>
+
+    <!-- Related Services -->
+    {% if related_remittances %}
+    <section class="py-20 bg-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.03]">
+            {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
+                <span class="text-gray-800">अन्य</span> <span class="text-deuraligreen font-extrabold">रेमिट्यान्स</span> <span class="text-gray-800">सेवाहरू</span>
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for remittance in related_remittances %}
+                <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-deuraligreen scroll-reveal">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-deuraligreen/10 rounded-xl flex items-center justify-center">
+                            <i class="{{ remittance.icon|default:'fas fa-globe' }} text-xl text-deuraligreen"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold text-gray-800">{{ remittance.nepali_name }}</h3>
+                            <p class="text-sm text-gray-500">{{ remittance.english_name }}</p>
+                        </div>
+                    </div>
+                    {% if remittance.description %}
+                    <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ remittance.description|truncatewords:15 }}</p>
+                    {% endif %}
+                    <a href="{% url 'services:remittance_detail' remittance.slug %}" 
+                       class="inline-flex items-center gap-2 text-deuraligreen hover:underline font-semibold text-sm">
+                        {% trans "View Details" %}
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-12 scroll-reveal">
+                <a href="{% url 'services:remittance_list' %}" class="inline-flex items-center gap-2 text-deuraligreen hover:underline font-semibold text-lg">
+                    {% trans "View All Remittance Services" %}
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</div>
+
+<!-- Mobile Sticky Footer - Contact Button -->
+<div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 shadow-lg md:hidden z-50 flex justify-between items-center animate-slide-up">
+    <div>
+        <p class="text-xs text-gray-500 uppercase font-bold tracking-wide">{% trans "Service Type" %}</p>
+        <p class="text-lg font-bold text-deuraligreen">{{ service.get_service_type_display }}</p>
+    </div>
+    <a href="{% url 'contact:contact_view' %}"
+       class="bg-bhanjyangred text-white px-6 py-2.5 rounded-lg font-bold shadow-md hover:bg-red-700 transition-colors duration-200 flex items-center gap-2"
+       aria-label="{% trans 'Contact us about' %} {{ service.english_name }}">
+        <i class="fas fa-phone-alt" aria-hidden="true"></i>
+        {% trans "Contact Us" %}
+    </a>
 </div>
 
 {% endblock content %}

@@ -12,7 +12,13 @@
 
 {% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Member relief program providing support and assistance." }}{% endblock og_description %}
 
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+{% block og_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock og_image %}
 
 {% block og_type %}website{% endblock og_type %}
 
@@ -20,7 +26,13 @@
 
 {% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Member relief program from Bhanjyang Cooperative." }}{% endblock twitter_description %}
 
-{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+{% block twitter_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock twitter_image %}
 
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
@@ -187,6 +199,51 @@
         </div>
     </div>
 </section>
+
+<!-- Related Services -->
+{% if related_reliefs %}
+<section class="py-20 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
+            <span class="text-gray-800">अन्य</span> <span class="text-purple-600 font-extrabold">सहायता</span> <span class="text-gray-800">कार्यक्रमहरू</span>
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for relief in related_reliefs %}
+            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-purple-600 scroll-reveal">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 bg-purple-600/10 rounded-xl flex items-center justify-center">
+                        <i class="{{ relief.icon|default:'fas fa-hands-helping' }} text-xl text-purple-600"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-800">{{ relief.nepali_name }}</h3>
+                        <p class="text-sm text-gray-500">{{ relief.english_name }}</p>
+                    </div>
+                </div>
+                {% if relief.description %}
+                <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ relief.description|truncatewords:15 }}</p>
+                {% endif %}
+                <a href="{% url 'services:relief_detail' relief.slug %}" 
+                   class="inline-flex items-center gap-2 text-purple-600 hover:underline font-semibold text-sm">
+                    {% trans "View Details" %}
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-12 scroll-reveal">
+            <a href="{% url 'services:member_relief_list' %}" class="inline-flex items-center gap-2 text-purple-600 hover:underline font-semibold text-lg">
+                {% trans "View All Relief Programs" %}
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock content %}
 
 {% block extra_js %}

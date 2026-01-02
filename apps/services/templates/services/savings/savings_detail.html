@@ -12,7 +12,13 @@
 
 {% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Savings account with competitive interest rates." }}{% endblock og_description %}
 
-{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+{% block og_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock og_image %}
 
 {% block og_type %}website{% endblock og_type %}
 
@@ -20,7 +26,13 @@
 
 {% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Savings account from Bhanjyang Cooperative." }}{% endblock twitter_description %}
 
-{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+{% block twitter_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock twitter_image %}
 
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
@@ -315,16 +327,42 @@
         <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
             <span class="text-gray-800">अन्य</span> <span class="text-deuraligreen font-extrabold">बचत</span> <span class="text-gray-800">खाताहरू</span>
         </h2>
+        {% if related_savings %}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="text-center text-gray-600 scroll-reveal">
-                <p>{% trans "Explore our other savings account options" %}</p>
-                <a href="{% url 'services:savings_list' %}" class="text-deuraligreen hover:underline font-semibold">
-                    {% trans "View All Savings Accounts" %}
-                </a>
-            </div>
+            {% for account in related_savings %}
+            {% include 'services/savings/partials/_saving_card.html' with account=account %}
+            {% endfor %}
         </div>
+        <div class="text-center mt-12 scroll-reveal">
+            <a href="{% url 'services:savings_list' %}" class="inline-flex items-center gap-2 text-deuraligreen hover:underline font-semibold text-lg">
+                {% trans "View All Savings Accounts" %}
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+        {% else %}
+        <div class="text-center text-gray-600 scroll-reveal">
+            <p>{% trans "Explore our other savings account options" %}</p>
+            <a href="{% url 'services:savings_list' %}" class="text-deuraligreen hover:underline font-semibold">
+                {% trans "View All Savings Accounts" %}
+            </a>
+        </div>
+        {% endif %}
     </div>
 </section>
+
+<!-- Mobile Sticky Footer - Apply Button -->
+<div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 shadow-lg md:hidden z-50 flex justify-between items-center animate-slide-up">
+    <div>
+        <p class="text-xs text-gray-500 uppercase font-bold tracking-wide">{% trans "Interest Rate" %}</p>
+        <p class="text-lg font-bold text-deuraligreen">{{ service.interest_rate }}%</p>
+    </div>
+    <a href="{% url 'services:service_application' %}?service_type=savings&service_slug={{ service.slug }}" 
+       class="bg-deuraligreen text-white px-6 py-2.5 rounded-lg font-bold shadow-md hover:bg-green-700 transition-colors duration-200 flex items-center gap-2"
+       aria-label="{% trans 'Apply for' %} {{ service.english_name }}">
+        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+        {% trans "Apply Now" %}
+    </a>
+</div>
 {% endblock %}
 
 {% block extra_js %}
@@ -338,6 +376,28 @@
         const tenureYearsInput = document.getElementById('tenure-years');
         const resultsDiv = document.getElementById('calculation-results');
         const noResultsDiv = document.getElementById('no-results');
+
+        // Storage keys for persisting calculator data
+        const STORAGE_KEY_DEPOSIT = 'savings_monthly_deposit';
+        const STORAGE_KEY_TENURE = 'savings_tenure_years';
+
+        // Load saved values from localStorage on page load
+        const savedDeposit = localStorage.getItem(STORAGE_KEY_DEPOSIT);
+        const savedTenure = localStorage.getItem(STORAGE_KEY_TENURE);
+
+        if (savedDeposit) {
+            monthlyDepositInput.value = savedDeposit;
+        }
+        if (savedTenure) {
+            tenureYearsInput.value = savedTenure;
+        }
+
+        // Auto-calculate if saved values exist
+        if (savedDeposit && savedTenure) {
+            setTimeout(() => {
+                calculateBtn.click();
+            }, 100);
+        }
 
         const interestRate = parseFloat('{{ service.interest_rate|default:0|floatformat:2 }}') || 0;
 
@@ -372,11 +432,24 @@
             // Show results
             resultsDiv.classList.remove('hidden');
             noResultsDiv.classList.add('hidden');
+
+            // Save values to localStorage for future use
+            localStorage.setItem(STORAGE_KEY_DEPOSIT, monthlyDeposit.toString());
+            localStorage.setItem(STORAGE_KEY_TENURE, tenureYears.toString());
         });
 
         // Auto-calculate on input change
         [monthlyDepositInput, tenureYearsInput].forEach(input => {
             input.addEventListener('input', function () {
+                // Save to localStorage as user types
+                if (monthlyDepositInput.value) {
+                    localStorage.setItem(STORAGE_KEY_DEPOSIT, monthlyDepositInput.value);
+                }
+                if (tenureYearsInput.value) {
+                    localStorage.setItem(STORAGE_KEY_TENURE, tenureYearsInput.value);
+                }
+
+                // Auto-calculate if both fields have values
                 if (monthlyDepositInput.value && tenureYearsInput.value) {
                     calculateBtn.click();
                 }

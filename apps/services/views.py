@@ -76,21 +76,24 @@ class SavingsAccountsView(NepaliLanguageMixin, ListView):
             (_('Savings Accounts'), 'services:savings_list')
         )
         
-        # Get all active savings accounts
-        all_savings = SavingsAccount.objects.filter(is_active=True).order_by('category', '-interest_rate')
+        # Get all active savings accounts with optimized field selection
+        all_savings = SavingsAccount.objects.filter(is_active=True).order_by('category', '-interest_rate').only(
+            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 'category',
+            'interest_rate', 'minimum_balance', 'is_featured', 'icon', 'color', 'description'
+        )
         
         # Group by category
         context['regular_savings'] = all_savings.filter(category='regular')
         context['optional_savings'] = all_savings.filter(category='optional')
         context['recurring_savings'] = all_savings.filter(category='recurring')
         
-        # Periodic Savings (Fixed Deposits)
-        context['periodic_savings'] = FixedDeposit.objects.filter(is_active=True).order_by('duration_months')
-        
-        context['featured_accounts'] = all_savings.filter(is_featured=True).only(
-            'id', 'english_name', 'nepali_name', 'slug', 'account_type', 
-            'interest_rate', 'is_featured', 'icon', 'color'
+        # Periodic Savings (Fixed Deposits) with optimized fields
+        context['periodic_savings'] = FixedDeposit.objects.filter(is_active=True).order_by('duration_months').only(
+            'id', 'english_name', 'nepali_name', 'slug', 'duration_months',
+            'interest_rate', 'payment_frequency', 'is_featured', 'icon', 'color', 'description'
         )
+        
+        context['featured_accounts'] = all_savings.filter(is_featured=True)
         return context
 
 
@@ -149,7 +152,10 @@ class RemittanceServicesView(NepaliLanguageMixin, ListView):
             is_active=True
         ).exclude(
             service_type='mobile_banking'
-        ).order_by('service_type', 'english_name')
+        ).order_by('service_type', 'english_name').only(
+            'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+            'is_featured', 'icon', 'color', 'description', 'processing_time', 'fees'
+        )
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -175,7 +181,7 @@ class RemittanceServicesView(NepaliLanguageMixin, ListView):
             'is_featured', 'icon', 'color', 'description', 'processing_time', 'fees'
         )
         
-        # Group remittances by service type
+        # Group remittances by service type (already optimized in get_queryset)
         queryset = self.get_queryset()
         context['international_remittances'] = queryset.filter(service_type='international')
         context['domestic_remittances'] = queryset.filter(service_type='domestic')
@@ -190,7 +196,10 @@ class MemberReliefView(NepaliLanguageMixin, ListView):
     context_object_name = 'member_reliefs'
     
     def get_queryset(self):
-        return MemberRelief.objects.filter(is_active=True).order_by('relief_type', 'english_name')
+        return MemberRelief.objects.filter(is_active=True).order_by('relief_type', 'english_name').only(
+            'id', 'english_name', 'nepali_name', 'slug', 'relief_type',
+            'is_featured', 'icon', 'color', 'description', 'eligibility', 'benefits'
+        )
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -230,6 +239,33 @@ class SavingsDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView)
         ('Services', '/services/'),
         ('Savings Account', None)
     )
+    
+    def get_context_data(self, **kwargs):
+        """Add related savings accounts to context."""
+        context = super().get_context_data(**kwargs)
+        # Get 3 random active savings accounts excluding the current one
+        # Performance optimization: Get IDs first, then randomly select in Python
+        active_ids = list(
+            SavingsAccount.objects.filter(is_active=True)
+            .exclude(id=self.object.id)
+            .values_list('id', flat=True)
+        )
+        
+        if active_ids:
+            # Randomly select up to 3 IDs in Python (much faster than DB random sort)
+            random_ids = random.sample(active_ids, min(len(active_ids), 3))
+            # Fetch only the selected accounts with optimized field selection
+            context['related_savings'] = SavingsAccount.objects.filter(
+                id__in=random_ids
+            ).only(
+                'id', 'english_name', 'nepali_name', 'slug', 'account_type',
+                'interest_rate', 'is_featured', 'icon', 'color', 'description',
+                'minimum_balance'
+            )
+        else:
+            context['related_savings'] = SavingsAccount.objects.none()
+        
+        return context
 
 
 class LoanDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
@@ -289,6 +325,29 @@ class FixedDepositDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, Detail
         ('Services', '/services/'),
         ('Fixed Deposit', None)
     )
+    
+    def get_context_data(self, **kwargs):
+        """Add related fixed deposits to context."""
+        context = super().get_context_data(**kwargs)
+        # Get 3 random active fixed deposits excluding the current one
+        active_ids = list(
+            FixedDeposit.objects.filter(is_active=True)
+            .exclude(id=self.object.id)
+            .values_list('id', flat=True)
+        )
+        
+        if active_ids:
+            random_ids = random.sample(active_ids, min(len(active_ids), 3))
+            context['related_deposits'] = FixedDeposit.objects.filter(
+                id__in=random_ids
+            ).only(
+                'id', 'english_name', 'nepali_name', 'slug', 'duration_months',
+                'interest_rate', 'payment_frequency', 'is_featured', 'icon', 'color', 'description'
+            )
+        else:
+            context['related_deposits'] = FixedDeposit.objects.none()
+        
+        return context
 
 
 class RemittanceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
@@ -302,6 +361,30 @@ class RemittanceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailVi
         ('Services', '/services/'),
         ('Remittance Service', None)
     )
+    
+    def get_context_data(self, **kwargs):
+        """Add related remittance services to context."""
+        context = super().get_context_data(**kwargs)
+        # Get 3 random active remittance services excluding the current one
+        active_ids = list(
+            RemittanceService.objects.filter(is_active=True)
+            .exclude(id=self.object.id)
+            .exclude(service_type='mobile_banking')
+            .values_list('id', flat=True)
+        )
+        
+        if active_ids:
+            random_ids = random.sample(active_ids, min(len(active_ids), 3))
+            context['related_remittances'] = RemittanceService.objects.filter(
+                id__in=random_ids
+            ).only(
+                'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+                'is_featured', 'icon', 'color', 'description', 'processing_time', 'fees'
+            )
+        else:
+            context['related_remittances'] = RemittanceService.objects.none()
+        
+        return context
 
 
 class MemberReliefDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
@@ -315,6 +398,29 @@ class MemberReliefDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, Detail
         ('Services', '/services/'),
         ('Member Relief', None)
     )
+    
+    def get_context_data(self, **kwargs):
+        """Add related relief programs to context."""
+        context = super().get_context_data(**kwargs)
+        # Get 3 random active relief programs excluding the current one
+        active_ids = list(
+            MemberRelief.objects.filter(is_active=True)
+            .exclude(id=self.object.id)
+            .values_list('id', flat=True)
+        )
+        
+        if active_ids:
+            random_ids = random.sample(active_ids, min(len(active_ids), 3))
+            context['related_reliefs'] = MemberRelief.objects.filter(
+                id__in=random_ids
+            ).only(
+                'id', 'english_name', 'nepali_name', 'slug', 'relief_type',
+                'is_featured', 'icon', 'color', 'description', 'eligibility', 'benefits'
+            )
+        else:
+            context['related_reliefs'] = MemberRelief.objects.none()
+        
+        return context
 
 
 class DigitalServicesView(NepaliLanguageMixin, ListView):
@@ -324,7 +430,10 @@ class DigitalServicesView(NepaliLanguageMixin, ListView):
     context_object_name = 'digital_services'
     
     def get_queryset(self):
-        return DigitalService.objects.filter(is_active=True).order_by('service_type', 'english_name')
+        return DigitalService.objects.filter(is_active=True).order_by('service_type', 'english_name').only(
+            'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+            'is_featured', 'icon', 'color', 'description', 'features'
+        )
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -367,6 +476,29 @@ class DigitalServiceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, Deta
         ('Services', '/services/'),
         ('Digital Service', None)
     )
+    
+    def get_context_data(self, **kwargs):
+        """Add related digital services to context."""
+        context = super().get_context_data(**kwargs)
+        # Get 3 random active digital services excluding the current one
+        active_ids = list(
+            DigitalService.objects.filter(is_active=True)
+            .exclude(id=self.object.id)
+            .values_list('id', flat=True)
+        )
+        
+        if active_ids:
+            random_ids = random.sample(active_ids, min(len(active_ids), 3))
+            context['related_digital'] = DigitalService.objects.filter(
+                id__in=random_ids
+            ).only(
+                'id', 'english_name', 'nepali_name', 'slug', 'service_type',
+                'is_featured', 'icon', 'color', 'description', 'features'
+            )
+        else:
+            context['related_digital'] = DigitalService.objects.none()
+        
+        return context
 
 
 # Import base calculator view
