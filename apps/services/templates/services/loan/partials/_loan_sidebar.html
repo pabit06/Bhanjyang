@@ -1,0 +1,96 @@
+{% load i18n %}
+{% comment %}
+Loan information sidebar
+Usage: {% include 'services/loan/partials/_loan_sidebar.html' with service=service %}
+{% endcomment %}
+
+<div class="lg:col-span-1">
+    <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-8 mb-6 scroll-reveal-right">
+        <h3 class="text-xl font-bold text-gray-800 mb-6 font-montserrat">{% trans "Loan Information" %}</h3>
+
+        <div class="space-y-4">
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                <span class="text-gray-600">{% trans "Monthly Interest" %}</span>
+                <span class="font-bold text-bhanjyangred text-lg">{{ service.monthly_interest_rate }}%</span>
+            </div>
+
+            {% if service.minimum_amount %}
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                <span class="text-gray-600">{% trans "Minimum Amount" %}</span>
+                <span class="font-semibold">NPR {{ service.minimum_amount|floatformat:0 }}</span>
+            </div>
+            {% endif %}
+
+            {% if service.maximum_amount %}
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+                <span class="text-gray-600">{% trans "Maximum Amount" %}</span>
+                <span class="font-semibold">NPR {{ service.maximum_amount|floatformat:0 }}</span>
+            </div>
+            {% endif %}
+
+            {% if service.max_tenure_years %}
+            <div class="flex justify-between items-center py-3">
+                <span class="text-gray-600">{% trans "Max Tenure" %}</span>
+                <span class="font-semibold">{{ service.max_tenure_years }} {% trans "years" %}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-8 space-y-3">
+            <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ service.slug }}"
+                class="w-full bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                <i class="fas fa-file-alt mr-2"></i>{% trans "Apply for Loan" %}
+            </a>
+
+            <a href="{% url 'services:service_comparison' %}"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                <i class="fas fa-balance-scale mr-2"></i>{% trans "Compare Loans" %}
+            </a>
+
+            <a href="{% url 'contact:contact_view' %}"
+                class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200 text-center block">
+                <i class="fas fa-phone mr-2"></i>{% trans "Contact Us" %}
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Benefits -->
+    <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-lg p-6 scroll-reveal-right" style="animation-delay: 0.2s;">
+        <h3 class="text-xl font-bold text-gray-800 mb-4 font-montserrat">
+            <i class="fas fa-star text-yellow-500 mr-2"></i>
+            {% trans "Why Choose This Loan?" %}
+        </h3>
+
+        <div class="space-y-3">
+            <div class="flex items-start space-x-3">
+                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                <span class="text-sm text-gray-700">{% blocktrans with rate=service.monthly_interest_rate %}Competitive {{ rate }}% monthly rate{% endblocktrans %}</span>
+            </div>
+
+            {% if service.minimum_amount %}
+            <div class="flex items-start space-x-3">
+                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                <span class="text-sm text-gray-700">{% trans "Low minimum amount requirement" %}</span>
+            </div>
+            {% endif %}
+
+            {% if service.maximum_amount %}
+            <div class="flex items-start space-x-3">
+                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                <span class="text-sm text-gray-700">{% trans "High maximum amount available" %}</span>
+            </div>
+            {% endif %}
+
+            <div class="flex items-start space-x-3">
+                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                <span class="text-sm text-gray-700">{% trans "Flexible repayment options" %}</span>
+            </div>
+
+            <div class="flex items-start space-x-3">
+                <i class="fas fa-check-circle text-green-600 mt-1"></i>
+                <span class="text-sm text-gray-700">{% trans "Quick approval process" %}</span>
+            </div>
+        </div>
+    </div>
+</div>
+

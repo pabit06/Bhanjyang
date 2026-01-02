@@ -102,7 +102,7 @@ class LoanTypeSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'english_name', 'nepali_name', 'slug', 'description',
             'icon', 'color', 'is_featured', 'is_active', 'loan_category',
-            'monthly_interest_rate', 'minimum_amount', 'maximum_amount',
+            'monthly_interest_rate', 'repayment_type', 'minimum_amount', 'maximum_amount',
             'max_tenure_years', 'requirements', 'benefits', 'created_at',
             'updated_at', 'annual_interest_rate', 'url', 'monthly_payment_calculator'
         ]

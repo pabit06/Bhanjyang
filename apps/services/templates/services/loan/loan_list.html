@@ -167,8 +167,9 @@
                             class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-center py-2.5 rounded-lg font-bold text-xs transition-all">
                             विवरण
                         </a>
-                        <a href="{% url 'services:service_application' %}?service_type=loan&service_id={{ loan.id }}"
-                            class="flex-1 bg-bhanjyangred hover:bg-red-700 text-white text-center py-2.5 rounded-lg font-bold text-xs transition-all">
+                        <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ loan.slug }}"
+                            class="flex-1 bg-bhanjyangred hover:bg-red-700 text-white text-center py-2.5 rounded-lg font-bold text-xs transition-all"
+                            aria-label="{% trans 'Apply for' %} {{ loan.english_name }}">
                             आवेदन
                         </a>
                     </div>
@@ -330,3 +331,4 @@
 }
 </script>
 {% endblock extra_js %}
+

@@ -1,0 +1,122 @@
+{% load i18n %}
+{% comment %}
+Loan calculator JavaScript
+Usage: {% include 'services/loan/partials/_loan_calculator_js.html' with service=service %}
+{% endcomment %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calculateBtn = document.getElementById('calculate-loan');
+        const loanAmountInput = document.getElementById('loan-amount');
+        const loanTenureInput = document.getElementById('loan-tenure');
+        const paymentFrequencySelect = document.getElementById('payment-frequency');
+        const resultsDiv = document.getElementById('calculation-results');
+        const noResultsDiv = document.getElementById('no-results');
+
+        if (!calculateBtn || !loanAmountInput || !loanTenureInput || !paymentFrequencySelect) {
+            return; // Calculator elements not present
+        }
+
+        // Create unique storage keys for this loan service
+        const serviceSlug = '{{ service.slug|default:"default" }}';
+        const STORAGE_KEY_AMOUNT = `loan_calculator_${serviceSlug}_amount`;
+        const STORAGE_KEY_TENURE = `loan_calculator_${serviceSlug}_tenure`;
+        const STORAGE_KEY_FREQUENCY = `loan_calculator_${serviceSlug}_frequency`;
+
+        // Load saved values from localStorage
+        const savedAmount = localStorage.getItem(STORAGE_KEY_AMOUNT);
+        const savedTenure = localStorage.getItem(STORAGE_KEY_TENURE);
+        const savedFrequency = localStorage.getItem(STORAGE_KEY_FREQUENCY);
+
+        if (savedAmount) {
+            loanAmountInput.value = savedAmount;
+        }
+        if (savedTenure) {
+            loanTenureInput.value = savedTenure;
+        }
+        if (savedFrequency) {
+            paymentFrequencySelect.value = savedFrequency;
+        }
+
+        // Auto-calculate if saved values exist
+        if (savedAmount && savedTenure) {
+            setTimeout(() => {
+                calculateBtn.click();
+            }, 100);
+        }
+
+        const monthlyRate = parseFloat('{{ service.monthly_interest_rate|default:0|floatformat:2 }}') || 0;
+        const quarterlyRate = monthlyRate * 3;
+
+        calculateBtn.addEventListener('click', function () {
+            const loanAmount = parseFloat(loanAmountInput.value);
+            const loanTenureYears = parseInt(loanTenureInput.value);
+            const paymentFrequency = paymentFrequencySelect.value;
+
+            if (!loanAmount || !loanTenureYears) {
+                alert('{% trans "Please fill in all fields" %}');
+                return;
+            }
+
+            // Calculate EMI
+            let interestRate, tenureMonths;
+
+            if (paymentFrequency === 'monthly') {
+                interestRate = monthlyRate;
+                tenureMonths = loanTenureYears * 12;
+            } else {
+                interestRate = quarterlyRate;
+                tenureMonths = loanTenureYears * 4; // quarters
+            }
+
+            const monthlyInterestRate = interestRate / 100;
+            const emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, tenureMonths)) /
+                (Math.pow(1 + monthlyInterestRate, tenureMonths) - 1);
+
+            const totalAmount = emi * tenureMonths;
+            const interestAmount = totalAmount - loanAmount;
+
+            // Update results
+            document.getElementById('emi-amount').textContent = 'NPR ' + emi.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+            document.getElementById('total-amount').textContent = 'NPR ' + totalAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+            document.getElementById('interest-amount').textContent = 'NPR ' + interestAmount.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+
+            // Update frequency text
+            const frequencyText = paymentFrequency === 'monthly' ? '{% trans "Monthly payment" %}' : '{% trans "Quarterly payment" %}';
+            document.getElementById('emi-frequency-text').textContent = frequencyText;
+
+            // Show results
+            if (resultsDiv && noResultsDiv) {
+                resultsDiv.classList.remove('hidden');
+                noResultsDiv.classList.add('hidden');
+            }
+
+            // Save values to localStorage for future use
+            localStorage.setItem(STORAGE_KEY_AMOUNT, loanAmount.toString());
+            localStorage.setItem(STORAGE_KEY_TENURE, loanTenureYears.toString());
+            localStorage.setItem(STORAGE_KEY_FREQUENCY, paymentFrequency);
+        });
+
+        // Auto-calculate on input change
+        [loanAmountInput, loanTenureInput, paymentFrequencySelect].forEach(input => {
+            input.addEventListener('input', function () {
+                // Save to localStorage as user types
+                if (loanAmountInput.value) {
+                    localStorage.setItem(STORAGE_KEY_AMOUNT, loanAmountInput.value);
+                }
+                if (loanTenureInput.value) {
+                    localStorage.setItem(STORAGE_KEY_TENURE, loanTenureInput.value);
+                }
+                if (paymentFrequencySelect.value) {
+                    localStorage.setItem(STORAGE_KEY_FREQUENCY, paymentFrequencySelect.value);
+                }
+
+                // Auto-calculate if both fields have values
+                if (loanAmountInput.value && loanTenureInput.value) {
+                    calculateBtn.click();
+                }
+            });
+        });
+    });
+</script>
+

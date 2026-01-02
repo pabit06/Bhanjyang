@@ -6,12 +6,23 @@ from django.http import JsonResponse, HttpRequest, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.forms import Form
 import json
+import random
 from datetime import date
 
 from .models import (
     SavingsAccount, FixedDeposit, LoanType, 
     RemittanceService, MemberRelief, DigitalService
 )
+
+# Service type to model mapping for service_application view
+SERVICE_MODEL_MAPPING = {
+    'savings': SavingsAccount,
+    'loan': LoanType,
+    'fixed_deposit': FixedDeposit,
+    'remittance': RemittanceService,
+    'relief': MemberRelief,
+    'digital': DigitalService
+}
 from .forms import (
     LoanCalculatorForm, SavingsCalculatorForm, FixedDepositCalculatorForm,
     ServiceApplicationForm, ServiceComparisonForm, ServiceSearchForm, ServiceRecommendationForm
@@ -27,7 +38,7 @@ from apps.core.error_handling import (
 )
 from apps.core.view_mixins import ServiceDetailViewMixin, NepaliLanguageMixin, create_breadcrumbs
 from apps.core.query_utils import get_active_queryset, get_featured_queryset
-from django.utils.translation import activate
+from django.utils.translation import activate, gettext as _
 
 
 class ServicesOverviewView(RedirectView):
@@ -96,13 +107,14 @@ class FixedDepositsView(RedirectView):
 class LoanServicesView(NepaliLanguageMixin, ListView):
     """Display all loan services"""
     model = LoanType
-    template_name = 'services/loan/list.html'
+    template_name = 'services/loan/loan_list.html'
     context_object_name = 'loan_types'
     
     def get_queryset(self):
         return LoanType.objects.filter(is_active=True).order_by('-is_featured', 'loan_category').only(
             'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
-            'monthly_interest_rate', 'is_featured', 'icon', 'color', 'description'
+            'monthly_interest_rate', 'is_featured', 'icon', 'color', 'description',
+            'minimum_amount', 'maximum_amount', 'max_tenure_years'
         )
     
     def get_context_data(self, **kwargs):
@@ -120,7 +132,7 @@ class LoanServicesView(NepaliLanguageMixin, ListView):
         
         context['featured_loans'] = LoanType.objects.filter(is_active=True, is_featured=True).only(
             'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
-            'monthly_interest_rate', 'is_featured', 'icon', 'color', 'description'
+            'monthly_interest_rate', 'is_featured', 'icon', 'color', 'description', 'benefits'
         )
         return context
 
@@ -128,7 +140,7 @@ class LoanServicesView(NepaliLanguageMixin, ListView):
 class RemittanceServicesView(NepaliLanguageMixin, ListView):
     """Display remittance services"""
     model = RemittanceService
-    template_name = 'services/remittance/list.html'
+    template_name = 'services/remittance/remittance_list.html'
     context_object_name = 'remittance_services'
     
     def get_queryset(self):
@@ -174,7 +186,7 @@ class RemittanceServicesView(NepaliLanguageMixin, ListView):
 class MemberReliefView(NepaliLanguageMixin, ListView):
     """Display member relief programs"""
     model = MemberRelief
-    template_name = 'services/member_relief/list.html'
+    template_name = 'services/member_relief/member_relief_list.html'
     context_object_name = 'member_reliefs'
     
     def get_queryset(self):
@@ -210,7 +222,7 @@ class MemberReliefView(NepaliLanguageMixin, ListView):
 class SavingsDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific savings account."""
     model = SavingsAccount
-    template_name = 'services/savings/detail.html'
+    template_name = 'services/savings/savings_detail.html'
     context_object_name = 'service'
     service_type = 'savings'
     breadcrumbs = create_breadcrumbs(
@@ -223,7 +235,7 @@ class SavingsDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView)
 class LoanDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific loan type."""
     model = LoanType
-    template_name = 'services/loan/detail.html'
+    template_name = 'services/loan/loan_detail.html'
     context_object_name = 'service'
     service_type = 'loan'
     breadcrumbs = create_breadcrumbs(
@@ -231,6 +243,38 @@ class LoanDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
         ('Services', '/services/'),
         ('Loan Details', None)
     )
+    
+    def get_queryset(self):
+        """Prefetch carousel images for better performance."""
+        return LoanType.objects.prefetch_related('carousel_images').filter(is_active=True)
+    
+    def get_context_data(self, **kwargs):
+        """Add related loans to context."""
+        context = super().get_context_data(**kwargs)
+        # Get 3 random active loans excluding the current one
+        # Performance optimization: Get IDs first, then randomly select in Python
+        # This avoids expensive database random sorting (order_by('?'))
+        active_ids = list(
+            LoanType.objects.filter(is_active=True)
+            .exclude(id=self.object.id)
+            .values_list('id', flat=True)
+        )
+        
+        if active_ids:
+            # Randomly select up to 3 IDs in Python (much faster than DB random sort)
+            random_ids = random.sample(active_ids, min(len(active_ids), 3))
+            # Fetch only the selected loans with optimized field selection
+            context['related_loans'] = LoanType.objects.filter(
+                id__in=random_ids
+            ).only(
+                'id', 'english_name', 'nepali_name', 'slug', 'loan_category',
+                'monthly_interest_rate', 'is_featured', 'icon', 'color', 'description',
+                'minimum_amount', 'maximum_amount', 'max_tenure_years'
+            )
+        else:
+            context['related_loans'] = LoanType.objects.none()
+        
+        return context
 
 
 class FixedDepositDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
@@ -250,7 +294,7 @@ class FixedDepositDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, Detail
 class RemittanceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific remittance service."""
     model = RemittanceService
-    template_name = 'services/remittance/detail.html'
+    template_name = 'services/remittance/remittance_detail.html'
     context_object_name = 'service'
     service_type = 'remittance'
     breadcrumbs = create_breadcrumbs(
@@ -263,7 +307,7 @@ class RemittanceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailVi
 class MemberReliefDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific member relief program."""
     model = MemberRelief
-    template_name = 'services/member_relief/detail.html'
+    template_name = 'services/member_relief/member_relief_detail.html'
     context_object_name = 'service'
     service_type = 'relief'
     breadcrumbs = create_breadcrumbs(
@@ -276,7 +320,7 @@ class MemberReliefDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, Detail
 class DigitalServicesView(NepaliLanguageMixin, ListView):
     """Display digital services"""
     model = DigitalService
-    template_name = 'services/digital/list.html'
+    template_name = 'services/digital/digital_list.html'
     context_object_name = 'digital_services'
     
     def get_queryset(self):
@@ -315,7 +359,7 @@ class DigitalServicesView(NepaliLanguageMixin, ListView):
 class DigitalServiceDetailView(NepaliLanguageMixin, ServiceDetailViewMixin, DetailView):
     """Display details for a specific digital service."""
     model = DigitalService
-    template_name = 'services/digital/detail.html'
+    template_name = 'services/digital/digital_detail.html'
     context_object_name = 'service'
     service_type = 'digital'
     breadcrumbs = create_breadcrumbs(
@@ -419,49 +463,29 @@ def service_application(request):
     
     # If service_slug is provided, convert it to service_id
     if service_slug and not service_id:
-        try:
-            if service_type == 'savings':
-                service = SavingsAccount.objects.get(slug=service_slug)
-            elif service_type == 'loan':
-                service = LoanType.objects.get(slug=service_slug)
-            elif service_type == 'fixed_deposit':
-                # FixedDeposit doesn't have slug, use ID directly
-                try:
-                    service = FixedDeposit.objects.get(id=int(service_slug))
-                except (ValueError, FixedDeposit.DoesNotExist):
-                    service = None
-            elif service_type == 'remittance':
-                service = RemittanceService.objects.get(slug=service_slug)
-            elif service_type == 'relief':
-                service = MemberRelief.objects.get(slug=service_slug)
-            elif service_type == 'digital':
-                service = DigitalService.objects.get(slug=service_slug)
-            else:
-                service = None
-            
-            if service:
+        model_class = SERVICE_MODEL_MAPPING.get(service_type)
+        if model_class:
+            try:
+                # FixedDeposit uses ID as slug in the logic, others use slug field
+                if service_type == 'fixed_deposit':
+                    service = model_class.objects.get(id=int(service_slug))
+                else:
+                    service = model_class.objects.get(slug=service_slug)
                 service_id = str(service.id)
-        except:
+            except (ValueError, model_class.DoesNotExist):
+                service_id = ''
+        else:
             service_id = ''
     
     # Get service object for form
     service_object = None
     if service_type and service_id:
-        try:
-            if service_type == 'savings':
-                service_object = SavingsAccount.objects.get(id=int(service_id))
-            elif service_type == 'loan':
-                service_object = LoanType.objects.get(id=int(service_id))
-            elif service_type == 'fixed_deposit':
-                service_object = FixedDeposit.objects.get(id=int(service_id))
-            elif service_type == 'remittance':
-                service_object = RemittanceService.objects.get(id=int(service_id))
-            elif service_type == 'relief':
-                service_object = MemberRelief.objects.get(id=int(service_id))
-            elif service_type == 'digital':
-                service_object = DigitalService.objects.get(id=int(service_id))
-        except (ValueError, Exception):
-            service_object = None
+        model_class = SERVICE_MODEL_MAPPING.get(service_type)
+        if model_class:
+            try:
+                service_object = model_class.objects.get(id=int(service_id))
+            except (ValueError, model_class.DoesNotExist):
+                service_object = None
     
     if request.method == 'POST':
         form = ServiceApplicationForm(request.POST, service_object=service_object)
@@ -471,10 +495,10 @@ def service_application(request):
             form_service_id = form.cleaned_data.get('service_id') or service_id
             if form_service_type and form_service_id:
                 ServiceApplicationService.process_application(form, form_service_type, form_service_id)
-                messages.success(request, 'Your application has been submitted successfully! We will contact you soon.')
+                messages.success(request, _('तपाईंको आवेदन सफलतापूर्वक पेश गरियो! हामी छिट्टै सम्पर्क गर्नेछौं।'))
                 return redirect('services:overview')
             else:
-                messages.error(request, 'Service information is missing. Please select a service first.')
+                messages.error(request, _('सेवा जानकारी हराइरहेको छ। कृपया पहिले सेवा छान्नुहोस्।'))
     else:
         form = ServiceApplicationForm(service_object=service_object, initial={
             'service_type': service_type,
@@ -510,7 +534,7 @@ def service_comparison(request):
                 comparison_data = ServiceComparisonService.compare_fixed_deposits(service_ids)
                 template = 'services/fixed_deposits_comparison.html'
             else:
-                messages.error(request, 'Invalid service type selected.')
+                messages.error(request, _('अवैध सेवा प्रकार छानिएको छ।'))
                 return redirect('services:service_comparison')
             
             # Track comparison views

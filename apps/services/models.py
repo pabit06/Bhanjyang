@@ -32,7 +32,26 @@ class BaseServiceModel(models.Model):
     def save(self, *args: Any, **kwargs: Any) -> None:
         """Overrides the save method to automatically generate a slug if one doesn't exist."""
         if not self.slug:
-            self.slug = slugify(self.english_name)
+            base_slug = slugify(self.english_name)
+            self.slug = base_slug
+            
+            # Ensure uniqueness by appending id or a counter
+            # Get the model class to check for existing slugs
+            model_class = self.__class__
+            counter = 1
+            while model_class.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                self.slug = f"{base_slug}-{counter}"
+                counter += 1
+                # Safety check to prevent infinite loop
+                if counter > 1000:
+                    # Fallback: use id if available, otherwise timestamp
+                    if self.pk:
+                        self.slug = f"{base_slug}-{self.pk}"
+                    else:
+                        from django.utils import timezone
+                        timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+                        self.slug = f"{base_slug}-{timestamp}"
+                    break
         super().save(*args, **kwargs)
 
 # --- Core Service Models ---
@@ -125,8 +144,23 @@ class LoanType(BaseServiceModel):
         ('education', _('Education Loan')), ('personal', _('Personal Loan')),
     ]
     
+    REPAYMENT_TYPES = [
+        ('monthly', _('Monthly (मासिक)')),
+        ('quarterly', _('Quarterly (त्रैमासिक)')),
+        ('seasonal', _('Seasonal (मौसमी)')),
+    ]
+    
     loan_category = models.CharField(max_length=30, choices=LOAN_CATEGORIES, unique=True, verbose_name=_("Loan Category"))
-    monthly_interest_rate = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0)], verbose_name=_("Monthly Interest Rate (%)"))
+    monthly_interest_rate = models.DecimalField(
+        max_digits=5, decimal_places=2, validators=[MinValueValidator(0)], 
+        verbose_name=_("Monthly Interest Rate (%)"),
+        help_text=_("Monthly interest rate. Annual rate = Monthly rate × 12.")
+    )
+    repayment_type = models.CharField(
+        max_length=20, choices=REPAYMENT_TYPES, default='monthly',
+        verbose_name=_("Repayment Type"),
+        help_text=_("Frequency of loan repayment. Seasonal is typically used for agricultural loans.")
+    )
     minimum_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, validators=[MinValueValidator(0)], verbose_name=_("Minimum Loan Amount (NPR)"))
     maximum_amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True, validators=[MinValueValidator(0)], verbose_name=_("Maximum Loan Amount (NPR)"))
     max_tenure_years = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Maximum Tenure (Years)"))
@@ -159,6 +193,72 @@ class LoanType(BaseServiceModel):
     def annual_interest_rate(self):
         """Calculates and returns the approximate annual interest rate."""
         return self.monthly_interest_rate * 12 if self.monthly_interest_rate else 0
+    
+    def has_active_carousel_images(self):
+        """Check if loan has any active carousel images."""
+        return self.carousel_images.filter(is_active=True).exists()
+
+class LoanCarouselImage(models.Model):
+    """Model for carousel images for loan types."""
+    loan = models.ForeignKey(
+        LoanType, 
+        on_delete=models.CASCADE, 
+        related_name='carousel_images',
+        verbose_name=_("Loan Type")
+    )
+    image = models.ImageField(
+        upload_to='services/loans/carousel/', 
+        verbose_name=_("Carousel Image"),
+        help_text=_("Upload image for carousel slide. Recommended size: 1920x1080px")
+    )
+    nepali_tagline = models.CharField(
+        max_length=200, 
+        blank=True, 
+        verbose_name=_("Nepali Tagline"),
+        help_text=_("Main Nepali tagline for this slide")
+    )
+    english_tagline = models.CharField(
+        max_length=200, 
+        blank=True, 
+        verbose_name=_("English Tagline"),
+        help_text=_("Main English tagline for this slide")
+    )
+    nepali_subtitle = models.CharField(
+        max_length=200, 
+        blank=True, 
+        verbose_name=_("Nepali Subtitle"),
+        help_text=_("Nepali subtitle/description for this slide")
+    )
+    english_subtitle = models.CharField(
+        max_length=200, 
+        blank=True, 
+        verbose_name=_("English Subtitle"),
+        help_text=_("English subtitle/description for this slide")
+    )
+    order = models.PositiveIntegerField(
+        default=0, 
+        verbose_name=_("Display Order"),
+        help_text=_("Order in which this image appears in the carousel (lower numbers appear first)")
+    )
+    is_active = models.BooleanField(
+        default=True, 
+        verbose_name=_("Active"),
+        help_text=_("Only active images are displayed in the carousel")
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("Loan Carousel Image")
+        verbose_name_plural = _("Loan Carousel Images")
+        ordering = ['loan', 'order', 'created_at']
+        indexes = [
+            models.Index(fields=['loan', 'is_active', 'order']),
+            models.Index(fields=['loan', 'order']),
+        ]
+
+    def __str__(self):
+        return f"{self.loan.english_name} - Slide {self.order + 1}"
 
 class RemittanceService(BaseServiceModel):
     """Model for remittance and money transfer services."""

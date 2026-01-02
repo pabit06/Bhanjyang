@@ -1,0 +1,26 @@
+{% load i18n %}
+{% comment %}
+Quick stats section for hero carousel
+Usage: {% include 'services/loan/partials/_loan_hero_quick_stats.html' with service=service %}
+{% endcomment %}
+
+<!-- Quick Stats -->
+<div class="flex flex-wrap justify-center gap-6 mb-8 mt-8 animate-fade-in-up" style="animation-delay: 0.3s;">
+    <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl px-6 py-4 shadow-lg">
+        <div class="text-3xl font-bold text-white mb-1">{{ service.monthly_interest_rate }}%</div>
+        <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Monthly Rate" %}</div>
+    </div>
+    {% if service.minimum_amount %}
+    <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl px-6 py-4 shadow-lg">
+        <div class="text-lg font-bold text-white mb-1">NPR {{ service.minimum_amount|floatformat:0 }}</div>
+        <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Min Amount" %}</div>
+    </div>
+    {% endif %}
+    {% if service.maximum_amount %}
+    <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl px-6 py-4 shadow-lg">
+        <div class="text-lg font-bold text-white mb-1">NPR {{ service.maximum_amount|floatformat:0 }}</div>
+        <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Max Amount" %}</div>
+    </div>
+    {% endif %}
+</div>
+

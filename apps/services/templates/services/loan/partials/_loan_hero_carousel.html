@@ -1,0 +1,87 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+Reusable hero carousel partial for loan detail pages
+Usage: {% include 'services/loan/partials/_loan_hero_carousel.html' with service=service %}
+{% endcomment %}
+
+<section class="relative py-20 md:py-28 bg-gradient-to-br from-red-950 via-bhanjyangred to-red-800 text-white overflow-hidden" style="min-height: 80vh;">
+    <!-- HERO BACKGROUND SLIDER -->
+    <div class="absolute inset-0 z-0">
+        <div class="swiper heroSwiper h-full w-full">
+            <div class="swiper-wrapper">
+                {% for carousel_image in service.carousel_images.all|dictsort:"order" %}
+                {% if carousel_image.is_active %}
+                <!-- Slide {{ forloop.counter }} -->
+                <div class="swiper-slide relative">
+                    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat hero-slide-bg z-0"
+                        style="background-image: url('{{ carousel_image.image.url }}');"
+                        data-bg-image="{{ carousel_image.image.url }}"></div>
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50 z-10"></div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <!-- Pagination -->
+            <div class="swiper-pagination !bottom-8 z-20" aria-label="Slide pagination"></div>
+            <!-- Navigation -->
+            <div class="swiper-button-next !text-white !w-12 !h-12 !bg-white/20 hover:!bg-white/30 backdrop-blur-sm rounded-full !transition-all focus:outline-none focus:ring-4 focus:ring-white/50 z-20" 
+                aria-label="Next slide" aria-controls="swiper-wrapper"></div>
+            <div class="swiper-button-prev !text-white !w-12 !h-12 !bg-white/20 hover:!bg-white/30 backdrop-blur-sm rounded-full !transition-all focus:outline-none focus:ring-4 focus:ring-white/50 z-20"
+                aria-label="Previous slide" aria-controls="swiper-wrapper"></div>
+        </div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-full flex items-center">
+        <div class="max-w-5xl mx-auto text-center w-full py-12">
+            <!-- Slide Content Container -->
+            <div class="swiper-content-wrapper">
+                {% for carousel_image in service.carousel_images.all|dictsort:"order" %}
+                {% if carousel_image.is_active %}
+                <!-- Slide {{ forloop.counter0 }} Content -->
+                <div class="swiper-slide-content {% if not forloop.first %}hidden{% endif %}" data-slide="{{ forloop.counter0 }}">
+                    <div class="bg-black/50 backdrop-blur-md rounded-3xl p-6 md:p-10 lg:p-12 border border-white/30 shadow-2xl max-w-4xl mx-auto">
+                        <h1 id="main-content" class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 font-montserrat text-white animate-fade-in-up">
+                            {{ service.nepali_name }}
+                        </h1>
+                        <div class="h-px bg-gradient-to-r from-transparent via-white/50 to-transparent mb-4 md:mb-6"></div>
+                        
+                        <!-- Taglines (Main Headlines) -->
+                        {% if carousel_image.nepali_tagline %}
+                        <p class="text-base md:text-lg lg:text-xl text-white mb-2 md:mb-3 font-semibold leading-relaxed animate-fade-in-up" style="animation-delay: 0.1s;">
+                            {{ carousel_image.nepali_tagline }}
+                        </p>
+                        {% endif %}
+                        {% if carousel_image.english_tagline %}
+                        <p class="text-base md:text-lg lg:text-xl text-white/95 mb-3 md:mb-4 font-semibold leading-relaxed animate-fade-in-up" style="animation-delay: 0.15s;">
+                            {{ carousel_image.english_tagline }}
+                        </p>
+                        {% endif %}
+                        
+                        <!-- Subtitles (Supporting Text) -->
+                        {% if carousel_image.nepali_subtitle %}
+                        <p class="text-sm md:text-base lg:text-lg text-white/90 mb-2 md:mb-3 drop-shadow-md font-medium leading-relaxed animate-fade-in-up" style="animation-delay: 0.2s;">
+                            {{ carousel_image.nepali_subtitle }}
+                        </p>
+                        {% endif %}
+                        {% if carousel_image.english_subtitle %}
+                        <p class="text-sm md:text-base lg:text-lg text-white/90 mb-0 drop-shadow-md font-medium leading-relaxed animate-fade-in-up" style="animation-delay: 0.25s;">
+                            {{ carousel_image.english_subtitle }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+
+            {% include 'services/loan/partials/_loan_hero_quick_stats.html' with service=service %}
+            {% include 'services/loan/partials/_loan_hero_action_buttons.html' with service=service %}
+        </div>
+    </div>
+</section>
+

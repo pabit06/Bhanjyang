@@ -134,11 +134,11 @@ Enhanced structured data with:
 ## 📝 Files Modified
 
 ### Templates
-- `apps/services/templates/services/remittance/list.html`
-- `apps/services/templates/services/loan/list.html`
+- `apps/services/templates/services/remittance/remittance_list.html`
+- `apps/services/templates/services/loan/loan_list.html`
 - `apps/services/templates/services/savings/savings_list.html`
-- `apps/services/templates/services/member_relief/list.html`
-- `apps/services/templates/services/digital/list.html`
+- `apps/services/templates/services/member_relief/member_relief_list.html`
+- `apps/services/templates/services/digital/digital_list.html`
 
 ### Stylesheets
 - `static/services/css/remittance.css` (accessibility styles added)

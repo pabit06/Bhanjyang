@@ -168,7 +168,7 @@ class ServicesViewsTest(TestCase):
         
         self.assertEqual(response.status_code, 200)
         self.assertIn('remittance_services', response.context)
-        self.assertTemplateUsed(response, 'services/remittance/list.html')
+        self.assertTemplateUsed(response, 'services/remittance/remittance_list.html')
     
     def test_remittance_detail_view(self):
         """Test RemittanceDetailView GET request"""

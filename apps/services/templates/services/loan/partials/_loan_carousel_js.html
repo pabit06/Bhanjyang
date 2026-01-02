@@ -1,0 +1,68 @@
+{% load static %}
+{% comment %}
+Carousel JavaScript initialization
+Usage: {% include 'services/loan/partials/_loan_carousel_js.html' with service=service %}
+{% endcomment %}
+
+<script>
+    // Wait for Swiper to load before initializing
+    function initSwiperCarousel() {
+        if (typeof Swiper === 'undefined') {
+            setTimeout(initSwiperCarousel, 100);
+            return;
+        }
+
+        // Initialize Swiper for loans with carousel images
+        const heroSwiperEl = document.querySelector(".heroSwiper");
+        if (heroSwiperEl) {
+            const heroSwiper = new Swiper(".heroSwiper", {
+                spaceBetween: 0,
+                effect: "fade",
+                speed: 2000,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                loop: true,
+                allowTouchMove: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+
+            // Update content based on active slide
+            const slideContents = document.querySelectorAll('.swiper-slide-content');
+            
+            function updateSlideContent(activeIndex) {
+                slideContents.forEach((content, index) => {
+                    if (index === activeIndex) {
+                        content.classList.remove('hidden');
+                        content.classList.add('animate-fade-in-up');
+                    } else {
+                        content.classList.add('hidden');
+                        content.classList.remove('animate-fade-in-up');
+                    }
+                });
+            }
+
+            // Initial content display
+            updateSlideContent(0);
+
+            // Update content on slide change
+            heroSwiper.on('slideChange', function () {
+                const activeIndex = heroSwiper.realIndex;
+                updateSlideContent(activeIndex);
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initSwiperCarousel();
+    });
+</script>
+

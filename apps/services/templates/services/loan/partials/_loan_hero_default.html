@@ -1,0 +1,40 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+Default hero section for loans without carousel
+Usage: {% include 'services/loan/partials/_loan_hero_default.html' with service=service %}
+{% endcomment %}
+
+<section class="relative py-20 md:py-28 bg-gradient-to-br from-red-950 via-bhanjyangred to-red-800 text-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        {% if service.image %}
+        <div class="w-32 h-32 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 overflow-hidden shadow-lg">
+            <img src="{{ service.image.url }}" alt="{{ service.english_name }}" class="w-full h-full object-cover rounded-full">
+        </div>
+        {% else %}
+        <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <i class="{{ service.icon|default:'fas fa-hand-holding-usd' }} text-4xl text-white"></i>
+        </div>
+        {% endif %}
+        <h1 id="main-content" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-montserrat drop-shadow-lg animate-fade-in-up">
+            {{ service.nepali_name }}
+        </h1>
+        <p class="text-xl md:text-2xl text-white/90 mb-6 animate-fade-in-up" style="animation-delay: 0.1s;">
+            {{ service.english_name }}
+        </p>
+
+        {% include 'services/loan/partials/_loan_hero_quick_stats.html' with service=service %}
+        {% include 'services/loan/partials/_loan_hero_action_buttons.html' with service=service %}
+    </div>
+</section>
+

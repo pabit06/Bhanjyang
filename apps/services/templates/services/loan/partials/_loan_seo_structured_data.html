@@ -1,0 +1,37 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+SEO Structured Data (JSON-LD) for loan pages
+Usage: {% include 'services/loan/partials/_loan_seo_structured_data.html' with service=service %}
+{% endcomment %}
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "{{ service.english_name }}",
+    "alternateName": "{{ service.nepali_name }}",
+    "description": "{{ service.description|striptags|truncatewords:50|default:'Loan service from Bhanjyang Cooperative' }}",
+    "provider": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+    },
+    "serviceType": "Loan",
+    "areaServed": {
+        "@type": "Country",
+        "name": "Nepal",
+        "identifier": "NP"
+    },
+    "url": "{{ request.build_absolute_uri }}",
+    "offers": {
+        "@type": "Offer",
+        "description": "{% blocktrans with rate=service.monthly_interest_rate %}Competitive {{ rate }}% monthly interest rate{% endblocktrans %}",
+        "priceCurrency": "NPR"
+    },
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+}
+</script>
+

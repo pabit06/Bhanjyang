@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock %}
+
+{% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Loan service from Bhanjyang Cooperative with competitive interest rates and flexible repayment options." }}{% endblock meta_description %}
+
+{% block meta_keywords %}loan, {{ service.english_name|lower }}, nepal, bhanjyang cooperative, credit services, emi calculator{% endblock meta_keywords %}
+
+{% block og_title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Loan service with competitive rates and flexible options." }}{% endblock og_description %}
+
+{% block og_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Loan service from Bhanjyang Cooperative." }}{% endblock twitter_description %}
+
+{% block twitter_image %}
+    {% if service.image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ service.image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock twitter_image %}
+
+{% block extra_css %}
+    <!-- Resource hints for CDN assets -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <link rel="stylesheet" href="{% static 'services/css/remittance.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bhanjyangred focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
+<!-- Hero Section -->
+{% if service.has_active_carousel_images %}
+    {% include 'services/loan/partials/_loan_hero_carousel.html' with service=service %}
+{% else %}
+    {% include 'services/loan/partials/_loan_hero_default.html' with service=service %}
+{% endif %}
+
+<!-- Service Details -->
+<section class="py-20 bg-gray-50 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-3 gap-12">
+            {% include 'services/loan/partials/_loan_details.html' with service=service %}
+            {% include 'services/loan/partials/_loan_sidebar.html' with service=service %}
+        </div>
+    </div>
+</section>
+
+<!-- Related Services -->
+<section class="py-20 bg-white relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
+            <span class="text-gray-800">अन्य</span> <span class="text-bhanjyangred font-extrabold">ऋण</span> <span class="text-gray-800">सेवाहरू</span>
+        </h2>
+        {% if related_loans %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for loan in related_loans %}
+            {% include 'services/loan/partials/_loan_card.html' with loan=loan %}
+            {% endfor %}
+        </div>
+        <div class="text-center mt-12 scroll-reveal">
+            <a href="{% url 'services:loan_list' %}" class="inline-flex items-center gap-2 text-bhanjyangred hover:underline font-semibold text-lg">
+                {% trans "View All Loan Services" %}
+                <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+        {% else %}
+        <div class="text-center text-gray-600 scroll-reveal">
+            <p>{% trans "Explore our other loan options" %}</p>
+            <a href="{% url 'services:loan_list' %}" class="text-bhanjyangred hover:underline font-semibold">
+                {% trans "View All Loan Services" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<!-- Remittance Services JS (reused for animations) -->
+<script src="{% static 'services/js/remittance.js' %}" defer></script>
+
+{% include 'services/loan/partials/_loan_carousel_js.html' with service=service %}
+{% include 'services/loan/partials/_loan_calculator_js.html' with service=service %}
+{% include 'services/loan/partials/_loan_seo_structured_data.html' with service=service %}
+{% endblock extra_js %}
+

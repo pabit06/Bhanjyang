@@ -6,7 +6,7 @@ from django.utils import timezone
 import json
 
 from .models import (
-    SavingsAccount, FixedDeposit, LoanType, 
+    SavingsAccount, FixedDeposit, LoanType, LoanCarouselImage,
     RemittanceService, MemberRelief, DigitalService,
     ServiceApplication, ServiceAnalytics, ServiceRecommendation,
     ExchangeRate
@@ -95,22 +95,45 @@ class FixedDepositAdmin(admin.ModelAdmin):
         updated = queryset.update(is_active=False)
         self.message_user(request, f'Successfully deactivated {updated} fixed deposit(s).', 'success')
 
+class LoanCarouselImageInline(admin.TabularInline):
+    """Inline admin for carousel images in LoanType admin."""
+    model = LoanCarouselImage
+    extra = 1
+    fields = ['image', 'image_preview', 'nepali_tagline', 'english_tagline', 'nepali_subtitle', 'english_subtitle', 'order', 'is_active']
+    readonly_fields = ['image_preview']
+    verbose_name = "Carousel Image"
+    verbose_name_plural = "Carousel Images"
+    
+    @admin.display(description='Preview')
+    def image_preview(self, obj):
+        if obj and obj.image:
+            return format_html(
+                '<img src="{}" style="max-width: 100px; max-height: 60px; object-fit: cover; border-radius: 4px;" />',
+                obj.image.url
+            )
+        return "No Image"
+
 @admin.register(LoanType)
 class LoanTypeAdmin(admin.ModelAdmin):
     """Admin interface for Loan Types with calculated fields."""
     list_display = [
-        'english_name', 'monthly_interest_rate', 'annual_interest_display',
-        'is_featured_icon', 'is_active_icon', 'image_preview'
+        'english_name', 'loan_category', 'monthly_interest_rate', 'annual_interest_display',
+        'repayment_type', 'is_featured_icon', 'is_active_icon', 'image_preview'
     ]
     list_filter = ['is_active', 'is_featured', 'loan_category']
     search_fields = ['nepali_name', 'english_name']
     list_editable = ['monthly_interest_rate']
-    readonly_fields = ['created_at', 'updated_at', 'slug', 'image_preview']
+    readonly_fields = ['created_at', 'updated_at', 'slug', 'image_preview', 'annual_interest_display']
+    inlines = [LoanCarouselImageInline]
     
     fieldsets = (
         ('Basic Information', {'fields': ('loan_category', 'english_name', 'nepali_name', 'slug')}),
-        ('Interest Rates', {'fields': ('monthly_interest_rate',)}),
-        ('Loan Limits', {'fields': ('minimum_amount', 'maximum_amount', 'max_tenure_years')}),
+        ('Interest Rates', {
+            'fields': ('monthly_interest_rate', 'annual_interest_display'),
+            'description': 'Monthly interest rate is editable. Annual rate is calculated automatically (Monthly × 12).'
+        }),
+        ('Repayment Details', {'fields': ('repayment_type', 'max_tenure_years')}),
+        ('Loan Limits', {'fields': ('minimum_amount', 'maximum_amount')}),
         ('Display Settings', {'fields': ('icon', 'color', 'is_featured', 'is_active')}),
         ('Media', {'fields': ('image', 'image_preview')}),
         ('Additional Information', {'fields': ('description', 'requirements', 'benefits')}),
@@ -120,14 +143,56 @@ class LoanTypeAdmin(admin.ModelAdmin):
     is_featured_icon = create_boolean_icon('is_featured', 'Featured')
     is_active_icon = create_boolean_icon('is_active', 'Active')
 
-    @admin.display(description='Annual Interest Rate (%)')
+    @admin.display(description='Annual Interest Rate (%)', ordering='monthly_interest_rate')
     def annual_interest_display(self, obj):
-        return obj.annual_interest_rate
+        """Display calculated annual interest rate."""
+        rate = obj.annual_interest_rate
+        return format_html(
+            '<strong style="color: #dc2626; font-size: 14px;">{}%</strong>',
+            f'{rate:.2f}'
+        )
 
     @admin.display(description='Image Preview')
     def image_preview(self, obj):
         if obj.image:
             return format_html('<img src="{}" width="100" height="auto" />', obj.image.url)
+        return "No Image"
+
+@admin.register(LoanCarouselImage)
+class LoanCarouselImageAdmin(admin.ModelAdmin):
+    """Admin interface for Loan Carousel Images."""
+    list_display = [
+        'loan', 'order', 'image_preview', 'nepali_tagline', 'english_tagline', 'is_active', 'created_at'
+    ]
+    list_filter = ['loan', 'is_active', 'created_at']
+    search_fields = ['loan__english_name', 'loan__nepali_name', 'nepali_tagline', 'english_tagline', 'nepali_subtitle', 'english_subtitle']
+    list_editable = ['order', 'is_active']
+    readonly_fields = ['created_at', 'updated_at', 'image_preview']
+    
+    fieldsets = (
+        ('Loan & Image', {
+            'fields': ('loan', 'image', 'image_preview', 'order'),
+            'description': 'Select the loan type and upload the carousel image. Set order (0, 1, 2...) to control display sequence.'
+        }),
+        ('Taglines (Main Headlines)', {
+            'fields': ('nepali_tagline', 'english_tagline'),
+            'description': 'Main taglines in both languages - displayed prominently on the carousel slide.'
+        }),
+        ('Subtitles (Supporting Text)', {
+            'fields': ('nepali_subtitle', 'english_subtitle'),
+            'description': 'Supporting subtitles in both languages - displayed below the main tagline.'
+        }),
+        ('Status', {'fields': ('is_active',)}),
+        ('Timestamps', {'fields': ('created_at', 'updated_at'), 'classes': ('collapse',)}),
+    )
+    
+    @admin.display(description='Image Preview')
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-width: 200px; max-height: 150px; object-fit: cover; border-radius: 8px;" />',
+                obj.image.url
+            )
         return "No Image"
 
 @admin.register(ExchangeRate)
@@ -254,12 +319,6 @@ class DigitalServiceAdmin(admin.ModelAdmin):
             )
         return "No Image"
 
-    @admin.display(description='Image Preview')
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" width="100" height="auto" />', obj.image.url)
-        return "No Image"
-
 @admin.register(ServiceApplication)
 class ServiceApplicationAdmin(admin.ModelAdmin):
     """Admin interface for Service Applications with custom actions and linking."""
@@ -372,6 +431,7 @@ from apps.admin.admin_site import admin_site
 admin_site.register(SavingsAccount, SavingsAccountAdmin)
 admin_site.register(FixedDeposit, FixedDepositAdmin)
 admin_site.register(LoanType, LoanTypeAdmin)
+admin_site.register(LoanCarouselImage, LoanCarouselImageAdmin)
 admin_site.register(ExchangeRate, ExchangeRateAdmin)
 admin_site.register(RemittanceService, RemittanceServiceAdmin)
 admin_site.register(DigitalService, DigitalServiceAdmin)
