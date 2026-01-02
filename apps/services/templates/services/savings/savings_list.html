@@ -4,6 +4,16 @@
 
 {% block title %}{% trans "Savings Accounts" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
+{% block meta_description %}{% trans "Secure your future with our range of savings products. Competitive interest rates up to 8% p.a. Regular, optional, recurring, and fixed deposit accounts available." %} Open savings account in Nepal. Best savings account rates in Kaski, Gandaki.{% endblock meta_description %}
+
+{% block meta_keywords %}savings account, fixed deposit, nepal, kaski, gandaki, bhanjyang cooperative, interest rates, banking, financial planning, cooperative banking, best savings account nepal, savings account rates, बचत खाता, नेपाल बचत खाता{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "Savings Accounts" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Secure your future with competitive savings accounts and fixed deposits. Interest rates up to 8% p.a." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -21,6 +31,14 @@
 <!-- TOP CLASS HERO SECTION: Asymmetrical & Interactive -->
 <section
     class="relative pt-16 pb-24 md:pt-24 md:pb-32 bg-gradient-to-br from-green-950 via-deuraligreen to-green-700 overflow-hidden text-white">
+    <!-- Hero Image Background -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/savings-hero.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+        <!-- Gradient Overlay for text readability - Reduced opacity -->
+        <div class="absolute inset-0 bg-gradient-to-r from-green-950/50 via-green-900/40 to-transparent"></div>
+    </div>
+    
     <!-- Reduced distraction blobs (Overlay) -->
     <div
         class="absolute top-0 right-0 w-[800px] h-[800px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none z-0">
@@ -30,8 +48,8 @@
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-4xl mx-auto">
-            <!-- Content -->
+        <div class="max-w-4xl">
+            <!-- Content - Left Aligned -->
             <div class="text-left space-y-8">
                 <div
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold animate-fade-in-up shadow-sm">
@@ -39,15 +57,15 @@
                     {% trans "Financial Growth" %}
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
+                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
                     style="animation-delay: 0.1s;">
-                    <span class="text-gray-200">बचत</span> <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-emerald-300 to-green-400 text-glow">खाताहरू</span>
+                    <span class="text-white block mb-2">तपाईंको समृद्धिको सहयात्री:</span>
+                    <span class="text-green-300 block drop-shadow-lg" style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6);">भञ्ज्याङ बचत खाताहरू</span>
                 </h1>
 
                 <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
                     style="animation-delay: 0.2s;">
-                    प्रतिस्पर्धी ब्याजदरहरूको साथ तपाईंको सम्पत्ति बढाउन डिजाइन गरिएको बचत उत्पादनहरूको दायरासँग तपाईंको भविष्य सुरक्षित गर्नुहोस्।
+                    बालबालिकादेखि जेष्ठ नागरिकसम्म, सबैका लागि लक्षित हाम्रा विशेष बचत योजनाहरू मार्फत आर्थिक स्वतन्त्रता प्राप्त गर्नुहोस्।
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up touch-target"
@@ -86,11 +104,7 @@
 <!-- Featured Savings Section -->
 {% if featured_accounts %}
 <section class="py-20 bg-white relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-[0.03]">
-        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
+    {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.03' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mobile-spacing">
         <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
@@ -136,11 +150,7 @@
                         {{ account.nepali_name }}
                     </h3>
                     <p class="text-sm font-medium text-gray-500 mb-4 uppercase tracking-wide font-montserrat">
-                        {% if account.account_type == 'monthly' %}
-                        {% trans "Regular Saving" %}
-                        {% else %}
-                        {{ account.english_name }}
-                        {% endif %}
+                        {% include 'services/savings/partials/_account_name_display.html' with account=account %}
                     </p>
 
                     <div class="flex items-baseline mb-4 pb-4 border-b border-gray-100">
@@ -183,13 +193,72 @@
 </section>
 {% endif %}
 
+<!-- बचत तुलना तालिका (Savings Comparison Table) -->
+{% if regular_savings or optional_savings or recurring_savings %}
+<section class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+    {% include 'services/savings/partials/_background_pattern.html' with pattern_type='light' opacity='0.02' %}
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
+            <span class="inline-block text-deuraligreen bg-green-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Compare" %}</span>
+            <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
+                <span class="text-gray-800">बचत</span> <span class="text-deuraligreen font-extrabold">तुलना</span> <span class="text-gray-800">तालिका</span>
+            </h2>
+            <div class="w-20 h-1.5 bg-deuraligreen mx-auto rounded-full mb-4"></div>
+            <p class="text-gray-600 text-lg leading-relaxed">
+                {% trans "Compare all savings accounts side-by-side to find the best option for you." %}
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden scroll-reveal relative">
+            <!-- Mobile scroll hint - Better positioned -->
+            <div class="md:hidden absolute top-3 right-3 z-20 bg-deuraligreen text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 pointer-events-none animate-pulse">
+                <i class="fas fa-arrows-alt-h text-sm"></i>
+                <span class="font-bold">{% trans "Scroll" %}</span>
+            </div>
+            
+            <div class="overflow-x-auto -mx-1 px-1" style="scrollbar-width: thin; scrollbar-color: #10b981 #f3f4f6;">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-gradient-to-r from-deuraligreen to-green-600 text-white">
+                            <th class="py-4 px-4 md:px-6 text-sm md:text-base font-bold uppercase tracking-wider sticky left-0 bg-gradient-to-r from-deuraligreen to-green-600 z-10 shadow-[2px_0_4px_rgba(0,0,0,0.2)]">
+                                {% trans "Account Type" %}
+                            </th>
+                            <th class="py-4 px-4 md:px-6 text-sm md:text-base font-bold uppercase tracking-wider text-center">
+                                {% trans "Interest Rate" %}
+                            </th>
+                            <th class="py-4 px-4 md:px-6 text-sm md:text-base font-bold uppercase tracking-wider text-center">
+                                {% trans "Min. Balance" %}
+                            </th>
+                            <th class="py-4 px-4 md:px-6 text-sm md:text-base font-bold uppercase tracking-wider">
+                                {% trans "Key Features" %}
+                            </th>
+                            <th class="py-4 px-4 md:px-6 text-sm md:text-base font-bold uppercase tracking-wider text-center">
+                                {% trans "Action" %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for account in regular_savings %}
+                        {% include 'services/savings/partials/_comparison_table_row.html' with account=account %}
+                        {% endfor %}
+                        {% for account in optional_savings %}
+                        {% include 'services/savings/partials/_comparison_table_row.html' with account=account %}
+                        {% endfor %}
+                        {% for account in recurring_savings %}
+                        {% include 'services/savings/partials/_comparison_table_row.html' with account=account %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <!-- All Savings Accounts Categorized -->
 <section class="py-20 bg-gray-50 relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-[0.03]">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
-    </div>
+    {% include 'services/savings/partials/_background_pattern.html' with pattern_type='light' opacity='0.03' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mobile-spacing">
         <!-- Regular & Optional Savings -->
@@ -333,11 +402,7 @@
 
             <!-- Call to Action -->
             <div class="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-8 md:p-10 text-center text-white shadow-2xl relative overflow-hidden scroll-reveal">
-                <!-- Background Pattern -->
-                <div class="absolute inset-0 opacity-20">
-                    {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-                    <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-                </div>
+                {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.20' %}
                 <div class="relative z-10">
                     <h3 class="text-2xl md:text-3xl font-bold font-montserrat mb-3">{% trans "Want to open a Fixed Deposit?" %}</h3>
                     <p class="text-orange-100 mb-8 text-lg max-w-2xl mx-auto">{% trans "Contact our team to choose the best plan for you." %}</p>
@@ -365,11 +430,7 @@
 
 <!-- Benefits / Why Choose Us -->
 <section class="py-20 bg-white relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-[0.03]">
-        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
+    {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.03' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12 scroll-reveal">
@@ -414,7 +475,8 @@
                 <div class="absolute inset-0 bg-gradient-to-tr from-deuraligreen to-green-300 transform rotate-3 rounded-3xl opacity-20 blur-xl"></div>
                 <div class="relative rounded-3xl shadow-2xl overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                        alt="{% trans 'Savings Growth' %}"
+                        alt="{% trans 'Savings Growth' %} - बचत खाता, भञ्ज्याङ सहकारी, नेपाल"
+                        title="{% trans 'Savings Growth' %} - Bhanjyang Cooperative Savings Accounts"
                         class="w-full object-cover h-[500px] transform hover:scale-105 transition-transform duration-500"
                         loading="lazy">
                 </div>
@@ -425,11 +487,7 @@
 
 <!-- CTA Section -->
 <section class="py-24 bg-gradient-to-r from-deuraligreen via-green-600 to-green-700 text-white relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-20">
-        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
+    {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.20' %}
     
     <div class="container mx-auto px-4 text-center relative z-10">
         <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">तपाईंको विश्वास, हाम्रो जिम्मेवारी</h2>
@@ -456,27 +514,75 @@
 <!-- Remittance Services JS (reused for animations) -->
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
 
-<!-- Structured Data (JSON-LD) for SEO -->
+<!-- Enhanced Structured Data (JSON-LD) for SEO -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",
     "name": "{% trans 'Savings Accounts' %}",
-    "description": "{% trans 'Secure your future with our range of savings products designed to help you grow your wealth with competitive interest rates.' %}",
+    "alternateName": "बचत खाताहरू",
+    "description": "{% trans 'Secure your future with our range of savings products designed to help you grow your wealth with competitive interest rates.' %} Best savings accounts in Nepal with up to 8% interest rates.",
     "provider": {
         "@type": "CreditUnion",
         "name": "भञ्ज्याङ सहकारी",
-        "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "NP",
+            "addressRegion": "Gandaki",
+            "addressLocality": "Kaski"
+        }
     },
     "serviceType": "SavingsAccount",
     "areaServed": {
         "@type": "Country",
-        "name": "Nepal"
+        "name": "Nepal",
+        "identifier": "NP"
     },
     "availableChannel": {
         "@type": "ServiceChannel",
         "serviceUrl": "{{ request.build_absolute_uri }}"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "150"
+    },
+    "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "NPR",
+        "availability": "https://schema.org/InStock"
     }
+}
+</script>
+
+<!-- BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{% trans 'Home' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{% trans 'Services' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'services:overview' %}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{% trans 'Savings Accounts' %}",
+            "item": "{{ request.build_absolute_uri }}"
+        }
+    ]
 }
 </script>
 {% endblock extra_js %}

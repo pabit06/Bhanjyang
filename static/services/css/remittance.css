@@ -146,6 +146,110 @@
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     padding: 4px 8px;
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+/* =========================================
+   Accessibility Enhancements
+   ========================================= */
+
+/* Skip to main content link */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.sr-only:focus {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 9999;
+    width: auto;
+    height: auto;
+    padding: 0.75rem 1.5rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    background-color: #059669;
+    color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Focus indicators for keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid #059669;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Enhanced focus for interactive elements */
+.service-card-enhanced:focus-within {
+    outline: 2px solid #059669;
+    outline-offset: 4px;
+}
+
+/* Keyboard navigation for cards */
+.service-card-enhanced {
+    position: relative;
+}
+
+.service-card-enhanced a:focus,
+.service-card-enhanced button:focus {
+    z-index: 10;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .service-card-enhanced {
+        border: 2px solid currentColor;
+    }
+    
+    a, button {
+        text-decoration: underline;
+    }
+}
+
+/* Print styles */
+@media print {
+    .hero-section,
+    .exchange-rate-widget,
+    nav,
+    footer {
+        display: none;
+    }
+    
+    body {
+        color: #000;
+        background: #fff;
+    }
 }
 
 .from-amount-input::-webkit-inner-spin-button,

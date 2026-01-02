@@ -1,0 +1,50 @@
+{% load static %}
+{% comment %}
+Hero background image partial for savings accounts
+Usage: {% include 'services/savings/partials/_hero_background.html' with account_type=service.account_type %}
+{% endcomment %}
+
+{% if account_type == 'monthly' %}
+    <!-- Hero Image Background for Monthly Savings -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/regular-saving-hero-slide1.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+    </div>
+{% elif account_type == 'senior_citizen' %}
+    <!-- Hero Image Background for Senior Citizen Savings -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/senior-citizen-savings-hero.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+    </div>
+{% elif account_type == 'child' %}
+    <!-- Hero Image Background for Child Savings -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/child-savings-hero.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+    </div>
+{% elif account_type == 'daily' %}
+    <!-- Hero Image Background for Daily Savings -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/daily-savings-hero.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+    </div>
+{% elif account_type == 'general' %}
+    <!-- Hero Image Background for General Savings -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/general-savings-hero.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+    </div>
+{% elif account_type == 'institutional' %}
+    <!-- Hero Image Background for Institutional Savings -->
+    <div class="absolute inset-0 z-0">
+        {% static 'images/heroes/institutional-savings-hero.png' as hero_img %}
+        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+    </div>
+{% else %}
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+{% endif %}
+

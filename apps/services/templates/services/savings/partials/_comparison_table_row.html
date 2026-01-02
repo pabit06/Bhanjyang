@@ -1,0 +1,62 @@
+{% load i18n %}
+{% comment %}
+Comparison table row partial for savings accounts
+Usage: {% include 'services/savings/partials/_comparison_table_row.html' with account=account %}
+{% endcomment %}
+
+<tr class="border-b border-gray-200 hover:bg-green-50/50 transition-colors duration-200">
+    <td class="py-4 px-4 md:px-6 sticky left-0 bg-white z-5 shadow-[2px_0_4px_rgba(0,0,0,0.1)]">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-deuraligreen/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="{{ account.icon|default:'fas fa-piggy-bank' }} text-deuraligreen text-lg"></i>
+            </div>
+            <div>
+                <div class="font-bold text-gray-900 text-sm md:text-base">{{ account.nepali_name }}</div>
+                <div class="text-xs text-gray-500">
+                    {% include 'services/savings/partials/_account_name_display.html' with account=account %}
+                </div>
+                {% if account.category == 'regular' %}
+                <span class="inline-block mt-1 bg-deuraligreen text-white text-xs font-bold px-2 py-0.5 rounded-full">{% trans "Mandatory" %}</span>
+                {% endif %}
+            </div>
+        </div>
+    </td>
+    <td class="py-4 px-4 md:px-6 text-center">
+        <span class="text-2xl md:text-3xl font-extrabold text-deuraligreen">{{ account.interest_rate }}%</span>
+        <div class="text-xs text-gray-500 mt-1">{% trans "p.a." %}</div>
+    </td>
+    <td class="py-4 px-4 md:px-6 text-center">
+        {% if account.minimum_balance %}
+        <span class="text-base md:text-lg font-semibold text-gray-800">NPR {{ account.minimum_balance|floatformat:0 }}</span>
+        {% else %}
+        <span class="text-gray-400 text-sm">{% trans "No minimum" %}</span>
+        {% endif %}
+    </td>
+    <td class="py-4 px-4 md:px-6">
+        {% if account.features %}
+        <ul class="space-y-1 text-xs md:text-sm text-gray-600">
+            {% for feature in account.features.splitlines|slice:":3" %}
+            <li class="flex items-start">
+                <i class="fas fa-check-circle text-deuraligreen mt-1 mr-2 flex-shrink-0 text-xs"></i>
+                <span>{{ feature|cut:"• "|truncatewords:8 }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <span class="text-gray-400 text-sm">-</span>
+        {% endif %}
+    </td>
+    <td class="py-4 px-4 md:px-6 text-center">
+        <div class="flex flex-col gap-2">
+            <a href="{% url 'services:savings_detail' account.slug %}"
+                class="bg-deuraligreen hover:bg-green-600 text-white text-xs font-bold py-2 px-4 rounded-lg transition-colors whitespace-nowrap">
+                {% trans "View Details" %}
+            </a>
+            <a href="{% url 'services:service_application' %}?service_type=savings&service_slug={{ account.slug }}"
+                class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold py-2 px-4 rounded-lg transition-colors whitespace-nowrap">
+                {% trans "Apply" %}
+            </a>
+        </div>
+    </td>
+</tr>
+

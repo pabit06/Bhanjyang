@@ -4,6 +4,24 @@
 
 {% block title %}{{ service.title }} - भञ्ज्याङ सहकारी{% endblock title %}
 
+{% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Member relief program from Bhanjyang Cooperative providing support and assistance to members." }}{% endblock meta_description %}
+
+{% block meta_keywords %}member relief, {{ service.title|lower }}, nepal, bhanjyang cooperative, support programs, assistance{% endblock meta_keywords %}
+
+{% block og_title %}{{ service.title }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Member relief program providing support and assistance." }}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{{ service.title }} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Member relief program from Bhanjyang Cooperative." }}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -13,7 +31,11 @@
 {% endblock extra_css %}
 
 {% block content %}
-<!-- Modern Breadcrumb -->
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-purple-600 focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
 <!-- Modern Breadcrumb -->
 {% if breadcrumbs %}
 {% include 'partials/_breadcrumb.html' %}
@@ -35,7 +57,7 @@
         <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
             <i class="{{ service.icon|default:'fas fa-heart' }} text-4xl text-white"></i>
         </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-montserrat drop-shadow-lg animate-fade-in-up">
+        <h1 id="main-content" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-montserrat drop-shadow-lg animate-fade-in-up">
             {{ service.title }}
         </h1>
         <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md animate-fade-in-up" style="animation-delay: 0.1s;">
@@ -177,17 +199,23 @@
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "{{ service.title }}",
+    "alternateName": "{{ service.nepali_title }}",
     "description": "{{ service.description|truncatewords:30|striptags }}",
     "provider": {
         "@type": "CreditUnion",
         "name": "भञ्ज्याङ सहकारी",
-        "url": "{{ request.scheme }}://{{ request.get_host }}/"
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
     },
     "serviceType": "MemberRelief",
     "areaServed": {
         "@type": "Country",
-        "name": "Nepal"
-    }
+        "name": "Nepal",
+        "identifier": "NP"
+    },
+    "url": "{{ request.build_absolute_uri }}",
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
 }
 </script>
 {% endblock extra_js %}

@@ -4,7 +4,23 @@
 
 {% block title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock %}
 
-{% block meta_description %}{{ service.description|truncatewords:20 }}{% endblock meta_description %}
+{% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Loan service from Bhanjyang Cooperative with competitive interest rates and flexible repayment options." }}{% endblock meta_description %}
+
+{% block meta_keywords %}loan, {{ service.english_name|lower }}, nepal, bhanjyang cooperative, credit services, emi calculator{% endblock meta_keywords %}
+
+{% block og_title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Loan service with competitive rates and flexible options." }}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Loan service from Bhanjyang Cooperative." }}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
 
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
@@ -15,6 +31,11 @@
 {% endblock extra_css %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bhanjyangred focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
 <!-- Modern Breadcrumb -->
 {% if breadcrumbs %}
 {% include 'partials/_breadcrumb.html' %}
@@ -42,7 +63,7 @@
             <i class="{{ service.icon|default:'fas fa-hand-holding-usd' }} text-4xl text-white"></i>
         </div>
         {% endif %}
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-montserrat drop-shadow-lg animate-fade-in-up">
+        <h1 id="main-content" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-montserrat drop-shadow-lg animate-fade-in-up">
             {{ service.nepali_name }}
         </h1>
         <p class="text-xl md:text-2xl text-white/90 mb-6 animate-fade-in-up" style="animation-delay: 0.1s;">
@@ -415,5 +436,36 @@
             });
         });
     });
+</script>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "{{ service.english_name }}",
+    "alternateName": "{{ service.nepali_name }}",
+    "description": "{{ service.description|striptags|truncatewords:50|default:'Loan service from Bhanjyang Cooperative' }}",
+    "provider": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+    },
+    "serviceType": "Loan",
+    "areaServed": {
+        "@type": "Country",
+        "name": "Nepal",
+        "identifier": "NP"
+    },
+    "url": "{{ request.build_absolute_uri }}",
+    "offers": {
+        "@type": "Offer",
+        "description": "{% blocktrans with rate=service.monthly_interest_rate %}Competitive {{ rate }}% monthly interest rate{% endblocktrans %}",
+        "priceCurrency": "NPR"
+    },
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+}
 </script>
 {% endblock extra_js %}

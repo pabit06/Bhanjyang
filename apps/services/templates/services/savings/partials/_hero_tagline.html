@@ -1,0 +1,32 @@
+{% load i18n %}
+{% comment %}
+Hero tagline/banner partial for savings accounts
+Usage: {% include 'services/savings/partials/_hero_tagline.html' with account_type=service.account_type %}
+{% endcomment %}
+
+{% if account_type == 'senior_citizen' %}
+    <!-- Banner Text for Senior Citizen Savings -->
+    <div class="mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-montserrat leading-tight drop-shadow-2xl">
+            अब सहकारीकै ब्याजले चल्छ दैनिकी,<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-glow">पेन्सन जस्तै नियमित आम्दानी</span>
+        </h2>
+    </div>
+{% elif account_type == 'child' %}
+    <!-- Banner Text for Child Savings - Left Aligned -->
+    <div class="mb-12 mt-4 animate-fade-in-up text-left max-w-4xl" style="animation-delay: 0.1s;">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-montserrat leading-tight drop-shadow-2xl">
+            महँगा उपहार होइन,<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-glow">छोराछोरीलाई बचत गर्ने संस्कार दिनुहोस्</span>
+        </h2>
+    </div>
+{% elif account_type == 'institutional' %}
+    <!-- Banner Text for Institutional Savings -->
+    <div class="mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-montserrat leading-tight drop-shadow-2xl">
+            संस्थाको पैसा,<br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-glow">संस्थाकै उन्नतिमा</span>
+        </h2>
+    </div>
+{% endif %}
+

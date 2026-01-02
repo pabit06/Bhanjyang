@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Pages Test Links</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 0; }
+        .test-link {
+            display: block;
+            padding: 12px;
+            margin: 8px 0;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .test-link:hover {
+            background: #45a049;
+        }
+        .test-link.detail {
+            background: #2196F3;
+        }
+        .test-link.detail:hover {
+            background: #0b7dda;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 8px;
+            margin: 4px 0;
+            background: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            padding-left: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Service Pages Testing Dashboard</h1>
+    
+    <div class="test-section">
+        <h2>📋 List Pages</h2>
+        <a href="http://127.0.0.1:8000/services/remittance/" class="test-link" target="_blank">
+            ✅ Remittance Services
+        </a>
+        <a href="http://127.0.0.1:8000/services/digital-services/" class="test-link" target="_blank">
+            ✅ Digital Services
+        </a>
+        <a href="http://127.0.0.1:8000/services/loans/" class="test-link" target="_blank">
+            ✅ Loan Services
+        </a>
+        <a href="http://127.0.0.1:8000/services/member-relief/" class="test-link" target="_blank">
+            ✅ Member Relief
+        </a>
+        <a href="http://127.0.0.1:8000/services/savings/" class="test-link" target="_blank">
+            ✅ Savings Accounts
+        </a>
+    </div>
+
+    <div class="test-section">
+        <h2>📄 Detail Pages (Test with any service slug)</h2>
+        <p style="color: #666; font-size: 14px;">Note: Replace {slug} with actual service slugs from your database</p>
+        <a href="http://127.0.0.1:8000/services/remittance/" class="test-link detail" target="_blank">
+            🔍 Remittance Detail (click any service card)
+        </a>
+        <a href="http://127.0.0.1:8000/services/digital-services/" class="test-link detail" target="_blank">
+            🔍 Digital Detail (click any service card)
+        </a>
+        <a href="http://127.0.0.1:8000/services/loans/" class="test-link detail" target="_blank">
+            🔍 Loan Detail (click any loan card)
+        </a>
+        <a href="http://127.0.0.1:8000/services/savings/" class="test-link detail" target="_blank">
+            🔍 Savings Detail (click any savings card)
+        </a>
+        <a href="http://127.0.0.1:8000/services/member-relief/" class="test-link detail" target="_blank">
+            🔍 Member Relief Detail (click any program card)
+        </a>
+    </div>
+
+    <div class="test-section">
+        <h2>✅ Quick Test Checklist</h2>
+        <ul class="checklist">
+            <li>☐ Hero sections display correctly</li>
+            <li>☐ Pattern backgrounds are visible (subtle)</li>
+            <li>☐ Scroll animations work</li>
+            <li>☐ Cards have hover effects</li>
+            <li>☐ Exchange rate widget works (Remittance)</li>
+            <li>☐ Calculators compute correctly (Loan, Savings, FD)</li>
+            <li>☐ Mobile layout adapts (F12 → Device toolbar)</li>
+            <li>☐ No console errors (F12 → Console)</li>
+            <li>☐ No 404 errors (F12 → Network)</li>
+            <li>☐ All images load</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Testing Tools</h2>
+        <p><strong>Browser DevTools:</strong> Press F12</p>
+        <ul class="checklist">
+            <li><strong>Console:</strong> Check for JavaScript errors</li>
+            <li><strong>Network:</strong> Check for 404s or failed requests</li>
+            <li><strong>Elements:</strong> Inspect HTML structure</li>
+            <li><strong>Device Toolbar:</strong> Ctrl+Shift+M (test mobile)</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Test Results</h2>
+        <p>Record your findings:</p>
+        <textarea placeholder="Enter test results and issues found..." 
+                  style="width: 100%; min-height: 150px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace;"></textarea>
+    </div>
+</body>
+</html>
+

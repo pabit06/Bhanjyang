@@ -28,11 +28,7 @@
         <div class="flex-grow mb-4">
             <h3 class="text-xl font-bold text-gray-800 mb-1 group-hover:text-{{ account.color|default:'deuraligreen' }} transition-colors">{{ account.nepali_name }}</h3>
             <p class="text-sm text-gray-500 mb-4 font-montserrat">
-                {% if account.account_type == 'monthly' %}
-                    {% trans "Regular Saving" %}
-                {% else %}
-                    {{ account.english_name }}
-                {% endif %}
+                {% include 'services/savings/partials/_account_name_display.html' with account=account %}
             </p>
             
             {% if account.description %}

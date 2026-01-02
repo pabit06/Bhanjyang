@@ -2,9 +2,31 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ service.nepali_name }} - Bhanjyang Cooperative{% endblock %}
+{% block title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock %}
+
+{% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Digital banking service from Bhanjyang Cooperative for convenient online and mobile banking." }}{% endblock meta_description %}
+
+{% block meta_keywords %}digital banking, {{ service.english_name|lower }}, nepal, bhanjyang cooperative, mobile banking, online banking{% endblock meta_keywords %}
+
+{% block og_title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Digital banking service for convenient online and mobile banking." }}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Digital banking service from Bhanjyang Cooperative." }}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
 <div class="min-h-screen bg-gray-50 font-sans selection:bg-deuraligreen selection:text-white pb-20">
 
     <!-- Hero Section with Glassmorphism -->
@@ -33,7 +55,7 @@
                 class="inline-flex items-center justify-center p-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl mb-8 shadow-2xl transform hover:scale-105 transition-transform duration-300">
                 <i class="{{ service.icon|default:'fas fa-mobile-alt' }} text-5xl text-white drop-shadow-md"></i>
             </div>
-            <h1
+            <h1 id="main-content"
                 class="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight leading-tight drop-shadow-sm font-mukta">
                 {{ service.nepali_name }}
             </h1>
@@ -310,4 +332,35 @@
         }
     }
 </style>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "{{ service.english_name }}",
+    "alternateName": "{{ service.nepali_name }}",
+    "description": "{{ service.description|striptags|truncatewords:50|default:'Digital banking service from Bhanjyang Cooperative' }}",
+    "provider": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+    },
+    "serviceType": "DigitalBanking",
+    "areaServed": {
+        "@type": "Country",
+        "name": "Nepal",
+        "identifier": "NP"
+    },
+    "url": "{{ request.build_absolute_uri }}",
+    "offers": {
+        "@type": "Offer",
+        "description": "Digital banking services for convenient online and mobile banking",
+        "priceCurrency": "NPR"
+    },
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+}
+</script>
 {% endblock %}

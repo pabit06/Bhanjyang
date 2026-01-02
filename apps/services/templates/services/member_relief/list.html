@@ -4,6 +4,16 @@
 
 {% block title %}{% trans "Member Relief Programs" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
+{% block meta_description %}{% trans "Supporting our valued members through comprehensive relief and assistance programs. 24/7 support available for emergency situations." %}{% endblock meta_description %}
+
+{% block meta_keywords %}member relief, support programs, nepal, bhanjyang cooperative, assistance, emergency support{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "Member Relief Programs" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Comprehensive relief and assistance programs for our members. 24/7 support available." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -39,7 +49,7 @@
                     {% trans "Member Support" %}
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
+                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
                     style="animation-delay: 0.1s;">
                     <span class="text-gray-200">सदस्य</span> <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-purple-400 text-glow">सहायता</span><br>

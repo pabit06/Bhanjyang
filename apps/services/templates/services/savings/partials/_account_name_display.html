@@ -1,0 +1,18 @@
+{% load i18n %}
+{% comment %}
+Account name display helper - dynamically shows account name from model
+Usage: {% include 'services/savings/partials/_account_name_display.html' with account=account %}
+       {% include 'services/savings/partials/_account_name_display.html' with account=account language='nepali' %}
+Parameters:
+  - account: The account object (required)
+  - language: 'nepali' or 'english' (default: 'english')
+Note: Uses model fields directly - no hardcoded account type logic. 
+      Falls back to alternate language if primary is empty.
+{% endcomment %}
+
+{% if language == 'nepali' %}
+    {{ account.nepali_name|default:account.english_name|default:"बचत खाता" }}
+{% else %}
+    {{ account.english_name|default:account.nepali_name|default:"Savings Account" }}
+{% endif %}
+

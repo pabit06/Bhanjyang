@@ -2,9 +2,25 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% if service.account_type == 'monthly' %}{% trans "Regular Saving" %}{% else %}{{ service.english_name }}{% endif %} - भञ्ज्याङ सहकारी{% endblock %}
+{% block title %}{% with account=service %}{% include 'services/savings/partials/_account_name_display.html' %}{% endwith %} - भञ्ज्याङ सहकारी{% endblock %}
 
-{% block meta_description %}{{ service.description|truncatewords:20 }}{% endblock meta_description %}
+{% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Savings account from Bhanjyang Cooperative with competitive interest rates." }}{% endblock meta_description %}
+
+{% block meta_keywords %}savings account, {{ service.english_name|lower }}, {{ service.nepali_name|lower }}, nepal, kaski, bhanjyang cooperative, interest rates, banking, financial services, cooperative banking, microfinance, {% if service.account_type == 'monthly' %}regular saving, monthly savings{% elif service.account_type == 'senior_citizen' %}senior citizen savings, pension savings{% elif service.account_type == 'child' %}child savings, kids savings{% elif service.account_type == 'daily' %}daily savings{% elif service.account_type == 'general' %}general savings{% elif service.account_type == 'institutional' %}institutional savings{% endif %}{% endblock meta_keywords %}
+
+{% block og_title %}{% with account=service %}{% include 'services/savings/partials/_account_name_display.html' %}{% endwith %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Savings account with competitive interest rates." }}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% with account=service %}{% include 'services/savings/partials/_account_name_display.html' %}{% endwith %} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Savings account from Bhanjyang Cooperative." }}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
 
 {% block extra_css %}
     <!-- Resource hints for CDN assets -->
@@ -15,6 +31,11 @@
 {% endblock extra_css %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
 <!-- Modern Breadcrumb -->
 {% if breadcrumbs %}
 {% include 'partials/_breadcrumb.html' %}
@@ -22,30 +43,26 @@
 
 <!-- Premium Hero Section -->
 <section class="relative py-20 md:py-28 bg-gradient-to-br from-green-950 via-deuraligreen to-green-700 text-white overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-10 z-0">
-        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
+    {% include 'services/savings/partials/_hero_background.html' with account_type=service.account_type %}
     
     <!-- Decorative Elements -->
     <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        {% include 'services/savings/partials/_hero_tagline.html' with account_type=service.account_type %}
+        {% if service.account_type != 'child' and service.account_type != 'institutional' %}
+        <!-- Icon hidden for child and institutional savings to avoid blocking photo content -->
         <div class="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
             <i class="{{ service.icon|default:'fas fa-piggy-bank' }} text-4xl text-white"></i>
         </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-montserrat drop-shadow-lg animate-fade-in-up">
+        {% endif %}
+        <h1 id="main-content" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-montserrat drop-shadow-lg animate-fade-in-up">
             {{ service.nepali_name }}
         </h1>
         <div class="flex items-center justify-center gap-3 mb-6 animate-fade-in-up" style="animation-delay: 0.1s;">
             <p class="text-xl md:text-2xl text-white/90 font-medium">
-                {% if service.account_type == 'monthly' %}
-                    {% trans "Regular Saving" %}
-                {% else %}
-                    {{ service.english_name }}
-                {% endif %}
+                {% include 'services/savings/partials/_account_name_display.html' with account=service %}
             </p>
             {% if service.category == 'regular' %}
             <span class="bg-white/20 backdrop-blur-sm text-white text-sm font-bold px-4 py-1 rounded-full border border-white/30">{% trans "Mandatory" %}</span>
@@ -66,11 +83,7 @@
             {% endif %}
             <div class="bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl px-6 py-4 shadow-lg">
                 <div class="text-lg font-bold text-white mb-1">
-                    {% if service.account_type == 'monthly' %}
-                        {% trans "Regular Saving" %}
-                    {% else %}
-                        {{ service.get_account_type_display }}
-                    {% endif %}
+                    {% include 'services/savings/partials/_account_name_display.html' with account=service %}
                 </div>
                 <div class="text-sm text-white/80 uppercase tracking-wide">{% trans "Type" %}</div>
             </div>
@@ -92,11 +105,7 @@
 
 <!-- Service Details -->
 <section class="py-20 bg-gray-50 relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-[0.03]">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
-    </div>
+    {% include 'services/savings/partials/_background_pattern.html' with pattern_type='light' opacity='0.03' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid lg:grid-cols-3 gap-12">
@@ -232,11 +241,7 @@
                         <div class="flex justify-between items-center py-3 border-b border-gray-200">
                             <span class="text-gray-600">{% trans "Account Type" %}</span>
                             <span class="font-semibold">
-                                {% if service.account_type == 'monthly' %}
-                                    {% trans "Regular Saving" %}
-                                {% else %}
-                                    {{ service.get_account_type_display }}
-                                {% endif %}
+                                {% include 'services/savings/partials/_account_name_display.html' with account=service %}
                             </span>
                         </div>
 
@@ -304,11 +309,7 @@
 
 <!-- Related Services -->
 <section class="py-20 bg-white relative overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-[0.03]">
-        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
+    {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.03' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
@@ -383,4 +384,6 @@
         });
     });
 </script>
+
+{% include 'services/savings/partials/_seo_structured_data.html' with service=service %}
 {% endblock extra_js %}
