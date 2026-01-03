@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{# {% load remittance_tags %} #} {# Temporarily disabled - restart server to enable #}
+{% load remittance_tags %}
 
 {% block title %}{% trans "Remittance Services" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
@@ -440,7 +440,7 @@
                                                     aria-haspopup="listbox"
                                                     aria-expanded="false"
                                                     id="currency-selector-button">
-                                                    <img src="https://flagcdn.com/w40/us.png" class="w-4 h-auto rounded shadow-sm currency-flag" alt="USD" aria-hidden="true">
+                                                    <img src="{% flag_image 'USD' %}" class="w-4 h-auto rounded shadow-sm currency-flag" alt="USD" aria-hidden="true">
                                                     <span class="font-bold text-white text-[10px] currency-code">USD</span>
                                                     <i class="fas fa-chevron-down text-white text-[8px] ml-0.5" aria-hidden="true"></i>
                                                 </button>
@@ -451,55 +451,55 @@
                                                     id="currency-dropdown">
                                                     <div class="p-1">
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="USD" role="option" aria-selected="true" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/us.png" class="w-5 h-auto rounded" alt="USD flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'USD' %}" class="w-5 h-auto rounded" alt="USD flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">USD</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="EUR" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/eu.png" class="w-5 h-auto rounded" alt="EUR flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'EUR' %}" class="w-5 h-auto rounded" alt="EUR flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">EUR</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="GBP" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/gb.png" class="w-5 h-auto rounded" alt="GBP flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'GBP' %}" class="w-5 h-auto rounded" alt="GBP flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">GBP</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="AUD" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/au.png" class="w-5 h-auto rounded" alt="AUD flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'AUD' %}" class="w-5 h-auto rounded" alt="AUD flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">AUD</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="CAD" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/ca.png" class="w-5 h-auto rounded" alt="CAD flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'CAD' %}" class="w-5 h-auto rounded" alt="CAD flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">CAD</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="JPY" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/jp.png" class="w-5 h-auto rounded" alt="JPY flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'JPY' %}" class="w-5 h-auto rounded" alt="JPY flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">JPY</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="INR" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/in.png" class="w-5 h-auto rounded" alt="INR flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'INR' %}" class="w-5 h-auto rounded" alt="INR flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">INR</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="AED" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/ae.png" class="w-5 h-auto rounded" alt="AED flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'AED' %}" class="w-5 h-auto rounded" alt="AED flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">AED</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="SAR" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/sa.png" class="w-5 h-auto rounded" alt="SAR flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'SAR' %}" class="w-5 h-auto rounded" alt="SAR flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">SAR</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="QAR" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/qa.png" class="w-5 h-auto rounded" alt="QAR flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'QAR' %}" class="w-5 h-auto rounded" alt="QAR flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">QAR</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="SGD" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/sg.png" class="w-5 h-auto rounded" alt="SGD flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'SGD' %}" class="w-5 h-auto rounded" alt="SGD flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">SGD</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="MYR" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/my.png" class="w-5 h-auto rounded" alt="MYR flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'MYR' %}" class="w-5 h-auto rounded" alt="MYR flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">MYR</span>
                                                         </div>
                                                         <div class="currency-option flex items-center gap-2 px-2 py-1.5 rounded hover:bg-green-700 cursor-pointer" data-currency="THB" role="option" tabindex="0">
-                                                            <img src="https://flagcdn.com/w40/th.png" class="w-5 h-auto rounded" alt="THB flag" aria-hidden="true">
+                                                            <img src="{% flag_image 'THB' %}" class="w-5 h-auto rounded" alt="THB flag" aria-hidden="true">
                                                             <span class="text-white text-xs font-bold">THB</span>
                                                         </div>
                                                     </div>
@@ -523,7 +523,7 @@
                                         <div class="flex justify-between items-center gap-2">
                                             <span class="text-xl font-bold text-yellow-400 to-amount truncate" id="to-amount-display">1,35,000</span>
                                             <div class="flex items-center gap-1 bg-white/10 px-1.5 py-0.5 rounded border border-white/10 flex-shrink-0">
-                                                <img src="https://flagcdn.com/w40/np.png" class="w-4 h-auto rounded shadow-sm" alt="NPR flag" aria-hidden="true">
+                                                <img src="{% flag_image 'NPR' %}" class="w-4 h-auto rounded shadow-sm" alt="NPR flag" aria-hidden="true">
                                                 <span class="font-bold text-white text-[10px]">NPR</span>
                                             </div>
                                         </div>

@@ -8,7 +8,7 @@ from decimal import Decimal
 import json
 
 from apps.services.models import (
-    SavingsAccount, FixedDeposit, LoanType, RemittanceService, MemberRelief
+    SavingsAccount, FixedDeposit, LoanType, RemittanceService, MemberRelief, DigitalService
 )
 
 User = get_user_model()
@@ -61,6 +61,13 @@ class ServicesViewsTest(TestCase):
             relief_type="medical",
             eligibility="Members with medical emergencies",
             benefits="Financial support"
+        )
+        
+        self.digital = DigitalService.objects.create(
+            english_name="Mobile Banking",
+            nepali_name="मोबाइल बैंकिङ",
+            service_type="mobile_banking",
+            description="Mobile banking service"
         )
     
     def test_services_overview_get(self):
@@ -289,4 +296,209 @@ class ServicesViewsTest(TestCase):
         
         self.assertEqual(response.status_code, 200)
         self.assertIn('results', response.context)
+    
+    def test_digital_services_view(self):
+        """Test DigitalServicesView GET request"""
+        response = self.client.get(reverse('services:digital_list'))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('digital_services', response.context)
+        self.assertTemplateUsed(response, 'services/digital/digital_list.html')
+    
+    def test_digital_service_detail_view(self):
+        """Test DigitalServiceDetailView GET request"""
+        response = self.client.get(reverse(
+            'services:digital_detail',
+            kwargs={'slug': self.digital.slug}
+        ))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('digital_service', response.context)
+        self.assertEqual(response.context['digital_service'], self.digital)
+    
+    def test_loan_calculator_post(self):
+        """Test loan_calculator POST request with valid data"""
+        form_data = {
+            'loan_type': str(self.loan.id),
+            'principal': '100000',
+            'tenure_years': '2',
+            'payment_frequency': 'monthly'
+        }
+        response = self.client.post(reverse('services:loan_calculator'), form_data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('calculation', response.context)
+    
+    def test_savings_calculator_post(self):
+        """Test savings_calculator POST request with valid data"""
+        form_data = {
+            'savings_account': str(self.savings.id),
+            'monthly_deposit': '5000',
+            'tenure_years': '5'
+        }
+        response = self.client.post(reverse('services:savings_calculator'), form_data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('calculation', response.context)
+    
+    def test_fixed_deposit_calculator_post(self):
+        """Test fixed_deposit_calculator POST request with valid data"""
+        form_data = {
+            'deposit_type': str(self.fd.id),
+            'deposit_amount': '100000'
+        }
+        response = self.client.post(reverse('services:fixed_deposit_calculator'), form_data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('calculation', response.context)
+    
+    def test_service_application_post(self):
+        """Test service_application POST request"""
+        form_data = {
+            'service_type': 'savings',
+            'service_id': str(self.savings.id),
+            'applicant_name': 'Test User',
+            'applicant_email': 'test@example.com',
+            'applicant_phone': '+977-9812345678',
+            'message': 'Test application'
+        }
+        response = self.client.post(reverse('services:service_application'), form_data)
+        
+        # Should redirect or return success
+        self.assertIn(response.status_code, [200, 302])
+    
+    def test_service_comparison_post(self):
+        """Test service_comparison POST request"""
+        form_data = {
+            'service_type': 'savings',
+            'service_ids': [str(self.savings.id)]
+        }
+        response = self.client.post(reverse('services:service_comparison'), form_data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('comparison', response.context)
+    
+    def test_service_recommendations_post(self):
+        """Test service_recommendations POST request"""
+        form_data = {
+            'age': '30',
+            'monthly_income': '50000',
+            'goals': ['house_purchase'],
+            'risk_tolerance': 'moderate'
+        }
+        response = self.client.post(reverse('services:service_recommendations'), form_data)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('recommendations', response.context)
+    
+    def test_calculator_api_savings(self):
+        """Test calculator_api with savings calculator"""
+        data = {
+            'calculator_type': 'savings',
+            'principal': '10000',
+            'interest_rate': '5',
+            'tenure_months': '12'
+        }
+        response = self.client.post(
+            reverse('services:calculator_api'),
+            json.dumps(data),
+            content_type='application/json'
+        )
+        
+        self.assertEqual(response.status_code, 200)
+        result = json.loads(response.content)
+        self.assertIn('result', result)
+    
+    def test_calculator_api_fixed_deposit(self):
+        """Test calculator_api with fixed deposit calculator"""
+        data = {
+            'calculator_type': 'fixed_deposit',
+            'principal': '100000',
+            'interest_rate': '8.5',
+            'tenure_months': '12'
+        }
+        response = self.client.post(
+            reverse('services:calculator_api'),
+            json.dumps(data),
+            content_type='application/json'
+        )
+        
+        self.assertEqual(response.status_code, 200)
+        result = json.loads(response.content)
+        self.assertIn('result', result)
+    
+    def test_calculator_api_invalid_type(self):
+        """Test calculator_api with invalid calculator type"""
+        data = {
+            'calculator_type': 'invalid_type',
+            'principal': '100000'
+        }
+        response = self.client.post(
+            reverse('services:calculator_api'),
+            json.dumps(data),
+            content_type='application/json'
+        )
+        
+        self.assertIn(response.status_code, [400, 422])
+    
+    def test_savings_detail_related_services(self):
+        """Test that savings detail view includes related services"""
+        # Create another savings account
+        savings2 = SavingsAccount.objects.create(
+            english_name="Monthly Savings",
+            nepali_name="मासिक बचत",
+            account_type="monthly",
+            interest_rate=Decimal("5.00"),
+            minimum_balance=Decimal("500.00")
+        )
+        
+        response = self.client.get(reverse(
+            'services:savings_detail',
+            kwargs={'slug': self.savings.slug}
+        ))
+        
+        self.assertEqual(response.status_code, 200)
+        # Check if related services are in context
+        self.assertIn('related_savings', response.context)
+    
+    def test_loan_detail_related_services(self):
+        """Test that loan detail view includes related services"""
+        # Create another loan
+        loan2 = LoanType.objects.create(
+            english_name="Education Loan",
+            nepali_name="शिक्षा ऋण",
+            loan_category="education",
+            monthly_interest_rate=Decimal("1.00")
+        )
+        
+        response = self.client.get(reverse(
+            'services:loan_detail',
+            kwargs={'slug': self.loan.slug}
+        ))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('related_loans', response.context)
+    
+    def test_remittance_detail_related_services(self):
+        """Test that remittance detail view includes related services"""
+        remittance2 = RemittanceService.objects.create(
+            english_name="International Transfer",
+            nepali_name="अन्तर्राष्ट्रिय स्थानान्तरण",
+            service_type="international"
+        )
+        
+        response = self.client.get(reverse(
+            'services:remittance_detail',
+            kwargs={'slug': self.remittance.slug}
+        ))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('related_remittances', response.context)
+    
+    def test_fixed_deposit_redirect(self):
+        """Test FixedDepositsView redirects to savings list"""
+        response = self.client.get(reverse('services:fixed_deposit_list'))
+        
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('#periodic-savings', response.url)
 
