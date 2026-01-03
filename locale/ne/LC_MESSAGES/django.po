@@ -838,13 +838,13 @@ msgstr "प्रबन्धन टोली जानकारी चाँड
 #: .\apps\about\views.py:174 .\templates\partials\_header.html:65
 #: .\templates\partials\_header.html:215
 msgid "Manager Commitment"
-msgstr "प्रबन्धकको प्रतिबद्धता"
+msgstr "व्यवस्थापकको प्रतिबद्धता"
 
 #: .\apps\about\templates\about\manager_commitment.html:55
 #: .\apps\about\views.py:236 .\templates\partials\_header.html:71
 #: .\templates\partials\_header.html:221
 msgid "Management"
-msgstr "प्रबन्धन"
+msgstr "व्यवस्थापन"
 
 #: .\apps\about\templates\about\manager_commitment.html:62
 msgid "Operational insights and service commitments from our management team"
