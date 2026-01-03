@@ -1,25 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Search - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
 
-{% block meta_description %}Search through news articles and events from Bhanjyang Cooperative.{% endblock
-meta_description %}
+{% block title %}{% trans "Search" %} - भञ्ज्याङ सहकारी{% endblock title %}
+
+{% block meta_description %}{% trans "Search through news articles and events from Bhanjyang Cooperative." %}{% endblock meta_description %}
+{% block meta_keywords %}Search, News, Events, Bhanjyang Cooperative, खोज{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "Search" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Search through news articles and events from Bhanjyang Cooperative." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'news_events/css/search.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bhanjyangred focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
 <!-- Header Section -->
 <section
     class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
-    <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center search-pattern-bg"></div>
-    <div class="container mx-auto text-center z-10">
-        <h1
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 z-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    <div class="container mx-auto text-center z-10 relative">
+        <h1 id="main-content"
             class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">
-            Search</h1>
-        <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">Find articles and events that
-            interest you.</p>
+            <span class="text-gray-800">खोज</span>
+        </h1>
+        <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">{% trans "Find articles and events that interest you." %}</p>
     </div>
 </section>
 
@@ -31,40 +53,40 @@ meta_description %}
                 <form method="get" action="{% url 'news_events:search' %}" class="space-y-6">
                     <!-- Main Search -->
                     <div>
-                        <label for="q" class="block text-sm font-medium text-gray-700 mb-2">Search Term</label>
+                        <label for="q" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Search Term" %}</label>
                         <input type="text" name="q" id="q" value="{{ request.GET.q }}"
-                            placeholder="Enter keywords to search..."
+                            placeholder="{% trans 'Enter keywords to search...' %}"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred text-lg">
                     </div>
 
                     <!-- Content Type -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Content Type</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Content Type" %}</label>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <label class="flex items-center">
                                 <input type="radio" name="type" value="" {% if not request.GET.type %}checked{% endif %}
                                     class="mr-2 text-bhanjyangred focus:ring-bhanjyangred">
-                                <span class="text-gray-700">All Content</span>
+                                <span class="text-gray-700">{% trans "All Content" %}</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="radio" name="type" value="articles" {% if request.GET.type=='articles'
                                     %}checked{% endif %} class="mr-2 text-bhanjyangred focus:ring-bhanjyangred">
-                                <span class="text-gray-700">Articles Only</span>
+                                <span class="text-gray-700">{% trans "Articles Only" %}</span>
                             </label>
                             <label class="flex items-center">
                                 <input type="radio" name="type" value="events" {% if request.GET.type=='events'
                                     %}checked{% endif %} class="mr-2 text-bhanjyangred focus:ring-bhanjyangred">
-                                <span class="text-gray-700">Events Only</span>
+                                <span class="text-gray-700">{% trans "Events Only" %}</span>
                             </label>
                         </div>
                     </div>
 
                     <!-- Category Filter -->
                     <div>
-                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Category" %}</label>
                         <select name="category" id="category"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
-                            <option value="">All Categories</option>
+                            <option value="">{% trans "All Categories" %}</option>
                             {% for category in categories %}
                             <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>
                                 {{ category.name }}
@@ -76,13 +98,12 @@ meta_description %}
                     <!-- Date Range -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="date_from" class="block text-sm font-medium text-gray-700 mb-2">From
-                                Date</label>
+                            <label for="date_from" class="block text-sm font-medium text-gray-700 mb-2">{% trans "From Date" %}</label>
                             <input type="date" name="date_from" id="date_from" value="{{ request.GET.date_from }}"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
                         </div>
                         <div>
-                            <label for="date_to" class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                            <label for="date_to" class="block text-sm font-medium text-gray-700 mb-2">{% trans "To Date" %}</label>
                             <input type="date" name="date_to" id="date_to" value="{{ request.GET.date_to }}"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
                         </div>
@@ -90,19 +111,19 @@ meta_description %}
 
                     <!-- Sort Options -->
                     <div>
-                        <label for="sort" class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                        <label for="sort" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Sort By" %}</label>
                         <select name="sort" id="sort"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
                             <option value="relevance" {% if request.GET.sort=='relevance' %}selected{% endif %}>
-                                Relevance</option>
-                            <option value="newest" {% if request.GET.sort=='newest' %}selected{% endif %}>Newest First
+                                {% trans "Relevance" %}</option>
+                            <option value="newest" {% if request.GET.sort=='newest' %}selected{% endif %}>{% trans "Newest First" %}
                             </option>
-                            <option value="oldest" {% if request.GET.sort=='oldest' %}selected{% endif %}>Oldest First
+                            <option value="oldest" {% if request.GET.sort=='oldest' %}selected{% endif %}>{% trans "Oldest First" %}
                             </option>
-                            <option value="popular" {% if request.GET.sort=='popular' %}selected{% endif %}>Most Popular
+                            <option value="popular" {% if request.GET.sort=='popular' %}selected{% endif %}>{% trans "Most Popular" %}
                             </option>
-                            <option value="featured" {% if request.GET.sort=='featured' %}selected{% endif %}>Featured
-                                First</option>
+                            <option value="featured" {% if request.GET.sort=='featured' %}selected{% endif %}>{% trans "Featured First" %}
+                            </option>
                         </select>
                     </div>
 
@@ -110,11 +131,11 @@ meta_description %}
                     <div class="flex flex-col sm:flex-row gap-4">
                         <button type="submit"
                             class="flex-1 bg-bhanjyangred text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors font-semibold">
-                            <i class="fas fa-search mr-2"></i>Search
+                            <i class="fas fa-search mr-2"></i>{% trans "Search" %}
                         </button>
                         <a href="{% url 'news_events:search' %}"
                             class="sm:w-auto bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition-colors font-semibold text-center">
-                            <i class="fas fa-refresh mr-2"></i>Clear
+                            <i class="fas fa-refresh mr-2"></i>{% trans "Clear" %}
                         </a>
                     </div>
                 </form>
@@ -124,41 +145,47 @@ meta_description %}
 </section>
 
 <!-- Quick Links -->
-<section class="py-16 bg-white">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-16 bg-white relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-6xl mx-auto">
-            <h3 class="text-2xl font-bold text-deuraligreen mb-8 text-center">Quick Access</h3>
+            <h3 class="text-2xl font-bold text-deuraligreen mb-8 text-center font-montserrat">{% trans "Quick Access" %}</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <a href="{% url 'news_events:article-list' %}"
                     class="bg-gradient-to-r from-bhanjyangred to-red-600 text-white rounded-lg p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                     <div class="text-center">
                         <i class="fas fa-newspaper text-4xl mb-4"></i>
-                        <h4 class="text-xl font-semibold mb-2">All Articles</h4>
-                        <p class="text-sm opacity-90">Browse all news articles</p>
+                        <h4 class="text-xl font-semibold mb-2">{% trans "All Articles" %}</h4>
+                        <p class="text-sm opacity-90">{% trans "Browse all news articles" %}</p>
                     </div>
                 </a>
                 <a href="{% url 'news_events:event-list' %}"
                     class="bg-gradient-to-r from-deuraligreen to-green-600 text-white rounded-lg p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                     <div class="text-center">
                         <i class="fas fa-calendar-alt text-4xl mb-4"></i>
-                        <h4 class="text-xl font-semibold mb-2">All Events</h4>
-                        <p class="text-sm opacity-90">Browse all events</p>
+                        <h4 class="text-xl font-semibold mb-2">{% trans "All Events" %}</h4>
+                        <p class="text-sm opacity-90">{% trans "Browse all events" %}</p>
                     </div>
                 </a>
                 <a href="{% url 'news_events:event-list' %}?status=upcoming"
                     class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                     <div class="text-center">
                         <i class="fas fa-calendar-plus text-4xl mb-4"></i>
-                        <h4 class="text-xl font-semibold mb-2">Upcoming Events</h4>
-                        <p class="text-sm opacity-90">See what's coming up</p>
+                        <h4 class="text-xl font-semibold mb-2">{% trans "Upcoming Events" %}</h4>
+                        <p class="text-sm opacity-90">{% trans "See what's coming up" %}</p>
                     </div>
                 </a>
                 <a href="{% url 'news_events:article-list' %}?sort=featured"
                     class="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-6 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                     <div class="text-center">
                         <i class="fas fa-star text-4xl mb-4"></i>
-                        <h4 class="text-xl font-semibold mb-2">Featured Content</h4>
-                        <p class="text-sm opacity-90">See featured articles</p>
+                        <h4 class="text-xl font-semibold mb-2">{% trans "Featured Content" %}</h4>
+                        <p class="text-sm opacity-90">{% trans "See featured articles" %}</p>
                     </div>
                 </a>
             </div>
@@ -168,10 +195,16 @@ meta_description %}
 
 <!-- Popular Categories -->
 {% if categories %}
-<section class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-16 bg-gray-50 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-4xl mx-auto">
-            <h3 class="text-2xl font-bold text-deuraligreen mb-8 text-center">Browse by Category</h3>
+            <h3 class="text-2xl font-bold text-deuraligreen mb-8 text-center font-montserrat">{% trans "Browse by Category" %}</h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {% for category in categories %}
                 <a href="{% url 'news_events:search' %}?category={{ category.slug }}"

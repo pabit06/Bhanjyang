@@ -11,14 +11,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = formData.get('email');
 
             if (!email) {
-                showMessage('Please enter your email address.', 'error');
+                const message = window.newsEventsMessages?.enterEmail || 'Please enter your email address.';
+                showMessage(message, 'error');
                 return;
             }
 
             // Show loading state
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Subscribing...';
+            const subscribingText = window.newsEventsMessages?.subscribing || 'Subscribing...';
+            submitBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${subscribingText}`;
             submitBtn.disabled = true;
 
             // Get URL from form action or predefined variable if needed. 
@@ -45,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 })
                 .catch(error => {
-                    showMessage('Subscription failed. Please try again later.', 'error');
+                    const message = window.newsEventsMessages?.subscriptionFailed || 'Subscription failed. Please try again later.';
+                    showMessage(message, 'error');
                 })
                 .finally(() => {
                     submitBtn.innerHTML = originalText;

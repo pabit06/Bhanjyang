@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Events - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
 
-{% block meta_description %}Browse all upcoming and past events from Bhanjyang Saving & Credit Cooperative Society
-Ltd.{% endblock meta_description %}
-{% block meta_keywords %}Bhanjyang Cooperative, Events, Upcoming Events, Cooperative Events{% endblock meta_keywords %}
+{% block title %}{% trans "Events" %} - भञ्ज्याङ सहकारी{% endblock title %}
+
+{% block meta_description %}{% trans "Browse all upcoming and past events from Bhanjyang Saving & Credit Cooperative Society Ltd." %}{% endblock meta_description %}
+{% block meta_keywords %}Bhanjyang Cooperative, Events, Upcoming Events, Cooperative Events, कार्यक्रम{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "Events" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Browse all upcoming and past events from Bhanjyang Cooperative." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bhanjyangred focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
 <!-- Hero Section -->
 <section class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -21,14 +38,14 @@ Ltd.{% endblock meta_description %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
-            Events
+            {% trans "Events" %}
         </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            Events
+        <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+            <span class="text-gray-800">कार्यक्रम</span> <span class="text-bhanjyangred">हरू</span>
         </h1>
         <div class="w-24 h-1 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Join us for exciting events and activities
+            {% trans "Join us for exciting events and activities" %}
         </p>
     </div>
 </section>
@@ -36,9 +53,9 @@ Ltd.{% endblock meta_description %}
 <!-- Filter Tabs and Search Section -->
 <section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -51,19 +68,19 @@ Ltd.{% endblock meta_description %}
             <div class="flex flex-wrap justify-center gap-4 mb-8">
                 <a href="{% url 'news_events:event-list' %}"
                     class="px-6 py-3 rounded-full font-semibold transition-all duration-300 {% if not request.GET.status %}bg-bhanjyangred text-white shadow-lg{% else %}bg-white text-gray-700 hover:bg-gray-100 shadow-md{% endif %}">
-                    All Events
+                    {% trans "All Events" %}
                 </a>
                 <a href="{% url 'news_events:event-list' %}?status=upcoming"
                     class="px-6 py-3 rounded-full font-semibold transition-all duration-300 {% if request.GET.status == 'upcoming' %}bg-bhanjyangred text-white shadow-lg{% else %}bg-white text-gray-700 hover:bg-gray-100 shadow-md{% endif %}">
-                    Upcoming
+                    {% trans "Upcoming" %}
                 </a>
                 <a href="{% url 'news_events:event-list' %}?status=past"
                     class="px-6 py-3 rounded-full font-semibold transition-all duration-300 {% if request.GET.status == 'past' %}bg-bhanjyangred text-white shadow-lg{% else %}bg-white text-gray-700 hover:bg-gray-100 shadow-md{% endif %}">
-                    Past Events
+                    {% trans "Past Events" %}
                 </a>
                 <a href="{% url 'news_events:event-list' %}?featured=true"
                     class="px-6 py-3 rounded-full font-semibold transition-all duration-300 {% if request.GET.featured == 'true' %}bg-bhanjyangred text-white shadow-lg{% else %}bg-white text-gray-700 hover:bg-gray-100 shadow-md{% endif %}">
-                    Featured
+                    {% trans "Featured" %}
                 </a>
             </div>
 
@@ -73,14 +90,14 @@ Ltd.{% endblock meta_description %}
                     <div class="flex-1">
                         <div class="relative">
                             <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search events..."
+                            <input type="text" name="search" value="{{ request.GET.search }}" placeholder="{% trans 'Search events...' %}"
                                 class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred focus:border-transparent">
                         </div>
                     </div>
                     <div class="sm:w-48">
                         <select name="category"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred focus:border-transparent">
-                            <option value="">All Categories</option>
+                            <option value="">{% trans "All Categories" %}</option>
                             {% for category in categories %}
                             <option value="{{ category.slug }}" {% if request.GET.category|stringformat:"s" == category.slug %}selected{% endif %}>
                                 {{ category.name }}
@@ -91,15 +108,15 @@ Ltd.{% endblock meta_description %}
                     <div class="sm:w-48">
                         <select name="sort"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred focus:border-transparent">
-                            <option value="date" {% if request.GET.sort == 'date' %}selected{% endif %}>By Date</option>
-                            <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>Most Popular</option>
-                            <option value="featured" {% if request.GET.sort == 'featured' %}selected{% endif %}>Featured First</option>
+                            <option value="date" {% if request.GET.sort == 'date' %}selected{% endif %}>{% trans "By Date" %}</option>
+                            <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>{% trans "Most Popular" %}</option>
+                            <option value="featured" {% if request.GET.sort == 'featured' %}selected{% endif %}>{% trans "Featured First" %}</option>
                         </select>
                     </div>
                     <button type="submit"
                         class="group inline-flex items-center gap-2 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                         <i class="fas fa-search"></i>
-                        <span>Search</span>
+                        <span>{% trans "Search" %}</span>
                     </button>
                 </div>
             </form>
@@ -110,9 +127,9 @@ Ltd.{% endblock meta_description %}
 <!-- Events Grid -->
 <section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -124,15 +141,20 @@ Ltd.{% endblock meta_description %}
             {% if events %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for event in events %}
-                <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border-t-4 border-bhanjyangred">
+                <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border-t-4 border-bhanjyangred relative">
+                    <!-- Card Background Pattern -->
+                    <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden z-0">
+                        {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
+                        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+                    </div>
                     {% if event.image %}
-                    <div class="relative overflow-hidden">
+                    <div class="relative overflow-hidden z-10">
                         <img src="{{ event.image.url }}" alt="{{ event.image_alt|default:event.title }}"
                             class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
                         {% if event.is_featured %}
                         <div class="absolute top-4 left-4">
                             <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                <i class="fas fa-star mr-1"></i>Featured
+                                <i class="fas fa-star mr-1"></i>{% trans "Featured" %}
                             </span>
                         </div>
                         {% endif %}
@@ -143,12 +165,12 @@ Ltd.{% endblock meta_description %}
                         </div>
                     </div>
                     {% else %}
-                    <div class="relative h-48 bg-gradient-to-br from-bhanjyangred to-red-600 flex items-center justify-center">
+                    <div class="relative h-48 bg-gradient-to-br from-bhanjyangred to-red-600 flex items-center justify-center z-10">
                         <i class="fas fa-calendar-alt text-6xl text-white/50"></i>
                         {% if event.is_featured %}
                         <div class="absolute top-4 left-4">
                             <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                <i class="fas fa-star mr-1"></i>Featured
+                                <i class="fas fa-star mr-1"></i>{% trans "Featured" %}
                             </span>
                         </div>
                         {% endif %}
@@ -159,7 +181,7 @@ Ltd.{% endblock meta_description %}
                         </div>
                     </div>
                     {% endif %}
-                    <div class="p-6">
+                    <div class="p-6 relative z-10">
                         <div class="flex items-center justify-between mb-4">
                             <span class="px-3 py-1 bg-bhanjyangred/10 text-bhanjyangred text-xs font-bold rounded-full">
                                 {{ event.event_type|default:"Event" }}
@@ -205,7 +227,7 @@ Ltd.{% endblock meta_description %}
                             </div>
                             {% if event.registration_required %}
                             <span class="px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">
-                                Registration Required
+                                {% trans "Registration Required" %}
                             </span>
                             {% endif %}
                         </div>
@@ -249,12 +271,12 @@ Ltd.{% endblock meta_description %}
                     <div class="mb-6">
                         <i class="fas fa-calendar-alt text-6xl text-gray-300"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Events Found</h3>
-                    <p class="text-gray-600 mb-6">We couldn't find any events matching your criteria.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Events Found" %}</h3>
+                    <p class="text-gray-600 mb-6">{% trans "We couldn't find any events matching your criteria." %}</p>
                     <a href="{% url 'news_events:event-list' %}"
                         class="group inline-flex items-center gap-2 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                         <i class="fas fa-list"></i>
-                        <span>View All Events</span>
+                        <span>{% trans "View All Events" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </a>
                 </div>
@@ -267,7 +289,7 @@ Ltd.{% endblock meta_description %}
 <!-- Newsletter Subscription -->
 <section class="relative py-12 bg-gradient-to-br from-deuraligreen via-green-600 to-deuraligreen overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
+    <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
         <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
     </div>
@@ -278,23 +300,23 @@ Ltd.{% endblock meta_description %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full">
-            Newsletter
+            {% trans "Newsletter" %}
         </span>
         <h3 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-white">
-            Stay Updated
+            {% trans "Stay Updated" %}
         </h3>
         <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-green-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Subscribe to our newsletter for the latest events and updates.
+            {% trans "Subscribe to our newsletter for the latest events and updates." %}
         </p>
         <form method="post" action="{% url 'news_events:subscribe' %}" class="max-w-md mx-auto">
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-event-csrf-token" value="{{ csrf_token }}">
             <div class="flex flex-col sm:flex-row gap-4">
-                <input type="email" name="email" placeholder="Enter your email" required
+                <input type="email" name="email" placeholder="{% trans 'Enter your email' %}" required
                     class="flex-1 px-6 py-4 rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-white text-gray-900">
                 <button type="submit"
                     class="group inline-flex items-center gap-2 bg-white text-deuraligreen font-bold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
-                    <span>Subscribe</span>
+                    <span>{% trans "Subscribe" %}</span>
                     <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-200"></i>
                 </button>
             </div>

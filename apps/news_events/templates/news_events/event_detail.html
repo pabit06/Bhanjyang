@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ event.title }} - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
+
+{% block title %}{{ event.title }} - भञ्ज्याङ सहकारी{% endblock title %}
 
 {% block meta_description %}{{ event.description|truncatewords:20 }}{% endblock meta_description %}
-{% block meta_keywords %}{{ event.event_type|default:"Event" }}, Event, Bhanjyang Cooperative{% endblock meta_keywords %}
+{% block meta_keywords %}{{ event.event_type|default:"Event" }}, Event, Bhanjyang Cooperative, कार्यक्रम{% endblock meta_keywords %}
+
+{% block og_title %}{{ event.title }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{{ event.short_description|default:event.description|truncatewords:25 }}{% endblock og_description %}
 
 {% block extra_head %}
 <!-- Open Graph / Facebook -->
@@ -30,6 +36,16 @@
 {% endblock extra_head %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bhanjyangred focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
     <!-- Event Header -->
     <section class="relative bg-white py-16 px-4 sm:px-6 lg:px-8">
         <div class="container mx-auto max-w-4xl">
@@ -42,7 +58,7 @@
                         </span>
                         {% if event.is_featured %}
                             <span class="px-3 py-1 bg-yellow-500 text-white text-sm font-semibold rounded-full">
-                                Featured
+                                {% trans "Featured" %}
                             </span>
                         {% endif %}
                         <span class="px-3 py-1 {% if event.status == 'PB' %}bg-green-500{% elif event.status == 'DR' %}bg-gray-500{% else %}bg-red-500{% endif %} text-white text-sm font-semibold rounded-full">
@@ -52,18 +68,18 @@
                     <div class="flex items-center space-x-4 text-sm text-gray-600">
                         <span class="flex items-center">
                             <i class="fas fa-eye mr-1"></i>
-                            {{ event.view_count }} views
+                            {{ event.view_count }} {% trans "views" %}
                         </span>
                         {% if event.end_date %}
                             <span class="flex items-center">
                                 <i class="fas fa-clock mr-1"></i>
-                                {{ event.duration_hours }} hours
+                                {{ event.duration_hours }} {% trans "hours" %}
                             </span>
                         {% endif %}
                     </div>
                 </div>
 
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-deuraligreen mb-4 leading-tight">
+                <h1 id="main-content" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-deuraligreen mb-4 leading-tight font-montserrat">
                     {{ event.title }}
                 </h1>
 
@@ -77,14 +93,14 @@
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-calendar-alt text-2xl text-bhanjyangred"></i>
                             <div>
-                                <p class="font-semibold text-gray-900">Event Date</p>
+                                <p class="font-semibold text-gray-900">{% trans "Event Date" %}</p>
                                 <p class="text-gray-700">{{ event.event_date|date:"F d, Y" }}</p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-clock text-2xl text-bhanjyangred"></i>
                             <div>
-                                <p class="font-semibold text-gray-900">Time</p>
+                                <p class="font-semibold text-gray-900">{% trans "Time" %}</p>
                                 <p class="text-gray-700">{{ event.event_date|time:"g:i A" }}</p>
                             </div>
                         </div>
@@ -92,7 +108,7 @@
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-calendar-check text-2xl text-bhanjyangred"></i>
                             <div>
-                                <p class="font-semibold text-gray-900">End Date</p>
+                                <p class="font-semibold text-gray-900">{% trans "End Date" %}</p>
                                 <p class="text-gray-700">{{ event.end_date|date:"F d, Y" }}</p>
                             </div>
                         </div>
@@ -101,7 +117,7 @@
                         <div class="flex items-center space-x-3">
                             <i class="fas fa-map-marker-alt text-2xl text-bhanjyangred"></i>
                             <div>
-                                <p class="font-semibold text-gray-900">Location</p>
+                                <p class="font-semibold text-gray-900">{% trans "Location" %}</p>
                                 <p class="text-gray-700">{{ event.location }}</p>
                             </div>
                         </div>
@@ -111,7 +127,7 @@
 
                 <div class="flex items-center justify-between border-t border-b border-gray-200 py-4">
                     <div class="text-sm text-gray-600">
-                        Created {{ event.created_at|date:"F d, Y" }}
+                        {% trans "Created" %} {{ event.created_at|date:"F d, Y" }}
                     </div>
                     <div class="flex items-center space-x-2">
                         <!-- Social Share Buttons -->
@@ -156,21 +172,35 @@
 
     <!-- Event Registration/RSVP -->
     {% if event.registration_required %}
-    <section class="py-16 bg-gradient-to-r from-deuraligreen to-bhanjyangred">
-        <div class="container mx-auto max-w-4xl px-4 text-center">
-            <h3 class="text-2xl font-bold text-white mb-4">Register for this Event</h3>
-            <p class="text-white mb-6">Join us for this exciting event!</p>
+    <section class="py-16 bg-gradient-to-r from-deuraligreen to-bhanjyangred relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-[0.03]">
+            {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+        </div>
+        
+        <div class="container mx-auto max-w-4xl px-4 text-center relative z-10">
+            <h3 class="text-2xl font-bold text-white mb-4 font-montserrat">{% trans "Register for this Event" %}</h3>
+            <p class="text-white mb-6">{% trans "Join us for this exciting event!" %}</p>
             <button class="bg-white text-bhanjyangred px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Register Now
+                {% trans "Register Now" %}
             </button>
         </div>
     </section>
     {% endif %}
 
     <!-- Related Events -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto max-w-6xl px-4">
-            <h3 class="text-2xl font-bold text-deuraligreen mb-8">Related Events</h3>
+    <section class="py-16 bg-gray-50 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-[0.03]">
+            {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+        </div>
+        
+        <div class="container mx-auto max-w-6xl px-4 relative z-10">
+            <h3 class="text-2xl font-bold text-deuraligreen mb-8 font-montserrat">
+                <span class="text-gray-800">सम्बन्धित</span> <span class="text-deuraligreen">कार्यक्रमहरू</span>
+            </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for related_event in related_events %}
                 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
@@ -203,7 +233,7 @@
                 </article>
                 {% empty %}
                 <div class="col-span-full text-center py-8">
-                    <p class="text-gray-600">No related events found.</p>
+                    <p class="text-gray-600">{% trans "No related events found." %}</p>
                 </div>
                 {% endfor %}
             </div>
@@ -213,28 +243,60 @@
 
 {% block extra_js %}
 <script>
+// Pass translated messages to JavaScript
+window.newsEventsMessages = {
+    linkCopied: "{% trans 'Link copied to clipboard!' %}"
+};
+
 function shareOnFacebook() {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent('{{ event.title }}');
+    const title = encodeURIComponent('{{ event.title|escapejs }}');
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${title}`, '_blank', 'width=600,height=400');
 }
 
 function shareOnTwitter() {
     const url = encodeURIComponent(window.location.href);
-    const text = encodeURIComponent('{{ event.title }}');
+    const text = encodeURIComponent('{{ event.title|escapejs }}');
     window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank', 'width=600,height=400');
 }
 
 function shareOnLinkedIn() {
     const url = encodeURIComponent(window.location.href);
-    const title = encodeURIComponent('{{ event.title }}');
+    const title = encodeURIComponent('{{ event.title|escapejs }}');
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}&title=${title}`, '_blank', 'width=600,height=400');
 }
 
 function copyLink() {
     navigator.clipboard.writeText(window.location.href).then(() => {
-        alert('Link copied to clipboard!');
+        const message = window.newsEventsMessages?.linkCopied || 'Link copied to clipboard!';
+        alert(message);
     });
+}
+</script>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "{{ event.title|escapejs }}",
+    "description": "{{ event.short_description|default:event.description|truncatewords:30|escapejs }}",
+    "startDate": "{{ event.event_date|date:'c' }}",
+    {% if event.end_date %}"endDate": "{{ event.end_date|date:'c' }}",{% endif %}
+    "location": {
+        "@type": "Place",
+        "name": "{{ event.location|escapejs }}",
+        {% if event.address %}"address": "{{ event.address|escapejs }}"{% endif %}
+    },
+    "image": "{% if event.image %}{{ request.scheme }}://{{ request.get_host }}{{ event.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endif %}",
+    "organizer": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/"
+    },
+    "url": "{{ request.build_absolute_uri }}",
+    "inLanguage": "ne"
 }
 </script>
 {% endblock extra_js %}

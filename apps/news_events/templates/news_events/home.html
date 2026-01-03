@@ -1,22 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Bhanjyang Cooperative - News & Events{% endblock title %}
+{% load i18n %}
 
-{% block meta_description %}Stay updated with the latest news, events, and announcements from Bhanjyang Saving & Credit
-Cooperative Society Ltd.{% endblock meta_description %}
-{% block meta_keywords %}Bhanjyang Cooperative, News, Events, Updates, Announcements, Cooperative News{% endblock meta_keywords %}
+{% block title %}{% trans "News & Events" %} - भञ्ज्याङ सहकारी{% endblock title %}
+
+{% block meta_description %}{% trans "Stay updated with the latest news, events, and announcements from Bhanjyang Saving & Credit Cooperative Society Ltd." %}{% endblock meta_description %}
+{% block meta_keywords %}Bhanjyang Cooperative, News, Events, Updates, Announcements, Cooperative News, समाचार, कार्यक्रम{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "News & Events" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Stay updated with the latest news, events, and announcements from Bhanjyang Cooperative." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'news_events/css/home.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
 <!-- Hero Section -->
 <section class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -25,14 +42,14 @@ Cooperative Society Ltd.{% endblock meta_description %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-            News & Events
+            {% trans "News & Events" %}
         </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            News & Events
+        <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+            <span class="text-gray-800">समाचार</span> <span class="text-deuraligreen">र</span> <span class="text-gray-800">कार्यक्रमहरू</span>
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Stay connected with the latest happenings from Bhanjyang Cooperative
+            {% trans "Stay connected with the latest happenings from Bhanjyang Cooperative" %}
         </p>
     </div>
 </section>
@@ -41,7 +58,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
 {% if featured_content.articles or featured_content.events %}
 <section class="relative py-12 bg-gradient-to-br from-bhanjyangred via-red-600 to-bhanjyangred overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
+    <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
         <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
     </div>
@@ -53,10 +70,10 @@ Cooperative Society Ltd.{% endblock meta_description %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12">
             <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full">
-                Featured
+                {% trans "Featured" %}
             </span>
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-white">
-                Featured Content
+                {% trans "Featured Content" %}
             </h2>
             <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
         </div>
@@ -69,7 +86,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
                     <div class="w-12 h-12 bg-bhanjyangred/10 rounded-full flex items-center justify-center mr-3">
                         <i class="fas fa-newspaper text-bhanjyangred"></i>
                     </div>
-                    Featured Articles
+                    {% trans "Featured Articles" %}
                 </h3>
                 <div class="space-y-4">
                     {% for article in featured_content.articles %}
@@ -83,9 +100,9 @@ Cooperative Society Ltd.{% endblock meta_description %}
                         <div class="flex items-center text-xs text-gray-500">
                             <span>{{ article.published_date|date:"M d, Y" }}</span>
                             <span class="mx-2">•</span>
-                            <span>{{ article.read_time }} min read</span>
+                            <span>{{ article.read_time }} {% trans "min read" %}</span>
                             <span class="mx-2">•</span>
-                            <span>{{ article.view_count }} views</span>
+                            <span>{{ article.view_count }} {% trans "views" %}</span>
                         </div>
                     </div>
                     {% endfor %}
@@ -100,7 +117,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
                     <div class="w-12 h-12 bg-bhanjyangred/10 rounded-full flex items-center justify-center mr-3">
                         <i class="fas fa-calendar-alt text-bhanjyangred"></i>
                     </div>
-                    Featured Events
+                    {% trans "Featured Events" %}
                 </h3>
                 <div class="space-y-4">
                     {% for event in featured_content.events %}
@@ -131,9 +148,9 @@ Cooperative Society Ltd.{% endblock meta_description %}
 <!-- Latest News Section -->
 <section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -144,22 +161,29 @@ Cooperative Society Ltd.{% endblock meta_description %}
         <div class="flex justify-between items-center mb-12">
             <div>
                 <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                    Latest News
+                    {% trans "Latest News" %}
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">Latest News</h2>
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
+                    <span class="text-gray-800">नयाँ</span> <span class="text-deuraligreen">समाचार</span>
+                </h2>
                 <div class="w-24 h-1 bg-deuraligreen rounded-full mt-4"></div>
             </div>
             <a href="{% url 'news_events:article-list' %}"
                 class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                <span>View All Articles</span>
+                <span>{% trans "View All Articles" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for article in recent_articles %}
-            <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden border-t-4 border-deuraligreen">
-                <a href="{{ article.get_absolute_url }}">
+            <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden border-t-4 border-deuraligreen relative">
+                <!-- Card Background Pattern -->
+                <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
+                    {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
+                    <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+                </div>
+                <a href="{{ article.get_absolute_url }}" class="relative z-10">
                     {% if article.optimized_image_url %}
                     <img src="{{ article.optimized_image_url }}" alt="{{ article.image_alt|default:article.title }}"
                         class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
@@ -168,7 +192,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
                         class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
                     {% endif %}
                 </a>
-                <div class="p-6 text-left flex flex-col flex-grow">
+                <div class="p-6 text-left flex flex-col flex-grow relative z-10">
                     <div class="flex justify-between items-center text-xs text-gray-500 mb-3">
                         <span>{{ article.published_date|date:"F d, Y" }}</span>
                         <a href="{{ article.category.get_absolute_url }}"
@@ -201,8 +225,8 @@ Cooperative Society Ltd.{% endblock meta_description %}
                     <div class="text-6xl text-gray-300 mb-4">
                         <i class="fas fa-newspaper"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Articles Yet</h3>
-                    <p class="text-gray-600">Check back soon for the latest news and updates.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Articles Yet" %}</h3>
+                    <p class="text-gray-600">{% trans "Check back soon for the latest news and updates." %}</p>
                 </div>
             </div>
             {% endfor %}
@@ -213,9 +237,9 @@ Cooperative Society Ltd.{% endblock meta_description %}
 <!-- Upcoming Events Section -->
 <section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -226,22 +250,29 @@ Cooperative Society Ltd.{% endblock meta_description %}
         <div class="flex justify-between items-center mb-12">
             <div>
                 <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
-                    Upcoming Events
+                    {% trans "Upcoming Events" %}
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">Upcoming Events</h2>
+                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
+                    <span class="text-gray-800">आगामी</span> <span class="text-bhanjyangred">कार्यक्रमहरू</span>
+                </h2>
                 <div class="w-24 h-1 bg-bhanjyangred rounded-full mt-4"></div>
             </div>
             <a href="{% url 'news_events:event-list' %}"
                 class="group inline-flex items-center gap-2 bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                <span>View All Events</span>
+                <span>{% trans "View All Events" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for event in upcoming_events %}
-            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred">
-                <div class="p-6">
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred relative overflow-hidden">
+                <!-- Card Background Pattern -->
+                <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
+                    {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
+                    <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+                </div>
+                <div class="p-6 relative z-10">
                     <div class="flex items-center justify-between mb-4">
                         <span class="bg-bhanjyangred text-white text-xs font-bold px-4 py-2 rounded-full">
                             {{ event.get_event_type_display }}
@@ -283,7 +314,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
                     <div class="mt-4">
                         <a href="{{ event.registration_url|default:'#' }}"
                             class="group/link inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors duration-300">
-                            <span>Register Now</span>
+                            <span>{% trans "Register Now" %}</span>
                             <i class="fas fa-arrow-right group-hover/link:translate-x-1 transition-transform duration-200"></i>
                         </a>
                     </div>
@@ -296,8 +327,8 @@ Cooperative Society Ltd.{% endblock meta_description %}
                     <div class="text-6xl text-gray-300 mb-4">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">No Upcoming Events</h3>
-                    <p class="text-gray-600">Check back soon for upcoming events and activities.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Upcoming Events" %}</h3>
+                    <p class="text-gray-600">{% trans "Check back soon for upcoming events and activities." %}</p>
                 </div>
             </div>
             {% endfor %}
@@ -308,7 +339,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
 <!-- Newsletter Subscription Section -->
 <section class="relative py-12 bg-gradient-to-br from-deuraligreen via-green-600 to-deuraligreen overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
+    <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
         <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
     </div>
@@ -319,24 +350,24 @@ Cooperative Society Ltd.{% endblock meta_description %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full">
-            Newsletter
+            {% trans "Newsletter" %}
         </span>
         <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-white">
-            Stay Updated
+            {% trans "Stay Updated" %}
         </h2>
         <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-green-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Subscribe to our newsletter and never miss important updates, news, and events from Bhanjyang Cooperative.
+            {% trans "Subscribe to our newsletter and never miss important updates, news, and events from Bhanjyang Cooperative." %}
         </p>
 
         <form id="newsletter-form" class="max-w-md mx-auto" data-url="{% url 'news_events:subscribe' %}">
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-home-csrf-token" value="{{ csrf_token }}">
             <div class="flex flex-col sm:flex-row gap-4">
-                <input type="email" name="email" placeholder="Enter your email address" required
+                <input type="email" name="email" placeholder="{% trans 'Enter your email address' %}" required
                     class="flex-1 px-6 py-4 rounded-full border-0 focus:ring-2 focus:ring-white focus:outline-none text-gray-900">
                 <button type="submit"
                     class="group inline-flex items-center gap-2 bg-white text-deuraligreen font-bold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
-                    <span>Subscribe</span>
+                    <span>{% trans "Subscribe" %}</span>
                     <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-200"></i>
                 </button>
             </div>
@@ -344,7 +375,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
         </form>
 
         <div class="mt-8 text-green-100 text-sm">
-            <p><i class="fas fa-shield-alt mr-2"></i>We respect your privacy and never share your email address.</p>
+            <p><i class="fas fa-shield-alt mr-2"></i>{% trans "We respect your privacy and never share your email address." %}</p>
         </div>
     </div>
 </section>
@@ -352,9 +383,9 @@ Cooperative Society Ltd.{% endblock meta_description %}
 <!-- Statistics Section -->
 <section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -364,10 +395,10 @@ Cooperative Society Ltd.{% endblock meta_description %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Our Impact
+                {% trans "Our Impact" %}
             </span>
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                Our Impact
+                <span class="text-gray-800">हाम्रो</span> <span class="text-deuraligreen">प्रभाव</span>
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         </div>
@@ -382,7 +413,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
                 <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">
                     {% if article_stats.published_articles %}{{ article_stats.published_articles }}{% else %}0{% endif %}
                 </h3>
-                <p class="text-gray-700 font-semibold">Published Articles</p>
+                <p class="text-gray-700 font-semibold">{% trans "Published Articles" %}</p>
             </div>
 
             <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
@@ -394,7 +425,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
                 <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">
                     {% if event_stats.upcoming_events %}{{ event_stats.upcoming_events }}{% else %}0{% endif %}
                 </h3>
-                <p class="text-gray-700 font-semibold">Upcoming Events</p>
+                <p class="text-gray-700 font-semibold">{% trans "Upcoming Events" %}</p>
             </div>
 
             <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
@@ -406,7 +437,7 @@ Cooperative Society Ltd.{% endblock meta_description %}
                 <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">
                     {% if article_stats.total_views %}{{ article_stats.total_views }}{% else %}0{% endif %}
                 </h3>
-                <p class="text-gray-700 font-semibold">Total Views</p>
+                <p class="text-gray-700 font-semibold">{% trans "Total Views" %}</p>
             </div>
 
             <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
@@ -415,8 +446,8 @@ Cooperative Society Ltd.{% endblock meta_description %}
                         <i class="fas fa-users text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">24/7</h3>
-                <p class="text-gray-700 font-semibold">Community Access</p>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">२४/७</h3>
+                <p class="text-gray-700 font-semibold">{% trans "Community Access" %}</p>
             </div>
         </div>
     </div>
@@ -424,5 +455,58 @@ Cooperative Society Ltd.{% endblock meta_description %}
 {% endblock content %}
 
 {% block extra_js %}
+<script>
+// Pass translated messages to JavaScript
+window.newsEventsMessages = {
+    enterEmail: "{% trans 'Please enter your email address.' %}",
+    subscribing: "{% trans 'Subscribing...' %}",
+    subscriptionFailed: "{% trans 'Subscription failed. Please try again later.' %}"
+};
+</script>
 <script src="{% static 'news_events/js/home.js' %}"></script>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{% trans 'News & Events' %} - भञ्ज्याङ सहकारी",
+    "description": "{% trans 'Stay updated with the latest news, events, and announcements from Bhanjyang Saving & Credit Cooperative Society Ltd.' %}",
+    "url": "{{ request.build_absolute_uri }}",
+    "inLanguage": "ne",
+    "isPartOf": {
+        "@type": "WebSite",
+        "name": "भञ्ज्याङ सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/"
+    },
+    "publisher": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+        }
+    },
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "{% trans 'Latest News' %}",
+                "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'news_events:article-list' %}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{% trans 'Upcoming Events' %}",
+                "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'news_events:event-list' %}"
+            }
+        ]
+    }
+}
+</script>
 {% endblock extra_js %}

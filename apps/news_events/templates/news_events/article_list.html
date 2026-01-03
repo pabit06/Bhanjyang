@@ -1,18 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% block title %}{% trans "News Articles - Bhanjyang Cooperative" %}{% endblock title %}
+
+{% block title %}{% trans "News Articles" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
 {% block meta_description %}{% trans "Browse all news articles and updates from Bhanjyang Saving & Credit Cooperative Society Ltd." %}{% endblock meta_description %}
-{% block meta_keywords %}{% trans "Bhanjyang Cooperative, News Articles, Updates, Cooperative News" %}{% endblock meta_keywords %}
+{% block meta_keywords %}Bhanjyang Cooperative, News Articles, Updates, Cooperative News, समाचार{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "News Articles" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Browse all news articles and updates from Bhanjyang Cooperative." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
 <!-- Hero Section -->
 <section class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -23,8 +40,8 @@
         <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
             {% trans "Articles" %}
         </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            {% trans "News Articles" %}
+        <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+            <span class="text-gray-800">समाचार</span> <span class="text-deuraligreen">लेखहरू</span>
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -36,9 +53,9 @@
 <!-- Search and Filter Section -->
 <section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -88,9 +105,9 @@
 <!-- Articles Grid -->
 <section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
     <!-- Decorative Elements -->
@@ -102,9 +119,14 @@
             {% if articles %}
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {% for article in articles %}
-                    <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border-t-4 border-deuraligreen">
+                    <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border-t-4 border-deuraligreen relative">
+                        <!-- Card Background Pattern -->
+                        <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden z-0">
+                            {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
+                            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+                        </div>
                         {% if article.image %}
-                        <div class="relative overflow-hidden">
+                        <div class="relative overflow-hidden z-10">
                             <img src="{{ article.image.url }}" alt="{{ article.image_alt|default:article.title }}" 
                                  class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
                             {% if article.is_featured %}
@@ -116,7 +138,7 @@
                             {% endif %}
                         </div>
                         {% else %}
-                        <div class="relative h-56 bg-gradient-to-br from-deuraligreen to-green-600 flex items-center justify-center">
+                        <div class="relative h-56 bg-gradient-to-br from-deuraligreen to-green-600 flex items-center justify-center z-10">
                             <i class="fas fa-newspaper text-6xl text-white/50"></i>
                             {% if article.is_featured %}
                             <div class="absolute top-4 left-4">
@@ -127,7 +149,7 @@
                             {% endif %}
                         </div>
                         {% endif %}
-                        <div class="p-6">
+                        <div class="p-6 relative z-10">
                             <div class="flex items-center justify-between mb-4">
                                 <span class="px-3 py-1 bg-deuraligreen/10 text-deuraligreen text-xs font-bold rounded-full">
                                     {{ article.category.name }}
@@ -213,7 +235,7 @@
 <!-- Newsletter Subscription -->
 <section class="relative py-12 bg-gradient-to-br from-deuraligreen via-green-600 to-deuraligreen overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
+    <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
         <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
     </div>
@@ -224,22 +246,22 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full">
-            Newsletter
+            {% trans "Newsletter" %}
         </span>
         <h3 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-white">
-            Stay Updated
+            {% trans "Stay Updated" %}
         </h3>
         <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-green-100 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Subscribe to our newsletter for the latest news and updates.
+            {% trans "Subscribe to our newsletter for the latest news and updates." %}
         </p>
         <form method="post" action="{% url 'news_events:subscribe' %}" class="max-w-md mx-auto">
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-article-csrf-token" value="{{ csrf_token }}">
             <div class="flex flex-col sm:flex-row gap-4">
-                <input type="email" name="email" placeholder="Enter your email" required 
+                <input type="email" name="email" placeholder="{% trans 'Enter your email' %}" required 
                        class="flex-1 px-6 py-4 rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-white text-gray-900">
                 <button type="submit" class="group inline-flex items-center gap-2 bg-white text-deuraligreen font-bold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
-                    <span>Subscribe</span>
+                    <span>{% trans "Subscribe" %}</span>
                     <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-200"></i>
                 </button>
             </div>

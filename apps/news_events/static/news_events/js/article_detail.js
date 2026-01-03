@@ -18,6 +18,7 @@ function shareOnLinkedIn() {
 
 function copyLink() {
     navigator.clipboard.writeText(window.location.href).then(() => {
-        alert('Link copied to clipboard!');
+        const message = window.newsEventsMessages?.linkCopied || 'Link copied to clipboard!';
+        alert(message);
     });
 }

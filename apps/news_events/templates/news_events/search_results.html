@@ -1,28 +1,45 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Search Results - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
 
-{% block meta_description %}Search results for news articles and events from Bhanjyang Cooperative.{% endblock meta_description %}
+{% block title %}{% trans "Search Results" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
-{% block extra_css %}
-<style>
-    .search-pattern-bg {
-        background-image: url("{% static 'images/backgrounds/pattern-light.png' %}");
-    }
-</style>
-{% endblock extra_css %}
+{% block meta_description %}{% trans "Search results for news articles and events from Bhanjyang Cooperative." %}{% endblock meta_description %}
+{% block meta_keywords %}Search Results, News, Events, Bhanjyang Cooperative, खोज{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "Search Results" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Search results for news articles and events from Bhanjyang Cooperative." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
 
 {% block content %}
+<!-- Skip to main content link for accessibility -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-bhanjyangred focus:text-white focus:rounded-lg focus:shadow-lg">
+    {% trans "Skip to main content" %}
+</a>
+
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
     <!-- Header Section -->
     <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center search-pattern-bg"></div>
-        <div class="container mx-auto text-center z-10">
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">Search Results</h1>
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 z-0 opacity-[0.03]">
+            {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+        </div>
+        <div class="container mx-auto text-center z-10 relative">
+            <h1 id="main-content" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">
+                <span class="text-gray-800">खोज</span> <span class="text-bhanjyangred">नतिजा</span>
+            </h1>
             <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">
                 {% if query %}
-                    Results for "{{ query }}"
+                    {% trans "Results for" %} "{{ query }}"
                 {% else %}
-                    Search our content
+                    {% trans "Search our content" %}
                 {% endif %}
             </p>
         </div>
@@ -35,19 +52,19 @@
                 <form method="get" class="flex flex-col sm:flex-row gap-4">
                     <div class="flex-1">
                         <input type="text" name="q" value="{{ query }}" 
-                               placeholder="Search articles and events..." 
+                               placeholder="{% trans 'Search articles and events...' %}" 
                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
                     </div>
                     <div class="sm:w-48">
                         <select name="type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
-                            <option value="">All Content</option>
-                            <option value="articles" {% if request.GET.type == 'articles' %}selected{% endif %}>Articles Only</option>
-                            <option value="events" {% if request.GET.type == 'events' %}selected{% endif %}>Events Only</option>
+                            <option value="">{% trans "All Content" %}</option>
+                            <option value="articles" {% if request.GET.type == 'articles' %}selected{% endif %}>{% trans "Articles Only" %}</option>
+                            <option value="events" {% if request.GET.type == 'events' %}selected{% endif %}>{% trans "Events Only" %}</option>
                         </select>
                     </div>
                     <div class="sm:w-48">
                         <select name="category" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-bhanjyangred">
-                            <option value="">All Categories</option>
+                            <option value="">{% trans "All Categories" %}</option>
                             {% for category in categories %}
                                 <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>
                                     {{ category.name }}
@@ -56,7 +73,7 @@
                         </select>
                     </div>
                     <button type="submit" class="bg-bhanjyangred text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
-                        <i class="fas fa-search mr-2"></i>Search
+                        <i class="fas fa-search mr-2"></i>{% trans "Search" %}
                     </button>
                 </form>
             </div>
@@ -71,7 +88,7 @@
                     {% if results %}
                         <div class="mb-8">
                             <p class="text-gray-600">
-                                Found {{ results|length }} result{{ results|length|pluralize }} for "{{ query }}"
+                                {% trans "Found" %} {{ results|length }} {% trans "result" %}{{ results|length|pluralize }} {% trans "for" %} "{{ query }}"
                             </p>
                         </div>
 
@@ -89,14 +106,14 @@
                                         <div class="flex-1">
                                             <div class="flex items-center space-x-2 mb-2">
                                                 <span class="px-2 py-1 text-xs font-semibold rounded {% if result.content_type == 'article' %}bg-bhanjyangred text-white{% else %}bg-deuraligreen text-white{% endif %}">
-                                                    {% if result.content_type == 'article' %}Article{% else %}Event{% endif %}
+                                                    {% if result.content_type == 'article' %}{% trans "Article" %}{% else %}{% trans "Event" %}{% endif %}
                                                 </span>
                                                 <span class="px-2 py-1 bg-gray-200 text-gray-700 text-xs font-semibold rounded">
                                                     {{ result.category.name }}
                                                 </span>
                                                 {% if result.is_featured %}
                                                 <span class="px-2 py-1 bg-yellow-500 text-white text-xs font-semibold rounded">
-                                                    Featured
+                                                    {% trans "Featured" %}
                                                 </span>
                                                 {% endif %}
                                             </div>
@@ -129,7 +146,7 @@
                                                 {% if result.content_type == 'article' %}
                                                 <span class="flex items-center">
                                                     <i class="fas fa-clock mr-1"></i>
-                                                    {{ result.read_time }} min read
+                                                    {{ result.read_time }} {% trans "min read" %}
                                                 </span>
                                                 {% endif %}
                                             </div>
@@ -142,14 +159,14 @@
                     {% else %}
                         <div class="text-center py-16">
                             <i class="fas fa-search text-6xl text-gray-400 mb-4"></i>
-                            <h3 class="text-2xl font-semibold text-gray-600 mb-2">No Results Found</h3>
-                            <p class="text-gray-600 mb-6">We couldn't find any content matching "{{ query }}".</p>
+                            <h3 class="text-2xl font-semibold text-gray-600 mb-2 font-montserrat">{% trans "No Results Found" %}</h3>
+                            <p class="text-gray-600 mb-6">{% trans "We couldn't find any content matching" %} "{{ query }}".</p>
                             <div class="space-x-4">
                                 <a href="{% url 'news_events:article-list' %}" class="bg-bhanjyangred text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
-                                    Browse Articles
+                                    {% trans "Browse Articles" %}
                                 </a>
                                 <a href="{% url 'news_events:event-list' %}" class="bg-deuraligreen text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
-                                    Browse Events
+                                    {% trans "Browse Events" %}
                                 </a>
                             </div>
                         </div>
@@ -157,8 +174,8 @@
                 {% else %}
                     <div class="text-center py-16">
                         <i class="fas fa-search text-6xl text-gray-400 mb-4"></i>
-                        <h3 class="text-2xl font-semibold text-gray-600 mb-2">Search Our Content</h3>
-                        <p class="text-gray-600 mb-6">Enter a search term to find articles and events.</p>
+                        <h3 class="text-2xl font-semibold text-gray-600 mb-2 font-montserrat">{% trans "Search Our Content" %}</h3>
+                        <p class="text-gray-600 mb-6">{% trans "Enter a search term to find articles and events." %}</p>
                     </div>
                 {% endif %}
             </div>
@@ -167,10 +184,16 @@
 
     <!-- Popular Searches -->
     {% if popular_searches %}
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section class="py-16 bg-gray-50 relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-[0.03]">
+            {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
-                <h3 class="text-2xl font-bold text-deuraligreen mb-8">Popular Searches</h3>
+                <h3 class="text-2xl font-bold text-deuraligreen mb-8 font-montserrat">{% trans "Popular Searches" %}</h3>
                 <div class="flex flex-wrap justify-center gap-2">
                     {% for search_term in popular_searches %}
                     <a href="?q={{ search_term|urlencode }}" 

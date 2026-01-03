@@ -38,6 +38,10 @@ class NewsHomeView(NepaliLanguageMixin, View):
     def get(self, request):
         context = NewsService.get_home_page_data()
         context['subscription_form'] = SubscriptionForm()
+        context['breadcrumbs'] = [
+            {'name': 'Home', 'url': '/'},
+            {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'}
+        ]
         return render(request, 'news_events/home.html', context)
 
 class ArticleDetailView(NepaliLanguageMixin, View):
@@ -58,7 +62,7 @@ class ArticleDetailView(NepaliLanguageMixin, View):
             'comment_form': CommentForm(),
             'breadcrumbs': [
                 {'name': 'Home', 'url': '/'},
-                {'name': 'News & Events', 'url': '/news-events/'},
+                {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
                 {'name': data['article'].title, 'url': data['article'].get_absolute_url()}
             ]
         }
@@ -75,8 +79,8 @@ class EventDetailView(NepaliLanguageMixin, View):
             'related_events': data['related_events'],
             'breadcrumbs': [
                 {'name': 'Home', 'url': '/'},
-                {'name': 'News & Events', 'url': '/news-events/'},
-                {'name': 'Events', 'url': '/news-events/events/'},
+                {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+                {'name': 'कार्यक्रमहरू', 'url': '/news-events/events/'},
                 {'name': data['event'].title, 'url': data['event'].get_absolute_url()}
             ]
         }
@@ -91,8 +95,8 @@ class ArticleListView(NepaliLanguageMixin, View):
         context = data
         context['breadcrumbs'] = [
             {'name': 'Home', 'url': '/'},
-            {'name': 'News & Events', 'url': '/news-events/'},
-            {'name': 'All Articles', 'url': '/news-events/articles/'}
+            {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+            {'name': 'सबै समाचार', 'url': '/news-events/articles/'}
         ]
         return render(request, 'news_events/article_list.html', context)
 
@@ -105,8 +109,8 @@ class EventListView(NepaliLanguageMixin, View):
         context = data
         context['breadcrumbs'] = [
             {'name': 'Home', 'url': '/'},
-            {'name': 'News & Events', 'url': '/news-events/'},
-            {'name': 'Events', 'url': '/news-events/events/'}
+            {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+            {'name': 'कार्यक्रमहरू', 'url': '/news-events/events/'}
         ]
         return render(request, 'news_events/event_list.html', context)
 
@@ -158,8 +162,8 @@ class SearchView(NepaliLanguageMixin, View):
             'form': form,
             'breadcrumbs': [
                 {'name': 'Home', 'url': '/'},
-                {'name': 'News & Events', 'url': '/news-events/'},
-                {'name': 'Search', 'url': '/news-events/search/'}
+                {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+                {'name': 'खोज', 'url': '/news-events/search/'}
             ]
         }
         
