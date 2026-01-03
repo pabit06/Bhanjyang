@@ -10,6 +10,7 @@ import bleach
 from django import forms
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
+from apps.core.widgets import NepaliDateInput
 
 from .utils.constants import (
     ALLOWED_CONTACT_FILE_EXTENSIONS,
@@ -211,9 +212,8 @@ class KYMForm(forms.Form):
     )
     
     dob = forms.DateField(
-        widget=forms.DateInput(attrs={
+        widget=NepaliDateInput(attrs={
             'class': KYM_INPUT_CSS,
-            'type': 'date'
         }),
         label=_('Date of Birth')
     )

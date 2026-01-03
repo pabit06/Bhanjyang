@@ -3,11 +3,22 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+import logging
 from .models import NewsArticle, Event, Category, Subscriber, Comment, Newsletter
 from .security import ContentSecurityValidator, SpamProtectionManager, EmailSecurityManager
 
+logger = logging.getLogger(__name__)
+
 class NewsArticleForm(forms.ModelForm):
     """Enhanced form for news articles"""
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add asterisk to required field labels
+        for field_name, field in self.fields.items():
+            if field.required:
+                field.label = f"{field.label} *" if field.label else f"{field_name} *"
     
     class Meta:
         model = NewsArticle
@@ -20,47 +31,39 @@ class NewsArticleForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter article title',
+                'placeholder': _('लेखको शीर्षक प्रविष्ट गर्नुहोस्'),
                 'maxlength': '200'
             }),
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 15,
-                'placeholder': 'Write your article content here...'
+                'placeholder': _('लेखको सामग्री यहाँ लेख्नुहोस्...')
             }),
             'excerpt': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': 'Brief summary of the article (optional)',
+                'placeholder': _('लेखको संक्षिप्त सारांश (वैकल्पिक)'),
                 'maxlength': '500'
             }),
             'meta_title': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'SEO title (optional)',
+                'placeholder': _('SEO शीर्षक (वैकल्पिक)'),
                 'maxlength': '200'
             }),
             'meta_description': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 2,
-                'placeholder': 'SEO description (optional)',
+                'placeholder': _('SEO विवरण (वैकल्पिक)'),
                 'maxlength': '300'
             }),
             'meta_keywords': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'SEO keywords (comma-separated)',
+                'placeholder': _('SEO कीवर्ड (अल्पविरामले छुट्याइएको)'),
                 'maxlength': '500'
-            }),
-            'published_date': forms.DateTimeInput(attrs={
-                'class': 'form-control',
-                'type': 'datetime-local'
-            }),
-            'scheduled_date': forms.DateTimeInput(attrs={
-                'class': 'form-control',
-                'type': 'datetime-local'
             }),
             'image_alt': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Alt text for image',
+                'placeholder': _('इमेजको लागि Alt text'),
                 'maxlength': '200'
             }),
         }
@@ -73,11 +76,11 @@ class NewsArticleForm(forms.ModelForm):
             try:
                 security_result = ContentSecurityValidator.validate_content_security(content, 'article')
                 if not security_result['is_valid']:
-                    raise ValidationError("Content contains security issues.")
-            except ValidationError as e:
-                raise e
-            except Exception as e:
-                raise ValidationError("Content validation failed.")
+                    raise ValidationError(_("सामग्रीमा सुरक्षा समस्या छ।"))
+            except ValidationError:
+                raise
+            except Exception:
+                raise ValidationError(_("सामग्री प्रमाणीकरण असफल भयो।"))
             
             # Sanitize content
             content = ContentSecurityValidator.sanitize_content(content)
@@ -88,7 +91,7 @@ class NewsArticleForm(forms.ModelForm):
         """Validate title"""
         title = self.cleaned_data.get('title')
         if title and len(title) > 200:
-            raise ValidationError("Title must be 200 characters or less.")
+            raise ValidationError(_("शीर्षक २०० वर्ण वा कम हुनुपर्छ।"))
         return title
 
     def clean_scheduled_date(self):
@@ -97,15 +100,22 @@ class NewsArticleForm(forms.ModelForm):
         status = self.cleaned_data.get('status')
         
         if status == NewsArticle.Status.SCHEDULED and not scheduled_date:
-            raise ValidationError("Scheduled date is required for scheduled articles.")
+            raise ValidationError(_("तालिकाबद्ध लेखहरूको लागि तालिकाबद्ध मिति आवश्यक छ।"))
         
         if scheduled_date and scheduled_date <= timezone.now():
-            raise ValidationError("Scheduled date must be in the future.")
+            raise ValidationError(_("तालिकाबद्ध मिति भविष्यमा हुनुपर्छ।"))
         
         return scheduled_date
 
 class EventForm(forms.ModelForm):
     """Enhanced form for events"""
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add asterisk to required field labels
+        for field_name, field in self.fields.items():
+            if field.required:
+                field.label = f"{field.label} *" if field.label else f"{field_name} *"
     
     class Meta:
         model = Event
@@ -118,41 +128,29 @@ class EventForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter event title',
+                'placeholder': _('कार्यक्रमको शीर्षक प्रविष्ट गर्नुहोस्'),
                 'maxlength': '200'
             }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 8,
-                'placeholder': 'Describe the event...'
+                'placeholder': _('कार्यक्रमको विवरण लेख्नुहोस्...')
             }),
             'short_description': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': 'Brief event description',
+                'placeholder': _('कार्यक्रमको संक्षिप्त विवरण'),
                 'maxlength': '300'
             }),
             'location': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Event location',
+                'placeholder': _('कार्यक्रमको स्थान'),
                 'maxlength': '150'
             }),
             'address': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 2,
-                'placeholder': 'Full event address'
-            }),
-            'event_date': forms.DateTimeInput(attrs={
-                'class': 'form-control',
-                'type': 'datetime-local'
-            }),
-            'end_date': forms.DateTimeInput(attrs={
-                'class': 'form-control',
-                'type': 'datetime-local'
-            }),
-            'registration_deadline': forms.DateTimeInput(attrs={
-                'class': 'form-control',
-                'type': 'datetime-local'
+                'placeholder': _('कार्यक्रमको पूर्ण ठेगाना')
             }),
             'registration_url': forms.URLInput(attrs={
                 'class': 'form-control',
@@ -160,7 +158,7 @@ class EventForm(forms.ModelForm):
             }),
             'image_alt': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Alt text for image',
+                'placeholder': _('इमेजको लागि Alt text'),
                 'maxlength': '200'
             }),
         }
@@ -173,11 +171,11 @@ class EventForm(forms.ModelForm):
             try:
                 security_result = ContentSecurityValidator.validate_content_security(description, 'event')
                 if not security_result['is_valid']:
-                    raise ValidationError("Description contains security issues.")
+                    raise ValidationError(_("विवरणमा सुरक्षा समस्या छ।"))
             except ValidationError as e:
                 raise e
             except Exception as e:
-                raise ValidationError("Description validation failed.")
+                raise ValidationError(_("विवरण प्रमाणीकरण असफल भयो।"))
             
             # Sanitize content
             description = ContentSecurityValidator.sanitize_content(description)
@@ -190,7 +188,7 @@ class EventForm(forms.ModelForm):
         event_date = self.cleaned_data.get('event_date')
         
         if end_date and event_date and end_date <= event_date:
-            raise ValidationError("End date must be after event date.")
+            raise ValidationError(_("अन्त्य मिति कार्यक्रम मिति पछि हुनुपर्छ।"))
         
         return end_date
 
@@ -201,10 +199,10 @@ class EventForm(forms.ModelForm):
         registration_required = self.cleaned_data.get('registration_required')
         
         if registration_required and not registration_deadline:
-            raise ValidationError("Registration deadline is required when registration is required.")
+            raise ValidationError(_("दर्ता आवश्यक भएमा दर्ता अन्तिम मिति आवश्यक छ।"))
         
         if registration_deadline and event_date and registration_deadline >= event_date:
-            raise ValidationError("Registration deadline must be before event date.")
+            raise ValidationError(_("दर्ता अन्तिम मिति कार्यक्रम मिति अघि हुनुपर्छ।"))
         
         return registration_deadline
 
@@ -217,13 +215,13 @@ class CategoryForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Category name',
+                'placeholder': _('श्रेणीको नाम'),
                 'maxlength': '100'
             }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': 'Category description'
+                'placeholder': _('श्रेणीको विवरण')
             }),
             'color': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -250,18 +248,18 @@ class SubscriptionForm(forms.ModelForm):
         widgets = {
             'email': forms.EmailInput(attrs={
                 'class': 'w-full px-4 py-3 text-gray-800 rounded-l-lg border-2 border-gray-300 focus:outline-none focus:border-deuraligreen transition-colors',
-                'placeholder': 'Enter your email address...',
-                'aria-label': 'Email Address',
+                'placeholder': _('आफ्नो इमेल ठेगाना प्रविष्ट गर्नुहोस्...'),
+                'aria-label': _('इमेल ठेगाना'),
                 'required': True
             }),
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'First name (optional)',
+                'placeholder': _('पहिलो नाम (वैकल्पिक)'),
                 'maxlength': '100'
             }),
             'last_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Last name (optional)',
+                'placeholder': _('अन्तिम नाम (वैकल्पिक)'),
                 'maxlength': '100'
             }),
             'categories': forms.CheckboxSelectMultiple(attrs={
@@ -290,19 +288,19 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'author_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Your name',
+                'placeholder': _('आफ्नो नाम'),
                 'maxlength': '100',
                 'required': True
             }),
             'author_email': forms.EmailInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'your.email@example.com',
+                'placeholder': _('आफ्नो इमेल ठेगाना'),
                 'required': True
             }),
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 4,
-                'placeholder': 'Write your comment...',
+                'placeholder': _('आफ्नो टिप्पणी लेख्नुहोस्...'),
                 'maxlength': '2000',
                 'required': True
             }),
@@ -315,7 +313,7 @@ class CommentForm(forms.ModelForm):
             # Check for spam
             spam_check = SpamProtectionManager.check_spam_indicators(content)
             if spam_check['is_spam']:
-                raise ValidationError("Comment appears to be spam. Please review and try again.")
+                raise ValidationError(_("टिप्पणी स्प्याम जस्तो देखिन्छ। कृपया पुनः समीक्षा गर्नुहोस्।"))
             
             # Sanitize content
             content = ContentSecurityValidator.sanitize_content(content)
@@ -343,18 +341,18 @@ class NewsletterForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Newsletter title',
+                'placeholder': _('न्युजलेटर शीर्षक'),
                 'maxlength': '200'
             }),
             'subject': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Email subject line',
+                'placeholder': _('इमेल विषय पङ्क्ति'),
                 'maxlength': '200'
             }),
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 15,
-                'placeholder': 'Newsletter content...'
+                'placeholder': _('न्युजलेटर सामग्री...')
             }),
             'categories': forms.CheckboxSelectMultiple(attrs={
                 'class': 'form-check-input'
@@ -373,11 +371,11 @@ class NewsletterForm(forms.ModelForm):
             try:
                 security_result = ContentSecurityValidator.validate_content_security(content, 'newsletter')
                 if not security_result['is_valid']:
-                    raise ValidationError("Content contains security issues.")
-            except ValidationError as e:
-                raise e
-            except Exception as e:
-                raise ValidationError("Content validation failed.")
+                    raise ValidationError(_("सामग्रीमा सुरक्षा समस्या छ।"))
+            except ValidationError:
+                raise
+            except Exception:
+                raise ValidationError(_("सामग्री प्रमाणीकरण असफल भयो।"))
             
             # Sanitize content
             content = ContentSecurityValidator.sanitize_content(content)
@@ -397,16 +395,16 @@ class ContentSearchForm(forms.Form):
     """Advanced search form for content"""
     
     SEARCH_CHOICES = [
-        ('all', 'All Content'),
-        ('articles', 'Articles Only'),
-        ('events', 'Events Only'),
+        ('all', _('सबै सामग्री')),
+        ('articles', _('लेख मात्र')),
+        ('events', _('कार्यक्रम मात्र')),
     ]
     
     SORT_CHOICES = [
-        ('relevance', 'Relevance'),
-        ('date', 'Date'),
-        ('views', 'Views'),
-        ('title', 'Title'),
+        ('relevance', _('प्रासङ्गिकता')),
+        ('date', _('मिति')),
+        ('views', _('हेराइ')),
+        ('title', _('शीर्षक')),
     ]
     
     query = forms.CharField(
@@ -414,7 +412,7 @@ class ContentSearchForm(forms.Form):
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Search articles and events...',
+            'placeholder': _('लेख र कार्यक्रमहरू खोज्नुहोस्...'),
             'maxlength': '200'
         })
     )
@@ -430,7 +428,7 @@ class ContentSearchForm(forms.Form):
     category = forms.ModelChoiceField(
         queryset=Category.objects.filter(is_active=True),
         required=False,
-        empty_label="All Categories",
+        empty_label=_("सबै श्रेणीहरू"),
         widget=forms.Select(attrs={
             'class': 'form-control'
         })
@@ -462,14 +460,14 @@ class ContentSearchForm(forms.Form):
     author = forms.ModelChoiceField(
         queryset=None,  # Will be set in __init__
         required=False,
-        empty_label="All Authors",
+        empty_label=_("सबै लेखकहरू"),
         widget=forms.Select(attrs={'class': 'form-control'})
     )
     status = forms.ChoiceField(
         choices=[
-            ('', 'All Status'),
-            ('published', 'Published Only'),
-            ('draft', 'Draft Only'),
+            ('', _('सबै स्थिति')),
+            ('published', _('प्रकाशित मात्र')),
+            ('draft', _('मस्यौदा मात्र')),
         ],
         required=False,
         widget=forms.Select(attrs={'class': 'form-control'})
@@ -487,7 +485,7 @@ class ContentSearchForm(forms.Form):
         min_value=0,
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Min read time (minutes)',
+            'placeholder': _('न्यूनतम पढ्ने समय (मिनेट)'),
             'min': '0'
         })
     )
@@ -496,7 +494,7 @@ class ContentSearchForm(forms.Form):
         min_value=0,
         widget=forms.NumberInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Max read time (minutes)',
+            'placeholder': _('अधिकतम पढ्ने समय (मिनेट)'),
             'min': '0'
         })
     )
@@ -546,12 +544,12 @@ class BulkActionForm(forms.Form):
         """Validate content IDs"""
         content_ids = self.cleaned_data.get('content_ids')
         if not content_ids:
-            raise ValidationError("No content selected.")
+            raise ValidationError(_("कुनै सामग्री छानिएको छैन।"))
         
         try:
             ids = [int(id.strip()) for id in content_ids.split(',') if id.strip()]
             if not ids:
-                raise ValidationError("No valid content IDs provided.")
+                raise ValidationError(_("वैध सामग्री ID प्रदान गरिएको छैन।"))
             return ids
         except ValueError:
-            raise ValidationError("Invalid content IDs provided.")
+            raise ValidationError(_("अवैध सामग्री ID प्रदान गरिएको छ।"))

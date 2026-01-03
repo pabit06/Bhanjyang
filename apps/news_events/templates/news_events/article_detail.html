@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load nepalidatetime %}
 
 {% block title %}{{ article.title }} - भञ्ज्याङ सहकारी{% endblock title %}
 
@@ -81,7 +82,7 @@
             </h1>
 
             {% if article.excerpt %}
-            <p class="text-lg text-gray-700 mb-6 leading-relaxed">{{ article.excerpt }}</p>
+            <p class="text-lg text-gray-700 mb-6 leading-relaxed whitespace-pre-line">{{ article.excerpt|linebreaks }}</p>
             {% endif %}
 
             <div class="flex items-center justify-between border-t border-b border-gray-200 py-4">
@@ -89,9 +90,8 @@
                     <div class="flex items-center">
                         <i class="fas fa-user-circle text-2xl text-bhanjyangred mr-2"></i>
                         <div>
-                            <p class="font-semibold text-gray-900">{{
-                                article.author.get_full_name|default:article.author.username }}</p>
-                            <p class="text-sm text-gray-600">{{ article.published_date|date:"F d, Y" }}</p>
+                            <p class="font-semibold text-gray-900">{{ article.author.get_full_name|default:article.author.username }}</p>
+                            <p class="text-sm text-gray-600">{{ article.published_date|nepalidate_ne }}</p>
                         </div>
                     </div>
                 </div>
@@ -132,8 +132,8 @@
 <!-- Article Content -->
 <section class="py-16 bg-white">
     <div class="container mx-auto max-w-4xl px-4">
-        <div class="prose prose-lg max-w-none">
-            {{ article.content|safe }}
+        <div class="prose prose-lg max-w-none whitespace-pre-line">
+            {{ article.content|linebreaks }}
         </div>
     </div>
 </section>
@@ -153,7 +153,7 @@
         <!-- Comment Form -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-8">
             <form method="post" action="{% url 'news_events:comment-submit' article.slug %}" class="space-y-4">
-                <input type="hidden" name="csrfmiddlewaretoken" id="comment-csrf-token" value="{{ csrf_token }}">
+                {% csrf_token %}
                 <div>
                     <label for="id_name" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Name" %}</label>
                     <input type="text" name="name" id="id_name" required
@@ -186,7 +186,7 @@
                         </div>
                         <div>
                             <p class="font-semibold text-gray-900">{{ comment.name }}</p>
-                            <p class="text-sm text-gray-600">{{ comment.created_at|date:"F d, Y g:i A" }}</p>
+                            <p class="text-sm text-gray-600">{{ comment.created_at|nepalidate_ne:"%B %d, %Y %I:%M %p" }}</p>
                         </div>
                     </div>
                 </div>
@@ -227,7 +227,7 @@
                         <span class="px-2 py-1 bg-bhanjyangred text-white text-xs font-semibold rounded">
                             {{ related_article.category.name }}
                         </span>
-                        <span class="text-sm text-gray-600">{{ related_article.published_date|date:"M d" }}</span>
+                        <span class="text-sm text-gray-600">{{ related_article.published_date|nepalidate_ne:"%B %d" }}</span>
                     </div>
                     <h4 class="text-lg font-semibold text-deuraligreen mb-2 line-clamp-2">
                         <a href="{% url 'news_events:article-detail' related_article.slug %}"
@@ -235,8 +235,7 @@
                             {{ related_article.title }}
                         </a>
                     </h4>
-                    <p class="text-gray-600 text-sm line-clamp-3">{{
-                        related_article.excerpt|default:related_article.content|truncatewords:20 }}</p>
+                    <p class="text-gray-600 text-sm line-clamp-3">{{ related_article.excerpt|default:related_article.content|truncatewords:20 }}</p>
                 </div>
             </article>
             {% empty %}

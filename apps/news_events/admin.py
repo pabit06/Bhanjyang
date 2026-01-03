@@ -16,6 +16,7 @@ from .models import (
     NewsArticle, Event, Category, Subscriber, Comment, 
     Newsletter, ContentAnalytics
 )
+from .forms import NewsArticleForm, EventForm
 from .performance import NewsEventsQueryOptimizer, NewsEventsPerformanceMonitor
 from .security import SecurityAuditLogger
 
@@ -56,6 +57,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(NewsArticle)
 class NewsArticleAdmin(admin.ModelAdmin):
     """Enhanced news article admin with analytics"""
+    form = NewsArticleForm
     list_display = (
         'title', 'author', 'category', 'status', 'priority', 
         'is_featured', 'published_date', 'view_count', 'share_count', 'comment_count'
@@ -177,6 +179,7 @@ class NewsArticleAdmin(admin.ModelAdmin):
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     """Enhanced event admin"""
+    form = EventForm
     list_display = ('title', 'event_type', 'event_date', 'location', 'status', 'is_featured', 'view_count')
     list_filter = ('event_type', 'status', 'is_featured', 'event_date')
     search_fields = ('title', 'description', 'location')
@@ -206,6 +209,7 @@ class EventAdmin(admin.ModelAdmin):
     )
     
     readonly_fields = ('view_count', 'registration_count')
+    
     
     def get_urls(self):
         urls = super().get_urls()

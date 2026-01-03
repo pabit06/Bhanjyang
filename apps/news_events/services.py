@@ -119,6 +119,17 @@ class NewsService:
             status=NewsArticle.Status.PUBLISHED
         ).exclude(pk=article.pk)[:3]
         
+        # Get next and previous articles
+        next_article = NewsEventsQueryOptimizer.get_optimized_article_queryset().filter(
+            status=NewsArticle.Status.PUBLISHED,
+            published_date__gt=article.published_date
+        ).order_by('published_date').first()
+        
+        previous_article = NewsEventsQueryOptimizer.get_optimized_article_queryset().filter(
+            status=NewsArticle.Status.PUBLISHED,
+            published_date__lt=article.published_date
+        ).order_by('-published_date').first()
+        
         # Get comments
         comments = Comment.objects.filter(
             article=article,
@@ -131,6 +142,8 @@ class NewsService:
         return {
             'article': article,
             'related_articles': related_articles,
+            'next_article': next_article,
+            'previous_article': previous_article,
             'comments': comments,
             'login_required': False
         }
@@ -160,8 +173,13 @@ class NewsService:
 
         # Filters
         if category_slug:
-            category = get_object_or_404(Category, slug=category_slug, is_active=True)
-            articles = articles.filter(category=category)
+            try:
+                category = Category.objects.get(slug=category_slug, is_active=True)
+                articles = articles.filter(category=category)
+            except Category.DoesNotExist:
+                # Invalid category, return empty results instead of 404
+                logger.warning(f"Invalid category slug requested: {category_slug}")
+                articles = articles.none()
         
         if search_query:
             articles = articles.filter(

@@ -82,6 +82,9 @@
     {# Component CSS #}
     <link href="{% static 'css/components/forms.css' %}" rel="stylesheet">
     <link href="{% static 'css/components/map-toggle.css' %}" rel="stylesheet">
+    
+    {# Nepali Datepicker CSS #}
+    <link href="{% static 'vendor/nepali-datepicker/nepali.datepicker.v5.0.6.min.css' %}" rel="stylesheet">
 
     {# Google Fonts & Font Awesome from CDN for performance #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -198,6 +201,10 @@
 
     <!-- Advanced Animations -->
     <script defer src="{% static 'js/utilities/advanced-animations.js' %}"></script>
+    
+    {# Nepali Datepicker JavaScript #}
+    <script src="{% static 'vendor/nepali-datepicker/nepali.datepicker.v5.0.6.min.js' %}"></script>
+    <script defer src="{% static 'js/vendor/nepali-datepicker-init.js' %}"></script>
     {% endblock extra_js %}
 
     {# Main JavaScript - Consolidated from inline scripts for better caching #}

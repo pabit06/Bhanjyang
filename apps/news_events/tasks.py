@@ -5,6 +5,7 @@ This module contains Celery tasks for sending newsletters asynchronously.
 This prevents blocking the request/response cycle when sending to many subscribers.
 """
 import logging
+import json
 from typing import List, Dict, Any
 from django.conf import settings
 from django.core.mail import send_mail, EmailMultiAlternatives
@@ -84,7 +85,36 @@ def send_newsletter_email(self, newsletter_id: int, subscriber_id: int):
             return True
             
         except Exception as e:
-            logger.error(f"Failed to send newsletter to {subscriber.email}: {e}")
+            error_message = str(e)
+            logger.error(f"Failed to send newsletter to {subscriber.email}: {error_message}")
+            
+            # Log failed recipient to newsletter
+            try:
+                newsletter = Newsletter.objects.get(pk=newsletter_id)
+                failed_recipients = []
+                
+                # Parse existing failed recipients if any
+                if newsletter.failed_recipients:
+                    try:
+                        failed_recipients = json.loads(newsletter.failed_recipients)
+                    except json.JSONDecodeError:
+                        failed_recipients = []
+                
+                # Add new failed recipient
+                failed_recipients.append({
+                    'email': subscriber.email,
+                    'subscriber_id': subscriber.id,
+                    'error': error_message,
+                    'timestamp': timezone.now().isoformat()
+                })
+                
+                # Update newsletter with failed recipients
+                newsletter.failed_recipients = json.dumps(failed_recipients, ensure_ascii=False)
+                newsletter.save(update_fields=['failed_recipients'])
+                
+            except Exception as log_error:
+                logger.error(f"Error logging failed recipient: {log_error}")
+            
             # Mark subscriber as bounced if email fails
             subscriber.status = Subscriber.Status.BOUNCED
             subscriber.save(update_fields=['status'])
@@ -150,7 +180,31 @@ def send_newsletter_batch(self, newsletter_id: int, subscriber_ids: List[int]):
         newsletter.total_sent = success_count
         newsletter.status = Newsletter.Status.SENT
         newsletter.sent_date = timezone.now()
-        newsletter.save(update_fields=['status', 'total_sent', 'sent_date'])
+        
+        # Log summary of failed recipients if any
+        if failure_count > 0:
+            try:
+                failed_recipients = []
+                if newsletter.failed_recipients:
+                    try:
+                        failed_recipients = json.loads(newsletter.failed_recipients)
+                    except json.JSONDecodeError:
+                        failed_recipients = []
+                
+                # Add summary entry
+                summary = {
+                    'summary': True,
+                    'total_failed': failure_count,
+                    'total_successful': success_count,
+                    'timestamp': timezone.now().isoformat()
+                }
+                if not any(r.get('summary') for r in failed_recipients):
+                    failed_recipients.insert(0, summary)
+                    newsletter.failed_recipients = json.dumps(failed_recipients, ensure_ascii=False)
+            except Exception as e:
+                logger.error(f"Error adding failed recipients summary: {e}")
+        
+        newsletter.save(update_fields=['status', 'total_sent', 'sent_date', 'failed_recipients'])
         
         logger.info(
             f"Newsletter {newsletter_id} sent: {success_count} successful, "

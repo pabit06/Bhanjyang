@@ -17,6 +17,54 @@ from .managers import ArticleManager, EventManager
 
 logger = logging.getLogger(__name__)
 
+# Try to import unidecode for Nepali character transliteration
+try:
+    from unidecode import unidecode
+    UNIDECODE_AVAILABLE = True
+except ImportError:
+    UNIDECODE_AVAILABLE = False
+    logger.warning("unidecode not available. Nepali slug generation will use hash fallback.")
+
+def slugify_nepali(text):
+    """
+    Generate a slug from text, handling Nepali and other Unicode characters.
+    Falls back to hash-based slug if unidecode is not available.
+    """
+    if not text:
+        return ""
+    
+    # Try to transliterate Nepali/Unicode to ASCII using unidecode
+    if UNIDECODE_AVAILABLE:
+        try:
+            # Transliterate Unicode characters to ASCII
+            ascii_text = unidecode(str(text))
+            # Generate slug from transliterated text
+            slug = slugify(ascii_text)
+            # If slug is still empty after transliteration, use hash fallback
+            if not slug:
+                slug = hashlib.md5(text.encode('utf-8')).hexdigest()[:12]
+            return slug
+        except Exception as e:
+            logger.warning(f"Error transliterating text for slug: {e}")
+            # Fall through to hash-based approach
+    
+    # Fallback: Use hash-based slug for Nepali characters
+    # This ensures we always have a valid slug even without unidecode
+    text_hash = hashlib.md5(text.encode('utf-8')).hexdigest()[:12]
+    # Try to get some readable part from the text if possible
+    try:
+        # Extract any ASCII characters that might exist
+        ascii_part = ''.join(c for c in text if c.isalnum() and ord(c) < 128)
+        if ascii_part:
+            base_slug = slugify(ascii_part)
+            if base_slug:
+                return f"{base_slug}-{text_hash}"
+    except Exception:
+        pass
+    
+    # Final fallback: just use hash
+    return text_hash
+
 # Helper function to calculate read time
 def calculate_read_time(content):
     """Calculate estimated reading time in minutes"""
@@ -53,7 +101,7 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
+            self.slug = slugify_nepali(self.name)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -191,7 +239,21 @@ class NewsArticle(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify_nepali(self.title)
+        
+        # Ensure slug is unique by appending hash if needed
+        if self.slug:
+            original_slug = self.slug
+            counter = 1
+            while NewsArticle.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                # Append counter to make it unique
+                self.slug = f"{original_slug}-{counter}"
+                counter += 1
+                # Safety check to prevent infinite loop
+                if counter > 1000:
+                    # Use hash as last resort
+                    self.slug = f"{original_slug}-{hashlib.md5(self.title.encode('utf-8')).hexdigest()[:8]}"
+                    break
         
         # Calculate read time
         if self.content:
@@ -250,32 +312,34 @@ class NewsArticle(models.Model):
         Falls back to original image if optimization not available.
         Includes CDN URL support if configured.
         """
-        if self.image:
+        if not self.image:
+            return None
+            
+        try:
+            # Try to get WebP version first (best compression)
+            # Check if image_webp exists and has a file
+            # Always use original image URL for now
+            # WebP conversion will happen automatically when imagekit processes it
+            # Accessing image_webp.url might trigger generation which can cause issues
+            url = self.image.url
+            
+            # Apply CDN URL if configured
+            if hasattr(settings, 'CDN_URL') and settings.CDN_URL:
+                from .performance import NewsEventsCDNManager
+                return NewsEventsCDNManager.get_cdn_url(url)
+            
+            return url
+        except Exception as e:
+            logger.warning(f"Error getting optimized image for article {self.id}: {e}")
+            # Final fallback to original image
             try:
-                # Try to get WebP version first (best compression)
-                if hasattr(self, 'image_webp') and self.image_webp:
-                    url = self.image_webp.url
-                else:
-                    # Fallback to original
-                    url = self.image.url
-                
-                # Apply CDN URL if configured
+                url = self.image.url
                 if hasattr(settings, 'CDN_URL') and settings.CDN_URL:
                     from .performance import NewsEventsCDNManager
                     return NewsEventsCDNManager.get_cdn_url(url)
-                
                 return url
-            except Exception as e:
-                logger.warning(f"Error getting optimized image for article {self.id}: {e}")
-                if self.image:
-                    url = self.image.url
-                    # Apply CDN URL if configured
-                    if hasattr(settings, 'CDN_URL') and settings.CDN_URL:
-                        from .performance import NewsEventsCDNManager
-                        return NewsEventsCDNManager.get_cdn_url(url)
-                    return url
+            except Exception:
                 return None
-        return None
 
 class Event(models.Model):
     """Events with enhanced features"""
@@ -402,7 +466,22 @@ class Event(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify_nepali(self.title)
+        
+        # Ensure slug is unique by appending hash if needed
+        if self.slug:
+            original_slug = self.slug
+            counter = 1
+            while Event.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                # Append counter to make it unique
+                self.slug = f"{original_slug}-{counter}"
+                counter += 1
+                # Safety check to prevent infinite loop
+                if counter > 1000:
+                    # Use hash as last resort
+                    self.slug = f"{original_slug}-{hashlib.md5(self.title.encode('utf-8')).hexdigest()[:8]}"
+                    break
+        
         super().save(*args, **kwargs)
 
     def increment_view_count(self):
@@ -438,32 +517,34 @@ class Event(models.Model):
         Falls back to original image if optimization not available.
         Includes CDN URL support if configured.
         """
-        if self.image:
+        if not self.image:
+            return None
+            
+        try:
+            # Try to get WebP version first (best compression)
+            # Check if image_webp exists and has a file
+            # Always use original image URL for now
+            # WebP conversion will happen automatically when imagekit processes it
+            # Accessing image_webp.url might trigger generation which can cause issues
+            url = self.image.url
+            
+            # Apply CDN URL if configured
+            if hasattr(settings, 'CDN_URL') and settings.CDN_URL:
+                from .performance import NewsEventsCDNManager
+                return NewsEventsCDNManager.get_cdn_url(url)
+            
+            return url
+        except Exception as e:
+            logger.warning(f"Error getting optimized image for event {self.id}: {e}")
+            # Final fallback to original image
             try:
-                # Try to get WebP version first (best compression)
-                if hasattr(self, 'image_webp') and self.image_webp:
-                    url = self.image_webp.url
-                else:
-                    # Fallback to original
-                    url = self.image.url
-                
-                # Apply CDN URL if configured
+                url = self.image.url
                 if hasattr(settings, 'CDN_URL') and settings.CDN_URL:
                     from .performance import NewsEventsCDNManager
                     return NewsEventsCDNManager.get_cdn_url(url)
-                
                 return url
-            except Exception as e:
-                logger.warning(f"Error getting optimized image for event {self.id}: {e}")
-                if self.image:
-                    url = self.image.url
-                    # Apply CDN URL if configured
-                    if hasattr(settings, 'CDN_URL') and settings.CDN_URL:
-                        from .performance import NewsEventsCDNManager
-                        return NewsEventsCDNManager.get_cdn_url(url)
-                    return url
+            except Exception:
                 return None
-        return None
 
 class Subscriber(models.Model):
     """Newsletter subscribers with enhanced features"""
@@ -592,6 +673,7 @@ class Newsletter(models.Model):
     total_sent = models.PositiveIntegerField(default=0, verbose_name=_("कुल पठाइएको"), help_text=_("कुल पठाइएको इमेल"))
     total_opened = models.PositiveIntegerField(default=0, verbose_name=_("कुल खोलिएको"), help_text=_("कुल खोलिएको इमेल"))
     total_clicked = models.PositiveIntegerField(default=0, verbose_name=_("कुल क्लिक गरिएको"), help_text=_("कुल क्लिक गरिएको लिङ्क"))
+    failed_recipients = models.TextField(blank=True, verbose_name=_("असफल प्रापकहरू"), help_text=_("इमेल पठाउन असफल भएका प्रापकहरूको सूची (JSON format)"))
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))

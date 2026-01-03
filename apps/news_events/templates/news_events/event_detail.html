@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load nepalidatetime %}
 
 {% block title %}{{ event.title }} - भञ्ज्याङ सहकारी{% endblock title %}
 
@@ -84,7 +85,7 @@
                 </h1>
 
                 {% if event.description %}
-                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">{{ event.description }}</p>
+                    <p class="text-lg text-gray-700 mb-6 leading-relaxed whitespace-pre-line">{{ event.description|linebreaks }}</p>
                 {% endif %}
 
                 <!-- Event Details -->
@@ -94,7 +95,7 @@
                             <i class="fas fa-calendar-alt text-2xl text-bhanjyangred"></i>
                             <div>
                                 <p class="font-semibold text-gray-900">{% trans "Event Date" %}</p>
-                                <p class="text-gray-700">{{ event.event_date|date:"F d, Y" }}</p>
+                                <p class="text-gray-700">{{ event.event_date|nepalidate_ne }}</p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-3">
@@ -109,7 +110,7 @@
                             <i class="fas fa-calendar-check text-2xl text-bhanjyangred"></i>
                             <div>
                                 <p class="font-semibold text-gray-900">{% trans "End Date" %}</p>
-                                <p class="text-gray-700">{{ event.end_date|date:"F d, Y" }}</p>
+                                <p class="text-gray-700">{{ event.end_date|nepalidate_ne }}</p>
                             </div>
                         </div>
                         {% endif %}
@@ -164,7 +165,7 @@
     <section class="py-16 bg-white">
         <div class="container mx-auto max-w-4xl px-4">
             <div class="prose prose-lg max-w-none">
-                {{ event.description|safe }}
+                <div class="whitespace-pre-line">{{ event.description|linebreaks }}</div>
             </div>
         </div>
     </section>
@@ -213,7 +214,7 @@
                             <span class="px-2 py-1 bg-deuraligreen text-white text-xs font-semibold rounded">
                                 {{ related_event.event_type|default:"Event" }}
                             </span>
-                            <span class="text-sm text-gray-600">{{ related_event.event_date|date:"M d" }}</span>
+                            <span class="text-sm text-gray-600">{{ related_event.event_date|nepalidate_ne:"%B %d" }}</span>
                         </div>
                         <h4 class="text-lg font-semibold text-deuraligreen mb-2 line-clamp-2">
                             <a href="{% url 'news_events:event-detail' related_event.slug %}" class="hover:text-bhanjyangred">
@@ -223,7 +224,7 @@
                         <p class="text-gray-600 text-sm line-clamp-3">{{ related_event.description|truncatewords:20 }}</p>
                         <div class="mt-3 flex items-center text-sm text-gray-600">
                             <i class="fas fa-calendar-alt mr-1"></i>
-                            {{ related_event.event_date|date:"M d, Y" }}
+                            {{ related_event.event_date|nepalidate_ne }}
                             {% if related_event.location %}
                                 <i class="fas fa-map-marker-alt ml-3 mr-1"></i>
                                 {{ related_event.location }}

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'django_extensions',
     'imagekit',  # Image optimization and processing
+    'django_nepali',  # Nepali date conversion for templates
     
     # Local apps (before staticfiles to override runserver command)
     'apps.core',  # Core utilities and shared functionality

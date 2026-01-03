@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load nepalidatetime %}
 
 {% block title %}{% trans "Search Results" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
@@ -133,9 +134,9 @@
                                                     <span class="flex items-center">
                                                         <i class="fas fa-calendar mr-1"></i>
                                                         {% if result.content_type == 'article' %}
-                                                            {{ result.published_date|date:"M d, Y" }}
+                                                            {{ result.published_date|nepalidate_ne }}
                                                         {% else %}
-                                                            {{ result.event_date|date:"M d, Y" }}
+                                                            {{ result.event_date|nepalidate_ne }}
                                                         {% endif %}
                                                     </span>
                                                     <span class="flex items-center">

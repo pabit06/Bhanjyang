@@ -7,6 +7,7 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.db.models import Count, Avg, Q, F, Sum
 from django.db.models.functions import TruncHour
+from django.core.exceptions import PermissionDenied
 from datetime import timedelta
 import logging
 
@@ -14,6 +15,28 @@ from .models import NewsArticle, Event, ContentAnalytics
 from apps.dashboard.models import UserSession, PageView
 
 logger = logging.getLogger(__name__)
+
+
+def check_analytics_permission(request):
+    """
+    Additional security check for analytics data access.
+    Verifies user is staff and has proper permissions.
+    """
+    if not request.user.is_authenticated:
+        raise PermissionDenied("Authentication required")
+    
+    if not request.user.is_staff:
+        raise PermissionDenied("Staff access required")
+    
+    # Additional check: verify user has analytics permission
+    # This can be extended to check specific permissions
+    if not request.user.is_superuser:
+        # Check if user has specific permission (if using Django permissions)
+        if not request.user.has_perm('news_events.view_analytics'):
+            logger.warning(f"Unauthorized analytics access attempt by {request.user.username}")
+            raise PermissionDenied("Insufficient permissions for analytics access")
+    
+    return True
 
 
 @staff_member_required
@@ -29,6 +52,17 @@ def get_real_time_metrics(request):
     - Add WebSocket support for true real-time updates
     """
     try:
+        # Additional security check
+        check_analytics_permission(request)
+        
+        # Rate limiting check (prevent abuse)
+        # This is a simple check - can be enhanced with django-ratelimit
+        if hasattr(request, 'session'):
+            analytics_access_count = request.session.get('analytics_access_count', 0)
+            if analytics_access_count > 100:  # Max 100 requests per session
+                logger.warning(f"Rate limit exceeded for analytics access by {request.user.username}")
+                return JsonResponse({'error': 'Rate limit exceeded'}, status=429)
+            request.session['analytics_access_count'] = analytics_access_count + 1
         now = timezone.now()
         one_hour_ago = now - timedelta(hours=1)
         two_hours_ago = now - timedelta(hours=2)
@@ -184,6 +218,7 @@ def get_real_time_metrics(request):
 def get_traffic_sources(request):
     """Get traffic sources data for chart"""
     try:
+        check_analytics_permission(request)
         now = timezone.now()
         thirty_days_ago = now - timedelta(days=30)
         
@@ -243,6 +278,7 @@ def get_traffic_sources(request):
 def get_content_performance(request):
     """Get content performance data for chart"""
     try:
+        check_analytics_permission(request)
         # Get top articles by views
         top_articles = NewsArticle.objects.filter(
             status=NewsArticle.Status.PUBLISHED
@@ -273,6 +309,7 @@ def get_content_performance(request):
 def get_user_demographics(request):
     """Get user demographics data for chart"""
     try:
+        check_analytics_permission(request)
         now = timezone.now()
         thirty_days_ago = now - timedelta(days=30)
         
@@ -315,6 +352,7 @@ def get_user_demographics(request):
 def get_device_usage(request):
     """Get device usage data for chart"""
     try:
+        check_analytics_permission(request)
         now = timezone.now()
         thirty_days_ago = now - timedelta(days=30)
         
@@ -352,6 +390,7 @@ def get_device_usage(request):
 def get_top_articles(request):
     """Get top articles for dashboard"""
     try:
+        check_analytics_permission(request)
         top_articles = NewsArticle.objects.filter(
             status=NewsArticle.Status.PUBLISHED
         ).select_related('category').order_by('-view_count')[:10]
@@ -376,6 +415,7 @@ def get_top_articles(request):
 def get_top_events(request):
     """Get top events for dashboard"""
     try:
+        check_analytics_permission(request)
         top_events = Event.objects.filter(
             status=Event.Status.PUBLISHED
         ).order_by('-view_count')[:10]
