@@ -17,10 +17,25 @@ Usage: {% include 'services/savings/partials/_hero_background.html' with account
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
     </div>
 {% elif account_type == 'child' %}
-    <!-- Hero Image Background for Child Savings -->
-    <div class="absolute inset-0 z-0">
+    <!-- Hero Video Background for Child Savings -->
+    <div class="absolute inset-0 z-0 overflow-hidden">
+        {% static 'images/heroes/Nepali_Girl_s_Bright_Future_Unfolds.mp4' as hero_video %}
         {% static 'images/heroes/child-savings-hero.png' as hero_img %}
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+        <video 
+            class="absolute inset-0 w-full h-full object-cover"
+            autoplay 
+            loop 
+            muted 
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+            poster="{{ hero_img }}">
+            <source src="{{ hero_video }}" type="video/mp4">
+            <!-- Fallback image if video fails to load -->
+            <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ hero_img }}');"></div>
+        </video>
+        <!-- Subtle overlay to ensure text readability -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/40 z-0"></div>
     </div>
 {% elif account_type == 'daily' %}
     <!-- Hero Image Background for Daily Savings -->

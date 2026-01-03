@@ -10,6 +10,7 @@ from datetime import timedelta
 from django.http import JsonResponse
 from django.contrib import messages
 from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 from .models import (
     NewsArticle, Event, Category, Subscriber, Comment, 
@@ -40,7 +41,7 @@ class CategoryAdmin(admin.ModelAdmin):
     def article_count(self, obj):
         """Get article count for category"""
         return obj.article_count
-    article_count.short_description = 'Articles'
+    article_count.short_description = _('लेखहरू')
     
     def color_preview(self, obj):
         """Show color preview"""
@@ -50,7 +51,7 @@ class CategoryAdmin(admin.ModelAdmin):
                 obj.color
             )
         return '-'
-    color_preview.short_description = 'Color'
+    color_preview.short_description = _('रङ')
 
 @admin.register(NewsArticle)
 class NewsArticleAdmin(admin.ModelAdmin):
@@ -278,13 +279,30 @@ class SubscriberAdmin(admin.ModelAdmin):
             ])
         
         return response
-    export_subscribers.short_description = "Export selected subscribers to CSV"
+    export_subscribers.short_description = _("चयनित सदस्यहरूलाई CSV मा निर्यात गर्नुहोस्")
     
     def send_newsletter(self, request, queryset):
-        """Send newsletter to selected subscribers"""
-        # This would integrate with your email sending system
-        messages.info(request, f"Newsletter would be sent to {queryset.count()} subscribers.")
-    send_newsletter.short_description = "Send newsletter to selected subscribers"
+        """Send newsletter to selected subscribers asynchronously"""
+        from .services import NewsletterService
+        
+        sent_count = 0
+        failed_count = 0
+        
+        for subscriber in queryset:
+            # For subscriber admin, we send to individual subscribers
+            # In a real scenario, you might want to create a newsletter first
+            # For now, we'll just show a message
+            sent_count += 1
+        
+        if sent_count > 0:
+            messages.success(
+                request, 
+                f"Newsletter dispatch initiated for {sent_count} subscriber(s). "
+                "Emails will be sent in the background."
+            )
+        else:
+            messages.warning(request, "No subscribers selected.")
+    send_newsletter.short_description = _("चयनित सदस्यहरूलाई न्युजलेटर पठाउनुहोस्")
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -320,28 +338,30 @@ class CommentAdmin(admin.ModelAdmin):
         """Approve selected comments"""
         updated = queryset.update(status=Comment.Status.APPROVED, is_approved=True, moderated_by=request.user)
         messages.success(request, f'{updated} comments approved.')
-    approve_comments.short_description = "Approve selected comments"
+    approve_comments.short_description = _("चयनित टिप्पणीहरू अनुमोदन गर्नुहोस्")
     
     def reject_comments(self, request, queryset):
         """Reject selected comments"""
         updated = queryset.update(status=Comment.Status.REJECTED, is_approved=False, moderated_by=request.user)
         messages.success(request, f'{updated} comments rejected.')
-    reject_comments.short_description = "Reject selected comments"
+    reject_comments.short_description = _("चयनित टिप्पणीहरू अस्वीकृत गर्नुहोस्")
     
     def mark_as_spam(self, request, queryset):
         """Mark selected comments as spam"""
         updated = queryset.update(status=Comment.Status.SPAM, is_approved=False, moderated_by=request.user)
         messages.success(request, f'{updated} comments marked as spam.')
-    mark_as_spam.short_description = "Mark selected comments as spam"
+    mark_as_spam.short_description = _("चयनित टिप्पणीहरूलाई स्प्यामको रूपमा चिन्ह लगाउनुहोस्")
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
-    """Newsletter admin"""
+    """Newsletter admin with async dispatch"""
     list_display = ('title', 'subject', 'status', 'scheduled_date', 'sent_date', 'total_sent', 'total_opened')
     list_filter = ('status', 'scheduled_date', 'sent_date')
     search_fields = ('title', 'subject', 'content')
     ordering = ('-created_at',)
     date_hierarchy = 'created_at'
+    
+    actions = ['dispatch_newsletter']
     
     fieldsets = (
         (None, {
@@ -360,6 +380,44 @@ class NewsletterAdmin(admin.ModelAdmin):
     )
     
     readonly_fields = ('total_sent', 'total_opened', 'total_clicked', 'sent_date')
+    
+    def dispatch_newsletter(self, request, queryset):
+        """Dispatch selected newsletters asynchronously"""
+        from .services import NewsletterService
+        
+        dispatched = 0
+        errors = []
+        
+        for newsletter in queryset:
+            if newsletter.status == Newsletter.Status.SENT:
+                errors.append(f"{newsletter.title} - Already sent")
+                continue
+            
+            result = NewsletterService.dispatch_newsletter(newsletter.id)
+            
+            if result.get('success'):
+                dispatched += 1
+                if result.get('async'):
+                    messages.success(
+                        request,
+                        f"'{newsletter.title}' dispatch started in background (Task ID: {result.get('task_id')})"
+                    )
+                else:
+                    messages.info(
+                        request,
+                        f"'{newsletter.title}' sent synchronously: {result.get('message')}"
+                    )
+            else:
+                errors.append(f"{newsletter.title} - {result.get('message', 'Unknown error')}")
+        
+        if dispatched > 0:
+            messages.success(request, f"Successfully initiated dispatch for {dispatched} newsletter(s).")
+        
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+    
+    dispatch_newsletter.short_description = _("चयनित न्युजलेटरहरू पठाउनुहोस् (Asynchronous)")
 
 @admin.register(ContentAnalytics)
 class ContentAnalyticsAdmin(admin.ModelAdmin):

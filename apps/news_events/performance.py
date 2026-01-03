@@ -22,6 +22,7 @@ CACHE_TIMEOUTS = {
     'event_stats': 900,       # 15 minutes
     'popular_content': 1800,  # 30 minutes
     'analytics': 3600,        # 1 hour
+    'invalid_slug': 3600,     # 1 hour - Cache invalid slugs to prevent DoS
 }
 
 class NewsEventsCache:
@@ -60,6 +61,63 @@ class NewsEventsCache:
     def get_analytics_cache_key(content_type, date_range='30d'):
         """Generate cache key for analytics"""
         return f'analytics_{content_type}_{date_range}'
+    
+    @staticmethod
+    def get_invalid_slug_cache_key(content_type: str, slug: str) -> str:
+        """
+        Generate cache key for invalid slug (404 responses).
+        This helps prevent DoS attacks and reduces database load.
+        
+        Args:
+            content_type: 'article' or 'event'
+            slug: The invalid slug
+        
+        Returns:
+            Cache key string
+        """
+        # Use hash to prevent cache key injection
+        import hashlib
+        slug_hash = hashlib.md5(slug.encode()).hexdigest()[:16]
+        return f'invalid_slug_{content_type}_{slug_hash}'
+    
+    @staticmethod
+    def cache_invalid_slug(content_type: str, slug: str, timeout: int = None):
+        """
+        Cache an invalid slug to prevent repeated database queries.
+        
+        Args:
+            content_type: 'article' or 'event'
+            slug: The invalid slug
+            timeout: Cache timeout in seconds (defaults to CACHE_TIMEOUTS['invalid_slug'])
+        """
+        try:
+            if timeout is None:
+                timeout = CACHE_TIMEOUTS['invalid_slug']
+            
+            cache_key = NewsEventsCache.get_invalid_slug_cache_key(content_type, slug)
+            cache.set(cache_key, True, timeout)
+            logger.debug(f"Cached invalid slug: {content_type}/{slug}")
+        except Exception as e:
+            logger.error(f"Failed to cache invalid slug: {e}")
+    
+    @staticmethod
+    def is_invalid_slug_cached(content_type: str, slug: str) -> bool:
+        """
+        Check if a slug is cached as invalid (404).
+        
+        Args:
+            content_type: 'article' or 'event'
+            slug: The slug to check
+        
+        Returns:
+            True if slug is cached as invalid, False otherwise
+        """
+        try:
+            cache_key = NewsEventsCache.get_invalid_slug_cache_key(content_type, slug)
+            return cache.get(cache_key) is not None
+        except Exception as e:
+            logger.error(f"Failed to check invalid slug cache: {e}")
+            return False
     
     @staticmethod
     def cache_article_list(articles_data, cache_key, timeout=CACHE_TIMEOUTS['article_list']):
@@ -403,15 +461,15 @@ class NewsEventsCDNManager:
     
     @staticmethod
     def get_optimized_image_urls(articles):
-        """Get optimized image URLs for multiple articles"""
-        optimized_articles = []
-        for article in articles:
-            if hasattr(article, 'image') and article.image:
-                article.optimized_image_url = NewsEventsCDNManager.get_cdn_url(article.image.url)
-            else:
-                article.optimized_image_url = None
-            optimized_articles.append(article)
-        return optimized_articles
+        """
+        Get optimized image URLs for multiple articles.
+        Note: optimized_image_url is now a property that automatically
+        returns the optimized WebP image URL, so we just return the articles.
+        CDN URL is handled by the property if CDN_URL is configured.
+        """
+        # The optimized_image_url property automatically handles optimization
+        # No need to manually set it anymore
+        return articles
 
 # Performance monitoring decorator
 def performance_monitor(func):

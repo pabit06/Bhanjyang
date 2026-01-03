@@ -21,7 +21,7 @@ class AnalyticsDashboard {
 
     async loadRealTimeMetrics() {
         try {
-            const response = await fetch('/analytics/api/real-time-metrics/');
+            const response = await fetch('/news-events/analytics/api/real-time-metrics/');
             const data = await response.json();
             
             this.updateMetricDisplay('active-users', data.active_users);
@@ -63,7 +63,7 @@ class AnalyticsDashboard {
 
     async createTrafficSourcesChart() {
         try {
-            const response = await fetch('/analytics/api/traffic-sources/');
+            const response = await fetch('/news-events/analytics/api/traffic-sources/');
             const data = await response.json();
             
             const ctx = document.getElementById('trafficSourcesChart').getContext('2d');
@@ -100,7 +100,7 @@ class AnalyticsDashboard {
 
     async createContentPerformanceChart() {
         try {
-            const response = await fetch('/analytics/api/content-performance/');
+            const response = await fetch('/news-events/analytics/api/content-performance/');
             const data = await response.json();
             
             const ctx = document.getElementById('contentPerformanceChart').getContext('2d');
@@ -138,7 +138,7 @@ class AnalyticsDashboard {
 
     async createUserDemographicsChart() {
         try {
-            const response = await fetch('/analytics/api/user-demographics/');
+            const response = await fetch('/news-events/analytics/api/user-demographics/');
             const data = await response.json();
             
             const ctx = document.getElementById('userDemographicsChart').getContext('2d');
@@ -174,7 +174,7 @@ class AnalyticsDashboard {
 
     async createDeviceUsageChart() {
         try {
-            const response = await fetch('/analytics/api/device-usage/');
+            const response = await fetch('/news-events/analytics/api/device-usage/');
             const data = await response.json();
             
             const ctx = document.getElementById('deviceUsageChart').getContext('2d');
@@ -215,12 +215,12 @@ class AnalyticsDashboard {
     async loadTopContent() {
         try {
             // Load top articles
-            const articlesResponse = await fetch('/analytics/api/top-articles/');
+            const articlesResponse = await fetch('/news-events/analytics/api/top-articles/');
             const articlesData = await articlesResponse.json();
             this.renderTopContent('top-articles', articlesData, 'article');
 
             // Load top events
-            const eventsResponse = await fetch('/analytics/api/top-events/');
+            const eventsResponse = await fetch('/news-events/analytics/api/top-events/');
             const eventsData = await eventsResponse.json();
             this.renderTopContent('top-events', eventsData, 'event');
         } catch (error) {

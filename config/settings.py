@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_spectacular',
     'django_extensions',
+    'imagekit',  # Image optimization and processing
     
     # Local apps (before staticfiles to override runserver command)
     'apps.core',  # Core utilities and shared functionality

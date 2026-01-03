@@ -78,12 +78,28 @@ class NewsService:
         """
         Get article detail with view counting and security checks.
         Returns a dict with article and context, or raises Http404.
+        
+        Security: Checks cache for invalid slugs to prevent DoS attacks
+        and reduce database load from repeated 404 requests.
         """
-        article = get_object_or_404(
-            NewsEventsQueryOptimizer.get_optimized_article_queryset(),
-            slug=slug,
-            status=NewsArticle.Status.PUBLISHED
-        )
+        from .performance import NewsEventsCache
+        from django.http import Http404
+        
+        # Check if this slug is cached as invalid (404)
+        if NewsEventsCache.is_invalid_slug_cached('article', slug):
+            logger.debug(f"Invalid slug cached, raising 404: {slug}")
+            raise Http404("Article not found")
+        
+        try:
+            article = get_object_or_404(
+                NewsEventsQueryOptimizer.get_optimized_article_queryset(),
+                slug=slug,
+                status=NewsArticle.Status.PUBLISHED
+            )
+        except Http404:
+            # Cache the invalid slug to prevent future database queries
+            NewsEventsCache.cache_invalid_slug('article', slug)
+            raise
         
         # Check login requirement
         if article.require_login and (not user or not user.is_authenticated):
@@ -109,8 +125,8 @@ class NewsService:
             status=Comment.Status.APPROVED
         ).order_by('-created_at')
         
-        # Optimize image URL
-        article.optimized_image_url = NewsEventsCDNManager.optimize_image_url(article.image)
+        # Note: optimized_image_url is now a property that automatically
+        # returns the optimized WebP image URL, no need to set it manually
         
         return {
             'article': article,
@@ -215,12 +231,30 @@ class EventService:
 
     @staticmethod
     def get_event_detail(slug: str, request=None) -> Dict[str, Any]:
-        """Get event detail details"""
-        event = get_object_or_404(
-            NewsEventsQueryOptimizer.get_optimized_event_queryset(),
-            slug=slug,
-            status=Event.Status.PUBLISHED
-        )
+        """
+        Get event detail details.
+        
+        Security: Checks cache for invalid slugs to prevent DoS attacks
+        and reduce database load from repeated 404 requests.
+        """
+        from .performance import NewsEventsCache
+        from django.http import Http404
+        
+        # Check if this slug is cached as invalid (404)
+        if NewsEventsCache.is_invalid_slug_cached('event', slug):
+            logger.debug(f"Invalid slug cached, raising 404: {slug}")
+            raise Http404("Event not found")
+        
+        try:
+            event = get_object_or_404(
+                NewsEventsQueryOptimizer.get_optimized_event_queryset(),
+                slug=slug,
+                status=Event.Status.PUBLISHED
+            )
+        except Http404:
+            # Cache the invalid slug to prevent future database queries
+            NewsEventsCache.cache_invalid_slug('event', slug)
+            raise
         
         event.increment_view_count()
         if request:
@@ -231,7 +265,8 @@ class EventService:
             status=Event.Status.PUBLISHED
         ).exclude(pk=event.pk)[:3]
         
-        event.optimized_image_url = NewsEventsCDNManager.optimize_image_url(event.image)
+        # Note: optimized_image_url is now a property that automatically
+        # returns the optimized WebP image URL, no need to set it manually
         
         return {
             'event': event,
@@ -521,3 +556,90 @@ class SearchService:
             'query': query,
             'results_count': len(results)
         }
+
+
+class NewsletterService:
+    """Service for handling newsletter operations"""
+    
+    @staticmethod
+    def dispatch_newsletter(newsletter_id: int) -> Dict[str, Any]:
+        """
+        Dispatch newsletter to all subscribers asynchronously.
+        
+        Args:
+            newsletter_id: ID of the Newsletter object
+        
+        Returns:
+            Dict with task information or error message
+        """
+        try:
+            # Check if Celery is available
+            try:
+                from .tasks import send_newsletter_to_all, CELERY_AVAILABLE
+                
+                if CELERY_AVAILABLE:
+                    # Dispatch asynchronously using Celery
+                    result = send_newsletter_to_all.delay(newsletter_id)
+                    return {
+                        'success': True,
+                        'task_id': result.id,
+                        'message': 'Newsletter dispatch started in background',
+                        'async': True
+                    }
+                else:
+                    # Fallback to synchronous sending (not recommended for large lists)
+                    logger.warning("Celery not available, sending synchronously")
+                    from .tasks import send_newsletter_to_all
+                    result = send_newsletter_to_all(newsletter_id)
+                    return {
+                        'success': True,
+                        'message': result.get('message', 'Newsletter sent'),
+                        'async': False
+                    }
+            except ImportError:
+                logger.error("Newsletter tasks not available")
+                return {
+                    'success': False,
+                    'message': 'Newsletter dispatch not configured',
+                    'async': False
+                }
+                
+        except Exception as e:
+            logger.error(f"Error dispatching newsletter: {e}", exc_info=True)
+            return {
+                'success': False,
+                'message': f'Error: {str(e)}',
+                'async': False
+            }
+    
+    @staticmethod
+    def get_newsletter_status(newsletter_id: int) -> Dict[str, Any]:
+        """
+        Get the current status of a newsletter dispatch.
+        
+        Args:
+            newsletter_id: ID of the Newsletter object
+        
+        Returns:
+            Dict with newsletter status information
+        """
+        try:
+            from .models import Newsletter
+            newsletter = Newsletter.objects.get(pk=newsletter_id)
+            
+            return {
+                'id': newsletter.id,
+                'title': newsletter.title,
+                'status': newsletter.status,
+                'status_display': newsletter.get_status_display(),
+                'total_sent': newsletter.total_sent,
+                'total_opened': newsletter.total_opened,
+                'total_clicked': newsletter.total_clicked,
+                'sent_date': newsletter.sent_date.isoformat() if newsletter.sent_date else None,
+                'scheduled_date': newsletter.scheduled_date.isoformat() if newsletter.scheduled_date else None,
+            }
+        except Newsletter.DoesNotExist:
+            return {'error': 'Newsletter not found'}
+        except Exception as e:
+            logger.error(f"Error getting newsletter status: {e}", exc_info=True)
+            return {'error': str(e)}

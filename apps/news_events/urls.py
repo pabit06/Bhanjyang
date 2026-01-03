@@ -2,6 +2,7 @@
 
 from django.urls import path
 from . import views
+from . import api_views
 
 app_name = 'news_events'
 
@@ -35,4 +36,13 @@ urlpatterns = [
     # RSS Feed
     path('rss/', views.rss_feed_view, name='rss-feed'),
     path('analytics/', views.analytics_dashboard_view, name='analytics-dashboard'),
+    
+    # Analytics API endpoints
+    path('analytics/api/real-time-metrics/', api_views.get_real_time_metrics, name='api-real-time-metrics'),
+    path('analytics/api/traffic-sources/', api_views.get_traffic_sources, name='api-traffic-sources'),
+    path('analytics/api/content-performance/', api_views.get_content_performance, name='api-content-performance'),
+    path('analytics/api/user-demographics/', api_views.get_user_demographics, name='api-user-demographics'),
+    path('analytics/api/device-usage/', api_views.get_device_usage, name='api-device-usage'),
+    path('analytics/api/top-articles/', api_views.get_top_articles, name='api-top-articles'),
+    path('analytics/api/top-events/', api_views.get_top_events, name='api-top-events'),
 ]
