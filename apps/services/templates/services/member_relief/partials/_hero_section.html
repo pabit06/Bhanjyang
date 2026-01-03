@@ -1,0 +1,66 @@
+{% comment %}
+Reusable hero section for member relief pages
+{% endcomment %}
+{% load static %}
+{% load i18n %}
+
+<section class="relative py-20 md:py-28 bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10 z-0">
+        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
+    </div>
+
+    <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 z-0"></div>
+    <div class="absolute bottom-0 left-0 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2 z-0"></div>
+
+    <div class="container mx-auto px-4 relative z-10 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-blue-200 text-sm font-semibold mb-6 animate-fade-in-up">
+            <i class="fas fa-heart text-red-400 animate-pulse"></i>
+            {% trans "We Care For You" %}
+        </div>
+
+        <h1 id="main-content" class="text-4xl md:text-6xl font-bold font-montserrat mb-6 leading-tight animate-fade-in-up" style="animation-delay: 0.1s;">
+            दुःखमा <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-300">सहारा</span>, सुखमा <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">साथ</span>
+        </h1>
+        
+        <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed mb-10 animate-fade-in-up" style="animation-delay: 0.2s;">
+            {% trans "Dedicated relief funds and social security programs designed to support our members during life's most challenging moments." %}
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-8 md:gap-16 border-t border-white/10 pt-8 max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.3s;">
+            <div>
+                {% comment %}
+                Display total relief programs count.
+                Priority: member_reliefs (from view) > reliefs_by_type (calculate) > 0
+                {% endcomment %}
+                {% if member_reliefs %}
+                    {# Use member_reliefs list length - this is the primary source from the view #}
+                    <div class="text-3xl font-bold text-white mb-1">{{ member_reliefs|length }}</div>
+                {% elif reliefs_by_type %}
+                    {# Calculate total from all categories in reliefs_by_type #}
+                    {% for relief_type, reliefs in reliefs_by_type.items %}
+                        {% if forloop.first %}
+                            {# Show first category count with + to indicate there might be more #}
+                            <div class="text-3xl font-bold text-white mb-1">{{ reliefs|length }}+</div>
+                        {% endif %}
+                    {% empty %}
+                        <div class="text-3xl font-bold text-white mb-1">0</div>
+                    {% endfor %}
+                {% else %}
+                    {# No data available #}
+                    <div class="text-3xl font-bold text-white mb-1">0</div>
+                {% endif %}
+                <div class="text-sm text-blue-200 uppercase tracking-wide">{% trans "Relief Schemes" %}</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-white mb-1">२४/७</div>
+                <div class="text-sm text-blue-200 uppercase tracking-wide">{% trans "Support" %}</div>
+            </div>
+            <div>
+                <div class="text-3xl font-bold text-white mb-1">{% trans "Immediate" %}</div>
+                <div class="text-sm text-blue-200 uppercase tracking-wide">{% trans "Assistance" %}</div>
+            </div>
+        </div>
+    </div>
+</section>
+

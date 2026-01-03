@@ -1,0 +1,67 @@
+{% comment %}
+Card content - separated for reusability with color classes
+{% endcomment %}
+{% load i18n %}
+
+<article class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 flex flex-col h-full transform hover:-translate-y-1" itemscope itemtype="https://schema.org/Service">
+    <!-- Card Header with Image/Icon -->
+    <div class="relative h-48 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+        {% if relief.image %}
+            <img src="{{ relief.image.url }}" 
+                 alt="{% trans 'Image for' %} {{ relief.english_name }} - {{ relief.get_relief_type_display }}" 
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                 loading="lazy"
+                 decoding="async">
+        {% else %}
+            <div class="w-full h-full {{ bg_light }} flex items-center justify-center" role="img" aria-label="{{ relief.get_relief_type_display }} - {{ relief.english_name }}">
+                <i class="{{ relief.icon|default:'fas fa-hands-helping' }} text-6xl {{ text_light }}" aria-hidden="true"></i>
+            </div>
+        {% endif %}
+        
+        <!-- Relief Type Badge -->
+        <div class="absolute top-4 right-4 z-20">
+            <span class="bg-white/90 backdrop-blur-sm {{ text_color }} text-xs font-bold px-3 py-1.5 rounded-full shadow-sm uppercase tracking-wide" aria-label="{% trans 'Relief type' %}: {{ relief.get_relief_type_display }}">
+                {{ relief.get_relief_type_display }}
+            </span>
+        </div>
+
+        <!-- Title Overlay -->
+        <div class="absolute bottom-4 left-4 right-4 z-20">
+            <h3 class="text-xl font-bold text-white font-montserrat leading-tight mb-1" itemprop="name">{{ relief.nepali_name }}</h3>
+            <p class="text-white/90 text-sm font-medium" itemprop="alternateName">{{ relief.english_name }}</p>
+        </div>
+    </div>
+
+    <!-- Card Body -->
+    <div class="p-6 flex-grow flex flex-col">
+        {% if relief.description %}
+            <p class="text-gray-600 text-sm mb-6 line-clamp-3 leading-relaxed flex-grow">
+                {{ relief.description|striptags|truncatewords:20 }}
+            </p>
+        {% endif %}
+
+        <!-- Key Benefits Section -->
+        {% if relief.benefits %}
+        <div class="{{ bg_light }} rounded-xl p-4 mb-6">
+            <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">{% trans "Key Benefit" %}</h4>
+            <div class="flex items-start gap-3">
+                <div class="bg-white p-1.5 rounded-full {{ text_color }} shadow-sm mt-0.5" aria-hidden="true">
+                    <i class="fas fa-gift text-sm"></i>
+                </div>
+                <p class="text-sm font-semibold text-gray-800 line-clamp-2" itemprop="description">
+                    {{ relief.benefits|striptags|truncatewords:12 }}
+                </p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Button -->
+        <a href="{% url 'services:relief_detail' relief.slug %}" 
+           aria-label="{% trans 'View details for' %} {{ relief.english_name }}"
+           class="w-full block text-center bg-gray-50 {{ hover_bg }} text-gray-700 hover:text-white font-bold py-3 rounded-xl transition-all duration-300 group-hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+            {% trans "View Details & Process" %} <i class="fas fa-arrow-right ml-2 text-xs opacity-70" aria-hidden="true"></i>
+        </a>
+    </div>
+</article>
+

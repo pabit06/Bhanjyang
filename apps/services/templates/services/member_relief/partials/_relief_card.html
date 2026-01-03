@@ -1,0 +1,26 @@
+{% comment %}
+Member Relief Card Component
+Reusable card for displaying relief programs in lists and related sections
+Usage: {% include 'services/member_relief/partials/_relief_card.html' with relief=relief %}
+{% endcomment %}
+{% load i18n %}
+{% load static %}
+
+{% comment %}Color class helper - determines classes based on relief.color{% endcomment %}
+{% if relief.color == 'bhanjyangred' %}
+    {% with bg_light='bg-red-50' text_color='text-red-600' text_light='text-red-200' hover_bg='hover:bg-red-600' %}
+        {% include 'services/member_relief/partials/_relief_card_content.html' %}
+    {% endwith %}
+{% elif relief.color == 'deuraligreen' %}
+    {% with bg_light='bg-green-50' text_color='text-green-600' text_light='text-green-200' hover_bg='hover:bg-green-600' %}
+        {% include 'services/member_relief/partials/_relief_card_content.html' %}
+    {% endwith %}
+{% elif relief.color == 'rupablue' %}
+    {% with bg_light='bg-blue-50' text_color='text-rupablue' text_light='text-blue-200' hover_bg='hover:bg-rupablue' %}
+        {% include 'services/member_relief/partials/_relief_card_content.html' %}
+    {% endwith %}
+{% else %}
+    {% with bg_light='bg-purple-50' text_color='text-purple-600' text_light='text-purple-200' hover_bg='hover:bg-purple-600' %}
+        {% include 'services/member_relief/partials/_relief_card_content.html' %}
+    {% endwith %}
+{% endif %}

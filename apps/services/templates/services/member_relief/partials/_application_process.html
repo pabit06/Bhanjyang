@@ -1,0 +1,58 @@
+{% comment %}
+Reusable application process section
+{% endcomment %}
+{% load static %}
+{% load i18n %}
+
+<section class="py-20 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16 scroll-reveal">
+            <span class="inline-block text-purple-600 bg-purple-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Application Process" %}</span>
+            <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
+                <span class="text-gray-800">सहायता</span> <span class="text-purple-600 font-extrabold">प्राप्त</span> <span class="text-gray-800">गर्ने</span> <span class="text-purple-600 font-extrabold">तरिका</span>
+            </h2>
+            <div class="w-20 h-1.5 bg-purple-600 mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600">{% trans "Simple steps to access our member support programs" %}</p>
+        </div>
+        
+        <div class="grid md:grid-cols-4 gap-8">
+            <div class="text-center scroll-reveal">
+                <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <span class="text-3xl font-bold text-white">1</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "Contact Us" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Reach out to our relief committee or visit our office" %}</p>
+            </div>
+            
+            <div class="text-center scroll-reveal" style="animation-delay: 0.2s;">
+                <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <span class="text-3xl font-bold text-white">2</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "Submit Application" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Complete the application form with required documents" %}</p>
+            </div>
+            
+            <div class="text-center scroll-reveal" style="animation-delay: 0.4s;">
+                <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <span class="text-3xl font-bold text-white">3</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "Committee Review" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Our committee will review your application" %}</p>
+            </div>
+            
+            <div class="text-center scroll-reveal" style="animation-delay: 0.6s;">
+                <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <span class="text-3xl font-bold text-white">4</span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">{% trans "Get Support" %}</h3>
+                <p class="text-gray-600 text-sm">{% trans "Receive assistance and ongoing support" %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
