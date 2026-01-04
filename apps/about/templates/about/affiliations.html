@@ -2,11 +2,25 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Affiliations" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Affiliations" %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block meta_description %}Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, professional associations, and partnerships that ensure our compliance and excellence.{% endblock meta_description %}
+{% block meta_description %}{% trans "Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, professional associations, and partnerships that ensure our compliance and excellence." %}{% endblock meta_description %}
 
 {% block meta_keywords %}bhanjyang cooperative affiliations, regulatory bodies, professional associations, partnerships, compliance, NEFSCUN{% endblock meta_keywords %}
+
+{% block og_title %}{% trans "Affiliations" %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, professional associations, and partnerships." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% trans "Affiliations" %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{% trans "Learn about Bhanjyang Cooperative's affiliations with regulatory bodies and professional associations." %}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
 
 
 {% block content %}

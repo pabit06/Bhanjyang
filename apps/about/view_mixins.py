@@ -6,7 +6,30 @@ and context data management.
 """
 from typing import Dict, Any, Optional, Callable
 from django.http import HttpRequest
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 from apps.core.error_handling import ErrorLogger
+from apps.core.view_mixins import NepaliLanguageMixin, create_breadcrumbs
+from .constants import CACHE_TIMEOUT_MEDIUM
+
+
+@method_decorator(cache_page(CACHE_TIMEOUT_MEDIUM), name='dispatch')
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
+class BaseAboutView(NepaliLanguageMixin):
+    """
+    Base view class for About app views.
+    
+    Provides:
+    - Automatic caching (10 minutes)
+    - Nepali language activation
+    - User-Agent header variation
+    
+    Usage:
+        class MyView(BaseAboutView, TemplateView):
+            template_name = 'my_template.html'
+    """
+    pass
 
 
 class SafeContextDataMixin:

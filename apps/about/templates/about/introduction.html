@@ -2,28 +2,44 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Introduction" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Introduction" %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block extra_head %}
-<meta name="description"
-    content="Learn about Bhanjyang Cooperative's story, vision, mission, values, and journey. Discover our establishment, principles, and key milestones.">
-<meta name="keywords"
-    content="Bhanjyang Cooperative, Our Story, Vision, Mission, Values, Timeline, History, Cooperative Society, Kaski">
-<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
-<meta name="robots" content="index, follow">
+{% block meta_description %}{% trans "Learn about Bhanjyang Cooperative's story, vision, mission, values, and journey. Discover our establishment, principles, and key milestones." %}{% endblock meta_description %}
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Introduction - Bhanjyang Cooperative">
-<meta property="og:description"
-    content="Learn about Bhanjyang Cooperative's story, vision, mission, and journey. Empowering communities through cooperative principles.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% block meta_keywords %}Bhanjyang Cooperative, Our Story, Vision, Mission, Values, Timeline, History, Cooperative Society, Kaski{% endblock meta_keywords %}
 
+{% block og_title %}{% trans "Introduction" %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Learn about Bhanjyang Cooperative's story, vision, mission, and journey. Empowering communities through cooperative principles." %}{% endblock og_description %}
+
+{% block og_image %}
+    {% if cooperative_info and cooperative_info.featured_image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ cooperative_info.featured_image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/about/about-us-hero.jpeg' %}
+    {% endif %}
+{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% trans "Introduction" %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{% trans "Learn about Bhanjyang Cooperative's story, vision, mission, and journey. Empowering communities through cooperative principles." %}{% endblock twitter_description %}
+
+{% block twitter_image %}
+    {% if cooperative_info and cooperative_info.featured_image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ cooperative_info.featured_image.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/about/about-us-hero.jpeg' %}
+    {% endif %}
+{% endblock twitter_image %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'dist/output.css' %}">
 <link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-{% endblock extra_head %}
+{% endblock extra_css %}
 
 {% block content %}
 
@@ -97,7 +113,7 @@
                     {% endif %}
                 </h2>
                 <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
-                <p class="text-lg text-gray-700 leading-relaxed mb-8">
+                <div class="text-lg text-gray-700 leading-relaxed mb-8 space-y-4 our-story-content" id="our-story-text">
                     {% if cooperative_info.our_story_nepali %}
                         {{ cooperative_info.our_story_nepali }}
                     {% elif cooperative_info.our_story %}
@@ -107,7 +123,7 @@
                     {% else %}
                         {{ cooperative_info.description }}
                     {% endif %}
-                </p>
+                </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4 border-deuraligreen">
                         <h4 class="font-bold text-deuraligreen mb-2 text-lg">{% trans "Established Date" %}</h4>
@@ -275,4 +291,11 @@
 {% endif %}
 
 {% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'about/js/about-interactive.js' %}"></script>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+{% include 'about/partials/_organization_structured_data.html' with cooperative_info=cooperative_info %}
+{% endblock extra_js %}
 

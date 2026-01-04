@@ -1,0 +1,110 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+SEO Structured Data (JSON-LD) for Timeline page
+Event schemas for timeline events
+Usage: {% include 'about/partials/_timeline_structured_data.html' with page_obj=page_obj %}
+{% endcomment %}
+
+{% if page_obj %}
+<!-- ItemList Schema for Timeline Events -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "{% trans 'Bhanjyang Cooperative Timeline' %}",
+    "description": "{% trans 'Key milestones, achievements, and events in the history of Bhanjyang Saving & Credit Cooperative Society Ltd.' %}",
+    "itemListElement": [
+        {% for event in page_obj %}
+        {
+            "@type": "ListItem",
+            "position": {{ forloop.counter }},
+            "item": {
+                "@type": "Event",
+                "name": "{{ event.title|escapejs }}",
+                "description": "{{ event.description|striptags|truncatewords:30|escapejs }}",
+                "startDate": "{{ event.event_date|date:'c' }}",
+                "image": "{% if event.image %}{{ request.scheme }}://{{ request.get_host }}{{ event.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endif %}",
+                "organizer": {
+                    "@type": "CreditUnion",
+                    "name": "भञ्ज्याङ्ग सहकारी",
+                    "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+                    "url": "{{ request.scheme }}://{{ request.get_host }}/"
+                },
+                "eventStatus": "https://schema.org/EventScheduled",
+                "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+            }
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+
+<!-- Individual Event Schemas (for featured events) -->
+{% for event in page_obj|slice:":5" %}
+{% if event.is_featured %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "{{ event.title|escapejs }}",
+    "description": "{{ event.description|striptags|truncatewords:50|escapejs }}",
+    "startDate": "{{ event.event_date|date:'c' }}",
+    "image": "{% if event.image %}{{ request.scheme }}://{{ request.get_host }}{{ event.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endif %}",
+    "organizer": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ्ग सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+        }
+    },
+    "location": {
+        "@type": "Place",
+        "name": "Bhanjyang Cooperative",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Rupa Rural Municipality",
+            "addressRegion": "Gandaki Province",
+            "addressCountry": "NP"
+        }
+    },
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "inLanguage": "ne"
+}
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<!-- BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{% trans 'Home' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{% trans 'About Us' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'about:introduction' %}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{% trans 'Timeline' %}",
+            "item": "{{ request.build_absolute_uri }}"
+        }
+    ]
+}
+</script>
+

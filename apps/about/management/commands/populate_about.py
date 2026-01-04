@@ -12,7 +12,7 @@ class Command(BaseCommand):
         CooperativeInfo.objects.all().delete() # Clear existing
         company_info = CooperativeInfo.objects.create(
             cooperative_name="Bhanjyang Saving & Credit Cooperative Society Ltd.",
-            cooperative_name_nepali="भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड",
+            cooperative_name_nepali="भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लिमिटेड",
             established_date=timezone.now().date().replace(year=2010, month=4, day=15),
             registration_number="REG-2010-001",
             license_number="LIC-2010-001",
@@ -24,7 +24,7 @@ class Command(BaseCommand):
             vision="To be the most trusted and preferred financial partner for community development in our region.",
             values="Integrity, Transparency, Community Focus, Financial Inclusion, Sustainable Growth, Member Empowerment",
             description="Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski. We believe in strengthening the local economy by empowering individuals and businesses through savings, credit, and expert financial guidance.",
-            description_nepali="भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड रुपा गाउँपालिका, कास्कीमा विश्वसनीय वित्तीय सेवाहरू मार्फत आर्थिक वृद्धि र समुदाय विकासलाई बढावा दिन समर्पित छ।",
+            description_nepali="भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लिमिटेड रुपा गाउँपालिका, कास्कीमा विश्वसनीय वित्तीय सेवाहरू मार्फत आर्थिक वृद्धि र समुदाय विकासलाई बढावा दिन समर्पित छ।",
             is_active=True
         )
         

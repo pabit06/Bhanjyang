@@ -1,0 +1,103 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+SEO Structured Data (JSON-LD) for Management Team page
+Person schemas for staff members
+Usage: {% include 'about/partials/_management_structured_data.html' with management_team=management_team %}
+{% endcomment %}
+
+{% if management_team %}
+<!-- Organization Schema for Management Team -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "भञ्ज्याङ्ग सहकारी - {% trans 'Management Team' %}",
+    "alternateName": "Bhanjyang Cooperative - Management Team",
+    "description": "{% trans 'Professional staff members who handle day-to-day operations and member services at Bhanjyang Saving & Credit Cooperative Society Ltd.' %}",
+    "url": "{{ request.build_absolute_uri }}",
+    "employee": [
+        {% for staff_member in management_team %}
+        {
+            "@type": "Person",
+            "name": "{{ staff_member.person.full_name|escapejs }}",
+            "jobTitle": "{{ staff_member.position|escapejs }}",
+            "worksFor": {
+                "@type": "CreditUnion",
+                "name": "भञ्ज्याङ्ग सहकारी",
+                "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+                "url": "{{ request.scheme }}://{{ request.get_host }}/"
+            },
+            {% if staff_member.department %}"department": "{{ staff_member.department|escapejs }}",{% endif %}
+            {% if staff_member.person.email %}"email": "{{ staff_member.person.email }}",{% endif %}
+            {% if staff_member.person.phone %}"telephone": "{{ staff_member.person.phone }}",{% endif %}
+            {% if staff_member.person.photo %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ staff_member.person.photo.url }}",{% endif %}
+            {% if staff_member.person.bio %}"description": "{{ staff_member.person.bio|striptags|truncatewords:30|escapejs }}",{% endif %}
+            {% if staff_member.is_information_officer %}"additionalType": "https://schema.org/ContactPoint",{% endif %}
+            "url": "{{ request.build_absolute_uri }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+
+<!-- Individual Person Schemas for Key Staff Members -->
+{% for staff_member in management_team|slice:":5" %}
+{% if staff_member.order <= 3 or staff_member.is_information_officer %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{{ staff_member.person.full_name|escapejs }}",
+    "jobTitle": "{{ staff_member.position|escapejs }}",
+    "worksFor": {
+        "@type": "CreditUnion",
+        "name": "भञ्ज्याङ्ग सहकारी",
+        "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "url": "{{ request.scheme }}://{{ request.get_host }}/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
+        }
+    },
+    {% if staff_member.department %}"department": "{{ staff_member.department|escapejs }}",{% endif %}
+    {% if staff_member.person.email %}"email": "{{ staff_member.person.email }}",{% endif %}
+    {% if staff_member.person.phone %}"telephone": "{{ staff_member.person.phone }}",{% endif %}
+    {% if staff_member.person.photo %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ staff_member.person.photo.url }}",{% endif %}
+    {% if staff_member.person.bio %}"description": "{{ staff_member.person.bio|striptags|truncatewords:40|escapejs }}",{% endif %}
+    {% if staff_member.is_information_officer %}"additionalType": "Information Officer (सूचना अधिकारी)",{% endif %}
+    "url": "{{ request.build_absolute_uri }}"
+}
+</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<!-- BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{% trans 'Home' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{% trans 'About Us' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'about:introduction' %}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{% trans 'Management Team' %}",
+            "item": "{{ request.build_absolute_uri }}"
+        }
+    ]
+}
+</script>
+

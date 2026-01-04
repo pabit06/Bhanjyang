@@ -2,28 +2,44 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Chairperson Message" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Chairperson Message" %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block extra_head %}
-<meta name="description"
-    content="Read the message from the Chairperson of Bhanjyang Saving & Credit Cooperative Society Ltd. Strategic vision and direction from our elected leadership.">
-<meta name="keywords"
-    content="Bhanjyang Cooperative, Chairperson Message, Chairman Message, Leadership, Strategic Vision">
-<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
-<meta name="robots" content="index, follow">
+{% block meta_description %}{% trans "Read the message from the Chairperson of Bhanjyang Saving & Credit Cooperative Society Ltd. Strategic vision and direction from our elected leadership." %}{% endblock meta_description %}
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Chairperson Message - Bhanjyang Cooperative">
-<meta property="og:description"
-    content="Read the message from the Chairperson of Bhanjyang Cooperative. Strategic vision and direction from our elected leadership.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% block meta_keywords %}Bhanjyang Cooperative, Chairperson Message, Chairman Message, Leadership, Strategic Vision{% endblock meta_keywords %}
 
+{% block og_title %}{% trans "Chairperson Message" %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Read the message from the Chairperson of Bhanjyang Cooperative. Strategic vision and direction from our elected leadership." %}{% endblock og_description %}
+
+{% block og_image %}
+    {% if message and message.author_photo %}
+        {{ request.scheme }}://{{ request.get_host }}{{ message.author_photo.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% trans "Chairperson Message" %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{% trans "Read the message from the Chairperson of Bhanjyang Cooperative. Strategic vision and direction from our elected leadership." %}{% endblock twitter_description %}
+
+{% block twitter_image %}
+    {% if message and message.author_photo %}
+        {{ request.scheme }}://{{ request.get_host }}{{ message.author_photo.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock twitter_image %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'dist/output.css' %}">
 <link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-{% endblock extra_head %}
+{% endblock extra_css %}
 
 {% block content %}
 

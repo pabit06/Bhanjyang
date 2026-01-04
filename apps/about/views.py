@@ -1,21 +1,17 @@
 from typing import Dict, Any
 from django.db.models import QuerySet
 from django.views.generic import TemplateView, ListView, DetailView, RedirectView
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
-from django.views.decorators.vary import vary_on_headers
 from django.urls import reverse
 from django.shortcuts import redirect
-from django.utils.translation import gettext_lazy as _, activate
+from django.utils.translation import gettext_lazy as _
 from .services import AboutService
 from .models import CooperativeInfo, LeadershipMessage, Committee, Staff
-from .view_mixins import SafeContextDataMixin
+from .view_mixins import SafeContextDataMixin, BaseAboutView
 from apps.core.view_mixins import create_breadcrumbs
 from apps.home.models import Testimonial
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class AboutHomeView(RedirectView):
+
+class AboutHomeView(BaseAboutView, RedirectView):
     """Redirect /about/ to introduction page"""
     permanent = False
     
@@ -23,16 +19,9 @@ class AboutHomeView(RedirectView):
         return reverse('about:introduction')
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class IntroductionView(SafeContextDataMixin, TemplateView):
+class IntroductionView(BaseAboutView, SafeContextDataMixin, TemplateView):
     """Introduction page with Our Story, Vision & Mission, and Timeline"""
     template_name = 'about/introduction.html'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -59,17 +48,11 @@ class IntroductionView(SafeContextDataMixin, TemplateView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class TimelineView(ListView):
+class TimelineView(BaseAboutView, ListView):
+    """Timeline events list view with pagination"""
     template_name = 'about/timeline.html'
     paginate_by = 12
     context_object_name = 'page_obj'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_queryset(self) -> QuerySet:
         return AboutService.get_timeline_events()
@@ -84,15 +67,9 @@ class TimelineView(ListView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class AffiliationsView(SafeContextDataMixin, TemplateView):
+class AffiliationsView(BaseAboutView, SafeContextDataMixin, TemplateView):
+    """Affiliations page displaying cooperative affiliations"""
     template_name = 'about/affiliations.html'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -112,16 +89,9 @@ class AffiliationsView(SafeContextDataMixin, TemplateView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class ChairpersonMessageView(SafeContextDataMixin, TemplateView):
+class ChairpersonMessageView(BaseAboutView, SafeContextDataMixin, TemplateView):
     """Dedicated page for Chairperson Message"""
     template_name = 'about/chairperson_message.html'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -144,16 +114,9 @@ class ChairpersonMessageView(SafeContextDataMixin, TemplateView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class ManagerCommitmentView(SafeContextDataMixin, TemplateView):
+class ManagerCommitmentView(BaseAboutView, SafeContextDataMixin, TemplateView):
     """Dedicated page for Manager Commitment"""
     template_name = 'about/manager_commitment.html'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -176,16 +139,9 @@ class ManagerCommitmentView(SafeContextDataMixin, TemplateView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class BoardOfDirectorsView(SafeContextDataMixin, TemplateView):
+class BoardOfDirectorsView(BaseAboutView, SafeContextDataMixin, TemplateView):
     """Dedicated page for Board of Directors (Committees)"""
     template_name = 'about/board_of_directors.html'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -207,16 +163,9 @@ class BoardOfDirectorsView(SafeContextDataMixin, TemplateView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class ManagementView(SafeContextDataMixin, TemplateView):
+class ManagementView(BaseAboutView, SafeContextDataMixin, TemplateView):
     """Dedicated page for Management Team (Staff)"""
     template_name = 'about/management.html'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -238,16 +187,9 @@ class ManagementView(SafeContextDataMixin, TemplateView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class MemberTestimonialsView(SafeContextDataMixin, TemplateView):
+class MemberTestimonialsView(BaseAboutView, SafeContextDataMixin, TemplateView):
     """Dedicated page for Member Testimonials"""
     template_name = 'about/member_testimonials.html'
-    
-    def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language for this view"""
-        activate('ne')
-        return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -269,9 +211,8 @@ class MemberTestimonialsView(SafeContextDataMixin, TemplateView):
         return context
 
 
-@method_decorator(cache_page(600), name='dispatch')
-@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
-class CooperativeDetailView(DetailView):
+class CooperativeDetailView(BaseAboutView, DetailView):
+    """Detail view for cooperative information"""
     model = CooperativeInfo
     template_name = 'about/cooperative_detail.html'
     context_object_name = 'cooperative'
@@ -283,8 +224,7 @@ class CooperativeDetailView(DetailView):
         return CooperativeInfo.objects.active()
     
     def dispatch(self, request, *args, **kwargs):
-        """Force Nepali language and handle redirect if needed"""
-        activate('ne')
+        """Handle redirect if only one cooperative exists"""
         # If there's only one active cooperative, redirect to introduction page
         # since introduction already shows the cooperative info.
         active_count = CooperativeInfo.objects.active().count()
@@ -311,8 +251,3 @@ class ContactView(RedirectView):
     """
     permanent = False
     pattern_name = 'contact:contact_view'
-
-
-# NewsletterSignupView and FeedbackView removed - no longer needed
-
-# GalleryView removed - use main gallery app at /gallery/ instead

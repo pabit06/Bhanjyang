@@ -2,9 +2,41 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% if cooperative.cooperative_name_nepali %}{{ cooperative.cooperative_name_nepali }}{% else %}{{ cooperative.cooperative_name }}{% endif %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% if cooperative.cooperative_name_nepali %}{{ cooperative.cooperative_name_nepali }}{% else %}{{ cooperative.cooperative_name }}{% endif %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block meta_description %}{{ cooperative.description|truncatewords:20 }}{% endblock meta_description %}
+{% block meta_description %}{{ cooperative.description|striptags|truncatewords:30|default:"Learn about Bhanjyang Cooperative's mission, vision, and values." }}{% endblock meta_description %}
+
+{% block meta_keywords %}Bhanjyang Cooperative, {{ cooperative.cooperative_name }}, Cooperative Society, Kaski, Nepal{% endblock meta_keywords %}
+
+{% block og_title %}{% if cooperative.cooperative_name_nepali %}{{ cooperative.cooperative_name_nepali }}{% else %}{{ cooperative.cooperative_name }}{% endif %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{{ cooperative.description|striptags|truncatewords:25|default:"Learn about Bhanjyang Cooperative's mission, vision, and values." }}{% endblock og_description %}
+
+{% block og_image %}
+    {% if cooperative.featured_image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ cooperative.featured_image.url }}
+    {% elif cooperative.logo %}
+        {{ request.scheme }}://{{ request.get_host }}{{ cooperative.logo.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% if cooperative.cooperative_name_nepali %}{{ cooperative.cooperative_name_nepali }}{% else %}{{ cooperative.cooperative_name }}{% endif %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{{ cooperative.description|striptags|truncatewords:20|default:"Learn about Bhanjyang Cooperative." }}{% endblock twitter_description %}
+
+{% block twitter_image %}
+    {% if cooperative.featured_image %}
+        {{ request.scheme }}://{{ request.get_host }}{{ cooperative.featured_image.url }}
+    {% elif cooperative.logo %}
+        {{ request.scheme }}://{{ request.get_host }}{{ cooperative.logo.url }}
+    {% else %}
+        {{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}
+    {% endif %}
+{% endblock twitter_image %}
 
 
 {% block content %}

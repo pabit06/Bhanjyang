@@ -87,7 +87,16 @@ class CooperativeInfo(models.Model):
         super().save(*args, **kwargs)
     
     def get_absolute_url(self):
+        """Get absolute URL for this cooperative"""
         return reverse('about:cooperative_detail', kwargs={'slug': self.slug})
+    
+    def get_hero_image_url(self):
+        """Get hero image URL or fallback to featured image"""
+        return self.featured_image.url if self.featured_image else None
+    
+    def has_our_story(self):
+        """Check if our story content exists"""
+        return bool(self.our_story or self.our_story_nepali)
 
 
 class CooperativeTimeline(models.Model):
@@ -138,6 +147,12 @@ class CooperativeTimeline(models.Model):
     
     def __str__(self):
         return f"{self.title} - {self.event_date}"
+    
+    def is_recent(self, days=30):
+        """Check if event is within specified days from today"""
+        from django.utils import timezone
+        from datetime import timedelta
+        return self.event_date >= (timezone.now().date() - timedelta(days=days))
 
 
 class CooperativeStatistic(models.Model):
@@ -191,6 +206,12 @@ class CooperativeStatistic(models.Model):
     
     def __str__(self):
         return f"{self.title}: {self.value} {self.unit}"
+    
+    def get_display_value(self):
+        """Get formatted display value with unit"""
+        if self.unit:
+            return f"{self.value} {self.unit}"
+        return self.value
 
 
 class CooperativeAffiliation(models.Model):
@@ -242,6 +263,10 @@ class CooperativeAffiliation(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def get_logo_url(self):
+        """Get logo URL if available"""
+        return self.logo.url if self.logo else None
 
 
 class LeadershipMessage(models.Model):
@@ -292,6 +317,10 @@ class LeadershipMessage(models.Model):
     
     def __str__(self):
         return f"{self.title} - {self.author_name}"
+    
+    def get_author_photo_url(self):
+        """Get author photo URL if available"""
+        return self.author_photo.url if self.author_photo else None
 
 
 # Team Models (moved from team app)
@@ -326,6 +355,18 @@ class Person(models.Model):
 
     def __str__(self):
         return self.full_name
+    
+    def get_photo_url(self):
+        """Get person photo URL if available"""
+        return self.photo.url if self.photo else None
+    
+    def is_staff(self):
+        """Check if person has staff profile"""
+        return hasattr(self, 'staff_profile') and self.staff_profile.is_active
+    
+    def get_active_committees(self):
+        """Get all active committees this person belongs to"""
+        return self.memberships.filter(is_active=True, committee__is_active=True).select_related('committee')
 
 
 class Committee(models.Model):
@@ -355,6 +396,14 @@ class Committee(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.tenure_bs})"
+    
+    def get_active_members(self):
+        """Get all active members of this committee"""
+        return self.memberships.filter(is_active=True).select_related('person').order_by('order')
+    
+    def get_member_count(self):
+        """Get count of active members"""
+        return self.memberships.filter(is_active=True).count()
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -446,6 +495,10 @@ class Membership(models.Model):
             pass
         
         return f"{person_name} - {self.position_display} of {committee_name}"
+    
+    def is_current(self):
+        """Check if membership is current (active and no end date)"""
+        return self.is_active and self.end_date is None
 
 
 class Staff(models.Model):

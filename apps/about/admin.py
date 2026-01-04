@@ -1,3 +1,12 @@
+"""
+Admin interface for the About app.
+
+Provides enhanced admin interfaces for all About app models with:
+- Custom filters (ActiveFilter, FeaturedFilter)
+- Bulk actions (activate, deactivate, feature, unfeature)
+- Optimized querysets
+- Inline editing for related models
+"""
 from django.contrib import admin
 from django import forms
 from django.utils.html import format_html
@@ -50,6 +59,60 @@ class FeaturedFilter(SimpleListFilter):
             return queryset.filter(is_featured=True)
         if self.value() == 'not_featured':
             return queryset.filter(is_featured=False)
+
+
+# =============================================================================
+# Base Admin Classes
+# =============================================================================
+
+class BaseContentAdmin(admin.ModelAdmin):
+    """
+    Base admin class for content models with common functionality.
+    
+    Provides:
+    - Active/Inactive status filtering
+    - Bulk activate/deactivate actions
+    - Timestamp fields (readonly)
+    """
+    readonly_fields = ('created_at', 'updated_at')
+    list_filter = (ActiveFilter,)
+    actions = ['activate_selected', 'deactivate_selected']
+    
+    def activate_selected(self, request, queryset):
+        """Bulk activate selected items"""
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f'{updated} item(s) were successfully activated.', messages.SUCCESS)
+    activate_selected.short_description = "Activate selected items"
+    
+    def deactivate_selected(self, request, queryset):
+        """Bulk deactivate selected items"""
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f'{updated} item(s) were successfully deactivated.', messages.SUCCESS)
+    deactivate_selected.short_description = "Deactivate selected items"
+
+
+class BaseFeaturedAdmin(BaseContentAdmin):
+    """
+    Base admin class for models with featured functionality.
+    
+    Extends BaseContentAdmin with:
+    - Featured filtering
+    - Bulk feature/unfeature actions
+    """
+    list_filter = (ActiveFilter, FeaturedFilter)
+    actions = BaseContentAdmin.actions + ['feature_selected', 'unfeature_selected']
+    
+    def feature_selected(self, request, queryset):
+        """Bulk feature selected items"""
+        updated = queryset.update(is_featured=True)
+        self.message_user(request, f'{updated} item(s) were successfully featured.', messages.SUCCESS)
+    feature_selected.short_description = "Feature selected items"
+    
+    def unfeature_selected(self, request, queryset):
+        """Bulk unfeature selected items"""
+        updated = queryset.update(is_featured=False)
+        self.message_user(request, f'{updated} item(s) were successfully unfeatured.', messages.SUCCESS)
+    unfeature_selected.short_description = "Unfeature selected items"
 
 
 class CooperativeInfoAdmin(admin.ModelAdmin):
@@ -120,7 +183,7 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
     deactivate_selected.short_description = "Deactivate selected items"
 
 
-class CooperativeTimelineAdmin(admin.ModelAdmin):
+class CooperativeTimelineAdmin(BaseFeaturedAdmin):
     """Enhanced admin interface for timeline events"""
     list_display = ('title', 'event_date', 'event_type', 'is_featured', 'is_active', 'order')
     list_filter = (ActiveFilter, FeaturedFilter, 'event_type', 'event_date')
@@ -142,28 +205,12 @@ class CooperativeTimelineAdmin(admin.ModelAdmin):
             'fields': ('order', 'is_featured', 'is_active')
         }),
     )
-    
-    readonly_fields = ('created_at', 'updated_at')
-    
-    actions = ['activate_selected', 'deactivate_selected', 'feature_selected', 'unfeature_selected']
-    
-    def feature_selected(self, request, queryset):
-        """Bulk feature selected items"""
-        updated = queryset.update(is_featured=True)
-        self.message_user(request, f'{updated} item(s) were successfully featured.', messages.SUCCESS)
-    feature_selected.short_description = "Feature selected items"
-    
-    def unfeature_selected(self, request, queryset):
-        """Bulk unfeature selected items"""
-        updated = queryset.update(is_featured=False)
-        self.message_user(request, f'{updated} item(s) were successfully unfeatured.', messages.SUCCESS)
-    unfeature_selected.short_description = "Unfeature selected items"
 
 
-class CooperativeStatisticAdmin(admin.ModelAdmin):
+class CooperativeStatisticAdmin(BaseFeaturedAdmin):
     """Admin interface for statistics"""
     list_display = ('title', 'value', 'unit', 'statistic_type', 'is_featured', 'is_active', 'order')
-    list_filter = ('statistic_type', 'is_featured', 'is_active')
+    list_filter = ('statistic_type', FeaturedFilter, ActiveFilter)
     search_fields = ('title', 'description')
     list_editable = ('order', 'is_featured', 'is_active')  # Allow quick editing
     ordering = ('order', 'title')
@@ -180,14 +227,12 @@ class CooperativeStatisticAdmin(admin.ModelAdmin):
             'fields': ('order', 'is_featured', 'is_active')
         }),
     )
-    
-    readonly_fields = ('created_at', 'updated_at')
 
 
-class CooperativeAffiliationAdmin(admin.ModelAdmin):
+class CooperativeAffiliationAdmin(BaseFeaturedAdmin):
     """Admin interface for affiliations"""
     list_display = ('name', 'affiliation_type', 'is_featured', 'is_active', 'order')
-    list_filter = ('affiliation_type', 'is_featured', 'is_active')
+    list_filter = ('affiliation_type', FeaturedFilter, ActiveFilter)
     search_fields = ('name', 'description')
     list_editable = ('order', 'is_featured', 'is_active')  # Allow quick editing
     ordering = ('order', 'name')
@@ -200,14 +245,12 @@ class CooperativeAffiliationAdmin(admin.ModelAdmin):
             'fields': ('order', 'is_featured', 'is_active')
         }),
     )
-    
-    readonly_fields = ('created_at', 'updated_at')
 
 
-class LeadershipMessageAdmin(admin.ModelAdmin):
+class LeadershipMessageAdmin(BaseFeaturedAdmin):
     """Admin interface for leadership messages"""
     list_display = ('title', 'author_name', 'author_position', 'message_type', 'is_featured', 'is_active', 'order')
-    list_filter = ('message_type', 'is_featured', 'is_active')
+    list_filter = ('message_type', FeaturedFilter, ActiveFilter)
     search_fields = ('title', 'author_name', 'content')
     list_editable = ('order', 'is_featured', 'is_active')  # Allow quick editing
     ordering = ('order', 'message_type')
@@ -223,18 +266,15 @@ class LeadershipMessageAdmin(admin.ModelAdmin):
             'fields': ('order', 'is_featured', 'is_active')
         }),
     )
-    
-    readonly_fields = ('created_at', 'updated_at')
 
 
 # Team Models Admin
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(BaseContentAdmin):
     """Admin interface for Person model"""
     list_display = ('full_name', 'email', 'phone', 'position_general', 'is_active', 'created_at')
-    list_filter = ('is_active', 'created_at')
+    list_filter = (ActiveFilter, 'created_at')
     search_fields = ('full_name', 'email', 'bio')
     list_editable = ('is_active',)  # Allow quick editing of active status
-    readonly_fields = ('created_at', 'updated_at')
     
     fieldsets = (
         ('Basic Information', {

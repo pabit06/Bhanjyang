@@ -1,8 +1,12 @@
+"""
+Service layer for the About app.
+
+Handles business logic, data fetching, caching, and data aggregation
+for all About Us related functionality.
+"""
 import logging
-from django.core.mail import send_mail
 from django.core.cache import cache
-from django.conf import settings
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from typing import Dict, Any, List, Optional
@@ -24,7 +28,13 @@ class AboutService:
     Handles data fetching, caching, and business logic for 'About Us' related pages
     including cooperative information, timeline, affiliations, and team data.
     Implements caching strategies to improve performance.
+    
+    All methods are static for easy access without instantiation.
     """
+
+    # =============================================================================
+    # Data Retrieval Methods
+    # =============================================================================
 
     @staticmethod
     def get_about_home_data(is_staff: bool = False) -> Dict[str, Any]:
@@ -86,39 +96,72 @@ class AboutService:
             return {'error': str(ERROR_UNABLE_TO_LOAD)}
 
     @staticmethod
-    def get_timeline_events() -> Any:
-        """Retrieve all active timeline events ordered by date (newest first)."""
+    def get_timeline_events() -> QuerySet[CooperativeTimeline]:
+        """
+        Retrieve all active timeline events ordered by date (newest first).
+        
+        Returns:
+            QuerySet of CooperativeTimeline objects
+        """
         return CooperativeTimeline.objects.active().order_by('-event_date')
 
     @staticmethod
-    def get_affiliations() -> Any:
-        """Retrieve all active affiliations ordered by display order."""
+    def get_affiliations() -> QuerySet[CooperativeAffiliation]:
+        """
+        Retrieve all active affiliations ordered by display order.
+        
+        Returns:
+            QuerySet of CooperativeAffiliation objects
+        """
         return CooperativeAffiliation.objects.active().order_by('order')
 
     @staticmethod
-    def get_leadership_messages() -> Any:
-        """Retrieve all active leadership messages ordered by display order."""
+    def get_leadership_messages() -> QuerySet[LeadershipMessage]:
+        """
+        Retrieve all active leadership messages ordered by display order.
+        
+        Returns:
+            QuerySet of LeadershipMessage objects
+        """
         return LeadershipMessage.objects.active().order_by('order')
 
     @staticmethod
-    def get_active_team() -> tuple:
+    def get_active_team() -> tuple[QuerySet[Committee], QuerySet[Staff]]:
         """
         Retrieve active committees and staff members with optimized queries.
         Uses prefetch_related and select_related to avoid N+1 queries.
+        
+        Returns:
+            Tuple of (committees QuerySet, staff QuerySet)
         """
         committees = Committee.objects.filter(is_active=True).prefetch_related('memberships__person')
         staff = Staff.objects.filter(is_active=True).select_related('person')
         return committees, staff
 
     @staticmethod
-    def get_past_committees() -> Any:
-        """Retrieve inactive (past) committees ordered by tenure."""
+    def get_past_committees() -> QuerySet[Committee]:
+        """
+        Retrieve inactive (past) committees ordered by tenure.
+        
+        Returns:
+            QuerySet of inactive Committee objects
+        """
         return Committee.objects.filter(is_active=False).order_by('-tenure_bs').prefetch_related('memberships__person')
+
+    # =============================================================================
+    # Search and Statistics Methods
+    # =============================================================================
 
     @staticmethod
     def get_search_results(query: str) -> Dict[str, Any]:
         """
         Perform a global search across about app models.
+        
+        Args:
+            query: Search query string
+            
+        Returns:
+            Dictionary with search results grouped by model type
         """
         results = {
             'query': query,
@@ -153,6 +196,9 @@ class AboutService:
     def get_site_statistics() -> Dict[str, Any]:
         """
         Get aggregated site statistics.
+        
+        Returns:
+            Dictionary with counts for all models and last_updated timestamp
         """
         return {
             'cooperative_info_count': CooperativeInfo.objects.active().count(),
@@ -164,42 +210,3 @@ class AboutService:
             'staff_count': Staff.objects.filter(is_active=True).count(),
             'last_updated': timezone.now().isoformat()
         }
-
-    @staticmethod
-    def _send_email_safe(subject: str, message: str, recipient_list: List[str], from_email: Optional[str] = None) -> bool:
-        """
-        Helper method to send emails safely with error handling and environment checks.
-        """
-        try:
-            if not getattr(settings, 'SEND_REAL_EMAILS', False):
-                logger.info(f"Mocking email: {subject} to {recipient_list}")
-                return True
-
-            send_mail(
-                subject=subject,
-                message=message,
-                from_email=from_email or settings.DEFAULT_FROM_EMAIL,
-                recipient_list=recipient_list,
-                fail_silently=False,
-            )
-            return True
-        except Exception as e:
-            logger.error(f"Error sending email ({subject}): {e}", exc_info=True)
-            return False
-
-    @classmethod
-    def send_contact_emails(cls, data: Dict[str, Any]) -> bool:
-        """
-        Send contact form notification emails.
-        
-        DEPRECATED: This method is kept for backward compatibility with tests.
-        New contact submissions should use ContactService from contact app
-        which saves submissions to the database.
-        """
-        recipient_list = [settings.CONTACT_EMAIL] if hasattr(settings, 'CONTACT_EMAIL') else [settings.DEFAULT_FROM_EMAIL]
-        subject = f"New Contact Form Submission: {data.get('subject')}"
-        message = f"Name: {data.get('name')}\nEmail: {data.get('email')}\nMessage: {data.get('message')}"
-        
-        return cls._send_email_safe(subject, message, recipient_list)
-
-    # send_newsletter_welcome_email and send_feedback_email methods removed - no longer needed

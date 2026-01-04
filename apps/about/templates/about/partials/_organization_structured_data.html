@@ -1,0 +1,199 @@
+{% load static %}
+{% load i18n %}
+{% comment %}
+SEO Structured Data (JSON-LD) for About pages
+Organization and LocalBusiness schema for better search ranking
+Usage: {% include 'about/partials/_organization_structured_data.html' with cooperative_info=cooperative_info %}
+{% endcomment %}
+
+{% if cooperative_info %}
+<!-- Organization Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "{{ cooperative_info.cooperative_name_nepali|default:cooperative_info.cooperative_name }}",
+    "alternateName": "{{ cooperative_info.cooperative_name }}",
+    "legalName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/",
+    "logo": {
+        "@type": "ImageObject",
+        "url": "{% if cooperative_info.logo %}{{ request.scheme }}://{{ request.get_host }}{{ cooperative_info.logo.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endif %}",
+        "width": 512,
+        "height": 512
+    },
+    "image": "{% if cooperative_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ cooperative_info.featured_image.url }}{% elif cooperative_info.logo %}{{ request.scheme }}://{{ request.get_host }}{{ cooperative_info.logo.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endif %}",
+    "description": "{{ cooperative_info.description|striptags|truncatewords:50|default:'Bhanjyang Saving & Credit Cooperative Society Ltd. provides financial services including savings accounts, loans, and remittance services to the community in Kaski, Nepal.' }}",
+    "foundingDate": "{{ cooperative_info.established_date|date:'Y-m-d' }}",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ cooperative_info.address|truncatewords:10 }}",
+        "addressLocality": "Rupa Rural Municipality",
+        "addressRegion": "Gandaki Province",
+        "postalCode": "33700",
+        "addressCountry": "NP"
+    },
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "{{ cooperative_info.phone }}",
+        "email": "{{ cooperative_info.email }}",
+        "contactType": "customer service",
+        "availableLanguage": ["Nepali", "English"],
+        "areaServed": "NP"
+    },
+    "sameAs": [
+        {% if cooperative_info.website %}"{{ cooperative_info.website }}",{% endif %}
+        "https://facebook.com/cooperativebhanjyang",
+        "https://tiktok.com/@bhanjyangsaccos"
+    ],
+    "areaServed": {
+        "@type": "Country",
+        "name": "Nepal",
+        "identifier": "NP"
+    },
+    "knowsAbout": [
+        "Financial Services",
+        "Savings Accounts",
+        "Credit Services",
+        "Cooperative Banking",
+        "Microfinance",
+        "Remittance Services"
+    ],
+    "memberOf": {
+        "@type": "Organization",
+        "name": "NEFSCUN",
+        "description": "National Federation of Savings and Credit Cooperative Unions Nepal"
+    }
+}
+</script>
+
+<!-- LocalBusiness Schema (for local SEO) -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "{{ request.scheme }}://{{ request.get_host }}/about/introduction/",
+    "name": "{{ cooperative_info.cooperative_name_nepali|default:cooperative_info.cooperative_name }}",
+    "alternateName": "{{ cooperative_info.cooperative_name }}",
+    "image": "{% if cooperative_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ cooperative_info.featured_image.url }}{% elif cooperative_info.logo %}{{ request.scheme }}://{{ request.get_host }}{{ cooperative_info.logo.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endif %}",
+    "description": "{{ cooperative_info.description|striptags|truncatewords:40|default:'Bhanjyang Saving & Credit Cooperative Society Ltd. provides financial services to the community.' }}",
+    "url": "{{ request.scheme }}://{{ request.get_host }}/",
+    "telephone": "{{ cooperative_info.phone }}",
+    "email": "{{ cooperative_info.email }}",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "{{ cooperative_info.address|truncatewords:10 }}",
+        "addressLocality": "Rupa Rural Municipality",
+        "addressRegion": "Gandaki Province",
+        "postalCode": "33700",
+        "addressCountry": "NP"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "28.2096",
+        "longitude": "83.9856"
+    },
+    "openingHoursSpecification": [
+        {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday"
+            ],
+            "opens": "09:30",
+            "closes": "17:00",
+            "validFrom": "2024-04-01",
+            "validThrough": "2024-09-30"
+        },
+        {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday"
+            ],
+            "opens": "09:30",
+            "closes": "16:00",
+            "validFrom": "2024-10-01",
+            "validThrough": "2025-03-31"
+        },
+        {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Friday",
+            "opens": "09:30",
+            "closes": "14:00"
+        }
+    ],
+    "priceRange": "$$",
+    "paymentAccepted": "Cash, Bank Transfer",
+    "currenciesAccepted": "NPR",
+    "areaServed": {
+        "@type": "City",
+        "name": "Kaski",
+        "sameAs": "https://en.wikipedia.org/wiki/Kaski_District"
+    },
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Financial Services",
+        "itemListElement": [
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "{% trans 'Savings Accounts' %}",
+                    "description": "{% trans 'Various savings account options with competitive interest rates' %}"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "{% trans 'Loan Services' %}",
+                    "description": "{% trans 'Personal and business loans with flexible repayment options' %}"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "{% trans 'Remittance Services' %}",
+                    "description": "{% trans 'International money transfer services' %}"
+                }
+            }
+        ]
+    }
+}
+</script>
+{% endif %}
+
+<!-- BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{% trans 'Home' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{% trans 'About Us' %}",
+            "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'about:introduction' %}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{% trans 'Introduction' %}",
+            "item": "{{ request.build_absolute_uri }}"
+        }
+    ]
+}
+</script>
+

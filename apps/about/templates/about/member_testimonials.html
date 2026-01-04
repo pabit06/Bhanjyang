@@ -2,28 +2,32 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Member Testimonials" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Member Testimonials" %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block extra_head %}
-<meta name="description"
-    content="Read testimonials from members of Bhanjyang Saving & Credit Cooperative Society Ltd. See what our members say about our services and community.">
-<meta name="keywords"
-    content="Bhanjyang Cooperative, Member Testimonials, Member Reviews, Customer Feedback, Cooperative Reviews, Nepal Cooperative">
-<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
-<meta name="robots" content="index, follow">
+{% block meta_description %}{% trans "Read testimonials from members of Bhanjyang Saving & Credit Cooperative Society Ltd. See what our members say about our services and community." %}{% endblock meta_description %}
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Member Testimonials - Bhanjyang Cooperative">
-<meta property="og:description"
-    content="Read testimonials from members of Bhanjyang Cooperative. See what our members say about our services and community.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% block meta_keywords %}Bhanjyang Cooperative, Member Testimonials, Member Reviews, Customer Feedback, Cooperative Reviews, Nepal Cooperative{% endblock meta_keywords %}
 
+{% block og_title %}{% trans "Member Testimonials" %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Read testimonials from members of Bhanjyang Cooperative. See what our members say about our services and community." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% trans "Member Testimonials" %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{% trans "Read testimonials from members of Bhanjyang Cooperative. See what our members say about our services and community." %}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'dist/output.css' %}">
 <link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-{% endblock extra_head %}
+{% endblock extra_css %}
 
 {% block content %}
 

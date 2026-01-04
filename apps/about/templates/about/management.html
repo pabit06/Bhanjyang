@@ -2,28 +2,32 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Management Team" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Management Team" %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block extra_head %}
-<meta name="description"
-    content="Meet the Management Team of Bhanjyang Saving & Credit Cooperative Society Ltd. Professional staff members who handle day-to-day operations and member services.">
-<meta name="keywords"
-    content="Bhanjyang Cooperative, Management Team, Staff Members, Professional Team, Operations Team, Nepal Cooperative">
-<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
-<meta name="robots" content="index, follow">
+{% block meta_description %}{% trans "Meet the Management Team of Bhanjyang Saving & Credit Cooperative Society Ltd. Professional staff members who handle day-to-day operations and member services." %}{% endblock meta_description %}
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Management Team - Bhanjyang Cooperative">
-<meta property="og:description"
-    content="Meet the Management Team of Bhanjyang Cooperative. Professional staff members who handle day-to-day operations and member services.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% block meta_keywords %}Bhanjyang Cooperative, Management Team, Staff Members, Professional Team, Operations Team, Nepal Cooperative{% endblock meta_keywords %}
 
+{% block og_title %}{% trans "Management Team" %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Meet the Management Team of Bhanjyang Cooperative. Professional staff members who handle day-to-day operations and member services." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% trans "Management Team" %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{% trans "Meet the Management Team of Bhanjyang Cooperative. Professional staff members who handle day-to-day operations and member services." %}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'dist/output.css' %}">
 <link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-{% endblock extra_head %}
+{% endblock extra_css %}
 
 {% block content %}
 
@@ -129,4 +133,9 @@
 {% endif %}
 
 {% endblock content %}
+
+{% block extra_js %}
+<!-- Structured Data (JSON-LD) for SEO -->
+{% include 'about/partials/_management_structured_data.html' with management_team=management_team %}
+{% endblock extra_js %}
 

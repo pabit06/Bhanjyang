@@ -2,14 +2,29 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Timeline" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Timeline" %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block meta_description %}Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our key
-milestones, achievements, and growth journey over the years.{% endblock meta_description %}
+{% block meta_description %}{% trans "Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. Discover our key milestones, achievements, and growth journey over the years." %}{% endblock meta_description %}
 
-{% block meta_keywords %}bhanjyang cooperative timeline, milestones, history, achievements, growth, development,
-cooperative journey{% endblock meta_keywords %}
+{% block meta_keywords %}bhanjyang cooperative timeline, milestones, history, achievements, growth, development, cooperative journey{% endblock meta_keywords %}
 
+{% block og_title %}{% trans "Timeline" %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Explore the timeline of Bhanjyang Cooperative. Discover our key milestones, achievements, and growth journey over the years." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/about/about-us-hero.jpeg' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% trans "Timeline" %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{% trans "Explore the timeline of Bhanjyang Cooperative. Discover our key milestones and achievements." %}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/about/about-us-hero.jpeg' %}{% endblock twitter_image %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
+{% endblock extra_css %}
 
 {% block content %}
 <style>
@@ -128,10 +143,10 @@ cooperative journey{% endblock meta_keywords %}
             <div class="absolute top-1/2 left-0 w-full h-1 border-t-4 border-dotted border-gray-300 transform -translate-y-1/2 hidden md:block -z-10"></div>
 
             {% for event in page_obj %}
-            <div class="hexagon-wrapper group {% if forloop.counter|divisibleby:2 %} mt-16 {% else %} -mt-16 {% endif %} md:ml-[-50px] first:ml-0" style="opacity: 1 !important; visibility: visible !important;">
+            <div class="hexagon-wrapper timeline-item group {% if forloop.counter|divisibleby:2 %} mt-16 {% else %} -mt-16 {% endif %} md:ml-[-50px] first:ml-0">
                 <!-- Connector Line (for stacking) -->
                 {% if not forloop.first %}
-                <div class="hidden md:block absolute top-1/2 -left-8 w-16 h-1 bg-gray-300 -z-10"></div>
+                <div class="timeline-connector hidden md:block absolute top-1/2 -left-8 w-16 h-1 bg-gray-300 -z-10"></div>
                 {% endif %}
 
                 <div class="hexagon relative shadow-xl overflow-hidden transition-all duration-300 group-hover:shadow-2xl group-hover:scale-105 {% if not event.image %} {% cycle 'bg-cycle-0' 'bg-cycle-1' 'bg-cycle-2' 'bg-cycle-3' 'bg-cycle-4' 'bg-cycle-5' %} {% else %} bg-gray-800 {% endif %}">
@@ -145,9 +160,9 @@ cooperative journey{% endblock meta_keywords %}
                     <div class="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-black/50 to-black/80"></div>
                     {% endif %}
 
-                    <div class="relative z-20 flex flex-col items-center justify-center h-full w-full p-6">
+                    <div class="timeline-content relative z-20 flex flex-col items-center justify-center h-full w-full p-6">
                         <!-- Icon -->
-                        <div class="mb-3 transform group-hover:scale-110 transition-transform duration-300">
+                        <div class="timeline-icon mb-3 transform group-hover:scale-110 transition-transform duration-300">
                             <i class="fas {% cycle 'fa-project-diagram' 'fa-briefcase' 'fa-chart-line' 'fa-cogs' 'fa-rocket' 'fa-users' %} text-white text-4xl drop-shadow-md"></i>
                         </div>
 
@@ -224,3 +239,69 @@ cooperative journey{% endblock meta_keywords %}
     </div>
 </section>
 {% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'about/js/about-interactive.js' %}"></script>
+<script>
+// Timeline-specific scroll animations
+document.addEventListener('DOMContentLoaded', function() {
+    // Create Intersection Observer for timeline items
+    const timelineObserverOptions = {
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                // Also animate the connector if it exists
+                const connector = entry.target.querySelector('.timeline-connector');
+                if (connector) {
+                    setTimeout(() => {
+                        connector.classList.add('animate-in');
+                    }, 200);
+                }
+                // Stop observing once animated
+                timelineObserver.unobserve(entry.target);
+            }
+        });
+    }, timelineObserverOptions);
+
+    // Observe all timeline items
+    document.querySelectorAll('.timeline-item').forEach((item, index) => {
+        // Add staggered delay based on index
+        item.style.transitionDelay = `${index * 0.1}s`;
+        timelineObserver.observe(item);
+    });
+
+    // Add parallax effect to timeline container on scroll
+    let ticking = false;
+    function updateTimelineParallax() {
+        const scrolled = window.pageYOffset;
+        const timelineContainer = document.querySelector('.hexagon-container');
+        if (timelineContainer) {
+            const parallaxSpeed = 0.3;
+            const yPos = -(scrolled * parallaxSpeed);
+            timelineContainer.style.transform = `translateY(${yPos}px)`;
+        }
+        ticking = false;
+    }
+
+    function requestTimelineTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateTimelineParallax);
+            ticking = true;
+        }
+    }
+
+    // Only apply parallax on larger screens
+    if (window.innerWidth > 768) {
+        window.addEventListener('scroll', requestTimelineTick);
+    }
+});
+</script>
+
+<!-- Structured Data (JSON-LD) for SEO -->
+{% include 'about/partials/_timeline_structured_data.html' with page_obj=page_obj %}
+{% endblock extra_js %}

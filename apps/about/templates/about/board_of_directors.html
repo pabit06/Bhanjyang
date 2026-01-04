@@ -2,28 +2,32 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Board of Directors" %} - Bhanjyang Cooperative{% endblock title %}
+{% block title %}{% trans "Board of Directors" %} - भञ्ज्याङ्ग सहकारी{% endblock title %}
 
-{% block extra_head %}
-<meta name="description"
-    content="Meet the Board of Directors and committees of Bhanjyang Saving & Credit Cooperative Society Ltd. Learn about our elected leadership and governance structure.">
-<meta name="keywords"
-    content="Bhanjyang Cooperative, Board of Directors, Committee Members, Governance, Leadership, Nepal Cooperative">
-<meta name="author" content="Bhanjyang Multipurpose Cooperative Ltd.">
-<meta name="robots" content="index, follow">
+{% block meta_description %}{% trans "Meet the Board of Directors and committees of Bhanjyang Saving & Credit Cooperative Society Ltd. Learn about our elected leadership and governance structure." %}{% endblock meta_description %}
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Board of Directors - Bhanjyang Cooperative">
-<meta property="og:description"
-    content="Meet the Board of Directors and committees of Bhanjyang Cooperative. Learn about our elected leadership and governance structure.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% block meta_keywords %}Bhanjyang Cooperative, Board of Directors, Committee Members, Governance, Leadership, Nepal Cooperative{% endblock meta_keywords %}
 
+{% block og_title %}{% trans "Board of Directors" %} - भञ्ज्याङ्ग सहकारी{% endblock og_title %}
+
+{% block og_description %}{% trans "Meet the Board of Directors and committees of Bhanjyang Cooperative. Learn about our elected leadership and governance structure." %}{% endblock og_description %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
+
+{% block og_type %}website{% endblock og_type %}
+
+{% block twitter_title %}{% trans "Board of Directors" %} - भञ्ज्याङ्ग सहकारी{% endblock twitter_title %}
+
+{% block twitter_description %}{% trans "Meet the Board of Directors and committees of Bhanjyang Cooperative. Learn about our elected leadership and governance structure." %}{% endblock twitter_description %}
+
+{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
+
+{% block extra_css %}
 <link rel="stylesheet" href="{% static 'dist/output.css' %}">
 <link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-{% endblock extra_head %}
+{% endblock extra_css %}
 
 {% block content %}
 
@@ -144,4 +148,9 @@
 </section>
 
 {% endblock content %}
+
+{% block extra_js %}
+<!-- Structured Data (JSON-LD) for SEO -->
+{% include 'about/partials/_board_structured_data.html' with committees=committees %}
+{% endblock extra_js %}
 

@@ -193,5 +193,63 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Format Our Story text into paragraphs
+    function formatOurStoryText() {
+        const ourStoryElement = document.getElementById('our-story-text');
+        if (!ourStoryElement) return;
+        
+        let text = ourStoryElement.textContent || ourStoryElement.innerText;
+        if (!text || text.trim().length === 0) return;
+        
+        // Split by Nepali period (।) - handle both with and without space
+        // First normalize: replace '। ' with '।' then split by '।'
+        text = text.replace(/।\s+/g, '।').trim();
+        
+        // Split by Nepali period
+        const sentences = text.split('।').filter(s => s.trim().length > 0);
+        
+        if (sentences.length === 0) return;
+        
+        // Group sentences into paragraphs (2-3 sentences per paragraph)
+        const paragraphs = [];
+        let currentParagraph = [];
+        let currentLength = 0;
+        
+        sentences.forEach((sentence, index) => {
+            const trimmedSentence = sentence.trim();
+            if (!trimmedSentence) return;
+            
+            // Add period back (except for last sentence)
+            const fullSentence = trimmedSentence + (index < sentences.length - 1 ? '।' : '');
+            
+            currentParagraph.push(fullSentence);
+            currentLength += fullSentence.length;
+            
+            // Create a paragraph if:
+            // 1. We have 2-3 sentences and paragraph is getting long (>150 chars), OR
+            // 2. Current paragraph is very long (>300 chars), OR
+            // 3. This is the last sentence
+            if ((currentParagraph.length >= 2 && currentLength > 150) || 
+                currentLength > 300 || 
+                index === sentences.length - 1) {
+                paragraphs.push(currentParagraph.join(' '));
+                currentParagraph = [];
+                currentLength = 0;
+            }
+        });
+        
+        // Clear the element and add formatted paragraphs
+        ourStoryElement.innerHTML = '';
+        paragraphs.forEach(paragraph => {
+            const p = document.createElement('p');
+            p.className = 'mb-4';
+            p.textContent = paragraph;
+            ourStoryElement.appendChild(p);
+        });
+    }
+    
+    // Format Our Story text on page load
+    formatOurStoryText();
+
     // About page interactive features loaded
 });
