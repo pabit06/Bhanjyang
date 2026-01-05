@@ -13,17 +13,36 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Cache timeouts (in seconds)
-CACHE_TIMEOUTS = {
-    'article_list': 300,      # 5 minutes
-    'event_list': 300,        # 5 minutes
-    'category_list': 600,     # 10 minutes
-    'article_stats': 900,     # 15 minutes
-    'event_stats': 900,       # 15 minutes
-    'popular_content': 1800,  # 30 minutes
-    'analytics': 3600,        # 1 hour
-    'invalid_slug': 3600,     # 1 hour - Cache invalid slugs to prevent DoS
-}
+# Import cache timeouts from constants
+try:
+    from .constants import (
+        CACHE_TIMEOUT_ARTICLE_LIST, CACHE_TIMEOUT_EVENT_LIST,
+        CACHE_TIMEOUT_CATEGORY_STATS, CACHE_TIMEOUT_ARTICLE_STATS,
+        CACHE_TIMEOUT_EVENT_STATS, CACHE_TIMEOUT_POPULAR_CONTENT,
+        CACHE_TIMEOUT_ANALYTICS, CACHE_TIMEOUT_INVALID_SLUG
+    )
+    CACHE_TIMEOUTS = {
+        'article_list': CACHE_TIMEOUT_ARTICLE_LIST,
+        'event_list': CACHE_TIMEOUT_EVENT_LIST,
+        'category_list': CACHE_TIMEOUT_CATEGORY_STATS,
+        'article_stats': CACHE_TIMEOUT_ARTICLE_STATS,
+        'event_stats': CACHE_TIMEOUT_EVENT_STATS,
+        'popular_content': CACHE_TIMEOUT_POPULAR_CONTENT,
+        'analytics': CACHE_TIMEOUT_ANALYTICS,
+        'invalid_slug': CACHE_TIMEOUT_INVALID_SLUG,
+    }
+except ImportError:
+    # Fallback if constants not available
+    CACHE_TIMEOUTS = {
+        'article_list': 300,      # 5 minutes
+        'event_list': 300,        # 5 minutes
+        'category_list': 600,     # 10 minutes
+        'article_stats': 900,     # 15 minutes
+        'event_stats': 900,       # 15 minutes
+        'popular_content': 1800,  # 30 minutes
+        'analytics': 3600,        # 1 hour
+        'invalid_slug': 3600,     # 1 hour - Cache invalid slugs to prevent DoS
+    }
 
 class NewsEventsCache:
     """Centralized caching for news events app"""

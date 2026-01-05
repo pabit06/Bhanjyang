@@ -18,6 +18,13 @@ from .performance import (
     NewsEventsCache, NewsEventsPerformanceMonitor, NewsEventsQueryOptimizer,
     NewsEventsCDNManager
 )
+from .constants import (
+    DEFAULT_ARTICLE_LIMIT, DEFAULT_EVENT_LIMIT, DEFAULT_FEATURED_LIMIT,
+    DEFAULT_RECENT_LIMIT, DEFAULT_RELATED_LIMIT, MAX_PAGE_SIZE, MIN_PAGE_SIZE
+)
+from .error_handling import (
+    StructuredErrorLogger, ErrorRecovery
+)
 
 logger = logging.getLogger(__name__)
 
@@ -25,13 +32,27 @@ class NewsService:
     """Service for handling News Article logic"""
 
     @staticmethod
+    @ErrorRecovery.fallback_on_error(
+        fallback_func=lambda: {
+            'recent_articles': [],
+            'upcoming_events': [],
+            'featured_content': {'articles': [], 'events': []},
+            'categories': [],
+            'article_stats': {},
+            'event_stats': {},
+        }
+    )
     def get_home_page_data() -> Dict[str, Any]:
         """
         Get data for the news and events home page.
         Uses caching and query optimization.
+        
+        Returns:
+            Dict containing recent_articles, upcoming_events, featured_content,
+            categories, article_stats, and event_stats
         """
         # Get cache key
-        cache_key = NewsEventsCache.get_article_list_cache_key(limit=6)
+        cache_key = NewsEventsCache.get_article_list_cache_key(limit=DEFAULT_ARTICLE_LIMIT)
         
         # Try to get cached data
         cached_data = NewsEventsCache.get_cached_article_list(cache_key)
@@ -40,9 +61,9 @@ class NewsService:
             return cached_data
         
         # Get raw data with optimization
-        recent_articles = NewsEventsQueryOptimizer.get_recent_articles(limit=6)
-        upcoming_events = NewsEventsQueryOptimizer.get_upcoming_events(limit=3)
-        featured_content = NewsEventsQueryOptimizer.get_featured_content(limit=3)
+        recent_articles = NewsEventsQueryOptimizer.get_recent_articles(limit=DEFAULT_ARTICLE_LIMIT)
+        upcoming_events = NewsEventsQueryOptimizer.get_upcoming_events(limit=DEFAULT_EVENT_LIMIT)
+        featured_content = NewsEventsQueryOptimizer.get_featured_content(limit=DEFAULT_FEATURED_LIMIT)
         categories = Category.objects.filter(is_active=True).order_by('sort_order', 'name')
         
         # Get statistics with default values
@@ -225,7 +246,7 @@ class NewsService:
         articles = articles.order_by(sort_field)
 
         # Pagination
-        page_size = min(max(1, page_size), 100)
+        page_size = min(max(MIN_PAGE_SIZE, page_size), MAX_PAGE_SIZE)
         paginator = Paginator(articles, page_size)
         page_obj = paginator.get_page(page)
 
@@ -248,7 +269,7 @@ class EventService:
     """Service for handling Event logic"""
 
     @staticmethod
-    def get_event_detail(slug: str, request=None) -> Dict[str, Any]:
+    def get_event_detail(slug: str, request: Optional[Any] = None) -> Dict[str, Any]:
         """
         Get event detail details.
         
@@ -295,7 +316,24 @@ class EventService:
     def get_event_list(params: Dict[str, Any]) -> Dict[str, Any]:
         """Get filtered event list"""
         event_type = params.get('type')
-        upcoming_only = params.get('upcoming', 'true') == 'true'
+        # Support both 'status' and 'upcoming' parameters for backward compatibility
+        status_param = params.get('status', '').lower()
+        upcoming_param = params.get('upcoming', '').lower()
+        
+        # Determine if we should show upcoming or past events
+        # Default to upcoming if no parameter is provided
+        if status_param == 'past':
+            upcoming_only = False
+        elif status_param == 'upcoming':
+            upcoming_only = True
+        elif upcoming_param == 'false' or upcoming_param == '0':
+            upcoming_only = False
+        elif upcoming_param == 'true' or upcoming_param == '1':
+            upcoming_only = True
+        else:
+            # Default to upcoming events
+            upcoming_only = True
+        
         page = params.get('page', 1)
 
         events = NewsEventsQueryOptimizer.get_optimized_event_queryset().filter(
@@ -328,7 +366,19 @@ class InteractionService:
 
     @staticmethod
     def handle_subscription(data: Dict[str, Any], request=None) -> Tuple[bool, str]:
-        """Handle newsletter subscription"""
+        """
+        Handle newsletter subscription with validation and security checks.
+        
+        Args:
+            data: Dictionary containing subscription data (email, name, categories)
+            request: HTTP request object for logging and IP tracking
+            
+        Returns:
+            Tuple of (success: bool, message: str)
+            
+        Raises:
+            ValidationError: If subscription data is invalid
+        """
         email = data.get('email')
         try:
             with transaction.atomic():
@@ -431,12 +481,68 @@ class InteractionService:
         if request:
             SecurityAuditLogger.log_content_action(request, 'article', article.pk, 'share', True)
         return True, 'Article shared successfully!'
+    
+    @staticmethod
+    def resend_confirmation_email(subscriber) -> bool:
+        """Resend confirmation email to subscriber"""
+        from .security import EmailSecurityManager
+        try:
+            return EmailSecurityManager.send_confirmation_email(subscriber)
+        except Exception as e:
+            logger.error(f"Failed to resend confirmation email to {subscriber.email}: {e}")
+            return False
 
 class SearchService:
     """Service for handling complex searches"""
 
     @staticmethod
     def perform_search(params: Dict[str, Any], request=None) -> Dict[str, Any]:
+        """
+        Perform search across Articles and Events with full filtering and pagination.
+        
+        Now supports advanced full-text search if PostgreSQL is available.
+        """
+        # Try advanced search first if available
+        use_advanced = params.get('use_advanced', False)
+        if use_advanced:
+            try:
+                from .advanced_search import AdvancedSearchService
+                query = params.get('query', '').strip()
+                if query:
+                    content_type = params.get('content_type', 'all')
+                    filters = {
+                        'category_id': params.get('category'),
+                        'featured_only': params.get('featured_only', False),
+                        'event_type': params.get('type')
+                    }
+                    limit = int(params.get('page_size', 20))
+                    
+                    results = AdvancedSearchService.advanced_search(
+                        query=query,
+                        content_type=content_type,
+                        filters=filters,
+                        limit=limit
+                    )
+                    
+                    # Convert to expected format
+                    return {
+                        'page_obj': type('PageObj', (), {
+                            'object_list': results['articles'] + results['events'],
+                            'has_next': False,
+                            'has_previous': False,
+                            'number': 1,
+                            'paginator': None
+                        })(),
+                        'articles': results['articles'],
+                        'events': results['events'],
+                        'query': query,
+                        'search_type': results['search_type'],
+                        'total_results': results['total_results']
+                    }
+            except Exception as e:
+                logger.warning(f"Advanced search failed, falling back to basic: {e}")
+        
+        # Fallback to original basic search
         """Perform search across Articles and Events with full filtering and pagination"""
         query = params.get('query', '')
         content_type = params.get('content_type', 'all')

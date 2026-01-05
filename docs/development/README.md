@@ -11,7 +11,11 @@ development/
 ├── DEVELOPMENT_STATUS.md    # Current development status
 ├── NEXT_STEPS.md            # Next steps for development
 ├── TEST_COVERAGE_SUMMARY.md # Test coverage summary and status
-└── PROJECT_REVIEW_SUGGESTIONS.md # Project review and recommendations
+├── PROJECT_REVIEW_SUGGESTIONS.md # Project review and recommendations
+├── ALL_APPS_DETAILED_REPORTS.md # Detailed reports for all apps
+├── APP_COMPARISON_RATING.md # Apps comparison and ratings
+├── CATEGORY_RATINGS_SUMMARY.md # Category-wise ratings breakdown
+└── FINAL_RATING_SUMMARY.md # News Events app final rating summary
 ```
 
 ## Getting Started
@@ -43,6 +47,18 @@ Current test coverage status, metrics, and recommendations.
 
 ### [PROJECT_REVIEW_SUGGESTIONS.md](./PROJECT_REVIEW_SUGGESTIONS.md)
 Comprehensive project review with recommendations and action items.
+
+### [ALL_APPS_DETAILED_REPORTS.md](./ALL_APPS_DETAILED_REPORTS.md)
+Detailed reports for all 10 apps including structure, features, statistics, strengths, weaknesses, and recommendations.
+
+### [APP_COMPARISON_RATING.md](./APP_COMPARISON_RATING.md)
+Comprehensive comparison and rating of all apps with category-wise breakdowns.
+
+### [CATEGORY_RATINGS_SUMMARY.md](./CATEGORY_RATINGS_SUMMARY.md)
+Category-wise ratings breakdown (Features, Code Quality, Documentation, Testing, API Design, Complexity Management).
+
+### [FINAL_RATING_SUMMARY.md](./FINAL_RATING_SUMMARY.md)
+News Events app final rating summary after re-evaluation and upgrades.
 
 ## Development Environment
 

@@ -29,6 +29,10 @@ from .security import (
 from .performance import (
     performance_monitor, NewsEventsQueryOptimizer
 )
+from .error_handling import (
+    StructuredErrorLogger, ErrorRecovery, UserFriendlyErrorHandler,
+    handle_view_errors
+)
 
 logger = logging.getLogger(__name__)
 

@@ -17,7 +17,9 @@ function trackAnalyticsEvent(action, category, label, value) {
 function exportAnalytics(format) {
     trackAnalyticsEvent('export', 'analytics', format, 1);
 
-    const url = `/analytics/export/?format=${format}`;
+    // Note: If you have an export URL, add it to analytics-config data attributes
+    // For now, using relative path - update if export endpoint is added
+    const url = `/news-events/analytics/export/?format=${format}`;
     window.open(url, '_blank');
 }
 

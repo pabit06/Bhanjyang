@@ -11,6 +11,7 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
+import logging
 
 from .models import (
     NewsArticle, Event, Category, Subscriber, Comment, 
@@ -19,6 +20,9 @@ from .models import (
 from .forms import NewsArticleForm, EventForm
 from .performance import NewsEventsQueryOptimizer, NewsEventsPerformanceMonitor
 from .security import SecurityAuditLogger
+from .services import InteractionService
+
+logger = logging.getLogger(__name__)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -90,6 +94,83 @@ class NewsArticleAdmin(admin.ModelAdmin):
     )
     
     readonly_fields = ('view_count', 'share_count', 'comment_count', 'read_time', 'content_hash')
+    
+    actions = [
+        'publish_selected', 'archive_selected', 'draft_selected',
+        'feature_selected', 'unfeature_selected', 'export_selected_csv',
+        'duplicate_selected'
+    ]
+    
+    def publish_selected(self, request, queryset):
+        """Bulk publish selected articles"""
+        count = queryset.update(status=NewsArticle.Status.PUBLISHED)
+        self.message_user(request, f'{count} articles published successfully.', messages.SUCCESS)
+    publish_selected.short_description = _("चयनित लेखहरूलाई प्रकाशन गर्नुहोस्")
+    
+    def archive_selected(self, request, queryset):
+        """Bulk archive selected articles"""
+        count = queryset.update(status=NewsArticle.Status.ARCHIVED)
+        self.message_user(request, f'{count} articles archived successfully.', messages.SUCCESS)
+    archive_selected.short_description = _("चयनित लेखहरूलाई संग्रह गर्नुहोस्")
+    
+    def draft_selected(self, request, queryset):
+        """Bulk move selected articles to draft"""
+        count = queryset.update(status=NewsArticle.Status.DRAFT)
+        self.message_user(request, f'{count} articles moved to draft.', messages.SUCCESS)
+    draft_selected.short_description = _("चयनित लेखहरूलाई ड्राफ्टमा सार्नुहोस्")
+    
+    def feature_selected(self, request, queryset):
+        """Bulk feature selected articles"""
+        count = queryset.update(is_featured=True)
+        self.message_user(request, f'{count} articles marked as featured.', messages.SUCCESS)
+    feature_selected.short_description = _("चयनित लेखहरूलाई फिचर्ड बनाउनुहोस्")
+    
+    def unfeature_selected(self, request, queryset):
+        """Bulk unfeature selected articles"""
+        count = queryset.update(is_featured=False)
+        self.message_user(request, f'{count} articles unfeatured.', messages.SUCCESS)
+    unfeature_selected.short_description = _("चयनित लेखहरूबाट फिचर्ड हटाउनुहोस्")
+    
+    def export_selected_csv(self, request, queryset):
+        """Export selected articles to CSV"""
+        import csv
+        from django.http import HttpResponse
+        
+        response = HttpResponse(content_type='text/csv; charset=utf-8')
+        response['Content-Disposition'] = 'attachment; filename="articles_export.csv"'
+        
+        writer = csv.writer(response)
+        writer.writerow(['Title', 'Category', 'Author', 'Status', 'Published Date', 'View Count', 'Share Count'])
+        
+        for article in queryset:
+            writer.writerow([
+                article.title,
+                article.category.name if article.category else '',
+                article.author.username if article.author else '',
+                article.get_status_display(),
+                article.published_date.strftime('%Y-%m-%d %H:%M:%S') if article.published_date else '',
+                article.view_count,
+                article.share_count,
+            ])
+        
+        return response
+    export_selected_csv.short_description = _("चयनित लेखहरूलाई CSV मा निर्यात गर्नुहोस्")
+    
+    def duplicate_selected(self, request, queryset):
+        """Duplicate selected articles"""
+        count = 0
+        for article in queryset:
+            article.pk = None
+            article.slug = None  # Will be regenerated
+            article.title = f"{article.title} (Copy)"
+            article.status = NewsArticle.Status.DRAFT
+            article.view_count = 0
+            article.share_count = 0
+            article.comment_count = 0
+            article.save()
+            count += 1
+        self.message_user(request, f'{count} articles duplicated successfully.', messages.SUCCESS)
+    duplicate_selected.short_description = _("चयनित लेखहरूलाई डुप्लिकेट गर्नुहोस्")
     
     def get_urls(self):
         urls = super().get_urls()

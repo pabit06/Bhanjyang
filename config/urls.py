@@ -34,6 +34,7 @@ urlpatterns = [
     # API URLs
     path('api/v1/', include('apps.services.api_urls')),
     path('api/v1/about/', include('apps.about.api_urls')),
+    path('api/v1/news-events/', include('apps.news_events.api_urls')),
     
     # Health check endpoints
     path('health/', include('apps.core.urls')),

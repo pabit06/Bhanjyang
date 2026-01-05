@@ -31,6 +31,18 @@
 {% endblock extra_css %}
 
 {% block content %}
+<!-- Analytics API URLs Configuration -->
+<div id="analytics-config" 
+     data-metrics-url="{% url 'news_events:api-real-time-metrics' %}"
+     data-traffic-url="{% url 'news_events:api-traffic-sources' %}"
+     data-content-performance-url="{% url 'news_events:api-content-performance' %}"
+     data-user-demographics-url="{% url 'news_events:api-user-demographics' %}"
+     data-device-usage-url="{% url 'news_events:api-device-usage' %}"
+     data-top-articles-url="{% url 'news_events:api-top-articles' %}"
+     data-top-events-url="{% url 'news_events:api-top-events' %}"
+     style="display:none;">
+</div>
+
 <!-- Analytics Header -->
 <section
     class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">

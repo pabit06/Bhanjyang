@@ -65,15 +65,31 @@ def slugify_nepali(text):
     # Final fallback: just use hash
     return text_hash
 
+# Import constants for read time calculation
+try:
+    from .constants import AVERAGE_WORDS_PER_MINUTE, MIN_READ_TIME_MINUTES
+except ImportError:
+    # Fallback if constants not available
+    AVERAGE_WORDS_PER_MINUTE = 200
+    MIN_READ_TIME_MINUTES = 1
+
 # Helper function to calculate read time
-def calculate_read_time(content):
-    """Calculate estimated reading time in minutes"""
+def calculate_read_time(content: str) -> int:
+    """
+    Calculate estimated reading time in minutes.
+    
+    Args:
+        content: Article content text
+        
+    Returns:
+        Estimated reading time in minutes (minimum 1)
+    """
     if not content:
         return 0
     word_count = len(content.split())
-    # Assumes an average reading speed of 200 words per minute
-    read_time = (word_count + 199) // 200
-    return max(1, read_time)
+    # Assumes an average reading speed (configurable via constants)
+    read_time = (word_count + AVERAGE_WORDS_PER_MINUTE - 1) // AVERAGE_WORDS_PER_MINUTE
+    return max(MIN_READ_TIME_MINUTES, read_time)
 
 class Category(models.Model):
     """News and events categories"""

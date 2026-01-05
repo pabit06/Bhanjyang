@@ -17,10 +17,19 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Security constants
-MAX_CONTENT_LENGTH = 100000  # 100KB max content
-MAX_COMMENT_LENGTH = 2000
-MAX_TITLE_LENGTH = 200
+# Import security constants
+try:
+    from .constants import (
+        MAX_CONTENT_LENGTH, MAX_COMMENT_LENGTH, MAX_TITLE_LENGTH,
+        MAX_SPAM_KEYWORDS
+    )
+except ImportError:
+    # Fallback if constants not available
+    MAX_CONTENT_LENGTH = 100000  # 100KB max content
+    MAX_COMMENT_LENGTH = 2000
+    MAX_TITLE_LENGTH = 200
+    MAX_SPAM_KEYWORDS = 3
+
 SPAM_KEYWORDS = [
     'viagra', 'casino', 'lottery', 'winner', 'congratulations', 'free money',
     'click here', 'limited time', 'act now', 'guaranteed', 'no risk'

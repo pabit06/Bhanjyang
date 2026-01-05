@@ -149,8 +149,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        # Connection pooling for better performance
+        # For PostgreSQL: 'CONN_MAX_AGE': 600 (10 minutes)
+        # For SQLite: Connection pooling is handled automatically
+        'OPTIONS': {
+            'timeout': 20,  # SQLite timeout
+        }
     }
 }
+
+# Database connection pooling for PostgreSQL (when used in production)
+# This is automatically applied when using PostgreSQL backend
+# CONN_MAX_AGE is set per-database in production settings
 
 
 # Password validation
@@ -496,8 +506,20 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '100/hour',
-        'user': '1000/hour'
-    }
+        'user': '1000/hour',
+        'news_events_anon': '100/hour',
+        'news_events_user': '1000/hour',
+        'news_events_search': '60/hour',
+        'news_events_search_user': '300/hour',
+        'news_events_search_anon': '60/hour',
+        'news_events_write': '30/hour',
+        'news_events_write_user': '200/hour',
+        'news_events_write_anon': '30/hour',
+        'news_events_burst': '20/minute'
+    },
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    'ALLOWED_VERSIONS': ['v1'],
+    'DEFAULT_VERSION': 'v1'
 }
 
 # API Documentation Settings

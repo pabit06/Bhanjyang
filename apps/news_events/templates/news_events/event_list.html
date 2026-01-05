@@ -288,7 +288,7 @@
 </section>
 
 <!-- Newsletter Subscription -->
-<section class="relative py-12 bg-gradient-to-br from-deuraligreen via-green-600 to-deuraligreen overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+<section class="relative py-12 bg-gradient-to-br from-green-600 via-green-700 to-green-600 overflow-hidden" style="background: linear-gradient(to bottom right, #16a34a, #15803d, #16a34a) !important; opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
@@ -300,23 +300,23 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full">
+        <span class="inline-block font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full" style="color: #1f2937 !important; background-color: #ffffff !important;">
             {% trans "Newsletter" %}
         </span>
-        <h3 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-white">
+        <h3 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4" style="color: #1f2937 !important;">
             {% trans "Stay Updated" %}
         </h3>
-        <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
-        <p class="text-lg text-green-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+        <div class="w-24 h-1 mx-auto rounded-full mb-6" style="background-color: #1f2937 !important;"></div>
+        <p class="text-lg mb-8 max-w-3xl mx-auto leading-relaxed" style="color: #374151 !important;">
             {% trans "Subscribe to our newsletter for the latest events and updates." %}
         </p>
         <form method="post" action="{% url 'news_events:subscribe' %}" class="max-w-md mx-auto">
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-event-csrf-token" value="{{ csrf_token }}">
             <div class="flex flex-col sm:flex-row gap-4">
                 <input type="email" name="email" placeholder="{% trans 'Enter your email' %}" required
-                    class="flex-1 px-6 py-4 rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-white text-gray-900">
+                    class="flex-1 px-6 py-4 rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-green-600" style="color: #111827 !important; background-color: #ffffff !important;">
                 <button type="submit"
-                    class="group inline-flex items-center gap-2 bg-white text-deuraligreen font-bold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                    class="group inline-flex items-center gap-2 font-bold py-4 px-8 rounded-full hover:bg-green-700 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105" style="color: #ffffff !important; background-color: #16a34a !important;">
                     <span>{% trans "Subscribe" %}</span>
                     <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-200"></i>
                 </button>

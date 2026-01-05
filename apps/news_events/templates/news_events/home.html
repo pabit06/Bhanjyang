@@ -79,33 +79,66 @@
             <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <!-- Featured Articles -->
             {% if featured_content.articles %}
-            <div class="bg-white rounded-2xl shadow-2xl p-8">
-                <h3 class="text-2xl font-bold text-bhanjyangred mb-6 flex items-center font-montserrat">
-                    <div class="w-12 h-12 bg-bhanjyangred/10 rounded-full flex items-center justify-center mr-3">
-                        <i class="fas fa-newspaper text-bhanjyangred"></i>
-                    </div>
-                    {% trans "Featured Articles" %}
-                </h3>
-                <div class="space-y-4">
-                    {% for article in featured_content.articles %}
-                    <div class="group border-l-4 border-deuraligreen pl-4 py-3 hover:bg-gray-50 transition-colors duration-300 rounded-r-lg">
-                        <h4 class="font-bold text-gray-900 mb-2 font-montserrat">
-                            <a href="{{ article.get_absolute_url }}" class="hover:text-deuraligreen transition-colors duration-300">
-                                {{ article.title }}
-                            </a>
-                        </h4>
-                        <p class="text-sm text-gray-600 mb-3">{{ article.excerpt|truncatewords:15 }}</p>
-                        <div class="flex items-center text-xs text-gray-500">
-                            <span>{{ article.published_date|nepalidate_ne }}</span>
-                            <span class="mx-2">•</span>
-                            <span>{{ article.read_time }} {% trans "min read" %}</span>
-                            <span class="mx-2">•</span>
-                            <span>{{ article.view_count }} {% trans "views" %}</span>
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 max-w-md mx-auto lg:max-w-none">
+                <!-- Card Header -->
+                <div class="bg-gradient-to-r from-bhanjyangred to-red-600 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white flex items-center font-montserrat">
+                        <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mr-3 shadow-lg">
+                            <i class="fas fa-newspaper text-white text-lg"></i>
                         </div>
-                    </div>
+                        {% trans "Featured Articles" %}
+                    </h3>
+                </div>
+                
+                <!-- Card Body -->
+                <div class="p-4 space-y-4">
+                    {% for article in featured_content.articles %}
+                    <a href="{{ article.get_absolute_url }}" class="group block">
+                        <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-100 hover:border-deuraligreen hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="flex gap-3">
+                                <!-- Article Image -->
+                                {% if article.image %}
+                                <div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl transition-shadow duration-300">
+                                    <img src="{{ article.image.url }}" alt="{{ article.image_alt|default:article.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                </div>
+                                {% else %}
+                                <div class="flex-shrink-0 w-16 h-16 rounded-lg bg-gradient-to-br from-deuraligreen to-green-600 flex items-center justify-center shadow-md">
+                                    <i class="fas fa-newspaper text-white text-lg"></i>
+                                </div>
+                                {% endif %}
+                                
+                                <!-- Article Content -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 mb-1.5 text-sm font-montserrat group-hover:text-deuraligreen transition-colors duration-300 line-clamp-2">
+                                        {{ article.title }}
+                                    </h4>
+                                    <p class="text-xs text-gray-600 mb-2 line-clamp-2">{{ article.excerpt|truncatewords:12|default:article.content|striptags|truncatewords:12 }}</p>
+                                    <div class="flex items-center flex-wrap gap-1.5 text-xs text-gray-500">
+                                        <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                            <i class="fas fa-calendar text-deuraligreen text-xs"></i>
+                                            <span>{{ article.published_date|nepalidate_ne }}</span>
+                                        </span>
+                                        <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                            <i class="fas fa-clock text-deuraligreen text-xs"></i>
+                                            <span>{{ article.read_time }} {% trans "min" %}</span>
+                                        </span>
+                                        <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                            <i class="fas fa-eye text-deuraligreen text-xs"></i>
+                                            <span>{{ article.view_count }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Arrow Icon -->
+                                <div class="flex-shrink-0 self-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                    <i class="fas fa-arrow-right text-deuraligreen"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                     {% endfor %}
                 </div>
             </div>
@@ -113,30 +146,65 @@
 
             <!-- Featured Events -->
             {% if featured_content.events %}
-            <div class="bg-white rounded-2xl shadow-2xl p-8">
-                <h3 class="text-2xl font-bold text-bhanjyangred mb-6 flex items-center font-montserrat">
-                    <div class="w-12 h-12 bg-bhanjyangred/10 rounded-full flex items-center justify-center mr-3">
-                        <i class="fas fa-calendar-alt text-bhanjyangred"></i>
-                    </div>
-                    {% trans "Featured Events" %}
-                </h3>
-                <div class="space-y-4">
-                    {% for event in featured_content.events %}
-                    <div class="group border-l-4 border-bhanjyangred pl-4 py-3 hover:bg-gray-50 transition-colors duration-300 rounded-r-lg">
-                        <h4 class="font-bold text-gray-900 mb-2 font-montserrat">
-                            <a href="{{ event.get_absolute_url }}" class="hover:text-bhanjyangred transition-colors duration-300">
-                                {{ event.title }}
-                            </a>
-                        </h4>
-                        <p class="text-sm text-gray-600 mb-3">{{ event.short_description|truncatewords:15 }}</p>
-                        <div class="flex items-center text-xs text-gray-500">
-                            <i class="fas fa-calendar mr-1"></i>
-                            <span>{{ event.event_date|nepalidate_ne }}</span>
-                            <span class="mx-2">•</span>
-                            <i class="fas fa-map-marker-alt mr-1"></i>
-                            <span>{{ event.location }}</span>
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 max-w-md mx-auto lg:max-w-none">
+                <!-- Card Header -->
+                <div class="bg-gradient-to-r from-bhanjyangred to-red-600 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white flex items-center font-montserrat">
+                        <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mr-3 shadow-lg">
+                            <i class="fas fa-calendar-alt text-white text-lg"></i>
                         </div>
-                    </div>
+                        {% trans "Featured Events" %}
+                    </h3>
+                </div>
+                
+                <!-- Card Body -->
+                <div class="p-4 space-y-4">
+                    {% for event in featured_content.events %}
+                    <a href="{{ event.get_absolute_url }}" class="group block">
+                        <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-100 hover:border-bhanjyangred hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                            <div class="flex gap-3">
+                                <!-- Event Image -->
+                                {% if event.image %}
+                                <div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden shadow-md group-hover:shadow-xl transition-shadow duration-300">
+                                    <img src="{{ event.image.url }}" alt="{{ event.image_alt|default:event.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                </div>
+                                {% else %}
+                                <div class="flex-shrink-0 w-16 h-16 rounded-lg bg-gradient-to-br from-bhanjyangred to-red-600 flex items-center justify-center shadow-md">
+                                    <i class="fas fa-calendar-alt text-white text-lg"></i>
+                                </div>
+                                {% endif %}
+                                
+                                <!-- Event Content -->
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="font-bold text-gray-900 mb-1.5 text-sm font-montserrat group-hover:text-bhanjyangred transition-colors duration-300 line-clamp-2">
+                                        {{ event.title }}
+                                    </h4>
+                                    <p class="text-xs text-gray-600 mb-2 line-clamp-2">{{ event.short_description|truncatewords:12|default:event.description|striptags|truncatewords:12 }}</p>
+                                    <div class="flex items-center flex-wrap gap-1.5 text-xs text-gray-500">
+                                        <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                            <i class="fas fa-calendar text-bhanjyangred text-xs"></i>
+                                            <span>{{ event.event_date|nepalidate_ne }}</span>
+                                        </span>
+                                        <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                            <i class="fas fa-map-marker-alt text-bhanjyangred text-xs"></i>
+                                            <span>{{ event.location }}</span>
+                                        </span>
+                                        {% if event.event_type %}
+                                        <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
+                                            <i class="fas fa-tag text-bhanjyangred text-xs"></i>
+                                            <span>{{ event.get_event_type_display }}</span>
+                                        </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Arrow Icon -->
+                                <div class="flex-shrink-0 self-center opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                    <i class="fas fa-arrow-right text-bhanjyangred"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                     {% endfor %}
                 </div>
             </div>
@@ -334,7 +402,7 @@
 </section>
 
 <!-- Newsletter Subscription Section -->
-<section class="relative py-12 bg-gradient-to-br from-deuraligreen via-green-600 to-deuraligreen overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+<section id="newsletter-section" class="newsletter-subscription-section relative py-12 overflow-hidden" style="background: linear-gradient(to bottom right, #16a34a, #15803d, #16a34a) !important; background-color: #16a34a !important; opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
@@ -346,14 +414,14 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full">
+        <span class="inline-block font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full" style="color: #1f2937 !important; background-color: #ffffff !important;">
             {% trans "Newsletter" %}
         </span>
-        <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-white">
+        <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4" style="color: #1f2937 !important;">
             {% trans "Stay Updated" %}
         </h2>
-        <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
-        <p class="text-lg text-green-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+        <div class="w-24 h-1 mx-auto rounded-full mb-6" style="background-color: #1f2937 !important;"></div>
+        <p class="text-lg mb-8 max-w-3xl mx-auto leading-relaxed" style="color: #374151 !important;">
             {% trans "Subscribe to our newsletter and never miss important updates, news, and events from Bhanjyang Cooperative." %}
         </p>
 
@@ -361,18 +429,18 @@
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-home-csrf-token" value="{{ csrf_token }}">
             <div class="flex flex-col sm:flex-row gap-4">
                 <input type="email" name="email" placeholder="{% trans 'Enter your email address' %}" required
-                    class="flex-1 px-6 py-4 rounded-full border-0 focus:ring-2 focus:ring-white focus:outline-none text-gray-900">
+                    class="flex-1 px-6 py-4 rounded-full border-0 focus:ring-2 focus:ring-green-600 focus:outline-none" style="color: #111827 !important; background-color: #ffffff !important;">
                 <button type="submit"
-                    class="group inline-flex items-center gap-2 bg-white text-deuraligreen font-bold py-4 px-8 rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105">
+                    class="group inline-flex items-center gap-2 font-bold py-4 px-8 rounded-full hover:bg-green-700 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105" style="color: #ffffff !important; background-color: #16a34a !important;">
                     <span>{% trans "Subscribe" %}</span>
                     <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-200"></i>
                 </button>
             </div>
-            <div id="newsletter-message" class="mt-4 text-white"></div>
+            <div id="newsletter-message" class="mt-4" style="color: #1f2937 !important;"></div>
         </form>
 
-        <div class="mt-8 text-green-100 text-sm">
-            <p><i class="fas fa-shield-alt mr-2"></i>{% trans "We respect your privacy and never share your email address." %}</p>
+        <div class="mt-8 text-sm" style="color: #4b5563 !important;">
+            <p><i class="fas fa-shield-alt mr-2" style="color: #4b5563 !important;"></i>{% trans "We respect your privacy and never share your email address." %}</p>
         </div>
     </div>
 </section>

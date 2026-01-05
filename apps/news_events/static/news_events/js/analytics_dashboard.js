@@ -5,6 +5,24 @@ class AnalyticsDashboard {
         this.charts = {};
         this.updateInterval = null;
         this.isInitialized = false;
+        this.urls = this.getApiUrls();
+    }
+
+    getApiUrls() {
+        const config = document.getElementById('analytics-config');
+        if (!config) {
+            console.error('Analytics config element not found');
+            return {};
+        }
+        return {
+            metrics: config.dataset.metricsUrl,
+            traffic: config.dataset.trafficUrl,
+            contentPerformance: config.dataset.contentPerformanceUrl,
+            userDemographics: config.dataset.userDemographicsUrl,
+            deviceUsage: config.dataset.deviceUsageUrl,
+            topArticles: config.dataset.topArticlesUrl,
+            topEvents: config.dataset.topEventsUrl
+        };
     }
 
     async initialize() {
@@ -21,7 +39,10 @@ class AnalyticsDashboard {
 
     async loadRealTimeMetrics() {
         try {
-            const response = await fetch('/news-events/analytics/api/real-time-metrics/');
+            if (!this.urls.metrics) {
+                throw new Error('Metrics URL not configured');
+            }
+            const response = await fetch(this.urls.metrics);
             const data = await response.json();
             
             this.updateMetricDisplay('active-users', data.active_users);
@@ -63,7 +84,10 @@ class AnalyticsDashboard {
 
     async createTrafficSourcesChart() {
         try {
-            const response = await fetch('/news-events/analytics/api/traffic-sources/');
+            if (!this.urls.traffic) {
+                throw new Error('Traffic sources URL not configured');
+            }
+            const response = await fetch(this.urls.traffic);
             const data = await response.json();
             
             const ctx = document.getElementById('trafficSourcesChart').getContext('2d');
@@ -100,7 +124,10 @@ class AnalyticsDashboard {
 
     async createContentPerformanceChart() {
         try {
-            const response = await fetch('/news-events/analytics/api/content-performance/');
+            if (!this.urls.contentPerformance) {
+                throw new Error('Content performance URL not configured');
+            }
+            const response = await fetch(this.urls.contentPerformance);
             const data = await response.json();
             
             const ctx = document.getElementById('contentPerformanceChart').getContext('2d');
@@ -138,7 +165,10 @@ class AnalyticsDashboard {
 
     async createUserDemographicsChart() {
         try {
-            const response = await fetch('/news-events/analytics/api/user-demographics/');
+            if (!this.urls.userDemographics) {
+                throw new Error('User demographics URL not configured');
+            }
+            const response = await fetch(this.urls.userDemographics);
             const data = await response.json();
             
             const ctx = document.getElementById('userDemographicsChart').getContext('2d');
@@ -174,7 +204,10 @@ class AnalyticsDashboard {
 
     async createDeviceUsageChart() {
         try {
-            const response = await fetch('/news-events/analytics/api/device-usage/');
+            if (!this.urls.deviceUsage) {
+                throw new Error('Device usage URL not configured');
+            }
+            const response = await fetch(this.urls.deviceUsage);
             const data = await response.json();
             
             const ctx = document.getElementById('deviceUsageChart').getContext('2d');
@@ -215,12 +248,18 @@ class AnalyticsDashboard {
     async loadTopContent() {
         try {
             // Load top articles
-            const articlesResponse = await fetch('/news-events/analytics/api/top-articles/');
+            if (!this.urls.topArticles) {
+                throw new Error('Top articles URL not configured');
+            }
+            const articlesResponse = await fetch(this.urls.topArticles);
             const articlesData = await articlesResponse.json();
             this.renderTopContent('top-articles', articlesData, 'article');
 
             // Load top events
-            const eventsResponse = await fetch('/news-events/analytics/api/top-events/');
+            if (!this.urls.topEvents) {
+                throw new Error('Top events URL not configured');
+            }
+            const eventsResponse = await fetch(this.urls.topEvents);
             const eventsData = await eventsResponse.json();
             this.renderTopContent('top-events', eventsData, 'event');
         } catch (error) {
@@ -314,7 +353,9 @@ function stopRealTimeUpdates() {
 
 // Export analytics data
 function exportAnalytics(format) {
-    const url = `/analytics/export/?format=${format}`;
+    // Note: If you have an export URL, add it to analytics-config data attributes
+    // For now, using relative path - update if export endpoint is added
+    const url = `/news-events/analytics/export/?format=${format}`;
     window.open(url, '_blank');
 }
 
