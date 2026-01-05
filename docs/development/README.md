@@ -15,7 +15,8 @@ development/
 ├── ALL_APPS_DETAILED_REPORTS.md # Detailed reports for all apps
 ├── APP_COMPARISON_RATING.md # Apps comparison and ratings
 ├── CATEGORY_RATINGS_SUMMARY.md # Category-wise ratings breakdown
-└── FINAL_RATING_SUMMARY.md # News Events app final rating summary
+├── FINAL_RATING_SUMMARY.md # News Events app final rating summary
+└── KEYBOARD_NAVIGATION_TODO.md # Keyboard navigation implementation todo list
 ```
 
 ## Getting Started
@@ -59,6 +60,13 @@ Category-wise ratings breakdown (Features, Code Quality, Documentation, Testing,
 
 ### [FINAL_RATING_SUMMARY.md](./FINAL_RATING_SUMMARY.md)
 News Events app final rating summary after re-evaluation and upgrades.
+
+### [KEYBOARD_NAVIGATION_TODO.md](./KEYBOARD_NAVIGATION_TODO.md)
+Comprehensive todo list for implementing keyboard navigation across the entire project. Includes:
+- 7 phases of implementation (113 total tasks)
+- Detailed checklist for each app
+- Timeline and progress tracking
+- Implementation notes and best practices
 
 ## Development Environment
 

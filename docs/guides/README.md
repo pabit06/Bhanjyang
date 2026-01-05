@@ -25,6 +25,9 @@ This directory contains user guides and how-to documentation for the Bhanjyang C
 - **[notice-management-guide.md](./NOTICE_MANAGEMENT_GUIDE.md)** - Complete guide for managing notices (सूचना व्यवस्थापन)
 - **[notice-quick-reference.md](./NOTICE_QUICK_REFERENCE.md)** - Quick reference for adding notices
 
+### Accessibility
+- **[KEYBOARD_NAVIGATION_GUIDE.md](./KEYBOARD_NAVIGATION_GUIDE.md)** - Complete guide to keyboard navigation features, shortcuts, and accessibility
+
 ## Quick Links
 
 - [Main Documentation](../README.md)
