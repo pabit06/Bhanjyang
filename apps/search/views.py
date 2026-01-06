@@ -70,81 +70,74 @@ class AdvancedSearchView(NepaliLanguageMixin, ListView):
         
         return context
 
-@csrf_exempt
-@require_http_methods(["GET"])
-def search_api(request):
-    """API endpoint for search suggestions and autocomplete"""
-    activate('ne')
-    query = request.GET.get('q', '').strip()
-    limit = int(request.GET.get('limit', 10))
-    
-    if len(query) < 2:
-        return JsonResponse({'suggestions': []})
-    
-    # Check cache first
-    cache_key = f'search_api_suggestions_{query}_{limit}'
-    cached_results = cache.get(cache_key)
-    if cached_results:
-        return JsonResponse(cached_results)
-    
-    suggestions = []
-    
-    try:
-        # Get suggestions from different models with type and url info
-        # We put this logic here as it's specific to the API response format
-        models_data = [
-            (CooperativeTimeline, 'title', 'Timeline Event'),
-            (CooperativeAffiliation, 'name', 'Affiliation'),
-            (Person, 'full_name', 'Team Member'),
-            (LeadershipMessage, 'title', 'Leadership Message'),
-        ]
-        
-        for model, field, type_label in models_data:
-            results = model.objects.filter(
-                **{f'{field}__icontains': query}
-            ).values(field)[:limit]
-            
-            for result in results:
-                # We need a dummy instance to get URL if using our helper, 
-                # or just use the model class mapping.
-                # Since we don't have the full object here (just dict), we might need to be careful with get_model_url if it expects instance.
-                # The original code's get_model_url used model class if result passed? No, it used dict in original!
-                # Original: url_mapping.get(model, '/') w/o using result instance. 
-                # Let's reproduce that safe behavior or improve it.
-                # Actually original was:
-                # def get_model_url(model, result): ... url_mapping.get(model, '/')
-                # So it ignored result instance.
-                
-                # Let's improve it slightly by manually mapping here or using the utility properly if possible.
-                # Our new utility expects an instance.
-                # We'll just hardcode simple mapping here like before for speed/simplicity
-                url = '/'
-                if model == CooperativeTimeline: url = '/about/timeline/'
-                elif model == CooperativeAffiliation: url = '/about/affiliations/'
-                elif model == Person: url = '/about/team/'
-                elif model == LeadershipMessage: url = '/about/leadership/'
+from django.views import View
+from django.utils.decorators import method_decorator
 
-                suggestions.append({
-                    'text': result[field],
-                    'type': type_label,
-                    'url': url
-                })
+@method_decorator(csrf_exempt, name='dispatch')
+class SearchAPIView(View):
+    """API endpoint for search suggestions and autocomplete"""
+    
+    def get(self, request):
+        activate('ne')
+        query = request.GET.get('q', '').strip()
+        limit = int(request.GET.get('limit', 10))
         
-        # Sort by relevance (exact matches first)
-        suggestions.sort(key=lambda x: (
-            0 if query.lower() in x['text'].lower() else 1,
-            len(x['text'])
-        ))
+        if len(query) < 2:
+            return JsonResponse({'suggestions': []})
         
-        response_data = {
-            'suggestions': suggestions[:limit],
-            'query': query
-        }
+        # Check cache first
+        cache_key = f'search_api_suggestions_{query}_{limit}'
+        cached_results = cache.get(cache_key)
+        if cached_results:
+            return JsonResponse(cached_results)
         
-        # Cache for 5 minutes
-        cache.set(cache_key, response_data, 300)
+        suggestions = []
         
-        return JsonResponse(response_data)
-        
-    except Exception:
-        return JsonResponse({'error': 'Search failed'}, status=500)
+        try:
+            # Get suggestions from different models with type and url info
+            models_data = [
+                (CooperativeTimeline, 'title', 'Timeline Event'),
+                (CooperativeAffiliation, 'name', 'Affiliation'),
+                (Person, 'full_name', 'Team Member'),
+                (LeadershipMessage, 'title', 'Leadership Message'),
+            ]
+            
+            for model, field, type_label in models_data:
+                results = model.objects.filter(
+                    **{f'{field}__icontains': query}
+                ).values(field)[:limit]
+                
+                for result in results:
+                    url = '/'
+                    if model == CooperativeTimeline: url = '/about/timeline/'
+                    elif model == CooperativeAffiliation: url = '/about/affiliations/'
+                    elif model == Person: url = '/about/team/'
+                    elif model == LeadershipMessage: url = '/about/leadership/'
+
+                    suggestions.append({
+                        'text': result[field],
+                        'type': type_label,
+                        'url': url
+                    })
+            
+            # Sort by relevance (exact matches first)
+            suggestions.sort(key=lambda x: (
+                0 if query.lower() in x['text'].lower() else 1,
+                len(x['text'])
+            ))
+            
+            response_data = {
+                'suggestions': suggestions[:limit],
+                'query': query
+            }
+            
+            # Cache for 5 minutes
+            cache.set(cache_key, response_data, 300)
+            
+            return JsonResponse(response_data)
+            
+        except Exception:
+            return JsonResponse({'error': 'Search failed'}, status=500)
+
+# Compatibility mapping
+search_api = SearchAPIView.as_view()

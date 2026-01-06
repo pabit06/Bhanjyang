@@ -4,6 +4,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
@@ -325,81 +326,91 @@ class SearchView(NepaliLanguageMixin, View):
 
 # ... (Previous imports and standard views)
 
-@staff_member_required
-def analytics_dashboard_view(request):
+class AnalyticsDashboardView(NepaliLanguageMixin, TemplateView):
     """Staff analytics dashboard"""
-    activate('ne')
-    context = {'GA_TRACKING_ID': getattr(settings, 'GA_TRACKING_ID', '')}
-    return render(request, 'news_events/analytics_dashboard.html', context)
+    template_name = 'news_events/analytics_dashboard.html'
+    
+    @method_decorator(staff_member_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['GA_TRACKING_ID'] = getattr(settings, 'GA_TRACKING_ID', '')
+        return context
 
-@login_required
-def confirm_subscription_view(request, token):
-    activate('ne')
-    try:
-        subscriber = Subscriber.objects.get(confirmation_token=token)
-        if not subscriber.is_confirmed:
-            subscriber.is_confirmed = True
-            subscriber.confirmed_at = timezone.now()
+class SubscriptionConfirmationView(LoginRequiredMixin, NepaliLanguageMixin, View):
+    """Handle subscription confirmation"""
+    
+    def get(self, request, token):
+        try:
+            subscriber = Subscriber.objects.get(confirmation_token=token)
+            if not subscriber.is_confirmed:
+                subscriber.is_confirmed = True
+                subscriber.confirmed_at = timezone.now()
+                subscriber.save()
+                messages.success(request, _("तपाईंको सदस्यता पुष्टि भयो! धन्यवाद।"))
+            else:
+                messages.info(request, _("तपाईंको सदस्यता पहिले नै पुष्टि भइसकेको छ।"))
+        except Subscriber.DoesNotExist:
+            messages.error(request, _("अवैध पुष्टिकरण टोकन।"))
+        except Exception as e:
+            logger.error(f"Error confirming subscription: {e}", exc_info=True)
+            messages.error(request, _("सदस्यता पुष्टि गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+        return redirect('news_events:home')
+
+class UnsubscribeView(LoginRequiredMixin, NepaliLanguageMixin, View):
+    """Handle unsubscription"""
+    
+    def get(self, request, token):
+        try:
+            subscriber = Subscriber.objects.get(confirmation_token=token)
+            subscriber.status = Subscriber.Status.UNSUBSCRIBED
             subscriber.save()
-            messages.success(request, _("तपाईंको सदस्यता पुष्टि भयो! धन्यवाद।"))
-        else:
-            messages.info(request, _("तपाईंको सदस्यता पहिले नै पुष्टि भइसकेको छ।"))
-    except Subscriber.DoesNotExist:
-        messages.error(request, _("अवैध पुष्टिकरण टोकन।"))
-    except Exception as e:
-        logger.error(f"Error confirming subscription: {e}", exc_info=True)
-        messages.error(request, _("सदस्यता पुष्टि गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
-    return redirect('news_events:home')
+            messages.success(request, _("तपाईंको सदस्यता रद्द भयो।"))
+        except Subscriber.DoesNotExist:
+            messages.error(request, _("अवैध टोकन।"))
+        except Exception as e:
+            logger.error(f"Error unsubscribing: {e}", exc_info=True)
+            messages.error(request, _("सदस्यता रद्द गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+        return redirect('news_events:home')
 
-@login_required
-def unsubscribe_view(request, token):
-    activate('ne')
-    try:
-        subscriber = Subscriber.objects.get(confirmation_token=token)
-        subscriber.status = Subscriber.Status.UNSUBSCRIBED
-        subscriber.save()
-        messages.success(request, _("तपाईंको सदस्यता रद्द भयो।"))
-    except Subscriber.DoesNotExist:
-        messages.error(request, _("अवैध टोकन।"))
-    except Exception as e:
-        logger.error(f"Error unsubscribing: {e}", exc_info=True)
-        messages.error(request, _("सदस्यता रद्द गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
-    return redirect('news_events:home')
-
-def rss_feed_view(request):
+class RSSFeedView(View):
     """RSS Feed"""
-    activate('ne')
-    try:
-        articles = NewsEventsQueryOptimizer.get_optimized_article_queryset().filter(
-            status=NewsArticle.Status.PUBLISHED
-        ).order_by('-published_date')[:15]
-        
-        events = NewsEventsQueryOptimizer.get_optimized_event_queryset().filter(
-            status=Event.Status.PUBLISHED,
-            event_date__gte=timezone.now()
-        ).order_by('event_date')[:10]
-        
-        context = {
-            'articles': articles,
-            'events': events,
-            'site_url': getattr(settings, 'SITE_URL', request.build_absolute_uri('/')),
-            'site_name': getattr(settings, 'SITE_NAME', 'Bhanjyang Cooperative'),
-        }
-        response = render(request, 'news_events/rss.xml', context)
-        response['Content-Type'] = 'application/rss+xml; charset=utf-8'
-        return response
-    except Exception as e:
-        logger.error(f"Error generating RSS feed: {e}", exc_info=True)
-        # Return empty RSS feed on error
-        context = {
-            'articles': [],
-            'events': [],
-            'site_url': getattr(settings, 'SITE_URL', request.build_absolute_uri('/')),
-            'site_name': getattr(settings, 'SITE_NAME', 'Bhanjyang Cooperative'),
-        }
-        response = render(request, 'news_events/rss.xml', context)
-        response['Content-Type'] = 'application/rss+xml; charset=utf-8'
-        return response
+    
+    def get(self, request):
+        activate('ne')
+        try:
+            articles = NewsEventsQueryOptimizer.get_optimized_article_queryset().filter(
+                status=NewsArticle.Status.PUBLISHED
+            ).order_by('-published_date')[:15]
+            
+            events = NewsEventsQueryOptimizer.get_optimized_event_queryset().filter(
+                status=Event.Status.PUBLISHED,
+                event_date__gte=timezone.now()
+            ).order_by('event_date')[:10]
+            
+            context = {
+                'articles': articles,
+                'events': events,
+                'site_url': getattr(settings, 'SITE_URL', request.build_absolute_uri('/')),
+                'site_name': getattr(settings, 'SITE_NAME', 'Bhanjyang Cooperative'),
+            }
+            response = render(request, 'news_events/rss.xml', context)
+            response['Content-Type'] = 'application/rss+xml; charset=utf-8'
+            return response
+        except Exception as e:
+            logger.error(f"Error generating RSS feed: {e}", exc_info=True)
+            # Return empty RSS feed on error
+            context = {
+                'articles': [],
+                'events': [],
+                'site_url': getattr(settings, 'SITE_URL', request.build_absolute_uri('/')),
+                'site_name': getattr(settings, 'SITE_NAME', 'Bhanjyang Cooperative'),
+            }
+            response = render(request, 'news_events/rss.xml', context)
+            response['Content-Type'] = 'application/rss+xml; charset=utf-8'
+            return response
 
 # Initializing Legacy Function Names for URL Compatibility if needed,
 # or better yet, I should update urls.py to use the new classes.
@@ -412,3 +423,7 @@ subscribe_view = SubscriptionView.as_view()
 comment_submit_view = CommentSubmissionView.as_view()
 share_article_view = ArticleShareView.as_view()
 search_view = SearchView.as_view()
+analytics_dashboard_view = AnalyticsDashboardView.as_view()
+confirm_subscription_view = SubscriptionConfirmationView.as_view()
+unsubscribe_view = UnsubscribeView.as_view()
+rss_feed_view = RSSFeedView.as_view()

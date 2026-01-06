@@ -8,6 +8,12 @@ from django.forms import Form
 import json
 import random
 from datetime import date
+from django.views.generic.edit import FormView
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import (
     SavingsAccount, FixedDeposit, LoanType, 
@@ -584,294 +590,230 @@ savings_calculator = SavingsCalculatorView.as_view()
 fixed_deposit_calculator = FixedDepositCalculatorView.as_view()
 
 
-def service_application(request):
-    """Service application form view"""
-    activate('ne')
-    # Get service info from GET params (for pre-filling) or POST data
-    service_type = request.GET.get('service_type', '') or request.POST.get('service_type', '')
-    service_id = request.GET.get('service_id', '') or request.POST.get('service_id', '')
-    service_slug = request.GET.get('service_slug', '')
-    
-    # If service_slug is provided, convert it to service_id
-    if service_slug and not service_id:
-        model_class = SERVICE_MODEL_MAPPING.get(service_type)
-        if model_class:
+class ServiceApplicationView(NepaliLanguageMixin, FormView):
+    """Service application form view."""
+    template_name = 'services/shared/application.html'
+    form_class = ServiceApplicationForm
+    success_url = '/contact/thank-you/'  # Redirect to general thank you or specific one
+
+    def get_initial(self):
+        """Pre-fill form based on GET/POST parameters."""
+        initial = super().get_initial()
+        request = self.request
+        service_type = request.GET.get('service_type', '') or request.POST.get('service_type', '')
+        service_id = request.GET.get('service_id', '') or request.POST.get('service_id', '')
+        service_slug = request.GET.get('service_slug', '')
+
+        # Handle slug to ID conversion if needed
+        if service_slug and not service_id:
+            model_class = SERVICE_MODEL_MAPPING.get(service_type)
+            if model_class:
+                try:
+                    obj = model_class.objects.filter(slug=service_slug).first()
+                    if obj:
+                        service_id = obj.id
+                except Exception:
+                    pass
+        
+        if service_type:
+            initial['service_type'] = service_type
+        if service_id:
+            initial['service_id'] = service_id
+            
+        return initial
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Add service info to context for display
+        initial = self.get_initial()
+        service_type = initial.get('service_type')
+        service_id = initial.get('service_id')
+        
+        if service_type and service_id:
+            model_class = SERVICE_MODEL_MAPPING.get(service_type)
+            if model_class:
+                try:
+                    service_obj = model_class.objects.filter(id=service_id).first()
+                    if service_obj:
+                        context['selected_service'] = service_obj
+                        # Handle varied name fields (english_name vs name)
+                        context['service_name'] = getattr(service_obj, 'english_name', str(service_obj))
+                except Exception:
+                    pass
+                    
+        return context
+
+    def form_valid(self, form):
+        # Process the form using service
+        try:
+            ServiceApplicationService.process_application(form.cleaned_data)
+            messages.success(self.request, _('Your application has been submitted successfully.'))
+            return super().form_valid(form)
+        except Exception as e:
+            messages.error(self.request, f"Error submitting application: {str(e)}")
+            return self.form_invalid(form)
+
+
+class ServiceComparisonView(NepaliLanguageMixin, FormView):
+    """Compare services side by side."""
+    template_name = 'services/shared/comparison.html'
+    form_class = ServiceComparisonForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # If parameters provided, perform comparison
+        request = self.request
+        service_type = request.GET.get('service_type')
+        service_ids = request.GET.getlist('service_ids')
+        
+        if service_type and service_ids:
             try:
-                # FixedDeposit uses ID as slug in the logic, others use slug field
-                if service_type == 'fixed_deposit':
-                    service = model_class.objects.get(id=int(service_slug))
-                else:
-                    service = model_class.objects.get(slug=service_slug)
-                service_id = str(service.id)
-            except (ValueError, model_class.DoesNotExist):
-                service_id = ''
-        else:
-            service_id = ''
+                comparison_data = ServiceComparisonService.compare_services(service_type, service_ids)
+                context['comparison_data'] = comparison_data
+                context['service_type'] = service_type
+                
+                # Pre-fill form
+                form = self.get_form()
+                form.initial['service_type'] = service_type
+                # Note: Setting initial for multiple checkboxes might need handling in form init
+                context['form'] = form
+                
+            except Exception as e:
+                messages.error(request, f"Error comparing services: {str(e)}")
+                
+        return context
+
+    def form_valid(self, form):
+        """Handle form submission by redirecting to GET URL."""
+        from django.http import QueryDict
+        from django.shortcuts import redirect
+        
+        service_type = form.cleaned_data['service_type']
+        service_ids = form.cleaned_data['services']
+        
+        q = QueryDict(mutable=True)
+        q['service_type'] = service_type
+        q.setlist('service_ids', service_ids)
+        
+        return redirect(f"{self.request.path}?{q.urlencode()}")
+
+
+class ServiceSearchView(NepaliLanguageMixin, FormView):
+    """Search for services based on criteria."""
+    template_name = 'services/shared/search.html'
+    form_class = ServiceSearchForm
     
-    # Get service object for form
-    service_object = None
-    if service_type and service_id:
-        model_class = SERVICE_MODEL_MAPPING.get(service_type)
-        if model_class:
-            try:
-                service_object = model_class.objects.get(id=int(service_id))
-            except (ValueError, model_class.DoesNotExist):
-                service_object = None
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        request = self.request
+        
+        query = request.GET.get('q', '')
+        category = request.GET.get('category', '')
+        
+        if query or category:
+            results = ServiceSearchService.search_services(query, category)
+            context['results'] = results
+            context['query'] = query
+            context['category'] = category
+            
+            # Update form initial
+            form = self.get_form()
+            form.initial['query'] = query
+            form.initial['category'] = category
+            context['form'] = form
+            
+        return context
+
+
+class CalculatorAPIView(APIView):
+    """API endpoint for all financial calculators."""
     
-    if request.method == 'POST':
-        form = ServiceApplicationForm(request.POST, service_object=service_object)
-        if form.is_valid():
-            # Get service_type and service_id from form or request
-            form_service_type = form.cleaned_data.get('service_type') or service_type
-            form_service_id = form.cleaned_data.get('service_id') or service_id
-            if form_service_type and form_service_id:
-                ServiceApplicationService.process_application(form, form_service_type, form_service_id)
-                messages.success(request, _('तपाईंको आवेदन सफलतापूर्वक पेश गरियो! हामी छिट्टै सम्पर्क गर्नेछौं।'))
-                return redirect('services:overview')
+    def post(self, request, *args, **kwargs):
+        try:
+            data, error_response = safe_json_parse(request)
+            if error_response:
+                return error_response
+            
+            calculator_type = data.get('type')
+            
+            result = None
+            
+            if calculator_type == 'loan':
+                principal, err = safe_float_conversion(data.get('principal', 0), field_name='principal')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                tenure_months, err = safe_int_conversion(data.get('tenure_months', 0), field_name='tenure_months')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                payment_frequency = data.get('payment_frequency', 'monthly')
+                
+                if principal <= 0 or interest_rate < 0 or tenure_months <= 0:
+                     return Response({'error': 'Invalid input: principal, interest_rate, and tenure_months must be positive', 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                result = FinancialCalculator.calculate_loan_emi(
+                    principal, interest_rate, tenure_months, payment_frequency
+                )
+                
+            elif calculator_type == 'savings':
+                monthly_deposit, err = safe_float_conversion(data.get('monthly_deposit', 0), field_name='monthly_deposit')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                tenure_years, err = safe_int_conversion(data.get('tenure_years', 0), field_name='tenure_years')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                if monthly_deposit <= 0 or interest_rate < 0 or tenure_years <= 0:
+                    return Response({'error': 'Invalid input values', 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                result = FinancialCalculator.calculate_savings_maturity(
+                    monthly_deposit, interest_rate, tenure_years
+                )
+                
+            elif calculator_type == 'fixed_deposit':
+                principal, err = safe_float_conversion(data.get('principal', 0), field_name='principal')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                tenure_months, err = safe_int_conversion(data.get('tenure_months', 0), field_name='tenure_months')
+                if err:
+                    return Response({'error': err, 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                payment_frequency = data.get('payment_frequency', 'lump_sum')
+                
+                if principal <= 0 or interest_rate < 0 or tenure_months <= 0:
+                    return Response({'error': 'Invalid input values', 'code': 'INVALID_INPUT'}, status=status.HTTP_400_BAD_REQUEST)
+                
+                result = FinancialCalculator.calculate_fixed_deposit_maturity(
+                    principal, interest_rate, tenure_months, payment_frequency
+                )
             else:
-                messages.error(request, _('सेवा जानकारी हराइरहेको छ। कृपया पहिले सेवा छान्नुहोस्।'))
-    else:
-        form = ServiceApplicationForm(service_object=service_object, initial={
-            'service_type': service_type,
-            'service_id': service_id
-        })
-    
-    context = {
-        'form': form,
-        'service_type': service_type,
-        'service_id': service_id,
-        'page_title': 'Service Application',
-        'page_description': 'Apply for our financial services'
-    }
-    return render(request, 'services/shared/application.html', context)
+                return Response({'error': f'Invalid calculator type: {calculator_type}', 'code': 'INVALID_CALCULATOR_TYPE'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            return Response({'message': 'Calculation successful', 'data': {'result': result}})
+            
+        except ValueError as e:
+            ErrorLogger.log_error(e, request, level='warning')
+            return Response({'error': str(e), 'code': 'CALCULATION_ERROR'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-def service_comparison(request):
-    """Service comparison view"""
-    activate('ne')
-    if request.method == 'POST':
-        form = ServiceComparisonForm(request.POST)
-        if form.is_valid():
-            service_type = form.cleaned_data['service_type']
-            service_ids = form.cleaned_data['services']
-            
-            if service_type == 'savings':
-                comparison_data = ServiceComparisonService.compare_savings_accounts(service_ids)
-                template = 'services/savings_comparison.html'
-            elif service_type == 'loans':
-                comparison_data = ServiceComparisonService.compare_loans(service_ids)
-                template = 'services/loans_comparison.html'
-            elif service_type == 'fixed_deposits':
-                comparison_data = ServiceComparisonService.compare_fixed_deposits(service_ids)
-                template = 'services/fixed_deposits_comparison.html'
-            else:
-                messages.error(request, _('अवैध सेवा प्रकार छानिएको छ।'))
-                return redirect('services:service_comparison')
-            
-            # Track comparison views
-            for service_id in service_ids:
-                ServiceAnalyticsService.track_usage(service_type, service_id, 'comparison_views')
-            
-            context = {
-                'form': form,
-                'comparison_data': comparison_data,
-                'service_type': service_type,
-                'page_title': f'{service_type.title()} Comparison',
-                'page_description': f'Compare {service_type} options'
-            }
-            return render(request, template, context)
-    else:
-        form = ServiceComparisonForm()
-    
-    context = {
-        'form': form,
-        'page_title': 'Service Comparison',
-        'page_description': 'Compare different service options'
-    }
-    return render(request, 'services/shared/comparison.html', context)
-
-def service_search(request):
-    """Enhanced service search view"""
-    activate('ne')
-    form = ServiceSearchForm(request.GET)
-    page = request.GET.get('page', 1)
-    
-    # Use cleaned data if valid, else empty? Or raw GET?
-    # View usually validates form first.
-    data = {}
-    if form.is_valid():
-        data = form.cleaned_data
-    else:
-        # If invalid (e.g. empty) we might still want default results? 
-        # But form.cleaned_data is only available if valid.
-        # Fallback to GET params or just empty.
-        pass
-
-    results_data = ServiceSearchService.search_services(data, page_number=page)
-    
-    context = {
-        'form': form,
-        'results': results_data['results'],
-        'total_results': results_data['total_results'],
-        'page_title': 'Service Search',
-        'page_description': 'Find the perfect financial service for your needs'
-    }
-    return render(request, 'services/shared/search.html', context)
-
-
-def service_recommendations(request):
-    """Service recommendations based on user profile"""
-    activate('ne')
-    if request.method == 'POST':
-        user_profile = {
-            'age': int(request.POST.get('age', 30)),
-            'monthly_income': int(request.POST.get('monthly_income', 50000)),
-            'goals': request.POST.getlist('goals'),
-            'risk_tolerance': request.POST.get('risk_tolerance', 'moderate')
-        }
-        
-        recommendations = ServiceRecommendationService.get_recommendations(user_profile)
-        ServiceRecommendationService.save_recommendation(user_profile, recommendations)
-        
-        context = {
-            'user_profile': user_profile,
-            'recommendations': recommendations,
-            'page_title': 'Service Recommendations',
-            'page_description': 'Personalized service recommendations for you'
-        }
-        return render(request, 'services/service_recommendations.html', context)
-    
-    context = {
-        'page_title': 'Service Recommendations',
-        'page_description': 'Get personalized service recommendations'
-    }
-    return render(request, 'services/service_recommendation_form.html', context)
-
-
-from apps.core.error_handling import (
-    ErrorResponse, ErrorLogger, handle_api_errors, safe_json_parse,
-    safe_float_conversion, safe_int_conversion
-)
-
-@csrf_exempt
-@handle_api_errors
-def calculator_api(request):
-    """API endpoint for calculator calculations"""
-    activate('ne')
-    if request.method != 'POST':
-        return ErrorResponse.json_error(
-            message='Method not allowed',
-            status_code=405,
-            error_code='METHOD_NOT_ALLOWED'
-        )
-    
-    # Parse JSON safely
-    data, error_response = safe_json_parse(request)
-    if error_response:
-        return error_response
-    
-    calculator_type = data.get('type')
-    if not calculator_type:
-        return ErrorResponse.json_error(
-            message='Missing calculator type',
-            status_code=400,
-            error_code='MISSING_TYPE'
-        )
-    
-    result = None
-    
-    try:
-        if calculator_type == 'loan':
-            principal, err = safe_float_conversion(data.get('principal', 0), field_name='principal')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            tenure_months, err = safe_int_conversion(data.get('tenure_months', 0), field_name='tenure_months')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            payment_frequency = data.get('payment_frequency', 'monthly')
-            
-            if principal <= 0 or interest_rate < 0 or tenure_months <= 0:
-                return ErrorResponse.json_error(
-                    message='Invalid input: principal, interest_rate, and tenure_months must be positive',
-                    status_code=400,
-                    error_code='INVALID_INPUT'
-                )
-            
-            result = FinancialCalculator.calculate_loan_emi(
-                principal, interest_rate, tenure_months, payment_frequency
-            )
-            
-        elif calculator_type == 'savings':
-            monthly_deposit, err = safe_float_conversion(data.get('monthly_deposit', 0), field_name='monthly_deposit')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            tenure_years, err = safe_int_conversion(data.get('tenure_years', 0), field_name='tenure_years')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            if monthly_deposit <= 0 or interest_rate < 0 or tenure_years <= 0:
-                return ErrorResponse.json_error(
-                    message='Invalid input: monthly_deposit, interest_rate, and tenure_years must be positive',
-                    status_code=400,
-                    error_code='INVALID_INPUT'
-                )
-            
-            result = FinancialCalculator.calculate_savings_maturity(
-                monthly_deposit, interest_rate, tenure_years
-            )
-            
-        elif calculator_type == 'fixed_deposit':
-            principal, err = safe_float_conversion(data.get('principal', 0), field_name='principal')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            interest_rate, err = safe_float_conversion(data.get('interest_rate', 0), field_name='interest_rate')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            tenure_months, err = safe_int_conversion(data.get('tenure_months', 0), field_name='tenure_months')
-            if err:
-                return ErrorResponse.json_error(message=err, status_code=400, error_code='INVALID_INPUT')
-            
-            payment_frequency = data.get('payment_frequency', 'lump_sum')
-            
-            if principal <= 0 or interest_rate < 0 or tenure_months <= 0:
-                return ErrorResponse.json_error(
-                    message='Invalid input: principal, interest_rate, and tenure_months must be positive',
-                    status_code=400,
-                    error_code='INVALID_INPUT'
-                )
-            
-            result = FinancialCalculator.calculate_fixed_deposit_maturity(
-                principal, interest_rate, tenure_months, payment_frequency
-            )
-        else:
-            return ErrorResponse.json_error(
-                message=f'Invalid calculator type: {calculator_type}',
-                status_code=400,
-                error_code='INVALID_CALCULATOR_TYPE'
-            )
-        
-        return ErrorResponse.json_success(
-            message='Calculation successful',
-            data={'result': result}
-        )
-        
-    except ValueError as e:
-        ErrorLogger.log_error(e, request, level='warning')
-        return ErrorResponse.json_error(
-            message=str(e),
-            status_code=400,
-            error_code='CALCULATION_ERROR'
-        )
+# Mapping for URL compatibility
+service_application = ServiceApplicationView.as_view()
+service_comparison = ServiceComparisonView.as_view()
+service_search = ServiceSearchView.as_view()
+calculator_api = CalculatorAPIView.as_view()
