@@ -2,12 +2,12 @@ from django.urls import path
 from . import views
 from . import map_views
 
-app_name = 'contact'  # This defines a namespace for the app's URLs
+app_name = 'contact'
 
 urlpatterns = [
-    path('', views.contact_view, name='contact_view'),
-    path('kym-form/', views.kym_form_view, name='kym_form'),
-    path('privacy-policy/', views.privacy_policy_view, name='privacy_policy'),
+    path('', views.ContactView.as_view(), name='contact_view'),
+    path('kym-form/', views.KYMFormView.as_view(), name='kym_form'),
+    path('privacy-policy/', views.PrivacyPolicyView.as_view(), name='privacy_policy'),
     
     # Interactive Map
     path('map/', map_views.interactive_map_view, name='interactive_map'),

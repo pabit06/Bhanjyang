@@ -26,10 +26,10 @@ class ContactSubmissionSerializer(serializers.ModelSerializer):
             'subject',
             'message',
             'attachment',
-            'submitted_at',
+            'created_at',
             'status'
         ]
-        read_only_fields = ['id', 'submitted_at', 'status']
+        read_only_fields = ['id', 'created_at', 'status']
     
     def validate_message(self, value):
         """Check for spam in message."""
@@ -129,8 +129,9 @@ class ContactStatsSerializer(serializers.Serializer):
     """Serializer for contact statistics (admin)."""
     
     total_submissions = serializers.IntegerField()
-    pending_count = serializers.IntegerField()
-    replied_count = serializers.IntegerField()
+    new_count = serializers.IntegerField()
+    in_progress_count = serializers.IntegerField()
+    resolved_count = serializers.IntegerField()
     spam_count = serializers.IntegerField()
     today_count = serializers.IntegerField()
     this_week_count = serializers.IntegerField()

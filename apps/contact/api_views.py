@@ -55,26 +55,26 @@ class ContactViewSet(viewsets.GenericViewSet):
         if serializer.is_valid():
             try:
                 # Process through ContactService
-                result = ContactService.process_submission(
+                # Use create_contact_submission which returns the submission instance
+                submission = ContactService.create_contact_submission(
                     form_data=serializer.validated_data,
-                    request=request
+                    files=request.FILES,
+                    request_meta=request.META
                 )
                 
-                if result.get('success'):
-                    logger.info(
-                        f"API contact submission successful: "
-                        f"ID {result.get('submission_id')} from {request.META.get('REMOTE_ADDR')}"
-                    )
-                    return Response({
-                        'success': True,
-                        'message': result.get('message', 'Submission received successfully'),
-                        'submission_id': result.get('submission_id')
-                    }, status=status.HTTP_201_CREATED)
-                else:
-                    return Response({
-                        'success': False,
-                        'errors': {'__all__': [result.get('message', 'Submission failed')]}
-                    }, status=status.HTTP_400_BAD_REQUEST)
+                # Send notification emails
+                ContactService.send_contact_notification_emails(submission)
+                
+                logger.info(
+                    f"API contact submission successful: "
+                    f"ID {submission.id} from {request.META.get('REMOTE_ADDR')}"
+                )
+                
+                return Response({
+                    'success': True,
+                    'message': 'Submission received successfully',
+                    'submission_id': submission.id
+                }, status=status.HTTP_201_CREATED)
                     
             except Exception as e:
                 logger.error(f"API contact submission error: {str(e)}")
@@ -155,17 +155,18 @@ class ContactViewSet(viewsets.GenericViewSet):
             
             stats = {
                 'total_submissions': ContactSubmission.objects.count(),
-                'pending_count': ContactSubmission.objects.filter(status='pending').count(),
-                'replied_count': ContactSubmission.objects.filter(status='replied').count(),
+                'new_count': ContactSubmission.objects.filter(status='new').count(),
+                'in_progress_count': ContactSubmission.objects.filter(status='in_progress').count(),
+                'resolved_count': ContactSubmission.objects.filter(status='resolved').count(),
                 'spam_count': ContactSubmission.objects.filter(status='spam').count(),
                 'today_count': ContactSubmission.objects.filter(
-                    submitted_at__gte=today_start
+                    created_at__gte=today_start
                 ).count(),
                 'this_week_count': ContactSubmission.objects.filter(
-                    submitted_at__gte=week_start
+                    created_at__gte=week_start
                 ).count(),
                 'this_month_count': ContactSubmission.objects.filter(
-                    submitted_at__gte=month_start
+                    created_at__gte=month_start
                 ).count()
             }
             
