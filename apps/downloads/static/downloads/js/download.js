@@ -48,26 +48,15 @@ function downloadSelected() {
         }
     }
 
+    // Track bulk download
+    trackBulkDownload(fileIds.length);
+
     // Create form and submit
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = '/downloads/bulk/'; // Reused path assuming logic, but best to use rendered URL. But extracted JS shouldn't contain django tags.
-    // The original code used {% url "downloads:bulk_download" %}
-    // I should pass this URL via data attribute or a global variable.
-    // For now I will assume the template will provide it in a data attribute on the body or button.
-
-    // Actually, looking at the template, there is no easy place to put it without modifying the template significantly.
-    // I will modify the template to add data-bulk-download-url to the body or a container.
-    // Wait, I can't use {% url %} in .js file.
-    // I'll grab it from the download button's data attribute which I will add.
-
-    // Let's assume I will add `data-url` to the bulk download button or similar.
-    // Or I can keep the logic in the template if it's too coupled, but the goal is to extract.
-    // I'll update the function to get the URL from a data attribute on the container.
 
     const container = document.getElementById('downloadable-files');
     const bulkUrl = container ? container.dataset.bulkUrl : '/downloads/bulk/';
-
     form.action = bulkUrl;
 
     // Add CSRF token
@@ -123,3 +112,136 @@ document.addEventListener('DOMContentLoaded', function () {
         }, index * 100);
     });
 });
+
+// ============================================================================
+// PROGRESSIVE ENHANCEMENT: Service Worker
+// ============================================================================
+
+// Service Worker for offline support and caching
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/static/sw.js')
+            .then(function (registration) {
+                console.log('✅ ServiceWorker registered with scope:', registration.scope);
+            })
+            .catch(function (error) {
+                console.log('❌ ServiceWorker registration failed:', error);
+            });
+    });
+}
+
+// ============================================================================
+// ANALYTICS: Track Downloads and User Behavior
+// ============================================================================
+
+// Track individual file downloads
+function trackFileDownload(fileId, fileTitle) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'file_download', {
+            'event_category': 'Downloads',
+            'event_label': fileTitle,
+            'file_id': fileId
+        });
+    }
+}
+
+// Track bulk downloads
+function trackBulkDownload(fileCount) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'bulk_download', {
+            'event_category': 'Downloads',
+            'event_label': `${fileCount} files`,
+            'value': fileCount
+        });
+    }
+}
+
+// Track search queries
+function trackSearch(query) {
+    if (typeof gtag !== 'undefined' && query) {
+        gtag('event', 'search', {
+            'event_category': 'Downloads',
+            'search_term': query
+        });
+    }
+}
+
+// Track category filters
+function trackCategoryFilter(category) {
+    if (typeof gtag !== 'undefined' && category) {
+        gtag('event', 'filter_category', {
+            'event_category': 'Downloads',
+            'event_label': category
+        });
+    }
+}
+
+// Auto-track search on form submission
+document.addEventListener('DOMContentLoaded', function () {
+    const searchForm = document.querySelector('form[role="search"]');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function () {
+            const searchInput = searchForm.querySelector('input[name="q"]');
+            if (searchInput && searchInput.value) {
+                trackSearch(searchInput.value);
+            }
+
+            const categorySelect = searchForm.querySelector('select[name="category"]');
+            if (categorySelect && categorySelect.value) {
+                trackCategoryFilter(categorySelect.value);
+            }
+        });
+    }
+});
+
+// ============================================================================
+// UX ENHANCEMENTS: Loading States
+// ============================================================================
+
+// Show loading indicator during AJAX operations
+function showLoadingIndicator() {
+    const indicator = document.createElement('div');
+    indicator.id = 'loading-indicator';
+    indicator.className = 'fixed top-4 right-4 z-50 bg-white px-6 py-3 rounded-lg shadow-xl border-l-4 border-deuraligreen';
+    indicator.innerHTML = `
+        <div class="flex items-center space-x-3">
+            <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-deuraligreen"></div>
+            <span class="text-gray-700 font-semibold">Loading...</span>
+        </div>
+    `;
+    document.body.appendChild(indicator);
+}
+
+function hideLoadingIndicator() {
+    const indicator = document.getElementById('loading-indicator');
+    if (indicator) {
+        indicator.remove();
+    }
+}
+
+// ============================================================================
+// ACCESSIBILITY: Keyboard Navigation
+// ============================================================================
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function (e) {
+    // Ctrl/Cmd + K for search focus
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.querySelector('input[name="q"]');
+        if (searchInput) {
+            searchInput.focus();
+        }
+    }
+
+    // Escape to clear search
+    if (e.key === 'Escape') {
+        const searchInput = document.querySelector('input[name="q"]');
+        if (searchInput && document.activeElement === searchInput) {
+            searchInput.value = '';
+            searchInput.blur();
+        }
+    }
+});
+
+console.log('✅ Downloads app enhanced with PWA, Analytics, and Accessibility features');

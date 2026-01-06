@@ -103,6 +103,18 @@ class ContactForm(forms.Form):
         label=_('Attachment (Optional)'),
         validators=[FileExtensionValidator(allowed_extensions=ALLOWED_CONTACT_FILE_EXTENSIONS)]
     )
+    
+    # Honeypot field - hidden from users, traps bots
+    website = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'hidden absolute -left-9999px',
+            'tabindex': '-1',
+            'autocomplete': 'off',
+            'aria-hidden': 'true'
+        }),
+        label=''
+    )
 
     def clean_subject(self):
         """Validate subject field for spam content."""
@@ -195,6 +207,20 @@ class ContactForm(forms.Form):
         if file and file.size > MAX_CONTACT_FILE_SIZE_BYTES:
             raise forms.ValidationError("File size must be less than 5MB.")
         return file
+    
+    def clean(self):
+        """Validate honeypot field - if filled, it's a bot."""
+        cleaned_data = super().clean()
+        
+        # Honeypot check - if filled, reject submission
+        website = cleaned_data.get('website')
+        if website:
+            raise forms.ValidationError(
+                "Invalid submission detected. Please try again."
+            )
+        
+        return cleaned_data
+
 
 
 class KYMForm(forms.Form):

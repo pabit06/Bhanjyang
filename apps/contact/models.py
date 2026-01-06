@@ -439,3 +439,22 @@ class OfficeLocation(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.get_location_type_display()}"
+
+
+class PrivacyPolicy(models.Model):
+    """
+    Model to manage Privacy Policy content.
+    """
+    title = models.CharField(max_length=200, default='Privacy Policy')
+    content = models.TextField(help_text=_("HTML content of the privacy policy"))
+    version = models.CharField(max_length=20, default='1.0')
+    is_active = models.BooleanField(default=True)
+    last_updated = models.DateField(auto_now=True)
+    
+    class Meta:
+        verbose_name = _('Privacy Policy')
+        verbose_name_plural = _('Privacy Policies')
+    
+    def __str__(self):
+        return f"{self.title} (v{self.version})"
+

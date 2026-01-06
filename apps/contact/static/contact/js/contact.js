@@ -584,3 +584,69 @@ document.addEventListener('DOMContentLoaded', function () {
         updateToggleState('main');
     }, 100);
 });
+
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // Register service worker from the root to control the whole app
+        // Note: This requires a view to serve sw.js from /sw.js
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('✅ Service Worker registered with scope:', registration.scope);
+            })
+            .catch(error => {
+                // Fail silently, PWA is progressive enhancement
+                console.log('Service Worker registration failed:', error);
+            });
+    });
+}
+
+// Google Analytics Tracking
+function trackEvent(action, category, label, value) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', action, {
+            'event_category': category,
+            'event_label': label,
+            'value': value
+        });
+    }
+}
+
+// Track contact form submissions
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('contactForm');
+    if (form) {
+        form.addEventListener('submit', function () {
+            trackEvent('submit', 'Contact', 'Contact Form Submission');
+        });
+    }
+
+    // Track email/phone clicks
+    document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+        link.addEventListener('click', function () {
+            trackEvent('click', 'Contact', 'Email Click', link.href);
+        });
+    });
+
+    document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+        link.addEventListener('click', function () {
+            trackEvent('click', 'Contact', 'Phone Click', link.href);
+        });
+    });
+
+    // Track map location toggles
+    const mapToggleMain = document.getElementById('map-toggle-main');
+    const mapToggleService = document.getElementById('map-toggle-service');
+
+    if (mapToggleMain) {
+        mapToggleMain.addEventListener('click', () => {
+            trackEvent('click', 'Map', 'Switch Location', 'Main Office');
+        });
+    }
+
+    if (mapToggleService) {
+        mapToggleService.addEventListener('click', () => {
+            trackEvent('click', 'Map', 'Switch Location', 'Service Center');
+        });
+    }
+});

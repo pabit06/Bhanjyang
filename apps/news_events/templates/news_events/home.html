@@ -14,15 +14,34 @@
 
 {% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock og_image %}
 
+{% block extra_head %}
+<!-- Resource Hints for Performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="preload" href="{% static 'news_events/css/home.css' %}" as="style">
+<link rel="preload" href="{% static 'news_events/js/home.js' %}" as="script">
+{% endblock extra_head %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'news_events/css/home.css' %}">
 {% endblock extra_css %}
 
 {% block content %}
-<!-- Skip to main content link for accessibility -->
-<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
-    {% trans "Skip to main content" %}
-</a>
+<!-- Enhanced Skip Navigation for Accessibility -->
+<nav aria-label="{% trans 'Skip links' %}" class="sr-only">
+    <a href="#main-content" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
+        {% trans "Skip to main content" %}
+    </a>
+    <a href="#latest-news" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-20 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
+        {% trans "Skip to latest news" %}
+    </a>
+    <a href="#upcoming-events" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-36 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
+        {% trans "Skip to upcoming events" %}
+    </a>
+    <a href="#newsletter" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-52 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
+        {% trans "Skip to newsletter" %}
+    </a>
+</nav>
 
 <!-- Modern Breadcrumb -->
 {% if breadcrumbs %}
@@ -30,7 +49,7 @@
 {% endif %}
 
 <!-- Hero Section -->
-<section class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+<section aria-label="{% trans 'News and Events Hero' %}" class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern2.png' as pattern_img %}
@@ -215,7 +234,7 @@
 {% endif %}
 
 <!-- Latest News Section -->
-<section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+<section id="latest-news" aria-labelledby="latest-news-heading" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern2.png' as pattern_img %}
@@ -232,7 +251,7 @@
                 <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
                     {% trans "Latest News" %}
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
+                <h2 id="latest-news-heading" class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
                     <span class="text-gray-800">नयाँ</span> <span class="text-deuraligreen">समाचार</span>
                 </h2>
                 <div class="w-24 h-1 bg-deuraligreen rounded-full mt-4"></div>
@@ -244,9 +263,35 @@
             </a>
         </div>
 
+        <!-- Loading Skeleton -->
+        <div id="articles-skeleton" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden" role="status" aria-label="{% trans 'Loading articles' %}">
+            {% for i in "123" %}
+            <div class="animate-pulse bg-white rounded-2xl shadow-lg overflow-hidden border-t-4 border-deuraligreen">
+                <div class="bg-gray-300 h-56"></div>
+                <div class="p-6 space-y-3">
+                    <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+                    <div class="h-4 bg-gray-300 rounded"></div>
+                    <div class="h-4 bg-gray-300 rounded w-5/6"></div>
+                    <div class="flex justify-between mt-4">
+                        <div class="h-3 bg-gray-200 rounded w-1/3"></div>
+                        <div class="h-3 bg-gray-200 rounded w-1/4"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for article in recent_articles %}
-            <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden border-t-4 border-deuraligreen relative">
+            <article itemscope itemtype="https://schema.org/NewsArticle" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden border-t-4 border-deuraligreen relative">
+                <!-- Schema.org Metadata -->
+                <meta itemprop="headline" content="{{ article.title }}">
+                <meta itemprop="datePublished" content="{{ article.published_date|date:'c' }}">
+                <meta itemprop="author" content="{{ article.author.get_full_name|default:article.author.username }}">
+                {% if article.image %}
+                <meta itemprop="image" content="{{ request.scheme }}://{{ request.get_host }}{{ article.image.url }}">
+                {% endif %}
+                <meta itemprop="description" content="{{ article.excerpt|default:article.content|striptags|truncatewords:20 }}">
                 <!-- Card Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
                     {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
@@ -302,7 +347,7 @@
 </section>
 
 <!-- Upcoming Events Section -->
-<section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+<section id="upcoming-events" aria-labelledby="upcoming-events-heading" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern2.png' as pattern_img %}
@@ -319,7 +364,7 @@
                 <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
                     {% trans "Upcoming Events" %}
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
+                <h2 id="upcoming-events-heading" class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
                     <span class="text-gray-800">आगामी</span> <span class="text-bhanjyangred">कार्यक्रमहरू</span>
                 </h2>
                 <div class="w-24 h-1 bg-bhanjyangred rounded-full mt-4"></div>
@@ -331,9 +376,40 @@
             </a>
         </div>
 
+        <!-- Loading Skeleton -->
+        <div id="events-skeleton" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden" role="status" aria-label="{% trans 'Loading events' %}">
+            {% for i in "123" %}
+            <div class="animate-pulse bg-white rounded-2xl shadow-lg overflow-hidden border-t-4 border-bhanjyangred">
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <div class="h-6 bg-bhanjyangred/20 rounded-full w-24"></div>
+                        <div class="h-4 bg-gray-200 rounded w-20"></div>
+                    </div>
+                    <div class="h-5 bg-gray-300 rounded w-3/4"></div>
+                    <div class="h-4 bg-gray-200 rounded"></div>
+                    <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                    <div class="flex items-center gap-2 mt-4">
+                        <div class="h-8 w-8 bg-deuraligreen/10 rounded-full"></div>
+                        <div class="h-4 bg-gray-200 rounded w-32"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for event in upcoming_events %}
-            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred relative overflow-hidden">
+            <div itemscope itemtype="https://schema.org/Event" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred relative overflow-hidden">
+                <!-- Schema.org Event Metadata -->
+                <meta itemprop="name" content="{{ event.title }}">
+                <meta itemprop="startDate" content="{{ event.event_date|date:'c' }}">
+                {% if event.end_date %}
+                <meta itemprop="endDate" content="{{ event.end_date|date:'c' }}">
+                {% endif %}
+                <div itemprop="location" itemscope itemtype="https://schema.org/Place" style="display:none;">
+                    <meta itemprop="name" content="{{ event.location }}">
+                </div>
+                <meta itemprop="description" content="{{ event.short_description|default:event.description|truncatewords:20 }}">
                 <!-- Card Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
                     {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
@@ -402,7 +478,7 @@
 </section>
 
 <!-- Newsletter Subscription Section -->
-<section id="newsletter-section" class="newsletter-subscription-section relative py-12 overflow-hidden" style="background: linear-gradient(to bottom right, #16a34a, #15803d, #16a34a) !important; background-color: #16a34a !important; opacity: 1 !important; visibility: visible !important;">
+<section id="newsletter" aria-label="{% trans 'Newsletter Subscription' %}" class="newsletter-subscription-section relative py-12 overflow-hidden" style="background: linear-gradient(to bottom right, #16a34a, #15803d, #16a34a) !important; background-color: #16a34a !important; opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
@@ -425,11 +501,23 @@
             {% trans "Subscribe to our newsletter and never miss important updates, news, and events from Bhanjyang Cooperative." %}
         </p>
 
-        <form id="newsletter-form" class="max-w-md mx-auto" data-url="{% url 'news_events:subscribe' %}">
+        <form id="newsletter-form" class="max-w-md mx-auto" data-url="{% url 'news_events:subscribe' %}" aria-label="{% trans 'Newsletter subscription form' %}">
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-home-csrf-token" value="{{ csrf_token }}">
+            
+            <!-- Honeypot Field for Bot Protection -->
+            <div style="position:absolute;left:-5000px;" aria-hidden="true">
+                <label for="newsletter_website">Leave this field blank</label>
+                <input type="text" name="website" id="newsletter_website" tabindex="-1" autocomplete="off" placeholder="Do not fill this field">
+            </div>
             <div class="flex flex-col sm:flex-row gap-4">
-                <input type="email" name="email" placeholder="{% trans 'Enter your email address' %}" required
-                    class="flex-1 px-6 py-4 rounded-full border-0 focus:ring-2 focus:ring-green-600 focus:outline-none" style="color: #111827 !important; background-color: #ffffff !important;">
+                <input type="email" name="email" 
+                    placeholder="{% trans 'Enter your email address' %}" 
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    aria-label="{% trans 'Email address' %}"
+                    aria-required="true"
+                    class="flex-1 px-6 py-4 rounded-full border-0 focus:ring-2 focus:ring-green-600 focus:outline-none" 
+                    style="color: #111827 !important; background-color: #ffffff !important;">
                 <button type="submit"
                     class="group inline-flex items-center gap-2 font-bold py-4 px-8 rounded-full hover:bg-green-700 transition-colors duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105" style="color: #ffffff !important; background-color: #16a34a !important;">
                     <span>{% trans "Subscribe" %}</span>
@@ -446,7 +534,7 @@
 </section>
 
 <!-- Statistics Section -->
-<section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+<section aria-labelledby="statistics-heading" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-[0.03]">
         {% static 'images/backgrounds/pattern2.png' as pattern_img %}
@@ -462,7 +550,7 @@
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
                 {% trans "Our Impact" %}
             </span>
-            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
+            <h2 id="statistics-heading" class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
                 <span class="text-gray-800">हाम्रो</span> <span class="text-deuraligreen">प्रभाव</span>
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
@@ -527,8 +615,122 @@ window.newsEventsMessages = {
     subscribing: "{% trans 'Subscribing...' %}",
     subscriptionFailed: "{% trans 'Subscription failed. Please try again later.' %}"
 };
+
+// Enhanced Analytics Tracking
+(function() {
+    'use strict';
+    
+    // Track newsletter subscription attempts
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            // Check honeypot
+            const honeypot = document.getElementById('newsletter_website');
+            if (honeypot && honeypot.value) {
+                console.warn('[Security] Honeypot triggered');
+                e.preventDefault();
+                return false;
+            }
+            
+            // Track analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'newsletter_subscription_attempt', {
+                    'event_category': 'engagement',
+                    'event_label': 'homepage_newsletter',
+                    'value': 1
+                });
+            }
+        });
+    }
+    
+    // Track article clicks
+    document.querySelectorAll('article a[href*="article"]').forEach(link => {
+        link.addEventListener('click', function() {
+            const article = this.closest('article');
+            const titleElement = article?.querySelector('h3');
+            const articleTitle = titleElement?.textContent?.trim();
+            
+            if (typeof gtag !== 'undefined' && articleTitle) {
+                gtag('event', 'article_click', {
+                    'event_category': 'content',
+                    'event_label': articleTitle,
+                    'value': 1
+                });
+            }
+        });
+    });
+    
+    // Track event clicks
+    document.querySelectorAll('[itemtype="https://schema.org/Event"] a[href*="event"]').forEach(link => {
+        link.addEventListener('click', function() {
+            const eventDiv = this.closest('[itemtype="https://schema.org/Event"]');
+            const titleElement = eventDiv?.querySelector('h3');
+            const eventTitle = titleElement?.textContent?.trim();
+            
+            if (typeof gtag !== 'undefined' && eventTitle) {
+                gtag('event', 'event_click', {
+                    'event_category': 'content',
+                    'event_label': eventTitle,
+                    'value': 1
+                });
+            }
+        });
+    });
+    
+    // Track scroll depth
+    let scrollDepth = 0;
+    let scrollTimer = null;
+    
+    const trackScrollDepth = () => {
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const scrollTop = window.scrollY;
+        const percent = Math.round((scrollTop / (documentHeight - windowHeight)) * 100);
+        
+        if (percent > scrollDepth && percent % 25 === 0) {
+            scrollDepth = percent;
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'scroll_depth', {
+                    'event_category': 'engagement',
+                    'event_label': percent + '%',
+                    'value': percent
+                });
+            }
+        }
+    };
+    
+    window.addEventListener('scroll', () => {
+        // Debounce scroll tracking
+        if (scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(trackScrollDepth, 100);
+    }, { passive: true });
+    
+    // Track time on page
+    const pageLoadTime = Date.now();
+    window.addEventListener('beforeunload', () => {
+        const timeOnPage = Math.round((Date.now() - pageLoadTime) / 1000);
+        if (typeof gtag !== 'undefined' && timeOnPage > 5) {
+            gtag('event', 'time_on_page', {
+                'event_category': 'engagement',
+                'event_label': 'homepage',
+                'value': timeOnPage
+            });
+        }
+    });
+})();
 </script>
 <script src="{% static 'news_events/js/home.js' %}"></script>
+
+<!-- Service Worker Registration -->
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/static/sw.js')
+            .then(reg => console.log('✅ Service Worker registered:', reg.scope))
+            .catch(err => console.warn('⚠️ Service Worker registration failed:', err));
+    });
+}
+</script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
 <script type="application/ld+json">

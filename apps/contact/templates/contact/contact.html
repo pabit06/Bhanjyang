@@ -23,10 +23,67 @@ phone number, email address, send message, kaski, customer support{% endblock me
 {% endblock extra_css %}
 
 {% block content %}
+<!-- Schema.org Structured Data -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Bhanjyang Cooperative",
+    "description": "Contact information for Bhanjyang Saving & Credit Cooperative Society Ltd. including Main Office and Service Center locations.",
+    "url": "{{ request.build_absolute_uri }}",
+    "mainEntity": {
+        "@type": "FinancialService",
+        "name": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
+        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+        "telephone": "+977-9856083101",
+        "email": "info@bhanjyang.coop.np",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rupa Rural Municipality-5, Deurali",
+            "addressLocality": "Kaski",
+            "addressRegion": "Gandaki Province",
+            "postalCode": "33700",
+            "addressCountry": "NP"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 28.121932,
+            "longitude": 84.149533
+        },
+        "openingHoursSpecification": [
+            {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+                ],
+                "opens": "10:00",
+                "closes": "16:00"
+            }
+        ],
+        "contactPoint": [
+            {
+                "@type": "ContactPoint",
+                "telephone": "+977-9856083101",
+                "contactType": "customer service",
+                "areaServed": "NP",
+                "availableLanguage": ["en", "ne"]
+            },
+            {
+                "@type": "ContactPoint",
+                "telephone": "+977-9846242424",
+                "contactType": "service center",
+                "areaServed": "NP",
+                "availableLanguage": ["en", "ne"]
+            }
+        ]
+    }
+}
+</script>
+
 <!-- Hero Section -->
 <section class="relative bg-white text-deuraligreen overflow-hidden min-h-[60vh] md:min-h-[70vh] flex items-center" 
          style="opacity: 1 !important; visibility: visible !important;"
-         aria-label="Contact hero section">
+         aria-labelledby="contact-hero-heading">
     
     <!-- Background Image -->
     <div class="absolute inset-0 z-0">

@@ -113,6 +113,14 @@ MIDDLEWARE = [
     'csp.middleware.CSPMiddleware', # CSP
     'django_otp.middleware.OTPMiddleware', # 2FA
     'apps.core.middleware.PerformanceMonitoringMiddleware',
+    
+    # Downloads Security Middleware (Priority 2)
+    'apps.downloads.middleware.DownloadsSecurityMiddleware',
+    'apps.downloads.middleware.SecurityHeadersMiddleware',
+    
+    # Contact Security Middleware (Priority 2)
+    'apps.contact.middleware.ContactRateLimitMiddleware',
+    'apps.contact.middleware.ContactSecurityHeadersMiddleware',
 ]
 
 # Add debug toolbar middleware for development
@@ -603,3 +611,37 @@ try:
         )
 except ImportError:
     pass
+
+# Downloads Security Settings (Priority 2)
+from datetime import timedelta
+
+DOWNLOADS_SECURITY = {
+    # IP Blacklist
+    'IP_BLACKLIST_DURATION': timedelta(hours=24),  # Default: 24 hours
+    'AUTO_BLACKLIST_ENABLED': True,
+    'AUTO_BLACKLIST_THRESHOLD': 10,  # Failed attempts before blacklist
+    
+    # Rate Limiting
+    'RATE_LIMIT_ENABLED': True,
+    'RATE_LIMITS': {
+        'download': {
+            'max_requests': 20,
+            'window': 3600  # 1 hour
+        },
+        'bulk_download': {
+            'max_requests': 5,
+            'window': 86400  # 24 hours
+        },
+        'view': {
+            'max_requests': 100,
+            'window': 3600  # 1 hour
+        }
+    },
+    
+    # Security Headers
+    'ENABLE_SECURITY_HEADERS': True,
+    
+    # Audit Logging
+    'ENABLE_AUDIT_LOGGING': True,
+    'AUDIT_LOG_RETENTION_DAYS': 90,
+}

@@ -12,6 +12,7 @@ from .constants import (
     ALLOWED_CONTACT_FILE_EXTENSIONS,
     ALLOWED_CONTACT_MIME_TYPES,
 )
+from .spam_detector import SpamDetectionService
 
 __all__ = [
     # Validators
@@ -24,6 +25,9 @@ __all__ = [
     'MAX_CONTACT_FILE_SIZE_MB',
     'MAX_CONTACT_FILE_SIZE_BYTES',
     'ALLOWED_CONTACT_FILE_EXTENSIONS',
+    'ALLOWED_CONTACT_FILE_EXTENSIONS',
     'ALLOWED_CONTACT_MIME_TYPES',
+    # Services
+    'SpamDetectionService',
 ]
 

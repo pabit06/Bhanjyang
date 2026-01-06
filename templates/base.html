@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 {# The lang attribute is set to Nepali, which is great for SEO and accessibility. #}
 <html lang="ne" class="scroll-smooth">
@@ -167,6 +168,15 @@
         {% endblock content %}
     </main>
 
+    {# Global Back to Top Button #}
+    <button id="back-to-top" 
+            class="fixed bottom-8 right-8 bg-deuraligreen text-white p-4 rounded-full shadow-2xl opacity-0 invisible transition-all duration-300 hover:bg-green-700 z-50 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
+            aria-label="{% trans 'Back to top' %}"
+            aria-hidden="true"
+            title="{% trans 'Scroll to top' %}">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
     {# Footer partial is included here. #}
     {% include 'partials/_footer.html' %}
 
@@ -206,6 +216,9 @@
     <script src="{% static 'vendor/nepali-datepicker/nepali.datepicker.v5.0.6.min.js' %}"></script>
     <script defer src="{% static 'js/vendor/nepali-datepicker-init.js' %}"></script>
     {% endblock extra_js %}
+
+    {# Global Back to Top Button - Always loaded #}
+    <script defer src="{% static 'js/components/back-to-top.js' %}"></script>
 
     {# Main JavaScript - Consolidated from inline scripts for better caching #}
     <script defer src="{% static 'js/base/main.js' %}"></script>
