@@ -26,6 +26,7 @@ urlpatterns = [
     path('calculators/savings/', views.savings_calculator, name='savings_calculator'),
     path('calculators/fixed-deposit/', views.fixed_deposit_calculator, name='fixed_deposit_calculator'),
     path('api/calculator/', views.calculator_api, name='calculator_api'),
+    path('api/options/', views.service_options_api, name='service_options_api'),
     path('apply/', views.service_application, name='service_application'),
     path('compare/', views.service_comparison, name='service_comparison'),
     path('search/', views.service_search, name='service_search'),

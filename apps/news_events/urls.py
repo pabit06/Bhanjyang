@@ -3,10 +3,14 @@
 from django.urls import path
 from . import views
 from . import api_views
+from .api import NewsEventsAPIView # Added import for NewsEventsAPIView
 
 app_name = 'news_events'
 
 urlpatterns = [
+    # API
+    path('api/<str:content_type>/', NewsEventsAPIView.as_view(), name='content_api'),
+    
     # Main pages
     path('', views.NewsHomeView.as_view(), name='home'),
     path('articles/', views.ArticleListView.as_view(), name='article-list'),

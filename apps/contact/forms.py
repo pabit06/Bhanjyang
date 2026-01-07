@@ -141,10 +141,10 @@ class ContactForm(forms.Form):
         
         # Must be digits or +digits
         if not re.match(r'^\+?\d+$', phone):
-            raise forms.ValidationError("Invalid characters in phone number.")
+            raise forms.ValidationError(_("Invalid characters in phone number."))
         
         if len(phone) < MIN_PHONE_LENGTH:
-            raise forms.ValidationError("Phone number too short.")
+            raise forms.ValidationError(_("Phone number too short."))
                  
         return phone
 
@@ -153,29 +153,29 @@ class ContactForm(forms.Form):
         email = self.cleaned_data.get('email', '').lower()
         
         if '@' not in email:
-            raise forms.ValidationError("Enter a valid email address.")
+            raise forms.ValidationError(_("Enter a valid email address."))
             
         local_part, domain = email.rsplit('@', 1)
         
         # Check for disposable email domains
         if domain in DISPOSABLE_EMAIL_DOMAINS:
-            raise forms.ValidationError("Disposable email addresses are not allowed.")
+            raise forms.ValidationError(_("Disposable email addresses are not allowed."))
         
         # Check suspicious patterns
         # 1. Starts with numbers
         if re.match(r'^\d+', local_part):
-            raise forms.ValidationError("Email address should not start with numbers.")
+            raise forms.ValidationError(_("Email address should not start with numbers."))
             
         # 2. Domain with many digits
         domain_name = domain.split('.')[0] if '.' in domain else domain
         if sum(c.isdigit() for c in domain_name) > MAX_DOMAIN_DIGITS:
-            raise forms.ValidationError("Suspicious email domain detected.")
+            raise forms.ValidationError(_("Suspicious email domain detected."))
             
         # 3. Short letters + many digits in local part
         letter_count = len(re.sub(r'\d', '', local_part))
         digit_count = sum(c.isdigit() for c in local_part)
         if letter_count <= MIN_LOCAL_PART_LETTERS and digit_count >= MIN_LOCAL_PART_DIGITS_FOR_SUSPICION:
-            raise forms.ValidationError("Suspicious email pattern detected.")
+            raise forms.ValidationError(_("Suspicious email pattern detected."))
             
         return email
 
@@ -189,7 +189,7 @@ class ContactForm(forms.Form):
         # Spam detection
         for pattern in SPAM_PATTERNS:
             if re.search(pattern, message, re.IGNORECASE):
-                raise forms.ValidationError("Message detected as spam.")
+                raise forms.ValidationError(_("Message detected as spam."))
 
         # Check for excessive repetition
         words = message.split()
@@ -197,7 +197,7 @@ class ContactForm(forms.Form):
             counts = Counter(w.lower() for w in words)
             most_common = counts.most_common(1)
             if most_common and most_common[0][1] > len(words) * MAX_WORD_REPETITION_RATIO:
-                raise forms.ValidationError("Message seems to contain excessive repetition.")
+                raise forms.ValidationError(_("Message seems to contain excessive repetition."))
                 
         return message
 
@@ -205,7 +205,7 @@ class ContactForm(forms.Form):
         """Validate attachment file size."""
         file = self.cleaned_data.get('attachment')
         if file and file.size > MAX_CONTACT_FILE_SIZE_BYTES:
-            raise forms.ValidationError("File size must be less than 5MB.")
+            raise forms.ValidationError(_("File size must be less than 5MB."))
         return file
     
     def clean(self):
@@ -216,7 +216,7 @@ class ContactForm(forms.Form):
         website = cleaned_data.get('website')
         if website:
             raise forms.ValidationError(
-                "Invalid submission detected. Please try again."
+                _("Invalid submission detected. Please try again.")
             )
         
         return cleaned_data

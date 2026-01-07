@@ -27,54 +27,78 @@
 </section>
 
 <!-- Comparison Form Section -->
-<section class="py-16 bg-gray-50">
+<section class="py-16 bg-gray-50" x-data="serviceComparison()">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="bg-white rounded-2xl shadow-xl p-8 card-glass">
                 <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-4">
-                        <i class="fas fa-balance-scale text-purple-600 mr-3"></i>
-                        Compare Services
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4 font-secondary">
+                        <i class="fas fa-balance-scale text-primary mr-3"></i>
+                        {% trans "Compare Services" %}
                     </h2>
                     <p class="text-lg text-gray-600">
-                        Select the services you want to compare side by side
+                        {% trans "Select the services you want to compare side by side" %}
                     </p>
                 </div>
                 
-                <form method="post" id="comparison-form">
-                    <input type="hidden" name="csrfmiddlewaretoken" id="comparison-csrf-token" value="{{ csrf_token }}">
-                    
+                <form method="get" id="comparison-form" @submit.prevent="submitForm">
                     <div class="space-y-6">
                         <!-- Service Type Selection -->
-                        <div>
-                            <label for="{{ form.service_type.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                                Service Type
+                        <div class="form-field">
+                            <label for="comparison-service-type" class="block text-sm font-medium text-gray-700 mb-2">
+                                {% trans "Service Type" %}
                             </label>
-                            {{ form.service_type }}
-                            {% if form.service_type.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.service_type.errors.0 }}</div>
-                            {% endif %}
+                            <select id="comparison-service-type" name="service_type" x-model="serviceType" @change="handleTypeChange" 
+                                class="w-full form-select focus:ring-primary focus:border-primary">
+                                <option value="">{% trans "Select Service Type" %}</option>
+                                <option value="savings">{% trans "Savings Accounts" %}</option>
+                                <option value="loans">{% trans "Loan Services" %}</option>
+                                <option value="fixed_deposits">{% trans "Fixed Deposits" %}</option>
+                            </select>
                         </div>
                         
                         <!-- Service Selection -->
-                        <div>
+                        <div x-show="serviceType" x-transition.opacity>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Select Services to Compare (Choose 2-4 services)
+                                {% trans "Select Services to Compare (Choose 2-4 services)" %}
                             </label>
-                            <div id="service-options" class="grid md:grid-cols-2 gap-4">
-                                <!-- Services will be loaded dynamically based on service type -->
+                            
+                            <!-- Loading State -->
+                            <div x-show="loading" class="text-center py-8">
+                                <i class="fas fa-spinner fa-spin text-2xl text-primary"></i>
                             </div>
-                            {% if form.services.errors %}
-                                <div class="text-red-600 text-sm mt-1">{{ form.services.errors.0 }}</div>
-                            {% endif %}
+
+                            <!-- Options Grid -->
+                            <div x-show="!loading" class="grid md:grid-cols-2 gap-4">
+                                <template x-for="service in options" :key="service.id">
+                                    <div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                                         :class="{'bg-primary/5 border-primary': selectedServices.includes(service.id.toString())}"
+                                         @click="toggleService(service.id.toString())">
+                                        <input type="checkbox" :value="service.id" x-model="selectedServices" 
+                                            class="form-checkbox text-primary rounded border-gray-300 focus:ring-primary h-5 w-5">
+                                        <span class="text-gray-700 font-medium" x-text="service.name"></span>
+                                    </div>
+                                </template>
+                            </div>
+                            
+                            <div x-show="options.length === 0 && !loading" class="text-center py-4 text-gray-500">
+                                {% trans "No services available for this category." %}
+                            </div>
+
+                            <p x-show="error" x-text="error" class="text-error text-sm mt-2"></p>
                         </div>
                         
                         <!-- Compare Button -->
                         <div class="text-center pt-6">
-                            <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg transition duration-300 transform hover:scale-105 text-lg">
+                            <button type="submit" 
+                                :disabled="selectedServices.length < 2 || selectedServices.length > 4"
+                                class="btn btn-primary btn-xl w-full sm:w-auto shadow-lg transform hover:scale-105 transition-all">
                                 <i class="fas fa-balance-scale mr-2"></i>
-                                Compare Services
+                                {% trans "Compare Services" %}
                             </button>
+                            <p class="text-sm text-gray-500 mt-2" x-show="selectedServices.length > 0">
+                                <span x-text="selectedServices.length"></span> {% trans "selected" %} (Min: 2, Max: 4)
+                            </p>
                         </div>
                     </div>
                 </form>
@@ -85,54 +109,56 @@
 
 <!-- Comparison Results -->
 {% if comparison_data %}
-<section class="py-16 bg-white">
+<section class="py-16 bg-white animate-fade-in-up">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Comparison Results</h2>
-            <p class="text-lg text-gray-600">Side-by-side comparison of selected services</p>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 font-secondary">{% trans "Comparison Results" %}</h2>
+            <p class="text-lg text-gray-600">{% trans "Side-by-side comparison of selected services" %}</p>
         </div>
         
         {% if service_type == 'savings' %}
         <!-- Savings Accounts Comparison -->
-        <div class="overflow-x-auto">
-            <table class="w-full bg-white rounded-xl shadow-lg overflow-hidden">
-                <thead class="bg-purple-600 text-white">
+        <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-100">
+            <table class="w-full bg-white">
+                <thead class="bg-primary text-white">
                     <tr>
-                        <th class="px-6 py-4 text-left">Service</th>
-                        <th class="px-6 py-4 text-center">Interest Rate</th>
-                        <th class="px-6 py-4 text-center">Minimum Balance</th>
-                        <th class="px-6 py-4 text-center">Features</th>
-                        <th class="px-6 py-4 text-center">Action</th>
+                        <th class="px-6 py-4 text-left">{% trans "Service" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Interest Rate" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Minimum Balance" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Features" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Action" %}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200">
                     {% for account in comparison_data.accounts %}
-                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <i class="{{ account.icon }} text-2xl {{ account.color }} mr-3"></i>
+                                <div class="p-2 rounded-full bg-gray-100 mr-3">
+                                    <i class="{{ account.icon|default:'fas fa-piggy-bank' }} text-xl {{ account.color|default:'text-primary' }}"></i>
+                                </div>
                                 <div>
                                     <h3 class="font-semibold text-gray-800">{{ account.name }}</h3>
-                                    <p class="text-sm text-gray-600">{{ account.nepali_name }}</p>
+                                    <p class="text-xs text-secondary mt-0.5">{{ account.nepali_name }}</p>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-2xl font-bold text-green-600">{{ account.interest_rate }}%</span>
+                            <span class="badge badge-success text-lg">{{ account.interest_rate }}%</span>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-lg font-semibold text-gray-800">NPR {{ account.minimum_balance|floatformat:0 }}</span>
+                            <span class="font-medium text-gray-700">NPR {{ account.minimum_balance|floatformat:0 }}</span>
                         </td>
                         <td class="px-6 py-4">
-                            <ul class="text-sm text-gray-600 space-y-1">
-                                {% for feature in account.features %}
-                                <li>• {{ feature }}</li>
+                            <ul class="text-sm text-gray-600 space-y-1 list-disc list-inside">
+                                {% forfeature in account.features %}
+                                <li>{{ feature }}</li>
                                 {% endfor %}
                             </ul>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <a href="{{ account.url }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300">
-                                View Details
+                            <a href="{{ account.url }}" class="btn btn-outline-primary btn-sm">
+                                {% trans "View Details" %}
                             </a>
                         </td>
                     </tr>
@@ -143,60 +169,63 @@
         
         <!-- Best Options Highlight -->
         <div class="mt-8 grid md:grid-cols-2 gap-6">
-            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
-                <h3 class="text-xl font-semibold text-green-800 mb-2">
-                    <i class="fas fa-trophy mr-2"></i>
-                    Best Interest Rate
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200 shadow-sm">
+                <h3 class="text-xl font-semibold text-green-800 mb-2 flex items-center">
+                    <i class="fas fa-trophy mr-2 text-yellow-600"></i>
+                    {% trans "Best Interest Rate" %}
                 </h3>
-                <p class="text-green-700">{{ comparison_data.best_interest_rate }}%</p>
+                <p class="text-3xl font-bold text-green-700">{{ comparison_data.best_interest_rate }}%</p>
             </div>
             
-            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
-                <h3 class="text-xl font-semibold text-blue-800 mb-2">
-                    <i class="fas fa-piggy-bank mr-2"></i>
-                    Lowest Minimum Balance
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200 shadow-sm">
+                <h3 class="text-xl font-semibold text-blue-800 mb-2 flex items-center">
+                    <i class="fas fa-piggy-bank mr-2 text-blue-600"></i>
+                    {% trans "Lowest Minimum Balance" %}
                 </h3>
-                <p class="text-blue-700">NPR {{ comparison_data.lowest_minimum_balance|floatformat:0 }}</p>
+                <p class="text-3xl font-bold text-blue-700">NPR {{ comparison_data.lowest_minimum_balance|floatformat:0 }}</p>
             </div>
         </div>
         
         {% elif service_type == 'loans' %}
         <!-- Loans Comparison -->
-        <div class="overflow-x-auto">
-            <table class="w-full bg-white rounded-xl shadow-lg overflow-hidden">
-                <thead class="bg-purple-600 text-white">
+        <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-100">
+            <table class="w-full bg-white">
+                <thead class="bg-primary text-white">
                     <tr>
-                        <th class="px-6 py-4 text-left">Loan Type</th>
-                        <th class="px-6 py-4 text-center">Interest Rate</th>
-                        <th class="px-6 py-4 text-center">Max Amount</th>
-                        <th class="px-6 py-4 text-center">Max Tenure</th>
-                        <th class="px-6 py-4 text-center">Action</th>
+                        <th class="px-6 py-4 text-left">{% trans "Loan Type" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Interest Rate" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Max Amount" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Max Tenure" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Action" %}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200">
                     {% for loan in comparison_data.loans %}
-                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <i class="{{ loan.icon }} text-2xl {{ loan.color }} mr-3"></i>
+                                <div class="p-2 rounded-full bg-gray-100 mr-3">
+                                    <i class="{{ loan.icon|default:'fas fa-hand-holding-usd' }} text-xl {{ loan.color|default:'text-primary' }}"></i>
+                                </div>
                                 <div>
                                     <h3 class="font-semibold text-gray-800">{{ loan.name }}</h3>
-                                    <p class="text-sm text-gray-600">{{ loan.nepali_name }}</p>
+                                    <p class="text-xs text-secondary mt-0.5">{{ loan.nepali_name }}</p>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-2xl font-bold text-red-600">{{ loan.monthly_interest_rate }}%</span>
+                            <span class="badge badge-warning text-lg">{{ loan.monthly_interest_rate }}%</span>
+                            <span class="block text-xs text-gray-500 mt-1">{% trans "Monthly" %}</span>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-lg font-semibold text-gray-800">NPR {{ loan.maximum_amount|floatformat:0 }}</span>
+                            <span class="font-medium text-gray-700">NPR {{ loan.maximum_amount|floatformat:0 }}</span>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-lg font-semibold text-gray-800">{{ loan.max_tenure_years }} years</span>
+                            <span class="font-medium text-gray-700">{{ loan.max_tenure_years }} {% trans "years" %}</span>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <a href="{{ loan.url }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300">
-                                View Details
+                            <a href="{{ loan.url }}" class="btn btn-outline-primary btn-sm">
+                                {% trans "View Details" %}
                             </a>
                         </td>
                     </tr>
@@ -205,41 +234,40 @@
             </table>
         </div>
         
-        <!-- Best Options Highlight -->
         <div class="mt-8 grid md:grid-cols-2 gap-6">
-            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200 shadow-sm">
                 <h3 class="text-xl font-semibold text-green-800 mb-2">
                     <i class="fas fa-percentage mr-2"></i>
-                    Lowest Interest Rate
+                    {% trans "Lowest Interest Rate" %}
                 </h3>
-                <p class="text-green-700">{{ comparison_data.lowest_interest_rate }}%</p>
+                <p class="text-3xl font-bold text-green-700">{{ comparison_data.lowest_interest_rate }}%</p>
             </div>
             
-            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200 shadow-sm">
                 <h3 class="text-xl font-semibold text-blue-800 mb-2">
                     <i class="fas fa-money-bill-wave mr-2"></i>
-                    Highest Loan Amount
+                    {% trans "Highest Loan Amount" %}
                 </h3>
-                <p class="text-blue-700">NPR {{ comparison_data.highest_maximum_amount|floatformat:0 }}</p>
+                <p class="text-3xl font-bold text-blue-700">NPR {{ comparison_data.highest_maximum_amount|floatformat:0 }}</p>
             </div>
         </div>
         
         {% elif service_type == 'fixed_deposits' %}
-        <!-- Fixed Deposits Comparison -->
-        <div class="overflow-x-auto">
-            <table class="w-full bg-white rounded-xl shadow-lg overflow-hidden">
-                <thead class="bg-purple-600 text-white">
+        <!-- FD Comparison -->
+        <div class="overflow-x-auto rounded-xl shadow-lg border border-gray-100">
+            <table class="w-full bg-white">
+                <thead class="bg-primary text-white">
                     <tr>
-                        <th class="px-6 py-4 text-left">Deposit Type</th>
-                        <th class="px-6 py-4 text-center">Duration</th>
-                        <th class="px-6 py-4 text-center">Interest Rate</th>
-                        <th class="px-6 py-4 text-center">Payment Frequency</th>
-                        <th class="px-6 py-4 text-center">Action</th>
+                        <th class="px-6 py-4 text-left">{% trans "Deposit Type" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Duration" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Interest Rate" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Payment Frequency" %}</th>
+                        <th class="px-6 py-4 text-center">{% trans "Action" %}</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-200">
                     {% for deposit in comparison_data.deposits %}
-                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4">
                             <div>
                                 <h3 class="font-semibold text-gray-800">{{ deposit.duration_display }}</h3>
@@ -247,17 +275,17 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-lg font-semibold text-gray-800">{{ deposit.duration_months }} months</span>
+                            {{ deposit.duration_months }} {% trans "months" %}
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-2xl font-bold text-green-600">{{ deposit.interest_rate }}%</span>
+                            <span class="badge badge-success text-lg">{{ deposit.interest_rate }}%</span>
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <span class="text-lg font-semibold text-gray-800">{{ deposit.payment_frequency_display }}</span>
+                            {{ deposit.payment_frequency_display }}
                         </td>
                         <td class="px-6 py-4 text-center">
-                            <a href="/services/fixed-deposits/{{ deposit.id }}/" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300">
-                                View Details
+                            <a href="{% url 'services:fixed_deposit_detail' slug=deposit.slug %}" class="btn btn-outline-primary btn-sm">
+                                {% trans "View Details" %}
                             </a>
                         </td>
                     </tr>
@@ -265,31 +293,29 @@
                 </tbody>
             </table>
         </div>
-        
-        <!-- Best Options Highlight -->
-        <div class="mt-8 grid md:grid-cols-3 gap-6">
-            <div class="bg-green-50 rounded-xl p-6 border border-green-200">
+         <div class="mt-8 grid md:grid-cols-3 gap-6">
+            <div class="bg-green-50 rounded-xl p-6 border border-green-200 shadow-sm">
                 <h3 class="text-xl font-semibold text-green-800 mb-2">
                     <i class="fas fa-trophy mr-2"></i>
-                    Best Interest Rate
+                    {% trans "Best Interest Rate" %}
                 </h3>
-                <p class="text-green-700">{{ comparison_data.highest_interest_rate }}%</p>
+                <p class="text-2xl font-bold text-green-700">{{ comparison_data.highest_interest_rate }}%</p>
             </div>
             
-            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200">
+            <div class="bg-blue-50 rounded-xl p-6 border border-blue-200 shadow-sm">
                 <h3 class="text-xl font-semibold text-blue-800 mb-2">
                     <i class="fas fa-clock mr-2"></i>
-                    Shortest Duration
+                    {% trans "Shortest Duration" %}
                 </h3>
-                <p class="text-blue-700">{{ comparison_data.shortest_duration }} months</p>
+                <p class="text-2xl font-bold text-blue-700">{{ comparison_data.shortest_duration }} {% trans "months" %}</p>
             </div>
             
-            <div class="bg-purple-50 rounded-xl p-6 border border-purple-200">
+            <div class="bg-purple-50 rounded-xl p-6 border border-purple-200 shadow-sm">
                 <h3 class="text-xl font-semibold text-purple-800 mb-2">
                     <i class="fas fa-calendar-alt mr-2"></i>
-                    Longest Duration
+                    {% trans "Longest Duration" %}
                 </h3>
-                <p class="text-purple-700">{{ comparison_data.longest_duration }} months</p>
+                <p class="text-2xl font-bold text-purple-700">{{ comparison_data.longest_duration }} {% trans "months" %}</p>
             </div>
         </div>
         {% endif %}
@@ -299,37 +325,38 @@
 
 <!-- Features Section -->
 <section class="py-16 bg-gray-50">
+    <!-- ... unchanged features section ... -->
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Why Compare Services?</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">{% trans "Why Compare Services?" %}</h2>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                Make informed decisions by comparing different service options side by side
+                {% trans "Make informed decisions by comparing different service options side by side" %}
             </p>
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
-            <div class="text-center">
+            <div class="text-center card hover:shadow-lg transition-shadow p-6">
                 <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-balance-scale text-purple-600 text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy Comparison</h3>
-                <p class="text-gray-600">Compare multiple services side by side with all key details</p>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{% trans "Easy Comparison" %}</h3>
+                <p class="text-gray-600">{% trans "Compare multiple services side by side with all key details" %}</p>
             </div>
             
-            <div class="text-center">
+            <div class="text-center card hover:shadow-lg transition-shadow p-6">
                 <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-chart-bar text-green-600 text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Best Options</h3>
-                <p class="text-gray-600">Identify the best options based on your specific needs</p>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{% trans "Best Options" %}</h3>
+                <p class="text-gray-600">{% trans "Identify the best options based on your specific needs" %}</p>
             </div>
             
-            <div class="text-center">
+            <div class="text-center card hover:shadow-lg transition-shadow p-6">
                 <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-semibold text-gray-800 mb-2">Informed Decisions</h3>
-                <p class="text-gray-600">Make better financial decisions with complete information</p>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{% trans "Informed Decisions" %}</h3>
+                <p class="text-gray-600">{% trans "Make better financial decisions with complete information" %}</p>
             </div>
         </div>
     </div>
@@ -338,83 +365,87 @@
 
 {% block extra_js %}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const serviceTypeSelect = document.getElementById('comparison-service-type');
-    const serviceOptionsDiv = document.getElementById('service-options');
-    
-    // Load services based on service type
-    function loadServices(serviceType) {
-        serviceOptionsDiv.innerHTML = '<div class="text-center py-8"><i class="fas fa-spinner fa-spin text-2xl text-gray-400"></i></div>';
-        
-        // This would typically be an AJAX call to get services
-        // For now, we'll simulate with static data
-        setTimeout(() => {
-            let services = [];
-            
-            if (serviceType === 'savings') {
-                services = [
-                    {id: 1, name: 'General Savings'},
-                    {id: 2, name: 'Child Savings'},
-                    {id: 3, name: 'Senior Citizen Savings'},
-                    {id: 4, name: 'Monthly Savings'},
-                    {id: 5, name: 'Daily Savings'},
-                    {id: 6, name: 'Institutional Savings'}
-                ];
-            } else if (serviceType === 'loans') {
-                services = [
-                    {id: 1, name: 'Business Loan'},
-                    {id: 2, name: 'Agricultural Loan'},
-                    {id: 3, name: 'House Construction Loan'},
-                    {id: 4, name: 'Vehicle Purchase Loan'},
-                    {id: 5, name: 'Education Loan'}
-                ];
-            } else if (serviceType === 'fixed_deposits') {
-                services = [
-                    {id: 1, name: '3 Months - Lump Sum'},
-                    {id: 2, name: '6 Months - Monthly'},
-                    {id: 3, name: '6 Months - Quarterly'},
-                    {id: 4, name: '12 Months - Monthly'},
-                    {id: 5, name: '12 Months - Quarterly'},
-                    {id: 6, name: '12 Months - Lump Sum'}
-                ];
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('serviceComparison', () => ({
+            serviceType: '',
+            options: [],
+            selectedServices: [],
+            loading: false,
+            error: null,
+
+            init() {
+                // Determine service type from URL if preset
+                const urlParams = new URLSearchParams(window.location.search);
+                this.serviceType = urlParams.get('service_type') || '';
+                
+                // Get selected services from URL
+                const selected = urlParams.getAll('service_ids');
+                if (selected.length > 0) {
+                    this.selectedServices = selected;
+                }
+
+                if (this.serviceType) {
+                    this.fetchOptions();
+                }
+            },
+
+            async handleTypeChange() {
+                this.selectedServices = []; // Reset selections when type changes
+                if (this.serviceType) {
+                    await this.fetchOptions();
+                } else {
+                    this.options = [];
+                }
+            },
+
+            async fetchOptions() {
+                this.loading = true;
+                this.error = null;
+                try {
+                    const response = await fetch(`{% url 'services:service_options_api' %}?service_type=${this.serviceType}`);
+                    if (!response.ok) throw new Error('Failed to fetch services');
+                    const data = await response.json();
+                    this.options = data.services;
+                } catch (e) {
+                    console.error(e);
+                    this.error = 'Could not load services. Please try again.';
+                } finally {
+                    this.loading = false;
+                }
+            },
+
+            toggleService(id) {
+                const index = this.selectedServices.indexOf(id);
+                if (index === -1) {
+                    this.selectedServices.push(id);
+                } else {
+                    this.selectedServices.splice(index, 1);
+                }
+            },
+
+            submitForm(event) {
+                // Because we used x-model="selectedServices", the checkboxes are checked in DOM
+                // But native form submission needs matching name="service_ids".
+                // I changed name="services" (from previous view) to "service_ids" in URL params logic 
+                // but the form field needs to match.
+                // The previous form used 'services'. The View logic expects 'service_ids' in GET 
+                // OR 'services' in POST body?
+                // ServiceComparisonView.get_context_data(): request.GET.getlist('service_ids')
+                // ServiceComparisonView.form_valid(): form.cleaned_data['services'] (POST)
+                
+                // If I submit GET form, inputs must have name 'service_ids'.
+                // I will add hidden inputs for selectedServices to ensure correct names for GET
+                
+                // Let's rely on constructing the URL manually to be safe and clean.
+                const url = new URL(window.location.href);
+                url.searchParams.set('service_type', this.serviceType);
+                url.searchParams.delete('service_ids'); // Clear old
+                this.selectedServices.forEach(id => {
+                    url.searchParams.append('service_ids', id);
+                });
+                window.location.href = url.toString();
             }
-            
-            let html = '';
-            services.forEach(service => {
-                html += `
-                    <div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
-                        <input type="checkbox" name="services" value="${service.id}" class="form-check-input">
-                        <label class="text-gray-700">${service.name}</label>
-                    </div>
-                `;
-            });
-            
-            serviceOptionsDiv.innerHTML = html;
-        }, 500);
-    }
-    
-    // Load services when service type changes
-    serviceTypeSelect.addEventListener('change', function() {
-        if (this.value) {
-            loadServices(this.value);
-        } else {
-            serviceOptionsDiv.innerHTML = '<div class="text-center py-8 text-gray-500">Select a service type to see available options</div>';
-        }
+        }));
     });
-    
-    // Form validation
-    const form = document.getElementById('comparison-form');
-    form.addEventListener('submit', function(e) {
-        const selectedServices = form.querySelectorAll('input[name="services"]:checked');
-        
-        if (selectedServices.length < 2) {
-            e.preventDefault();
-            alert('Please select at least 2 services to compare.');
-        } else if (selectedServices.length > 4) {
-            e.preventDefault();
-            alert('Please select maximum 4 services to compare.');
-        }
-    });
-});
 </script>
 {% endblock extra_js %}

@@ -103,7 +103,7 @@
             <!-- Description -->
             <div class="mb-12 scroll-reveal">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6 font-montserrat">
-                    <span class="text-gray-800">कार्यक्रम</span> <span class="text-purple-600 font-extrabold">अवलोकन</span>
+                    <span class="text-gray-800">{% trans "Program" %}</span> <span class="text-purple-600 font-extrabold">{% trans "Overview" %}</span>
                 </h2>
                 <div class="bg-gradient-to-br from-purple-50 to-indigo-50 p-8 rounded-2xl border-l-4 border-purple-600 shadow-lg">
                     <p class="text-lg text-gray-700 leading-relaxed">{{ service.description|linebreaks }}</p>
@@ -183,7 +183,7 @@
     </div>
     
     <div class="container mx-auto px-4 text-center relative z-10">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">तपाईंको विश्वास, हाम्रो जिम्मेवारी</h2>
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
         <p class="text-lg md:text-xl opacity-90 mb-12 max-w-3xl mx-auto">
             {% trans "Ready to apply? Contact our relief committee to start your application process for" %} {{ service.title }}.
         </p>
@@ -210,7 +210,7 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
-            <span class="text-gray-800">अन्य</span> <span class="text-purple-600 font-extrabold">सहायता</span> <span class="text-gray-800">कार्यक्रमहरू</span>
+            <span class="text-gray-800">{% trans "Other" %}</span> <span class="text-purple-600 font-extrabold">{% trans "Relief" %}</span> <span class="text-gray-800">{% trans "Programs" %}</span>
         </h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for relief in related_reliefs %}

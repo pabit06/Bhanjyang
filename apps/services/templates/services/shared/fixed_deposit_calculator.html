@@ -25,139 +25,133 @@
 </section>
 
 <!-- Calculator Section -->
-<section class="py-16 bg-gray-50">
+<section class="py-16 bg-gray-50" x-data="fdCalculator()">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="max-w-4xl mx-auto">
-            <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="bg-white rounded-2xl shadow-xl p-8 card-glass">
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Calculator Form -->
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-6">
-                            <i class="fas fa-calculator text-purple-600 mr-3"></i>
-                            Calculate FD
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 font-secondary">
+                            <i class="fas fa-calculator text-primary mr-3"></i>
+                            {% trans "Calculate FD" %}
                         </h2>
 
-                        <form method="post" id="fd-calculator-form">
-                            {% csrf_token %}
-
-                            <div class="space-y-6">
-                                <!-- Deposit Type -->
-                                <div>
-                                    <label for="{{ form.deposit_type.id_for_label }}"
-                                        class="block text-sm font-medium text-gray-700 mb-2">
-                                        Fixed Deposit Scheme
-                                    </label>
-                                    {{ form.deposit_type }}
-                                    {% if form.deposit_type.errors %}
-                                    <div class="text-red-600 text-sm mt-1">{{ form.deposit_type.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-
-                                <!-- Deposit Amount -->
-                                <div>
-                                    <label for="{{ form.deposit_amount.id_for_label }}"
-                                        class="block text-sm font-medium text-gray-700 mb-2">
-                                        Deposit Amount (NPR)
-                                    </label>
-                                    {{ form.deposit_amount }}
-                                    {% if form.deposit_amount.errors %}
-                                    <div class="text-red-600 text-sm mt-1">{{ form.deposit_amount.errors.0 }}</div>
-                                    {% endif %}
-                                </div>
-
-                                <!-- Calculate Button -->
-                                <button type="submit"
-                                    class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
-                                    <i class="fas fa-calculator mr-2"></i>
-                                    Calculate Returns
-                                </button>
+                        <div class="space-y-6">
+                            <div class="form-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Deposit Amount (NPR)" %}</label>
+                                <input type="number" x-model.number="principal" class="w-full form-input" placeholder="e.g. 100000">
                             </div>
-                        </form>
+
+                            <div class="form-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Interest Rate (%)" %}</label>
+                                <input type="number" x-model.number="rate" step="0.1" class="w-full form-input" placeholder="e.g. 9.5">
+                            </div>
+
+                            <div class="form-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Duration (Months)" %}</label>
+                                <input type="number" x-model.number="tenureMonths" class="w-full form-input" placeholder="e.g. 12">
+                            </div>
+                            
+                            <div class="form-field">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">{% trans "Payout Frequency" %}</label>
+                                <select x-model="frequency" class="w-full form-select">
+                                    <option value="lump_sum">{% trans "Lump Sum (At Maturity)" %}</option>
+                                    <option value="monthly">{% trans "Monthly" %}</option>
+                                    <option value="quarterly">{% trans "Quarterly" %}</option>
+                                </select>
+                            </div>
+
+                            <button @click="calculate()" :disabled="loading" 
+                                class="w-full btn btn-primary btn-lg justify-center">
+                                <span x-show="!loading"><i class="fas fa-calculator mr-2"></i> {% trans "Calculate Returns" %}</span>
+                                <span x-show="loading"><i class="fas fa-spinner fa-spin mr-2"></i> {% trans "Calculating..." %}</span>
+                            </button>
+                            
+                            <p x-show="error" x-text="error" class="text-error text-sm mt-2"></p>
+                        </div>
                     </div>
 
                     <!-- Results Display -->
-                    <div>
-                        <h2 class="text-2xl font-bold text-gray-800 mb-6">
-                            <i class="fas fa-chart-line text-green-600 mr-3"></i>
-                            Calculation Results
-                        </h2>
-
-                        {% if calculation %}
-                        <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-6 space-y-4">
-                            <!-- Maturity Amount -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-800">Maturity Amount</h3>
-                                        <p class="text-sm text-gray-600">Total Receivable</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-2xl font-bold text-green-600">
-                                            NPR {{ calculation.maturity_amount|floatformat:0 }}
+                    <div class="flex flex-col justify-center">
+                        <template x-if="result">
+                            <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-6 space-y-4 border border-purple-100 animate-fade-in-up">
+                                <!-- Maturity Amount -->
+                                <div class="bg-white rounded-lg p-4 shadow-sm border-l-4 border-purple-500">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-800">{% trans "Maturity Amount" %}</h3>
+                                            <p class="text-sm text-gray-600">{% trans "Total Receivable" %}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-2xl font-bold text-green-600">
+                                                NPR <span x-text="formatCurrency(result.maturity_amount)"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Principal -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-800">Principal Amount</h3>
-                                        <p class="text-sm text-gray-600">Initial Investment</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-xl font-bold text-blue-600">
-                                            NPR {{ calculation.principal|floatformat:0 }}
+                                <!-- Principal -->
+                                <div class="bg-white rounded-lg p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-800">{% trans "Principal Amount" %}</h3>
+                                            <p class="text-sm text-gray-600">{% trans "Initial Investment" %}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-xl font-bold text-blue-600">
+                                                NPR <span x-text="formatCurrency(result.principal)"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Interest Earned -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-800">Interest Earned</h3>
-                                        <p class="text-sm text-gray-600">Total Interest</p>
-                                    </div>
-                                    <div class="text-right">
-                                        <div class="text-xl font-bold text-purple-600">
-                                            NPR {{ calculation.interest_earned|floatformat:0 }}
+                                <!-- Interest Earned -->
+                                <div class="bg-white rounded-lg p-4 shadow-sm">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <h3 class="text-lg font-semibold text-gray-800">{% trans "Interest Earned" %}</h3>
+                                            <p class="text-sm text-gray-600">{% trans "Total Interest" %}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-xl font-bold text-purple-600">
+                                                NPR <span x-text="formatCurrency(result.interest_earned)"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Details -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm text-sm text-gray-600">
-                                <div class="flex justify-between mb-1">
-                                    <span>Interest Rate:</span>
-                                    <span class="font-medium">{{ calculation.annual_rate }}% Annual</span>
+                                
+                                <!-- Details -->
+                                <div class="bg-white rounded-lg p-4 shadow-sm text-sm text-gray-600">
+                                    <div class="flex justify-between mb-1">
+                                        <span>{% trans "Interest Rate:" %}</span>
+                                        <span class="font-medium"><span x-text="result.annual_rate"></span>% {% trans "Annual" %}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>{% trans "Duration:" %}</span>
+                                        <span class="font-medium"><span x-text="result.tenure_months"></span> {% trans "Months" %}</span>
+                                    </div>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span>Duration:</span>
-                                    <span class="font-medium">{{ calculation.tenure_months }} Months</span>
+
+                                <div class="pt-4">
+                                     <a href="{% url 'services:service_application' %}?service_type=fixed_deposit"
+                                        class="w-full btn btn-secondary btn-lg justify-center text-center">
+                                        <i class="fas fa-file-alt mr-2"></i>
+                                        {% trans "Apply for FD" %}
+                                    </a>
                                 </div>
                             </div>
-
-                            <!-- Apply Button -->
-                            {% if deposit_type %}
-                            <div class="pt-4">
-                                <a href="{% url 'services:service_application' %}?service_type=fixed_deposit&service_id={{ deposit_type.id }}"
-                                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 text-center block">
-                                    <i class="fas fa-file-alt mr-2"></i>
-                                    Apply for FD
-                                </a>
+                        </template>
+                        
+                        <template x-if="!result">
+                             <div class="bg-gray-50 rounded-xl p-8 text-center border border-gray-200">
+                                <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-certificate text-purple-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-800 mb-2">{% trans "Secure Your Returns" %}</h3>
+                                <p class="text-gray-600">{% trans "Calculate your high-yield fixed deposit returns." %}</p>
                             </div>
-                            {% endif %}
-                        </div>
-                        {% else %}
-                        <div class="bg-gray-100 rounded-xl p-8 text-center">
-                            <i class="fas fa-certificate text-gray-400 text-4xl mb-4"></i>
-                            <p class="text-gray-600">Select a scheme and amount to calculate returns</p>
-                        </div>
-                        {% endif %}
+                        </template>
                     </div>
                 </div>
             </div>
@@ -202,3 +196,44 @@
     </div>
 </section>
 {% endblock content %}
+
+{% block extra_js %}
+<script type="module">
+    import { CalculatorService } from "{% static 'js/modules/calculator-api.js' %}";
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('fdCalculator', () => ({
+            principal: 100000,
+            rate: 9.5,
+            tenureMonths: 12,
+            frequency: 'lump_sum',
+            loading: false,
+            error: null,
+            result: null,
+            service: new CalculatorService(),
+
+            async calculate() {
+                this.loading = true;
+                this.error = null;
+                try {
+                    this.result = await this.service.calculateFixedDeposit(
+                        this.principal, 
+                        this.rate, 
+                        this.tenureMonths,
+                        this.frequency
+                    );
+                } catch (e) {
+                    this.error = e.message;
+                    console.error(e);
+                } finally {
+                    this.loading = false;
+                }
+            },
+
+            formatCurrency(value) {
+                return new Intl.NumberFormat('en-NP', { maximumFractionDigits: 0 }).format(value);
+            }
+        }));
+    });
+</script>
+{% endblock extra_js %}

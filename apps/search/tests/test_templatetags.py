@@ -15,6 +15,17 @@ class SearchTemplateTagsTest(TestCase):
         """Test model_name with object"""
         cooperative = CooperativeInfo.objects.create(
             cooperative_name="Test",
+            cooperative_name_nepali="Test Nepali",
+            established_date="2020-01-01",
+            registration_number="123",
+            license_number="456",
+            address="Test Address",
+            phone="1234567890",
+            email="test@example.com",
+            mission="Test Mission",
+            vision="Test Vision",
+            values="Test Values",
+            description="Test Description",
             is_active=True
         )
         result = model_name(cooperative)
@@ -29,6 +40,17 @@ class SearchTemplateTagsTest(TestCase):
         """Test using model_name in template"""
         cooperative = CooperativeInfo.objects.create(
             cooperative_name="Test",
+            cooperative_name_nepali="Test Nepali",
+            established_date="2020-01-01",
+            registration_number="123",
+            license_number="456",
+            address="Test Address",
+            phone="1234567890",
+            email="test@example.com",
+            mission="Test Mission",
+            vision="Test Vision",
+            values="Test Values",
+            description="Test Description",
             is_active=True
         )
         template = Template(

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
-{% load search_extras %}
 
 {% block title %}{% trans "Advanced Search - Bhanjyang Cooperative" %}{% endblock title %}
 
@@ -16,267 +15,348 @@
 {% endblock extra_head %}
 
 {% block content %}
-<!-- Hero Section -->
-<section
-    class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
-    <div class="container mx-auto text-center max-w-4xl">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-montserrat mb-4 sm:mb-6">
-            {% trans "Advanced Search" %}
-        </h1>
-        <p class="text-base sm:text-lg md:text-xl opacity-90 leading-relaxed px-4">
-            {% trans "Find exactly what you're looking for across all our content" %}
-        </p>
-    </div>
-</section>
+<!-- Search App Container -->
+<div x-data="searchApp" class="min-h-screen bg-gray-50">
+    
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+        <div class="container mx-auto text-center max-w-4xl">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-montserrat mb-4 sm:mb-6" data-aos="fade-down">
+                {% trans "Advanced Search" %}
+            </h1>
+            <p class="text-base sm:text-lg md:text-xl opacity-90 leading-relaxed px-4" data-aos="fade-up" data-aos-delay="100">
+                {% trans "Find exactly what you're looking for across all our content" %}
+            </p>
+        </div>
+    </section>
 
-<!-- Search Form -->
-<section class="py-8 px-4 sm:px-6 lg:px-8 bg-white">
-    <div class="container mx-auto max-w-4xl">
-        <form method="get" class="search-form">
-            <div class="relative mb-6">
-                <input type="text" name="q" value="{{ query }}" placeholder="{% trans 'Search for anything...' %}"
-                    class="w-full px-6 py-4 pl-12 pr-4 text-lg border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent transition-all duration-300"
-                    id="search-input" autocomplete="off">
-                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
-                <button type="submit"
-                    class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-deuraligreen hover:bg-bhanjyangred text-white px-6 py-2 rounded-lg transition-colors">
-                    {% trans "Search" %}
-                </button>
-            </div>
+    <!-- Search Form Section -->
+    <section class="py-8 px-4 sm:px-6 lg:px-8 bg-white shadow-sm sticky top-0 z-30" id="search-bar">
+        <div class="container mx-auto max-w-4xl">
+            <form @submit.prevent="performSearch(1)" class="search-form">
+                <div class="relative mb-6">
+                    <input type="text" x-model="query" placeholder="{% trans 'Search for anything...' %}"
+                        class="w-full px-6 py-4 pl-12 pr-4 text-lg border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent transition-all duration-300"
+                        id="search-input" autocomplete="off"
+                        @keydown.debounce.300ms="fetchSuggestions">
+                    
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
+                    
+                    <!-- Loading Spinner -->
+                    <div x-show="isLoading" class="absolute right-24 top-1/2 transform -translate-y-1/2">
+                        <i class="fas fa-spinner fa-spin text-deuraligreen text-xl"></i>
+                    </div>
 
-            <!-- Search Filters -->
-            <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                <div class="flex-1">
-                    <label for="search-type" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Search Type" %}</label>
-                    <select name="type" id="search-type"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                        <option value="all" {% if search_type == 'all' %}selected{% endif %}>{% trans "All Content" %}</option>
-                        <option value="team" {% if search_type == 'team' %}selected{% endif %}>{% trans "Team Members" %}</option>
-                        <option value="events" {% if search_type == 'events' %}selected{% endif %}>{% trans "Timeline Events" %}
-                        </option>
-                        <option value="affiliations" {% if search_type == 'affiliations' %}selected{% endif %}>
-                            {% trans "Affiliations" %}</option>
-                    </select>
+                    <button type="submit"
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-deuraligreen hover:bg-bhanjyangred text-white px-6 py-2 rounded-lg transition-colors shadow-md hover:shadow-lg">
+                        {% trans "Search" %}
+                    </button>
+
+                    <!-- Suggestions Dropdown -->
+                    <div x-show="suggestions.length > 0" 
+                         @click.away="suggestions = []"
+                         x-transition.opacity
+                         class="absolute z-50 w-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-xl overflow-hidden">
+                        <ul>
+                            <template x-for="suggestion in suggestions" :key="suggestion.text">
+                                <li>
+                                    <a :href="suggestion.url" class="block px-6 py-3 hover:bg-gray-50 text-gray-700 hover:text-deuraligreen transition-colors flex justify-between items-center">
+                                        <span x-text="suggestion.text"></span>
+                                        <span class="text-xs text-gray-400 bg-gray-100 px-2 py-1 rounded-full uppercase" x-text="suggestion.type"></span>
+                                    </a>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="flex-1">
-                    <label for="sort-by" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Sort By" %}</label>
-                    <select name="sort" id="sort-by"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                        <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>{% trans "Relevance" %}</option>
-                        <option value="date" {% if sort_by == 'date' %}selected{% endif %}>{% trans "Date" %}</option>
-                        <option value="title" {% if sort_by == 'title' %}selected{% endif %}>{% trans "Title" %}</option>
-                    </select>
+                <!-- Search Filters -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex-1">
+                        <label for="search-type" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Search Type" %}</label>
+                        <select x-model="type" @change="performSearch(1)" id="search-type"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent bg-gray-50">
+                            <option value="all">{% trans "All Content" %}</option>
+                            <option value="team">{% trans "Team Members" %}</option>
+                            <option value="events">{% trans "Timeline Events" %}</option>
+                            <option value="affiliations">{% trans "Affiliations" %}</option>
+                        </select>
+                    </div>
+
+                    <div class="flex-1">
+                        <label for="sort-by" class="block text-sm font-medium text-gray-700 mb-2">{% trans "Sort By" %}</label>
+                        <select x-model="sort" @change="performSearch(1)" id="sort-by"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent bg-gray-50">
+                            <option value="relevance">{% trans "Relevance" %}</option>
+                            <option value="date">{% trans "Date" %}</option>
+                            <option value="title">{% trans "Title" %}</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-        </form>
-
-        <!-- Search Suggestions -->
-        <div id="search-suggestions"
-            class="hidden bg-white border border-gray-300 rounded-lg shadow-lg mt-2 max-h-60 overflow-y-auto">
-            <!-- Suggestions will be populated by JavaScript -->
+            </form>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Search Results -->
-{% if query %}
-<section class="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50">
-    <div class="container mx-auto max-w-6xl">
-        <!-- Results Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
-            <div>
-                <h2 class="text-2xl font-bold text-deuraligreen mb-2">Search Results</h2>
-                <p class="text-gray-600">
-                    Found {{ total_results }} result{{ total_results|pluralize }} for "<strong>{{ query }}</strong>"
-                </p>
+    <!-- Search Results Section -->
+    <section class="py-8 px-4 sm:px-6 lg:px-8 bg-gray-50 min-h-[50vh]">
+        <div class="container mx-auto max-w-6xl">
+            
+            <!-- Welcome/Instruction State -->
+            <div x-show="!hasSearched && !query" class="text-center py-12 text-gray-500">
+                <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-search text-gray-400 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-medium mb-2">{% trans "Start your search" %}</h3>
+                <p>{% trans "Type keywords above to search team members, events, and more." %}</p>
             </div>
 
-            <!-- Search Tips -->
-            <div class="mt-4 sm:mt-0">
-                <button id="search-tips-btn" class="text-deuraligreen hover:text-bhanjyangred text-sm font-medium">
-                    <i class="fas fa-lightbulb mr-1"></i>Search Tips
-                </button>
-            </div>
-        </div>
-
-        <!-- Search Tips Modal -->
-        <div id="search-tips-modal"
-            class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div class="bg-white rounded-lg max-w-md w-full p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold">Search Tips</h3>
-                    <button id="close-tips-modal" class="text-gray-400 hover:text-gray-600">
-                        <i class="fas fa-times"></i>
+            <!-- Results Header -->
+            <div x-show="hasSearched" x-transition.opacity class="mb-8">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-deuraligreen mb-2">{% trans "Search Results" %}</h2>
+                        <p class="text-gray-600">
+                            Found <span x-text="totalResults" class="font-bold"></span> result<span x-show="totalResults !== 1">s</span> for "<strong x-text="query"></strong>"
+                        </p>
+                    </div>
+                    
+                    <!-- Basic Tips Toggle -->
+                    <button @click="showTips = !showTips" class="mt-4 sm:mt-0 text-deuraligreen hover:text-bhanjyangred text-sm font-medium flex items-center gap-2">
+                        <i class="fas fa-lightbulb"></i> {% trans "Search Tips" %}
                     </button>
                 </div>
-                <ul class="space-y-2 text-sm text-gray-600">
-                    <li><i class="fas fa-check text-green-500 mr-2"></i>Use specific keywords for better results</li>
-                    <li><i class="fas fa-check text-green-500 mr-2"></i>Try different search types</li>
-                    <li><i class="fas fa-check text-green-500 mr-2"></i>Use quotes for exact phrases</li>
-                    <li><i class="fas fa-check text-green-500 mr-2"></i>Check spelling if no results found</li>
-                </ul>
-            </div>
-        </div>
 
-        <!-- Results List -->
-        {% if results %}
-        <div class="space-y-6">
-            {% for result in results %}
-            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <!-- Result Icon -->
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 bg-deuraligreen rounded-lg flex items-center justify-center">
-                            {% if result|model_name == 'cooperativeinfo' %}
-                            <i class="fas fa-building text-white"></i>
-                            {% elif result|model_name == 'cooperativetimeline' %}
-                            <i class="fas fa-calendar text-white"></i>
-                            {% elif result|model_name == 'cooperativeaffiliation' %}
-                            <i class="fas fa-handshake text-white"></i>
-                            {% elif result|model_name == 'leadershipmessage' %}
-                            <i class="fas fa-quote-left text-white"></i>
-                            {% elif result|model_name == 'person' %}
-                            <i class="fas fa-user text-white"></i>
-                            {% else %}
-                            <i class="fas fa-file text-white"></i>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <!-- Result Content -->
-                    <div class="flex-1">
-                        <h3 class="text-lg font-semibold text-deuraligreen mb-2">
-                            {% if result.title %}
-                            {{ result.title }}
-                            {% elif result.cooperative_name %}
-                            {{ result.cooperative_name }}
-                            {% elif result.full_name %}
-                            {{ result.full_name }}
-                            {% elif result.name %}
-                            {{ result.name }}
-                            {% endif %}
-                        </h3>
-
-                        <p class="text-gray-600 mb-3">
-                            {% if result.description %}
-                            {{ result.description|truncatewords:30 }}
-                            {% elif result.content %}
-                            {{ result.content|truncatewords:30 }}
-                            {% elif result.bio %}
-                            {{ result.bio|truncatewords:30 }}
-                            {% endif %}
-                        </p>
-
-                        <!-- Result Meta -->
-                        <div class="flex flex-wrap gap-4 text-sm text-gray-500">
-                            <span class="flex items-center">
-                                <i class="fas fa-tag mr-1"></i>
-                                {% if result|model_name == 'cooperativeinfo' %}
-                                Cooperative Info
-                                {% elif result|model_name == 'cooperativetimeline' %}
-                                Timeline Event
-                                {% elif result|model_name == 'cooperativeaffiliation' %}
-                                Affiliation
-                                {% elif result|model_name == 'leadershipmessage' %}
-                                Leadership Message
-                                {% elif result|model_name == 'person' %}
-                                Team Member
-                                {% endif %}
-                            </span>
-
-                            {% if result.created_at %}
-                            <span class="flex items-center">
-                                <i class="fas fa-calendar mr-1"></i>
-                                {{ result.created_at|date:"M d, Y" }}
-                            </span>
-                            {% elif result.event_date %}
-                            <span class="flex items-center">
-                                <i class="fas fa-calendar mr-1"></i>
-                                {{ result.event_date|date:"M d, Y" }}
-                            </span>
-                            {% elif result.received_date %}
-                            <span class="flex items-center">
-                                <i class="fas fa-calendar mr-1"></i>
-                                {{ result.received_date|date:"M d, Y" }}
-                            </span>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <!-- Result Actions -->
-                    <div class="flex-shrink-0">
-                        <a href="#" class="text-deuraligreen hover:text-bhanjyangred font-medium">
-                            View Details <i class="fas fa-arrow-right ml-1"></i>
-                        </a>
-                    </div>
+                <!-- Tips Panel -->
+                <div x-show="showTips" x-transition class="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-sm text-yellow-800">
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Checking spelling can help find more results.</li>
+                        <li>Try using broader terms if specific ones fail.</li>
+                        <li>Search by name, position, or event title.</li>
+                    </ul>
                 </div>
             </div>
-            {% endfor %}
-        </div>
 
-        <!-- Pagination -->
-        {% if is_paginated %}
-        <div class="mt-8 flex justify-center">
-            <nav class="flex space-x-2">
-                {% if page_obj.has_previous %}
-                <a href="?q={{ query }}&type={{ search_type }}&sort={{ sort_by }}&page={{ page_obj.previous_page_number }}"
-                    class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                    <i class="fas fa-chevron-left"></i>
-                </a>
-                {% endif %}
-
-                {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
-                <span class="px-4 py-2 bg-deuraligreen text-white rounded-lg">{{ num }}</span>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <a
-                    href="?q={{ query }}&type={{ search_type }}&sort={{ sort_by }}&page={{ num }}"
-                    class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                    {{ num }}
-                    </a>
-                    {% endif %}
-                    {% endfor %}
-
-                    {% if page_obj.has_next %}
-                    <a href="?q={{ query }}&type={{ search_type }}&sort={{ sort_by }}&page={{ page_obj.next_page_number }}"
-                        class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                    {% endif %}
-            </nav>
-        </div>
-        {% endif %}
-        {% else %}
-        <!-- No Results -->
-        <div class="text-center py-12">
-            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-search text-gray-400 text-3xl"></i>
+            <!-- Loading Skeleton -->
+            <div x-show="isLoading" class="space-y-6">
+                <template x-for="i in 3">
+                    <div class="bg-white rounded-lg shadow-md p-6 animate-pulse">
+                        <div class="flex gap-4">
+                            <div class="w-12 h-12 bg-gray-200 rounded-lg"></div>
+                            <div class="flex-1 space-y-3">
+                                <div class="h-6 bg-gray-200 rounded w-1/3"></div>
+                                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                                <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </div>
-            <h3 class="text-xl font-semibold text-gray-700 mb-2">No results found</h3>
-            <p class="text-gray-600 mb-6">Try adjusting your search terms or filters</p>
 
-            <!-- Search Suggestions -->
-            {% if suggestions %}
-            <div class="max-w-md mx-auto">
-                <h4 class="font-medium text-gray-700 mb-3">Did you mean:</h4>
-                <div class="space-y-2">
-                    {% for suggestion in suggestions %}
-                    <a href="?q={{ suggestion }}" class="block text-deuraligreen hover:text-bhanjyangred">
-                        {{ suggestion }}
-                    </a>
-                    {% endfor %}
+            <!-- Results List -->
+            <div x-show="!isLoading && results.length > 0" class="space-y-6">
+                <template x-for="result in results" :key="result.id + result.model_type">
+                    <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-transparent hover:border-deuraligreen/20">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <!-- Icon -->
+                            <div class="flex-shrink-0">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center shadow-sm"
+                                     :class="getIconClass(result.model_type).bg">
+                                    <i :class="getIconClass(result.model_type).icon + ' text-white'"></i>
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-deuraligreen mb-2 font-montserrat">
+                                    <a :href="result.url" class="hover:underline" x-html="highlightText(result.title)"></a>
+                                </h3>
+
+                                <p class="text-gray-600 mb-3 text-sm leading-relaxed line-clamp-2" x-html="highlightText(truncate(result.description, 150))"></p>
+
+                                <!-- Meta Tags -->
+                                <div class="flex flex-wrap gap-4 text-xs text-gray-500 font-medium tracking-wide uppercase">
+                                    <span class="flex items-center bg-gray-100 px-2 py-1 rounded">
+                                        <i class="fas fa-tag mr-2 text-deuraligreen/70"></i>
+                                        <span x-text="getTypeLabel(result.model_type)"></span>
+                                    </span>
+
+                                    <template x-if="getDate(result)">
+                                        <span class="flex items-center bg-gray-100 px-2 py-1 rounded">
+                                            <i class="fas fa-calendar mr-2 text-deuraligreen/70"></i>
+                                            <span x-text="formatDate(getDate(result))"></span>
+                                        </span>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Action -->
+                            <div class="flex-shrink-0 sm:self-center mt-4 sm:mt-0">
+                                <a :href="result.url" class="text-deuraligreen hover:text-bhanjyangred font-medium text-sm flex items-center group">
+                                    {% trans "View Details" %} <i class="fas fa-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Empty State -->
+            <div x-show="!isLoading && hasSearched && results.length === 0" class="text-center py-12 bg-white rounded-lg shadow-sm border border-gray-100">
+                <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-search-minus text-red-400 text-2xl"></i>
                 </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">{% trans "No results found" %}</h3>
+                <p class="text-gray-600">{% trans "We couldn't find any matches for your search." %}</p>
+                <button @click="query = ''; performSearch()" class="mt-4 text-deuraligreen hover:underline font-medium">{% trans "Clear search and try again" %}</button>
             </div>
-            {% endif %}
+
+            <!-- Pagination -->
+            <div x-show="!isLoading && (hasPrevious || hasNext)" class="mt-10 flex justify-center gap-2">
+                <button 
+                    @click="performSearch(page - 1)" 
+                    :disabled="!hasPrevious"
+                    class="px-5 py-2.5 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm font-medium text-gray-700">
+                    <i class="fas fa-chevron-left mr-1"></i> {% trans "Previous" %}
+                </button>
+                
+                <span class="px-5 py-2.5 bg-deuraligreen text-white rounded-lg shadow-md font-medium" x-text="page"></span>
+                
+                <button 
+                    @click="performSearch(page + 1)" 
+                    :disabled="!hasNext"
+                    class="px-5 py-2.5 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm font-medium text-gray-700">
+                    {% trans "Next" %} <i class="fas fa-chevron-right ml-1"></i>
+                </button>
+            </div>
+
         </div>
-        {% endif %}
-    </div>
-</section>
-{% endif %}
+    </section>
+</div>
 {% endblock content %}
 
 {% block extra_js %}
 <script src="{% static 'js/utilities/advanced-animations.js' %}"></script>
 <script src="{% static 'js/utilities/dark-mode.js' %}"></script>
-<script src="{% static 'search/js/advanced_search.js' %}"></script>
+
+<script type="module">
+    import { SearchService } from "{% static 'js/modules/search-api.js' %}";
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('searchApp', () => ({
+            query: '{{ query|escapejs }}' || new URLSearchParams(window.location.search).get('q') || '',
+            type: '{{ search_type|default:"all"|escapejs }}',
+            sort: '{{ sort_by|default:"relevance"|escapejs }}',
+            results: [],
+            totalResults: 0,
+            page: 1,
+            hasNext: false,
+            hasPrevious: false,
+            isLoading: false,
+            hasSearched: false,
+            suggestions: [],
+            showTips: false,
+
+            async init() {
+                if (this.query) {
+                    await this.performSearch(1);
+                }
+            },
+
+            async fetchSuggestions() {
+                if (this.query.length >= 2) {
+                    const data = await SearchService.getSuggestions(this.query);
+                    this.suggestions = data.suggestions || [];
+                } else {
+                    this.suggestions = [];
+                }
+            },
+
+            async performSearch(page = 1) {
+                this.isLoading = true;
+                this.page = page;
+                this.hasSearched = true;
+                this.suggestions = []; // Close suggestions on search
+
+                try {
+                    const data = await SearchService.searchContent(this.query, this.type, this.sort, this.page);
+                    this.results = data.results;
+                    this.totalResults = data.total_results;
+                    this.hasNext = data.has_next;
+                    this.hasPrevious = data.has_previous;
+
+                    // Update URL
+                    const url = new URL(window.location);
+                    url.searchParams.set('q', this.query);
+                    url.searchParams.set('type', this.type);
+                    url.searchParams.set('sort', this.sort);
+                    if (this.page > 1) url.searchParams.set('page', this.page);
+                    else url.searchParams.delete('page');
+                    
+                    window.history.pushState({}, '', url);
+
+                } catch (error) {
+                    console.error('Search failed:', error);
+                    // Minimal error handling UI within the grid could be added here
+                } finally {
+                    this.isLoading = false;
+                    // Scroll to results top if not initial load
+                    if (document.getElementById('search-bar')) {
+                        document.getElementById('search-bar').scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            },
+
+            truncate(text, length) {
+                if (!text) return '';
+                // Strip HTML tags first
+                const tmp = document.createElement("DIV");
+                tmp.innerHTML = text;
+                const plain = tmp.textContent || tmp.innerText || "";
+                return plain.length > length ? plain.substring(0, length) + '...' : plain;
+            },
+
+            highlightText(text) {
+                if (!this.query || !text) return text;
+                // Simple case-insensitive highlight
+                const regex = new RegExp(`(${this.query})`, 'gi');
+                return text.replace(regex, '<mark class="bg-yellow-200 text-gray-900 rounded-sm px-0.5">$1</mark>');
+            },
+
+            getIconClass(type) {
+                const map = {
+                    'cooperativeinfo': { icon: 'fas fa-building', bg: 'bg-emerald-500' },
+                    'cooperativetimeline': { icon: 'fas fa-calendar-alt', bg: 'bg-blue-500' },
+                    'cooperativeaffiliation': { icon: 'fas fa-handshake', bg: 'bg-indigo-500' },
+                    'leadershipmessage': { icon: 'fas fa-quote-left', bg: 'bg-purple-500' },
+                    'person': { icon: 'fas fa-user-circle', bg: 'bg-pink-500' },
+                    'default': { icon: 'fas fa-file-alt', bg: 'bg-gray-500' }
+                };
+                return map[type] || map['default'];
+            },
+
+            getTypeLabel(type) {
+                const map = {
+                    'cooperativeinfo': '{% trans "Company Info" %}',
+                    'cooperativetimeline': '{% trans "Timeline Event" %}',
+                    'cooperativeaffiliation': '{% trans "Affiliation" %}',
+                    'leadershipmessage': '{% trans "Leadership" %}',
+                    'person': '{% trans "Team Member" %}'
+                };
+                return map[type] || '{% trans "Content" %}';
+            },
+
+            getDate(result) {
+                // Priority: event_date > created_at > etc
+                return result.event_date || result.created_at || result.received_date || result.updated_at;
+            },
+
+            formatDate(dateString) {
+                if (!dateString) return '';
+                return new Date(dateString).toLocaleDateString(undefined, {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                });
+            }
+        }));
+    });
+</script>
 {% endblock extra_js %}

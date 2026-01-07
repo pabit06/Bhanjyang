@@ -175,11 +175,11 @@ class NewsletterSignupForm(forms.Form):
         
         # Check if email is already subscribed
         if NewsletterSubscriber.objects.filter(email=email, is_active=True).exists():
-            raise ValidationError('This email is already subscribed to our newsletter.')
+            raise ValidationError(_('This email is already subscribed to our newsletter.'))
         
         # Additional email validation
         if len(email) > 254:  # RFC 5321 limit
-            raise ValidationError('Email address is too long.')
+            raise ValidationError(_('Email address is too long.'))
         
         return email
 
@@ -192,19 +192,19 @@ class TestimonialForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-                'placeholder': 'Your Name'
+                'placeholder': _('Your Name')
             }),
             'email': forms.EmailInput(attrs={
                 'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-                'placeholder': 'your.email@example.com'
+                'placeholder': _('your.email@example.com')
             }),
             'subject': forms.TextInput(attrs={
                 'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-                'placeholder': 'Testimonial Title'
+                'placeholder': _('Testimonial Title')
             }),
             'message': forms.Textarea(attrs={
                 'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent',
-                'placeholder': 'Share your experience with Bhanjyang Cooperative...',
+                'placeholder': _('Share your experience with Bhanjyang Cooperative...'),
                 'rows': 5
             }),
         }
@@ -216,7 +216,7 @@ class QuickContactForm(forms.Form):
         max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent text-sm',
-            'placeholder': 'Your Name',
+            'placeholder': _('Your Name'),
             'required': True
         })
     )
@@ -224,7 +224,7 @@ class QuickContactForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
             'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent text-sm',
-            'placeholder': 'Email',
+            'placeholder': _('Email'),
             'required': True
         })
     )
@@ -232,7 +232,7 @@ class QuickContactForm(forms.Form):
     message = forms.CharField(
         widget=forms.Textarea(attrs={
             'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent text-sm',
-            'placeholder': 'Quick message...',
+            'placeholder': _('Quick message...'),
             'rows': 3,
             'required': True
         })

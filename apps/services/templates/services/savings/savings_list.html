@@ -85,15 +85,15 @@
                     style="animation-delay: 0.4s;">
                     <div>
                         <p class="text-3xl font-bold text-white">८%</p>
-                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">Interest Rate</p>
+                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Interest Rate" %}</p>
                     </div>
                     <div>
                         <p class="text-3xl font-bold text-white">४</p>
-                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">Categories</p>
+                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Categories" %}</p>
                     </div>
                     <div>
                         <p class="text-3xl font-bold text-white">२४/७</p>
-                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">Access</p>
+                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Access" %}</p>
                     </div>
                 </div>
             </div>
@@ -285,7 +285,7 @@
                             <span class="text-2xl font-bold text-rupablue">क्रमिक बचत</span>
                             <h2 class="text-2xl md:text-3xl font-bold text-rupablue font-montserrat">(Recurring Savings)</h2>
                         </div>
-                        <p class="text-gray-600 text-base leading-relaxed">निश्चित समयको लागि नियमित अन्तरालमा गरिने बचत।</p>
+                        <p class="text-gray-600 text-base leading-relaxed">{% trans "Savings made at regular intervals for a fixed period." %}</p>
                     </div>
                 </div>
             </div>
@@ -305,7 +305,7 @@
                         <div class="flex items-center gap-3 mb-3">
                             <h2 class="text-2xl md:text-3xl font-bold text-orange-600 font-montserrat">आवधिक बचत (Periodic Savings)</h2>
                         </div>
-                        <p class="text-gray-600 text-base leading-relaxed">३ महिना देखी ३ बर्ष सम्मको निश्चित अवधिको लागि मुद्दती बचत।</p>
+                        <p class="text-gray-600 text-base leading-relaxed">{% trans "Fixed deposits for a fixed period ranging from 3 months to 3 years." %}</p>
                     </div>
                     <div class="flex-shrink-0">
                         <span class="inline-block bg-orange-600 text-white px-5 py-2 rounded-full text-sm font-bold shadow-md">{% trans "High Interest Rate" %}</span>
@@ -317,9 +317,9 @@
             {% if periodic_savings %}
             <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 mb-8 border border-gray-100 scroll-reveal">
                 <div class="text-center mb-8">
-                    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-3">ब्याजदर तालिका (Interest Rates)</h3>
+                    <h3 class="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-3">{% trans "Interest Rates" %}</h3>
                     <div class="w-16 h-1.5 bg-orange-500 mx-auto rounded-full mb-4"></div>
-                    <p class="text-gray-600 text-base">मासिक, त्रैमासिक, र मुद्दतमा ब्याज भुक्तानी विकल्पहरू</p>
+                    <p class="text-gray-600 text-base">{% trans "Monthly, Quarterly, and Lump Sum Interest Payment Options" %}</p>
                 </div>
                 <div class="relative">
                     <!-- Mobile scroll hint -->
@@ -331,10 +331,10 @@
                         <table class="w-full text-center">
                             <thead>
                                 <tr class="border-b-2 border-gray-300 bg-gradient-to-r from-orange-50 to-orange-100">
-                                    <th class="py-4 px-6 text-left text-gray-800 font-bold text-sm uppercase tracking-wider">अवधि (Duration)</th>
-                                    <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">मासिक (Monthly)</th>
-                                    <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">त्रैमासिक (Quarterly)</th>
-                                    <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">मुद्दतमा (Lump Sum)</th>
+                                    <th class="py-4 px-6 text-left text-gray-800 font-bold text-sm uppercase tracking-wider">{% trans "Duration" %}</th>
+                                    <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">{% trans "Monthly" %}</th>
+                                    <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">{% trans "Quarterly" %}</th>
+                                    <th class="py-4 px-6 text-gray-800 font-bold text-sm uppercase tracking-wider">{% trans "Lump Sum" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -490,7 +490,7 @@
     {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.20' %}
     
     <div class="container mx-auto px-4 text-center relative z-10">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">तपाईंको विश्वास, हाम्रो जिम्मेवारी</h2>
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
         <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto">
             {% trans "Ready to start saving? Open an account today and take the first step towards your financial freedom." %}
         </p>

@@ -128,7 +128,7 @@ class NewsArticleViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = NewsArticleSerializer
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['category', 'status', 'priority', 'is_featured', 'is_pinned']
+    filterset_fields = ['category', 'status', 'priority', 'is_featured']
     search_fields = ['title', 'content', 'excerpt']
     ordering_fields = ['published_date', 'created_at', 'view_count', 'share_count']
     ordering = ['-published_date', '-created_at']
@@ -424,7 +424,7 @@ class SubscriberViewSet(viewsets.ModelViewSet):
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['status', 'is_confirmed']
-    search_fields = ['email', 'name']
+    search_fields = ['email', 'first_name', 'last_name']
     ordering_fields = ['subscribed_at', 'last_activity']
     ordering = ['-subscribed_at']
     permission_classes = [permissions.IsAuthenticated]  # Require authentication
@@ -476,8 +476,8 @@ class ContentAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ['content_type']
-    ordering_fields = ['view_count', 'share_count', 'last_accessed']
-    ordering = ['-view_count']
+    ordering_fields = ['views', 'shares', 'last_accessed']
+    ordering = ['-views']
     permission_classes = [permissions.IsAdminUser]
     throttle_classes = [NewsEventsUserRateThrottle, NewsEventsBurstThrottle]
 

@@ -812,8 +812,36 @@ class CalculatorAPIView(APIView):
             ErrorLogger.log_error(e, request, level='warning')
             return Response({'error': str(e), 'code': 'CALCULATION_ERROR'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class ServiceOptionsAPIView(View):
+    """
+    API endpoint to fetch available services for a given type.
+    Used by the comparison tool's frontend.
+    """
+    def get(self, request, *args, **kwargs):
+        service_type = request.GET.get('service_type')
+        if not service_type:
+            return JsonResponse({'error': 'service_type is required'}, status=400)
+            
+        data = []
+        if service_type == 'savings':
+            services = SavingsAccount.objects.filter(is_active=True).order_by('english_name')
+            data = [{'id': s.id, 'name': s.english_name} for s in services]
+        elif service_type == 'loans':
+            services = LoanType.objects.filter(is_active=True).order_by('english_name')
+            data = [{'id': s.id, 'name': s.english_name} for s in services]
+        elif service_type == 'fixed_deposits':
+            services = FixedDeposit.objects.filter(is_active=True).order_by('duration_months')
+            # Use display methods for user-friendly names
+            data = [{'id': s.id, 'name': f"{s.get_duration_months_display()} - {s.get_payment_frequency_display()}"} for s in services]
+        else:
+            return JsonResponse({'error': 'Invalid service_type'}, status=400)
+            
+        return JsonResponse({'services': data})
+
 # Mapping for URL compatibility
 service_application = ServiceApplicationView.as_view()
 service_comparison = ServiceComparisonView.as_view()
 service_search = ServiceSearchView.as_view()
 calculator_api = CalculatorAPIView.as_view()
+service_options_api = ServiceOptionsAPIView.as_view()

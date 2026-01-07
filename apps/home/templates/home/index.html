@@ -319,22 +319,19 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             <!-- Right Side: Content -->
             <div class="order-1 lg:order-2" style="opacity: 1 !important; visibility: visible !important;">
                 <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
-                    Who We Are
+                    {% trans "Who We Are" %}
                 </span>
                 <h2 class="text-4xl sm:text-5xl font-bold font-montserrat leading-tight mb-6 text-gray-900">
-                Your Trusted Partner in Community Development
+                {% trans "Your Trusted Partner in Community Development" %}
             </h2>
                 <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
                 
                 <div class="space-y-6 mb-8">
                     <p class="text-lg text-gray-700 leading-relaxed">
-                Established with a vision to uplift local communities in Rupa Rural Municipality, Bhanjyang Cooperative
-                provides accessible and fair financial solutions. We believe in strengthening the local economy by
-                empowering individuals and businesses through savings, credit, and expert financial guidance.
+                {% trans "Established with a vision to uplift local communities in Rupa Rural Municipality, Bhanjyang Cooperative provides accessible and fair financial solutions. We believe in strengthening the local economy by empowering individuals and businesses through savings, credit, and expert financial guidance." %}
             </p>
                     <p class="text-lg text-gray-700 leading-relaxed">
-                Our commitment goes beyond traditional banking; we are deeply rooted in the community, striving to make
-                a tangible difference in the lives of our members.
+                {% trans "Our commitment goes beyond traditional banking; we are deeply rooted in the community, striving to make a tangible difference in the lives of our members." %}
             </p>
                 </div>
                 
@@ -345,8 +342,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                             <i class="fas fa-handshake text-deuraligreen"></i>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-900 mb-1">Community Focused</h3>
-                            <p class="text-sm text-gray-600">Deeply rooted in local community needs</p>
+                            <h3 class="font-semibold text-gray-900 mb-1">{% trans "Community Focused" %}</h3>
+                            <p class="text-sm text-gray-600">{% trans "Deeply rooted in local community needs" %}</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-3 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
@@ -354,15 +351,15 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                             <i class="fas fa-shield-alt text-bhanjyangred"></i>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-gray-900 mb-1">Trusted & Secure</h3>
-                            <p class="text-sm text-gray-600">25+ years of reliable service</p>
+                            <h3 class="font-semibold text-gray-900 mb-1">{% trans "Trusted & Secure" %}</h3>
+                            <p class="text-sm text-gray-600">{% trans "25+ years of reliable service" %}</p>
                         </div>
                     </div>
                 </div>
                 
             <a href="{% url 'about:home' %}"
                     class="group inline-flex items-center gap-3 bg-deuraligreen text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 transform hover:shadow-2xl">
-                    <span>Learn More About Us</span>
+                    <span>{% trans "Learn More About Us" %}</span>
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                 </a>
             </div>
@@ -385,14 +382,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Our Services
+                {% trans "Our Services" %}
             </span>
             <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-                Our Key Services
+                {% trans "Our Key Services" %}
         </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Discover comprehensive financial solutions designed to meet your needs and help you achieve your goals
+                {% trans "Discover comprehensive financial solutions designed to meet your needs and help you achieve your goals" %}
             </p>
         </div>
         
@@ -432,7 +429,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                     {% else %}
                     <a href="{% url 'services:overview' %}"
                         class="group flex items-center justify-center gap-2 {% if svc.color == 'deuraligreen' %}text-deuraligreen hover:text-green-700{% elif svc.color == 'bhanjyangred' %}text-bhanjyangred hover:text-red-700{% elif svc.color == 'purple' %}text-purple-600 hover:text-purple-700{% else %}text-deuraligreen hover:text-green-700{% endif %} font-semibold transition-colors duration-300">
-                        <span>Learn More</span>
+                        <span>{% trans "Learn More" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </a>
                 {% endif %}
@@ -448,15 +445,15 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <i class="fas fa-piggy-bank text-4xl text-deuraligreen"></i>
                 </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">Savings Accounts</h3>
-                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">Various types of savings accounts with competitive interest rates up to 8% annually.</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{% trans "Savings Accounts" %}</h3>
+                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">{% trans "Various types of savings accounts with competitive interest rates up to 8% annually." %}</p>
                 <div class="mb-6 flex justify-center">
-                    <span class="inline-block bg-green-100 text-green-800 text-sm font-bold px-4 py-2 rounded-full">Up to 8%</span>
+                    <span class="inline-block bg-green-100 text-green-800 text-sm font-bold px-4 py-2 rounded-full">{% trans "Up to 8%" %}</span>
                 </div>
                 <div class="mt-auto">
                     <a href="{% url 'services:savings_list' %}"
                         class="group flex items-center justify-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
-                        <span>View All Savings Options</span>
+                        <span>{% trans "View All Savings Options" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </a>
                 </div>
@@ -467,15 +464,15 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <i class="fas fa-hand-holding-usd text-4xl text-bhanjyangred"></i>
                 </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">Loan Services</h3>
-                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">Affordable loans for business, agriculture, and home construction with flexible terms.</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{% trans "Loan Services" %}</h3>
+                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">{% trans "Affordable loans for business, agriculture, and home construction with flexible terms." %}</p>
                 <div class="mb-6 flex justify-center">
-                    <span class="inline-block bg-red-100 text-red-800 text-sm font-bold px-4 py-2 rounded-full">From 10.5%</span>
+                    <span class="inline-block bg-red-100 text-red-800 text-sm font-bold px-4 py-2 rounded-full">{% trans "From 10.5%" %}</span>
                 </div>
                 <div class="mt-auto">
                     <a href="{% url 'services:loan_list' %}"
                         class="group flex items-center justify-center gap-2 text-bhanjyangred hover:text-red-700 font-semibold transition-colors duration-300">
-                        <span>Explore Loan Options</span>
+                        <span>{% trans "Explore Loan Options" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </a>
                 </div>
@@ -486,15 +483,15 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <i class="fas fa-comments-dollar text-4xl text-purple-500"></i>
                 </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">Fixed Deposits</h3>
-                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">Secure your future with fixed deposits offering up to 7% interest for 1+ year terms.</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{% trans "Fixed Deposits" %}</h3>
+                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">{% trans "Secure your future with fixed deposits offering up to 7% interest for 1+ year terms." %}</p>
                 <div class="mb-6 flex justify-center">
-                    <span class="inline-block bg-purple-100 text-purple-800 text-sm font-bold px-4 py-2 rounded-full">Up to 7%</span>
+                    <span class="inline-block bg-purple-100 text-purple-800 text-sm font-bold px-4 py-2 rounded-full">{% trans "Up to 7%" %}</span>
                 </div>
                 <div class="mt-auto">
                     <a href="{% url 'services:fixed_deposit_list' %}"
                         class="group flex items-center justify-center gap-2 text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-300">
-                        <span>View Deposit Rates</span>
+                        <span>{% trans "View Deposit Rates" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                     </a>
                 </div>
@@ -507,7 +504,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             <a href="{% url 'services:overview' %}"
                 class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                 <i class="fas fa-list-ul"></i>
-                <span>View All Services & Rates</span>
+                <span>{% trans "View All Services & Rates" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
@@ -529,14 +526,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div class="mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Our Impact
+                {% trans "Our Impact" %}
             </span>
             <h2 class="text-4xl sm:text-5xl font-bold font-montserrat leading-tight mb-6 text-gray-900">
-            Bhanjyang Cooperative's Impact in Numbers
+            {% trans "Bhanjyang Cooperative's Impact in Numbers" %}
         </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Measuring our success through the growth and prosperity of our community
+                {% trans "Measuring our success through the growth and prosperity of our community" %}
             </p>
         </div>
         
@@ -550,7 +547,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 </div>
                 <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter">{{ stat.value }}</div>
                 <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{{ stat.title }}</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">{{ stat.description|default:"Growing our community impact." }}</p>
+                <p class="text-gray-600 text-sm leading-relaxed">{{ stat.description|default:_("Growing our community impact.") }}</p>
             </div>
             {% empty %}
             <!-- Fallback static statistics -->
@@ -561,8 +558,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             </div>
             </div>
                 <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="10000">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Active Members</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">Growing our community, one member at a time.</p>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Active Members" %}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{% trans "Growing our community, one member at a time." %}</p>
             </div>
             <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-bhanjyangred shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <div class="mb-4 flex justify-center">
@@ -571,8 +568,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                     </div>
                 </div>
                 <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="500">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Million NPR Loans Disbursed</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">Supporting dreams and local enterprises.</p>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Million NPR Loans Disbursed" %}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{% trans "Supporting dreams and local enterprises." %}</p>
             </div>
             <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-deuraligreen shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <div class="mb-4 flex justify-center">
@@ -581,8 +578,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                     </div>
                 </div>
                 <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="300">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Million NPR Total Savings</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">Securing futures for our valued members.</p>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Million NPR Total Savings" %}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{% trans "Securing futures for our valued members." %}</p>
             </div>
             <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-bhanjyangred shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <div class="mb-4 flex justify-center">
@@ -591,8 +588,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                     </div>
                 </div>
                 <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="15">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">Years of Service</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">A legacy of trust and community commitment.</p>
+                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Years of Service" %}</h3>
+                <p class="text-gray-600 text-sm leading-relaxed">{% trans "A legacy of trust and community commitment." %}</p>
             </div>
             {% endfor %}
         </div>
@@ -614,14 +611,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Why Choose Us
+                {% trans "Why Choose Us" %}
             </span>
             <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-                Your Trusted Financial Partner
+                {% trans "Your Trusted Financial Partner" %}
         </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                With over 25 years of experience, we've built a reputation for trust, transparency, and excellent service.
+                {% trans "With over 25 years of experience, we've built a reputation for trust, transparency, and excellent service." %}
             </p>
             </div>
         
@@ -635,8 +632,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                                 <i class="fas fa-shield-alt text-deuraligreen text-2xl group-hover:text-white transition-colors duration-300"></i>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">Secure & Reliable</h3>
-                                <p class="text-gray-600 leading-relaxed">Bank-level security and regulatory compliance ensure your funds and data are always protected.</p>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">{% trans "Secure & Reliable" %}</h3>
+                                <p class="text-gray-600 leading-relaxed">{% trans "Bank-level security and regulatory compliance ensure your funds and data are always protected." %}</p>
                             </div>
                         </div>
                     </div>
@@ -647,8 +644,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                                 <i class="fas fa-percent text-bhanjyangred text-2xl group-hover:text-white transition-colors duration-300"></i>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">Competitive Rates</h3>
-                                <p class="text-gray-600 leading-relaxed">Enjoy some of the best interest rates in the market, helping your savings grow faster.</p>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">{% trans "Competitive Rates" %}</h3>
+                                <p class="text-gray-600 leading-relaxed">{% trans "Enjoy some of the best interest rates in the market, helping your savings grow faster." %}</p>
                             </div>
                         </div>
                     </div>
@@ -659,8 +656,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                                 <i class="fas fa-users text-deuraligreen text-2xl group-hover:text-white transition-colors duration-300"></i>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">Personalized Support</h3>
-                                <p class="text-gray-600 leading-relaxed">Our dedicated team provides personalized assistance tailored to your financial needs.</p>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat">{% trans "Personalized Support" %}</h3>
+                                <p class="text-gray-600 leading-relaxed">{% trans "Our dedicated team provides personalized assistance tailored to your financial needs." %}</p>
                             </div>
                         </div>
                     </div>
@@ -706,14 +703,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Our Features
+                {% trans "Our Features" %}
             </span>
             <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-                Why Choose Our Services
+                {% trans "Why Choose Our Services" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Experience modern banking with features designed for your convenience and security
+                {% trans "Experience modern banking with features designed for your convenience and security" %}
             </p>
             </div>
         
@@ -724,8 +721,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <i class="fas fa-mobile-alt text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
                 </div>
             </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">Mobile Banking</h3>
-                <p class="text-gray-600 text-center leading-relaxed">Bank anywhere, anytime with our convenient mobile banking services</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">{% trans "Mobile Banking" %}</h3>
+                <p class="text-gray-600 text-center leading-relaxed">{% trans "Bank anywhere, anytime with our convenient mobile banking services" %}</p>
                 </div>
             
             <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-blue-500">
@@ -734,8 +731,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <i class="fas fa-shield-alt text-3xl text-blue-500 group-hover:text-white transition-colors duration-300"></i>
             </div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">Secure</h3>
-                <p class="text-gray-600 text-center leading-relaxed">Bank-level security to protect your financial information</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">{% trans "Secure" %}</h3>
+                <p class="text-gray-600 text-center leading-relaxed">{% trans "Bank-level security to protect your financial information" %}</p>
             </div>
             
             <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-purple-500">
@@ -744,8 +741,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <i class="fas fa-clock text-3xl text-purple-500 group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">24/7 Support</h3>
-                <p class="text-gray-600 text-center leading-relaxed">Always here for you with round-the-clock customer support</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">{% trans "24/7 Support" %}</h3>
+                <p class="text-gray-600 text-center leading-relaxed">{% trans "Always here for you with round-the-clock customer support" %}</p>
             </div>
             
             <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred">
@@ -754,8 +751,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                         <i class="fas fa-gift text-3xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">Rewards</h3>
-                <p class="text-gray-600 text-center leading-relaxed">Earn rewards and benefits while you save with us</p>
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat text-center">{% trans "Rewards" %}</h3>
+                <p class="text-gray-600 text-center leading-relaxed">{% trans "Earn rewards and benefits while you save with us" %}</p>
             </div>
         </div>
     </div>
@@ -777,14 +774,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Latest Updates
+                {% trans "Latest Updates" %}
             </span>
             <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-                Important Announcements
+                {% trans "Important Announcements" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Stay informed with our latest news and important updates
+                {% trans "Stay informed with our latest news and important updates" %}
             </p>
         </div>
 
@@ -821,7 +818,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{{ announcement.title }}</h3>
                 <p class="text-gray-700 text-sm leading-relaxed mb-4">{{ announcement.summary|default:announcement.content|truncatewords:20 }}</p>
                 <a href="{% url 'news_events:article_detail' announcement.slug %}" class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold text-sm transition-colors duration-300">
-                    <span>Read More</span>
+                    <span>{% trans "Read More" %}</span>
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                 </a>
             </div>
@@ -847,14 +844,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Our Gallery
+                {% trans "Our Gallery" %}
             </span>
             <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-                Moments & Memories
+                {% trans "Moments & Memories" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Capturing our journey and community events that define our cooperative spirit
+                {% trans "Capturing our journey and community events that define our cooperative spirit" %}
             </p>
         </div>
 
@@ -892,7 +889,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             <a href="{% url 'gallery:gallery' %}"
                 class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                 <i class="fas fa-images"></i>
-                <span>View Full Gallery</span>
+                <span>{% trans "View Full Gallery" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
@@ -915,30 +912,30 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div class="max-w-3xl mx-auto">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Get Started Today
+                {% trans "Get Started Today" %}
             </span>
             <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 font-montserrat leading-tight text-gray-900">
-                Ready to Begin Your Financial Journey?
+                {% trans "Ready to Begin Your Financial Journey?" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-xl sm:text-2xl mb-4 text-gray-800 leading-relaxed">
-                Join thousands of satisfied members who trust Bhanjyang Cooperative
+                {% trans "Join thousands of satisfied members who trust Bhanjyang Cooperative" %}
             </p>
             <p class="text-lg mb-10 text-gray-600 max-w-2xl mx-auto">
-                Experience reliable financial services, competitive rates, and personalized support designed for your success.
+                {% trans "Experience reliable financial services, competitive rates, and personalized support designed for your success." %}
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <a href="{% url 'contact:contact_view' %}"
                     class="group bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 min-w-[200px]">
                     <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300"></i>
-                    <span>Contact Us</span>
+                    <span>{% trans "Contact Us" %}</span>
                 </a>
             <a href="{% url 'about:home' %}"
                     class="group bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 min-w-[200px]"
                     aria-label="Learn more about Bhanjyang Cooperative">
                     <i class="fas fa-info-circle group-hover:rotate-12 transition-transform duration-300"></i>
-                    <span>Learn More</span>
+                    <span>{% trans "Learn More" %}</span>
                 </a>
             </div>
             
@@ -976,14 +973,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div class="mb-16">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Testimonials
+                {% trans "Testimonials" %}
             </span>
             <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-            What Our Members Say About Us
+            {% trans "What Our Members Say About Us" %}
         </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Hear from our community members about their experiences with Bhanjyang Cooperative
+                {% trans "Hear from our community members about their experiences with Bhanjyang Cooperative" %}
             </p>
         </div>
         
@@ -1114,18 +1111,18 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <div class="max-w-2xl mx-auto">
             <span class="text-deuraligreen font-semibold uppercase text-sm mb-4 block tracking-wider">
-                Newsletter
+                {% trans "Newsletter" %}
             </span>
             <div class="flex items-center justify-center gap-3 mb-4">
                 <i class="fas fa-envelope-open-text text-4xl text-deuraligreen"></i>
-                <h2 class="text-4xl sm:text-5xl font-bold font-montserrat text-gray-900">Stay Updated</h2>
+                <h2 class="text-4xl sm:text-5xl font-bold font-montserrat text-gray-900">{% trans "Stay Updated" %}</h2>
             </div>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-xl sm:text-2xl mb-2 text-gray-800 leading-relaxed">
-                Get the latest news, updates, and exclusive offers
+                {% trans "Get the latest news, updates, and exclusive offers" %}
             </p>
             <p class="text-lg mb-10 text-gray-600">
-                delivered directly to your inbox
+                {% trans "delivered directly to your inbox" %}
             </p>
 
             <form id="newsletter-form" class="max-w-lg mx-auto" aria-label="Newsletter subscription form" novalidate>
@@ -1149,7 +1146,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
             <button type="submit"
                         class="group bg-deuraligreen hover:bg-green-700 text-white font-bold px-8 py-3 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2 min-w-[160px]"
                 aria-label="Subscribe to newsletter">
-                        <span>Subscribe</span>
+                        <span>{% trans "Subscribe" %}</span>
                         <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-300"></i>
             </button>
                 </div>
@@ -1158,15 +1155,15 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <div class="flex flex-wrap justify-center gap-6 mt-8 text-sm text-gray-600">
                     <div class="flex items-center gap-2">
                         <i class="fas fa-check-circle text-deuraligreen"></i>
-                        <span>Latest News</span>
+                        <span>{% trans "Latest News" %}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fas fa-check-circle text-deuraligreen"></i>
-                        <span>Exclusive Offers</span>
+                        <span>{% trans "Exclusive Offers" %}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <i class="fas fa-check-circle text-deuraligreen"></i>
-                        <span>No Spam</span>
+                        <span>{% trans "No Spam" %}</span>
                     </div>
                 </div>
         </form>
@@ -1193,14 +1190,14 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
                 <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                    Contact Us
+                    {% trans "Contact Us" %}
                 </span>
                 <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-                    Have Questions?
+                    {% trans "Have Questions?" %}
                 </h2>
                 <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
                 <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    Get in touch with us for any inquiries or support. We're here to help!
+                    {% trans "Get in touch with us for any inquiries or support. We're here to help!" %}
                 </p>
             </div>
 
@@ -1209,7 +1206,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-deuraligreen">
                     <h3 class="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center gap-3">
                         <i class="fas fa-info-circle text-deuraligreen"></i>
-                        <span>Contact Information</span>
+                        <span>{% trans "Contact Information" %}</span>
                     </h3>
                     <div class="space-y-6">
                         <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
@@ -1217,8 +1214,8 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                                 <i class="fas fa-map-marker-alt text-deuraligreen text-xl"></i>
                             </div>
                 <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">Address</h4>
-                                <p class="text-gray-600">Rupa Rural Municipality, Kaski, Nepal</p>
+                                <h4 class="font-semibold text-gray-900 mb-1">{% trans "Address" %}</h4>
+                                <p class="text-gray-600">{% trans "Rupa Rural Municipality, Kaski, Nepal" %}</p>
                         </div>
                         </div>
                         <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
@@ -1226,7 +1223,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                                 <i class="fas fa-phone text-bhanjyangred text-xl"></i>
                         </div>
                             <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">Phone</h4>
+                                <h4 class="font-semibold text-gray-900 mb-1">{% trans "Phone" %}</h4>
                                 <a href="tel:+9779856083101" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
                                     +977-9856083101
                                 </a>
@@ -1250,13 +1247,13 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-bhanjyangred">
                     <h3 class="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center gap-3">
                         <i class="fas fa-paper-plane text-bhanjyangred"></i>
-                        <span>Send Us a Message</span>
+                        <span>{% trans "Send Us a Message" %}</span>
                     </h3>
                     <form id="quick-contact-form" class="space-y-5" aria-label="Quick contact form" novalidate>
                         <input type="hidden" name="csrfmiddlewaretoken" id="contact-csrf-token"
                             value="{{ csrf_token }}">
                         <div>
-                            <label for="quick-contact-name" class="sr-only">Your Name</label>
+                            <label for="quick-contact-name" class="sr-only">{% trans "Your Name" %}</label>
                             <div class="relative">
                                 <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" name="name" id="quick-contact-name" placeholder="Your Name" required
@@ -1267,7 +1264,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                             <div id="contact-name-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
                         </div>
                         <div>
-                            <label for="quick-contact-email" class="sr-only">Your Email</label>
+                            <label for="quick-contact-email" class="sr-only">{% trans "Your Email" %}</label>
                             <div class="relative">
                                 <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="email" name="email" id="quick-contact-email" placeholder="Your Email" required
@@ -1278,7 +1275,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                             <div id="contact-email-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
                         </div>
                         <div>
-                            <label for="quick-contact-subject" class="sr-only">Subject</label>
+                            <label for="quick-contact-subject" class="sr-only">{% trans "Subject" %}</label>
                             <div class="relative">
                                 <i class="fas fa-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                             <input type="text" name="subject" id="quick-contact-subject" placeholder="Subject" required
@@ -1289,7 +1286,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                             <div id="contact-subject-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
                         </div>
                         <div>
-                            <label for="quick-contact-message" class="sr-only">Your Message</label>
+                            <label for="quick-contact-message" class="sr-only">{% trans "Your Message" %}</label>
                             <div class="relative">
                                 <i class="fas fa-comment-alt absolute left-4 top-4 text-gray-400"></i>
                                 <textarea name="message" id="quick-contact-message" placeholder="Your Message" rows="4"
@@ -1303,7 +1300,7 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                             class="w-full group bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2"
                             aria-label="Send contact message">
                             <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
-                            <span>Send Message</span>
+                            <span>{% trans "Send Message" %}</span>
                         </button>
                     </form>
 

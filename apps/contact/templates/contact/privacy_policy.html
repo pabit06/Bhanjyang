@@ -1,55 +1,55 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Privacy Policy - Bhanjyang Cooperative{% endblock title %}
+{% block title %}गोपनीयता नीति - भञ्ज्याङ सहकारी{% endblock title %}
 
-{% block meta_description %}Read the privacy policy for Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock meta_description %}
+{% block meta_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको गोपनीयता नीति पढ्नुहोस्।{% endblock meta_description %}
 
 
 {% block content %}
 <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
     <div class="container mx-auto max-w-4xl">
-        <h1 class="text-3xl sm:text-4xl font-extrabold font-montserrat text-bhanjyangred mb-6">Privacy Policy</h1>
-        <p class="text-gray-700 mb-6">Last updated: {% now "F j, Y" %}</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold font-montserrat text-bhanjyangred mb-6">गोपनीयता नीति</h1>
+        <p class="text-gray-700 mb-6">अन्तिम अपडेट: {% now "F j, Y" %}</p>
 
         <div class="prose max-w-none">
-            <h2>1. Introduction</h2>
-            <p>Bhanjyang Saving & Credit Cooperative Society Ltd. ("we", "our", "us") respects your privacy and is committed to protecting your personal information.</p>
+            <h2>१. परिचय</h2>
+            <p>भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लि. ("हामी", "हाम्रो") ले तपाईंको गोपनीयताको सम्मान गर्दछ र तपाईंको व्यक्तिगत जानकारीको सुरक्षा गर्न प्रतिबद्ध छ।</p>
 
-            <h2>2. Information We Collect</h2>
+            <h2>२. हामीले संकलन गर्ने जानकारी</h2>
             <ul>
-                <li>Contact details (name, email, phone) when you submit our contact form.</li>
-                <li>Technical data (IP address, user agent) for security and performance monitoring.</li>
-                <li>Optional files or attachments you provide for service-related purposes.</li>
+                <li>सम्पर्क विवरणहरू (नाम, इमेल, फोन) जब तपाईं हाम्रो सम्पर्क फारम भर्नुहुन्छ।</li>
+                <li>सुरक्षा र कार्यसम्पादन अनुगमनका लागि प्राविधिक डेटा (IP ठेगाना, ब्राउजर विवरण)।</li>
+                <li>सेवा सम्बन्धी प्रयोजनका लागि तपाईंले उपलब्ध गराउनुभएको फाइल वा कागजातहरू।</li>
             </ul>
 
-            <h2>3. How We Use Your Information</h2>
+            <h2>३. हामी तपाईंको जानकारी कसरी प्रयोग गर्छौं</h2>
             <ul>
-                <li>Respond to your inquiries and provide customer support.</li>
-                <li>Improve website performance and security.</li>
-                <li>Comply with legal and regulatory obligations.</li>
+                <li>तपाईंको जिज्ञासाको जवाफ दिन र ग्राहक सेवा प्रदान गर्न।</li>
+                <li>वेबसाइटको कार्यसम्पादन र सुरक्षा सुधार गर्न।</li>
+                <li>कानूनी र नियमनकारी दायित्वहरू पूरा गर्न।</li>
             </ul>
 
-            <h2>4. Sharing of Information</h2>
-            <p>We do not sell your personal information. We share data only with trusted service providers (e.g., email services) strictly for operational purposes, or when required by law.</p>
+            <h2>४. जानकारीको साझेदारी</h2>
+            <p>हामी तपाईंको व्यक्तिगत जानकारी बिक्री गर्दैनौं। हामी केवल विश्वसनीय सेवा प्रदायकहरूसँग (जस्तै, इमेल सेवाहरू) सञ्चालन प्रयोजनका लागि वा कानूनद्वारा आवश्यक भएमा मात्र डेटा साझा गर्छौं।</p>
 
-            <h2>5. Data Retention</h2>
-            <p>We retain your information only as long as necessary for the purposes set out in this policy or as required by law.</p>
+            <h2>५. डाटा भण्डारण</h2>
+            <p>हामी यस नीतिमा उल्लेख गरिएका उद्देश्यहरू वा कानूनद्वारा आवश्यक समयसम्म मात्र तपाईंको जानकारी सुरक्षित राख्छौं।</p>
 
-            <h2>6. Cookies and Tracking</h2>
-            <p>We use essential cookies for session management and security. Analytics may be used to improve our services. You can control cookies through your browser settings.</p>
+            <h2>६. कुकिज (Cookies) र ट्र्याकिङ</h2>
+            <p>हामी सेसन व्यवस्थापन र सुरक्षाका लागि आवश्यक कुकिज प्रयोग गर्छौं। हाम्रा सेवाहरू सुधार गर्न एनालिटिक्स प्रयोग गर्न सकिन्छ। तपाईं आफ्नो ब्राउजर सेटिङहरू मार्फत कुकिज नियन्त्रण गर्न सक्नुहुन्छ।</p>
 
-            <h2>7. Your Rights</h2>
-            <p>You may request access, correction, or deletion of your personal data subject to legal limitations. Contact us at <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a>.</p>
+            <h2>७. तपाईंको अधिकार</h2>
+            <p>तपाईंले कानूनी सीमाहरूको अधीनमा रही आफ्नो व्यक्तिगत डेटा पहुँच, सच्याउन वा हटाउन अनुरोध गर्न सक्नुहुन्छ। हामीलाई <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a> मा सम्पर्क गर्नुहोस्।</p>
 
-            <h2>8. Security</h2>
-            <p>We implement reasonable administrative, technical, and physical safeguards to protect your information. However, no method of transmission over the Internet is 100% secure.</p>
+            <h2>८. सुरक्षा</h2>
+            <p>हामी तपाईंको जानकारी सुरक्षित गर्न उचित प्रशासनिक, प्राविधिक र भौतिक सुरक्षा उपायहरू लागू गर्छौं। यद्यपि, इन्टरनेट मार्फत डाटा प्रसारण १००% सुरक्षित हुने ग्यारेन्टी गर्न सकिदैन।</p>
 
-            <h2>9. Third-Party Links</h2>
-            <p>Our site may contain links to third-party sites. We are not responsible for their content or privacy practices.</p>
+            <h2>९. तेस्रो पक्षका लिङ्कहरू</h2>
+            <p>हाम्रो साइटमा तेस्रो पक्षका साइटहरूको लिङ्क हुन सक्छ। तिनीहरूको सामग्री वा गोपनीयता अभ्यासहरूको लागि हामी जिम्मेवार छैनौं।</p>
 
-            <h2>10. Contact Us</h2>
-            <p>If you have questions about this policy, please contact us at <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a>{% if cooperative_info and cooperative_info.phone %} or call <a href="tel:{{ cooperative_info.phone }}">{{ cooperative_info.phone }}</a>{% endif %}.</p>
+            <h2>१०. हामीलाई सम्पर्क गर्नुहोस्</h2>
+            <p>यदि तपाईंसँग यस नीतिबारे कुनै प्रश्नहरू छन् भने, कृपया हामीलाई <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a> मा सम्पर्क गर्नुहोस्{% if cooperative_info and cooperative_info.phone %} वा <a href="tel:{{ cooperative_info.phone }}">{{ cooperative_info.phone }}</a> मा कल गर्नुहोस्{% endif %}।</p>
         </div>
     </div>
 </section>

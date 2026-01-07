@@ -68,6 +68,10 @@
     {# Canonical URL #}
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock canonical_url %}">
 
+    {# Design System CSS #}
+    <link href="{% static 'css/design-system/tokens.css' %}" rel="stylesheet">
+    <link href="{% static 'css/design-system/typography.css' %}" rel="stylesheet">
+
     {# Compiled Tailwind CSS from your project's static files #}
     <link href="{% static 'dist/output.css' %}" rel="stylesheet">
 
@@ -81,6 +85,8 @@
     <link href="{% static 'css/pages/gallery-lightbox.css' %}" rel="stylesheet">
 
     {# Component CSS #}
+    <link href="{% static 'css/components/buttons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/components/cards.css' %}" rel="stylesheet">
     <link href="{% static 'css/components/forms.css' %}" rel="stylesheet">
     <link href="{% static 'css/components/map-toggle.css' %}" rel="stylesheet">
     
@@ -205,6 +211,8 @@
 
     <!-- Dark Mode -->
     <script defer src="{% static 'js/utilities/dark-mode.js' %}"></script>
+    <!-- Dark Mode Debug (temporary) -->
+    <script defer src="{% static 'js/utilities/dark-mode-debug.js' %}"></script>
 
     <!-- Language Toggle -->
     <script defer src="{% static 'js/utilities/language-toggle.js' %}"></script>

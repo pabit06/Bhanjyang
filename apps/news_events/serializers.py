@@ -59,7 +59,7 @@ class NewsArticleSerializer(serializers.ModelSerializer):
             'id', 'title', 'slug', 'category', 'category_id', 'author',
             'content', 'excerpt', 'image', 'image_alt', 'optimized_image_url',
             'status', 'status_display', 'priority', 'priority_display',
-            'is_featured', 'is_pinned', 'view_count', 'share_count',
+            'is_featured', 'view_count', 'share_count',
             'comment_count', 'read_time', 'published_date', 'created_at',
             'updated_at', 'last_accessed', 'url'
         ]
@@ -203,7 +203,7 @@ class SubscriberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscriber
         fields = [
-            'id', 'email', 'name', 'status', 'status_display',
+            'id', 'email', 'first_name', 'last_name', 'status', 'status_display',
             'is_confirmed', 'subscribed_at', 'unsubscribed_at',
             'last_activity', 'categories'
         ]
@@ -223,14 +223,6 @@ class SubscriberSerializer(serializers.ModelSerializer):
         if self.instance is None:  # New subscriber
             if Subscriber.objects.filter(email=value).exists():
                 raise serializers.ValidationError("This email is already subscribed.")
-        return value
-    
-    def validate_name(self, value: str) -> Optional[str]:
-        """Validate subscriber name."""
-        if value:
-            value = value.strip()
-            if len(value) > 100:
-                raise serializers.ValidationError("Name cannot exceed 100 characters.")
         return value
 
 

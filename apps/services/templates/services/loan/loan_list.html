@@ -57,7 +57,7 @@
 
                 <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
                     style="animation-delay: 0.2s;">
-                    लचिलो ऋण विकल्पहरू जसले तपाईंको लक्ष्य प्राप्त गर्न मद्दत गर्दछ, व्यापार विस्तारदेखि व्यक्तिगत आवश्यकतासम्म।
+                    {% trans "Flexible loan options designed to help you achieve your goals, from business expansion to personal needs." %}
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up touch-target"
@@ -65,12 +65,12 @@
                     <a href="{% url 'contact:contact_view' %}"
                         class="px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-400 hover:to-red-500 text-white font-bold rounded-xl shadow-lg shadow-red-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 border border-red-300/30 touch-target focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-900"
                         aria-label="{% trans 'Contact us for loan services' %}">
-                        <i class="fas fa-hand-holding-usd" aria-hidden="true"></i> सम्पर्क गर्नुहोस्
+                        <i class="fas fa-hand-holding-usd" aria-hidden="true"></i> {% trans "Contact Us" %}
                     </a>
                     <a href="{% url 'services:loan_calculator' %}"
                         class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 backdrop-blur-md transition-all hover:shadow-lg hover:shadow-white/10 touch-target focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-900"
                         aria-label="{% trans 'Calculate loan EMI' %}">
-                        <i class="fas fa-calculator" aria-hidden="true"></i> EMI गणना गर्नुहोस्
+                        <i class="fas fa-calculator" aria-hidden="true"></i> {% trans "Calculate EMI" %}
                     </a>
                 </div>
 
@@ -79,11 +79,11 @@
                     style="animation-delay: 0.4s;">
                     <div>
                         <p class="text-3xl font-bold text-white">१०.५%</p>
-                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">Interest Rate</p>
+                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Interest Rate" %}</p>
                     </div>
                     <div>
                         <p class="text-3xl font-bold text-white">{{ loan_types|length }}+</p>
-                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">Loan Types</p>
+                        <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Loan Types" %}</p>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
         <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
             <span class="inline-block text-bhanjyangred bg-red-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Recommended" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
-                <span class="text-gray-800">विशेष</span> <span class="text-bhanjyangred font-extrabold">ऋण</span> <span class="text-gray-800">उत्पादनहरू</span>
+                <span class="text-gray-800">{% trans "Featured" %}</span> <span class="text-bhanjyangred font-extrabold">{% trans "Loan" %}</span> <span class="text-gray-800">{% trans "Products" %}</span>
             </h2>
             <div class="w-20 h-1.5 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
             <p class="text-gray-600 text-lg leading-relaxed">
@@ -165,12 +165,12 @@
                     <div class="mt-auto pt-4 border-t border-gray-100 flex gap-2">
                         <a href="{% url 'services:loan_detail' loan.slug %}"
                             class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-center py-2.5 rounded-lg font-bold text-xs transition-all">
-                            विवरण
+                            {% trans "Details" %}
                         </a>
                         <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ loan.slug }}"
                             class="flex-1 bg-bhanjyangred hover:bg-red-700 text-white text-center py-2.5 rounded-lg font-bold text-xs transition-all"
                             aria-label="{% trans 'Apply for' %} {{ loan.english_name }}">
-                            आवेदन
+                            {% trans "Apply" %}
                         </a>
                     </div>
                 </div>
@@ -193,7 +193,7 @@
         <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
             <span class="inline-block text-bhanjyangred bg-red-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "All Loans" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
-                <span class="text-gray-800">सम्पूर्ण</span> <span class="text-bhanjyangred font-extrabold">ऋण</span> <span class="text-gray-800">पोर्टफोलियो</span>
+                <span class="text-gray-800">{% trans "Complete" %}</span> <span class="text-bhanjyangred font-extrabold">{% trans "Loan" %}</span> <span class="text-gray-800">{% trans "Portfolio" %}</span>
             </h2>
             <div class="w-20 h-1.5 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
             <p class="text-gray-600 text-lg leading-relaxed">
@@ -226,7 +226,7 @@
         <div class="text-center mb-12 scroll-reveal">
             <span class="inline-block text-bhanjyangred bg-red-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Why Choose Us" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
-                <span class="text-gray-800">तपाईंको वित्तीय</span> <span class="text-bhanjyangred font-extrabold">लक्ष्य</span> <span class="text-gray-800">सहयोग</span>
+                <span class="text-gray-800">{% trans "Supporting Your" %}</span> <span class="text-bhanjyangred font-extrabold">{% trans "Financial" %}</span> <span class="text-gray-800">{% trans "Goals" %}</span>
             </h2>
             <div class="w-20 h-1.5 bg-bhanjyangred mx-auto rounded-full"></div>
         </div>
@@ -283,18 +283,18 @@
     </div>
     
     <div class="container mx-auto px-4 text-center relative z-10">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">तपाईंको विश्वास, हाम्रो जिम्मेवारी</h2>
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
         <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto">
             {% trans "Ready to apply for a loan? Start your application today and get the financial support you need to achieve your goals." %}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{% url 'contact:contact_view' %}"
                 class="px-10 py-5 bg-white text-bhanjyangred rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-all flex items-center justify-center gap-3 touch-target">
-                <i class="fas fa-phone-alt"></i> हामीलाई कल गर्नुहोस्
+                <i class="fas fa-phone-alt"></i> {% trans "Call Us" %}
             </a>
             <a href="{% url 'services:loan_calculator' %}"
                 class="px-10 py-5 bg-transparent border-2 border-white/30 text-white rounded-full font-bold hover:bg-white/10 transition-all touch-target">
-                <i class="fas fa-calculator"></i> EMI गणना गर्नुहोस्
+                <i class="fas fa-calculator"></i> {% trans "Calculate EMI" %}
             </a>
         </div>
     </div>

@@ -6,46 +6,39 @@
  */
 
 :root {
-  /* Color Palette */
-  --color-primary: #2563eb;
-  --color-primary-dark: #1d4ed8;
-  --color-primary-light: #3b82f6;
-  --color-secondary: #64748b;
-  --color-secondary-dark: #475569;
-  --color-secondary-light: #94a3b8;
+  /* Color Palette - Himalayan Premium */
+  --color-primary: #059669; /* Deep Emerald */
+  --color-primary-dark: #047857;
+  --color-primary-light: #34d399;
   
-  /* Success Colors */
-  --color-success: #10b981;
-  --color-success-dark: #059669;
-  --color-success-light: #34d399;
+  --color-secondary: #f59e0b; /* Golden Sunrise */
+  --color-secondary-dark: #d97706;
+  --color-secondary-light: #fbbf24;
   
-  /* Warning Colors */
-  --color-warning: #f59e0b;
-  --color-warning-dark: #d97706;
-  --color-warning-light: #fbbf24;
-  
-  /* Error Colors */
-  --color-error: #ef4444;
-  --color-error-dark: #dc2626;
-  --color-error-light: #f87171;
-  
-  /* Info Colors */
-  --color-info: #06b6d4;
-  --color-info-dark: #0891b2;
-  --color-info-light: #22d3ee;
-  
-  /* Neutral Colors */
+  /* Neutral Colors - Patrika Slate */
+  --color-slate-50: #f8fafc; /* Himal White */
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b; /* Patrika Slate Main */
+  --color-slate-900: #0f172a;
+
+  /* Aliases for neutral */
   --color-white: #ffffff;
-  --color-gray-50: #f8fafc;
-  --color-gray-100: #f1f5f9;
-  --color-gray-200: #e2e8f0;
-  --color-gray-300: #cbd5e1;
-  --color-gray-400: #94a3b8;
-  --color-gray-500: #64748b;
-  --color-gray-600: #475569;
-  --color-gray-700: #334155;
-  --color-gray-800: #1e293b;
-  --color-gray-900: #0f172a;
+  --color-gray-50: var(--color-slate-50);
+  --color-gray-100: var(--color-slate-100);
+  --color-gray-200: var(--color-slate-200);
+  --color-gray-300: var(--color-slate-300);
+  --color-gray-400: var(--color-slate-400);
+  --color-gray-500: var(--color-slate-500);
+  --color-gray-600: var(--color-slate-600);
+  --color-gray-700: var(--color-slate-700);
+  --color-gray-800: var(--color-slate-800);
+  --color-gray-900: var(--color-slate-900);
   
   /* Typography */
   --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

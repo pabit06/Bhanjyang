@@ -569,7 +569,8 @@ class ContentAnalyticsViewSetTest(TestCase):
         )
         self.analytics = ContentAnalytics.objects.create(
             content_type='article',
-            object_id=article.pk
+            content_id=article.pk,
+            date=timezone.now().date()
         )
         self.analytics.view_count = 100
         self.analytics.share_count = 50

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Office Locations - Bhanjyang Cooperative{% endblock title %}
+{% block title %}कार्यालय स्थानहरू - भञ्ज्याङ सहकारी{% endblock title %}
 
 {% block extra_head %}
-    <meta name="description" content="Find Bhanjyang Cooperative office locations, branch offices, and ATM centers near you.">
-    <meta name="keywords" content="Office Locations, Branch Offices, ATM Centers, Bhanjyang Cooperative, Kavre, Nepal">
+    <meta name="description" content="तपाईं नजिकै भञ्ज्याङ सहकारीका कार्यालय स्थानहरू, शाखा कार्यालयहरू, र ATM केन्द्रहरू फेला पार्नुहोस्।">
+    <meta name="keywords" content="Office Locations, Branch Offices, ATM Centers, Bhanjyang Cooperative, Kaski, Nepal">
     <link rel="stylesheet" href="{% static 'dist/output.css' %}">
     <link rel="stylesheet" href="{% static 'css/about-animations.css' %}">
     <link rel="stylesheet" href="{% static 'css/utilities/advanced-animations.css' %}">
@@ -20,10 +20,10 @@
     <section class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div class="container mx-auto text-center max-w-4xl">
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-montserrat mb-4 sm:mb-6">
-                Office Locations
+                कार्यालय स्थानहरू
             </h1>
             <p class="text-base sm:text-lg md:text-xl opacity-90 leading-relaxed px-4">
-                Find our offices, branches, and ATM centers near you
+                तपाईं नजिकै हाम्रा कार्यालयहरू, शाखाहरू र ATM केन्द्रहरू फेला पार्नुहोस्
             </p>
         </div>
     </section>
@@ -35,26 +35,26 @@
                 <!-- Location Filter -->
                 <div class="flex flex-wrap gap-2">
                     <button class="filter-btn active" data-filter="all">
-                        <i class="fas fa-map-marker-alt mr-2"></i>All Locations
+                        <i class="fas fa-map-marker-alt mr-2"></i>सबै स्थानहरू
                     </button>
                     <button class="filter-btn" data-filter="main_office">
-                        <i class="fas fa-building mr-2"></i>Main Office
+                        <i class="fas fa-building mr-2"></i>मुख्य कार्यालय
                     </button>
                     <button class="filter-btn" data-filter="branch_office">
-                        <i class="fas fa-store mr-2"></i>Branch Offices
+                        <i class="fas fa-store mr-2"></i>शाखा कार्यालयहरू
                     </button>
                     <button class="filter-btn" data-filter="atm_center">
-                        <i class="fas fa-credit-card mr-2"></i>ATM Centers
+                        <i class="fas fa-credit-card mr-2"></i>ATM केन्द्रहरू
                     </button>
                 </div>
                 
                 <!-- Map Controls -->
                 <div class="flex gap-2">
                     <button id="locate-me" class="bg-deuraligreen hover:bg-bhanjyangred text-white px-4 py-2 rounded-lg transition-colors">
-                        <i class="fas fa-crosshairs mr-2"></i>Locate Me
+                        <i class="fas fa-crosshairs mr-2"></i>मेरो स्थान
                     </button>
                     <button id="fullscreen-map" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
-                        <i class="fas fa-expand mr-2"></i>Fullscreen
+                        <i class="fas fa-expand mr-2"></i>पूरा स्क्रिन
                     </button>
                 </div>
             </div>
@@ -74,12 +74,12 @@
                 <div class="lg:col-span-1">
                     <div class="bg-white rounded-lg shadow-lg p-6">
                         <h3 class="text-xl font-semibold text-deuraligreen mb-4">
-                            <i class="fas fa-list mr-2"></i>All Locations
+                            <i class="fas fa-list mr-2"></i>सबै स्थानहरू
                         </h3>
                         
                         <!-- Search Locations -->
                         <div class="relative mb-4">
-                            <input type="text" id="location-search" placeholder="Search locations..." 
+                            <input type="text" id="location-search" placeholder="स्थानहरू खोज्नुहोस्..." 
                                    class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
                             <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         </div>
@@ -111,10 +111,10 @@
                 
                 <div class="flex gap-3 mt-6">
                     <button id="get-directions" class="flex-1 bg-deuraligreen hover:bg-bhanjyangred text-white py-2 px-4 rounded-lg transition-colors">
-                        <i class="fas fa-route mr-2"></i>Get Directions
+                        <i class="fas fa-route mr-2"></i>बाटो हेर्नुहोस्
                     </button>
                     <button id="call-location" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                        <i class="fas fa-phone mr-2"></i>Call
+                        <i class="fas fa-phone mr-2"></i>कल गर्नुहोस्
                     </button>
                 </div>
             </div>
@@ -126,7 +126,7 @@
         <div class="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-deuraligreen">Directions</h3>
+                    <h3 class="text-xl font-semibold text-deuraligreen">दिशा निर्देशन</h3>
                     <button id="close-directions-modal" class="text-gray-400 hover:text-gray-600">
                         <i class="fas fa-times text-xl"></i>
                     </button>
@@ -142,19 +142,19 @@
     <!-- Location Statistics -->
     <section class="py-12 bg-white">
         <div class="container mx-auto max-w-4xl text-center">
-            <h2 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-8">Our Network</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-8">हाम्रो नेटवर्क</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
                 <div class="text-center">
                     <div class="text-4xl font-bold text-deuraligreen mb-2" id="total-locations">0</div>
-                    <p class="text-gray-600">Total Locations</p>
+                    <p class="text-gray-600">जम्मा स्थानहरू</p>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-deuraligreen mb-2" id="main-offices">0</div>
-                    <p class="text-gray-600">Main Offices</p>
+                    <p class="text-gray-600">मुख्य कार्यालयहरू</p>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-deuraligreen mb-2" id="branch-offices">0</div>
-                    <p class="text-gray-600">Branch Offices</p>
+                    <p class="text-gray-600">शाखा कार्यालयहरू</p>
                 </div>
             </div>
         </div>
@@ -279,7 +279,7 @@
                         <div class="flex gap-2">
                             <button onclick="interactiveMap.showLocationDetails(${JSON.stringify(location).replace(/"/g, '&quot;')})" 
                                     class="text-xs bg-deuraligreen text-white px-2 py-1 rounded">
-                                View Details
+                                विवरण हेर्नुहोस्
                             </button>
                         </div>
                     </div>
@@ -348,23 +348,23 @@
                 content.innerHTML = `
                     <div class="space-y-4">
                         <div>
-                            <h4 class="font-medium text-gray-700 mb-2">Address</h4>
+                            <h4 class="font-medium text-gray-700 mb-2">ठेगाना</h4>
                             <p class="text-gray-600">${location.address}</p>
                         </div>
                         
                         <div>
-                            <h4 class="font-medium text-gray-700 mb-2">Contact</h4>
+                            <h4 class="font-medium text-gray-700 mb-2">सम्पर्क</h4>
                             <p class="text-gray-600">${location.phone}</p>
                             <p class="text-gray-600">${location.email}</p>
                         </div>
                         
                         <div>
-                            <h4 class="font-medium text-gray-700 mb-2">Hours</h4>
+                            <h4 class="font-medium text-gray-700 mb-2">समय</h4>
                             <p class="text-gray-600">${location.hours}</p>
                         </div>
                         
                         <div>
-                            <h4 class="font-medium text-gray-700 mb-2">Services</h4>
+                            <h4 class="font-medium text-gray-700 mb-2">सेवाहरू</h4>
                             <div class="flex flex-wrap gap-2">
                                 ${location.services.map(service => `
                                     <span class="bg-deuraligreen text-white text-xs px-2 py-1 rounded">${service}</span>
@@ -373,7 +373,7 @@
                         </div>
                         
                         <div>
-                            <h4 class="font-medium text-gray-700 mb-2">Description</h4>
+                            <h4 class="font-medium text-gray-700 mb-2">विवरण</h4>
                             <p class="text-gray-600">${location.description}</p>
                         </div>
                     </div>
@@ -462,15 +462,15 @@
                                     iconSize: [30, 30],
                                     iconAnchor: [15, 15]
                                 })
-                            }).addTo(this.map).bindPopup('Your Location').openPopup();
+                            }).addTo(this.map).bindPopup('तपाईंको स्थान').openPopup();
                         },
                         (error) => {
                             console.error('Error getting location:', error);
-                            alert('Unable to get your location. Please check your browser settings.');
+                            alert('तपाईंको स्थान प्राप्त गर्न असमर्थ। कृपया ब्राउजर सेटिङहरू जाँच गर्नुहोस्।');
                         }
                     );
                 } else {
-                    alert('Geolocation is not supported by this browser.');
+                    alert('यो ब्राउजरमा जियोलोकेशन समर्थित छैन।');
                 }
             }
 
@@ -529,15 +529,15 @@
                     content.innerHTML = `
                         <div class="space-y-4">
                             <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
-                                <span class="font-medium">Distance</span>
+                                <span class="font-medium">दूरी</span>
                                 <span class="text-deuraligreen font-semibold">${directions.distance}</span>
                             </div>
                             <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg">
-                                <span class="font-medium">Duration</span>
+                                <span class="font-medium">समय</span>
                                 <span class="text-deuraligreen font-semibold">${directions.duration}</span>
                             </div>
                             <div>
-                                <h4 class="font-medium mb-2">Directions</h4>
+                                <h4 class="font-medium mb-2">दिशा निर्देशन</h4>
                                 <ol class="space-y-2">
                                     ${directions.steps.map((step, index) => `
                                         <li class="flex items-start gap-3">
@@ -554,7 +554,7 @@
                     
                 } catch (error) {
                     console.error('Error getting directions:', error);
-                    alert('Unable to get directions. Please try again.');
+                    alert('दिशा निर्देशन प्राप्त गर्न असमर्थ। कृपया पुनः प्रयास गर्नुहोस्।');
                 }
             }
 

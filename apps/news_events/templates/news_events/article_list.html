@@ -51,187 +51,163 @@
     </div>
 </section>
 
-<!-- Search and Filter Section -->
-<section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-[0.03]">
-        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
+<!-- Alpine.js Application -->
+<div x-data="articleList()" x-init="init()" class="min-h-screen">
     
-    <!-- Decorative Elements -->
-    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-4xl mx-auto">
-            <form method="get" class="bg-white p-6 rounded-2xl shadow-lg">
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <div class="flex-1">
-                        <div class="relative">
-                            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" name="search" value="{{ request.GET.search }}" 
-                                   placeholder="{% trans 'Search articles...' %}" 
-                                   class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
+    <!-- Search and Filter Section -->
+    <section class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white p-6 rounded-2xl shadow-lg">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="flex-1">
+                            <div class="relative">
+                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" x-model.debounce.500ms="search" 
+                                       placeholder="{% trans 'Search articles...' %}" 
+                                       class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
+                            </div>
+                        </div>
+                        <div class="sm:w-48">
+                            <select x-model="category" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
+                                <option value="">{% trans "All Categories" %}</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.slug }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="sm:w-48">
+                            <select x-model="sort" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
+                                <option value="newest">{% trans "Newest First" %}</option>
+                                <option value="oldest">{% trans "Oldest First" %}</option>
+                                <option value="popular">{% trans "Most Popular" %}</option>
+                                <option value="featured">{% trans "Featured Only" %}</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="sm:w-48">
-                        <select name="category" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                            <option value="">{% trans "All Categories" %}</option>
-                            {% for category in categories %}
-                                <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>
-                                    {{ category.name }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="sm:w-48">
-                        <select name="sort" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
-                            <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>{% trans "Newest First" %}</option>
-                            <option value="oldest" {% if request.GET.sort == 'oldest' %}selected{% endif %}>{% trans "Oldest First" %}</option>
-                            <option value="popular" {% if request.GET.sort == 'popular' %}selected{% endif %}>{% trans "Most Popular" %}</option>
-                            <option value="featured" {% if request.GET.sort == 'featured' %}selected{% endif %}>{% trans "Featured Only" %}</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                        <i class="fas fa-search"></i>
-                        <span>{% trans "Search" %}</span>
-                    </button>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Articles Grid -->
-<section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-[0.03]">
-        {% static 'images/backgrounds/pattern2.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
-    </div>
-    
-    <!-- Decorative Elements -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-6xl mx-auto">
-            {% if page_obj %}
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {% for article in page_obj %}
-                    <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border-t-4 border-deuraligreen relative">
-                        <!-- Card Background Pattern -->
-                        <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden z-0">
-                            {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
-                            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: no-repeat; background-size: cover; background-position: center;"></div>
+    <!-- Articles Grid -->
+    <section class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- Loading State -->
+                <div x-show="loading" class="flex justify-center items-center py-20">
+                    <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-deuraligreen"></div>
+                </div>
+
+                <!-- Content State -->
+                <div x-show="!loading" style="display: none;">
+                    
+                    <!-- Articles Found -->
+                    <template x-if="articles.length > 0">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <template x-for="article in articles" :key="article.id">
+                                <article class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border-t-4 border-deuraligreen relative h-full flex flex-col">
+                                    
+                                    <!-- Image Section -->
+                                    <div class="relative overflow-hidden z-10 h-56 flex-shrink-0">
+                                        <template x-if="article.image_url">
+                                            <img :src="article.image_url" :alt="article.title" 
+                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                        </template>
+                                        <template x-if="!article.image_url">
+                                            <div class="w-full h-full bg-gradient-to-br from-deuraligreen to-green-600 flex items-center justify-center">
+                                                <i class="fas fa-newspaper text-6xl text-white/50"></i>
+                                            </div>
+                                        </template>
+                                        
+                                        <!-- Featured Badge -->
+                                        <template x-if="article.is_featured">
+                                            <div class="absolute top-4 left-4">
+                                                <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-lg">
+                                                    <i class="fas fa-star mr-1"></i>{% trans "Featured" %}
+                                                </span>
+                                            </div>
+                                        </template>
+                                    </div>
+
+                                    <!-- Content Section -->
+                                    <div class="p-6 relative z-10 flex-grow flex flex-col">
+                                        <div class="flex items-center justify-between mb-4">
+                                            <span class="px-3 py-1 bg-deuraligreen/10 text-deuraligreen text-xs font-bold rounded-full" x-text="article.category_name"></span>
+                                            <span class="text-sm text-gray-600 font-semibold" x-text="formatDate(article.published_date)"></span>
+                                        </div>
+                                        
+                                        <h3 class="text-lg font-bold text-gray-900 mb-3 line-clamp-2 font-montserrat flex-grow-0">
+                                            <a :href="article.detail_url" class="hover:text-deuraligreen transition-colors duration-300" x-text="article.title"></a>
+                                        </h3>
+                                        
+                                        <p class="text-gray-600 text-sm line-clamp-3 mb-4 leading-relaxed flex-grow" x-text="article.excerpt || stripHtml(article.content)"></p>
+                                        
+                                        <div class="flex items-center justify-between pt-4 border-t border-gray-200 mt-auto">
+                                            <div class="flex items-center space-x-4 text-xs text-gray-500">
+                                                <span class="flex items-center">
+                                                    <i class="fas fa-user mr-1"></i>
+                                                    <span x-text="article.author_name"></span>
+                                                </span>
+                                                <span class="flex items-center">
+                                                    <i class="fas fa-eye mr-1"></i>
+                                                    <span x-text="article.view_count"></span>
+                                                </span>
+                                            </div>
+                                            <span class="flex items-center text-xs text-gray-500">
+                                                <i class="fas fa-clock mr-1"></i>
+                                                <span x-text="article.read_time + ' min'"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </article>
+                            </template>
                         </div>
-                        {% if article.image %}
-                        <div class="relative overflow-hidden z-10">
-                            <img src="{{ article.image.url }}" alt="{{ article.image_alt|default:article.title }}" 
-                                 class="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500">
-                            {% if article.is_featured %}
-                            <div class="absolute top-4 left-4">
-                                <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                    <i class="fas fa-star mr-1"></i>{% trans "Featured" %}
-                                </span>
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% else %}
-                        <div class="relative h-56 bg-gradient-to-br from-deuraligreen to-green-600 flex items-center justify-center z-10">
-                            <i class="fas fa-newspaper text-6xl text-white/50"></i>
-                            {% if article.is_featured %}
-                            <div class="absolute top-4 left-4">
-                                <span class="px-3 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full shadow-lg">
-                                    <i class="fas fa-star mr-1"></i>{% trans "Featured" %}
-                                </span>
-                            </div>
-                            {% endif %}
-                        </div>
-                        {% endif %}
-                        <div class="p-6 relative z-10">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="px-3 py-1 bg-deuraligreen/10 text-deuraligreen text-xs font-bold rounded-full">
-                                    {{ article.category.name }}
-                                </span>
-                                <span class="text-sm text-gray-600 font-semibold">{{ article.published_date|nepalidate_ne }}</span>
-                            </div>
-                            <h3 class="text-lg font-bold text-gray-900 mb-3 line-clamp-2 font-montserrat">
-                                <a href="{% url 'news_events:article-detail' article.slug %}" class="hover:text-deuraligreen transition-colors duration-300">
-                                    {{ article.title|default:"" }}
-                                </a>
-                            </h3>
-                            <p class="text-gray-600 text-sm line-clamp-3 mb-4 leading-relaxed">{{ article.excerpt|default:article.content|truncatewords:20 }}</p>
-                            <div class="flex items-center justify-between pt-4 border-t border-gray-200">
-                                <div class="flex items-center space-x-4 text-xs text-gray-500">
-                                    <span class="flex items-center">
-                                        <i class="fas fa-user mr-1"></i>
-                                        {{ article.author.get_full_name|default:article.author.username }}
-                                    </span>
-                                    <span class="flex items-center">
-                                        <i class="fas fa-eye mr-1"></i>
-                                        {{ article.view_count }}
-                                    </span>
+                    </template>
+
+                    <!-- Empty State -->
+                    <template x-if="articles.length === 0">
+                        <div class="text-center py-16">
+                            <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                                <div class="mb-6">
+                                    <i class="fas fa-newspaper text-6xl text-gray-300"></i>
                                 </div>
-                                <span class="flex items-center text-xs text-gray-500">
-                                    <i class="fas fa-clock mr-1"></i>
-                                    {{ article.read_time }} {% trans "min" %}
-                                </span>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Articles Found" %}</h3>
+                                <p class="text-gray-600 mb-6">{% trans "We couldn't find any articles matching your criteria." %}</p>
+                                <button @click="resetFilters()" class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                                    <i class="fas fa-sync"></i>
+                                    <span>{% trans "Clear Filters" %}</span>
+                                </button>
                             </div>
                         </div>
-                    </article>
-                    {% endfor %}
-                </div>
+                    </template>
 
-                <!-- Pagination -->
-                {% if page_obj.has_other_pages %}
-                <div class="mt-12 flex justify-center">
-                    <nav class="flex items-center space-x-2 bg-white p-4 rounded-2xl shadow-lg">
-                        {% if page_obj.has_previous %}
-                            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
-                               class="px-4 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105">
+                    <!-- Pagination -->
+                    <div class="mt-12 flex justify-center" x-show="numPages > 1">
+                        <nav class="flex items-center space-x-2 bg-white p-4 rounded-2xl shadow-lg">
+                            <button @click="prevPage()" :disabled="!hasPrevious" 
+                                    :class="{'opacity-50 cursor-not-allowed': !hasPrevious, 'hover:scale-105 hover:bg-green-700': hasPrevious}"
+                                    class="px-4 py-2 bg-deuraligreen text-white rounded-lg transition-all duration-300">
                                 <i class="fas fa-chevron-left"></i>
-                            </a>
-                        {% endif %}
+                            </button>
 
-                        {% for num in page_obj.paginator.page_range %}
-                            {% if page_obj.number == num %}
-                                <span class="px-4 py-2 bg-bhanjyangred text-white rounded-lg font-bold">{{ num }}</span>
-                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                                <a href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}" 
-                                   class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-300">{{ num }}</a>
-                            {% endif %}
-                        {% endfor %}
+                            <span class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-bold">
+                                <span x-text="currentPage"></span> / <span x-text="numPages"></span>
+                            </span>
 
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"
-                               class="px-4 py-2 bg-deuraligreen text-white rounded-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105">
+                            <button @click="nextPage()" :disabled="!hasNext"
+                                    :class="{'opacity-50 cursor-not-allowed': !hasNext, 'hover:scale-105 hover:bg-green-700': hasNext}"
+                                    class="px-4 py-2 bg-deuraligreen text-white rounded-lg transition-all duration-300">
                                 <i class="fas fa-chevron-right"></i>
-                            </a>
-                        {% endif %}
-                    </nav>
-                </div>
-                {% endif %}
-            {% else %}
-                <div class="text-center py-16">
-                    <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
-                        <div class="mb-6">
-                            <i class="fas fa-newspaper text-6xl text-gray-300"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Articles Found" %}</h3>
-                        <p class="text-gray-600 mb-6">{% trans "We couldn't find any articles matching your criteria." %}</p>
-                        <a href="{% url 'news_events:article-list' %}" class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-                            <i class="fas fa-list"></i>
-                            <span>{% trans "View All Articles" %}</span>
-                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
-                        </a>
+                            </button>
+                        </nav>
                     </div>
                 </div>
-            {% endif %}
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
 <!-- Newsletter Subscription -->
 <section class="relative py-12 bg-gradient-to-br from-green-600 via-green-700 to-green-600 overflow-hidden" style="background: linear-gradient(to bottom right, #16a34a, #15803d, #16a34a) !important; opacity: 1 !important; visibility: visible !important;">
@@ -290,3 +266,106 @@
 }
 </style>
 {% endblock extra_css %}
+
+{% block extra_js %}
+<script type="module">
+    import NewsEventsService from "{% static 'js/modules/news-events-api.js' %}";
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('articleList', () => ({
+            articles: [],
+            loading: true,
+            search: '{{ request.GET.search|default:"" }}',
+            category: '{{ request.GET.category|default:"" }}',
+            sort: '{{ request.GET.sort|default:"newest" }}',
+            currentPage: 1,
+            numPages: 1,
+            hasNext: false,
+            hasPrevious: false,
+
+            init() {
+                this.fetchArticles();
+                
+                // Watchers
+                this.$watch('search', () => { this.currentPage = 1; this.fetchArticles(); });
+                this.$watch('category', () => { this.currentPage = 1; this.fetchArticles(); });
+                this.$watch('sort', () => { this.currentPage = 1; this.fetchArticles(); });
+            },
+
+            async fetchArticles() {
+                this.loading = true;
+                try {
+                    const params = {
+                        page: this.currentPage,
+                        search: this.search,
+                        category: this.category,
+                        sort: this.sort
+                    };
+                    
+                    // Filter out empty params
+                    Object.keys(params).forEach(key => params[key] === "" && delete params[key]);
+
+                    const data = await NewsEventsService.getArticles(params);
+                    this.articles = data.results;
+                    this.currentPage = data.current_page;
+                    this.numPages = data.num_pages;
+                    this.hasNext = data.has_next;
+                    this.hasPrevious = data.has_previous;
+                    
+                    // Update URL without reload
+                    const url = new URL(window.location);
+                    if (this.search) url.searchParams.set('search', this.search); else url.searchParams.delete('search');
+                    if (this.category) url.searchParams.set('category', this.category); else url.searchParams.delete('category');
+                    if (this.sort !== 'newest') url.searchParams.set('sort', this.sort); else url.searchParams.delete('sort');
+                    window.history.pushState({}, '', url);
+
+                } catch (error) {
+                    console.error("Error fetching articles:", error);
+                } finally {
+                    this.loading = false;
+                }
+            },
+
+            nextPage() {
+                if (this.hasNext) {
+                    this.currentPage++;
+                    this.fetchArticles();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            },
+
+            prevPage() {
+                if (this.hasPrevious) {
+                    this.currentPage--;
+                    this.fetchArticles();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            },
+
+            resetFilters() {
+                this.search = '';
+                this.category = '';
+                this.sort = 'newest';
+                this.currentPage = 1;
+                this.fetchArticles();
+            },
+
+            formatDate(dateString) {
+                // Should ideally use the nepalidatetime lib but simplified for JS
+                // Would need a JS-side Nepali date converter or return formatted string from API
+                // For now, let's assume API returns ISO and we just show it or rely on API to return formatted
+                // Implementation instruction said "published_date: article.published_date.isoformat()"
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            },
+            
+            stripHtml(html) {
+               let tmp = document.createElement("DIV");
+               tmp.innerHTML = html;
+               let text = tmp.textContent || tmp.innerText || "";
+               return text.split(" ").slice(0, 20).join(" ") + "...";
+            }
+        }));
+    });
+</script>
+{% endblock extra_js %}
