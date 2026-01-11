@@ -8,7 +8,7 @@ from unittest.mock import patch, MagicMock
 
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber, ContactInquiry
+    NewsletterSubscriber, ContactInquiry
 )
 from apps.home.services import HomeService
 from apps.gallery.models import GalleryImage

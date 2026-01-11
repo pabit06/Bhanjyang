@@ -82,7 +82,7 @@ class ContactService:
         user_agent = request_meta.get('HTTP_USER_AGENT', '')
         
         # Generate subject from message if not provided
-        message_body = form_data['message']
+        message_body = form_data.get('message', '')
         if 'subject' in form_data and form_data['subject']:
             subject = form_data['subject']
         else:

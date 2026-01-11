@@ -7,7 +7,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, GalleryImage, NewsletterSubscriber
+    NewsletterSubscriber
 )
 
 
@@ -28,8 +28,7 @@ class Command(BaseCommand):
             Testimonial.objects.all().delete()
             Statistic.objects.all().delete()
             Announcement.objects.all().delete()
-            ServiceHighlight.objects.all().delete()
-            GalleryImage.objects.all().delete()
+
             NewsletterSubscriber.objects.all().delete()
 
         self.stdout.write('Creating sample data for home app...')
@@ -46,11 +45,7 @@ class Command(BaseCommand):
         # Create announcements
         self.create_announcements()
         
-        # Create service highlights
-        self.create_service_highlights()
-        
-        # Create gallery images (placeholder)
-        self.create_gallery_images()
+
         
         # Create newsletter subscribers
         self.create_newsletter_subscribers()
@@ -219,103 +214,9 @@ class Command(BaseCommand):
             if created:
                 self.stdout.write(f'Created announcement: {announcement.title}')
 
-    def create_service_highlights(self):
-        """Create service highlights"""
-        services_data = [
-            {
-                'title': 'Savings Accounts',
-                'description': 'Various types of savings accounts with competitive interest rates up to 8% annually.',
-                'icon': 'fas fa-piggy-bank',
-                'color': 'green',
-                'interest_rate': 'Up to 8%',
-                'link_text': 'View All Savings Options',
-                'is_featured': True,
-                'order': 1
-            },
-            {
-                'title': 'Loan Services',
-                'description': 'Affordable loans for business, agriculture, and home construction with flexible terms.',
-                'icon': 'fas fa-hand-holding-usd',
-                'color': 'blue',
-                'interest_rate': 'From 10.5%',
-                'link_text': 'Explore Loan Options',
-                'is_featured': True,
-                'order': 2
-            },
-            {
-                'title': 'Fixed Deposits',
-                'description': 'Secure your future with fixed deposits offering up to 7% interest for 1+ year terms.',
-                'icon': 'fas fa-comments-dollar',
-                'color': 'purple',
-                'interest_rate': 'Up to 7%',
-                'link_text': 'View Deposit Rates',
-                'is_featured': True,
-                'order': 3
-            }
-        ]
 
-        for data in services_data:
-            service, created = ServiceHighlight.objects.get_or_create(
-                title=data['title'],
-                defaults=data
-            )
-            if created:
-                self.stdout.write(f'Created service highlight: {service.title}')
 
-    def create_gallery_images(self):
-        """Create placeholder gallery images"""
-        gallery_data = [
-            {
-                'title': 'Annual General Meeting 2024',
-                'description': 'Members attending our annual general meeting',
-                'category': 'events',
-                'is_featured': True,
-                'order': 1
-            },
-            {
-                'title': 'Community Outreach Program',
-                'description': 'Our team conducting financial literacy programs',
-                'category': 'community',
-                'is_featured': True,
-                'order': 2
-            },
-            {
-                'title': 'Office Building',
-                'description': 'Our main office in Rupa Rural Municipality',
-                'category': 'office',
-                'is_featured': True,
-                'order': 3
-            },
-            {
-                'title': 'Team Photo 2024',
-                'description': 'Our dedicated team members',
-                'category': 'team',
-                'is_featured': True,
-                'order': 4
-            },
-            {
-                'title': 'Award Ceremony',
-                'description': 'Receiving recognition for excellent service',
-                'category': 'awards',
-                'is_featured': True,
-                'order': 5
-            },
-            {
-                'title': 'Member Training Session',
-                'description': 'Training session for new members',
-                'category': 'events',
-                'is_featured': True,
-                'order': 6
-            }
-        ]
 
-        for data in gallery_data:
-            gallery_image, created = GalleryImage.objects.get_or_create(
-                title=data['title'],
-                defaults=data
-            )
-            if created:
-                self.stdout.write(f'Created gallery image: {gallery_image.title}')
 
     def create_newsletter_subscribers(self):
         """Create sample newsletter subscribers"""

@@ -33,6 +33,10 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 
 {% block schema_image %}https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop{% endblock schema_image %}
 
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'home/css/index.css' %}">
+{% endblock extra_css %}
+
 {% block content %}
     {% include "home/partials/hero.html" %}
     {% include "home/partials/introduction.html" %}

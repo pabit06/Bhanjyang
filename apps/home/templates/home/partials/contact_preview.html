@@ -61,7 +61,7 @@
                                 <i class="fas fa-envelope text-deuraligreen text-xl"></i>
                             </div>
                 <div>
-                                <h4 class="font-semibold text-gray-900 mb-1">Email</h4>
+                                <h4 class="font-semibold text-gray-900 mb-1">{% trans "Email" %}</h4>
                                 <a href="mailto:info@bhanjyang.coop.np" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
                                     info@bhanjyang.coop.np
                                 </a>
@@ -83,7 +83,7 @@
                             <label for="quick-contact-name" class="sr-only">{% trans "Your Name" %}</label>
                             <div class="relative">
                                 <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" name="name" id="quick-contact-name" placeholder="Your Name" required
+                            <input type="text" name="name" id="quick-contact-name" placeholder="{% trans 'Your Name' %}" required
                                 autocomplete="name"
                                     class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
                                 aria-required="true" aria-describedby="contact-name-error">
@@ -94,7 +94,7 @@
                             <label for="quick-contact-email" class="sr-only">{% trans "Your Email" %}</label>
                             <div class="relative">
                                 <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="email" name="email" id="quick-contact-email" placeholder="Your Email" required
+                            <input type="email" name="email" id="quick-contact-email" placeholder="{% trans 'Your Email' %}" required
                                 autocomplete="email"
                                     class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
                                 aria-required="true" aria-describedby="contact-email-error">
@@ -105,7 +105,7 @@
                             <label for="quick-contact-subject" class="sr-only">{% trans "Subject" %}</label>
                             <div class="relative">
                                 <i class="fas fa-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" name="subject" id="quick-contact-subject" placeholder="Subject" required
+                            <input type="text" name="subject" id="quick-contact-subject" placeholder="{% trans 'Subject' %}" required
                                 autocomplete="off"
                                     class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
                                 aria-required="true" aria-describedby="contact-subject-error">
@@ -116,7 +116,7 @@
                             <label for="quick-contact-message" class="sr-only">{% trans "Your Message" %}</label>
                             <div class="relative">
                                 <i class="fas fa-comment-alt absolute left-4 top-4 text-gray-400"></i>
-                                <textarea name="message" id="quick-contact-message" placeholder="Your Message" rows="4"
+                                <textarea name="message" id="quick-contact-message" placeholder="{% trans 'Your Message' %}" rows="4"
                                 required autocomplete="off"
                                     class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300 resize-none"
                                 aria-required="true" aria-describedby="contact-message-error"></textarea>

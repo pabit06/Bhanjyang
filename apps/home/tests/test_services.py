@@ -13,7 +13,7 @@ from datetime import timedelta
 from apps.home.services import HomeService
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber, ContactInquiry
+    NewsletterSubscriber, ContactInquiry
 )
 from apps.gallery.models import GalleryImage, GalleryAlbum
 
@@ -60,13 +60,7 @@ class HomeServiceTest(TestCase):
             publish_date=timezone.now()
         )
         
-        self.service = ServiceHighlight.objects.create(
-            title="Savings Account",
-            description="High interest savings",
-            is_featured=True,
-            is_active=True,
-            order=0
-        )
+
         
         # Create gallery album and image
         self.album = GalleryAlbum.objects.create(
@@ -138,7 +132,7 @@ class HomeServiceTest(TestCase):
         Testimonial.objects.all().delete()
         Statistic.objects.all().delete()
         Announcement.objects.all().delete()
-        ServiceHighlight.objects.all().delete()
+
         GalleryImage.objects.all().delete()
         
         context = HomeService.get_home_context(is_staff=False)

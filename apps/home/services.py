@@ -8,7 +8,7 @@ from typing import Dict, Any, List
 
 from .models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber, ContactInquiry
+    NewsletterSubscriber, ContactInquiry
 )
 from apps.gallery.models import GalleryImage
 from apps.dashboard.services import DashboardAnalyticsService

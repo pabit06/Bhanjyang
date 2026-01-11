@@ -92,30 +92,32 @@ class Statistic(TimeStampedModel):
 
 class Announcement(TimeStampedModel):
     """Important announcements and news"""
+    class AnnouncementType(models.TextChoices):
+        GENERAL = 'general', _('General')
+        SERVICE = 'service', _('Service Update')
+        EVENT = 'event', _('Event')
+        HOLIDAY = 'holiday', _('Holiday Notice')
+        MAINTENANCE = 'maintenance', _('Maintenance')
+
+    class Priority(models.TextChoices):
+        LOW = 'low', _('Low')
+        MEDIUM = 'medium', _('Medium')
+        HIGH = 'high', _('High')
+        URGENT = 'urgent', _('Urgent')
+
     title = models.CharField(max_length=200)
     content = models.TextField()
     summary = models.CharField(max_length=300, blank=True, help_text=_("Short summary for cards"))
     image = models.ImageField(upload_to='announcements/', blank=True, null=True)
     announcement_type = models.CharField(
         max_length=20,
-        choices=[
-            ('general', _('General')),
-            ('service', _('Service Update')),
-            ('event', _('Event')),
-            ('holiday', _('Holiday Notice')),
-            ('maintenance', _('Maintenance')),
-        ],
-        default='general'
+        choices=AnnouncementType.choices,
+        default=AnnouncementType.GENERAL
     )
     priority = models.CharField(
         max_length=10,
-        choices=[
-            ('low', _('Low')),
-            ('medium', _('Medium')),
-            ('high', _('High')),
-            ('urgent', _('Urgent')),
-        ],
-        default='medium'
+        choices=Priority.choices,
+        default=Priority.MEDIUM
     )
     is_featured = models.BooleanField(default=False, help_text=_("Show on home page"))
     is_active = models.BooleanField(default=True)
@@ -136,27 +138,6 @@ class Announcement(TimeStampedModel):
             return timezone.now() > self.expiry_date
         return False
 
-
-class ServiceHighlight(TimeStampedModel):
-    """Featured services on the home page"""
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    icon = models.CharField(max_length=50, help_text=_("FontAwesome icon class"))
-    color = models.CharField(max_length=20, default='green', help_text=_("Color theme"))
-    interest_rate = models.CharField(max_length=20, blank=True, help_text=_("e.g., 'Up to 8%'"))
-    link_url = models.URLField(blank=True, help_text=_("Link to detailed service page"))
-    link_text = models.CharField(max_length=50, default=_("Learn More"))
-    is_featured = models.BooleanField(default=False, help_text=_("Show on home page"))
-    is_active = models.BooleanField(default=True)
-    order = models.PositiveIntegerField(default=0)
-    
-    class Meta:
-        ordering = ['order', '-created_at']
-        verbose_name = _("Service Highlight")
-        verbose_name_plural = _("Service Highlights")
-    
-    def __str__(self):
-        return self.title
 
 
 class NewsletterSubscriber(TimeStampedModel):

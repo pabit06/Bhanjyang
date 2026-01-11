@@ -9,7 +9,7 @@ import json
 
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber, ContactInquiry
+    NewsletterSubscriber, ContactInquiry
 )
 from apps.home.forms import ContactForm, NewsletterSignupForm
 

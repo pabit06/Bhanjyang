@@ -11,8 +11,7 @@ import logging
 
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, GalleryImage, NewsletterSubscriber,
-    ContactInquiry, PageView
+    NewsletterSubscriber, ContactInquiry, PageView
 )
 
 logger = logging.getLogger(__name__)
@@ -194,8 +193,8 @@ class Command(BaseCommand):
                 expiry_date__lt=timezone.now(),
                 is_active=True
             ).count(),
-            'active_services': ServiceHighlight.objects.filter(is_active=True).count(),
-            'active_gallery_images': GalleryImage.objects.filter(is_active=True).count(),
+
+
             'newsletter_subscribers': NewsletterSubscriber.objects.filter(is_active=True).count(),
             'unresolved_inquiries': ContactInquiry.objects.filter(is_resolved=False).count(),
             'total_page_views': PageView.objects.count(),

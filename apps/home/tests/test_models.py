@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from datetime import timedelta
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber, ContactInquiry, PageView
+    NewsletterSubscriber, ContactInquiry, PageView
 )
 
 User = get_user_model()
@@ -231,48 +231,6 @@ class AnnouncementModelTest(TestCase):
         self.assertEqual(announcements[0], self.announcement)
         self.assertEqual(announcements[1], announcement2)
 
-
-class ServiceHighlightModelTest(TestCase):
-    """Test suite for ServiceHighlight model"""
-    
-    def setUp(self):
-        """Set up test data"""
-        self.highlight = ServiceHighlight.objects.create(
-            title="Savings Account",
-            description="High interest savings",
-            icon="fas fa-piggy-bank",
-            color="green",
-            interest_rate="Up to 8%",
-            link_url="https://example.com/savings",
-            is_featured=True
-        )
-    
-    def test_highlight_creation(self):
-        """Test basic service highlight creation"""
-        self.assertEqual(self.highlight.title, "Savings Account")
-        self.assertEqual(self.highlight.icon, "fas fa-piggy-bank")
-        self.assertEqual(self.highlight.interest_rate, "Up to 8%")
-    
-    def test_str_representation(self):
-        """Test string representation"""
-        self.assertEqual(str(self.highlight), "Savings Account")
-    
-    def test_default_link_text(self):
-        """Test default link text"""
-        self.assertEqual(self.highlight.link_text, "Learn More")
-    
-    def test_ordering(self):
-        """Test model ordering"""
-        highlight2 = ServiceHighlight.objects.create(
-            title="Loan Service",
-            description="Test",
-            icon="fas fa-money",
-            order=1
-        )
-        highlights = list(ServiceHighlight.objects.all())
-        # Should be ordered by order, -created_at
-        self.assertEqual(highlights[0], self.highlight)  # order=0
-        self.assertEqual(highlights[1], highlight2)  # order=1
 
 
 class NewsletterSubscriberModelTest(TestCase):

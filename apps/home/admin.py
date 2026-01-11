@@ -5,8 +5,7 @@ from django.utils.safestring import mark_safe
 from django.utils import timezone
 from .models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber,
-    ContactInquiry, PageView
+    NewsletterSubscriber, ContactInquiry, PageView
 )
 
 
@@ -115,26 +114,6 @@ class AnnouncementAdmin(admin.ModelAdmin):
         self.message_user(request, f"{queryset.count()} announcements marked as inactive.")
     mark_as_inactive.short_description = "Mark selected announcements as inactive"
 
-
-@admin.register(ServiceHighlight)
-class ServiceHighlightAdmin(admin.ModelAdmin):
-    list_display = ['title', 'interest_rate', 'icon', 'is_featured', 'is_active']
-    list_filter = ['is_featured', 'is_active', 'color']
-    search_fields = ['title', 'description']
-    list_editable = ['is_featured', 'is_active']
-    ordering = ['order', '-created_at']
-    
-    fieldsets = (
-        ('Service Information', {
-            'fields': ('title', 'description', 'interest_rate')
-        }),
-        ('Display Settings', {
-            'fields': ('icon', 'color', 'is_featured', 'is_active', 'order')
-        }),
-        ('Link Settings', {
-            'fields': ('link_url', 'link_text')
-        }),
-    )
 
 
 

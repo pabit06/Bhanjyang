@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, View
+from django.views.generic import TemplateView, View, RedirectView
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from .serializers import StatisticSerializer, TestimonialSerializer
@@ -51,21 +51,12 @@ class OfflineView(TemplateView):
     template_name = 'offline.html'
 
 
-@method_decorator(cache_page(1800), name='dispatch')
-class RemittanceView(NepaliLanguageMixin, TemplateView):
+class RemittanceView(RedirectView):
     """
-    Remittance Services Page.
+    Redirect legacy remittance page to Services app.
     """
-    template_name = 'home/remittance.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        HomeService.track_view(self.request, "Remittance Services - Bhanjyang Cooperative")
-        context['breadcrumbs'] = [
-            {'name': 'Home', 'url': '/'},
-            {'name': 'Remittance Services', 'url': '/remittance/'} # Corrected URL assuming root
-        ]
-        return context
+    permanent = True
+    pattern_name = 'services:remittance_list'
 
 
 class ContactSubmissionView(View):

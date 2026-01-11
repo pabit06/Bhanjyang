@@ -15,7 +15,7 @@ from django.core.exceptions import ValidationError
 
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber,
+    NewsletterSubscriber,
     ContactInquiry, PageView
 )
 from apps.gallery.models import GalleryImage
@@ -176,32 +176,6 @@ class AnnouncementModelTest(TestCase):
         self.announcement.save()
         self.assertTrue(self.announcement.is_expired)
 
-
-class ServiceHighlightModelTest(TestCase):
-    """Test ServiceHighlight model"""
-    
-    def setUp(self):
-        self.service = ServiceHighlight.objects.create(
-            title="Savings Account",
-            description="High interest savings",
-            icon="fas fa-piggy-bank",
-            color="green",
-            interest_rate="8%",
-            link_url="https://example.com",
-            link_text="Learn More",
-            is_featured=True,
-            is_active=True
-        )
-    
-    def test_service_creation(self):
-        """Test service highlight creation"""
-        self.assertEqual(self.service.title, "Savings Account")
-        self.assertEqual(self.service.interest_rate, "8%")
-        self.assertEqual(self.service.link_text, "Learn More")
-    
-    def test_service_str(self):
-        """Test string representation"""
-        self.assertEqual(str(self.service), "Savings Account")
 
 
 class GalleryImageModelTest(TestCase):
@@ -374,12 +348,7 @@ class HomeViewsTest(TestCase):
             is_active=True
         )
         
-        self.service = ServiceHighlight.objects.create(
-            title="Savings Account",
-            description="High interest savings",
-            is_featured=True,
-            is_active=True
-        )
+
         
         self.gallery_image = GalleryImage.objects.create(
             title="Test Image",

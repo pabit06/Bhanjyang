@@ -204,11 +204,11 @@ class SubscriberSerializer(serializers.ModelSerializer):
         model = Subscriber
         fields = [
             'id', 'email', 'first_name', 'last_name', 'status', 'status_display',
-            'is_confirmed', 'subscribed_at', 'unsubscribed_at',
+            'is_confirmed', 'subscribed_at',
             'last_activity', 'categories'
         ]
         read_only_fields = [
-            'id', 'subscribed_at', 'unsubscribed_at', 'last_activity'
+            'id', 'subscribed_at', 'last_activity'
         ]
     
     def validate_email(self, value: str) -> str:
@@ -255,13 +255,12 @@ class ContentAnalyticsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContentAnalytics
         fields = [
-            'id', 'content_type', 'object_id', 'view_count',
-            'share_count', 'comment_count', 'last_accessed',
-            'created_at', 'updated_at'
+            'id', 'content_type', 'content_id', 'views',
+            'shares', 'comments', 'created_at', 'updated_at'
         ]
         read_only_fields = [
-            'id', 'view_count', 'share_count', 'comment_count',
-            'last_accessed', 'created_at', 'updated_at'
+            'id', 'views', 'shares', 'comments',
+            'created_at', 'updated_at'
         ]
 
 

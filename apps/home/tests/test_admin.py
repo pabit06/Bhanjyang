@@ -11,11 +11,11 @@ from django.contrib.messages.middleware import MessageMiddleware
 
 from apps.home.models import (
     HomePageContent, Testimonial, Statistic, Announcement,
-    ServiceHighlight, NewsletterSubscriber, ContactInquiry, PageView
+    NewsletterSubscriber, ContactInquiry, PageView
 )
 from apps.home.admin import (
     HomePageContentAdmin, TestimonialAdmin, StatisticAdmin,
-    AnnouncementAdmin, ServiceHighlightAdmin, NewsletterSubscriberAdmin,
+    AnnouncementAdmin, NewsletterSubscriberAdmin,
     ContactInquiryAdmin, PageViewAdmin
 )
 
@@ -171,24 +171,6 @@ class AnnouncementAdminTest(HomeAdminTestCase):
         self.admin.mark_as_inactive(self.request, queryset)
         self.announcement.refresh_from_db()
         self.assertFalse(self.announcement.is_active)
-
-
-class ServiceHighlightAdminTest(HomeAdminTestCase):
-    """Test ServiceHighlightAdmin"""
-    
-    def setUp(self):
-        super().setUp()
-        self.admin = ServiceHighlightAdmin(ServiceHighlight, self.site)
-        self.highlight = ServiceHighlight.objects.create(
-            title='Test Service',
-            is_active=True
-        )
-    
-    def test_list_display(self):
-        """Test list display fields"""
-        self.assertIn('title', self.admin.list_display)
-        self.assertIn('interest_rate', self.admin.list_display)
-        self.assertIn('is_featured', self.admin.list_display)
 
 
 class NewsletterSubscriberAdminTest(HomeAdminTestCase):
