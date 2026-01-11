@@ -1,5 +1,5 @@
 """
-ASGI config for coop project.
+ASGI config for Bhanjyang Cooperative project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

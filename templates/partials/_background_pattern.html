@@ -1,0 +1,26 @@
+{% load static %}
+{% comment %}
+Global Background Pattern Partial
+Usage: {% include 'partials/_background_pattern.html' with pattern_type='light' opacity='0.03' %}
+Parameters:
+  - pattern_type: 'light' or 'dark' (default: 'light')
+  - opacity: opacity value (default: '0.03')
+  - size: background size (default: '300px' for light, '200px' for dark)
+  - class: additional CSS classes (optional)
+{% endcomment %}
+
+{% if pattern_type == 'dark' or pattern_type == 'pattern2' %}
+    {% static 'images/backgrounds/pattern2.png' as pattern_img %}
+    {% with pattern_size='200px' %}
+    <div class="absolute inset-0 {% if opacity %}{% else %}opacity-10{% endif %} {% if class %}{{ class }}{% endif %}" {% if opacity %}style="opacity: {{ opacity }};"{% endif %}>
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: {{ pattern_size }};"></div>
+    </div>
+    {% endwith %}
+{% else %}
+    {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+    {% with pattern_size='300px' %}
+    <div class="absolute inset-0 {% if opacity %}{% else %}opacity-[0.03]{% endif %} {% if class %}{{ class }}{% endif %}" {% if opacity %}style="opacity: {{ opacity }};"{% endif %}>
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: {{ pattern_size }};"></div>
+    </div>
+    {% endwith %}
+{% endif %}

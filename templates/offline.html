@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block title %}Offline - Bhanjyang Cooperative{% endblock title %}
 
@@ -13,45 +14,51 @@
 {% endblock extra_head %}
 
 {% block content %}
-    <div class="min-h-screen bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 flex items-center justify-center px-4">
-        <div class="max-w-md w-full text-center">
+    <div class="min-h-screen bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 flex items-center justify-center px-4 relative overflow-hidden">
+        <!-- Background Pattern -->
+        {% include 'partials/_background_pattern.html' with pattern_type='light' opacity='0.03' %}
+        <div class="max-w-md w-full text-center relative z-10">
             <!-- Offline Icon -->
             <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-8">
                 <i class="fas fa-wifi-slash text-gray-400 text-3xl"></i>
             </div>
             
             <!-- Offline Message -->
-            <h1 class="text-3xl font-bold text-deuraligreen mb-4">You're Offline</h1>
+            <h1 class="text-3xl font-bold text-deuraligreen mb-4 font-montserrat">
+                {% trans "तपाईं अफलाइन हुनुहुन्छ" %}
+            </h1>
             <p class="text-gray-600 mb-8 leading-relaxed">
-                It looks like you're not connected to the internet. Don't worry, you can still browse some of our content that's been saved for offline viewing.
+                {% trans "तपाईं इन्टरनेटसँग जोडिएको छैन जस्तो देखिन्छ। चिन्ता नगर्नुहोस्, तपाईंले अझै पनि हाम्रो केही सामग्रीहरू ब्राउज गर्न सक्नुहुन्छ जुन अफलाइन हेर्नको लागि बचत गरिएको छ।" %}
             </p>
             
             <!-- Available Offline Content -->
             <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h2 class="text-xl font-semibold text-deuraligreen mb-4">Available Offline</h2>
+                <h2 class="text-xl font-semibold text-deuraligreen mb-4 font-montserrat">
+                    {% trans "अफलाइन उपलब्ध" %}
+                </h2>
                 <div class="space-y-3">
                     <a href="/about/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                         <div class="flex items-center">
                             <i class="fas fa-info-circle text-deuraligreen mr-3"></i>
-                            <span class="font-medium">About Us</span>
+                            <span class="font-medium">{% trans "हाम्रो बारेमा" %}</span>
                         </div>
                     </a>
                     <a href="/about/team/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                         <div class="flex items-center">
                             <i class="fas fa-users text-deuraligreen mr-3"></i>
-                            <span class="font-medium">Our Team</span>
+                            <span class="font-medium">{% trans "हाम्रो टोली" %}</span>
                         </div>
                     </a>
-                    <a href="/about/contact/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <a href="{% url 'contact:contact_view' %}" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                         <div class="flex items-center">
                             <i class="fas fa-envelope text-deuraligreen mr-3"></i>
-                            <span class="font-medium">Contact Us</span>
+                            <span class="font-medium">{% trans "सम्पर्क गर्नुहोस्" %}</span>
                         </div>
                     </a>
-                    <a href="/gallery/" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <a href="{% url 'gallery:gallery' %}" class="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                         <div class="flex items-center">
                             <i class="fas fa-images text-deuraligreen mr-3"></i>
-                            <span class="font-medium">Photo Gallery</span>
+                            <span class="font-medium">{% trans "फोटो ग्यालेरी" %}</span>
                         </div>
                     </a>
                 </div>
@@ -59,12 +66,12 @@
             
             <!-- Retry Connection -->
             <div class="space-y-4">
-                <button id="retry-connection" class="w-full bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-3 px-6 rounded-lg transition-colors">
-                    <i class="fas fa-refresh mr-2"></i>Try Again
+                <button id="retry-connection" class="w-full bg-deuraligreen hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-colors transform hover:scale-105 shadow-lg">
+                    <i class="fas fa-refresh mr-2"></i>{% trans "फेरि प्रयास गर्नुहोस्" %}
                 </button>
                 
                 <p class="text-sm text-gray-500">
-                    Check your internet connection and try again
+                    {% trans "आफ्नो इन्टरनेट कनेक्सन जाँच गर्नुहोस् र फेरि प्रयास गर्नुहोस्" %}
                 </p>
             </div>
             
@@ -72,7 +79,7 @@
             <div id="connection-status" class="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
                 <div class="flex items-center">
                     <i class="fas fa-exclamation-triangle text-yellow-600 mr-2"></i>
-                    <span class="text-yellow-800 text-sm">Checking connection...</span>
+                    <span class="text-yellow-800 text-sm">{% trans "कनेक्सन जाँच गर्दै..." %}</span>
                 </div>
             </div>
         </div>
@@ -111,7 +118,7 @@
             }
 
             async checkConnection() {
-                this.showStatus('Checking connection...', 'yellow');
+                this.showStatus('{% trans "कनेक्सन जाँच गर्दै..." %}', 'yellow');
                 this.retryButton.disabled = true;
 
                 try {
@@ -134,7 +141,7 @@
             }
 
             handleOnline() {
-                this.showStatus('Connection restored! Redirecting...', 'green');
+                this.showStatus('{% trans "कनेक्सन पुनर्स्थापित भयो! पुनर्निर्देशन गर्दै..." %}', 'green');
                 
                 setTimeout(() => {
                     window.location.href = '/';
@@ -142,7 +149,7 @@
             }
 
             handleOffline() {
-                this.showStatus('Still offline. Please check your internet connection.', 'red');
+                this.showStatus('{% trans "अझै पनि अफलाइन। कृपया आफ्नो इन्टरनेट कनेक्सन जाँच गर्नुहोस्।" %}', 'red');
             }
 
             showStatus(message, type) {

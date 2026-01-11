@@ -4,7 +4,7 @@ from django.utils import timezone
 import secrets
 import logging
 
-logger = logging.getLogger('coop')
+logger = logging.getLogger('bhanjyang')
 
 class APIKey(models.Model):
     """API Key model for authentication"""

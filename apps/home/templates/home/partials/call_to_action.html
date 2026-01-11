@@ -1,0 +1,63 @@
+{% load i18n %}
+{% load static %}
+
+<!-- Call to Action Section -->
+<section id="get-started" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="max-w-3xl mx-auto" data-aos="fade-up">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                {% trans "Get Started Today" %}
+            </span>
+            <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 font-montserrat leading-tight text-gray-900">
+                {% trans "Ready to Begin Your Financial Journey?" %}
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-xl sm:text-2xl mb-4 text-gray-800 leading-relaxed">
+                {% trans "Join thousands of satisfied members who trust Bhanjyang Cooperative" %}
+            </p>
+            <p class="text-lg mb-10 text-gray-600 max-w-2xl mx-auto">
+                {% trans "Experience reliable financial services, competitive rates, and personalized support designed for your success." %}
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+            <a href="{% url 'contact:contact_view' %}"
+                    class="group bg-bhanjyangred hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 min-w-[200px]">
+                    <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300"></i>
+                    <span>{% trans "Contact Us" %}</span>
+                </a>
+            <a href="{% url 'about:home' %}"
+                    class="group bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2 min-w-[200px]"
+                    aria-label="Learn more about Bhanjyang Cooperative">
+                    <i class="fas fa-info-circle group-hover:rotate-12 transition-transform duration-300"></i>
+                    <span>{% trans "Learn More" %}</span>
+                </a>
+            </div>
+            
+            <!-- Trust Indicators -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-200">
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold mb-2 text-bhanjyangred">25+</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wide">Years of Service</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold mb-2 text-bhanjyangred">10K+</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wide">Active Members</div>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="text-3xl font-bold mb-2 text-bhanjyangred">98%</div>
+                    <div class="text-sm text-gray-600 uppercase tracking-wide">Satisfaction Rate</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

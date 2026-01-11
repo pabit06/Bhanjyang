@@ -7,6 +7,7 @@ urlpatterns = [
     # Main pages
     path('', views.IndexView.as_view(), name='index'),
     path('remittance/', views.RemittanceView.as_view(), name='remittance'),
+    path('offline/', views.OfflineView.as_view(), name='offline'),
     
     # Form processing (AJAX) - Renamed paths to avoid conflicts
     path('ajax/contact/submit/', views.ContactSubmissionView.as_view(), name='contact_submit'),

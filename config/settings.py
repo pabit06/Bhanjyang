@@ -11,10 +11,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-# Force Reload 1
 import os
 from django.core.exceptions import ImproperlyConfigured
-from decouple import config # <-- Import config
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,7 +38,7 @@ if not DEBUG:
     if SECRET_KEY == 'django-insecure-dev-key-change-in-production':
         raise ImproperlyConfigured("SECRET_KEY must be changed in production!")
 
-ALLOWED_HOSTS = [h.strip() for h in config('ALLOWED_HOSTS', default='127.0.0.1,192.168.1.82,192.168.1.117,192.168.1.74,localhost').split(',')]
+ALLOWED_HOSTS = [h.strip() for h in config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')]
 
 
 # Application definition
@@ -265,7 +264,7 @@ SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # CSRF Settings
-CSRF_TRUSTED_ORIGINS = [h.strip() for h in config('CSRF_TRUSTED_ORIGINS', default='http://127.0.0.1:8000,http://localhost:8000,http://127.0.0.1:5555,http://localhost:5555,http://192.168.1.82:5555,http://192.168.1.82:8000,http://192.168.1.117:8000,http://192.168.1.74:8000').split(',')]
+CSRF_TRUSTED_ORIGINS = [h.strip() for h in config('CSRF_TRUSTED_ORIGINS', default='http://127.0.0.1:8000,http://localhost:8000').split(',')]
 
 # Session Settings
 SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=False, cast=bool)
@@ -378,7 +377,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Logging Configuration
 # Use Windows-compatible handler to avoid file locking issues
-import sys
 import platform
 
 # Choose handler based on platform
@@ -463,7 +461,7 @@ LOGGING = {
             'level': 'WARNING',
             'propagate': False,
         },
-        'coop': {
+        'bhanjyang': {
             'handlers': ['file', 'console'],
             'level': 'INFO',
             'propagate': False,

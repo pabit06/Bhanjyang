@@ -1,0 +1,70 @@
+{% load i18n %}
+{% load static %}
+
+<!-- Gallery Preview Section -->
+<section id="gallery-preview" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+        </div>
+
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16" data-aos="fade-up">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                {% trans "Our Gallery" %}
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                {% trans "Moments & Memories" %}
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                {% trans "Capturing our journey and community events that define our cooperative spirit" %}
+            </p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+            {% for image in featured_gallery %}
+            <a href="{% url 'gallery:gallery' %}"
+                class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2"
+                aria-label="View {{ image.title|default:'gallery image' }} in full gallery"
+                data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:50 }}">
+                {% if image.image %}
+                <div class="aspect-square overflow-hidden">
+                <img src="{{ image.image.url }}" alt="{{ image.title|default:'Gallery image' }}"
+                        class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy" decoding="async" width="200" height="200">
+                </div>
+                {% else %}
+                <div class="aspect-square bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center text-gray-500 text-sm"
+                    role="img" aria-label="No image available">
+                    <i class="fas fa-image text-3xl opacity-50"></i>
+                </div>
+                {% endif %}
+                <!-- Overlay on Hover -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                    <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <i class="fas fa-search-plus text-white text-2xl mb-2"></i>
+                        {% if image.title %}
+                        <p class="text-white text-xs font-semibold px-2">{{ image.title|truncatewords:3 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <a href="{% url 'gallery:gallery' %}"
+                class="group inline-flex items-center gap-3 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-10 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                <i class="fas fa-images"></i>
+                <span>{% trans "View Full Gallery" %}</span>
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+            </a>
+        </div>
+    </div>
+</section>

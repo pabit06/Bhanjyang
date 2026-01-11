@@ -9,12 +9,14 @@ const CACHE_VERSION = '1.0.0';
 // Assets to cache on install
 const urlsToCache = [
     '/',
+    '/offline/',
     '/news-events/',
     '/static/news_events/css/home.css',
     '/static/news_events/js/home.js',
     '/static/news_events/js/back-to-top.js',
     '/static/css/tailwind.css',
     '/static/images/logos/Logo.png',
+    '/static/images/backgrounds/pattern-light.png',
 ];
 
 // Install event - cache assets
@@ -95,7 +97,26 @@ self.addEventListener('fetch', event => {
 
                         // Return offline page if available
                         if (event.request.mode === 'navigate') {
-                            return caches.match('/offline.html');
+                            return caches.match('/offline/')
+                                .then(response => {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    // Fallback: return offline page HTML
+                                    return caches.match('/')
+                                        .then(homeResponse => {
+                                            if (homeResponse) {
+                                                return homeResponse;
+                                            }
+                                            // Last resort: return simple offline message
+                                            return new Response(
+                                                '<!DOCTYPE html><html><head><title>Offline</title></head><body><h1>You are offline</h1><p>Please check your internet connection.</p></body></html>',
+                                                {
+                                                    headers: { 'Content-Type': 'text/html' }
+                                                }
+                                            );
+                                        });
+                                });
                         }
 
                         return new Response('Offline', {

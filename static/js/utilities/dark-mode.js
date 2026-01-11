@@ -1,4 +1,23 @@
 // Dark Mode Implementation
+// Apply theme immediately to prevent flash of light mode
+(function() {
+    const storageKey = 'theme-preference';
+    const savedTheme = localStorage.getItem(storageKey);
+    let initialTheme = 'light';
+    
+    if (savedTheme) {
+        initialTheme = savedTheme;
+    } else {
+        // Check system preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            initialTheme = 'dark';
+        }
+    }
+    
+    // Apply theme immediately
+    document.documentElement.setAttribute('data-theme', initialTheme);
+})();
+
 class DarkMode {
     constructor() {
         this.theme = 'light';

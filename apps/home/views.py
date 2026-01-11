@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.contrib import messages
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.views.decorators.cache import cache_page, never_cache
 from django.views.decorators.vary import vary_on_headers
 from django.utils.translation import activate
 
@@ -40,6 +40,15 @@ class IndexView(NepaliLanguageMixin, TemplateView):
         context['newsletter_form'] = NewsletterSignupForm()
         
         return context
+
+
+@method_decorator(never_cache, name='dispatch')
+class OfflineView(TemplateView):
+    """
+    Offline page view - shown when user is offline.
+    This page is cached by service worker for offline access.
+    """
+    template_name = 'offline.html'
 
 
 @method_decorator(cache_page(1800), name='dispatch')

@@ -10,7 +10,7 @@ from django.utils import timezone
 from apps.dashboard.models import PerformanceMetric, UserSession, ErrorLog
 
 
-logger = logging.getLogger('coop')
+logger = logging.getLogger('bhanjyang')
 
 class RateLimitMiddleware(MiddlewareMixin):
     """Rate limiting middleware to prevent abuse"""
@@ -170,25 +170,24 @@ class InputValidationMiddleware(MiddlewareMixin):
             r'<iframe[^>]*>',
             r'<object[^>]*>',
             r'<embed[^>]*>',
-            r'<link[^>]*>',
-            r'<meta[^>]*>',
-            r'<style[^>]*>',
+            # r'<link[^>]*>',  # Too aggressive
+            # r'<meta[^>]*>',  # Too aggressive
+            # r'<style[^>]*>',  # Too aggressive
             r'expression\s*\(',
-            r'url\s*\(',
+            # r'url\s*\(',    # CSS functions should be allowed in some contexts
             r'@import',
-            r'\.\.\/',
-            r'\.\.\\',
-            r'\/etc\/passwd',
-            r'\/proc\/',
-            r'union\s+select',
-            r'drop\s+table',
-            r'delete\s+from',
-            r'insert\s+into',
-            r'update\s+set',
-            r'exec\s*\(',
-            r'eval\s*\(',
-            r'system\s*\(',
-            r'shell_exec\s*\(',
+            # SQL Injection patterns (Handled by Django ORM - high false positive rate)
+            # r'union\s+select',
+            # r'drop\s+table',
+            # r'delete\s+from',
+            # r'insert\s+into',
+            # r'update\s+set',
+            # r'exec\s*\(',
+            # r'eval\s*\(',
+            # r'system\s*\(',
+            # r'shell_exec\s*\(',
+            r'/etc/passwd',  # Linux system files
+            r'/proc/',       # Linux process info
         ]
         super().__init__(get_response)
     

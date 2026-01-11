@@ -1,0 +1,139 @@
+{% load i18n %}
+{% load static %}
+
+<!-- Quick Contact Section -->
+<section id="quick-contact" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+            </div>
+
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                    {% trans "Contact Us" %}
+                </span>
+                <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+                    {% trans "Have Questions?" %}
+                </h2>
+                <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                    {% trans "Get in touch with us for any inquiries or support. We're here to help!" %}
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Left Side: Contact Information -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-deuraligreen" data-aos="fade-right">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center gap-3">
+                        <i class="fas fa-info-circle text-deuraligreen"></i>
+                        <span>{% trans "Contact Information" %}</span>
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
+                            <div class="flex-shrink-0 w-12 h-12 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-deuraligreen text-xl"></i>
+                            </div>
+                <div>
+                                <h4 class="font-semibold text-gray-900 mb-1">{% trans "Address" %}</h4>
+                                <p class="text-gray-600">{% trans "Rupa Rural Municipality, Kaski, Nepal" %}</p>
+                        </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
+                            <div class="flex-shrink-0 w-12 h-12 bg-bhanjyangred/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-phone text-bhanjyangred text-xl"></i>
+                        </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900 mb-1">{% trans "Phone" %}</h4>
+                                <a href="tel:+9779856083101" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    +977-9856083101
+                                </a>
+                    </div>
+                </div>
+                        <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
+                            <div class="flex-shrink-0 w-12 h-12 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-envelope text-deuraligreen text-xl"></i>
+                            </div>
+                <div>
+                                <h4 class="font-semibold text-gray-900 mb-1">Email</h4>
+                                <a href="mailto:info@bhanjyang.coop.np" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    info@bhanjyang.coop.np
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Contact Form -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-bhanjyangred" data-aos="fade-left">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 font-montserrat flex items-center gap-3">
+                        <i class="fas fa-paper-plane text-bhanjyangred"></i>
+                        <span>{% trans "Send Us a Message" %}</span>
+                    </h3>
+                    <form id="quick-contact-form" class="space-y-5" aria-label="Quick contact form" novalidate>
+                        <input type="hidden" name="csrfmiddlewaretoken" id="contact-csrf-token"
+                            value="{{ csrf_token }}">
+                        <div>
+                            <label for="quick-contact-name" class="sr-only">{% trans "Your Name" %}</label>
+                            <div class="relative">
+                                <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" name="name" id="quick-contact-name" placeholder="Your Name" required
+                                autocomplete="name"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
+                                aria-required="true" aria-describedby="contact-name-error">
+                            </div>
+                            <div id="contact-name-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
+                        </div>
+                        <div>
+                            <label for="quick-contact-email" class="sr-only">{% trans "Your Email" %}</label>
+                            <div class="relative">
+                                <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="email" name="email" id="quick-contact-email" placeholder="Your Email" required
+                                autocomplete="email"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
+                                aria-required="true" aria-describedby="contact-email-error">
+                            </div>
+                            <div id="contact-email-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
+                        </div>
+                        <div>
+                            <label for="quick-contact-subject" class="sr-only">{% trans "Subject" %}</label>
+                            <div class="relative">
+                                <i class="fas fa-tag absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" name="subject" id="quick-contact-subject" placeholder="Subject" required
+                                autocomplete="off"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300"
+                                aria-required="true" aria-describedby="contact-subject-error">
+                            </div>
+                            <div id="contact-subject-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
+                        </div>
+                        <div>
+                            <label for="quick-contact-message" class="sr-only">{% trans "Your Message" %}</label>
+                            <div class="relative">
+                                <i class="fas fa-comment-alt absolute left-4 top-4 text-gray-400"></i>
+                                <textarea name="message" id="quick-contact-message" placeholder="Your Message" rows="4"
+                                required autocomplete="off"
+                                    class="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-deuraligreen transition-all duration-300 resize-none"
+                                aria-required="true" aria-describedby="contact-message-error"></textarea>
+                            </div>
+                            <div id="contact-message-error" class="hidden text-red-600 text-sm mt-1" role="alert"></div>
+                        </div>
+                        <button type="submit"
+                            class="w-full group bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center justify-center gap-2"
+                            aria-label="Send contact message">
+                            <i class="fas fa-paper-plane group-hover:translate-x-1 transition-transform duration-300"></i>
+                            <span>{% trans "Send Message" %}</span>
+                        </button>
+                    </form>
+
+                    <div id="contact-message" class="mt-4 hidden text-center font-semibold" role="status" aria-live="polite"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

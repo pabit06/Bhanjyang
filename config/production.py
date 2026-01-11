@@ -105,7 +105,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        'coop': {
+        'bhanjyang': {
             'handlers': ['file', 'console', 'mail_admins'],
             'level': 'INFO',
             'propagate': False,

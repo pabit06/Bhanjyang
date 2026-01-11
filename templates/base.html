@@ -167,11 +167,20 @@
     {# Header partial is included here. #}
     {% include 'partials/_header.html' %}
 
-    <main id="main-content" class="flex-grow">
-        {% block content %}
-        {# Each page's unique content will be rendered here. #}
-        {# हरेक पेजको आफ्नो content यहाँ आउँछ #}
-        {% endblock content %}
+    <main id="main-content" class="flex-grow relative">
+        {# Global Background Pattern - Applies to all pages #}
+        {% load static %}
+        <div class="fixed inset-0 pointer-events-none z-0 opacity-[0.02]">
+            {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+            <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+        </div>
+        
+        <div class="relative z-10">
+            {% block content %}
+            {# Each page's unique content will be rendered here. #}
+            {# हरेक पेजको आफ्नो content यहाँ आउँछ #}
+            {% endblock content %}
+        </div>
     </main>
 
     {# Global Back to Top Button #}
@@ -211,8 +220,10 @@
 
     <!-- Dark Mode -->
     <script defer src="{% static 'js/utilities/dark-mode.js' %}"></script>
-    <!-- Dark Mode Debug (temporary) -->
+    {% if debug %}
+    <!-- Dark Mode Debug (development only) -->
     <script defer src="{% static 'js/utilities/dark-mode-debug.js' %}"></script>
+    {% endif %}
 
     <!-- Language Toggle -->
     <script defer src="{% static 'js/utilities/language-toggle.js' %}"></script>

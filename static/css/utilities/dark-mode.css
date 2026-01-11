@@ -44,10 +44,39 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Base background colors - work in both light and dark mode */
+/* Override Tailwind's bg-white to use CSS variables */
 .bg-white {
+    background-color: #ffffff; /* Fallback for light mode */
     background-color: var(--bg-primary) !important;
 }
 
+/* Ensure header and top bar are always visible */
+header.bg-white,
+header .bg-white {
+    background-color: #ffffff; /* Fallback */
+    background-color: var(--bg-primary) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Top bar specific styling - ensure it's visible */
+/* Target the top bar div that comes before header */
+div.bg-white.text-gray-700.shadow-md:first-of-type,
+body > div.bg-white:first-of-type {
+    background-color: #ffffff !important; /* Fallback white */
+    background-color: var(--bg-primary) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 10 !important;
+    min-height: auto !important;
+    height: auto !important;
+}
+
+/* Himalwhite is a custom color (light gray) - use bg-secondary */
 .bg-himalwhite {
     background-color: var(--bg-secondary) !important;
 }
@@ -66,6 +95,43 @@ body {
 
 .border-gray-300 {
     border-color: var(--border-color) !important;
+}
+
+/* Dark mode specific overrides for Tailwind classes */
+[data-theme="dark"] .bg-white {
+    background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .bg-himalwhite {
+    background-color: var(--bg-secondary) !important;
+}
+
+[data-theme="dark"] .bg-gray-50 {
+    background-color: var(--bg-secondary) !important;
+}
+
+[data-theme="dark"] .bg-gray-100 {
+    background-color: var(--bg-tertiary) !important;
+}
+
+[data-theme="dark"] .text-gray-700,
+[data-theme="dark"] .text-gray-600,
+[data-theme="dark"] .text-gray-500 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .text-gray-900 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .border-gray-200,
+[data-theme="dark"] .border-gray-300 {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .hover\:bg-white:hover,
+[data-theme="dark"] .hover\:bg-gray-100:hover {
+    background-color: var(--bg-tertiary) !important;
 }
 
 .shadow-lg {
@@ -95,6 +161,11 @@ body {
     background-color: var(--bg-secondary);
     border-color: var(--border-color);
     color: var(--text-primary);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+    color: var(--text-muted);
 }
 
 [data-theme="dark"] input:focus,
@@ -127,6 +198,55 @@ body {
 
 [data-theme="dark"] .navbar a:hover {
     color: var(--accent-primary);
+}
+
+/* Dark mode header and top bar */
+[data-theme="dark"] header {
+    background-color: var(--bg-secondary) !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] header.bg-white,
+[data-theme="dark"] header .bg-white {
+    background-color: var(--bg-secondary) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+[data-theme="dark"] .bg-himalwhite {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Ensure top bar is visible in dark mode */
+[data-theme="dark"] div.bg-white.text-gray-700.shadow-md:first-of-type,
+[data-theme="dark"] body > div.bg-white:first-of-type {
+    background-color: #1e293b !important; /* Fallback dark */
+    background-color: var(--bg-secondary) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: auto !important;
+    height: auto !important;
+}
+
+/* Dark mode dropdowns */
+[data-theme="dark"] .bg-white.shadow-lg {
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid var(--border-color);
+}
+
+/* Dark mode mobile menu */
+[data-theme="dark"] #mobile-menu {
+    background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] #mobile-menu .bg-gray-50 {
+    background-color: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] #mobile-menu .bg-gray-100 {
+    background-color: var(--bg-tertiary) !important;
 }
 
 /* Dark mode footer */

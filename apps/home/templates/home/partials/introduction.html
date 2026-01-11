@@ -1,0 +1,85 @@
+{% load i18n %}
+{% load static %}
+
+<!-- About Us / Introduction Section -->
+<section id="introduction" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Left Side: Image -->
+            <div class="order-2 lg:order-1" data-aos="fade-right">
+                <div class="relative group">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
+            <img src="{% static 'images/home/office-team.jpg' %}"
+                alt="Bhanjyang Cooperative team members working together in their office"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy" decoding="async" width="800" height="600">
+                    <!-- Overlay Badge -->
+                    <div class="absolute top-6 right-6 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-award text-deuraligreen text-xl"></i>
+                            <span class="text-sm font-bold text-gray-900">25+ Years</span>
+        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side: Content -->
+            <div class="order-1 lg:order-2" data-aos="fade-left">
+                <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
+                    {% trans "Who We Are" %}
+                </span>
+                <h2 class="text-4xl sm:text-5xl font-bold font-montserrat leading-tight mb-6 text-gray-900">
+                {% trans "Your Trusted Partner in Community Development" %}
+            </h2>
+                <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
+                
+                <div class="space-y-6 mb-8">
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                {% trans "Established with a vision to uplift local communities in Rupa Rural Municipality, Bhanjyang Cooperative provides accessible and fair financial solutions. We believe in strengthening the local economy by empowering individuals and businesses through savings, credit, and expert financial guidance." %}
+            </p>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                {% trans "Our commitment goes beyond traditional banking; we are deeply rooted in the community, striving to make a tangible difference in the lives of our members." %}
+            </p>
+                </div>
+                
+                <!-- Key Points -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-start gap-3 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex-shrink-0 w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-handshake text-deuraligreen"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">{% trans "Community Focused" %}</h3>
+                            <p class="text-sm text-gray-600">{% trans "Deeply rooted in local community needs" %}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <div class="flex-shrink-0 w-10 h-10 bg-bhanjyangred/10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-bhanjyangred"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">{% trans "Trusted & Secure" %}</h3>
+                            <p class="text-sm text-gray-600">{% trans "25+ years of reliable service" %}</p>
+                        </div>
+                    </div>
+                </div>
+                
+            <a href="{% url 'about:home' %}"
+                    class="group inline-flex items-center gap-3 bg-deuraligreen text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 transform hover:shadow-2xl">
+                    <span>{% trans "Learn More About Us" %}</span>
+                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

@@ -71,7 +71,7 @@ services:
   # Celery Worker
   celery:
     build: .
-    command: celery -A coop worker -l info
+    command: celery -A config worker -l info
     volumes:
       - .:/app
       - media_volume:/app/media
@@ -93,7 +93,7 @@ services:
   # Celery Beat (Scheduler)
   celery-beat:
     build: .
-    command: celery -A coop beat -l info
+    command: celery -A config beat -l info
     volumes:
       - .:/app
       - celery_beat_data:/app/celerybeat-schedule

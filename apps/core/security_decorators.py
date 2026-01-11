@@ -7,7 +7,7 @@ from .models import APIKey, SecurityLog
 from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
 import logging
 
-logger = logging.getLogger('coop')
+logger = logging.getLogger('bhanjyang')
 
 
 class SecurityManager:

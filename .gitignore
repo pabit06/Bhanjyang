@@ -54,10 +54,12 @@ coverage.json
 
 # Test outputs
 test_outputs/
-test_output.txt
-test_results.txt
-test_run_*.txt
-test_services*.txt
+test_*.txt
+*_output.txt
+*_debug.txt
+debug_*.txt
+test_*.html
+test_*.html.py
 
 # Translations
 *.mo

@@ -1,0 +1,140 @@
+{% load i18n %}
+{% load static %}
+
+<!-- What Our Members Say (Testimonials) -->
+<section id="testimonials" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div class="mb-16" data-aos="fade-up">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                {% trans "Testimonials" %}
+            </span>
+            <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
+            {% trans "What Our Members Say About Us" %}
+        </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                {% trans "Hear from our community members about their experiences with Bhanjyang Cooperative" %}
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for testimonial in featured_testimonials %}
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <!-- Quote Icon -->
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-deuraligreen"></i>
+                </div>
+                
+                <div class="relative z-10">
+                {% if testimonial.photo %}
+                <img src="{{ testimonial.photo.url }}" alt="Photo of {{ testimonial.name }}"
+                        class="w-24 h-24 rounded-full object-cover mb-6 mx-auto ring-4 ring-deuraligreen/20 shadow-lg group-hover:ring-deuraligreen transition-all duration-300"
+                        width="96" height="96" loading="lazy">
+                {% else %}
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-deuraligreen to-green-600 flex items-center justify-center text-white text-3xl font-bold mb-6 mx-auto ring-4 ring-deuraligreen/20 shadow-lg group-hover:ring-deuraligreen transition-all duration-300">
+                    {{ testimonial.name|slice:":2"|upper }}
+                </div>
+                {% endif %}
+                    
+                    <div class="flex justify-center mb-4">
+                    {% for i in "12345" %}
+                        <i class="fas fa-star {% if forloop.counter <= testimonial.rating %}text-yellow-400{% else %}text-gray-200{% endif %} text-lg"></i>
+                    {% endfor %}
+                </div>
+                    
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg relative z-10">
+                    "{{ testimonial.content }}"
+                </p>
+                    
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">{{ testimonial.name }}</p>
+                        <p class="text-sm text-gray-500">{{ testimonial.position }}{% if testimonial.company %}, {{ testimonial.company }}{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Fallback static testimonials -->
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-bhanjyangred"></i>
+                </div>
+                <div class="relative z-10">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-bhanjyangred to-red-600 flex items-center justify-center text-white text-3xl font-bold mb-6 mx-auto ring-4 ring-bhanjyangred/20 shadow-lg group-hover:ring-bhanjyangred transition-all duration-300"
+                    role="img" aria-label="Janak Puri profile">
+                    JP
+                </div>
+                    <div class="flex justify-center mb-4">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg">
+                    "Bhanjyang Cooperative truly understands the needs of local businesses. Their microfinance solutions
+                    helped me grow my small shop beyond my expectations!"
+                </p>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">Janak Puri</p>
+                <p class="text-sm text-gray-500">Local Entrepreneur</p>
+            </div>
+                </div>
+            </div>
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-deuraligreen"></i>
+                </div>
+                <div class="relative z-10">
+                    <img src="{% static 'images/teak_bahadur_gurung.png' %}" alt="Photo of Tek Bahadur Gurung"
+                        class="w-24 h-24 rounded-full object-cover mb-6 mx-auto ring-4 ring-deuraligreen/20 shadow-lg group-hover:ring-deuraligreen transition-all duration-300"
+                        width="96" height="96" loading="lazy">
+                    <div class="flex justify-center mb-4">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg">
+                    "The savings accounts offered by Bhanjyang Cooperative are excellent. I feel secure knowing my
+                    hard-earned money is growing safely with them."
+                </p>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">Tek Bahadur Gurung</p>
+                <p class="text-sm text-gray-500">Community Member</p>
+            </div>
+                </div>
+            </div>
+            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred" data-aos="fade-up" data-aos-delay="300">
+                <div class="absolute top-4 right-4 opacity-10">
+                    <i class="fas fa-quote-right text-6xl text-bhanjyangred"></i>
+                </div>
+                <div class="relative z-10">
+                    <img src="{% static 'images/Prajjwol-Sharma.png' %}" alt="Photo of Prajjwol Sharma"
+                        class="w-24 h-24 rounded-full object-cover mb-6 mx-auto ring-4 ring-bhanjyangred/20 shadow-lg group-hover:ring-bhanjyangred transition-all duration-300"
+                        width="96" height="96" loading="lazy">
+                    <div class="flex justify-center mb-4">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="text-gray-700 italic mb-6 leading-relaxed text-lg">
+                    "Their team is incredibly supportive and always ready to help. Bhanjyang Cooperative is more than a
+                    bank; it's a partner in our progress."
+                </p>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="font-bold text-gray-900 text-lg mb-1">Prajjwol Sharma</p>
+                <p class="text-sm text-gray-500">Farmer & Member</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

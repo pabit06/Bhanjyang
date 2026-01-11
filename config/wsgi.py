@@ -1,5 +1,5 @@
 """
-WSGI config for coop project.
+WSGI config for Bhanjyang Cooperative project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
