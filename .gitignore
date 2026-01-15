@@ -176,3 +176,4 @@ logs/archive/
 
 # Test failure logs
 *_fail.txt
+*_failures.txt
