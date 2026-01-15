@@ -115,42 +115,7 @@ class AboutServiceTest(TestCase):
         past_committees = AboutService.get_past_committees()
         self.assertGreaterEqual(past_committees.count(), 1)
     
-    def test_send_contact_emails_without_real_emails(self):
-        """Test sending contact emails when SEND_REAL_EMAILS is False"""
-        data = {
-            'name': 'John Doe',
-            'email': 'john@example.com',
-            'subject': 'Test',
-            'message': 'Test message'
-        }
-        
-        with patch('apps.about.services.settings.SEND_REAL_EMAILS', False):
-            result = AboutService.send_contact_emails(data)
-            self.assertTrue(result)
-    
-    def test_send_contact_emails_with_real_emails(self):
-        """Test sending contact emails when SEND_REAL_EMAILS is True"""
-        data = {
-            'name': 'John Doe',
-            'email': 'john@example.com',
-            'subject': 'Test',
-            'message': 'Test message'
-        }
-        
-        with patch('apps.about.services.settings.SEND_REAL_EMAILS', True):
-            with patch('apps.about.services.send_mail') as mock_send:
-                result = AboutService.send_contact_emails(data)
-                self.assertTrue(result)
-                mock_send.assert_called_once()
-    
-    def test_send_contact_emails_error_handling(self):
-        """Test error handling in send_contact_emails"""
-        data = {'name': 'Test'}
-        with patch('apps.about.services.settings.SEND_REAL_EMAILS', True):
-            with patch('apps.about.services.send_mail', side_effect=Exception('Error')):
-                result = AboutService.send_contact_emails(data)
-                # Function catches exception and returns False
-                self.assertFalse(result)
+    # Contact email tests removed as functionality moved to contact app
     
     # Newsletter and feedback email service tests removed - methods no longer needed
 

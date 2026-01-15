@@ -110,6 +110,15 @@ class CooperativeInfoAdminTest(AboutAdminTestCase):
         queryset = self.admin.get_queryset(self.request)
         self.assertIsNotNone(queryset)
 
+    def test_has_add_permission(self):
+        """Test has_add_permission restricts multiple instances"""
+        # When an instance exists (created in setUp), add permission should be False
+        self.assertFalse(self.admin.has_add_permission(self.request))
+        
+        # When no instance exists, add permission should be True
+        CooperativeInfo.objects.all().delete()
+        self.assertTrue(self.admin.has_add_permission(self.request))
+
 
 class CooperativeTimelineAdminTest(AboutAdminTestCase):
     """Test CooperativeTimelineAdmin"""

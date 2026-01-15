@@ -224,13 +224,15 @@ class CooperativeDetailView(BaseAboutView, DetailView):
         return CooperativeInfo.objects.active()
     
     def dispatch(self, request, *args, **kwargs):
-        """Handle redirect if only one cooperative exists"""
+        """Handle redirect if only one cooperative exists and matches the slug"""
         # If there's only one active cooperative, redirect to introduction page
-        # since introduction already shows the cooperative info.
-        active_count = CooperativeInfo.objects.active().count()
-        if active_count == 1:
-            # Only one cooperative exists, redirect to introduction
-            return redirect('about:introduction')
+        # ONLY if the requested slug matches that cooperative.
+        # Otherwise, let it 404 (handled by super().dispatch causing get_object to fail).
+        active_coops = CooperativeInfo.objects.active()
+        if active_coops.count() == 1:
+            coop = active_coops.first()
+            if kwargs.get('slug') == coop.slug:
+                return redirect('about:introduction')
         return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs) -> Dict[str, Any]:

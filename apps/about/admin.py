@@ -170,6 +170,13 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
     
     actions = ['activate_selected', 'deactivate_selected']
     
+    def has_add_permission(self, request):
+        """Restrict creation to a single instance"""
+        # If an instance already exists, deny adding another
+        if self.model.objects.exists():
+            return False
+        return super().has_add_permission(request)
+
     def activate_selected(self, request, queryset):
         """Bulk activate selected items"""
         updated = queryset.update(is_active=True)

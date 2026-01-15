@@ -1,0 +1,349 @@
+﻿python : Creating test 
+database for alias 'default' (
+'file:memorydb_default?mode=me
+mory&cache=shared')...
+At line:1 char:1
++ python manage.py test 
+apps.about.tests.test_general 
+-v 2 2>&1 | Out-F ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
+    + CategoryInfo          : 
+    NotSpecified: (Creating   
+  test d...che=shared')...:   
+ String) [], RemoteExcepti    
+on
+    + FullyQualifiedErrorId : 
+    NativeCommandError
+ 
+
+--------------------------------------------------
+ To send real emails, set SEND_REAL_EMAILS=True in .env 
+--------------------------------------------------
+Found 31 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: bhanjyang_admin, corsheaders, debug_toolbar, django_extensions, django_filters, django_nepali, django_otp, drf_spectacular, humanize, imagekit, messages, rest_framework, staticfiles
+  Apply all migrations: about, admin, auth, contact, contenttypes, core, dashboard, downloads, gallery, home, news_events, otp_static, otp_totp, services, sessions, two_factor
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying about.0001_initial... OK
+  Applying about.0002_auto_20251021_1917... OK
+  Applying about.0003_auto_20251021_1920... OK
+  Applying about.0004_auto_20251021_1929... OK
+  Applying about.0005_alter_cooperativeinfo_options_and_more... OK
+  Applying about.0006_alter_cooperativetimeline_options_and_more... OK
+  Applying about.0007_analyticssummary_usersession_userlocation_userevent_and_more... OK
+  Applying about.0008_add_database_indexes... OK
+  Applying about.0009_remove_achievements_model... OK
+  Applying about.0010_add_umbrella_organization_type... OK
+  Applying about.0011_add_cooperative_bank_type... OK
+  Applying about.0012_add_committee_position_choices... OK
+  Applying about.0013_add_committee_photo... OK
+  Applying about.0014_add_information_officer... OK
+  Applying about.0015_add_information_officer_photo... OK
+  Applying about.0016_add_information_officer_to_staff... OK
+  Applying about.0017_remove_cooperative_info_officer_fields... OK
+  Applying about.0018_cooperativeinfo_hero_image... OK
+  Applying about.0019_cooperativeinfo_our_story_image... OK
+  Applying about.0020_add_our_story_fields... OK
+  Applying about.0021_cooperativeinfo_location... OK
+  Applying about.0022_remove_cooperativeinfo_location... OK
+  Applying about.0023_remove_orphaned_analytics_models... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying contact.0001_initial... OK
+  Applying contact.0002_contactsubmission_attachment... OK
+  Applying contact.0003_add_indexes... OK
+  Applying contact.0004_kymsubmission... OK
+  Applying contact.0005_add_database_indexes... OK
+  Applying contact.0006_add_office_location_model... OK
+  Applying contact.0007_privacypolicy... OK
+  Applying core.0001_initial... OK
+  Applying core.0002_rename_coop_securi_event_t_535be1_idx_core_securi_event_t_195db6_idx_and_more... OK
+  Applying dashboard.0001_initial... OK
+  Applying dashboard.0002_rename_performance_error_t_9f7f29_idx_dashboard_e_error_t_8205a1_idx_and_more... OK
+  Applying dashboard.0003_dashboardwidget_performancealert_alertlog_and_more... OK
+  Applying dashboard.0004_auditlog... OK
+  Applying dashboard.0005_alter_usersession_user... OK
+  Applying downloads.0001_initial... OK
+  Applying downloads.0002_downloadablefile_delete_download... OK
+  Applying downloads.0003_alter_downloadablefile_options_and_more... OK
+  Applying downloads.0004_downloadablefile_access_count_and_more... OK
+  Applying gallery.0001_initial... OK
+  Applying gallery.0002_galleryimage_ai_color_palette_and_more... OK
+  Applying gallery.0003_smartcollection_autocategorizationrule_and_more... OK
+  Applying gallery.0004_galleryimagedownload_session_id_and_more... OK
+  Applying gallery.0005_alter_galleryimagelike_unique_together_and_more... OK
+  Applying home.0001_initial... OK
+  Applying home.0002_galleryalbum_galleryimage_album... OK
+  Applying home.0003_remove_galleryimage_album_delete_galleryalbum_and_more... OK
+  Applying home.0004_delete_servicehighlight... OK
+  Applying news_events.0001_initial... OK
+  Applying news_events.0002_event_news_events_view_co_16ee44_idx_and_more... OK
+  Applying news_events.0003_alter_category_options_alter_comment_options_and_more... OK
+  Applying otp_static.0001_initial... OK
+  Applying otp_static.0002_throttling... OK
+  Applying otp_static.0003_add_timestamps... OK
+  Applying otp_totp.0001_initial... OK
+  Applying otp_totp.0002_auto_20190420_0723... OK
+  Applying otp_totp.0003_add_timestamps... OK
+  Applying services.0001_squashed_0005_delete_servicecategory_alter_fixeddeposit_options_and_more... OK
+  Applying services.0006_alter_fixeddeposit_minimum_amount_and_more... OK
+  Applying services.0007_fixeddeposit_services_fi_is_acti_bc36fe_idx_and_more... OK
+  Applying services.0008_add_database_indexes... OK
+  Applying services.0009_add_home_loan_and_image... OK
+  Applying services.0010_digitalservice... OK
+  Applying services.0011_add_saving_category... OK
+  Applying services.0012_fixeddeposit_color_fixeddeposit_description_and_more... OK
+  Applying services.0013_alter_fixeddeposit_english_name_and_more... OK
+  Applying services.0014_exchangerate... OK
+  Applying services.0015_add_remittance_charge_model... OK
+  Applying services.0016_loantype_repayment_type_and_more... OK
+  Applying services.0017_loancarouselimage... OK
+  Applying services.0018_add_tagline_subtitle_fields... OK
+  Applying sessions.0001_initial... OK
+test_cooperative_info_api (app
+s.about.tests.test_general.API
+TestCase.test_cooperative_info
+_api)
+Test CooperativeInfo API 
+endpoint ... ok
+test_search_api (apps.about.te
+sts.test_general.APITestCase.t
+est_search_api)
+Test Search API endpoint ... 
+ok
+test_statistics_api (apps.abou
+t.tests.test_general.APITestCa
+se.test_statistics_api)
+Test Statistics API endpoint 
+... ok
+test_timeline_api (apps.about.
+tests.test_general.APITestCase
+.test_timeline_api)
+Test Timeline API endpoint 
+... ok
+test_form_submissions (apps.ab
+out.tests.test_general.Integra
+tionTestCase.test_form_submiss
+ions)
+Test form submissions ... ok
+test_full_about_page_flow (app
+s.about.tests.test_general.Int
+egrationTestCase.test_full_abo
+ut_page_flow)
+Test complete about page flow 
+... FAIL
+test_search_functionality (app
+s.about.tests.test_general.Int
+egrationTestCase.test_search_f
+unctionality)
+Test search functionality ... 
+ok
+test_manager_active (apps.abou
+t.tests.test_general.ManagerTe
+stCase.test_manager_active)
+Test .active() manager method 
+... ok
+test_manager_featured (apps.ab
+out.tests.test_general.Manager
+TestCase.test_manager_featured
+)
+Test .featured() manager 
+method ... ok
+test_affiliation_creation (app
+s.about.tests.test_general.Mod
+elTestCase.test_affiliation_cr
+eation)
+Test CooperativeAffiliation 
+model creation ... ok
+test_committee_creation (apps.
+about.tests.test_general.Model
+TestCase.test_committee_creati
+on)
+Test Committee model creation 
+... ok
+test_cooperative_info_creation
+ (apps.about.tests.test_genera
+l.ModelTestCase.test_cooperati
+ve_info_creation)
+Test CooperativeInfo model 
+creation ... ok
+test_leadership_message_creati
+on (apps.about.tests.test_gene
+ral.ModelTestCase.test_leaders
+hip_message_creation)
+Test LeadershipMessage model 
+creation ... ok
+test_membership_creation (apps
+.about.tests.test_general.Mode
+lTestCase.test_membership_crea
+tion)
+Test Membership model 
+creation ... ok
+test_person_creation (apps.abo
+ut.tests.test_general.ModelTes
+tCase.test_person_creation)
+Test Person model creation 
+... ok
+test_staff_creation (apps.abou
+t.tests.test_general.ModelTest
+Case.test_staff_creation)
+Test Staff model creation ... 
+ok
+test_timeline_event_creation (
+apps.about.tests.test_general.
+ModelTestCase.test_timeline_ev
+ent_creation)
+Test CooperativeTimeline 
+model creation ... ok
+test_api_performance (apps.abo
+ut.tests.test_general.Performa
+nceTestCase.test_api_performan
+ce)
+Test API performance ... ok
+test_search_performance (apps.
+about.tests.test_general.Perfo
+rmanceTestCase.test_search_per
+formance)
+Test search performance ... ok
+test_timeline_performance (app
+s.about.tests.test_general.Per
+formanceTestCase.test_timeline
+_performance)
+Test timeline page 
+performance ... ok
+test_rate_limiting (apps.about
+.tests.test_general.SecurityTe
+stCase.test_rate_limiting)
+Test rate limiting 
+functionality ... ok
+test_security_headers (apps.ab
+out.tests.test_general.Securit
+yTestCase.test_security_header
+s)
+Test security headers are 
+present ... ok
+test_about_home_view (apps.abo
+ut.tests.test_general.ViewTest
+Case.test_about_home_view)
+Test about home view ... FAIL
+test_affiliations_view (apps.a
+bout.tests.test_general.ViewTe
+stCase.test_affiliations_view)
+Test affiliations view ... ok
+test_board_of_directors_view (
+apps.about.tests.test_general.
+ViewTestCase.test_board_of_dir
+ectors_view)
+Test board of directors view 
+... ok
+test_chairperson_message_view 
+(apps.about.tests.test_general
+.ViewTestCase.test_chairperson
+_message_view)
+Test chairperson message view 
+... ok
+test_contact_view_get (apps.ab
+out.tests.test_general.ViewTes
+tCase.test_contact_view_get)
+Test contact view GET request 
+... ok
+test_contact_view_post (apps.a
+bout.tests.test_general.ViewTe
+stCase.test_contact_view_post)
+Test contact view POST 
+request ... ok
+test_management_view (apps.abo
+ut.tests.test_general.ViewTest
+Case.test_management_view)
+Test management view ... ok
+test_manager_commitment_view (
+apps.about.tests.test_general.
+ViewTestCase.test_manager_comm
+itment_view)
+Test manager commitment view 
+... ok
+test_timeline_view (apps.about
+.tests.test_general.ViewTestCa
+se.test_timeline_view)
+Test timeline view ... ok
+
+==============================
+==============================
+==========
+FAIL: 
+test_full_about_page_flow (app
+s.about.tests.test_general.Int
+egrationTestCase.test_full_abo
+ut_page_flow)
+Test complete about page flow
+------------------------------
+------------------------------
+----------
+Traceback (most recent call 
+last):
+  File "C:\Bhanjyang\apps\abou
+t\tests\test_general.py", 
+line 412, in 
+test_full_about_page_flow
+    self.assertEqual(response.
+status_code, 200)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 200
+
+==============================
+==============================
+==========
+FAIL: test_about_home_view (ap
+ps.about.tests.test_general.Vi
+ewTestCase.test_about_home_vie
+w)
+Test about home view
+------------------------------
+------------------------------
+----------
+Traceback (most recent call 
+last):
+  File "C:\Bhanjyang\apps\abou
+t\tests\test_general.py", 
+line 200, in 
+test_about_home_view
+    self.assertEqual(response.
+status_code, 200)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
+AssertionError: 302 != 200
+
+------------------------------
+------------------------------
+----------
+Ran 31 tests in 0.858s
+
+FAILED (failures=2)
+Destroying test database for 
+alias 'default' ('file:memoryd
+b_default?mode=memory&cache=sh
+ared')...
+
+  Applying two_factor.0001_squashed_0008_delete_phonedevice... OK
+System check identified no issues (0 silenced).

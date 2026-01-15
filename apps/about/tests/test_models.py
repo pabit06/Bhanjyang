@@ -426,12 +426,16 @@ class MembershipModelTest(TestCase):
     
     def test_str_representation(self):
         """Test string representation"""
-        expected = f"John Doe - Chairman of {self.committee}"
+        # Note: Committee __str__ includes tenure
+        # Position display comes from choices (likely Nepali)
+        position_label = dict(Membership.POSITION_CHOICES).get('chairman', 'Chairman')
+        expected = f"John Doe - {position_label} of {self.committee}"
         self.assertEqual(str(self.membership), expected)
     
     def test_position_display_property(self):
         """Test position_display property"""
-        self.assertEqual(self.membership.position_display, "Chairman")
+        expected_label = dict(Membership.POSITION_CHOICES).get('chairman', 'Chairman')
+        self.assertEqual(self.membership.position_display, expected_label)
         
         # Test custom position - use different person/committee to avoid unique constraint
         person2 = Person.objects.create(full_name="Jane Doe")

@@ -165,6 +165,22 @@ class AboutViewsTest(TestCase):
     
     def test_cooperative_detail_view(self):
         """Test CooperativeDetailView GET request"""
+        # Create a second cooperative to prevent redirect to introduction
+        CooperativeInfo.objects.create(
+            cooperative_name="Second Cooperative",
+            cooperative_name_nepali="दोस्रो सहकारी",
+            established_date=date(2021, 1, 1),
+            registration_number="REG456",
+            license_number="LIC456",
+            address="Test Address 2",
+            phone="0987654321",
+            email="test2@example.com",
+            mission="Test Mission 2",
+            vision="Test Vision 2",
+            values="Test Values 2",
+            description="Test Description 2"
+        )
+
         response = self.client.get(reverse(
             'about:cooperative_detail',
             kwargs={'slug': self.cooperative.slug}
