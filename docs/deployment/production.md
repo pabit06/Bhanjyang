@@ -219,7 +219,10 @@ sudo tail -f /var/log/nginx/error.log
 sudo journalctl -u bhanjyang -n 50
 ```
 
+
 ## Deployment Checklist
+
+For a detailed, interactive checklist, please refer to [PRODUCTION_DEPLOYMENT_CHECKLIST.md](./PRODUCTION_DEPLOYMENT_CHECKLIST.md).
 
 Before going live, ensure all items are checked:
 
