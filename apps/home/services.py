@@ -11,7 +11,6 @@ from .models import (
     NewsletterSubscriber, ContactInquiry
 )
 from apps.gallery.models import GalleryImage
-from apps.dashboard.services import DashboardAnalyticsService
 import logging
 
 logger = logging.getLogger(__name__)
@@ -78,64 +77,73 @@ class HomeService:
             ).order_by('-priority', '-publish_date')[:3])
 
             # 5. Services - Get from services app
-            from apps.services.models import SavingsAccount, LoanType, FixedDeposit
-            
-            # Get featured services from different service types
             featured_services_list = []
+            try:
+                from apps.services.models import SavingsAccount, LoanType, FixedDeposit
+            except ImportError:
+                logger.warning("Services app not available, skipping featured services")
+                SavingsAccount = LoanType = FixedDeposit = None
             
-            # Get featured savings accounts (max 1)
-            featured_savings = SavingsAccount.objects.filter(
-                is_featured=True, is_active=True
-            ).order_by('-interest_rate')[:1]
-            for savings in featured_savings:
-                featured_services_list.append({
-                    'title': savings.english_name,
-                    'description': savings.description or f"Interest rate: {savings.interest_rate}%",
-                    'icon': savings.icon or 'fas fa-piggy-bank',
-                    'interest_rate': f"Up to {savings.interest_rate}%",
-                    'link_url': savings.get_absolute_url(),
-                    'link_text': 'View Details',
-                    'color': savings.color or 'deuraligreen'
-                })
-            
-            # Get featured loan types (max 1)
-            featured_loans = LoanType.objects.filter(
-                is_featured=True, is_active=True
-            ).order_by('english_name')[:1]
-            for loan in featured_loans:
-                interest_display = f"{loan.annual_interest_rate}%" if loan.annual_interest_rate else "Contact us"
-                featured_services_list.append({
-                    'title': loan.english_name,
-                    'description': loan.description or "Flexible loan options for your needs",
-                    'icon': loan.icon or 'fas fa-hand-holding-usd',
-                    'interest_rate': f"From {interest_display}",
-                    'link_url': loan.get_absolute_url(),
-                    'link_text': 'Explore Options',
-                    'color': loan.color or 'bhanjyangred'
-                })
-            
-            # Get featured fixed deposits (max 1) - get the highest rate
-            featured_fd = FixedDeposit.objects.filter(
-                is_active=True
-            ).order_by('-interest_rate')[:1]
-            for fd in featured_fd:
-                featured_services_list.append({
-                    'title': f"Fixed Deposit ({fd.get_duration_months_display()})",
-                    'description': f"Secure your future with fixed deposits",
-                    'icon': 'fas fa-comments-dollar',
-                    'interest_rate': f"Up to {fd.interest_rate}%",
-                    'link_url': reverse('services:fixed_deposit_list'),
-                    'link_text': 'View Deposit Rates',
-                    'color': 'purple'
-                })
+            if SavingsAccount and LoanType and FixedDeposit:
+                # Get featured services from different service types
+                
+                # Get featured savings accounts (max 1)
+                featured_savings = SavingsAccount.objects.filter(
+                    is_featured=True, is_active=True
+                ).order_by('-interest_rate')[:1]
+                for savings in featured_savings:
+                    featured_services_list.append({
+                        'title': savings.english_name,
+                        'description': savings.description or f"Interest rate: {savings.interest_rate}%",
+                        'icon': savings.icon or 'fas fa-piggy-bank',
+                        'interest_rate': f"Up to {savings.interest_rate}%",
+                        'link_url': savings.get_absolute_url(),
+                        'link_text': 'View Details',
+                        'color': savings.color or 'deuraligreen'
+                    })
+                
+                # Get featured loan types (max 1)
+                featured_loans = LoanType.objects.filter(
+                    is_featured=True, is_active=True
+                ).order_by('english_name')[:1]
+                for loan in featured_loans:
+                    interest_display = f"{loan.annual_interest_rate}%" if loan.annual_interest_rate else "Contact us"
+                    featured_services_list.append({
+                        'title': loan.english_name,
+                        'description': loan.description or "Flexible loan options for your needs",
+                        'icon': loan.icon or 'fas fa-hand-holding-usd',
+                        'interest_rate': f"From {interest_display}",
+                        'link_url': loan.get_absolute_url(),
+                        'link_text': 'Explore Options',
+                        'color': loan.color or 'bhanjyangred'
+                    })
+                
+                # Get featured fixed deposits (max 1) - get the highest rate
+                featured_fd = FixedDeposit.objects.filter(
+                    is_active=True
+                ).order_by('-interest_rate')[:1]
+                for fd in featured_fd:
+                    featured_services_list.append({
+                        'title': f"Fixed Deposit ({fd.get_duration_months_display()})",
+                        'description': f"Secure your future with fixed deposits",
+                        'icon': 'fas fa-comments-dollar',
+                        'interest_rate': f"Up to {fd.interest_rate}%",
+                        'link_url': reverse('services:fixed_deposit_list'),
+                        'link_text': 'View Deposit Rates',
+                        'color': 'purple'
+                    })
             
             # Limit to 3 services total
             services = featured_services_list[:3]
 
             # 6. Gallery (Featured)
-            gallery_images = list(GalleryImage.objects.filter(
-                is_featured=True, is_active=True
-            ).order_by('order')[:6])
+            gallery_images = []
+            try:
+                gallery_images = list(GalleryImage.objects.filter(
+                    is_featured=True, is_active=True
+                ).order_by('order')[:6])
+            except Exception as e:
+                logger.warning(f"Error fetching gallery images: {e}")
 
             context = {
                 'homepage_content': content,
@@ -188,6 +196,9 @@ class HomeService:
             the main application flow.
         """
         try:
+            # Check if DashboardAnalyticsService is available
+            from apps.dashboard.services import DashboardAnalyticsService
+            
             # Prepare data compatible with record_page_view
             data = {
                 'page_url': request.build_absolute_uri(),
@@ -196,12 +207,11 @@ class HomeService:
                 'user_agent': request.META.get('HTTP_USER_AGENT', ''),
                 'ip_address': request.META.get('REMOTE_ADDR', ''),
                 'is_mobile': 'Mobile' in request.META.get('HTTP_USER_AGENT', ''),
-                'browser': 'Unknown' # Simplified
+                'browser': 'Unknown'  # Simplified
             }
-            # DashboardAnalyticsService.record_page_view(data, request_meta=request.META)
-            # Since DashboardAnalyticsService.record_page_view expects request_meta for some fields, we pass it.
-            # But wait, DashboardAnalyticsService signature is record_page_view(data, request_meta).
             DashboardAnalyticsService.record_page_view(data, request.META)
+        except ImportError:
+            logger.debug("DashboardAnalyticsService not available, skipping page view tracking")
         except Exception as e:
             logger.warning(f"Failed to track view in HomeService: {e}")
 
@@ -229,26 +239,32 @@ class HomeService:
                 - message: Success or error message for user display
         """
         try:
-            # Use contact app's service for consolidation
-            from apps.contact.services import ContactService
-            
-            # Create a mock request meta for IP and user agent tracking
-            request_meta = {
-                'REMOTE_ADDR': '127.0.0.1',
-                'HTTP_USER_AGENT': 'HomePage-ContactForm/1.0'
-            }
-            
-            # Create submission using contact app's service
-            submission = ContactService.create_contact_submission(
-                form_data=data,
-                files={},  # No file attachments from home page form
-                request_meta=request_meta
-            )
-            
-            # Send notification emails
-            ContactService.send_contact_notification_emails(submission)
+            # Try to use contact app's service for consolidation
+            try:
+                from apps.contact.services import ContactService
+                
+                # Create a mock request meta for IP and user agent tracking
+                request_meta = {
+                    'REMOTE_ADDR': '127.0.0.1',
+                    'HTTP_USER_AGENT': 'HomePage-ContactForm/1.0'
+                }
+                
+                # Create submission using contact app's service
+                submission = ContactService.create_contact_submission(
+                    form_data=data,
+                    files={},  # No file attachments from home page form
+                    request_meta=request_meta
+                )
+                
+                # Send notification emails
+                ContactService.send_contact_notification_emails(submission)
+            except ImportError:
+                logger.info("Contact app service not available, using local ContactInquiry model")
+            except Exception as e:
+                logger.warning(f"Contact app service failed, falling back to local model: {e}")
             
             # Also create ContactInquiry for backward compatibility with admin/tests
+            # This ensures the inquiry is always saved even if contact app fails
             inquiry = ContactInquiry.objects.create(
                 name=data['name'],
                 email=data['email'],

@@ -173,13 +173,14 @@ class NewsletterSignupForm(forms.Form):
         """Clean and validate email field"""
         email = self.cleaned_data.get('email', '').strip().lower()
         
-        # Check if email is already subscribed
-        if NewsletterSubscriber.objects.filter(email=email, is_active=True).exists():
-            raise ValidationError(_('This email is already subscribed to our newsletter.'))
-        
         # Additional email validation
         if len(email) > 254:  # RFC 5321 limit
             raise ValidationError(_('Email address is too long.'))
+        
+        # Note: We don't check for existing subscriptions here because
+        # HomeService.handle_newsletter_signup() handles reactivation of
+        # previously unsubscribed users. The service will return an appropriate
+        # message if the user is already subscribed.
         
         return email
 

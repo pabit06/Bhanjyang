@@ -173,3 +173,6 @@ backups/
 
 # Archive files (old logs)
 logs/archive/
+
+# Test failure logs
+*_fail.txt

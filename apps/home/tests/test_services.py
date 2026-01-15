@@ -200,15 +200,25 @@ class HomeServiceTest(TestCase):
         }
         
         with self.settings(SEND_REAL_EMAILS=False):
-            success, message = HomeService.handle_contact_submission(data)
-            
-            self.assertTrue(success)
-            self.assertIn('Thank you', message)
-            
-            # Verify inquiry was created
-            inquiry = ContactInquiry.objects.get(email='test@example.com')
-            self.assertEqual(inquiry.name, 'Test User')
-            self.assertEqual(inquiry.subject, 'Test Subject')
+            # Patch ContactService to avoid dependency on it
+            with patch('apps.contact.services.ContactService.create_contact_submission') as mock_create:
+                with patch('apps.contact.services.ContactService.send_contact_notification_emails') as mock_send:
+                    # Mock return value of create_contact_submission
+                    mock_create.return_value = MagicMock(id=1, email='test@example.com', name='Test User', subject='Test Subject')
+                    
+                    success, message = HomeService.handle_contact_submission(data)
+                    
+                    self.assertTrue(success)
+                    self.assertIn('Thank you', message)
+                    
+                    # Verify ContactService methods were called
+                    mock_create.assert_called_once()
+                    mock_send.assert_called_once()
+                    
+                    # Also verify inquiry was created (backward compatibility)
+                    inquiry = ContactInquiry.objects.get(email='test@example.com')
+                    self.assertEqual(inquiry.name, 'Test User')
+                    self.assertEqual(inquiry.subject, 'Test Subject')
 
     def test_handle_contact_submission_with_email(self):
         """Test contact submission with email sending enabled"""
@@ -222,11 +232,18 @@ class HomeServiceTest(TestCase):
         }
         
         with self.settings(SEND_REAL_EMAILS=True):
-            with patch('apps.home.services.send_mail') as mock_send:
-                success, message = HomeService.handle_contact_submission(data)
-                
-                self.assertTrue(success)
-                mock_send.assert_called_once()
+            # Patch ContactService to avoid dependency on it
+            with patch('apps.contact.services.ContactService.create_contact_submission') as mock_create:
+                with patch('apps.contact.services.ContactService.send_contact_notification_emails') as mock_send:
+                    mock_create.return_value = MagicMock(id=1)
+                    
+                    success, message = HomeService.handle_contact_submission(data)
+                    
+                    self.assertTrue(success)
+                    # We verify that ContactService was called, not send_mail directly
+                    # since HomeService delegates to ContactService
+                    mock_create.assert_called_once()
+                    mock_send.assert_called_once()
 
     def test_handle_contact_submission_email_failure(self):
         """Test contact submission when email sending fails"""
@@ -240,15 +257,20 @@ class HomeServiceTest(TestCase):
         }
         
         with self.settings(SEND_REAL_EMAILS=True):
-            with patch('apps.home.services.send_mail') as mock_send:
-                mock_send.side_effect = Exception("SMTP error")
-                
-                success, message = HomeService.handle_contact_submission(data)
-                
-                # Should still succeed even if email fails
-                self.assertTrue(success)
-                # Verify inquiry was created
-                self.assertTrue(ContactInquiry.objects.filter(email='test@example.com').exists())
+            # Patch ContactService to raise exception
+            with patch('apps.contact.services.ContactService.create_contact_submission') as mock_create:
+                with patch('apps.contact.services.ContactService.send_contact_notification_emails') as mock_send_email:
+                    mock_create.return_value = MagicMock(id=1)
+                    # Simulate email failure in ContactService
+                    mock_send_email.side_effect = Exception("SMTP error")
+                    
+                    success, message = HomeService.handle_contact_submission(data)
+                    
+                    # Should still succeed even if email fails (caught inside HomeService or ContactService)
+                    # Note: HomeService catches exceptions from ContactService block
+                    self.assertTrue(success)
+                    # Verify inquiry was created (via fallback or regular flow)
+                    self.assertTrue(ContactInquiry.objects.filter(email='test@example.com').exists())
 
     def test_handle_contact_submission_error(self):
         """Test contact submission error handling"""

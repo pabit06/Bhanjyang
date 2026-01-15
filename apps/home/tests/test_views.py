@@ -5,6 +5,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core import mail
+from unittest.mock import patch, MagicMock
 import json
 
 from apps.home.models import (
@@ -91,15 +92,20 @@ class HomeViewsTest(TestCase):
             'message': 'Test message with enough characters to pass validation'
         }
         
-        response = self.client.post(reverse('home:contact_submit'), form_data)
-        
-        # Should redirect to home (non-AJAX) or return JSON (AJAX)
-        self.assertIn(response.status_code, [200, 302])
-        if response.status_code == 302:
-            self.assertEqual(response.url, reverse('home:index'))
-        
-        # Verify inquiry was created
-        self.assertTrue(ContactInquiry.objects.filter(email='test@example.com').exists())
+        # Patch ContactService to avoid actual email sending and dependency
+        with patch('apps.contact.services.ContactService.create_contact_submission') as mock_create:
+            with patch('apps.contact.services.ContactService.send_contact_notification_emails') as mock_send:
+                mock_create.return_value = MagicMock(id=1, email='test@example.com')
+                
+                response = self.client.post(reverse('home:contact_submit'), form_data)
+                
+                # Should redirect to home (non-AJAX) or return JSON (AJAX)
+                self.assertIn(response.status_code, [200, 302])
+                if response.status_code == 302:
+                    self.assertEqual(response.url, reverse('home:index'))
+                
+                # Verify inquiry was created (backward compatibility checks)
+                self.assertTrue(ContactInquiry.objects.filter(email='test@example.com').exists())
 
     def test_contact_submission_view_post_invalid(self):
         """Test contact submission view with invalid data"""
@@ -129,17 +135,22 @@ class HomeViewsTest(TestCase):
         # The view checks for Content-Type: application/json header
         # But uses request.POST which expects form data
         # For now, test the normal form submission flow
-        response = self.client.post(
-            reverse('home:contact_submit'),
-            form_data
-        )
         
-        # Should redirect for regular form submission
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('home:index'))
-        
-        # Verify inquiry was created
-        self.assertTrue(ContactInquiry.objects.filter(email='test@example.com').exists())
+        with patch('apps.contact.services.ContactService.create_contact_submission') as mock_create:
+            with patch('apps.contact.services.ContactService.send_contact_notification_emails') as mock_send:
+                mock_create.return_value = MagicMock(id=1, email='test@example.com')
+                
+                response = self.client.post(
+                    reverse('home:contact_submit'),
+                    form_data
+                )
+                
+                # Should redirect for regular form submission
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(response.url, reverse('home:index'))
+                
+                # Verify inquiry was created
+                self.assertTrue(ContactInquiry.objects.filter(email='test@example.com').exists())
 
     def test_newsletter_signup_view_post_valid(self):
         """Test newsletter signup view with valid email"""

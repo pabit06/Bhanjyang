@@ -10,11 +10,14 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page, never_cache
 from django.views.decorators.vary import vary_on_headers
 from django.utils.translation import activate
+import logging
 
 from apps.core.view_mixins import NepaliLanguageMixin
 from .services import HomeService
 from .forms import ContactForm, NewsletterSignupForm
 from .models import Statistic, Testimonial
+
+logger = logging.getLogger(__name__)
 
 @method_decorator(cache_page(300), name='dispatch')
 @method_decorator(vary_on_headers('User-Agent'), name='dispatch')
@@ -63,9 +66,8 @@ class ContactSubmissionView(View):
     """
     Handle Contact Form POST requests.
     
-    DEPRECATED: This view is kept for backward compatibility.
-    New submissions should use the contact app endpoint directly.
-    This view forwards requests to the contact app.
+    This view forwards requests to the contact app for consolidation.
+    Maintains backward compatibility with existing frontend code.
     """
     def dispatch(self, request, *args, **kwargs):
         """Force Nepali language for this view"""
@@ -73,15 +75,46 @@ class ContactSubmissionView(View):
         return super().dispatch(request, *args, **kwargs)
     
     def post(self, request):
-        # Forward to contact app endpoint for consolidation
-        from django.urls import reverse
-        from django.http import HttpResponseRedirect
-        
-        # Import contact app view to reuse its logic
-        from apps.contact.views import contact_view
-        
-        # Call contact app view directly
-        return contact_view(request)
+        """
+        Handle contact form submission via HomeService.
+        Ensures backward compatibility by creating ContactInquiry.
+        """
+        try:
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                success, message = HomeService.handle_contact_submission(form.cleaned_data)
+                
+                # Check if it's an AJAX request
+                is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+                
+                if success:
+                    if is_ajax:
+                        return JsonResponse({'success': True, 'message': message})
+                    else:
+                        messages.success(request, message)
+                        return redirect('home:index')
+                else:
+                    if is_ajax:
+                        return JsonResponse({'success': False, 'message': message}, status=400)
+                    else:
+                        messages.error(request, message)
+                        return redirect('home:index')
+            else:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({'success': False, 'errors': form.errors}, status=400)
+                else:
+                    messages.error(request, "Please correct the errors in the form.")
+                    return redirect('home:index')
+        except Exception as e:
+            logger.error(f"Error processing contact submission: {e}", exc_info=True)
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False, 
+                    'message': 'An error occurred processing your request. Please try again later.'
+                }, status=500)
+            else:
+                messages.error(request, "An error occurred. Please try again later.")
+                return redirect('home:index')
 
 
 class NewsletterSignupView(View):
