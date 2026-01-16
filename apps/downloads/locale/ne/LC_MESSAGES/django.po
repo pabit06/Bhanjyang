@@ -1,0 +1,261 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-15 23:02+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\models.py:11
+msgid "Application Form"
+msgstr ""
+
+#: .\models.py:12
+msgid "Financial Report"
+msgstr ""
+
+#: .\models.py:13
+msgid "Policy & Bylaw"
+msgstr ""
+
+#: .\models.py:14
+msgid "Publication"
+msgstr ""
+
+#: .\models.py:15
+msgid "User Manual"
+msgstr ""
+
+#: .\models.py:16
+msgid "Certificate"
+msgstr ""
+
+#: .\models.py:17
+msgid "Brochure"
+msgstr ""
+
+#: .\models.py:18
+msgid "Other Document"
+msgstr ""
+
+#: .\models.py:21
+msgid "Low Priority"
+msgstr ""
+
+#: .\models.py:22
+msgid "Medium Priority"
+msgstr ""
+
+#: .\models.py:23
+msgid "High Priority"
+msgstr ""
+
+#: .\models.py:24
+msgid "Urgent"
+msgstr ""
+
+#: .\models.py:34
+msgid "फाइलको श्रेणी (जस्तै: फारम, रिपोर्ट)।"
+msgstr ""
+
+#: .\models.py:36
+msgid "फाइलको शीर्षक।"
+msgstr ""
+
+#: .\models.py:37
+msgid "फाइलको संक्षिप्त विवरण।"
+msgstr ""
+
+#: .\models.py:40
+msgid "अपलोड गर्ने फाइल।"
+msgstr ""
+
+#: .\models.py:46
+msgid "यो फाइल वेबसाइटमा देखाउने कि नदेखाउने?"
+msgstr ""
+
+#: .\models.py:50
+msgid "यो फाइल फिचर्ड सूचीमा देखाउने?"
+msgstr ""
+
+#: .\models.py:56
+msgid "फाइलको प्राथमिकता स्तर।"
+msgstr ""
+
+#: .\models.py:60
+msgid "यो फाइल डाउनलोड गर्न लगइन आवश्यक छ?"
+msgstr ""
+
+#: .\models.py:65
+msgid "फाइलको समाप्ति मिति (वैकल्पिक)।"
+msgstr ""
+
+#: .\models.py:70
+msgid "फाइलका ट्यागहरू (कमा द्वारा अलग)।"
+msgstr ""
+
+#: .\models.py:76
+msgid "फाइलको थम्बनेल छवि (वैकल्पिक)।"
+msgstr ""
+
+#: .\models.py:82
+msgid "यो फाइल कति पटक डाउनलोड भयो।"
+msgstr ""
+
+#: .\models.py:87
+msgid "यो फाइल कति पटक हेरियो।"
+msgstr ""
+
+#: .\models.py:104
+msgid "User who uploaded this file."
+msgstr ""
+
+#: .\models.py:109
+msgid "Last time this file was accessed."
+msgstr ""
+
+#: .\models.py:114
+msgid "Total number of times this file has been accessed."
+msgstr ""
+
+#: .\models.py:120
+msgid "फाइलको प्रकार (स्वचालित रूपमा पत्ता लगाइन्छ)।"
+msgstr ""
+
+#: .\models.py:125
+msgid "डाउनलोड फाइल"
+msgstr ""
+
+#: .\models.py:126
+msgid "डाउनलोड फाइलहरू"
+msgstr ""
+
+#: .\templates\downloads\download.html:4
+msgid "Bhanjyang Cooperative - Download Center"
+msgstr ""
+
+#: .\templates\downloads\download.html:6
+msgid ""
+"Download important forms, documents, and resources from Bhanjyang Saving & "
+"Credit Cooperative Society Ltd. Access our downloadable files, policies, and "
+"applications."
+msgstr ""
+
+#: .\templates\downloads\download.html:7
+msgid ""
+"Bhanjyang Cooperative, Download, Downloadable Files, Forms, Documents, "
+"Resources, Policies, Applications, PDF, Word, Excel"
+msgstr ""
+
+#: .\templates\downloads\download.html:9
+msgid "Download Center - Bhanjyang Cooperative"
+msgstr ""
+
+#: .\templates\downloads\download.html:10
+#: .\templates\downloads\download.html:26
+msgid ""
+"Download important forms, documents, and resources from Bhanjyang Cooperative"
+msgstr ""
+
+#: .\templates\downloads\download.html:25
+#: .\templates\downloads\download.html:74
+msgid "Download Center"
+msgstr ""
+
+#: .\templates\downloads\download.html:57
+msgid "Skip to main content"
+msgstr ""
+
+#: .\templates\downloads\download.html:77
+msgid "Available Resources"
+msgstr ""
+
+#: .\templates\downloads\download.html:81
+msgid ""
+"Access important documents, forms, and resources from our cooperative. "
+"Download files instantly and stay updated with our latest materials."
+msgstr ""
+
+#: .\templates\downloads\download.html:99
+msgid "Search and Filter Downloads"
+msgstr ""
+
+#: .\templates\downloads\download.html:100
+msgid "Search and filter downloadable files"
+msgstr ""
+
+#: .\templates\downloads\download.html:105
+msgid "Category"
+msgstr ""
+
+#: .\templates\downloads\download.html:109
+msgid "All Categories"
+msgstr ""
+
+#: .\templates\downloads\download.html:118
+msgid "Priority"
+msgstr ""
+
+#: .\templates\downloads\download.html:122
+msgid "All Priorities"
+msgstr ""
+
+#: .\templates\downloads\download.html:131
+#: .\templates\downloads\download.html:154
+msgid "Search Files"
+msgstr ""
+
+#: .\templates\downloads\download.html:135
+msgid "Search by title, description, or tags..."
+msgstr ""
+
+#: .\templates\downloads\download.html:144
+msgid "Featured Only"
+msgstr ""
+
+#: .\templates\downloads\download.html:152
+msgid "Search for files"
+msgstr ""
+
+#: .\templates\downloads\download.html:159
+msgid "Reset Filters"
+msgstr ""
+
+#: .\templates\downloads\download.html:171
+msgid "Bulk Download"
+msgstr ""
+
+#: .\templates\downloads\download.html:176
+msgid "Select all files for bulk download"
+msgstr ""
+
+#: .\templates\downloads\download.html:177
+msgid "Select All"
+msgstr ""
+
+#: .\templates\downloads\download.html:181
+msgid "Clear all selections"
+msgstr ""
+
+#: .\templates\downloads\download.html:182
+msgid "Clear All"
+msgstr ""
+
+#: .\templates\downloads\download.html:187
+msgid "files selected"
+msgstr ""
+
+#: .\templates\downloads\download.html:191
+msgid "Download Selected"
+msgstr ""

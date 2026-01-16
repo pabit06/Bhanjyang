@@ -1,0 +1,1806 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-15 23:02+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\admin.py:49 .\templates\news_events\event_not_found.html:196
+msgid "लेखहरू"
+msgstr ""
+
+#: .\admin.py:59 .\models.py:99
+msgid "रङ"
+msgstr ""
+
+#: .\admin.py:108
+msgid "चयनित लेखहरूलाई प्रकाशन गर्नुहोस्"
+msgstr ""
+
+#: .\admin.py:114
+msgid "चयनित लेखहरूलाई संग्रह गर्नुहोस्"
+msgstr ""
+
+#: .\admin.py:120
+msgid "चयनित लेखहरूलाई ड्राफ्टमा सार्नुहोस्"
+msgstr ""
+
+#: .\admin.py:126
+msgid "चयनित लेखहरूलाई फिचर्ड बनाउनुहोस्"
+msgstr ""
+
+#: .\admin.py:132
+msgid "चयनित लेखहरूबाट फिचर्ड हटाउनुहोस्"
+msgstr ""
+
+#: .\admin.py:157
+msgid "चयनित लेखहरूलाई CSV मा निर्यात गर्नुहोस्"
+msgstr ""
+
+#: .\admin.py:173
+msgid "चयनित लेखहरूलाई डुप्लिकेट गर्नुहोस्"
+msgstr ""
+
+#: .\admin.py:367
+msgid "चयनित सदस्यहरूलाई CSV मा निर्यात गर्नुहोस्"
+msgstr ""
+
+#: .\admin.py:390
+msgid "चयनित सदस्यहरूलाई न्युजलेटर पठाउनुहोस्"
+msgstr ""
+
+#: .\admin.py:426
+msgid "चयनित टिप्पणीहरू अनुमोदन गर्नुहोस्"
+msgstr ""
+
+#: .\admin.py:432
+msgid "चयनित टिप्पणीहरू अस्वीकृत गर्नुहोस्"
+msgstr ""
+
+#: .\admin.py:438
+msgid "चयनित टिप्पणीहरूलाई स्प्यामको रूपमा चिन्ह लगाउनुहोस्"
+msgstr ""
+
+#: .\admin.py:505
+msgid "चयनित न्युजलेटरहरू पठाउनुहोस् (Asynchronous)"
+msgstr ""
+
+#: .\error_handling.py:198
+msgid "कृपया सबै आवश्यक फिल्डहरू सही रूपमा भर्नुहोस्।"
+msgstr ""
+
+#: .\error_handling.py:199
+msgid "तपाईंसँग यो कार्य गर्नको लागि अनुमति छैन।"
+msgstr ""
+
+#: .\error_handling.py:200
+msgid "डेटाबेस त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\error_handling.py:201
+msgid "डेटा अमान्य छ। कृपया जाँच गर्नुहोस्।"
+msgstr ""
+
+#: .\error_handling.py:202
+msgid "अनुरोध गरिएको पृष्ठ फेला परेन।"
+msgstr ""
+
+#: .\error_handling.py:203
+msgid "अमान्य मान प्रदान गरिएको छ।"
+msgstr ""
+
+#: .\error_handling.py:204
+msgid "गलत प्रकारको डेटा प्रदान गरिएको छ।"
+msgstr ""
+
+#: .\error_handling.py:208
+msgid "एक त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\forms.py:34
+msgid "लेखको शीर्षक प्रविष्ट गर्नुहोस्"
+msgstr ""
+
+#: .\forms.py:40
+msgid "लेखको सामग्री यहाँ लेख्नुहोस्..."
+msgstr ""
+
+#: .\forms.py:45
+msgid "लेखको संक्षिप्त सारांश (वैकल्पिक)"
+msgstr ""
+
+#: .\forms.py:50
+msgid "SEO शीर्षक (वैकल्पिक)"
+msgstr ""
+
+#: .\forms.py:56
+msgid "SEO विवरण (वैकल्पिक)"
+msgstr ""
+
+#: .\forms.py:61
+msgid "SEO कीवर्ड (अल्पविरामले छुट्याइएको)"
+msgstr ""
+
+#: .\forms.py:66 .\forms.py:161
+msgid "इमेजको लागि Alt text"
+msgstr ""
+
+#: .\forms.py:79 .\forms.py:374
+msgid "सामग्रीमा सुरक्षा समस्या छ।"
+msgstr ""
+
+#: .\forms.py:83 .\forms.py:378
+msgid "सामग्री प्रमाणीकरण असफल भयो।"
+msgstr ""
+
+#: .\forms.py:94
+msgid "शीर्षक २०० वर्ण वा कम हुनुपर्छ।"
+msgstr ""
+
+#: .\forms.py:103
+msgid "तालिकाबद्ध लेखहरूको लागि तालिकाबद्ध मिति आवश्यक छ।"
+msgstr ""
+
+#: .\forms.py:106
+msgid "तालिकाबद्ध मिति भविष्यमा हुनुपर्छ।"
+msgstr ""
+
+#: .\forms.py:131
+msgid "कार्यक्रमको शीर्षक प्रविष्ट गर्नुहोस्"
+msgstr ""
+
+#: .\forms.py:137
+msgid "कार्यक्रमको विवरण लेख्नुहोस्..."
+msgstr ""
+
+#: .\forms.py:142
+msgid "कार्यक्रमको संक्षिप्त विवरण"
+msgstr ""
+
+#: .\forms.py:147
+msgid "कार्यक्रमको स्थान"
+msgstr ""
+
+#: .\forms.py:153
+msgid "कार्यक्रमको पूर्ण ठेगाना"
+msgstr ""
+
+#: .\forms.py:174
+msgid "विवरणमा सुरक्षा समस्या छ।"
+msgstr ""
+
+#: .\forms.py:178
+msgid "विवरण प्रमाणीकरण असफल भयो।"
+msgstr ""
+
+#: .\forms.py:191
+msgid "अन्त्य मिति कार्यक्रम मिति पछि हुनुपर्छ।"
+msgstr ""
+
+#: .\forms.py:202
+msgid "दर्ता आवश्यक भएमा दर्ता अन्तिम मिति आवश्यक छ।"
+msgstr ""
+
+#: .\forms.py:205
+msgid "दर्ता अन्तिम मिति कार्यक्रम मिति अघि हुनुपर्छ।"
+msgstr ""
+
+#: .\forms.py:218 .\models.py:96
+msgid "श्रेणीको नाम"
+msgstr ""
+
+#: .\forms.py:224 .\models.py:98
+msgid "श्रेणीको विवरण"
+msgstr ""
+
+#: .\forms.py:251
+msgid "आफ्नो इमेल ठेगाना प्रविष्ट गर्नुहोस्..."
+msgstr ""
+
+#: .\forms.py:252
+msgid "इमेल ठेगाना"
+msgstr ""
+
+#: .\forms.py:257
+msgid "पहिलो नाम (वैकल्पिक)"
+msgstr ""
+
+#: .\forms.py:262
+msgid "अन्तिम नाम (वैकल्पिक)"
+msgstr ""
+
+#: .\forms.py:291
+msgid "आफ्नो नाम"
+msgstr ""
+
+#: .\forms.py:297
+msgid "आफ्नो इमेल ठेगाना"
+msgstr ""
+
+#: .\forms.py:303
+msgid "आफ्नो टिप्पणी लेख्नुहोस्..."
+msgstr ""
+
+#: .\forms.py:316
+msgid "टिप्पणी स्प्याम जस्तो देखिन्छ। कृपया पुनः समीक्षा गर्नुहोस्।"
+msgstr ""
+
+#: .\forms.py:344 .\models.py:675
+msgid "न्युजलेटर शीर्षक"
+msgstr ""
+
+#: .\forms.py:349
+msgid "इमेल विषय पङ्क्ति"
+msgstr ""
+
+#: .\forms.py:355
+msgid "न्युजलेटर सामग्री..."
+msgstr ""
+
+#: .\forms.py:398
+msgid "सबै सामग्री"
+msgstr ""
+
+#: .\forms.py:399
+msgid "लेख मात्र"
+msgstr ""
+
+#: .\forms.py:400
+msgid "कार्यक्रम मात्र"
+msgstr ""
+
+#: .\forms.py:404
+msgid "प्रासङ्गिकता"
+msgstr ""
+
+#: .\forms.py:405 .\models.py:714
+msgid "मिति"
+msgstr ""
+
+#: .\forms.py:406 .\models.py:717
+msgid "हेराइ"
+msgstr ""
+
+#: .\forms.py:407 .\models.py:146 .\models.py:378 .\models.py:675
+msgid "शीर्षक"
+msgstr ""
+
+#: .\forms.py:415
+msgid "लेख र कार्यक्रमहरू खोज्नुहोस्..."
+msgstr ""
+
+#: .\forms.py:431
+msgid "सबै श्रेणीहरू"
+msgstr ""
+
+#: .\forms.py:463
+msgid "सबै लेखकहरू"
+msgstr ""
+
+#: .\forms.py:468
+msgid "सबै स्थिति"
+msgstr ""
+
+#: .\forms.py:469
+msgid "प्रकाशित मात्र"
+msgstr ""
+
+#: .\forms.py:470
+msgid "मस्यौदा मात्र"
+msgstr ""
+
+#: .\forms.py:488
+msgid "न्यूनतम पढ्ने समय (मिनेट)"
+msgstr ""
+
+#: .\forms.py:497
+msgid "अधिकतम पढ्ने समय (मिनेट)"
+msgstr ""
+
+#: .\forms.py:547
+msgid "कुनै सामग्री छानिएको छैन।"
+msgstr ""
+
+#: .\forms.py:552
+msgid "वैध सामग्री ID प्रदान गरिएको छैन।"
+msgstr ""
+
+#: .\forms.py:555
+msgid "अवैध सामग्री ID प्रदान गरिएको छ।"
+msgstr ""
+
+#: .\models.py:96
+msgid "नाम"
+msgstr ""
+
+#: .\models.py:97 .\models.py:147 .\models.py:379
+msgid "स्लग"
+msgstr ""
+
+#: .\models.py:97
+msgid "URL-अनुकूल संस्करण"
+msgstr ""
+
+#: .\models.py:98 .\models.py:380
+msgid "विवरण"
+msgstr ""
+
+#: .\models.py:99
+msgid "श्रेणीको हेक्स रङ कोड"
+msgstr ""
+
+#: .\models.py:100
+msgid "आइकन"
+msgstr ""
+
+#: .\models.py:100
+msgid "FontAwesome आइकन क्लास"
+msgstr ""
+
+#: .\models.py:101 .\models.py:568
+msgid "सक्रिय"
+msgstr ""
+
+#: .\models.py:101
+msgid "यो श्रेणी सक्रिय छ कि छैन"
+msgstr ""
+
+#: .\models.py:102
+msgid "क्रम"
+msgstr ""
+
+#: .\models.py:102
+msgid "प्रदर्शनको लागि क्रम"
+msgstr ""
+
+#: .\models.py:103 .\models.py:225 .\models.py:454 .\models.py:650
+#: .\models.py:695 .\models.py:730
+msgid "सिर्जना मिति"
+msgstr ""
+
+#: .\models.py:104 .\models.py:226 .\models.py:455 .\models.py:651
+#: .\models.py:696 .\models.py:731
+msgid "अपडेट मिति"
+msgstr ""
+
+#: .\models.py:108 .\models.py:148
+msgid "श्रेणी"
+msgstr ""
+
+#: .\models.py:109
+msgid "श्रेणीहरू"
+msgstr ""
+
+#: .\models.py:134 .\models.py:372 .\models.py:669
+msgid "मस्यौदा"
+msgstr ""
+
+#: .\models.py:135 .\models.py:373
+msgid "प्रकाशित"
+msgstr ""
+
+#: .\models.py:136
+msgid "संग्रह"
+msgstr ""
+
+#: .\models.py:137 .\models.py:670
+msgid "तालिकाबद्ध"
+msgstr ""
+
+#: .\models.py:140
+msgid "न्यून प्राथमिकता"
+msgstr ""
+
+#: .\models.py:141
+msgid "मध्यम प्राथमिकता"
+msgstr ""
+
+#: .\models.py:142
+msgid "उच्च प्राथमिकता"
+msgstr ""
+
+#: .\models.py:143
+msgid "तत्काल"
+msgstr ""
+
+#: .\models.py:146
+msgid "लेखको शीर्षक"
+msgstr ""
+
+#: .\models.py:147 .\models.py:379
+msgid "URL-अनुकूल शीर्षक"
+msgstr ""
+
+#: .\models.py:148
+msgid "लेखको श्रेणी"
+msgstr ""
+
+#: .\models.py:149
+msgid "लेखक"
+msgstr ""
+
+#: .\models.py:149
+msgid "लेखको लेखक"
+msgstr ""
+
+#: .\models.py:152 .\models.py:634 .\models.py:677
+msgid "सामग्री"
+msgstr ""
+
+#: .\models.py:152
+msgid "लेखको सामग्री"
+msgstr ""
+
+#: .\models.py:153
+msgid "सारांश"
+msgstr ""
+
+#: .\models.py:153
+msgid "छोटो लेख सारांश"
+msgstr ""
+
+#: .\models.py:154 .\models.py:397
+msgid "छवि"
+msgstr ""
+
+#: .\models.py:154
+msgid "मुख्य छवि"
+msgstr ""
+
+#: .\models.py:155 .\models.py:398
+msgid "छवि Alt पाठ"
+msgstr ""
+
+#: .\models.py:155 .\models.py:398
+msgid "छविको Alt पाठ"
+msgstr ""
+
+#: .\models.py:202 .\models.py:445 .\models.py:576 .\models.py:635
+#: .\models.py:678
+msgid "स्थिति"
+msgstr ""
+
+#: .\models.py:202
+msgid "प्रकाशन स्थिति"
+msgstr ""
+
+#: .\models.py:203
+msgid "प्राथमिकता"
+msgstr ""
+
+#: .\models.py:203
+msgid "सामग्री प्राथमिकता"
+msgstr ""
+
+#: .\models.py:204
+msgid "प्रकाशन मिति"
+msgstr ""
+
+#: .\models.py:205 .\models.py:685
+msgid "तालिकाबद्ध मिति"
+msgstr ""
+
+#: .\models.py:205
+msgid "तालिकाबद्ध प्रकाशन मिति"
+msgstr ""
+
+#: .\models.py:208
+msgid "SEO शीर्षक"
+msgstr ""
+
+#: .\models.py:209
+msgid "SEO विवरण"
+msgstr ""
+
+#: .\models.py:210
+msgid "SEO कीवर्ड"
+msgstr ""
+
+#: .\models.py:213
+msgid "पढ्ने समय"
+msgstr ""
+
+#: .\models.py:213
+msgid "अनुमानित पढ्ने समय (मिनेटमा)"
+msgstr ""
+
+#: .\models.py:214 .\models.py:450
+msgid "हेराइ संख्या"
+msgstr ""
+
+#: .\models.py:214 .\models.py:450 .\models.py:717
+msgid "हेराइको संख्या"
+msgstr ""
+
+#: .\models.py:215
+msgid "साझेदारी संख्या"
+msgstr ""
+
+#: .\models.py:215 .\models.py:719
+msgid "साझेदारीको संख्या"
+msgstr ""
+
+#: .\models.py:216
+msgid "टिप्पणी संख्या"
+msgstr ""
+
+#: .\models.py:216 .\models.py:720
+msgid "टिप्पणीको संख्या"
+msgstr ""
+
+#: .\models.py:219
+msgid "सामग्री ह्यास"
+msgstr ""
+
+#: .\models.py:219
+msgid "सामग्रीको SHA-256 ह्यास"
+msgstr ""
+
+#: .\models.py:220 .\models.py:446
+msgid "मुख्य"
+msgstr ""
+
+#: .\models.py:220
+msgid "मुख्य लेख"
+msgstr ""
+
+#: .\models.py:221
+msgid "टिप्पणी अनुमति"
+msgstr ""
+
+#: .\models.py:221
+msgid "टिप्पणी अनुमति दिनुहोस्"
+msgstr ""
+
+#: .\models.py:222
+msgid "लगइन आवश्यक"
+msgstr ""
+
+#: .\models.py:222
+msgid "हेर्नको लागि लगइन आवश्यक"
+msgstr ""
+
+#: .\models.py:227 .\models.py:456
+msgid "अन्तिम पहुँच मिति"
+msgstr ""
+
+#: .\models.py:227 .\models.py:456
+msgid "अन्तिम पहुँच समय"
+msgstr ""
+
+#: .\models.py:233
+msgid "समाचार लेख"
+msgstr ""
+
+#: .\models.py:234
+msgid "समाचार लेखहरू"
+msgstr ""
+
+#: .\models.py:363
+msgid "बैठक"
+msgstr ""
+
+#: .\models.py:364
+msgid "कार्यशाला"
+msgstr ""
+
+#: .\models.py:365
+msgid "सम्मेलन"
+msgstr ""
+
+#: .\models.py:366
+msgid "सेमिनार"
+msgstr ""
+
+#: .\models.py:367
+msgid "सामाजिक कार्यक्रम"
+msgstr ""
+
+#: .\models.py:368
+msgid "प्रशिक्षण"
+msgstr ""
+
+#: .\models.py:369
+msgid "अन्य"
+msgstr ""
+
+#: .\models.py:374
+msgid "रद्द"
+msgstr ""
+
+#: .\models.py:375
+msgid "पूर्ण"
+msgstr ""
+
+#: .\models.py:378
+msgid "कार्यक्रमको शीर्षक"
+msgstr ""
+
+#: .\models.py:380
+msgid "कार्यक्रमको विवरण"
+msgstr ""
+
+#: .\models.py:381
+msgid "छोटो विवरण"
+msgstr ""
+
+#: .\models.py:381
+msgid "छोटो कार्यक्रम विवरण"
+msgstr ""
+
+#: .\models.py:384
+msgid "कार्यक्रम प्रकार"
+msgstr ""
+
+#: .\models.py:384
+msgid "कार्यक्रमको प्रकार"
+msgstr ""
+
+#: .\models.py:385
+msgid "स्थान"
+msgstr ""
+
+#: .\models.py:385
+msgid "कार्यक्रम स्थान"
+msgstr ""
+
+#: .\models.py:386
+msgid "ठेगाना"
+msgstr ""
+
+#: .\models.py:386
+msgid "पूर्ण कार्यक्रम ठेगाना"
+msgstr ""
+
+#: .\models.py:387
+msgid "कार्यक्रम मिति"
+msgstr ""
+
+#: .\models.py:387
+msgid "कार्यक्रम मिति र समय"
+msgstr ""
+
+#: .\models.py:388
+msgid "अन्त्य मिति"
+msgstr ""
+
+#: .\models.py:388
+msgid "कार्यक्रम अन्त्य मिति र समय"
+msgstr ""
+
+#: .\models.py:391
+msgid "अधिकतम सहभागी"
+msgstr ""
+
+#: .\models.py:391
+msgid "अधिकतम सहभागी संख्या"
+msgstr ""
+
+#: .\models.py:392
+msgid "दर्ता आवश्यक"
+msgstr ""
+
+#: .\models.py:393
+msgid "दर्ता अन्तिम मिति"
+msgstr ""
+
+#: .\models.py:394
+msgid "दर्ता URL"
+msgstr ""
+
+#: .\models.py:397
+msgid "कार्यक्रम छवि"
+msgstr ""
+
+#: .\models.py:445
+msgid "कार्यक्रम स्थिति"
+msgstr ""
+
+#: .\models.py:446
+msgid "मुख्य कार्यक्रम"
+msgstr ""
+
+#: .\models.py:447
+msgid "पुनरावृत्ति"
+msgstr ""
+
+#: .\models.py:447
+msgid "पुनरावृत्ति हुने कार्यक्रम"
+msgstr ""
+
+#: .\models.py:451
+msgid "दर्ता संख्या"
+msgstr ""
+
+#: .\models.py:451
+msgid "दर्ताको संख्या"
+msgstr ""
+
+#: .\models.py:462
+msgid "कार्यक्रम"
+msgstr ""
+
+#: .\models.py:463 .\templates\news_events\article_not_found.html:183
+msgid "कार्यक्रमहरू"
+msgstr ""
+
+#: .\models.py:569
+msgid "सदस्यता रद्द"
+msgstr ""
+
+#: .\models.py:570
+msgid "बाउन्स"
+msgstr ""
+
+#: .\models.py:571 .\models.py:629
+msgid "स्प्याम"
+msgstr ""
+
+#: .\models.py:573
+msgid "इमेल"
+msgstr ""
+
+#: .\models.py:573
+msgid "सदस्यको इमेल"
+msgstr ""
+
+#: .\models.py:574
+msgid "पहिलो नाम"
+msgstr ""
+
+#: .\models.py:575
+msgid "अन्तिम नाम"
+msgstr ""
+
+#: .\models.py:576
+msgid "सदस्यता स्थिति"
+msgstr ""
+
+#: .\models.py:579
+msgid "प्राथमिकता श्रेणी"
+msgstr ""
+
+#: .\models.py:579
+msgid "प्राथमिकता श्रेणीहरू"
+msgstr ""
+
+#: .\models.py:580
+msgid "आवृत्ति"
+msgstr ""
+
+#: .\models.py:580
+msgid "इमेल आवृत्ति प्राथमिकता"
+msgstr ""
+
+#: .\models.py:583
+msgid "खोलिएको संख्या"
+msgstr ""
+
+#: .\models.py:583
+msgid "खोलिएको इमेल संख्या"
+msgstr ""
+
+#: .\models.py:584
+msgid "क्लिक संख्या"
+msgstr ""
+
+#: .\models.py:584
+msgid "क्लिक गरिएको लिङ्क संख्या"
+msgstr ""
+
+#: .\models.py:587 .\models.py:646
+msgid "IP ठेगाना"
+msgstr ""
+
+#: .\models.py:587
+msgid "सदस्यता लिँदा IP ठेगाना"
+msgstr ""
+
+#: .\models.py:588 .\models.py:647
+msgid "प्रयोगकर्ता एजेन्ट"
+msgstr ""
+
+#: .\models.py:588
+msgid "सदस्यता लिँदा प्रयोगकर्ता एजेन्ट"
+msgstr ""
+
+#: .\models.py:589
+msgid "पुष्टिकरण टोकन"
+msgstr ""
+
+#: .\models.py:589
+msgid "इमेल पुष्टिकरण टोकन"
+msgstr ""
+
+#: .\models.py:590
+msgid "पुष्टि भएको"
+msgstr ""
+
+#: .\models.py:590
+msgid "इमेल पुष्टि भएको"
+msgstr ""
+
+#: .\models.py:593
+msgid "सदस्यता मिति"
+msgstr ""
+
+#: .\models.py:594
+msgid "पुष्टि मिति"
+msgstr ""
+
+#: .\models.py:594
+msgid "इमेल पुष्टि मिति"
+msgstr ""
+
+#: .\models.py:595
+msgid "अन्तिम गतिविधि मिति"
+msgstr ""
+
+#: .\models.py:599
+msgid "सदस्य"
+msgstr ""
+
+#: .\models.py:600
+msgid "सदस्यहरू"
+msgstr ""
+
+#: .\models.py:626
+msgid "अनुमोदन पछि"
+msgstr ""
+
+#: .\models.py:627 .\models.py:638
+msgid "अनुमोदित"
+msgstr ""
+
+#: .\models.py:628
+msgid "अस्वीकृत"
+msgstr ""
+
+#: .\models.py:631
+msgid "लेख"
+msgstr ""
+
+#: .\models.py:631
+msgid "सम्बन्धित लेख"
+msgstr ""
+
+#: .\models.py:632
+msgid "लेखकको नाम"
+msgstr ""
+
+#: .\models.py:632
+msgid "टिप्पणी लेखकको नाम"
+msgstr ""
+
+#: .\models.py:633
+msgid "लेखकको इमेल"
+msgstr ""
+
+#: .\models.py:633
+msgid "टिप्पणी लेखकको इमेल"
+msgstr ""
+
+#: .\models.py:634
+msgid "टिप्पणी सामग्री"
+msgstr ""
+
+#: .\models.py:635
+msgid "टिप्पणी स्थिति"
+msgstr ""
+
+#: .\models.py:638
+msgid "टिप्पणी अनुमोदित"
+msgstr ""
+
+#: .\models.py:639
+msgid "निरीक्षण गरेको"
+msgstr ""
+
+#: .\models.py:640
+msgid "निरीक्षण नोट"
+msgstr ""
+
+#: .\models.py:643
+msgid "मन पराइएको संख्या"
+msgstr ""
+
+#: .\models.py:655 .\models.py:720
+msgid "टिप्पणी"
+msgstr ""
+
+#: .\models.py:656
+msgid "टिप्पणीहरू"
+msgstr ""
+
+#: .\models.py:671
+msgid "पठाइरहेको"
+msgstr ""
+
+#: .\models.py:672
+msgid "पठाइएको"
+msgstr ""
+
+#: .\models.py:673
+msgid "असफल"
+msgstr ""
+
+#: .\models.py:676
+msgid "विषय"
+msgstr ""
+
+#: .\models.py:676
+msgid "इमेल विषय"
+msgstr ""
+
+#: .\models.py:677
+msgid "न्युजलेटर सामग्री"
+msgstr ""
+
+#: .\models.py:678
+msgid "न्युजलेटर स्थिति"
+msgstr ""
+
+#: .\models.py:681
+msgid "लक्ष्य श्रेणी"
+msgstr ""
+
+#: .\models.py:681
+msgid "लक्ष्य श्रेणीहरू"
+msgstr ""
+
+#: .\models.py:682
+msgid "सबैलाई पठाउनुहोस्"
+msgstr ""
+
+#: .\models.py:682
+msgid "सबै सदस्यहरूलाई पठाउनुहोस्"
+msgstr ""
+
+#: .\models.py:685
+msgid "तालिकाबद्ध पठाउने मिति"
+msgstr ""
+
+#: .\models.py:686
+msgid "पठाइएको मिति"
+msgstr ""
+
+#: .\models.py:686
+msgid "वास्तविक पठाउने मिति"
+msgstr ""
+
+#: .\models.py:689
+msgid "कुल पठाइएको"
+msgstr ""
+
+#: .\models.py:689
+msgid "कुल पठाइएको इमेल"
+msgstr ""
+
+#: .\models.py:690
+msgid "कुल खोलिएको"
+msgstr ""
+
+#: .\models.py:690
+msgid "कुल खोलिएको इमेल"
+msgstr ""
+
+#: .\models.py:691
+msgid "कुल क्लिक गरिएको"
+msgstr ""
+
+#: .\models.py:691
+msgid "कुल क्लिक गरिएको लिङ्क"
+msgstr ""
+
+#: .\models.py:692
+msgid "असफल प्रापकहरू"
+msgstr ""
+
+#: .\models.py:692
+msgid "इमेल पठाउन असफल भएका प्रापकहरूको सूची (JSON format)"
+msgstr ""
+
+#: .\models.py:700
+msgid "न्युजलेटर"
+msgstr ""
+
+#: .\models.py:701
+msgid "न्युजलेटरहरू"
+msgstr ""
+
+#: .\models.py:712
+msgid "सामग्री प्रकार"
+msgstr ""
+
+#: .\models.py:712
+msgid "सामग्री प्रकार (लेख, कार्यक्रम)"
+msgstr ""
+
+#: .\models.py:713
+msgid "सामग्री ID"
+msgstr ""
+
+#: .\models.py:714
+msgid "विश्लेषण मिति"
+msgstr ""
+
+#: .\models.py:718
+msgid "अद्वितीय हेराइ"
+msgstr ""
+
+#: .\models.py:718
+msgid "अद्वितीय हेराइको संख्या"
+msgstr ""
+
+#: .\models.py:719
+msgid "साझेदारी"
+msgstr ""
+
+#: .\models.py:721
+msgid "पृष्ठमा समय"
+msgstr ""
+
+#: .\models.py:721
+msgid "पृष्ठमा औसत समय (सेकेन्डमा)"
+msgstr ""
+
+#: .\models.py:724
+msgid "जैविक खोज"
+msgstr ""
+
+#: .\models.py:724
+msgid "जैविक खोज हेराइ"
+msgstr ""
+
+#: .\models.py:725
+msgid "सामाजिक मिडिया"
+msgstr ""
+
+#: .\models.py:725
+msgid "सामाजिक मिडिया हेराइ"
+msgstr ""
+
+#: .\models.py:726
+msgid "प्रत्यक्ष ट्राफिक"
+msgstr ""
+
+#: .\models.py:726
+msgid "प्रत्यक्ष ट्राफिक हेराइ"
+msgstr ""
+
+#: .\models.py:727
+msgid "रेफरल ट्राफिक"
+msgstr ""
+
+#: .\models.py:727
+msgid "रेफरल ट्राफिक हेराइ"
+msgstr ""
+
+#: .\models.py:736
+msgid "सामग्री विश्लेषण"
+msgstr ""
+
+#: .\models.py:737
+msgid "सामग्री विश्लेषणहरू"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:44
+#: .\templates\news_events\article_list.html:20
+#: .\templates\news_events\event_detail.html:42
+#: .\templates\news_events\event_list.html:20
+#: .\templates\news_events\home.html:33 .\templates\news_events\search.html:23
+#: .\templates\news_events\search_results.html:20
+msgid "Skip to main content"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:64
+#: .\templates\news_events\article_list.html:128
+#: .\templates\news_events\article_not_found.html:150
+#: .\templates\news_events\event_detail.html:62
+#: .\templates\news_events\event_list.html:81
+#: .\templates\news_events\event_list.html:145
+#: .\templates\news_events\home.html:93
+#: .\templates\news_events\search_results.html:117
+msgid "Featured"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:71
+#: .\templates\news_events\event_detail.html:72
+msgid "views"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:75
+#: .\templates\news_events\search_results.html:150
+msgid "min read"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:151
+msgid "Comments"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:158
+msgid "Name"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:163
+msgid "Email"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:168
+msgid "Comment"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:174
+msgid "Submit Comment"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:197
+msgid "No comments yet. Be the first to comment!"
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:243
+msgid "No related articles found."
+msgstr ""
+
+#: .\templates\news_events\article_detail.html:255
+#: .\templates\news_events\event_detail.html:249
+msgid "Link copied to clipboard!"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:6
+#: .\templates\news_events\article_list.html:11
+msgid "News Articles"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:8
+msgid ""
+"Browse all news articles and updates from Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+
+#: .\templates\news_events\article_list.html:13
+msgid "Browse all news articles and updates from Bhanjyang Cooperative."
+msgstr ""
+
+#: .\templates\news_events\article_list.html:42
+msgid "Articles"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:49
+msgid "Stay updated with the latest news and announcements"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:67
+msgid "Search articles..."
+msgstr ""
+
+#: .\templates\news_events\article_list.html:73
+#: .\templates\news_events\search.html:89
+#: .\templates\news_events\search_results.html:68
+msgid "All Categories"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:81
+#: .\templates\news_events\search.html:119
+msgid "Newest First"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:82
+#: .\templates\news_events\search.html:121
+msgid "Oldest First"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:83
+#: .\templates\news_events\search.html:123
+msgid "Most Popular"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:84
+msgid "Featured Only"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:176
+msgid "No Articles Found"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:177
+msgid "We couldn't find any articles matching your criteria."
+msgstr ""
+
+#: .\templates\news_events\article_list.html:180
+#: .\templates\news_events\event_list.html:225
+msgid "Clear Filters"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:226
+#: .\templates\news_events\event_list.html:271
+#: .\templates\news_events\home.html:494
+msgid "Newsletter"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:229
+#: .\templates\news_events\event_list.html:274
+#: .\templates\news_events\home.html:497
+msgid "Stay Updated"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:233
+msgid "Subscribe to our newsletter for the latest news and updates."
+msgstr ""
+
+#: .\templates\news_events\article_list.html:238
+#: .\templates\news_events\event_list.html:283
+msgid "Enter your email"
+msgstr ""
+
+#: .\templates\news_events\article_list.html:241
+#: .\templates\news_events\event_list.html:287
+#: .\templates\news_events\home.html:523
+msgid "Subscribe"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:6
+#: .\templates\news_events\article_not_found.html:68
+msgid "लेख फेला परेन"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:79
+msgid ""
+"माफ गर्नुहोस्, तपाईंले खोज्नुभएको लेख अहिले उपलब्ध छैन। यो लेख हटाइएको, सार्वजनिक नभएको, "
+"वा URL गलत हुन सक्छ।"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:88
+#: .\templates\news_events\event_not_found.html:93
+msgid "मुख्य पृष्ठमा जानुहोस्"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:94
+msgid "सबै लेखहरू हेर्नुहोस्"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:109
+msgid "हालैका लेखहरू"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:111
+msgid "यी लेखहरू तपाईंको लागि रोचक हुन सक्छन्"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:164
+msgid "पढ्नुहोस्"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:176
+#: .\templates\news_events\event_not_found.html:189
+msgid "अन्य उपयोगी लिङ्कहरू:"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:190
+#: .\templates\news_events\event_not_found.html:203
+msgid "खोज गर्नुहोस्"
+msgstr ""
+
+#: .\templates\news_events\article_not_found.html:197
+#: .\templates\news_events\event_not_found.html:210
+msgid "गृह पृष्ठ"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:77
+msgid "hours"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:97
+msgid "Event Date"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:104
+msgid "Time"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:112
+msgid "End Date"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:121
+msgid "Location"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:131
+msgid "Created"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:184
+msgid "Register for this Event"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:185
+msgid "Join us for this exciting event!"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:187
+#: .\templates\news_events\home.html:458
+msgid "Register Now"
+msgstr ""
+
+#: .\templates\news_events\event_detail.html:237
+msgid "No related events found."
+msgstr ""
+
+#: .\templates\news_events\event_list.html:6
+#: .\templates\news_events\event_list.html:11
+#: .\templates\news_events\event_list.html:42
+msgid "Events"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:8
+msgid ""
+"Browse all upcoming and past events from Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+
+#: .\templates\news_events\event_list.html:13
+msgid "Browse all upcoming and past events from Bhanjyang Cooperative."
+msgstr ""
+
+#: .\templates\news_events\event_list.html:49
+msgid "Join us for exciting events and activities"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:66
+#: .\templates\news_events\search.html:171
+msgid "All Events"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:71
+msgid "Upcoming"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:76
+msgid "Past Events"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:91
+msgid "Search events..."
+msgstr ""
+
+#: .\templates\news_events\event_list.html:98
+msgid "All Types"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:203
+msgid "Registration Required"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:220
+msgid "No Events Found"
+msgstr ""
+
+#: .\templates\news_events\event_list.html:221
+msgid "We couldn't find any events matching your criteria."
+msgstr ""
+
+#: .\templates\news_events\event_list.html:278
+msgid "Subscribe to our newsletter for the latest events and updates."
+msgstr ""
+
+#: .\templates\news_events\event_not_found.html:6
+#: .\templates\news_events\event_not_found.html:73
+msgid "कार्यक्रम फेला परेन"
+msgstr ""
+
+#: .\templates\news_events\event_not_found.html:84
+msgid ""
+"माफ गर्नुहोस्, तपाईंले खोज्नुभएको कार्यक्रम अहिले उपलब्ध छैन। यो कार्यक्रम हटाइएको, "
+"सार्वजनिक नभएको, वा URL गलत हुन सक्छ।"
+msgstr ""
+
+#: .\templates\news_events\event_not_found.html:99
+msgid "सबै कार्यक्रमहरू हेर्नुहोस्"
+msgstr ""
+
+#: .\templates\news_events\event_not_found.html:114
+msgid "हालैका कार्यक्रमहरू"
+msgstr ""
+
+#: .\templates\news_events\event_not_found.html:116
+msgid "यी कार्यक्रमहरू तपाईंको लागि रोचक हुन सक्छन्"
+msgstr ""
+
+#: .\templates\news_events\event_not_found.html:177
+msgid "विवरण हेर्नुहोस्"
+msgstr ""
+
+#: .\templates\news_events\home.html:6 .\templates\news_events\home.html:11
+#: .\templates\news_events\home.html:65 .\templates\news_events\home.html:740
+msgid "News & Events"
+msgstr ""
+
+#: .\templates\news_events\home.html:8 .\templates\news_events\home.html:741
+msgid ""
+"Stay updated with the latest news, events, and announcements from Bhanjyang "
+"Saving & Credit Cooperative Society Ltd."
+msgstr ""
+
+#: .\templates\news_events\home.html:13
+msgid ""
+"Stay updated with the latest news, events, and announcements from Bhanjyang "
+"Cooperative."
+msgstr ""
+
+#: .\templates\news_events\home.html:31
+msgid "Skip links"
+msgstr ""
+
+#: .\templates\news_events\home.html:36
+msgid "Skip to latest news"
+msgstr ""
+
+#: .\templates\news_events\home.html:39
+msgid "Skip to upcoming events"
+msgstr ""
+
+#: .\templates\news_events\home.html:42
+msgid "Skip to newsletter"
+msgstr ""
+
+#: .\templates\news_events\home.html:52
+msgid "News and Events Hero"
+msgstr ""
+
+#: .\templates\news_events\home.html:72
+msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
+msgstr ""
+
+#: .\templates\news_events\home.html:96 .\templates\news_events\search.html:187
+msgid "Featured Content"
+msgstr ""
+
+#: .\templates\news_events\home.html:111
+msgid "Featured Articles"
+msgstr ""
+
+#: .\templates\news_events\home.html:145
+msgid "min"
+msgstr ""
+
+#: .\templates\news_events\home.html:175
+msgid "Featured Events"
+msgstr ""
+
+#: .\templates\news_events\home.html:252 .\templates\news_events\home.html:766
+msgid "Latest News"
+msgstr ""
+
+#: .\templates\news_events\home.html:261
+msgid "View All Articles"
+msgstr ""
+
+#: .\templates\news_events\home.html:267
+msgid "Loading articles"
+msgstr ""
+
+#: .\templates\news_events\home.html:340
+msgid "No Articles Yet"
+msgstr ""
+
+#: .\templates\news_events\home.html:341
+msgid "Check back soon for the latest news and updates."
+msgstr ""
+
+#: .\templates\news_events\home.html:365 .\templates\news_events\home.html:581
+#: .\templates\news_events\home.html:772
+#: .\templates\news_events\search.html:179
+msgid "Upcoming Events"
+msgstr ""
+
+#: .\templates\news_events\home.html:374
+msgid "View All Events"
+msgstr ""
+
+#: .\templates\news_events\home.html:380
+msgid "Loading events"
+msgstr ""
+
+#: .\templates\news_events\home.html:471
+msgid "No Upcoming Events"
+msgstr ""
+
+#: .\templates\news_events\home.html:472
+msgid "Check back soon for upcoming events and activities."
+msgstr ""
+
+#: .\templates\news_events\home.html:481
+msgid "Newsletter Subscription"
+msgstr ""
+
+#: .\templates\news_events\home.html:501
+msgid ""
+"Subscribe to our newsletter and never miss important updates, news, and "
+"events from Bhanjyang Cooperative."
+msgstr ""
+
+#: .\templates\news_events\home.html:504
+msgid "Newsletter subscription form"
+msgstr ""
+
+#: .\templates\news_events\home.html:514
+msgid "Enter your email address"
+msgstr ""
+
+#: .\templates\news_events\home.html:517
+msgid "Email address"
+msgstr ""
+
+#: .\templates\news_events\home.html:531
+msgid "We respect your privacy and never share your email address."
+msgstr ""
+
+#: .\templates\news_events\home.html:551
+msgid "Our Impact"
+msgstr ""
+
+#: .\templates\news_events\home.html:569
+msgid "Published Articles"
+msgstr ""
+
+#: .\templates\news_events\home.html:593
+msgid "Total Views"
+msgstr ""
+
+#: .\templates\news_events\home.html:603
+msgid "Community Access"
+msgstr ""
+
+#: .\templates\news_events\home.html:614
+msgid "Please enter your email address."
+msgstr ""
+
+#: .\templates\news_events\home.html:615
+msgid "Subscribing..."
+msgstr ""
+
+#: .\templates\news_events\home.html:616
+msgid "Subscription failed. Please try again later."
+msgstr ""
+
+#: .\templates\news_events\search.html:5 .\templates\news_events\search.html:10
+#: .\templates\news_events\search.html:134
+#: .\templates\news_events\search_results.html:77
+msgid "Search"
+msgstr ""
+
+#: .\templates\news_events\search.html:7 .\templates\news_events\search.html:12
+msgid "Search through news articles and events from Bhanjyang Cooperative."
+msgstr ""
+
+#: .\templates\news_events\search.html:44
+msgid "Find articles and events that interest you."
+msgstr ""
+
+#: .\templates\news_events\search.html:56
+msgid "Search Term"
+msgstr ""
+
+#: .\templates\news_events\search.html:58
+msgid "Enter keywords to search..."
+msgstr ""
+
+#: .\templates\news_events\search.html:64
+msgid "Content Type"
+msgstr ""
+
+#: .\templates\news_events\search.html:69
+#: .\templates\news_events\search_results.html:61
+msgid "All Content"
+msgstr ""
+
+#: .\templates\news_events\search.html:74
+#: .\templates\news_events\search_results.html:62
+msgid "Articles Only"
+msgstr ""
+
+#: .\templates\news_events\search.html:79
+#: .\templates\news_events\search_results.html:63
+msgid "Events Only"
+msgstr ""
+
+#: .\templates\news_events\search.html:86
+msgid "Category"
+msgstr ""
+
+#: .\templates\news_events\search.html:101
+msgid "From Date"
+msgstr ""
+
+#: .\templates\news_events\search.html:106
+msgid "To Date"
+msgstr ""
+
+#: .\templates\news_events\search.html:114
+msgid "Sort By"
+msgstr ""
+
+#: .\templates\news_events\search.html:118
+msgid "Relevance"
+msgstr ""
+
+#: .\templates\news_events\search.html:125
+msgid "Featured First"
+msgstr ""
+
+#: .\templates\news_events\search.html:138
+msgid "Clear"
+msgstr ""
+
+#: .\templates\news_events\search.html:157
+msgid "Quick Access"
+msgstr ""
+
+#: .\templates\news_events\search.html:163
+msgid "All Articles"
+msgstr ""
+
+#: .\templates\news_events\search.html:164
+msgid "Browse all news articles"
+msgstr ""
+
+#: .\templates\news_events\search.html:172
+msgid "Browse all events"
+msgstr ""
+
+#: .\templates\news_events\search.html:180
+msgid "See what's coming up"
+msgstr ""
+
+#: .\templates\news_events\search.html:188
+msgid "See featured articles"
+msgstr ""
+
+#: .\templates\news_events\search.html:207
+msgid "Browse by Category"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:6
+#: .\templates\news_events\search_results.html:11
+msgid "Search Results"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:8
+#: .\templates\news_events\search_results.html:13
+msgid "Search results for news articles and events from Bhanjyang Cooperative."
+msgstr ""
+
+#: .\templates\news_events\search_results.html:41
+msgid "Results for"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:43
+msgid "Search our content"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:56
+msgid "Search articles and events..."
+msgstr ""
+
+#: .\templates\news_events\search_results.html:92
+msgid "Found"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:92
+msgid "result"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:92
+msgid "for"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:110
+msgid "Article"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:110
+msgid "Event"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:163
+msgid "No Results Found"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:164
+msgid "We couldn't find any content matching"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:167
+msgid "Browse Articles"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:170
+msgid "Browse Events"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:178
+msgid "Search Our Content"
+msgstr ""
+
+#: .\templates\news_events\search_results.html:179
+msgid "Enter a search term to find articles and events."
+msgstr ""
+
+#: .\templates\news_events\search_results.html:197
+msgid "Popular Searches"
+msgstr ""
+
+#: .\views.py:49 .\views.py:81 .\views.py:104 .\views.py:123 .\views.py:145
+#: .\views.py:165 .\views.py:197 .\views.py:205 .\views.py:211 .\views.py:223
+#: .\views.py:238 .\views.py:249 .\views.py:303 .\views.py:321
+msgid "Home"
+msgstr ""
+
+#: .\views.py:55
+msgid "समाचार पृष्ठ लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:95
+msgid "यो लेख हेर्नको लागि कृपया लगइन गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:131
+msgid "लेख लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:173
+msgid "कार्यक्रम लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:219
+msgid "लेखहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:245
+msgid "कार्यक्रमहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:317
+msgid "खोज गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:352
+msgid "तपाईंको सदस्यता पुष्टि भयो! धन्यवाद।"
+msgstr ""
+
+#: .\views.py:354
+msgid "तपाईंको सदस्यता पहिले नै पुष्टि भइसकेको छ।"
+msgstr ""
+
+#: .\views.py:356
+msgid "अवैध पुष्टिकरण टोकन।"
+msgstr ""
+
+#: .\views.py:359
+msgid "सदस्यता पुष्टि गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""
+
+#: .\views.py:370
+msgid "तपाईंको सदस्यता रद्द भयो।"
+msgstr ""
+
+#: .\views.py:372
+msgid "अवैध टोकन।"
+msgstr ""
+
+#: .\views.py:375
+msgid "सदस्यता रद्द गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
+msgstr ""

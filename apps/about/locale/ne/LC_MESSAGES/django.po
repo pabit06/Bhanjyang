@@ -1,0 +1,1037 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-15 23:02+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\admin.py:30
+msgid "Status"
+msgstr ""
+
+#: .\admin.py:35 .\models.py:60 .\models.py:127 .\models.py:186 .\models.py:243
+#: .\models.py:296 .\models.py:339 .\models.py:449
+msgid "Active"
+msgstr ""
+
+#: .\admin.py:36
+msgid "Inactive"
+msgstr ""
+
+#: .\admin.py:48 .\admin.py:53 .\templates\about\member_testimonials.html:93
+msgid "Featured"
+msgstr ""
+
+#: .\admin.py:54
+msgid "Not Featured"
+msgstr ""
+
+#: .\admin.py:146
+msgid "Content displayed in the \"Our Story\" section on the About Us page"
+msgstr ""
+
+#: .\admin.py:529
+msgid "RTI Act 2064 - Information Officer (सूचना अधिकारी)"
+msgstr ""
+
+#: .\admin.py:532
+msgid ""
+"Designate this staff member as the Information Officer. Only one staff can "
+"be the active Information Officer at a time."
+msgstr ""
+
+#: .\admin.py:539
+msgid "Information Officer"
+msgstr ""
+
+#: .\constants.py:18 .\models.py:521
+msgid ""
+"Designate this staff member as the Information Officer under RTI Act 2064"
+msgstr ""
+
+#: .\constants.py:19 .\models.py:527
+msgid "Dedicated email for RTI requests (e.g., rti@bhanjyang.coop.np)"
+msgstr ""
+
+#: .\constants.py:109
+msgid "Unable to load content"
+msgstr ""
+
+#: .\constants.py:110
+msgid "Either select a person or enter a name."
+msgstr ""
+
+#: .\constants.py:111
+msgid "Please select a position."
+msgstr ""
+
+#: .\constants.py:112
+msgid "Custom position must be provided when 'Other' is selected."
+msgstr ""
+
+#: .\models.py:23
+msgid "Cooperative Name"
+msgstr ""
+
+#: .\models.py:24
+msgid "Cooperative Name (Nepali)"
+msgstr ""
+
+#: .\models.py:25
+msgid "URL-friendly identifier"
+msgstr ""
+
+#: .\models.py:28 .\templates\about\cooperative_detail.html:110
+#: .\templates\about\introduction.html:129
+msgid "Established Date"
+msgstr ""
+
+#: .\models.py:29 .\templates\about\cooperative_detail.html:115
+msgid "Registration Number"
+msgstr ""
+
+#: .\models.py:30 .\templates\about\cooperative_detail.html:120
+msgid "License Number"
+msgstr ""
+
+#: .\models.py:33 .\templates\about\cooperative_detail.html:141
+msgid "Address"
+msgstr ""
+
+#: .\models.py:34 .\models.py:335 .\templates\about\cooperative_detail.html:149
+msgid "Phone"
+msgstr ""
+
+#: .\models.py:35 .\models.py:334 .\templates\about\cooperative_detail.html:157
+msgid "Email"
+msgstr ""
+
+#: .\models.py:36 .\models.py:233 .\templates\about\cooperative_detail.html:126
+msgid "Website"
+msgstr ""
+
+#: .\models.py:42
+msgid "Mission Statement"
+msgstr ""
+
+#: .\models.py:43
+msgid "Vision Statement"
+msgstr ""
+
+#: .\models.py:44
+msgid "Core Values"
+msgstr ""
+
+#: .\models.py:47
+msgid "Cooperative Description"
+msgstr ""
+
+#: .\models.py:48
+msgid "Cooperative Description (Nepali)"
+msgstr ""
+
+#: .\models.py:51 .\templates\about\introduction.html:106
+msgid "Our Story"
+msgstr ""
+
+#: .\models.py:51
+msgid "Content for the 'Our Story' section on About Us page"
+msgstr ""
+
+#: .\models.py:52
+msgid "Our Story (Nepali)"
+msgstr ""
+
+#: .\models.py:52
+msgid "Our Story content in Nepali"
+msgstr ""
+
+#: .\models.py:53
+msgid "Our Story Image"
+msgstr ""
+
+#: .\models.py:53
+msgid "Image for the Our Story section on About Us page"
+msgstr ""
+
+#: .\models.py:56
+msgid "Cooperative Logo"
+msgstr ""
+
+#: .\models.py:57
+msgid "Featured Image"
+msgstr ""
+
+#: .\models.py:70 .\models.py:71
+msgid "Cooperative Information"
+msgstr ""
+
+#: .\models.py:106
+msgid "Milestone"
+msgstr ""
+
+#: .\models.py:107
+msgid "Achievement"
+msgstr ""
+
+#: .\models.py:108
+msgid "Expansion"
+msgstr ""
+
+#: .\models.py:109
+msgid "Award"
+msgstr ""
+
+#: .\models.py:110 .\models.py:223
+msgid "Partnership"
+msgstr ""
+
+#: .\models.py:111 .\models.py:168 .\models.py:227 .\models.py:279
+#: .\models.py:428
+msgid "Other"
+msgstr ""
+
+#: .\models.py:114
+msgid "Event Title"
+msgstr ""
+
+#: .\models.py:115
+msgid "Event Description"
+msgstr ""
+
+#: .\models.py:116
+msgid "Event Date"
+msgstr ""
+
+#: .\models.py:117
+msgid "Event Type"
+msgstr ""
+
+#: .\models.py:120
+msgid "Event Image"
+msgstr ""
+
+#: .\models.py:123 .\models.py:182 .\models.py:239 .\models.py:292
+msgid "Display Order"
+msgstr ""
+
+#: .\models.py:126
+msgid "Featured Event"
+msgstr ""
+
+#: .\models.py:137
+msgid "Timeline Event"
+msgstr ""
+
+#: .\models.py:138
+msgid "Timeline Events"
+msgstr ""
+
+#: .\models.py:162
+msgid "Total Members"
+msgstr ""
+
+#: .\models.py:163
+msgid "Total Deposits"
+msgstr ""
+
+#: .\models.py:164
+msgid "Total Loans Disbursed"
+msgstr ""
+
+#: .\models.py:165
+msgid "Number of Branches"
+msgstr ""
+
+#: .\models.py:166
+msgid "Number of Employees"
+msgstr ""
+
+#: .\models.py:167
+msgid "Total Assets"
+msgstr ""
+
+#: .\models.py:171
+msgid "Statistic Title"
+msgstr ""
+
+#: .\models.py:172
+msgid "Value"
+msgstr ""
+
+#: .\models.py:173
+msgid "Unit"
+msgstr ""
+
+#: .\models.py:174 .\models.py:231
+msgid "Description"
+msgstr ""
+
+#: .\models.py:175
+msgid "Statistic Type"
+msgstr ""
+
+#: .\models.py:178
+msgid "Icon Class"
+msgstr ""
+
+#: .\models.py:179
+msgid "Color Theme"
+msgstr ""
+
+#: .\models.py:185
+msgid "Featured Statistic"
+msgstr ""
+
+#: .\models.py:196
+msgid "Statistic"
+msgstr ""
+
+#: .\models.py:197
+msgid "Statistics"
+msgstr ""
+
+#: .\models.py:221
+msgid "Regulatory Body"
+msgstr ""
+
+#: .\models.py:222
+msgid "Professional Association"
+msgstr ""
+
+#: .\models.py:224
+msgid "Certification Body"
+msgstr ""
+
+#: .\models.py:225
+msgid "Umbrella Organization"
+msgstr ""
+
+#: .\models.py:226
+msgid "Cooperative Bank"
+msgstr ""
+
+#: .\models.py:230
+msgid "Organization Name"
+msgstr ""
+
+#: .\models.py:232
+msgid "Affiliation Type"
+msgstr ""
+
+#: .\models.py:236
+msgid "Organization Logo"
+msgstr ""
+
+#: .\models.py:242
+msgid "Featured Affiliation"
+msgstr ""
+
+#: .\models.py:253
+msgid "Affiliation"
+msgstr ""
+
+#: .\models.py:254 .\templates\about\affiliations.html:5
+#: .\templates\about\affiliations.html:11
+#: .\templates\about\affiliations.html:19 .\views.py:87
+msgid "Affiliations"
+msgstr ""
+
+#: .\models.py:276
+msgid "Chairman Message"
+msgstr ""
+
+#: .\models.py:277
+msgid "Manager Message"
+msgstr ""
+
+#: .\models.py:278
+msgid "Director Message"
+msgstr ""
+
+#: .\models.py:282
+msgid "Message Title"
+msgstr ""
+
+#: .\models.py:283
+msgid "Message Type"
+msgstr ""
+
+#: .\models.py:284
+msgid "Message Content"
+msgstr ""
+
+#: .\models.py:285
+msgid "Author Name"
+msgstr ""
+
+#: .\models.py:286
+msgid "Author Position"
+msgstr ""
+
+#: .\models.py:289
+msgid "Author Photo"
+msgstr ""
+
+#: .\models.py:295 .\templates\about\chairperson_message.html:135
+msgid "Featured Message"
+msgstr ""
+
+#: .\models.py:306
+msgid "Leadership Message"
+msgstr ""
+
+#: .\models.py:307
+msgid "Leadership Messages"
+msgstr ""
+
+#: .\models.py:336
+msgid "General Position"
+msgstr ""
+
+#: .\models.py:347
+msgid "Person"
+msgstr ""
+
+#: .\models.py:348
+msgid "People"
+msgstr ""
+
+#: .\models.py:381
+msgid "Committee Description"
+msgstr ""
+
+#: .\models.py:382
+msgid "Committee Photo"
+msgstr ""
+
+#: .\models.py:383 .\models.py:447
+msgid "Start Date"
+msgstr ""
+
+#: .\models.py:384 .\models.py:448
+msgid "End Date"
+msgstr ""
+
+#: .\models.py:388 .\templates\about\board_of_directors.html:88
+msgid "Committee"
+msgstr ""
+
+#: .\models.py:389
+msgid "Committees"
+msgstr ""
+
+#: .\models.py:418
+msgid "Select Position"
+msgstr ""
+
+#: .\models.py:420
+msgid "Chairman"
+msgstr ""
+
+#: .\models.py:421
+msgid "Vice-Chairman"
+msgstr ""
+
+#: .\models.py:422
+msgid "Secretary"
+msgstr ""
+
+#: .\models.py:423
+msgid "Treasurer"
+msgstr ""
+
+#: .\models.py:424
+msgid "Member"
+msgstr ""
+
+#: .\models.py:426
+msgid "Coordinator"
+msgstr ""
+
+#: .\models.py:454
+msgid "Committee Membership"
+msgstr ""
+
+#: .\models.py:455
+msgid "Committee Memberships"
+msgstr ""
+
+#: .\models.py:513
+msgid "Department"
+msgstr ""
+
+#: .\models.py:514
+msgid "Salary Range"
+msgstr ""
+
+#: .\models.py:515
+msgid "Qualifications"
+msgstr ""
+
+#: .\models.py:520
+msgid "Information Officer (सूचना अधिकारी)"
+msgstr ""
+
+#: .\models.py:526
+msgid "RTI Email"
+msgstr ""
+
+#: .\models.py:532
+msgid "Staff Member"
+msgstr ""
+
+#: .\models.py:533
+msgid "Staff Members"
+msgstr ""
+
+#: .\services.py:81 .\templates\about\partials\_board_structured_data.html:86
+#: .\templates\about\partials\_management_structured_data.html:85
+#: .\templates\about\partials\_organization_structured_data.html:181
+#: .\templates\about\partials\_timeline_structured_data.html:92 .\views.py:44
+#: .\views.py:63 .\views.py:85 .\views.py:110 .\views.py:135 .\views.py:159
+#: .\views.py:183 .\views.py:207 .\views.py:241
+msgid "Home"
+msgstr ""
+
+#: .\services.py:82 .\templates\about\partials\_board_structured_data.html:92
+#: .\templates\about\partials\_management_structured_data.html:91
+#: .\templates\about\partials\_organization_structured_data.html:187
+#: .\templates\about\partials\_timeline_structured_data.html:98 .\views.py:45
+#: .\views.py:64 .\views.py:86 .\views.py:111 .\views.py:136 .\views.py:160
+#: .\views.py:184 .\views.py:208 .\views.py:242
+msgid "About Us"
+msgstr ""
+
+#: .\templates\about\affiliations.html:7
+msgid ""
+"Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, "
+"professional associations, and partnerships that ensure our compliance and "
+"excellence."
+msgstr ""
+
+#: .\templates\about\affiliations.html:13
+msgid ""
+"Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, "
+"professional associations, and partnerships."
+msgstr ""
+
+#: .\templates\about\affiliations.html:21
+msgid ""
+"Learn about Bhanjyang Cooperative's affiliations with regulatory bodies and "
+"professional associations."
+msgstr ""
+
+#: .\templates\about\affiliations.html:29
+msgid "Our Affiliations"
+msgstr ""
+
+#: .\templates\about\affiliations.html:30
+msgid ""
+"We are proud to be associated with these organizations and regulatory "
+"bodies, including our local regulatory authority Rupa Rural Municipality."
+msgstr ""
+
+#: .\templates\about\affiliations.html:63
+msgid "Visit Website"
+msgstr ""
+
+#: .\templates\about\affiliations.html:72
+msgid "No affiliations are available yet."
+msgstr ""
+
+#: .\templates\about\affiliations.html:73
+msgid "Affiliation information will be added as it becomes available."
+msgstr ""
+
+#: .\templates\about\affiliations.html:83
+msgid "Types of Affiliations"
+msgstr ""
+
+#: .\templates\about\affiliations.html:84
+msgid "Understanding our various partnerships and regulatory relationships."
+msgstr ""
+
+#: .\templates\about\affiliations.html:92
+msgid "Regulatory Bodies"
+msgstr ""
+
+#: .\templates\about\affiliations.html:93
+msgid ""
+"Government agencies that oversee cooperative operations and ensure "
+"compliance."
+msgstr ""
+
+#: .\templates\about\affiliations.html:100
+msgid "Professional Associations"
+msgstr ""
+
+#: .\templates\about\affiliations.html:101
+msgid ""
+"Industry organizations that promote best practices and professional "
+"development."
+msgstr ""
+
+#: .\templates\about\affiliations.html:108
+msgid "Partnerships"
+msgstr ""
+
+#: .\templates\about\affiliations.html:109
+msgid ""
+"Strategic collaborations that enhance our services and community impact."
+msgstr ""
+
+#: .\templates\about\affiliations.html:116
+msgid "Certification Bodies"
+msgstr ""
+
+#: .\templates\about\affiliations.html:117
+msgid ""
+"Organizations that provide certifications and quality assurance standards."
+msgstr ""
+
+#: .\templates\about\affiliations.html:124
+msgid "Umbrella Organizations"
+msgstr ""
+
+#: .\templates\about\affiliations.html:125
+msgid ""
+"Parent organizations that coordinate and support multiple cooperatives and "
+"institutions."
+msgstr ""
+
+#: .\templates\about\affiliations.html:132
+msgid "Cooperative Banks"
+msgstr ""
+
+#: .\templates\about\affiliations.html:133
+msgid ""
+"Financial institutions that provide banking services and support to "
+"cooperatives."
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:5
+#: .\templates\about\board_of_directors.html:11
+#: .\templates\about\board_of_directors.html:19
+#: .\templates\about\board_of_directors.html:62
+#: .\templates\about\partials\_board_structured_data.html:15
+#: .\templates\about\partials\_board_structured_data.html:98 .\views.py:161
+msgid "Board of Directors"
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:7
+msgid ""
+"Meet the Board of Directors and committees of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd. Learn about our elected leadership and governance "
+"structure."
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:13
+#: .\templates\about\board_of_directors.html:21
+msgid ""
+"Meet the Board of Directors and committees of Bhanjyang Cooperative. Learn "
+"about our elected leadership and governance structure."
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:59
+msgid "Governance"
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:66
+msgid ""
+"Meet our elected leadership who guide our cooperative's vision and governance"
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:96
+msgid "Tenure:"
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:137
+msgid "No Board Information Available"
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:138
+msgid "Board of Directors information will be available soon."
+msgstr ""
+
+#: .\templates\about\board_of_directors.html:142
+#: .\templates\about\chairperson_message.html:155
+#: .\templates\about\management.html:127
+#: .\templates\about\manager_commitment.html:155
+#: .\templates\about\member_testimonials.html:158
+msgid "Back to About Us"
+msgstr ""
+
+#: .\templates\about\chairperson_message.html:5
+#: .\templates\about\chairperson_message.html:11
+#: .\templates\about\chairperson_message.html:25
+#: .\templates\about\chairperson_message.html:74 .\views.py:112
+msgid "Chairperson Message"
+msgstr ""
+
+#: .\templates\about\chairperson_message.html:7
+msgid ""
+"Read the message from the Chairperson of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd. Strategic vision and direction from our elected "
+"leadership."
+msgstr ""
+
+#: .\templates\about\chairperson_message.html:13
+#: .\templates\about\chairperson_message.html:27
+msgid ""
+"Read the message from the Chairperson of Bhanjyang Cooperative. Strategic "
+"vision and direction from our elected leadership."
+msgstr ""
+
+#: .\templates\about\chairperson_message.html:71
+msgid "Leadership"
+msgstr ""
+
+#: .\templates\about\chairperson_message.html:78
+msgid "Strategic vision and direction from our elected leadership"
+msgstr ""
+
+#: .\templates\about\chairperson_message.html:150
+msgid "No Chairperson Message Available"
+msgstr ""
+
+#: .\templates\about\chairperson_message.html:151
+msgid ""
+"The chairperson message will be available soon. Please check back later."
+msgstr ""
+
+#: .\templates\about\cooperative_detail.html:63
+msgid "About"
+msgstr ""
+
+#: .\templates\about\cooperative_detail.html:82
+msgid "Mission"
+msgstr ""
+
+#: .\templates\about\cooperative_detail.html:89
+msgid "Vision"
+msgstr ""
+
+#: .\templates\about\cooperative_detail.html:96
+msgid "Values"
+msgstr ""
+
+#: .\templates\about\cooperative_detail.html:106
+msgid "Cooperative Details"
+msgstr ""
+
+#: .\templates\about\cooperative_detail.html:135
+msgid "Contact Information"
+msgstr ""
+
+#: .\templates\about\introduction.html:5 .\templates\about\introduction.html:11
+#: .\templates\about\introduction.html:25
+#: .\templates\about\introduction.html:77
+#: .\templates\about\partials\_organization_structured_data.html:193
+#: .\views.py:46
+msgid "Introduction"
+msgstr ""
+
+#: .\templates\about\introduction.html:7
+msgid ""
+"Learn about Bhanjyang Cooperative's story, vision, mission, values, and "
+"journey. Discover our establishment, principles, and key milestones."
+msgstr ""
+
+#: .\templates\about\introduction.html:13
+#: .\templates\about\introduction.html:27
+msgid ""
+"Learn about Bhanjyang Cooperative's story, vision, mission, and journey. "
+"Empowering communities through cooperative principles."
+msgstr ""
+
+#: .\templates\about\introduction.html:80
+msgid "Our Story, Vision & Journey"
+msgstr ""
+
+#: .\templates\about\introduction.html:84
+msgid ""
+"Discover our foundation, principles, and the milestones that shaped our "
+"cooperative"
+msgstr ""
+
+#: .\templates\about\introduction.html:133
+msgid "Registration"
+msgstr ""
+
+#: .\templates\about\introduction.html:180
+#: .\templates\about\introduction.html:183
+msgid "Our Foundation"
+msgstr ""
+
+#: .\templates\about\introduction.html:187
+msgid ""
+"The principles that guide our commitment to community development and "
+"financial excellence"
+msgstr ""
+
+#: .\templates\about\introduction.html:199
+msgid "Our Mission"
+msgstr ""
+
+#: .\templates\about\introduction.html:200
+msgid ""
+"To provide exceptional financial services and support community development "
+"through cooperative principles."
+msgstr ""
+
+#: .\templates\about\introduction.html:210
+msgid "Our Vision"
+msgstr ""
+
+#: .\templates\about\introduction.html:211
+msgid ""
+"To be the leading cooperative society that empowers communities and fosters "
+"sustainable development."
+msgstr ""
+
+#: .\templates\about\introduction.html:221
+msgid "Our Values"
+msgstr ""
+
+#: .\templates\about\introduction.html:222
+msgid ""
+"Integrity, transparency, member focus, community service, and sustainable "
+"growth."
+msgstr ""
+
+#: .\templates\about\introduction.html:245
+#: .\templates\about\introduction.html:248 .\templates\about\timeline.html:115
+msgid "Our Journey"
+msgstr ""
+
+#: .\templates\about\introduction.html:252
+msgid ""
+"Key milestones in our growth and development as a trusted financial "
+"institution"
+msgstr ""
+
+#: .\templates\about\introduction.html:285
+msgid "View Complete Timeline"
+msgstr ""
+
+#: .\templates\about\management.html:5 .\templates\about\management.html:11
+#: .\templates\about\management.html:19 .\templates\about\management.html:62
+#: .\templates\about\partials\_management_structured_data.html:15
+#: .\templates\about\partials\_management_structured_data.html:97
+msgid "Management Team"
+msgstr ""
+
+#: .\templates\about\management.html:7
+msgid ""
+"Meet the Management Team of Bhanjyang Saving & Credit Cooperative Society "
+"Ltd. Professional staff members who handle day-to-day operations and member "
+"services."
+msgstr ""
+
+#: .\templates\about\management.html:13 .\templates\about\management.html:21
+msgid ""
+"Meet the Management Team of Bhanjyang Cooperative. Professional staff "
+"members who handle day-to-day operations and member services."
+msgstr ""
+
+#: .\templates\about\management.html:59
+msgid "Operations"
+msgstr ""
+
+#: .\templates\about\management.html:66
+msgid ""
+"Professional staff members who handle day-to-day operations and member "
+"services"
+msgstr ""
+
+#: .\templates\about\management.html:122
+msgid "No Management Team Information Available"
+msgstr ""
+
+#: .\templates\about\management.html:123
+msgid "Management team information will be available soon."
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:5
+#: .\templates\about\manager_commitment.html:11
+#: .\templates\about\manager_commitment.html:25
+#: .\templates\about\manager_commitment.html:74 .\views.py:137
+msgid "Manager Commitment"
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:7
+msgid ""
+"Read the commitment message from the Manager of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd. Operational insights and service commitments from "
+"our management team."
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:13
+#: .\templates\about\manager_commitment.html:27
+msgid ""
+"Read the commitment message from the Manager of Bhanjyang Cooperative. "
+"Operational insights and service commitments from our management team."
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:71 .\views.py:185
+msgid "Management"
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:78
+msgid "Operational insights and service commitments from our management team"
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:135
+msgid "Featured Commitment"
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:150
+msgid "No Manager Commitment Available"
+msgstr ""
+
+#: .\templates\about\manager_commitment.html:151
+msgid ""
+"The manager commitment message will be available soon. Please check back "
+"later."
+msgstr ""
+
+#: .\templates\about\member_testimonials.html:5
+#: .\templates\about\member_testimonials.html:11
+#: .\templates\about\member_testimonials.html:19
+#: .\templates\about\member_testimonials.html:62 .\views.py:209
+msgid "Member Testimonials"
+msgstr ""
+
+#: .\templates\about\member_testimonials.html:7
+msgid ""
+"Read testimonials from members of Bhanjyang Saving & Credit Cooperative "
+"Society Ltd. See what our members say about our services and community."
+msgstr ""
+
+#: .\templates\about\member_testimonials.html:13
+#: .\templates\about\member_testimonials.html:21
+msgid ""
+"Read testimonials from members of Bhanjyang Cooperative. See what our "
+"members say about our services and community."
+msgstr ""
+
+#: .\templates\about\member_testimonials.html:59
+msgid "Member Voices"
+msgstr ""
+
+#: .\templates\about\member_testimonials.html:66
+msgid ""
+"Hear from our members about their experiences with Bhanjyang Cooperative"
+msgstr ""
+
+#: .\templates\about\member_testimonials.html:153
+msgid "No Testimonials Available"
+msgstr ""
+
+#: .\templates\about\member_testimonials.html:154
+msgid "Member testimonials will be available soon. Please check back later."
+msgstr ""
+
+#: .\templates\about\partials\_board_structured_data.html:17
+msgid ""
+"Elected leadership and governance committees of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+
+#: .\templates\about\partials\_management_structured_data.html:17
+msgid ""
+"Professional staff members who handle day-to-day operations and member "
+"services at Bhanjyang Saving & Credit Cooperative Society Ltd."
+msgstr ""
+
+#: .\templates\about\partials\_organization_structured_data.html:146
+msgid "Savings Accounts"
+msgstr ""
+
+#: .\templates\about\partials\_organization_structured_data.html:147
+msgid "Various savings account options with competitive interest rates"
+msgstr ""
+
+#: .\templates\about\partials\_organization_structured_data.html:154
+msgid "Loan Services"
+msgstr ""
+
+#: .\templates\about\partials\_organization_structured_data.html:155
+msgid "Personal and business loans with flexible repayment options"
+msgstr ""
+
+#: .\templates\about\partials\_organization_structured_data.html:162
+msgid "Remittance Services"
+msgstr ""
+
+#: .\templates\about\partials\_organization_structured_data.html:163
+msgid "International money transfer services"
+msgstr ""
+
+#: .\templates\about\partials\_timeline_structured_data.html:15
+msgid "Bhanjyang Cooperative Timeline"
+msgstr ""
+
+#: .\templates\about\partials\_timeline_structured_data.html:16
+msgid ""
+"Key milestones, achievements, and events in the history of Bhanjyang Saving "
+"& Credit Cooperative Society Ltd."
+msgstr ""
+
+#: .\templates\about\partials\_timeline_structured_data.html:104
+#: .\templates\about\timeline.html:5 .\templates\about\timeline.html:11
+#: .\templates\about\timeline.html:19 .\views.py:65
+msgid "Timeline"
+msgstr ""
+
+#: .\templates\about\timeline.html:7
+msgid ""
+"Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. "
+"Discover our key milestones, achievements, and growth journey over the years."
+msgstr ""
+
+#: .\templates\about\timeline.html:13
+msgid ""
+"Explore the timeline of Bhanjyang Cooperative. Discover our key milestones, "
+"achievements, and growth journey over the years."
+msgstr ""
+
+#: .\templates\about\timeline.html:21
+msgid ""
+"Explore the timeline of Bhanjyang Cooperative. Discover our key milestones "
+"and achievements."
+msgstr ""
+
+#: .\templates\about\timeline.html:118
+msgid "Timeline Infographic"
+msgstr ""
+
+#: .\templates\about\timeline.html:122
+msgid ""
+"Explore our key milestones, achievements, and growth journey over the years"
+msgstr ""
+
+#: .\templates\about\timeline.html:233
+msgid "No Timeline Events"
+msgstr ""
+
+#: .\templates\about\timeline.html:234
+msgid "No timeline events are available yet."
+msgstr ""
+
+#: .\templates\about\timeline.html:235
+msgid "Timeline information will be added as it becomes available."
+msgstr ""
