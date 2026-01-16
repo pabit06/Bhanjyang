@@ -7,6 +7,7 @@ including views, models, forms, and services.
 import pytest
 from django.test import Client
 from django.urls import reverse
+from django.test import override_settings
 
 
 @pytest.mark.django_db
@@ -29,6 +30,7 @@ class TestContactFormIntegration:
         response = client.get('/contact/')
         assert response.status_code == 200
     
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
     def test_contact_form_submission(self, client):
         """Test contact form submission."""
         url = reverse('contact:contact_view')
@@ -67,6 +69,6 @@ class TestServicesIntegration:
     
     def test_services_page_loads(self, client):
         """Test that the services page loads successfully."""
-        response = client.get('/services/')
+        response = client.get('/services/', follow=True)
         assert response.status_code == 200
 

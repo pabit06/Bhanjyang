@@ -77,7 +77,6 @@ class ContactService:
             ContactSubmission: Created submission instance
         """
         attachment = files.get('attachment')
-        attachment = files.get('attachment')
         ip_address = request_meta.get('REMOTE_ADDR') or '127.0.0.1'
         user_agent = request_meta.get('HTTP_USER_AGENT', '')
         

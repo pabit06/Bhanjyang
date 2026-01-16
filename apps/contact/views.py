@@ -67,7 +67,10 @@ class ContactView(NepaliLanguageMixin, View):
         
         try:
             # Use service to handle submission
-            submission = ContactService.create_submission(form.cleaned_data, request)
+            submission = ContactService.create_contact_submission(form.cleaned_data, request.FILES, request.META)
+            
+            # Send notification emails
+            ContactService.send_contact_notification_emails(submission)
             
             return JsonResponse({
                 'success': True,

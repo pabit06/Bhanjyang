@@ -974,8 +974,8 @@ msgstr "अँध्यारो मोड"
 #~ msgid "Subject of your message"
 #~ msgstr "तपाईंको सन्देशको विषय"
 
-#~ msgid "Subject"
-#~ msgstr "विषय"
+msgid "Subject"
+msgstr "विषय"
 
 #~ msgid "Your message here..."
 #~ msgstr "तपाईंको सन्देश यहाँ..."
@@ -4411,3 +4411,5 @@ msgstr "अँध्यारो मोड"
 
 #~ msgid "Growing Together With Your Savings"
 #~ msgstr "तपाईंको बचतको साथ सँगै बढ्दै"
+
+
