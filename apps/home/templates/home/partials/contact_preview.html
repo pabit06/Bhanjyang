@@ -15,18 +15,7 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-5xl mx-auto">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                    {% trans "Contact Us" %}
-                </span>
-                <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 font-montserrat">
-                    {% trans "Have Questions?" %}
-                </h2>
-                <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    {% trans "Get in touch with us for any inquiries or support. We're here to help!" %}
-                </p>
-            </div>
+            {% include "components/section_heading.html" with title=_("Have Questions?") subtitle=_("Contact Us") description=_("Get in touch with us for any inquiries or support. We're here to help!") %}
 
             <div class="grid lg:grid-cols-2 gap-12">
                 <!-- Left Side: Contact Information -->
@@ -42,7 +31,7 @@
                             </div>
                 <div>
                                 <h4 class="font-semibold text-gray-900 mb-1">{% trans "Address" %}</h4>
-                                <p class="text-gray-600">{% trans "Rupa Rural Municipality, Kaski, Nepal" %}</p>
+                                <p class="text-gray-600">{{ site_info.address|default:_("Rupa Rural Municipality, Kaski, Nepal") }}</p>
                         </div>
                         </div>
                         <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors duration-300">
@@ -51,8 +40,8 @@
                         </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-1">{% trans "Phone" %}</h4>
-                                <a href="tel:+9779856083101" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
-                                    +977-9856083101
+                                <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    {{ site_info.phone|default:"+977-9856083101" }}
                                 </a>
                     </div>
                 </div>
@@ -62,8 +51,8 @@
                             </div>
                 <div>
                                 <h4 class="font-semibold text-gray-900 mb-1">{% trans "Email" %}</h4>
-                                <a href="mailto:info@bhanjyang.coop.np" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
-                                    info@bhanjyang.coop.np
+                                <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    {{ site_info.email|default:"info@bhanjyang.coop.np" }}
                                 </a>
                             </div>
                         </div>

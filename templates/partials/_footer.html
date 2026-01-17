@@ -2,7 +2,7 @@
 
 {# Main Footer Section #}
 {# मुख्य फुटर खण्ड #}
-<footer class="bg-himalwhite text-patrikaslate py-16 mt-1 shadow-inner gsap-fade-in">
+<footer class="bg-himalwhite text-patrikaslate py-16 mt-1 shadow-inner" style="opacity: 1 !important; visibility: visible !important; display: block !important;">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 px-4 sm:px-6 lg:px-8 text-center md:text-left">
         
         {# Cooperative Info #}
@@ -39,15 +39,15 @@
             <address class="not-italic">
                 <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
                     <i class="fas fa-map-marker-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
-                    <span>Rupa R.M.-5, Deurali Bazar, Kaski</span>
+                    <span>{{ site_info.address|default:'Rupa R.M.-5, Deurali Bazar, Kaski' }}</span>
                 </p>
                 <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
                     <i class="fas fa-phone-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
-                    <a href="tel:+9779856083101" class="hover:underline">+977-9856083101</a>
+                    <a href="tel:{{ site_info.phone|default:'+9779856083101' }}" class="hover:underline">{{ site_info.phone|default:'+977-9856083101' }}</a>
                 </p>
                 <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
                         <i class="fas fa-envelope text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
-                        <a href="mailto:info@bhanjyang.coop.np" class="hover:underline">info@bhanjyang.coop.np</a>
+                        <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="hover:underline">{{ site_info.email|default:'info@bhanjyang.coop.np' }}</a>
                 </p>
                 <p class="text-sm flex items-start justify-center md:justify-start">
                         <i class="fas fa-clock text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
@@ -81,7 +81,7 @@
     <div class="absolute bottom-0 left-0 bg-bhanjyangred flex items-center px-4 sm:px-6 md:px-8 z-10 h-12" style="width: 48.5%; clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);">
         <div class="flex flex-col justify-center py-2">
             <span class="text-xs sm:text-sm md:text-base font-medium">
-                Email: <a href="mailto:cooperativebhanjyang@gmail.com" class="hover:underline">cooperativebhanjyang@gmail.com</a>
+                Email: <a href="mailto:{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}" class="hover:underline">{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}</a>
             </span>
         </div>
     </div>

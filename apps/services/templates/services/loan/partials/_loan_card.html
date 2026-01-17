@@ -62,16 +62,9 @@ Uses static Tailwind classes that work with JIT compilation
                     {% endif %}
                     
                     <div class="grid grid-cols-2 gap-3">
-                        <a href="{% url 'services:loan_detail' loan.slug %}" 
-                           class="inline-flex justify-center items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-sm hover:shadow-md"
-                           aria-label="{% trans 'View details for' %} {{ loan.english_name }}">
-                            {% trans "Details" %}
-                        </a>
-                        <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ loan.slug }}" 
-                           class="inline-flex justify-center items-center {{ bg_class }} hover:opacity-90 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-md hover:shadow-lg"
-                           aria-label="{% trans 'Apply for' %} {{ loan.english_name }}">
-                            {% trans "Apply" %}
-                        </a>
+                        {% include "components/buttons.html" with text=_("Details") url=request.scheme|add:"://"|add:request.get_host|add:"/services/loan/"|add:loan.slug|add:"/" type="ghost" extra_classes="inline-flex justify-center items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-sm hover:shadow-md" %}
+                        
+                        {% include "components/buttons.html" with text=_("Apply") url="/services/apply/?service_type=loan&service_slug="|add:loan.slug type="" extra_classes="inline-flex justify-center items-center "|add:bg_class|add:" hover:opacity-90 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-md hover:shadow-lg" %}
                     </div>
                 </div>
             </div>
@@ -134,16 +127,9 @@ Uses static Tailwind classes that work with JIT compilation
                     {% endif %}
                     
                     <div class="grid grid-cols-2 gap-3">
-                        <a href="{% url 'services:loan_detail' loan.slug %}" 
-                           class="inline-flex justify-center items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-sm hover:shadow-md"
-                           aria-label="{% trans 'View details for' %} {{ loan.english_name }}">
-                            {% trans "Details" %}
-                        </a>
-                        <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ loan.slug }}" 
-                           class="inline-flex justify-center items-center {{ bg_class }} hover:opacity-90 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-md hover:shadow-lg"
-                           aria-label="{% trans 'Apply for' %} {{ loan.english_name }}">
-                            {% trans "Apply" %}
-                        </a>
+                        {% include "components/buttons.html" with text=_("Details") url=request.scheme|add:"://"|add:request.get_host|add:"/services/loan/"|add:loan.slug|add:"/" type="ghost" extra_classes="inline-flex justify-center items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-sm hover:shadow-md" %}
+                        
+                        {% include "components/buttons.html" with text=_("Apply") url="/services/apply/?service_type=loan&service_slug="|add:loan.slug type="" extra_classes="inline-flex justify-center items-center "|add:bg_class|add:" hover:opacity-90 text-white font-semibold py-2.5 px-4 rounded-xl text-sm transition-all duration-300 shadow-md hover:shadow-lg" %}
                     </div>
                 </div>
             </div>

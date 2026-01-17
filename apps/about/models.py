@@ -168,22 +168,67 @@ class CooperativeStatistic(models.Model):
         ('other', _('Other')),
     ]
     
-    title = models.CharField(max_length=200, verbose_name=_("Statistic Title"))
-    value = models.CharField(max_length=100, verbose_name=_("Value"))
-    unit = models.CharField(max_length=50, blank=True, verbose_name=_("Unit"))
-    description = models.TextField(blank=True, verbose_name=_("Description"))
-    statistic_type = models.CharField(max_length=20, choices=STATISTIC_TYPES, default='other', verbose_name=_("Statistic Type"))
+    title = models.CharField(
+        max_length=200, 
+        verbose_name=_("Statistic Title"),
+        help_text=_("e.g., 'Active Members', 'Years of Service', 'Total Savings'")
+    )
+    value = models.CharField(
+        max_length=100, 
+        verbose_name=_("Value"),
+        help_text=_("e.g., '10K+', '25+', '500', '98%' (numbers or text)")
+    )
+    unit = models.CharField(
+        max_length=50, 
+        blank=True, 
+        verbose_name=_("Unit"),
+        help_text=_("Optional unit (e.g., 'members', 'years', 'Million NPR', '%')")
+    )
+    description = models.TextField(
+        blank=True, 
+        verbose_name=_("Description"),
+        help_text=_("Short description shown below the statistic (e.g., 'Growing our community, one member at a time.')")
+    )
+    statistic_type = models.CharField(
+        max_length=20, 
+        choices=STATISTIC_TYPES, 
+        default='other', 
+        verbose_name=_("Statistic Type"),
+        help_text=_("Category for organizing statistics")
+    )
     
     # Visual representation
-    icon = models.CharField(max_length=50, blank=True, verbose_name=_("Icon Class"))
-    color = models.CharField(max_length=20, default='deuraligreen', verbose_name=_("Color Theme"))
+    icon = models.CharField(
+        max_length=50, 
+        blank=True, 
+        verbose_name=_("Icon Class"),
+        help_text=_("FontAwesome icon class (e.g., 'fas fa-users', 'fas fa-chart-line', 'fas fa-hand-holding-usd', 'fas fa-piggy-bank', 'fas fa-calendar-check')")
+    )
+    color = models.CharField(
+        max_length=20, 
+        default='deuraligreen', 
+        verbose_name=_("Color Theme"),
+        help_text=_("Choose 'deuraligreen' or 'bhanjyangred' for border and icon colors")
+    )
     
     # Ordering
-    order = models.PositiveIntegerField(default=0, verbose_name=_("Display Order"))
+    order = models.PositiveIntegerField(
+        default=0, 
+        verbose_name=_("Display Order"),
+        help_text=_("Lower numbers appear first. Set 0, 1, 2, 3... for ordering on home page")
+    )
     
     # Status
-    is_featured = models.BooleanField(default=False, verbose_name=_("Featured Statistic"))
-    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    is_featured = models.BooleanField(
+        default=False, 
+        verbose_name=_("Featured Statistic"),
+        help_text=_("Only featured statistics appear in the 'Our Impact' section on the home page. Check this to display on home page.")
+    )
+    is_active = models.BooleanField(
+        default=True, 
+        verbose_name=_("Active"),
+        help_text=_("Uncheck to hide this statistic without deleting it")
+    )
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

@@ -744,6 +744,134 @@ class ContentAnalytics(models.Model):
         return f"{self.content_type} {self.content_id} - {self.date}"
 
 
+class PopupNotice(models.Model):
+    """Popup notice model for home page modal notices (e.g., AGM notices)"""
+    
+    class NoticeType(models.TextChoices):
+        AGM = 'agm', _('वार्षिक साधारण सभा (AGM)')
+        EGM = 'egm', _('असाधारण साधारण सभा (EGM)')
+        GENERAL = 'general', _('सामान्य सूचना')
+        IMPORTANT = 'important', _('महत्वपूर्ण सूचना')
+        EVENT = 'event', _('कार्यक्रम')
+        OTHER = 'other', _('अन्य')
+    
+    # Basic Information
+    title = models.CharField(
+        max_length=200, 
+        verbose_name=_("शीर्षक"),
+        help_text=_("Popup notice को शीर्षक (e.g., '14th Annual General Meeting Notice')")
+    )
+    description = models.TextField(
+        blank=True,
+        verbose_name=_("विवरण"),
+        help_text=_("Notice को छोटो विवरण (optional)")
+    )
+    notice_type = models.CharField(
+        max_length=20,
+        choices=NoticeType.choices,
+        default=NoticeType.GENERAL,
+        verbose_name=_("Notice प्रकार"),
+        help_text=_("Notice को प्रकार छान्नुहोस्")
+    )
+    
+    # Image
+    image = models.ImageField(
+        upload_to='news_events/popup_notices/',
+        verbose_name=_("Notice Image"),
+        help_text=_("Popup मा देखाउने image (JPG, PNG format मा)")
+    )
+    image_alt = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name=_("Image Alt Text"),
+        help_text=_("Image को alt text (accessibility को लागि)")
+    )
+    
+    # Link (optional)
+    link_url = models.URLField(
+        blank=True,
+        verbose_name=_("Link URL"),
+        help_text=_("यदि image click गर्दा कुनै page मा जानुपर्छ भने URL (optional)")
+    )
+    link_text = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("Link Text"),
+        help_text=_("Link button को text (optional)")
+    )
+    open_in_new_tab = models.BooleanField(
+        default=False,
+        verbose_name=_("नयाँ tab मा खोल्नुहोस्"),
+        help_text=_("Link नयाँ tab मा खोल्ने हो भने check गर्नुहोस्")
+    )
+    
+    # Display Settings
+    priority = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("प्राथमिकता"),
+        help_text=_("Higher priority notices appear first. If multiple active notices exist, highest priority shows.")
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("सक्रिय"),
+        help_text=_("Check this to show the popup on home page. Uncheck to hide without deleting.")
+    )
+    
+    # Date Settings
+    start_date = models.DateTimeField(
+        default=timezone.now,
+        verbose_name=_("सुरु मिति"),
+        help_text=_("जब देखाउन सुरु गर्ने (default: अहिले)")
+    )
+    end_date = models.DateTimeField(
+        blank=True,
+        null=True,
+        verbose_name=_("अन्त्य मिति"),
+        help_text=_("जब देखाउन बन्द गर्ने (blank = सधै देखाउने)")
+    )
+    
+    # Timestamps
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    
+    class Meta:
+        verbose_name = _("Popup Notice")
+        verbose_name_plural = _("Popup Notices")
+        ordering = ['-priority', '-start_date']
+        indexes = [
+            models.Index(fields=['is_active', 'start_date', 'end_date']),
+            models.Index(fields=['priority', 'is_active']),
+            models.Index(fields=['notice_type', 'is_active']),
+        ]
+    
+    def __str__(self):
+        return f"{self.title} ({self.get_notice_type_display()})"
+    
+    @property
+    def is_currently_active(self):
+        """Check if notice should be displayed now"""
+        if not self.is_active:
+            return False
+        
+        now = timezone.now()
+        if now < self.start_date:
+            return False
+        
+        if self.end_date and now > self.end_date:
+            return False
+        
+        return True
+    
+    def clean(self):
+        """Validate model data"""
+        from django.core.exceptions import ValidationError
+        
+        if self.end_date and self.end_date <= self.start_date:
+            raise ValidationError({
+                'end_date': _('End date must be after start date.')
+            })
+
+
 # Cache invalidation signals
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
@@ -841,3 +969,19 @@ def invalidate_comment_cache_on_delete(sender, instance, **kwargs):
     """Invalidate cache when comments are deleted"""
     _cache_delete_pattern(f'article_comments_{instance.article.id}_*')
     _cache_delete_pattern('comment_stats_*')
+
+
+@receiver(post_save, sender=PopupNotice)
+@receiver(post_delete, sender=PopupNotice)
+def invalidate_popup_notice_cache(sender, instance, **kwargs):
+    """Invalidate homepage cache when popup notice is saved or deleted"""
+    # Clear homepage cache to ensure popup notice updates immediately
+    try:
+        # Clear both staff and non-staff cache
+        cache.delete('homepage_data_True')
+        cache.delete('homepage_data_False')
+        # Also use pattern deletion if available
+        _cache_delete_pattern('homepage_data_*')
+        logger.info(f"Homepage cache cleared due to PopupNotice change: {instance.title if hasattr(instance, 'title') else 'deleted'}")
+    except Exception as e:
+        logger.warning(f"Failed to clear homepage cache: {e}")

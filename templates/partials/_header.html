@@ -4,12 +4,12 @@
 <div class="bg-white text-gray-700 py-2 px-4 sm:px-20 text-xs sm:text-sm shadow-md">
     <div class="container mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-x-2 gap-y-1">
         <div class="flex items-center space-x-2">
-            <a href="tel:+9779856083101" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
-                <i class="fas fa-phone-alt mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">+977-9856083101</span>
+            <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
+                <i class="fas fa-phone-alt mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.phone|default:'+977-9856083101' }}</span>
             </a>
             <span class="hidden sm:inline-block">|</span> 
-            <a href="mailto:info@bhanjyang.coop.np" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
-                <i class="fas fa-envelope mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">info@bhanjyang.coop.np</span>
+            <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
+                <i class="fas fa-envelope mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.email|default:'info@bhanjyang.coop.np' }}</span>
             </a>
         </div>
         <div class="flex items-center space-x-2">
@@ -23,15 +23,14 @@
     </div>
 </div>
 <!-- Header -->
-<hr class="border-t border-gray-200">
-<header class="sticky top-0 z-50 bg-white shadow-lg">
+<header class="sticky top-0 z-50 bg-white shadow-lg border-t border-gray-200">
     <!-- logo and navigation -->
-    <nav class="container mx-auto px-4 md:px-20 py-4 flex items-center justify-between relative">
+    <nav class="container mx-auto px-4 md:px-20 py-4 flex items-center justify-between relative" role="navigation" aria-label="Main Navigation">
         <!-- logo -->
         <a href="{% url 'home:index' %}" class="flex items-center space-x-3 group py-2 flex-shrink-0">
             <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative Logo"
                  class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105 md:h-12" 
-                 loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/150x50/27ae60/ffffff?text=Logo';">
+                 loading="eager" onerror="this.onerror=null;this.src='https://placehold.co/150x50/27ae60/ffffff?text=Logo';">
                  <!-- logo text -->
             <div class="flex flex-col justify-center">
                 <span class="text-2xl font-extrabold text-bhanjyangred group-hover:text-deuraligreen transition-colors duration-300 font-montserrat md:text-4xl">BHANJYANG</span>
@@ -123,11 +122,11 @@
 
         <!-- Search Icon (Expandable) -->
         <div class="hidden md:flex items-center ml-4 relative">
-            <button id="search-toggle" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2 relative group" aria-label="Toggle search" title="Search (Ctrl+K)">
+            <button id="search-toggle" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2 relative group" aria-label="Toggle search" aria-expanded="false" aria-controls="search-container" title="Search (Ctrl+K)">
                 <i class="fas fa-search text-xl"></i>
                 <!-- Keyboard shortcut hint -->
                 <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                    <kbd class="px-1 py-0.5 bg-gray-800 rounded text-xs">Ctrl</kbd> + <kbd class="px-1 py-0.5 bg-gray-800 rounded text-xs">K</kbd>
+                    <kbd class="px-1 py-0.5 bg-gray-800 rounded text-xs" aria-hidden="true">Ctrl</kbd> + <kbd class="px-1 py-0.5 bg-gray-800 rounded text-xs" aria-hidden="true">K</kbd>
                 </span>
             </button>
             
@@ -141,7 +140,7 @@
                 <i class="fas fa-language text-xl"></i>
             </button>
             <!-- Search Input (Hidden by default) -->
-            <div id="search-container" class="hidden absolute right-0 top-full mt-2 bg-white shadow-lg rounded-md p-4 w-80 z-50 transition-all duration-300 opacity-0 transform translate-y-2 scale-95">
+            <div id="search-container" class="hidden absolute right-0 top-full mt-2 bg-white shadow-lg rounded-md p-4 w-80 z-50 transition-all duration-300 opacity-0 transform translate-y-2 scale-95 pointer-events-none">
                 <form action="{% url 'search:advanced_search' %}" method="get" class="flex items-center gap-2">
                     <input type="text" name="q" id="search-input" placeholder="{% trans 'Search...' %}" class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" autocomplete="off">
                     <button type="submit" id="search-submit" class="bg-deuraligreen text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors" aria-label="Search">
@@ -165,8 +164,8 @@
             <button id="theme-toggle-mobile" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2" aria-label="Toggle dark mode" title="Toggle dark mode">
                 <i class="fas fa-moon text-xl" id="theme-icon-mobile"></i>
             </button>
-            <button id="mobile-menu-button" type="button" class="text-deuraligreen hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded-md p-2" aria-label="Toggle main menu">
-                <i class="fas fa-bars text-2xl"></i>
+            <button id="mobile-menu-button" type="button" class="text-deuraligreen hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded-md p-2" aria-label="Toggle main menu" aria-expanded="false" aria-controls="mobile-menu">
+                <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
             </button>
         </div>
     </nav>
@@ -197,11 +196,11 @@
                     
                     <!-- About Us with Dropdown -->
                     <div>
-                        <button id="mobile-about-toggle" type="button" class="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'about' %}bg-white text-bhanjyangred{% endif %}">
+                        <button id="mobile-about-toggle" type="button" class="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'about' %}bg-white text-bhanjyangred{% endif %}" aria-expanded="false" aria-controls="mobile-about-submenu">
                             <div class="flex items-center">
-                                <i class="fas fa-info-circle mr-3"></i> {% trans "About Us" %}
+                                <i class="fas fa-info-circle mr-3" aria-hidden="true"></i> {% trans "About Us" %}
                             </div>
-                            <i class="fas fa-chevron-down transition-transform duration-300" id="mobile-about-icon"></i>
+                            <i class="fas fa-chevron-down transition-transform duration-300" id="mobile-about-icon" aria-hidden="true"></i>
                         </button>
                         
                         <div id="mobile-about-submenu" class="hidden ml-4 pl-4 border-l-2 border-gray-200 space-y-1 mt-1">
@@ -231,11 +230,11 @@
                     
                     <!-- Services with Dropdown -->
                     <div>
-                        <button id="mobile-services-toggle" type="button" class="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'services' %}bg-white text-bhanjyangred{% endif %}">
+                        <button id="mobile-services-toggle" type="button" class="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'services' %}bg-white text-bhanjyangred{% endif %}" aria-expanded="false" aria-controls="mobile-services-submenu">
                             <div class="flex items-center">
-                                <i class="fas fa-briefcase mr-3"></i> {% trans "Services" %}
+                                <i class="fas fa-briefcase mr-3" aria-hidden="true"></i> {% trans "Services" %}
                             </div>
-                            <i class="fas fa-chevron-down transition-transform duration-300" id="mobile-services-icon"></i>
+                            <i class="fas fa-chevron-down transition-transform duration-300" id="mobile-services-icon" aria-hidden="true"></i>
                         </button>
                         
                         <div id="mobile-services-submenu" class="hidden ml-4 pl-4 border-l-2 border-gray-200 space-y-1 mt-1">
@@ -295,159 +294,3 @@
         </div>
     </div>
 </header>
-
-<script>
-    // Search Toggle Functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchToggle = document.getElementById('search-toggle');
-        const searchContainer = document.getElementById('search-container');
-        const searchClose = document.getElementById('search-close');
-        const searchInput = document.getElementById('search-input');
-        
-        if (searchToggle && searchContainer) {
-            // Function to open search with animation
-            function openSearch() {
-                searchContainer.classList.remove('hidden');
-                // Trigger animation after removing hidden
-                setTimeout(() => {
-                    searchContainer.classList.remove('opacity-0', 'translate-y-2', 'scale-95');
-                    searchContainer.classList.add('opacity-100', 'translate-y-0', 'scale-100');
-                    if (searchInput) {
-                        searchInput.focus();
-                    }
-                }, 10);
-            }
-            
-            // Function to close search with animation
-            function closeSearch() {
-                searchContainer.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-                searchContainer.classList.add('opacity-0', 'translate-y-2', 'scale-95');
-                setTimeout(() => {
-                    searchContainer.classList.add('hidden');
-                }, 300);
-            }
-            
-            // Toggle search on icon click
-            searchToggle.addEventListener('click', function() {
-                if (searchContainer.classList.contains('hidden')) {
-                    openSearch();
-                } else {
-                    closeSearch();
-                }
-            });
-            
-            // Close search on close button
-            if (searchClose) {
-                searchClose.addEventListener('click', function() {
-                    closeSearch();
-                });
-            }
-            
-            // Keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                // Ctrl/Cmd + K to open search
-                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                    e.preventDefault();
-                    if (searchContainer.classList.contains('hidden')) {
-                        openSearch();
-                    } else {
-                        closeSearch();
-                    }
-                }
-                
-                // Escape to close search
-                if (e.key === 'Escape' && !searchContainer.classList.contains('hidden')) {
-                    closeSearch();
-                }
-            });
-            
-            // Close search when clicking outside
-            document.addEventListener('click', function(e) {
-                if (searchContainer && !searchContainer.classList.contains('hidden')) {
-                    if (!searchContainer.contains(e.target) && !searchToggle.contains(e.target)) {
-                        closeSearch();
-                    }
-                }
-            });
-        }
-        
-        // Mobile Menu Toggle Functionality
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuClose = document.getElementById('mobile-menu-close');
-        
-        if (mobileMenuButton && mobileMenu) {
-            // Open mobile menu
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.remove('hidden', '-translate-x-full');
-                mobileMenu.classList.add('translate-x-0');
-                document.body.style.overflow = 'hidden';
-            });
-            
-            // Close mobile menu
-            if (mobileMenuClose) {
-                mobileMenuClose.addEventListener('click', function() {
-                    closeMobileMenu();
-                });
-            }
-            
-            // Close mobile menu function
-            function closeMobileMenu() {
-                mobileMenu.classList.remove('translate-x-0');
-                mobileMenu.classList.add('-translate-x-full');
-                setTimeout(() => {
-                    mobileMenu.classList.add('hidden');
-                }, 300);
-                document.body.style.overflow = '';
-            }
-            
-            // Close on outside click
-            mobileMenu.addEventListener('click', function(e) {
-                if (e.target === mobileMenu) {
-                    closeMobileMenu();
-                }
-            });
-            
-            // Close on Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
-                    closeMobileMenu();
-                }
-            });
-            
-            // Close menu when clicking on menu links
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    closeMobileMenu();
-                });
-            });
-            
-            // Mobile About Us Dropdown Toggle
-            const mobileAboutToggle = document.getElementById('mobile-about-toggle');
-            const mobileAboutSubmenu = document.getElementById('mobile-about-submenu');
-            const mobileAboutIcon = document.getElementById('mobile-about-icon');
-            
-            if (mobileAboutToggle && mobileAboutSubmenu && mobileAboutIcon) {
-                mobileAboutToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    mobileAboutSubmenu.classList.toggle('hidden');
-                    mobileAboutIcon.classList.toggle('rotate-180');
-                });
-            }
-            
-            // Mobile Services Dropdown Toggle
-            const mobileServicesToggle = document.getElementById('mobile-services-toggle');
-            const mobileServicesSubmenu = document.getElementById('mobile-services-submenu');
-            const mobileServicesIcon = document.getElementById('mobile-services-icon');
-            
-            if (mobileServicesToggle && mobileServicesSubmenu && mobileServicesIcon) {
-                mobileServicesToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    mobileServicesSubmenu.classList.toggle('hidden');
-                    mobileServicesIcon.classList.toggle('rotate-180');
-                });
-            }
-        }
-    });
-</script>

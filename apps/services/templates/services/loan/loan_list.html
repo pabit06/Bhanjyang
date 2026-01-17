@@ -163,15 +163,9 @@
                     {% endif %}
 
                     <div class="mt-auto pt-4 border-t border-gray-100 flex gap-2">
-                        <a href="{% url 'services:loan_detail' loan.slug %}"
-                            class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-center py-2.5 rounded-lg font-bold text-xs transition-all">
-                            {% trans "Details" %}
-                        </a>
-                        <a href="{% url 'services:service_application' %}?service_type=loan&service_slug={{ loan.slug }}"
-                            class="flex-1 bg-bhanjyangred hover:bg-red-700 text-white text-center py-2.5 rounded-lg font-bold text-xs transition-all"
-                            aria-label="{% trans 'Apply for' %} {{ loan.english_name }}">
-                            {% trans "Apply" %}
-                        </a>
+                        {% include "components/buttons.html" with text=_("Details") url=request.scheme|add:"://"|add:request.get_host|add:"/services/loan/"|add:loan.slug|add:"/" type="ghost" extra_classes="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 justify-center text-xs" %}
+                        
+                        {% include "components/buttons.html" with text=_("Apply") url="/services/apply/?service_type=loan&service_slug="|add:loan.slug type="secondary" extra_classes="flex-1 bg-bhanjyangred hover:bg-red-700 text-white justify-center text-xs" %}
                     </div>
                 </div>
             </div>

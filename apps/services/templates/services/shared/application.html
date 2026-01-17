@@ -231,22 +231,22 @@
                 <div class="bg-white rounded-xl p-6 shadow-lg">
                     <i class="fas fa-phone text-green-600 text-3xl mb-4"></i>
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Call Us</h3>
-                    <p class="text-gray-600">+977-9856083101</p>
+                    <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}" class="text-gray-600 hover:text-green-600 transition-colors">{{ site_info.phone|default:"+977-9856083101" }}</a>
                     <p class="text-sm text-gray-500">Mon-Fri: 9AM-5PM</p>
                 </div>
                 
                 <div class="bg-white rounded-xl p-6 shadow-lg">
                     <i class="fas fa-envelope text-blue-600 text-3xl mb-4"></i>
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Email Us</h3>
-                    <p class="text-gray-600">info@bhanjyang.coop.np</p>
+                    <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="text-gray-600 hover:text-blue-600 transition-colors">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</a>
                     <p class="text-sm text-gray-500">24/7 Support</p>
                 </div>
                 
                 <div class="bg-white rounded-xl p-6 shadow-lg">
                     <i class="fas fa-map-marker-alt text-red-600 text-3xl mb-4"></i>
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Visit Us</h3>
-                    <p class="text-gray-600">Bhanjyang Cooperative Office</p>
-                    <p class="text-sm text-gray-500">Pokhara, Nepal</p>
+                    <p class="text-gray-600">{{ site_info.name|default:"Bhanjyang Cooperative Office" }}</p>
+                    <p class="text-sm text-gray-500">{{ site_info.address|default:"Pokhara, Nepal" }}</p>
                 </div>
             </div>
         </div>

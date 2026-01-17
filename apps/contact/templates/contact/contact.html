@@ -35,8 +35,8 @@ phone number, email address, send message, kaski, customer support{% endblock me
         "@type": "FinancialService",
         "name": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
-        "telephone": "+977-9856083101",
-        "email": "info@bhanjyang.coop.np",
+        "telephone": "{{ site_info.phone|default:'+977-9856083101' }}",
+        "email": "{{ site_info.email|default:'info@bhanjyang.coop.np' }}",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Rupa Rural Municipality-5, Deurali",
@@ -157,11 +157,15 @@ phone number, email address, send message, kaski, customer support{% endblock me
 
         <!-- Contact Information Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {% include "partials/_info_card.html" with icon="fa-landmark" title="मुख्य कार्यालय" color="deuraligreen" delay="200" content="भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लि.<br>रूपा गाउँपालिका-५, देउराली, कास्की<br>गण्डकी प्रदेश, नेपाल" link_url="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Rupa+Rural+Municipality+5+Deurali+Kaski" link_text="नेभिगेसन हेर्नुहोस्" %}
-            {% include "partials/_info_card.html" with icon="fa-location-dot" title="सेवा केन्द्र" color="bhanjyangred" delay="300" content="भञ्ज्याङ साकोस, पोल्याङ सेवा केन्द्र<br>रूपा गाउँपालिका-३, पोल्याङ, कास्की<br>गण्डकी प्रदेश, नेपाल" link_url="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Polyang+Branch+Rupa+Rural+Municipality+3+Polyang+Kaski" link_text="नेभिगेसन हेर्नुहोस्" %}
-            {% include "partials/_info_card.html" with icon="fa-clock" title="कार्यालय समय" color="deuraligreen" delay="600" content="आइतबार - शुक्रबार: १०:०० - ४:००<br>शनिबार: बिदा<br>सार्वजनिक बिदा: बन्द" footer_text="कार्यालय समय भित्र सेवा उपलब्ध छ।" %}
-            {% include "partials/_info_card.html" with icon="fa-phone" title="फोन सम्पर्क" color="deuraligreen" delay="400" content="मुख्य कार्यालय: <a href='tel:+9779856083101' class='text-deuraligreen hover:underline font-semibold'>+९७७-९८५६०८३१०१</a><br>सेवा केन्द्र: <a href='tel:+9779846242424' class='text-deuraligreen hover:underline font-semibold'>+९७७-९८४६२४२४२४</a>" footer_text="कुनै पनि जिज्ञासाको लागि कल गर्नुहोस्।" %}
-            {% include "partials/_info_card.html" with icon="fa-envelope-open-text" title="इमेल सम्पर्क" color="bhanjyangred" delay="500" content="सोधपुछ: <a href='mailto:info@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>info@bhanjyang.coop.np</a><br>सहयोग: <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>support@bhanjyang.coop.np</a>" footer_text="२४ घण्टा भित्र जवाफ दिइनेछ।" %}
+            {% include "components/info_card.html" with icon="fas fa-landmark" title=_("Main Office") color="deuraligreen" content=site_info.address|default:"Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal" link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Rupa+Rural+Municipality+5+Deurali+Kaski" link_text=_("Get Directions") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-location-dot" title=_("Service Center") color="bhanjyangred" content=_("Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal") link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Polyang+Branch+Rupa+Rural+Municipality+3+Polyang+Kaski" link_text=_("Get Directions") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-clock" title=_("Office Hours") color="deuraligreen" content=_("Sunday - Friday: 10:00 - 4:00<br>Saturday: Holiday<br>Public Holidays: Closed") footer_text=_("Service available during office hours.") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-phone" title=_("Phone Contact") color="deuraligreen" content="Main Office: <a href='tel:"|add:site_info.phone|default:"+9779856083101"|add:"' class='text-deuraligreen hover:underline font-semibold'>"|add:site_info.phone|default:"+977-9856083101"|add:"</a><br>Service Center: <a href='tel:+9779846242424' class='text-deuraligreen hover:underline font-semibold'>+977-9846242424</a>" footer_text=_("Call us for any inquiries.") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-envelope-open-text" title=_("Email Contact") color="bhanjyangred" content="Inquiry: <a href='mailto:"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"' class='text-bhanjyangred hover:underline font-semibold'>"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"</a><br>Support: <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>support@bhanjyang.coop.np</a>" footer_text=_("We usually reply within 24 hours.") %}
         </div>
     </div>
 </section>
@@ -450,15 +454,15 @@ phone number, email address, send message, kaski, customer support{% endblock me
                         <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
                             <i class="fa-solid fa-phone text-deuraligreen"></i>
                         </div>
-                        <a href="tel:+9779856083101"
-                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">+977-9856083101</a>
+                        <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}"
+                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">{{ site_info.phone|default:"+977-9856083101" }}</a>
                     </div>
                     <div class="flex items-center gap-3 text-gray-800">
                         <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
                             <i class="fa-solid fa-envelope text-deuraligreen"></i>
                         </div>
-                        <a href="mailto:info@bhanjyang.coop.np"
-                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">info@bhanjyang.coop.np</a>
+                        <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}"
+                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</a>
                     </div>
                 </div>
                 <div class="mt-4">

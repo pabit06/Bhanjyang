@@ -719,18 +719,28 @@ html {
 
 /* Loading States */
 .loading-skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+    background-size: 800px 104px;
+    animation: shimmer 2s linear infinite forwards;
 }
 
-@keyframes loading {
+@keyframes shimmer {
     0% {
-        background-position: 200% 0;
+        background-position: -468px 0;
     }
     100% {
-        background-position: -200% 0;
+        background-position: 468px 0;
     }
+}
+
+.skeleton {
+    @apply loading-skeleton; /* Helper for Tailwind if needed, otherwise use direct class */
+    /* Fallback if @apply not supported in this context (pure CSS) */
+    background: #f6f7f8;
+    background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+    background-size: 800px 104px;
+    animation: shimmer 2s linear infinite forwards;
 }
 
 /* Scroll-triggered animations */
@@ -1197,6 +1207,37 @@ html {
 .float-action-btn:hover {
     transform: scale(1.1) rotate(180deg);
     box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+}
+
+/* Footer visibility fix - ensure footer is always visible */
+footer {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    position: relative !important;
+    z-index: 1 !important;
+    width: 100% !important;
+    min-height: auto !important;
+}
+
+/* Search Container - Ensure it's hidden by default */
+#search-container.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Search Container when visible */
+#search-container:not(.hidden) {
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
 }
 
 /* NEW: Animated Underlines */

@@ -1,0 +1,9 @@
+{# Usage: {% include "components/skeleton_loader.html" with type="text" width="w-3/4" height="h-4" %} #}
+{# Types: text, circle, card, image, rect #}
+
+<div class="skeleton {{ extra_classes }} rounded 
+     {% if type == 'circle' %}rounded-full{% endif %} 
+     {{ width|default:'w-full' }} 
+     {{ height|default:'h-4' }}">
+     <span class="sr-only">Loading...</span>
+</div>

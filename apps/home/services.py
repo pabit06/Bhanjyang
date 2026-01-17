@@ -53,21 +53,48 @@ class HomeService:
         cached_data = cache.get(cache_key)
 
         if cached_data and not is_staff:
+            # Always fetch popup notice fresh (not from cache) to ensure active status is current
+            try:
+                from apps.news_events.models import PopupNotice
+                now = timezone.now()
+                active_notices = PopupNotice.objects.filter(
+                    is_active=True,
+                    start_date__lte=now
+                ).filter(
+                    Q(end_date__isnull=True) | Q(end_date__gte=now)
+                ).order_by('-priority', '-start_date')
+                
+                cached_data['popup_notice'] = active_notices.first() if active_notices.exists() else None
+            except Exception as e:
+                logger.warning(f"Error fetching fresh popup notice: {e}")
+                cached_data['popup_notice'] = None
+            
             return cached_data
 
         try:
-            # 1. Page Content
-            content = HomePageContent.objects.filter(is_active=True).order_by('order').first()
+            # 1. Page Content - Get all active content blocks for hero slider
+            homepage_contents = list(HomePageContent.objects.filter(is_active=True).order_by('order'))
+            # Keep first one as main content for backward compatibility
+            content = homepage_contents[0] if homepage_contents else None
 
             # 2. Featured Testimonials
             testimonials = list(Testimonial.objects.filter(
                 is_featured=True, is_active=True
             ).order_by('order')[:3])
 
-            # 3. Statistics
-            stats = list(Statistic.objects.filter(
-                is_featured=True, is_active=True
-            ).order_by('order')[:4])
+            # 3. Statistics - Use CooperativeStatistic from about app
+            stats = []
+            try:
+                from apps.about.models import CooperativeStatistic
+                stats = list(CooperativeStatistic.objects.filter(
+                    is_featured=True, is_active=True
+                ).order_by('order')[:4])
+            except ImportError:
+                logger.warning("About app not available, using home app statistics")
+                # Fallback to home app statistics
+                stats = list(Statistic.objects.filter(
+                    is_featured=True, is_active=True
+                ).order_by('order')[:4])
 
             # 4. Announcements (Active & Not Expired)
             announcements = list(Announcement.objects.filter(
@@ -76,7 +103,31 @@ class HomeService:
                 Q(expiry_date__isnull=False) & Q(expiry_date__lt=timezone.now())
             ).order_by('-priority', '-publish_date')[:3])
 
-            # 5. Services - Get from services app
+            # 5. Popup Notice - Get highest priority active notice
+            popup_notice = None
+            try:
+                from apps.news_events.models import PopupNotice
+                now = timezone.now()
+                # Only get notices that are active AND within date range
+                active_notices = PopupNotice.objects.filter(
+                    is_active=True,  # Must be active
+                    start_date__lte=now  # Must have started
+                ).filter(
+                    Q(end_date__isnull=True) | Q(end_date__gte=now)  # Either no end date OR not expired
+                ).order_by('-priority', '-start_date')
+                
+                popup_notice = active_notices.first() if active_notices.exists() else None
+                
+                # Debug logging (only in debug mode)
+                if settings.DEBUG and popup_notice:
+                    logger.debug(f"Popup notice found: {popup_notice.title} (Active: {popup_notice.is_active})")
+            except ImportError:
+                logger.warning("News Events app not available, popup notice not loaded")
+            except Exception as e:
+                logger.error(f"Error fetching popup notice: {e}")
+                popup_notice = None
+
+            # 6. Services - Get from services app
             featured_services_list = []
             try:
                 from apps.services.models import SavingsAccount, LoanType, FixedDeposit
@@ -147,15 +198,18 @@ class HomeService:
 
             context = {
                 'homepage_content': content,
+                'homepage_contents': homepage_contents,  # All content blocks for hero slider
                 'featured_testimonials': testimonials,
                 'featured_statistics': stats,
                 'featured_announcements': announcements,
+                'popup_notice': popup_notice,  # Popup notice for home page modal
                 'featured_services': services,
                 'featured_gallery': gallery_images,
                 'breadcrumbs': [{'name': 'Home', 'url': '/'}]
             }
 
             # Cache for 5 minutes if not staff
+            # Note: popup_notice is always fetched fresh, not from cache
             if not is_staff:
                 try:
                     cache.set(cache_key, context, 300)

@@ -1,0 +1,16 @@
+{# Usage: {% include "components/buttons.html" with text="Click Me" url="#" type="primary" size="btn-lg" icon="fas fa-check" %} #}
+{% if is_button %}
+<button type="{{ button_type|default:'button' }}" 
+   class="btn btn-{{ type|default:'primary' }} {{ size|default:'' }} {{ extra_classes|default:'' }}"
+   {% if attrs %}{{ attrs|safe }}{% endif %}>
+    {% if icon %}<i class="{{ icon }}"></i>{% endif %}
+    {{ text }}
+</button>
+{% else %}
+<a href="{{ url|default:'#' }}" 
+   class="btn btn-{{ type|default:'primary' }} {{ size|default:'' }} {{ extra_classes|default:'' }}"
+   {% if attrs %}{{ attrs|safe }}{% endif %}>
+    {% if icon %}<i class="{{ icon }}"></i>{% endif %}
+    {{ text }}
+</a>
+{% endif %}

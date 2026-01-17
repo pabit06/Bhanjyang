@@ -1,0 +1,17 @@
+{# Usage: {% include "components/section_heading.html" with title="Services" subtitle="What we offer" alignment="text-center" %} #}
+<div class="mb-12 {{ alignment|default:'text-center' }} gsap-fade-in">
+    {% if subtitle %}
+    <span class="block text-deuraligreen font-bold tracking-wide uppercase text-sm mb-2 opacity-0 animate-slide-up">
+        {{ subtitle }}
+    </span>
+    {% endif %}
+    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-4 opacity-0 animate-slide-up" style="animation-delay: 0.1s;">
+        {{ title }}
+    </h2>
+    <div class="h-1 w-24 bg-bhanjyangred rounded-full opacity-0 animate-slide-up {% if alignment == 'text-center' %}mx-auto{% endif %} {% if alignment == 'text-right' %}ml-auto{% endif %}" style="animation-delay: 0.2s;"></div>
+    {% if description %}
+    <p class="mt-4 text-gray-600 max-w-2xl {% if alignment == 'text-center' %}mx-auto{% endif %} opacity-0 animate-slide-up" style="animation-delay: 0.3s;">
+        {{ description }}
+    </p>
+    {% endif %}
+</div>

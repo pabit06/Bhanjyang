@@ -30,13 +30,15 @@
         
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {% for stat in featured_statistics %}
-            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-deuraligreen shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:100 }}">
+            <div class="group relative bg-white p-8 rounded-2xl border-t-4 {% if stat.color == 'bhanjyangred' or stat.color == 'red' %}border-bhanjyangred{% else %}border-deuraligreen{% endif %} shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0|add:100 }}">
                 <div class="mb-4 flex justify-center">
-                    <div class="w-16 h-16 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-chart-line text-2xl text-deuraligreen"></i>
+                    <div class="w-16 h-16 rounded-full {% if stat.color == 'bhanjyangred' or stat.color == 'red' %}bg-bhanjyangred/10{% else %}bg-deuraligreen/10{% endif %} flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <i class="{% if stat.icon %}{{ stat.icon }}{% else %}fas fa-chart-line{% endif %} text-2xl {% if stat.color == 'bhanjyangred' or stat.color == 'red' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %}"></i>
                     </div>
                 </div>
-                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter">{{ stat.value }}</div>
+                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter">
+                    {% if stat.unit %}{{ stat.value }} {{ stat.unit }}{% else %}{{ stat.value }}{% endif %}
+                </div>
                 <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{{ stat.title }}</h3>
                 <p class="text-gray-600 text-sm leading-relaxed">{{ stat.description|default:_("Growing our community impact.") }}</p>
             </div>

@@ -215,25 +215,87 @@ class CooperativeTimelineAdmin(BaseFeaturedAdmin):
 
 
 class CooperativeStatisticAdmin(BaseFeaturedAdmin):
-    """Admin interface for statistics"""
-    list_display = ('title', 'value', 'unit', 'statistic_type', 'is_featured', 'is_active', 'order')
+    """Admin interface for statistics - Home Page Impact Section
+    
+    These statistics appear in the "Our Impact" section on the home page.
+    Only statistics with is_featured=True and is_active=True will be displayed.
+    Maximum 4 statistics are shown on the home page, ordered by 'order' field.
+    """
+    list_display = ('title', 'value', 'unit', 'statistic_type', 'is_featured', 'is_active', 'order', 'preview_display')
     list_filter = ('statistic_type', FeaturedFilter, ActiveFilter)
-    search_fields = ('title', 'description')
+    search_fields = ('title', 'description', 'value')
     list_editable = ('order', 'is_featured', 'is_active')  # Allow quick editing
     ordering = ('order', 'title')
+    list_per_page = 25
     
     fieldsets = (
-        (None, {
-            'fields': ('title', 'value', 'unit', 'description', 'statistic_type')
+        ('Basic Information', {
+            'fields': ('title', 'value', 'unit', 'description', 'statistic_type'),
+            'description': _(
+                '<strong>Home Page Impact Section Statistics</strong><br>'
+                'These statistics are displayed in the "Our Impact" section on the home page.<br>'
+                'Only statistics with <strong>Featured</strong> and <strong>Active</strong> checked will be shown.<br>'
+                'Maximum 4 statistics are displayed, ordered by the "Display Order" field.<br><br>'
+                '<strong>Examples:</strong><br>'
+                '• Title: "Active Members", Value: "10K+", Unit: "members"<br>'
+                '• Title: "Years of Service", Value: "25+", Unit: "years"<br>'
+                '• Title: "Total Savings", Value: "500", Unit: "Million NPR"'
+            )
         }),
         ('Visual Settings', {
             'fields': ('icon', 'color'),
-            'classes': ('collapse',)
+            'classes': ('collapse',),
+            'description': _(
+                '<strong>Icon:</strong> Use FontAwesome icon classes. Examples:<br>'
+                '• fas fa-users (for members)<br>'
+                '• fas fa-chart-line (for growth)<br>'
+                '• fas fa-hand-holding-usd (for loans)<br>'
+                '• fas fa-piggy-bank (for savings)<br>'
+                '• fas fa-calendar-check (for years)<br><br>'
+                '<strong>Color:</strong> Choose "deuraligreen" (green) or "bhanjyangred" (red) for border and icon colors.'
+            )
         }),
         ('Display Settings', {
-            'fields': ('order', 'is_featured', 'is_active')
+            'fields': ('order', 'is_featured', 'is_active'),
+            'description': _(
+                '<strong>Display Order:</strong> Lower numbers appear first (0, 1, 2, 3...).<br>'
+                '<strong>Featured:</strong> Only featured statistics appear on home page. Check this to display.<br>'
+                '<strong>Active:</strong> Must be active to display. Uncheck to hide without deleting.'
+            )
         }),
     )
+    
+    def preview_display(self, obj):
+        """Show a preview of how the statistic will look"""
+        if obj.is_featured and obj.is_active:
+            status = format_html('<span style="color: green; font-weight: bold;">✓ Featured & Active</span>')
+        elif obj.is_active:
+            status = format_html('<span style="color: orange;">Active (not featured)</span>')
+        else:
+            status = format_html('<span style="color: red;">Inactive</span>')
+        
+        icon_preview = ''
+        if obj.icon:
+            icon_color = '#dc2626' if obj.color == 'bhanjyangred' else '#059669'
+            icon_preview = format_html(
+                '<i class="{}" style="color: {}; margin-right: 5px; font-size: 16px;"></i>',
+                obj.icon,
+                icon_color
+            )
+        else:
+            icon_preview = '<span style="color: #999;">No icon</span>'
+        
+        return format_html(
+            '{} {} | Order: {}',
+            icon_preview,
+            status,
+            obj.order
+        )
+    preview_display.short_description = 'Status Preview'
+    
+    def get_queryset(self, request):
+        """Optimize queryset"""
+        return super().get_queryset(request).select_related()
 
 
 class CooperativeAffiliationAdmin(BaseFeaturedAdmin):

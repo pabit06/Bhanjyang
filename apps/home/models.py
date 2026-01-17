@@ -19,10 +19,16 @@ class HomePageContent(TimeStampedModel):
     title = models.CharField(max_length=200, help_text=_("Main title for the home page"))
     subtitle = models.CharField(max_length=300, blank=True, help_text=_("Subtitle or tagline"))
     description = models.TextField(help_text=_("Main description text"))
-    hero_image = models.ImageField(upload_to='home/hero/', blank=True, null=True)
+    hero_image = models.ImageField(upload_to='home/hero/', blank=True, null=True, help_text=_("Hero background image for slider"))
     background_image = models.ImageField(upload_to='home/background/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0, help_text=_("Display order"))
+    
+    # Button fields for hero slides
+    primary_button_text = models.CharField(max_length=100, blank=True, help_text=_("Primary button text (e.g., 'Explore Services')"))
+    primary_button_url = models.CharField(max_length=200, blank=True, help_text=_("Primary button URL (e.g., '/services/')"))
+    secondary_button_text = models.CharField(max_length=100, blank=True, help_text=_("Secondary button text (e.g., 'Contact Us')"))
+    secondary_button_url = models.CharField(max_length=200, blank=True, help_text=_("Secondary button URL (e.g., '/contact/')"))
     
     # SEO fields
     meta_title = models.CharField(max_length=200, blank=True)

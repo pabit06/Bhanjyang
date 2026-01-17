@@ -15,7 +15,7 @@ import logging
 
 from .models import (
     NewsArticle, Event, Category, Subscriber, Comment, 
-    Newsletter, ContentAnalytics
+    Newsletter, ContentAnalytics, PopupNotice
 )
 from .forms import NewsArticleForm, EventForm
 from .performance import NewsEventsQueryOptimizer, NewsEventsPerformanceMonitor
@@ -538,3 +538,118 @@ admin_site.register(Subscriber, SubscriberAdmin)
 admin_site.register(Comment, CommentAdmin)
 admin_site.register(Newsletter, NewsletterAdmin)
 admin_site.register(ContentAnalytics, ContentAnalyticsAdmin)
+
+
+@admin.register(PopupNotice)
+class PopupNoticeAdmin(admin.ModelAdmin):
+    """Admin interface for Popup Notices - Home Page Modal"""
+    
+    list_display = ('title', 'notice_type', 'priority', 'is_active', 'status_display', 'date_range', 'preview_image', 'created_at')
+    list_filter = ('notice_type', 'is_active', 'start_date', 'end_date', 'created_at')
+    search_fields = ('title', 'description', 'image_alt')
+    list_editable = ('priority', 'is_active')
+    ordering = ('-priority', '-start_date')
+    list_per_page = 25
+    date_hierarchy = 'start_date'
+    
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('title', 'description', 'notice_type'),
+            'description': _(
+                '<strong>Home Page Popup Notice</strong><br>'
+                'This notice appears as a popup modal when users visit the home page.<br>'
+                'Only ONE active notice will be shown at a time (highest priority).<br><br>'
+                '<strong>Examples:</strong><br>'
+                '• Title: "14th Annual General Meeting Notice"<br>'
+                '• Type: "वार्षिक साधारण सभा (AGM)"'
+            )
+        }),
+        ('Notice Image', {
+            'fields': ('image', 'image_alt'),
+            'description': _(
+                '<strong>Image Requirements:</strong><br>'
+                '• Recommended size: 800x1200px or larger<br>'
+                '• Format: JPG or PNG<br>'
+                '• The image will be displayed in a scrollable modal popup<br>'
+                '• Alt text is important for accessibility'
+            )
+        }),
+        ('Link Settings (Optional)', {
+            'fields': ('link_url', 'link_text', 'open_in_new_tab'),
+            'classes': ('collapse',),
+            'description': _(
+                'If you want the image to be clickable and link to another page, fill these fields.<br>'
+                'Leave blank if the image should not be clickable.'
+            )
+        }),
+        ('Display Settings', {
+            'fields': ('priority', 'is_active', 'start_date', 'end_date'),
+            'description': _(
+                '<strong>Priority:</strong> Higher numbers appear first. If multiple notices are active, only the highest priority one shows.<br>'
+                '<strong>Active:</strong> Must be checked to display. Uncheck to hide without deleting.<br>'
+                '<strong>Start Date:</strong> When to start showing the notice (default: now).<br>'
+                '<strong>End Date:</strong> When to stop showing (leave blank to show indefinitely).'
+            )
+        }),
+    )
+    
+    readonly_fields = ('created_at', 'updated_at')
+    
+    def status_display(self, obj):
+        """Show current status of the notice"""
+        if not obj.is_active:
+            return format_html('<span style="color: red; font-weight: bold;">✗ Inactive</span>')
+        
+        if obj.is_currently_active:
+            return format_html('<span style="color: green; font-weight: bold;">✓ Currently Active</span>')
+        
+        now = timezone.now()
+        if now < obj.start_date:
+            return format_html('<span style="color: orange;">⏳ Scheduled (starts {})</span>', obj.start_date.strftime('%Y-%m-%d'))
+        
+        if obj.end_date and now > obj.end_date:
+            return format_html('<span style="color: gray;">⏸ Expired (ended {})</span>', obj.end_date.strftime('%Y-%m-%d'))
+        
+        return format_html('<span style="color: orange;">⚠ Not Active</span>')
+    status_display.short_description = 'Status'
+    
+    def date_range(self, obj):
+        """Show date range"""
+        start = obj.start_date.strftime('%Y-%m-%d %H:%M')
+        if obj.end_date:
+            end = obj.end_date.strftime('%Y-%m-%d %H:%M')
+            return format_html('{} <br><small>to {}</small>', start, end)
+        return format_html('{} <br><small>No end date</small>', start)
+    date_range.short_description = 'Date Range'
+    
+    def preview_image(self, obj):
+        """Show image preview in list"""
+        if obj.image:
+            return format_html(
+                '<img src="{}" style="max-width: 100px; max-height: 100px; object-fit: contain; border: 1px solid #ddd; padding: 2px;" />',
+                obj.image.url
+            )
+        return format_html('<span style="color: #999;">No image</span>')
+    preview_image.short_description = 'Image Preview'
+    
+    def get_queryset(self, request):
+        """Optimize queryset"""
+        return super().get_queryset(request).select_related()
+    
+    actions = ['activate_selected', 'deactivate_selected']
+    
+    def activate_selected(self, request, queryset):
+        """Bulk activate selected notices"""
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f'{updated} notice(s) were successfully activated.', messages.SUCCESS)
+    activate_selected.short_description = "Activate selected notices"
+    
+    def deactivate_selected(self, request, queryset):
+        """Bulk deactivate selected notices"""
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f'{updated} notice(s) were successfully deactivated.', messages.SUCCESS)
+    deactivate_selected.short_description = "Deactivate selected notices"
+
+
+# Register PopupNotice with custom admin site (admin_site already imported above)
+admin_site.register(PopupNotice, PopupNoticeAdmin)

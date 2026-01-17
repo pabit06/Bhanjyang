@@ -30,105 +30,23 @@
         {% if featured_services|length > 0 %}
         <div class="grid md:grid-cols-3 gap-8">
             {% for svc in featured_services %}
-            <div
-                class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 {% if svc.color == 'deuraligreen' %}border-deuraligreen{% elif svc.color == 'bhanjyangred' %}border-bhanjyangred{% elif svc.color == 'purple' %}border-purple-500{% else %}border-deuraligreen{% endif %} transform hover:-translate-y-2"
-                data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
-                <!-- Icon Container -->
-                <div class="mb-6 flex justify-center">
-                    <div class="w-20 h-20 rounded-full {% if svc.color == 'deuraligreen' %}bg-deuraligreen/10{% elif svc.color == 'bhanjyangred' %}bg-bhanjyangred/10{% elif svc.color == 'purple' %}bg-purple-100{% else %}bg-deuraligreen/10{% endif %} flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="{{ svc.icon|default:'fas fa-star' }} text-4xl {% if svc.color == 'deuraligreen' %}text-deuraligreen{% elif svc.color == 'bhanjyangred' %}text-bhanjyangred{% elif svc.color == 'purple' %}text-purple-500{% else %}text-deuraligreen{% endif %}"></i>
-                </div>
-                </div>
-                
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{{ svc.title|default:'Service' }}</h3>
-                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">
-                    {{ svc.description|default:'Service description'|truncatewords:22 }}
-                </p>
-                
-                {% if svc.interest_rate %}
-                <div class="mb-6 flex justify-center">
-                    <span class="inline-block {% if svc.color == 'deuraligreen' %}bg-green-100 text-green-800{% elif svc.color == 'bhanjyangred' %}bg-red-100 text-red-800{% elif svc.color == 'purple' %}bg-purple-100 text-purple-800{% else %}bg-green-100 text-green-800{% endif %} text-sm font-bold px-4 py-2 rounded-full">
-                        {{ svc.interest_rate }}
-                    </span>
-                </div>
-                {% endif %}
-                
-                <div class="mt-auto">
-                {% if svc.link_url %}
-                    <a href="{{ svc.link_url }}"
-                        class="group flex items-center justify-center gap-2 {% if svc.color == 'deuraligreen' %}text-deuraligreen hover:text-green-700{% elif svc.color == 'bhanjyangred' %}text-bhanjyangred hover:text-red-700{% elif svc.color == 'purple' %}text-purple-600 hover:text-purple-700{% else %}text-deuraligreen hover:text-green-700{% endif %} font-semibold transition-colors duration-300">
-                        <span>{{ svc.link_text|default:'Learn More' }}</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
-                    </a>
-                    {% else %}
-                    <a href="{% url 'services:overview' %}"
-                        class="group flex items-center justify-center gap-2 {% if svc.color == 'deuraligreen' %}text-deuraligreen hover:text-green-700{% elif svc.color == 'bhanjyangred' %}text-bhanjyangred hover:text-red-700{% elif svc.color == 'purple' %}text-purple-600 hover:text-purple-700{% else %}text-deuraligreen hover:text-green-700{% endif %} font-semibold transition-colors duration-300">
-                        <span>{% trans "Learn More" %}</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
-                    </a>
-                {% endif %}
-                </div>
+            <div data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                {% include "components/info_card.html" with title=svc.title|default:'Service' icon=svc.icon|default:'fas fa-star' description=svc.description|default:'Service description' badge_text=svc.interest_rate link=svc.link_url|default:request.path link_text=svc.link_text|default:_("Learn More") %}
             </div>
             {% endfor %}
         </div>
         {% else %}
         <div class="grid md:grid-cols-3 gap-8">
-            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-deuraligreen transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-20 h-20 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-piggy-bank text-4xl text-deuraligreen"></i>
-                </div>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{% trans "Savings Accounts" %}</h3>
-                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">{% trans "Various types of savings accounts with competitive interest rates up to 8% annually." %}</p>
-                <div class="mb-6 flex justify-center">
-                    <span class="inline-block bg-green-100 text-green-800 text-sm font-bold px-4 py-2 rounded-full">{% trans "Up to 8%" %}</span>
-                </div>
-                <div class="mt-auto">
-                    <a href="{% url 'services:savings_list' %}"
-                        class="group flex items-center justify-center gap-2 text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300">
-                        <span>{% trans "View All Savings Options" %}</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
-                    </a>
-                </div>
+            <div data-aos="fade-up" data-aos-delay="100">
+                {% include "components/info_card.html" with title=_("Savings Accounts") icon="fas fa-piggy-bank" description=_("Various types of savings accounts with competitive interest rates up to 8% annually.") badge_text=_("Up to 8%") link="services:savings_list" link_text=_("View All Savings Options") %}
             </div>
-            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-bhanjyangred transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-20 h-20 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-hand-holding-usd text-4xl text-bhanjyangred"></i>
-                </div>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{% trans "Loan Services" %}</h3>
-                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">{% trans "Affordable loans for business, agriculture, and home construction with flexible terms." %}</p>
-                <div class="mb-6 flex justify-center">
-                    <span class="inline-block bg-red-100 text-red-800 text-sm font-bold px-4 py-2 rounded-full">{% trans "From 10.5%" %}</span>
-                </div>
-                <div class="mt-auto">
-                    <a href="{% url 'services:loan_list' %}"
-                        class="group flex items-center justify-center gap-2 text-bhanjyangred hover:text-red-700 font-semibold transition-colors duration-300">
-                        <span>{% trans "Explore Loan Options" %}</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
-                    </a>
-                </div>
+
+            <div data-aos="fade-up" data-aos-delay="200">
+                {% include "components/info_card.html" with title=_("Loan Services") icon="fas fa-hand-holding-usd" description=_("Affordable loans for business, agriculture, and home construction with flexible terms.") badge_text=_("From 10.5%") link="services:loan_list" link_text=_("Explore Loan Options") %}
             </div>
-            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-purple-500 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-20 h-20 rounded-full bg-purple-100 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-comments-dollar text-4xl text-purple-500"></i>
-                </div>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat text-center">{% trans "Fixed Deposits" %}</h3>
-                <p class="text-gray-600 leading-relaxed mb-6 text-center min-h-[60px]">{% trans "Secure your future with fixed deposits offering up to 7% interest for 1+ year terms." %}</p>
-                <div class="mb-6 flex justify-center">
-                    <span class="inline-block bg-purple-100 text-purple-800 text-sm font-bold px-4 py-2 rounded-full">{% trans "Up to 7%" %}</span>
-                </div>
-                <div class="mt-auto">
-                    <a href="{% url 'services:fixed_deposit_list' %}"
-                        class="group flex items-center justify-center gap-2 text-purple-600 hover:text-purple-700 font-semibold transition-colors duration-300">
-                        <span>{% trans "View Deposit Rates" %}</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
-                    </a>
-                </div>
+
+            <div data-aos="fade-up" data-aos-delay="300">
+                {% include "components/info_card.html" with title=_("Fixed Deposits") icon="fas fa-comments-dollar" description=_("Secure your future with fixed deposits offering up to 7% interest for 1+ year terms.") badge_text=_("Up to 7%") link="services:fixed_deposit_list" link_text=_("View Deposit Rates") %}
             </div>
         </div>
         {% endif %}

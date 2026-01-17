@@ -25,6 +25,11 @@ class HomePageContentAdmin(admin.ModelAdmin):
             'fields': ('hero_image', 'background_image'),
             'classes': ('collapse',)
         }),
+        ('Call to Action Buttons', {
+            'fields': ('primary_button_text', 'primary_button_url', 'secondary_button_text', 'secondary_button_url'),
+            'classes': ('collapse',),
+            'description': 'Configure buttons for hero slides. Leave empty to use default buttons.'
+        }),
         ('SEO', {
             'fields': ('meta_title', 'meta_description', 'meta_keywords'),
             'classes': ('collapse',)
@@ -200,7 +205,20 @@ class PageViewAdmin(admin.ModelAdmin):
         return False  # Page views should not be edited
 
 
-# Custom admin site configuration
-admin.site.site_header = "Bhanjyang Cooperative Admin"
-admin.site.site_title = "Bhanjyang Admin"
-admin.site.index_title = "Welcome to Bhanjyang Cooperative Administration"
+# Register with custom admin site
+from apps.admin.admin_site import admin_site
+
+# Unregister from default admin site if already registered
+from django.contrib import admin
+for model in [HomePageContent, Testimonial, Statistic, Announcement, NewsletterSubscriber, ContactInquiry, PageView]:
+    if model in admin.site._registry:
+        admin.site.unregister(model)
+
+# Register with custom admin site
+admin_site.register(HomePageContent, HomePageContentAdmin)
+admin_site.register(Testimonial, TestimonialAdmin)
+admin_site.register(Statistic, StatisticAdmin)
+admin_site.register(Announcement, AnnouncementAdmin)
+admin_site.register(NewsletterSubscriber, NewsletterSubscriberAdmin)
+admin_site.register(ContactInquiry, ContactInquiryAdmin)
+admin_site.register(PageView, PageViewAdmin)
