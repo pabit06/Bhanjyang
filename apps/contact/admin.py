@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.db.models import Count, Q
 from datetime import timedelta
-from .models import ContactSubmission, KYMSubmission, OfficeLocation
+from .models import ContactSubmission, KYMSubmission, OfficeLocation, FAQ
 
 
 @admin.register(ContactSubmission)
@@ -278,7 +278,7 @@ class KYMSubmissionAdmin(admin.ModelAdmin):
     
     list_display = [
         'full_name', 'email', 'phone', 'status_badge', 'occupation', 
-        'created_at', 'is_recent_badge'
+        'created_at', 'is_recent_badge', 'download_pdf_link'
     ]
     list_filter = ['status', 'created_at', 'district', 'gender']
     search_fields = ['full_name', 'email', 'phone', 'permanent_address', 'occupation']
@@ -323,7 +323,7 @@ class KYMSubmissionAdmin(admin.ModelAdmin):
     
     actions = [
         'mark_as_approved', 'mark_as_rejected', 'mark_as_under_review',
-        'mark_as_pending', 'export_to_csv', 'delete_selected'
+        'mark_as_pending', 'export_to_csv', 'delete_selected', 'download_pdf'
     ]
     
     def status_badge(self, obj):
@@ -353,6 +353,17 @@ class KYMSubmissionAdmin(admin.ModelAdmin):
         return ''
     is_recent_badge.short_description = 'Recent'
     is_recent_badge.admin_order_field = 'created_at'
+
+    def download_pdf_link(self, obj):
+        """Show a download PDF button in the list view"""
+        url = reverse('contact:kym_download_pdf', args=[obj.pk])
+        return format_html(
+            '<a class="button" href="{}" style="background-color: #006039; color: white; padding: 4px 8px; '
+            'border-radius: 4px; font-size: 11px; text-decoration: none;">'
+            '<i class="fas fa-file-pdf"></i> PDF</a>',
+            url
+        )
+    download_pdf_link.short_description = 'Actions'
     
     def document_preview(self, obj):
         """Show document links"""
@@ -478,6 +489,20 @@ class KYMSubmissionAdmin(admin.ModelAdmin):
         
         return response
     export_to_csv.short_description = "📊 Export selected submissions to CSV"
+    
+    def download_pdf(self, request, queryset):
+        """Action to download PDF for the first selected item (single only for now)"""
+        if queryset.count() != 1:
+            self.message_user(request, "Please select exactly one submission to download PDF.", level='warning')
+            return
+        
+        submission = queryset.first()
+        return HttpResponse(
+            reverse('contact:kym_download_pdf', args=[submission.pk]),
+            status=302,
+            headers={'Location': reverse('contact:kym_download_pdf', args=[submission.pk])}
+        )
+    download_pdf.short_description = "📄 Download PDF for selected (Single)"
     
     def has_add_permission(self, request):
         """Disable adding new submissions through admin"""
@@ -620,9 +645,18 @@ class OfficeLocationAdmin(admin.ModelAdmin):
     location_type_badge.admin_order_field = 'location_type'
 
 
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ['question', 'order', 'is_active', 'updated_at']
+    list_editable = ['order', 'is_active']
+    search_fields = ['question', 'answer']
+    list_filter = ['is_active', 'created_at']
+    ordering = ['order', 'created_at']
+
 # Register with custom admin site
 from apps.admin.admin_site import admin_site
 
 admin_site.register(ContactSubmission, ContactSubmissionAdmin)
 admin_site.register(KYMSubmission, KYMSubmissionAdmin)
 admin_site.register(OfficeLocation, OfficeLocationAdmin)
+admin_site.register(FAQ, FAQAdmin)

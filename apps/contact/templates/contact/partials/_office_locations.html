@@ -1,0 +1,42 @@
+{% load static %}
+{% load i18n %}
+<!-- Contact Information Section -->
+<section id="contact-information" class="relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-deuraligreen/5 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-12">
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                {% trans "Contact Details" %}
+            </span>
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
+                {% trans "Our Contact Address and Locations" %}
+            </h2>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                {% trans "You can contact directly at Main Office (Rupa-5, Deurali) or Service Center (Rupa-3, Polyang)." %}
+            </p>
+        </div>
+
+        <!-- Contact Information Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {% include "components/info_card.html" with icon="fas fa-landmark" title=_("Main Office") color="deuraligreen" content=site_info.address|default:"Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal" link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Rupa+Rural+Municipality+5+Deurali+Kaski" link_text=_("Get Directions") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-location-dot" title=_("Service Center") color="bhanjyangred" content=_("Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal") link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Polyang+Branch+Rupa+Rural+Municipality+3+Polyang+Kaski" link_text=_("Get Directions") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-clock" title=_("Office Hours") color="deuraligreen" content=_("Sunday - Friday: 10:00 - 4:00<br>Saturday: Holiday<br>Public Holidays: Closed") footer_text=_("Service available during office hours.") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-phone" title=_("Phone Contact") color="deuraligreen" content="Main Office: <a href='tel:"|add:site_info.phone|default:"+9779856083101"|add:"' class='text-deuraligreen hover:underline font-semibold'>"|add:site_info.phone|default:"+977-9856083101"|add:"</a><br>Service Center: <a href='tel:+9779846242424' class='text-deuraligreen hover:underline font-semibold'>+977-9846242424</a>" footer_text=_("Call us for any inquiries.") %}
+            
+            {% include "components/info_card.html" with icon="fas fa-envelope-open-text" title=_("Email Contact") color="bhanjyangred" content="Inquiry: <a href='mailto:"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"' class='text-bhanjyangred hover:underline font-semibold'>"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"</a><br>Support: <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>support@bhanjyang.coop.np</a>" footer_text=_("We usually reply within 24 hours.") %}
+        </div>
+    </div>
+</section>

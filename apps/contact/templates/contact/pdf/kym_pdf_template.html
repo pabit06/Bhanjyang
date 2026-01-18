@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>KYM Submission - {{ instance.full_name }}</title>
+    <style>
+        @page {
+            size: a4 portrait;
+            margin: 1cm;
+            @frame footer {
+                -pdf-frame-content: footer_content;
+                bottom: 1cm;
+                margin-left: 1cm;
+                margin-right: 1cm;
+                height: 1cm;
+            }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            color: #333;
+            line-height: 1.4;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #006039;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+        .header h1 {
+            color: #006039;
+            font-size: 18pt;
+            margin: 0;
+            text-transform: uppercase;
+        }
+        .header h2 {
+            font-size: 12pt;
+            margin: 5px 0;
+            color: #b91c1c; /* bhanjyangred */
+        }
+        .form-title {
+            text-align: center;
+            background-color: #f3f4f6;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 14pt;
+            margin-bottom: 20px;
+            border: 1px solid #d1d5db;
+        }
+        .section {
+            margin-bottom: 15px;
+        }
+        .section-title {
+            background-color: #006039;
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        th {
+            background-color: #f9fafb;
+            width: 30%;
+            font-weight: bold;
+        }
+        .photo-container {
+            float: right;
+            width: 120px;
+            height: 150px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .photo-container img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .footer {
+            text-align: center;
+            font-size: 8pt;
+            color: #666;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+        .signature-section {
+            margin-top: 40px;
+        }
+        .signature-box {
+            width: 200px;
+            border-top: 1px solid #000;
+            text-align: center;
+            padding-top: 5px;
+            display: inline-block;
+        }
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Bhanjyang Saving & Credit Cooperative Society Ltd.</h1>
+        <h2>भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड</h2>
+        <p>Rupa Rural Municipality-5, Deurali, Kaski, Nepal</p>
+    </div>
+
+    <div class="form-title">
+        KNOW YOUR MEMBER (KYM) FORM
+    </div>
+
+    <div class="clearfix">
+        <div class="photo-container">
+            {% if instance.passport_photo %}
+                <img src="{{ instance.passport_photo.path }}" alt="Passport Photo">
+            {% else %}
+                <br><br>PASSPORT<br>PHOTO
+            {% endif %}
+        </div>
+        
+        <div class="section" style="width: 75%;">
+            <div class="section-title">Personal Details</div>
+            <table>
+                <tr>
+                    <th>Full Name</th>
+                    <td>{{ instance.full_name }}</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>{{ instance.dob }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ instance.get_gender_display }}</td>
+                </tr>
+                <tr>
+                    <th>Marital Status</th>
+                    <td>{{ instance.get_marital_status_display }}</td>
+                </tr>
+                <tr>
+                    <th>Nationality</th>
+                    <td>{{ instance.nationality }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Contact Information</div>
+        <table>
+            <tr>
+                <th>Phone Number</th>
+                <td>{{ instance.phone }}</td>
+            </tr>
+            <tr>
+                <th>Email Address</th>
+                <td>{{ instance.email }}</td>
+            </tr>
+            <tr>
+                <th>Permanent Address</th>
+                <td>{{ instance.permanent_address }}</td>
+            </tr>
+            <tr>
+                <th>District / Province</th>
+                <td>{{ instance.district }} / {{ instance.province }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Family Details</div>
+        <table>
+            <tr>
+                <th>Father's Name</th>
+                <td>{{ instance.father_name }}</td>
+            </tr>
+            <tr>
+                <th>Mother's Name</th>
+                <td>{{ instance.mother_name }}</td>
+            </tr>
+            <tr>
+                <th>Spouse Name</th>
+                <td>{{ instance.spouse_name|default:"N/A" }}</td>
+            </tr>
+            <tr>
+                <th>Grandfather's Name</th>
+                <td>{{ instance.grand_father_name }}</td>
+            </tr>
+            <tr>
+                <th>Nominee Name</th>
+                <td>{{ instance.nominee_name|default:"N/A" }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Occupation & Income</div>
+        <table>
+            <tr>
+                <th>Occupation</th>
+                <td>{{ instance.occupation }}</td>
+            </tr>
+            <tr>
+                <th>Income Source</th>
+                <td>{{ instance.income_source }}</td>
+            </tr>
+            <tr>
+                <th>Estimated Annual Income</th>
+                <td>Rs. {{ instance.estimated_income|default:"0.00" }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Submission Metadata</div>
+        <table>
+            <tr>
+                <th>Submission ID</th>
+                <td>#{{ instance.id }}</td>
+            </tr>
+            <tr>
+                <th>Submitted At</th>
+                <td>{{ instance.created_at|date:"F d, Y H:i" }}</td>
+            </tr>
+            <tr>
+                <th>IP Address</th>
+                <td>{{ instance.ip_address }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="signature-section">
+        <p>I hereby declare that the information provided above is true and correct to the best of my knowledge.</p>
+        <br><br>
+        <div style="width: 100%;">
+            <div class="signature-box" style="float: left;">
+                Applicant's Signature
+            </div>
+            <div class="signature-box" style="float: right;">
+                Authorized Officer
+            </div>
+        </div>
+    </div>
+
+    <div id="footer_content" class="footer">
+        Bhanjyang Saving & Credit Cooperative Society Ltd. - Generated on {{ today|date:"Y-m-d" }}
+    </div>
+</body>
+</html>

@@ -458,3 +458,25 @@ class PrivacyPolicy(models.Model):
     def __str__(self):
         return f"{self.title} (v{self.version})"
 
+
+class FAQ(models.Model):
+    """
+    Model for Frequently Asked Questions.
+    
+    Allows dynamic management of FAQs on the contact page.
+    """
+    question = models.CharField(max_length=255, verbose_name=_("Question"))
+    answer = models.TextField(verbose_name=_("Answer"))
+    order = models.PositiveIntegerField(default=0, verbose_name=_("Order"), help_text=_("Order to display the FAQ (lowest first)"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['order', 'created_at']
+        verbose_name = _("FAQ")
+        verbose_name_plural = _("FAQs")
+    
+    def __str__(self):
+        return self.question

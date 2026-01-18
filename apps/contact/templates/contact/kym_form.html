@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}भञ्ज्याङ सहकारी - के.वाई.एम. (KYM) फारम{% endblock title %}
+{% load i18n %}
+{% block title %}{% trans "Bhanjyang Cooperative" %} - {% trans "KYM Form" %}{% endblock title %}
 
 {% block extra_head %}
     <!-- SEO Optimization: Meta Description for KYM Form page -->
@@ -10,6 +11,7 @@
 {% endblock extra_head %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'contact/css/kym_wizard.css' %}">
 <style>
     .kym-pattern-bg {
         background-image: url("{% static 'images/backgrounds/pattern-light.png' %}");
@@ -19,7 +21,7 @@
 
 {% block content %}
 
-    <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
+    <section class="relative bg-white text-deuraligreen py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center kym-pattern-bg"></div>
 
         <div class="container mx-auto text-center z-10 animated-element animate-in-up delay-500">
@@ -32,108 +34,171 @@
         </div>
     </section>
 
-    <section id="kym_form-section" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
-        <div class="container mx-auto max-w-4xl bg-white p-8 rounded-lg shadow-xl border-t-4 border-bhanjyangred animated-element animate-in-up delay-200">
-            <div class="text-center mb-8">
-                <i class="fas fa-clipboard-check text-6xl text-deuraligreen mb-4"></i>
-                <h2 class="text-3xl font-bold text-gray-900 font-montserrat">तपाईंको KYM विवरण</h2>
-                <p class="text-gray-600 mt-2">कृपया सबै आवश्यक विवरणहरू सही रूपमा भर्नुहोस्। यो जानकारीले हामीलाई नियमहरूको पालना गर्न र तपाईंलाई अझ राम्रो सेवा दिन मद्दत गर्छ।</p>
-                <p class="text-sm text-red-600 mt-2"><i class="fas fa-asterisk text-xs"></i> आवश्यक क्षेत्रहरू चिन्ह लगाइएका छन्।</p>
+    <section id="kym_form-section" class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+        <div class="container mx-auto max-w-4xl bg-white p-6 sm:p-10 rounded-lg shadow-xl border-t-4 border-bhanjyangred animated-element animate-in-up delay-200">
+            
+            <!-- Stepper Container -->
+            <div class="stepper mb-12">
+                <div class="stepper-progress" id="stepper-progress" style="width: 0%;"></div>
+                
+                <div class="step-item active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <span class="step-label hidden sm:block">{% trans "Personal" %}</span>
+                </div>
+                <div class="step-item" data-step="2">
+                    <div class="step-circle">2</div>
+                    <span class="step-label hidden sm:block">{% trans "Contact" %}</span>
+                </div>
+                <div class="step-item" data-step="3">
+                    <div class="step-circle">3</div>
+                    <span class="step-label hidden sm:block">{% trans "Family" %}</span>
+                </div>
+                <div class="step-item" data-step="4">
+                    <div class="step-circle">4</div>
+                    <span class="step-label hidden sm:block">{% trans "Occupation" %}</span>
+                </div>
+                <div class="step-item" data-step="5">
+                    <div class="step-circle">5</div>
+                    <span class="step-label hidden sm:block">{% trans "Documents" %}</span>
+                </div>
             </div>
 
-            <form action="{% url 'contact:kym_form' %}" method="POST" enctype="multipart/form-data" class="space-y-8">
+            <form action="{% url 'contact:kym_form' %}" method="POST" enctype="multipart/form-data" id="kym-wizard-form">
                 <input type="hidden" name="csrfmiddlewaretoken" id="kym-form-csrf-token" value="{{ csrf_token }}">
 
-                <!-- Section 1: Personal Details -->
-                <div class="border-b-2 border-gray-200 pb-6">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
-                        <i class="fas fa-user-circle mr-3"></i> व्यक्तिगत विवरण
+                <!-- Step 1: Personal Details -->
+                <div class="kym-wizard-step active" id="step-1">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
+                        <i class="fas fa-user-circle mr-3"></i> {% trans "Personal Details" %}
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {% include 'contact/partials/_form_field.html' with field=form.full_name icon='fa-user' label='पूरा नाम' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.dob icon='fa-calendar-alt' label='जन्म मिति' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.gender icon='fa-venus-mars' label='लिङ्ग' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.marital_status icon='fa-ring' label='वैवाहिक स्थिति' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.nationality icon='fa-globe' label='राष्ट्रियता' required=True col_span='md:col-span-2' %}
+                        {% include 'contact/partials/_form_field.html' with field=form.full_name icon='fa-user' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.dob icon='fa-calendar-alt' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.gender icon='fa-venus-mars' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.marital_status icon='fa-ring' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.nationality icon='fa-globe' required=True col_span='md:col-span-2' %}
+                    </div>
+                    
+                    <div class="wizard-nav">
+                        <div></div>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
+                            {% trans "Next" %} <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Section 2: Contact Information -->
-                <div class="border-b-2 border-gray-200 pb-6 pt-4">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
-                        <i class="fas fa-address-book mr-3"></i> सम्पर्क विवरण
+                <!-- Step 2: Contact Information -->
+                <div class="kym-wizard-step" id="step-2">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
+                        <i class="fas fa-address-book mr-3"></i> {% trans "Contact Details" %}
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {% include 'contact/partials/_form_field.html' with field=form.phone icon='fa-phone' label='फोन नम्बर' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.email icon='fa-envelope' label='इमेल ठेगाना' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.permanent_address icon='fa-map-marker-alt' label='स्थायी ठेगाना' required=True col_span='md:col-span-2' %}
-                        {% include 'contact/partials/_form_field.html' with field=form.district icon='fa-city' label='जिल्ला' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.province icon='fa-map' label='प्रदेश' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.phone icon='fa-phone' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.email icon='fa-envelope' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.permanent_address icon='fa-map-marker-alt' required=True col_span='md:col-span-2' %}
+                        {% include 'contact/partials/_form_field.html' with field=form.district icon='fa-city' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.province icon='fa-map' required=True %}
+                    </div>
+                    
+                    <div class="wizard-nav">
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
+                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        </button>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
+                            अर्को <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Section 3: Family Details -->
-                <div class="border-b-2 border-gray-200 pb-6 pt-4">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                <!-- Step 3: Family Details -->
+                <div class="kym-wizard-step" id="step-3">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
                         <i class="fas fa-users mr-3"></i> पारिवारिक विवरण
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {% include 'contact/partials/_form_field.html' with field=form.father_name icon='fa-male' label="बुबाको नाम" required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.mother_name icon='fa-female' label="आमाको नाम" required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.spouse_name icon='fa-heart' label="पति/पत्नीको नाम (विवाहित भए)" required=False %}
-                        {% include 'contact/partials/_form_field.html' with field=form.grand_father_name icon='fa-user-tie' label="हजुरबुबाको नाम" required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.nominee_name icon='fa-hand-holding-heart' label='हकवालाको नाम (ऐच्छिक)' required=False col_span='md:col-span-2' %}
+                        {% include 'contact/partials/_form_field.html' with field=form.father_name icon='fa-male' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.mother_name icon='fa-female' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.spouse_name icon='fa-heart' required=False %}
+                        {% include 'contact/partials/_form_field.html' with field=form.grand_father_name icon='fa-user-tie' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.nominee_name icon='fa-hand-holding-heart' required=False col_span='md:col-span-2' %}
+                    </div>
+                    
+                    <div class="wizard-nav">
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
+                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        </button>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
+                            अर्को <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Section 4: Occupation & Income Details -->
-                <div class="border-b-2 border-gray-200 pb-6 pt-4">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                <!-- Step 4: Occupation & Income Details -->
+                <div class="kym-wizard-step" id="step-4">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
                         <i class="fas fa-briefcase mr-3"></i> पेशा र आम्दानी
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {% include 'contact/partials/_form_field.html' with field=form.occupation icon='fa-hard-hat' label='पेशा' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.income_source icon='fa-sack-dollar' label='आम्दानीको स्रोत' required=True %}
-                        {% include 'contact/partials/_form_field.html' with field=form.estimated_income icon='fa-money-bill-trend-up' label='अनुमानित वार्षिक आम्दानी (रु.)' required=False col_span='md:col-span-2' %}
+                        {% include 'contact/partials/_form_field.html' with field=form.occupation icon='fa-hard-hat' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.income_source icon='fa-sack-dollar' required=True %}
+                        {% include 'contact/partials/_form_field.html' with field=form.estimated_income icon='fa-money-bill-trend-up' required=False col_span='md:col-span-2' %}
+                    </div>
+                    
+                    <div class="wizard-nav">
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
+                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        </button>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
+                            अर्को <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Section 5: Document Uploads -->
-                <div class="pb-6 pt-4">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-4 flex items-center">
+                <!-- Step 5: Document Uploads -->
+                <div class="kym-wizard-step" id="step-5">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
                         <i class="fas fa-cloud-upload-alt mr-3"></i> कागजात अपलोड
                     </h3>
-                    <p class="text-gray-600 mb-4">कृपया तलका आवश्यक कागजातहरूको स्पष्ट प्रतिलिपि अपलोड गर्नुहोस्। अधिकतम फाइल साइज: ५MB प्रति फाइल। स्वीकार्य ढाँचाहरू: PDF, JPG, PNG।</p>
+                    <p class="text-gray-600 mb-6">{% trans "Please upload clear copies of the following required documents. Max file size: 5MB per file." %}</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {% include 'contact/partials/_form_file_field.html' with field=form.citizenship_front label='नागरिकता/परिचय पत्र (अगाडि)' required=True %}
-                        {% include 'contact/partials/_form_file_field.html' with field=form.citizenship_back label='नागरिकता/परिचय पत्र (पछाडि)' required=True %}
-                        {% include 'contact/partials/_form_file_field.html' with field=form.passport_photo_upload label='पासपोर्ट साइजको फोटो' required=True %}
-                        {% include 'contact/partials/_form_file_field.html' with field=form.address_proof_upload label='ठेगाना प्रमाण (जस्तै: बत्तीको बिल)' required=True %}
-                        {% include 'contact/partials/_form_file_field.html' with field=form.income_proof_upload label='पेशा/आम्दानी प्रमाण (ऐच्छिक)' required=False col_span='md:col-span-2' %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.citizenship_front required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.citizenship_back required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.passport_photo_upload required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.address_proof_upload required=True %}
+                        {% include 'contact/partials/_form_file_field.html' with field=form.income_proof_upload required=False col_span='md:col-span-2' %}
                     </div>
-                </div>
-
-                <div class="text-center mt-8">
-                    <button type="submit" id="kym-submit-button"
-                            class="inline-block w-full bg-bhanjyangred hover:bg-deuraligreen text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed">
-                        <span id="kym-submit-text">KYM फारम बुझाउनुहोस् <i class="fas fa-paper-plane ml-2"></i></span>
-                        <span id="kym-loading-text" class="hidden">
-                            <i class="fas fa-spinner fa-spin mr-2"></i> बुझाउँदै...
-                        </span>
-                    </button>
+                    
+                    <div class="wizard-nav">
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
+                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        </button>
+                        <button type="submit" id="kym-submit-button"
+                                class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center bg-deuraligreen hover:bg-green-700">
+                            <span id="kym-submit-text">{% trans "Submit Form" %} <i class="fas fa-paper-plane ml-2"></i></span>
+                            <span id="kym-loading-text" class="hidden">
+                                <i class="fas fa-spinner fa-spin mr-2"></i> {% trans "Submitting..." %}
+                            </span>
+                        </button>
+                    </div>
                 </div>
             </form>
 
             <!-- Success Message -->
-            <div id="submission-success" class="hidden mt-6 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg" role="alert">
-                <p class="font-bold">KYM फारम सफलतापूर्वक बुझाइयो!</p>
-                <p>KYM पूरा गर्नुभएकोमा धन्यवाद। तपाईंको विवरण अब समीक्षा अन्तर्गत छ। प्रमाणीकरण प्रक्रिया पूरा भएपछि तपाईंलाई इमेल मार्फत जानकारी गराइनेछ।</p>
+            <div id="submission-success" class="hidden mt-6 bg-green-50 border-l-4 border-green-500 text-green-700 p-6 rounded-lg shadow-sm" role="alert">
+                <div class="flex items-center mb-2">
+                    <i class="fas fa-check-circle text-2xl mr-3"></i>
+                    <p class="font-bold text-xl">{% trans "Successfully Submitted!" %}</p>
+                </div>
+                <p>{% trans "Your KYM details have been received. We will review it and contact you if needed." %}</p>
             </div>
 
             <!-- Error Message -->
-            <div id="submission-error" class="hidden mt-6 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg" role="alert">
-                <p class="font-bold" id="error-title">त्रुटि</p>
-                <p id="error-message">फारम बुझाउँदा त्रुटि भयो। कृपया पुनः प्रयास गर्नुहोस्।</p>
+            <div id="submission-error" class="hidden mt-6 bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-lg shadow-sm" role="alert">
+                <div class="flex items-center mb-2">
+                    <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
+                    <p class="font-bold" id="error-title">{% trans "Error" %}</p>
+                </div>
+                <p id="error-message">फारम बुझाउँदा त्रुटि भयो। कृपया सबै विवरणहरू सही छन् कि छैनन् जाँच गर्नुहोस्।</p>
             </div>
         </div>
     </section>
@@ -141,13 +206,13 @@
     <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white text-deuraligreen text-center">
         <div class="container mx-auto max-w-3xl">
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-6">
-                KYM भर्न सहायता चाहिन्छ?
+                सहयोग चाहिन्छ?
             </h2>
-            <p class="text-lg mb-8 leading-relaxed">
-                यदि तपाईंसँग KYM प्रक्रियाबारे कुनै प्रश्नहरू छन् वा फारम भर्न मद्दत चाहिन्छ भने, कृपया हाम्रो सहयोगी टोलीलाई सम्पर्क गर्न नहिचकिचाउनुहोस्।
+            <p class="text-lg mb-8 leading-relaxed opacity-90">
+                यदि तपाईंलाई फारम भर्न कुनै अप्ठ्यारो परेमा हाम्रो टोली सधैं सहयोगका लागि तयार छ।
             </p>
             <a href="{% url 'contact:contact_view' %}"
-               class="inline-block bg-bhanjyangred hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ease-in-out">
+               class="inline-block bg-bhanjyangred hover:bg-black text-white font-bold py-3 px-10 rounded-full shadow-lg transform hover:-translate-y-1 transition-all duration-300">
                 सम्पर्क गर्नुहोस् <i class="fas fa-headset ml-2"></i>
             </a>
         </div>
@@ -157,228 +222,174 @@
 
 {% block extra_js %}
     <script>
+        let currentStep = 1;
+        const totalSteps = 5;
+
+        function updateStepper() {
+            // Update step circles and labels
+            document.querySelectorAll('.step-item').forEach(item => {
+                const step = parseInt(item.getAttribute('data-step'));
+                item.classList.remove('active', 'completed');
+                
+                if (step === currentStep) {
+                    item.classList.add('active');
+                } else if (step < currentStep) {
+                    item.classList.add('completed');
+                    item.querySelector('.step-circle').innerHTML = '<i class="fas fa-check"></i>';
+                } else {
+                    item.querySelector('.step-circle').textContent = step;
+                }
+            });
+
+            // Update progress bar
+            const progressBar = document.getElementById('stepper-progress');
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function validateCurrentStep() {
+            const currentStepDiv = document.getElementById(`step-${currentStep}`);
+            const inputs = currentStepDiv.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    showFieldError(input, 'यो विवरण भर्नु अनिवार्य छ।');
+                } else {
+                    clearFieldError(input);
+                }
+            });
+
+            return isValid;
+        }
+
+        function changeStep(n) {
+            if (n === 1 && !validateCurrentStep()) {
+                // Scroll to first error
+                const firstError = document.querySelector('.field-error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            // Hide current step
+            document.getElementById(`step-${currentStep}`).classList.remove('active');
+            
+            // Update currentStep
+            currentStep += n;
+            if (currentStep < 1) currentStep = 1;
+            if (currentStep > totalSteps) currentStep = totalSteps;
+
+            // Show new step
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+            
+            // Update UI
+            updateStepper();
+            
+            // Scroll to top of form
+            document.getElementById('kym_form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showFieldError(field, message) {
+            field.classList.add('border-red-500', 'ring-red-500', 'ring-2');
+            field.classList.remove('border-gray-300');
+            
+            clearFieldError(field);
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'text-red-600 text-sm mt-1 field-error';
+            errorDiv.textContent = message;
+            
+            const fieldContainer = field.closest('.relative') || field.parentElement;
+            fieldContainer.parentElement.insertBefore(errorDiv, fieldContainer.nextSibling);
+        }
+
+        function clearFieldError(field) {
+            field.classList.remove('border-red-500', 'ring-red-500', 'ring-2');
+            field.classList.add('border-gray-300');
+            
+            const fieldContainer = field.closest('.relative') || field.parentElement;
+            const errorDiv = fieldContainer.parentElement.querySelector('.field-error');
+            if (errorDiv) errorDiv.remove();
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            const kymForm = document.querySelector('#kym_form-section form');
+            const form = document.getElementById('kym-wizard-form');
             const submitButton = document.getElementById('kym-submit-button');
             const submitText = document.getElementById('kym-submit-text');
             const loadingText = document.getElementById('kym-loading-text');
             const successMessage = document.getElementById('submission-success');
             const errorMessage = document.getElementById('submission-error');
-            const errorTitle = document.getElementById('error-title');
-            const errorMsg = document.getElementById('error-message');
 
-            function showSuccess() {
-                successMessage.classList.remove('hidden');
-                errorMessage.classList.add('hidden');
-                // Scroll to success message
-                successMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!validateCurrentStep()) return;
 
-            function showError(title, message) {
-                errorTitle.textContent = title || 'त्रुटि';
-                errorMsg.textContent = message || 'फारम बुझाउँदा त्रुटि भयो। कृपया पुनः प्रयास गर्नुहोस्।';
-                errorMessage.classList.remove('hidden');
-                successMessage.classList.add('hidden');
-                // Scroll to error message
-                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
+                submitButton.disabled = true;
+                submitText.classList.add('hidden');
+                loadingText.classList.remove('hidden');
+                
+                const formData = new FormData(form);
+                const csrftoken = document.getElementById('kym-form-csrf-token').value;
 
-            function hideMessages() {
-                successMessage.classList.add('hidden');
-                errorMessage.classList.add('hidden');
-            }
-
-            function clearAllFieldErrors() {
-                // Remove all existing error messages
-                document.querySelectorAll('.field-error').forEach(el => el.remove());
-                // Remove error styling from all fields
-                kymForm.querySelectorAll('input, select, textarea').forEach(field => {
-                    field.classList.remove('border-red-500', 'ring-red-500');
-                    field.classList.add('border-gray-300');
-                });
-            }
-
-            function showFieldError(field, message) {
-                // Add red border to field
-                field.classList.add('border-red-500', 'ring-red-500', 'ring-2');
-                field.classList.remove('border-gray-300');
-                
-                // Remove existing error message for this field first
-                clearFieldError(field);
-                
-                // Create and insert error message
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'text-red-600 text-sm mt-1 field-error';
-                errorDiv.textContent = message;
-                errorDiv.setAttribute('role', 'alert');
-                errorDiv.setAttribute('aria-live', 'polite');
-                
-                // Insert error message after the field's parent div (which contains the field)
-                const fieldContainer = field.closest('.relative') || field.parentElement;
-                if (fieldContainer && fieldContainer.parentElement) {
-                    // Insert after the field container
-                    fieldContainer.parentElement.insertBefore(errorDiv, fieldContainer.nextSibling);
-                } else {
-                    // Fallback: insert after field's parent
-                    field.parentElement.appendChild(errorDiv);
-                }
-                
-                // Set aria-invalid for accessibility
-                field.setAttribute('aria-invalid', 'true');
-                
-                // Re-add error styling (clearFieldError removed it)
-                field.classList.add('border-red-500', 'ring-red-500', 'ring-2');
-                field.classList.remove('border-gray-300');
-            }
-
-            function clearFieldError(field) {
-                // Remove error styling
-                field.classList.remove('border-red-500', 'ring-red-500', 'ring-2');
-                field.classList.add('border-gray-300');
-                
-                // Find and remove error message - search in parent containers
-                let errorDiv = null;
-                const fieldContainer = field.closest('.relative') || field.parentElement;
-                if (fieldContainer) {
-                    // Check next sibling
-                    let nextSibling = fieldContainer.nextElementSibling;
-                    if (nextSibling && nextSibling.classList.contains('field-error')) {
-                        errorDiv = nextSibling;
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        form.classList.add('hidden');
+                        document.querySelector('.stepper').classList.add('hidden');
+                        successMessage.classList.remove('hidden');
+                        successMessage.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        errorMessage.classList.remove('hidden');
+                        if (data.errors) {
+                            // Find which step has errors and jump to it
+                            for (const fieldName in data.errors) {
+                                const field = form.querySelector(`[name="${fieldName}"]`);
+                                if (field) {
+                                    const stepDiv = field.closest('.kym-wizard-step');
+                                    const stepId = parseInt(stepDiv.id.split('-')[1]);
+                                    
+                                    // Go to the first step with an error
+                                    document.getElementById(`step-${currentStep}`).classList.remove('active');
+                                    currentStep = stepId;
+                                    document.getElementById(`step-${currentStep}`).classList.add('active');
+                                    updateStepper();
+                                    
+                                    showFieldError(field, data.errors[fieldName][0]);
+                                    field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    // Also check parent's children
-                    if (!errorDiv) {
-                        errorDiv = fieldContainer.parentElement.querySelector('.field-error');
-                    }
-                }
-                
-                if (errorDiv) {
-                    errorDiv.remove();
-                }
-                
-                // Clear aria-invalid
-                field.setAttribute('aria-invalid', 'false');
-            }
-
-            function setLoadingState(loading) {
-                if (loading) {
-                    submitButton.disabled = true;
-                    submitText.classList.add('hidden');
-                    loadingText.classList.remove('hidden');
-                } else {
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    errorMessage.classList.remove('hidden');
+                })
+                .finally(() => {
                     submitButton.disabled = false;
                     submitText.classList.remove('hidden');
                     loadingText.classList.add('hidden');
-                }
-            }
-
-            if (kymForm) {
-                // Clear field errors when user starts typing/selecting
-                kymForm.querySelectorAll('input, select, textarea').forEach(field => {
-                    field.addEventListener('input', function() {
-                        clearFieldError(this);
-                    });
-                    field.addEventListener('change', function() {
-                        clearFieldError(this);
-                    });
                 });
+            });
 
-                kymForm.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    
-                    // Hide previous messages and clear field errors
-                    hideMessages();
-                    clearAllFieldErrors();
-                    
-                    // Set loading state
-                    setLoadingState(true);
-
-                    // Collect form data
-                    const formData = new FormData(kymForm);
-                    const csrftoken = document.getElementById('kym-form-csrf-token').value;
-
-                    // Submit via AJAX
-                    fetch(kymForm.action, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': csrftoken,
-                            'X-Requested-With': 'XMLHttpRequest',
-                        },
-                        body: formData
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-
-                        // Check if response is JSON
-                        const contentType = response.headers.get('content-type');
-                        if (contentType && contentType.includes('application/json')) {
-                            return response.json();
-                        } else {
-                            return response.text().then(text => {
-                                throw new Error('Server returned non-JSON response');
-                            });
-                        }
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            // Clear all field errors on success
-                            clearAllFieldErrors();
-                            showSuccess();
-                            // Clear file inputs
-                            kymForm.querySelectorAll('input[type="file"]').forEach(input => {
-                                input.value = '';
-                            });
-                            // Reset form
-                            kymForm.reset();
-                            // Scroll to top of form
-                            kymForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        } else {
-                            // Clear previous errors first
-                            clearAllFieldErrors();
-                            
-                            // Handle validation errors
-                            if (data.errors) {
-                                let errorList = [];
-                                
-                                // Process each field's errors
-                                for (const [fieldName, errors] of Object.entries(data.errors)) {
-                                    // Get error message(s)
-                                    const errorMessages = Array.isArray(errors) ? errors : [errors];
-                                    
-                                    // Add to global error list
-                                    errorList.push(...errorMessages);
-                                    
-                                    // Find the field element
-                                    const field = kymForm.querySelector(`[name="${fieldName}"]`);
-                                    if (field) {
-                                        // Show field-level error (show first error message)
-                                        showFieldError(field, errorMessages[0]);
-                                    }
-                                }
-                                
-                                // Show global error message
-                                showError('प्रमाणीकरण त्रुटि', errorList.join(', ') || 'कृपया आफ्नो फारम जाँच गर्नुहोस् र पुन: प्रयास गर्नुहोस्।');
-                                
-                                // Scroll to first error field
-                                const firstErrorField = kymForm.querySelector('.border-red-500');
-                                if (firstErrorField) {
-                                    firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }
-                            } else {
-                                showError('बुझाउन असफल', data.message || 'फारम बुझाउँदा त्रुटि भयो। कृपया पुनः प्रयास गर्नुहोस्।');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('KYM form submission error:', error);
-                        showError('नेटवर्क त्रुटि', 'नेटवर्क त्रुटि। कृपया आफ्नो जडान जाँच गर्नुहोस् र पुन: प्रयास गर्नुहोस्।');
-                    })
-                    .finally(() => {
-                        setLoadingState(false);
-                    });
-                });
-            }
+            // Input clean-up on focused/typing
+            form.querySelectorAll('input, select').forEach(field => {
+                field.addEventListener('input', () => clearFieldError(field));
+                field.addEventListener('change', () => clearFieldError(field));
+            });
         });
     </script>
 {% endblock extra_js %}

@@ -40,6 +40,14 @@ class ContactView(NepaliLanguageMixin, View):
         except Exception as e:
             logger.warning(f"Could not fetch office locations: {e}")
             context['office_locations'] = []
+            
+        # Add FAQs
+        try:
+            from .models import FAQ
+            context['faqs'] = FAQ.objects.filter(is_active=True).order_by('order', 'created_at')
+        except Exception as e:
+            logger.warning(f"Could not fetch FAQs: {e}")
+            context['faqs'] = []
         
         return render(request, self.template_name, context)
     
@@ -130,7 +138,7 @@ class KYMFormView(NepaliLanguageMixin, View):
         
         try:
             # Use service to handle submission
-            submission = KYMService.create_submission(form.cleaned_data, request)
+            submission = KYMService.create_kym_submission(form.cleaned_data, request.FILES, request.META)
             
             return JsonResponse({
                 'success': True,
@@ -145,6 +153,31 @@ class KYMFormView(NepaliLanguageMixin, View):
                 'success': False,
                 'message': _('An error occurred while processing your submission. Please try again later.')
             }, status=500)
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponse
+
+class KYMDownloadPDFView(LoginRequiredMixin, UserPassesTestMixin, View):
+    """View to download KYM submission as PDF (Admin/Staff only)"""
+    
+    def test_func(self):
+        return self.request.user.is_staff
+        
+    def get(self, request, pk, *args, **kwargs):
+        pdf_buffer = KYMService.generate_kym_pdf(pk)
+        if not pdf_buffer:
+            from django.contrib import messages
+            messages.error(request, _("Failed to generate PDF for this submission."))
+            from django.shortcuts import redirect
+            return redirect('admin:contact_kymsubmission_changelist')
+            
+        submission = KYMSubmission.objects.get(id=pk)
+        filename = f"KYM_{submission.full_name.replace(' ', '_')}_{submission.id}.pdf"
+        
+        response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
 
 
 class PrivacyPolicyView(NepaliLanguageMixin, TemplateView):

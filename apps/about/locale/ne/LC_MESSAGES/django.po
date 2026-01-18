@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-15 23:02+0545\n"
+"POT-Creation-Date: 2026-01-18 23:17+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,36 +18,112 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\admin.py:30
+#: .\apps\about\admin.py:37 .\apps\about\models.py:91
+#: .\apps\about\models.py:216 .\apps\about\models.py:362
+#: .\apps\about\models.py:462 .\apps\about\models.py:558
 msgid "Status"
 msgstr "स्थिति"
 
-#: .\admin.py:35 .\models.py:60 .\models.py:127 .\models.py:186 .\models.py:243
-#: .\models.py:296 .\models.py:339 .\models.py:449
+#: .\apps\about\admin.py:42 .\apps\about\models.py:90
+#: .\apps\about\models.py:215 .\apps\about\models.py:359
+#: .\apps\about\models.py:461 .\apps\about\models.py:557
+#: .\apps\about\models.py:636 .\apps\about\models.py:746
 msgid "Active"
 msgstr "सक्रिय"
 
-#: .\admin.py:36
+#: .\apps\about\admin.py:43
 msgid "Inactive"
 msgstr "निष्क्रिय"
 
-#: .\admin.py:48 .\admin.py:53 .\templates\about\member_testimonials.html:93
+#: .\apps\about\admin.py:55 .\apps\about\admin.py:60
+#: .\apps\about\templates\about\member_testimonials.html:96
 msgid "Featured"
 msgstr "विशेष"
 
-#: .\admin.py:54
+#: .\apps\about\admin.py:61
 msgid "Not Featured"
 msgstr "विशेष नभएको"
 
-#: .\admin.py:146
+#: .\apps\about\admin.py:153
 msgid "Content displayed in the \"Our Story\" section on the About Us page"
 msgstr "हाम्रो बारेमा पृष्ठको \"हाम्रो कथा\" खण्डमा देखाइने सामग्री"
 
-#: .\admin.py:529
+#: .\apps\about\admin.py:157
+msgid ""
+"Content for home page sections. Years of service is automatically calculated "
+"from established date."
+msgstr ""
+
+#: .\apps\about\admin.py:161
+msgid ""
+"Set status to Published to make this content visible on the site. Use "
+"Scheduled to auto-publish at a specific time."
+msgstr ""
+
+#: .\apps\about\admin.py:166
+msgid "SEO meta tags for home page. If left blank, defaults will be used."
+msgstr ""
+
+#: .\apps\about\admin.py:175
+msgid ""
+"Legacy field - automatically synced with status. Use status field instead."
+msgstr ""
+
+#: .\apps\about\admin.py:280
+msgid "Set status to Published to make this event visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:292 .\apps\about\admin.py:410
+#: .\apps\about\admin.py:527 .\apps\about\admin.py:615
+msgid "Legacy field - automatically synced with status."
+msgstr ""
+
+#: .\apps\about\admin.py:373
+msgid ""
+"<strong>Home Page Impact Section Statistics</strong><br>These statistics are "
+"displayed in the \"Our Impact\" section on the home page.<br>Only statistics "
+"with <strong>Featured</strong> and <strong>Status=Published</strong> will be "
+"shown.<br>Maximum 4 statistics are displayed, ordered by the \"Display "
+"Order\" field.<br><br><strong>Examples:</strong><br>• Title: \"Active "
+"Members\", Value: \"10K+\", Unit: \"members\"<br>• Title: \"Years of "
+"Service\", Value: \"25+\", Unit: \"years\"<br>• Title: \"Total Savings\", "
+"Value: \"500\", Unit: \"Million NPR\""
+msgstr ""
+
+#: .\apps\about\admin.py:385
+msgid "Set status to Published to make this statistic visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:391
+msgid ""
+"<strong>Icon:</strong> Use FontAwesome icon classes. Examples:<br>• fas fa-"
+"users (for members)<br>• fas fa-chart-line (for growth)<br>• fas fa-hand-"
+"holding-usd (for loans)<br>• fas fa-piggy-bank (for savings)<br>• fas fa-"
+"calendar-check (for years)<br><br><strong>Color:</strong> Choose "
+"\"deuraligreen\" (green) or \"bhanjyangred\" (red) for border and icon "
+"colors."
+msgstr ""
+
+#: .\apps\about\admin.py:403
+msgid ""
+"<strong>Display Order:</strong> Lower numbers appear first (0, 1, 2, 3...)."
+"<br><strong>Featured:</strong> Only featured statistics appear on home page. "
+"Check this to display."
+msgstr ""
+
+#: .\apps\about\admin.py:519
+msgid "Set status to Published to make this affiliation visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:607
+msgid "Set status to Published to make this message visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:928
 msgid "RTI Act 2064 - Information Officer (सूचना अधिकारी)"
 msgstr "सूचनाको हक ऐन २०६४ - सूचना अधिकारी"
 
-#: .\admin.py:532
+#: .\apps\about\admin.py:931
 msgid ""
 "Designate this staff member as the Information Officer. Only one staff can "
 "be the active Information Officer at a time."
@@ -55,470 +131,724 @@ msgstr ""
 "यस कर्मचारीलाई सूचना अधिकारीको रूपमा तोक्नुहोस्। एक पटकमा केवल एक कर्मचारी सक्रिय "
 "सूचना अधिकारी हुन सक्छन्।"
 
-#: .\admin.py:539
+#: .\apps\about\admin.py:938
 msgid "Information Officer"
 msgstr "सूचना अधिकारी"
 
-#: .\constants.py:18 .\models.py:521
+#: .\apps\about\constants.py:18 .\apps\about\models.py:818
 msgid ""
 "Designate this staff member as the Information Officer under RTI Act 2064"
 msgstr "सूचनाको हक ऐन २०६४ बमोजिम यस कर्मचारीलाई सूचना अधिकारी तोक्नुहोस्"
 
-#: .\constants.py:19 .\models.py:527
+#: .\apps\about\constants.py:19 .\apps\about\models.py:824
 msgid "Dedicated email for RTI requests (e.g., rti@bhanjyang.coop.np)"
 msgstr "RTI अनुरोधहरूको लागि समर्पित इमेल (जस्तै, rti@bhanjyang.coop.np)"
 
-#: .\constants.py:109
+#: .\apps\about\constants.py:109
 msgid "Unable to load content"
 msgstr "सामग्री लोड गर्न असमर्थ"
 
-#: .\constants.py:110
+#: .\apps\about\constants.py:110
 msgid "Either select a person or enter a name."
 msgstr "कुनै व्यक्ति छान्नुहोस् वा नाम प्रविष्ट गर्नुहोस्।"
 
-#: .\constants.py:111
+#: .\apps\about\constants.py:111
 msgid "Please select a position."
 msgstr "कृपया पद छान्नुहोस्।"
 
-#: .\constants.py:112
+#: .\apps\about\constants.py:112
 msgid "Custom position must be provided when 'Other' is selected."
 msgstr "'अन्य' छान्दा अनुकूल पद प्रदान गर्नुपर्छ।"
 
-#: .\models.py:23
+#: .\apps\about\models.py:35 .\apps\about\models.py:188
+#: .\apps\about\models.py:286 .\apps\about\models.py:433
+#: .\apps\about\models.py:531 .\apps\about\templates\about\preview.html:41
+msgid "Draft"
+msgstr ""
+
+#: .\apps\about\models.py:36 .\apps\about\models.py:189
+#: .\apps\about\models.py:287 .\apps\about\models.py:434
+#: .\apps\about\models.py:532 .\apps\about\templates\about\preview.html:44
+msgid "Published"
+msgstr ""
+
+#: .\apps\about\models.py:37 .\apps\about\models.py:190
+#: .\apps\about\models.py:288 .\apps\about\models.py:435
+#: .\apps\about\models.py:533 .\apps\about\templates\about\preview.html:42
+msgid "Scheduled"
+msgstr ""
+
+#: .\apps\about\models.py:38 .\apps\about\models.py:191
+#: .\apps\about\models.py:289 .\apps\about\models.py:436
+#: .\apps\about\models.py:534 .\apps\about\templates\about\preview.html:43
+msgid "Archived"
+msgstr ""
+
+#: .\apps\about\models.py:41
 msgid "Cooperative Name"
 msgstr "सहकारीको नाम"
 
-#: .\models.py:24
+#: .\apps\about\models.py:42
 msgid "Cooperative Name (Nepali)"
 msgstr "सहकारीको नाम (नेपाली)"
 
-#: .\models.py:25
+#: .\apps\about\models.py:43
 msgid "URL-friendly identifier"
 msgstr "URL-मैत्री पहिचानकर्ता"
 
-#: .\models.py:28 .\templates\about\cooperative_detail.html:110
-#: .\templates\about\introduction.html:129
+#: .\apps\about\models.py:46
+#: .\apps\about\templates\about\cooperative_detail.html:115
+#: .\apps\about\templates\about\introduction.html:128
 msgid "Established Date"
 msgstr "स्थापना मिति"
 
-#: .\models.py:29 .\templates\about\cooperative_detail.html:115
+#: .\apps\about\models.py:47
+#: .\apps\about\templates\about\cooperative_detail.html:120
 msgid "Registration Number"
 msgstr "दर्ता नम्बर"
 
-#: .\models.py:30 .\templates\about\cooperative_detail.html:120
+#: .\apps\about\models.py:48
+#: .\apps\about\templates\about\cooperative_detail.html:125
 msgid "License Number"
 msgstr "इजाजतपत्र नम्बर"
 
-#: .\models.py:33 .\templates\about\cooperative_detail.html:141
+#: .\apps\about\models.py:51
+#: .\apps\about\templates\about\cooperative_detail.html:150
 msgid "Address"
 msgstr "ठेगाना"
 
-#: .\models.py:34 .\models.py:335 .\templates\about\cooperative_detail.html:149
+#: .\apps\about\models.py:52 .\apps\about\models.py:632
+#: .\apps\about\templates\about\cooperative_detail.html:160
 msgid "Phone"
 msgstr "फोन"
 
-#: .\models.py:35 .\models.py:334 .\templates\about\cooperative_detail.html:157
+#: .\apps\about\models.py:53 .\apps\about\models.py:631
+#: .\apps\about\templates\about\cooperative_detail.html:170
 msgid "Email"
 msgstr "इमेल"
 
-#: .\models.py:36 .\models.py:233 .\templates\about\cooperative_detail.html:126
+#: .\apps\about\models.py:54 .\apps\about\models.py:451
+#: .\apps\about\templates\about\cooperative_detail.html:131
 msgid "Website"
 msgstr "वेबसाइट"
 
-#: .\models.py:42
+#: .\apps\about\models.py:60
 msgid "Mission Statement"
 msgstr "लक्ष्य वक्तव्य"
 
-#: .\models.py:43
+#: .\apps\about\models.py:61
 msgid "Vision Statement"
 msgstr "दृष्टिकोण वक्तव्य"
 
-#: .\models.py:44
+#: .\apps\about\models.py:62
 msgid "Core Values"
 msgstr "मूल्यमान्यताहरू"
 
-#: .\models.py:47
+#: .\apps\about\models.py:65
 msgid "Cooperative Description"
 msgstr "सहकारीको विवरण"
 
-#: .\models.py:48
+#: .\apps\about\models.py:66
 msgid "Cooperative Description (Nepali)"
 msgstr "सहकारीको विवरण (नेपाली)"
 
-#: .\models.py:51 .\templates\about\introduction.html:106
+#: .\apps\about\models.py:69 .\apps\about\templates\about\introduction.html:105
+#: .\apps\about\templates\about\preview.html:71
 msgid "Our Story"
 msgstr "हाम्रो कथा"
 
-#: .\models.py:51
+#: .\apps\about\models.py:69
 msgid "Content for the 'Our Story' section on About Us page"
 msgstr "हाम्रो बारेमा पृष्ठको 'हाम्रो कथा' खण्डको लागि सामग्री"
 
-#: .\models.py:52
+#: .\apps\about\models.py:70
 msgid "Our Story (Nepali)"
 msgstr "हाम्रो कथा (नेपाली)"
 
-#: .\models.py:52
+#: .\apps\about\models.py:70
 msgid "Our Story content in Nepali"
 msgstr "नेपालीमा हाम्रो कथा सामग्री"
 
-#: .\models.py:53
+#: .\apps\about\models.py:71
 msgid "Our Story Image"
 msgstr "हाम्रो कथाको तस्बिर"
 
-#: .\models.py:53
+#: .\apps\about\models.py:71
 msgid "Image for the Our Story section on About Us page"
 msgstr "हाम्रो बारेमा पृष्ठको हाम्रो कथा खण्डको लागि छवि"
 
-#: .\models.py:56
+#: .\apps\about\models.py:74
 msgid "Cooperative Logo"
 msgstr "सहकारीको लोगो"
 
-#: .\models.py:57
+#: .\apps\about\models.py:75
 msgid "Featured Image"
 msgstr "विशेष छवि"
 
-#: .\models.py:70 .\models.py:71
+#: .\apps\about\models.py:78
+#, fuzzy
+#| msgid "Message Title"
+msgid "Meta Title"
+msgstr "सन्देश शीर्षक"
+
+#: .\apps\about\models.py:78
+msgid "Page title for SEO (e.g., 'Bhanjyang Cooperative - Home')"
+msgstr ""
+
+#: .\apps\about\models.py:79
+#, fuzzy
+#| msgid "Event Description"
+msgid "Meta Description"
+msgstr "कार्यक्रमको विवरण"
+
+#: .\apps\about\models.py:79
+msgid "Meta description for SEO and social sharing"
+msgstr ""
+
+#: .\apps\about\models.py:80
+msgid "Meta Keywords"
+msgstr ""
+
+#: .\apps\about\models.py:80
+msgid "Comma-separated keywords for SEO"
+msgstr ""
+
+#: .\apps\about\models.py:81
+msgid "Open Graph Image"
+msgstr ""
+
+#: .\apps\about\models.py:81
+msgid "Image for social media sharing (1200x630px recommended)"
+msgstr ""
+
+#: .\apps\about\models.py:84
+#, fuzzy
+#| msgid "Introduction"
+msgid "Introduction Text"
+msgstr "परिचय"
+
+#: .\apps\about\models.py:84
+#, fuzzy
+#| msgid "Image for the Our Story section on About Us page"
+msgid "Text for the introduction section on home page"
+msgstr "हाम्रो बारेमा पृष्ठको हाम्रो कथा खण्डको लागि छवि"
+
+#: .\apps\about\models.py:85
+#, fuzzy
+#| msgid "Introduction"
+msgid "Introduction Text (Nepali)"
+msgstr "परिचय"
+
+#: .\apps\about\models.py:85
+#, fuzzy
+#| msgid "Our Story content in Nepali"
+msgid "Introduction text in Nepali"
+msgstr "नेपालीमा हाम्रो कथा सामग्री"
+
+#: .\apps\about\models.py:86
+msgid "Why Choose Us Text"
+msgstr ""
+
+#: .\apps\about\models.py:86
+#, fuzzy
+#| msgid "Content for the 'Our Story' section on About Us page"
+msgid "Text for the 'Why Choose Us' section on home page"
+msgstr "हाम्रो बारेमा पृष्ठको 'हाम्रो कथा' खण्डको लागि सामग्री"
+
+#: .\apps\about\models.py:87
+msgid "Why Choose Us Text (Nepali)"
+msgstr ""
+
+#: .\apps\about\models.py:87
+msgid "Why Choose Us text in Nepali"
+msgstr ""
+
+#: .\apps\about\models.py:91 .\apps\about\models.py:216
+#: .\apps\about\models.py:362 .\apps\about\models.py:462
+#: .\apps\about\models.py:558
+#, fuzzy
+#| msgid "Qualifications"
+msgid "Publication status"
+msgstr "योग्यताहरू"
+
+#: .\apps\about\models.py:92 .\apps\about\models.py:217
+#: .\apps\about\models.py:363 .\apps\about\models.py:463
+#: .\apps\about\models.py:559
+msgid "Scheduled Date"
+msgstr ""
+
+#: .\apps\about\models.py:92
+msgid "Schedule this content to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:93 .\apps\about\models.py:218
+#: .\apps\about\models.py:364 .\apps\about\models.py:464
+#: .\apps\about\models.py:560
+#, fuzzy
+#| msgid "Established Date"
+msgid "Published Date"
+msgstr "स्थापना मिति"
+
+#: .\apps\about\models.py:93
+msgid "Date when this content was published"
+msgstr ""
+
+#: .\apps\about\models.py:94 .\apps\about\models.py:219
+#: .\apps\about\models.py:365 .\apps\about\models.py:465
+#: .\apps\about\models.py:561
+msgid "Published By"
+msgstr ""
+
+#: .\apps\about\models.py:94
+msgid "User who published this content"
+msgstr ""
+
+#: .\apps\about\models.py:104 .\apps\about\models.py:105
 msgid "Cooperative Information"
 msgstr "सहकारी जानकारी"
 
-#: .\models.py:106
+#: .\apps\about\models.py:194
 msgid "Milestone"
 msgstr "कोसेढुङ्गा"
 
-#: .\models.py:107
+#: .\apps\about\models.py:195
 msgid "Achievement"
 msgstr "उपलब्धि"
 
-#: .\models.py:108
+#: .\apps\about\models.py:196
 msgid "Expansion"
 msgstr "विस्तार"
 
-#: .\models.py:109
+#: .\apps\about\models.py:197
 msgid "Award"
 msgstr "पुरस्कार"
 
-#: .\models.py:110 .\models.py:223
+#: .\apps\about\models.py:198 .\apps\about\models.py:441
 msgid "Partnership"
 msgstr "साझेदारी"
 
-#: .\models.py:111 .\models.py:168 .\models.py:227 .\models.py:279
-#: .\models.py:428
+#: .\apps\about\models.py:199 .\apps\about\models.py:298
+#: .\apps\about\models.py:445 .\apps\about\models.py:540
+#: .\apps\about\models.py:725
 msgid "Other"
 msgstr "अन्य"
 
-#: .\models.py:114
+#: .\apps\about\models.py:202
 msgid "Event Title"
 msgstr "कार्यक्रमको शीर्षक"
 
-#: .\models.py:115
+#: .\apps\about\models.py:203
 msgid "Event Description"
 msgstr "कार्यक्रमको विवरण"
 
-#: .\models.py:116
+#: .\apps\about\models.py:204
 msgid "Event Date"
 msgstr "कार्यक्रमको मिति"
 
-#: .\models.py:117
+#: .\apps\about\models.py:205
 msgid "Event Type"
 msgstr "कार्यक्रमको प्रकार"
 
-#: .\models.py:120
+#: .\apps\about\models.py:208
 msgid "Event Image"
 msgstr "कार्यक्रमको छवि"
 
-#: .\models.py:123 .\models.py:182 .\models.py:239 .\models.py:292
+#: .\apps\about\models.py:211 .\apps\about\models.py:347
+#: .\apps\about\models.py:457 .\apps\about\models.py:553
 msgid "Display Order"
 msgstr "प्रदर्शन क्रम"
 
-#: .\models.py:126
+#: .\apps\about\models.py:214
 msgid "Featured Event"
 msgstr "विशेष कार्यक्रम"
 
-#: .\models.py:137
+#: .\apps\about\models.py:217
+msgid "Schedule this event to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:218
+msgid "Date when this event was published"
+msgstr ""
+
+#: .\apps\about\models.py:219
+msgid "User who published this event"
+msgstr ""
+
+#: .\apps\about\models.py:229
 msgid "Timeline Event"
 msgstr "समयरेखा घटना"
 
-#: .\models.py:138
+#: .\apps\about\models.py:230
 msgid "Timeline Events"
 msgstr "समयरेखा घटनाहरू"
 
-#: .\models.py:162
+#: .\apps\about\models.py:292
 msgid "Total Members"
 msgstr "कुल सदस्यहरू"
 
-#: .\models.py:163
+#: .\apps\about\models.py:293
 msgid "Total Deposits"
 msgstr "कुल बचत"
 
-#: .\models.py:164
+#: .\apps\about\models.py:294
 msgid "Total Loans Disbursed"
 msgstr "कुल ऋण प्रवाह"
 
-#: .\models.py:165
+#: .\apps\about\models.py:295
 msgid "Number of Branches"
 msgstr "शाखा संख्या"
 
-#: .\models.py:166
+#: .\apps\about\models.py:296
 msgid "Number of Employees"
 msgstr "कर्मचारी संख्या"
 
-#: .\models.py:167
+#: .\apps\about\models.py:297
 msgid "Total Assets"
 msgstr "कुल सम्पत्ति"
 
-#: .\models.py:171
+#: .\apps\about\models.py:303
 msgid "Statistic Title"
 msgstr "तथ्याङ्क शीर्षक"
 
-#: .\models.py:172
+#: .\apps\about\models.py:304
+msgid "e.g., 'Active Members', 'Years of Service', 'Total Savings'"
+msgstr ""
+
+#: .\apps\about\models.py:308
 msgid "Value"
 msgstr "मान"
 
-#: .\models.py:173
+#: .\apps\about\models.py:309
+msgid "e.g., '10K+', '25+', '500', '98%' (numbers or text)"
+msgstr ""
+
+#: .\apps\about\models.py:314
 msgid "Unit"
 msgstr "एकाइ"
 
-#: .\models.py:174 .\models.py:231
+#: .\apps\about\models.py:315
+msgid "Optional unit (e.g., 'members', 'years', 'Million NPR', '%')"
+msgstr ""
+
+#: .\apps\about\models.py:319 .\apps\about\models.py:449
 msgid "Description"
 msgstr "विवरण"
 
-#: .\models.py:175
+#: .\apps\about\models.py:320
+msgid ""
+"Short description shown below the statistic (e.g., 'Growing our community, "
+"one member at a time.')"
+msgstr ""
+
+#: .\apps\about\models.py:326
 msgid "Statistic Type"
 msgstr "तथ्याङ्क प्रकार"
 
-#: .\models.py:178
+#: .\apps\about\models.py:327
+msgid "Category for organizing statistics"
+msgstr ""
+
+#: .\apps\about\models.py:334
 msgid "Icon Class"
 msgstr "आइकन क्लास"
 
-#: .\models.py:179
+#: .\apps\about\models.py:335
+msgid ""
+"FontAwesome icon class (e.g., 'fas fa-users', 'fas fa-chart-line', 'fas fa-"
+"hand-holding-usd', 'fas fa-piggy-bank', 'fas fa-calendar-check')"
+msgstr ""
+
+#: .\apps\about\models.py:340
 msgid "Color Theme"
 msgstr "रङ थिम"
 
-#: .\models.py:185
+#: .\apps\about\models.py:341
+msgid "Choose 'deuraligreen' or 'bhanjyangred' for border and icon colors"
+msgstr ""
+
+#: .\apps\about\models.py:348
+msgid "Lower numbers appear first. Set 0, 1, 2, 3... for ordering on home page"
+msgstr ""
+
+#: .\apps\about\models.py:354
 msgid "Featured Statistic"
 msgstr "विशेष तथ्याङ्क"
 
-#: .\models.py:196
+#: .\apps\about\models.py:355
+msgid ""
+"Only featured statistics appear in the 'Our Impact' section on the home "
+"page. Check this to display on home page."
+msgstr ""
+
+#: .\apps\about\models.py:360
+msgid "Uncheck to hide this statistic without deleting it"
+msgstr ""
+
+#: .\apps\about\models.py:363
+msgid "Schedule this statistic to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:364
+msgid "Date when this statistic was published"
+msgstr ""
+
+#: .\apps\about\models.py:365
+msgid "User who published this statistic"
+msgstr ""
+
+#: .\apps\about\models.py:375
 msgid "Statistic"
 msgstr "तथ्याङ्क"
 
-#: .\models.py:197
+#: .\apps\about\models.py:376
 msgid "Statistics"
 msgstr "तथ्याङ्कहरू"
 
-#: .\models.py:221
+#: .\apps\about\models.py:439
 msgid "Regulatory Body"
 msgstr "नियामक निकाय"
 
-#: .\models.py:222
+#: .\apps\about\models.py:440
 msgid "Professional Association"
 msgstr "व्यावसायिक संघ"
 
-#: .\models.py:224
+#: .\apps\about\models.py:442
 msgid "Certification Body"
 msgstr "प्रमाणीकरण निकाय"
 
-#: .\models.py:225
+#: .\apps\about\models.py:443
 msgid "Umbrella Organization"
 msgstr "छाता संगठन"
 
-#: .\models.py:226
+#: .\apps\about\models.py:444
 msgid "Cooperative Bank"
 msgstr "सहकारी बैंक"
 
-#: .\models.py:230
+#: .\apps\about\models.py:448
 msgid "Organization Name"
 msgstr "संस्थाको नाम"
 
-#: .\models.py:232
+#: .\apps\about\models.py:450
 msgid "Affiliation Type"
 msgstr "सम्बन्धन प्रकार"
 
-#: .\models.py:236
+#: .\apps\about\models.py:454
 msgid "Organization Logo"
 msgstr "संस्थाको लोगो"
 
-#: .\models.py:242
+#: .\apps\about\models.py:460
 msgid "Featured Affiliation"
 msgstr "विशेष सम्बन्धन"
 
-#: .\models.py:253
+#: .\apps\about\models.py:463
+msgid "Schedule this affiliation to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:464
+msgid "Date when this affiliation was published"
+msgstr ""
+
+#: .\apps\about\models.py:465
+msgid "User who published this affiliation"
+msgstr ""
+
+#: .\apps\about\models.py:475
 msgid "Affiliation"
 msgstr "सम्बन्धन"
 
-#: .\models.py:254 .\templates\about\affiliations.html:5
-#: .\templates\about\affiliations.html:11
-#: .\templates\about\affiliations.html:19 .\views.py:87
+#: .\apps\about\models.py:476 .\apps\about\templates\about\affiliations.html:5
+#: .\apps\about\templates\about\affiliations.html:11
+#: .\apps\about\templates\about\affiliations.html:19 .\apps\about\views.py:105
 msgid "Affiliations"
 msgstr "सम्बन्धहरू"
 
-#: .\models.py:276
+#: .\apps\about\models.py:537
 msgid "Chairman Message"
 msgstr "अध्यक्षको सन्देश"
 
-#: .\models.py:277
+#: .\apps\about\models.py:538
 msgid "Manager Message"
 msgstr "व्यवस्थापकको सन्देश"
 
-#: .\models.py:278
+#: .\apps\about\models.py:539
 msgid "Director Message"
 msgstr "निर्देशकको सन्देश"
 
-#: .\models.py:282
+#: .\apps\about\models.py:543
 msgid "Message Title"
 msgstr "सन्देश शीर्षक"
 
-#: .\models.py:283
+#: .\apps\about\models.py:544
 msgid "Message Type"
 msgstr "सन्देश प्रकार"
 
-#: .\models.py:284
+#: .\apps\about\models.py:545
 msgid "Message Content"
 msgstr "सन्देश सामग्री"
 
-#: .\models.py:285
+#: .\apps\about\models.py:546
 msgid "Author Name"
 msgstr "लेखकको नाम"
 
-#: .\models.py:286
+#: .\apps\about\models.py:547
 msgid "Author Position"
 msgstr "लेखकको पद"
 
-#: .\models.py:289
+#: .\apps\about\models.py:550
 msgid "Author Photo"
 msgstr "लेखकको फोटो"
 
-#: .\models.py:295 .\templates\about\chairperson_message.html:135
+#: .\apps\about\models.py:556
+#: .\apps\about\templates\about\chairperson_message.html:135
 msgid "Featured Message"
 msgstr "विशेष सन्देश"
 
-#: .\models.py:306
+#: .\apps\about\models.py:559
+msgid "Schedule this message to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:560
+msgid "Date when this message was published"
+msgstr ""
+
+#: .\apps\about\models.py:561
+msgid "User who published this message"
+msgstr ""
+
+#: .\apps\about\models.py:571
 msgid "Leadership Message"
 msgstr "नेतृत्व सन्देश"
 
-#: .\models.py:307
+#: .\apps\about\models.py:572
 msgid "Leadership Messages"
 msgstr "नेतृत्व सन्देशहरू"
 
-#: .\models.py:336
+#: .\apps\about\models.py:633
 msgid "General Position"
 msgstr "सामान्य पद"
 
-#: .\models.py:347
+#: .\apps\about\models.py:644
 msgid "Person"
 msgstr "व्यक्ति"
 
-#: .\models.py:348
+#: .\apps\about\models.py:645
 msgid "People"
 msgstr "मानिसहरू"
 
-#: .\models.py:381
+#: .\apps\about\models.py:678
 msgid "Committee Description"
 msgstr "समिति विवरण"
 
-#: .\models.py:382
+#: .\apps\about\models.py:679
 msgid "Committee Photo"
 msgstr "समिति फोटो"
 
-#: .\models.py:383 .\models.py:447
+#: .\apps\about\models.py:680 .\apps\about\models.py:744
 msgid "Start Date"
 msgstr "सुरु मिति"
 
-#: .\models.py:384 .\models.py:448
+#: .\apps\about\models.py:681 .\apps\about\models.py:745
 msgid "End Date"
 msgstr "अन्त्य मिति"
 
-#: .\models.py:388 .\templates\about\board_of_directors.html:88
+#: .\apps\about\models.py:685
+#: .\apps\about\templates\about\board_of_directors.html:90
 msgid "Committee"
 msgstr "समिति"
 
-#: .\models.py:389
+#: .\apps\about\models.py:686
 msgid "Committees"
 msgstr "समितिहरू"
 
-#: .\models.py:418
+#: .\apps\about\models.py:715
 msgid "Select Position"
 msgstr "पद छान्नुहोस्"
 
-#: .\models.py:420
+#: .\apps\about\models.py:717
 msgid "Chairman"
 msgstr "अध्यक्ष"
 
-#: .\models.py:421
+#: .\apps\about\models.py:718
 msgid "Vice-Chairman"
 msgstr "उपाध्यक्ष"
 
-#: .\models.py:422
+#: .\apps\about\models.py:719
 msgid "Secretary"
 msgstr "सचिव"
 
-#: .\models.py:423
+#: .\apps\about\models.py:720
 msgid "Treasurer"
 msgstr "कोषाध्यक्ष"
 
-#: .\models.py:424
+#: .\apps\about\models.py:721
 msgid "Member"
 msgstr "सदस्य"
 
-#: .\models.py:426
+#: .\apps\about\models.py:723
 msgid "Coordinator"
 msgstr "संयोजक"
 
-#: .\models.py:454
+#: .\apps\about\models.py:751
 msgid "Committee Membership"
 msgstr "समिति सदस्यता"
 
-#: .\models.py:455
+#: .\apps\about\models.py:752
 msgid "Committee Memberships"
 msgstr "समिति सदस्यताहरू"
 
-#: .\models.py:513
+#: .\apps\about\models.py:810
 msgid "Department"
 msgstr "विभाग"
 
-#: .\models.py:514
+#: .\apps\about\models.py:811
 msgid "Salary Range"
 msgstr "तलब दायरा"
 
-#: .\models.py:515
+#: .\apps\about\models.py:812
 msgid "Qualifications"
 msgstr "योग्यताहरू"
 
-#: .\models.py:520
+#: .\apps\about\models.py:817
 msgid "Information Officer (सूचना अधिकारी)"
 msgstr "सूचना अधिकारी"
 
-#: .\models.py:526
+#: .\apps\about\models.py:823
 msgid "RTI Email"
 msgstr "RTI इमेल"
 
-#: .\models.py:532
+#: .\apps\about\models.py:829
 msgid "Staff Member"
 msgstr "कर्मचारी"
 
-#: .\models.py:533
+#: .\apps\about\models.py:830
 msgid "Staff Members"
 msgstr "कर्मचारीहरू"
 
-#: .\services.py:81 .\templates\about\partials\_board_structured_data.html:86
-#: .\templates\about\partials\_management_structured_data.html:85
-#: .\templates\about\partials\_organization_structured_data.html:181
-#: .\templates\about\partials\_timeline_structured_data.html:92 .\views.py:44
-#: .\views.py:63 .\views.py:85 .\views.py:110 .\views.py:135 .\views.py:159
-#: .\views.py:183 .\views.py:207 .\views.py:241
+#: .\apps\about\services.py:90
+#: .\apps\about\templates\about\partials\_board_structured_data.html:86
+#: .\apps\about\templates\about\partials\_management_structured_data.html:85
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:181
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:92
+#: .\apps\about\views.py:62 .\apps\about\views.py:81 .\apps\about\views.py:103
+#: .\apps\about\views.py:137 .\apps\about\views.py:171
+#: .\apps\about\views.py:195 .\apps\about\views.py:219
+#: .\apps\about\views.py:250 .\apps\about\views.py:286
 msgid "Home"
 msgstr "गृहपृष्ठ"
 
-#: .\services.py:82 .\templates\about\partials\_board_structured_data.html:92
-#: .\templates\about\partials\_management_structured_data.html:91
-#: .\templates\about\partials\_organization_structured_data.html:187
-#: .\templates\about\partials\_timeline_structured_data.html:98 .\views.py:45
-#: .\views.py:64 .\views.py:86 .\views.py:111 .\views.py:136 .\views.py:160
-#: .\views.py:184 .\views.py:208 .\views.py:242
+#: .\apps\about\services.py:91
+#: .\apps\about\templates\about\partials\_board_structured_data.html:92
+#: .\apps\about\templates\about\partials\_management_structured_data.html:91
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:187
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:98
+#: .\apps\about\views.py:63 .\apps\about\views.py:82 .\apps\about\views.py:104
+#: .\apps\about\views.py:138 .\apps\about\views.py:172
+#: .\apps\about\views.py:196 .\apps\about\views.py:220
+#: .\apps\about\views.py:251 .\apps\about\views.py:287
 msgid "About Us"
 msgstr "हाम्रो बारेमा"
 
-#: .\templates\about\affiliations.html:7
+#: .\apps\about\templates\about\affiliations.html:7
 msgid ""
 "Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, "
 "professional associations, and partnerships that ensure our compliance and "
@@ -527,7 +857,7 @@ msgstr ""
 "भञ्ज्याङ सहकारीको नियामक निकाय, व्यावसायिक संघ, र साझेदारीहरूसँगको सम्बन्धको बारेमा "
 "जान्नुहोस्, जसले हाम्रो पालना र उत्कृष्टता सुनिश्चित गर्दछ।"
 
-#: .\templates\about\affiliations.html:13
+#: .\apps\about\templates\about\affiliations.html:13
 msgid ""
 "Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, "
 "professional associations, and partnerships."
@@ -535,18 +865,18 @@ msgstr ""
 "भञ्ज्याङ सहकारीको नियामक निकाय, व्यावसायिक संघ, र साझेदारीहरूसँगको सम्बन्धको बारेमा "
 "जान्नुहोस्।"
 
-#: .\templates\about\affiliations.html:21
+#: .\apps\about\templates\about\affiliations.html:21
 msgid ""
 "Learn about Bhanjyang Cooperative's affiliations with regulatory bodies and "
 "professional associations."
 msgstr ""
 "भञ्ज्याङ सहकारीको नियामक निकाय र व्यावसायिक संघहरूसँगको सम्बन्धको बारेमा जान्नुहोस्।"
 
-#: .\templates\about\affiliations.html:29
+#: .\apps\about\templates\about\affiliations.html:30
 msgid "Our Affiliations"
 msgstr "हाम्रो सम्बन्धहरू"
 
-#: .\templates\about\affiliations.html:30
+#: .\apps\about\templates\about\affiliations.html:31
 msgid ""
 "We are proud to be associated with these organizations and regulatory "
 "bodies, including our local regulatory authority Rupa Rural Municipality."
@@ -554,94 +884,96 @@ msgstr ""
 "हामी हाम्रो स्थानीय नियामक प्राधिकरण रुपा गाउँपालिका सहित यी संस्थाहरू र नियामक "
 "निकायहरूसँग सम्बन्धित हुन पाउँदा गर्व गर्छौं।"
 
-#: .\templates\about\affiliations.html:63
+#: .\apps\about\templates\about\affiliations.html:65
+#: .\apps\about\templates\about\preview.html:130
 msgid "Visit Website"
 msgstr "वेबसाइट भ्रमण गर्नुहोस्"
 
-#: .\templates\about\affiliations.html:72
+#: .\apps\about\templates\about\affiliations.html:74
 msgid "No affiliations are available yet."
 msgstr "अहिलेसम्म कुनै सम्बन्धहरू उपलब्ध छैनन्।"
 
-#: .\templates\about\affiliations.html:73
+#: .\apps\about\templates\about\affiliations.html:75
 msgid "Affiliation information will be added as it becomes available."
 msgstr "उपलब्ध भएमा सम्बन्ध जानकारी थपिनेछ।"
 
-#: .\templates\about\affiliations.html:83
+#: .\apps\about\templates\about\affiliations.html:85
 msgid "Types of Affiliations"
 msgstr "सम्बन्धहरूका प्रकारहरू"
 
-#: .\templates\about\affiliations.html:84
+#: .\apps\about\templates\about\affiliations.html:86
 msgid "Understanding our various partnerships and regulatory relationships."
 msgstr "हाम्रो विभिन्न साझेदारीहरू र नियामक सम्बन्धहरू बुझ्दै।"
 
-#: .\templates\about\affiliations.html:92
+#: .\apps\about\templates\about\affiliations.html:94
 msgid "Regulatory Bodies"
 msgstr "नियामक निकायहरू"
 
-#: .\templates\about\affiliations.html:93
+#: .\apps\about\templates\about\affiliations.html:95
 msgid ""
 "Government agencies that oversee cooperative operations and ensure "
 "compliance."
 msgstr "सहकारी सञ्चालनको निरीक्षण गर्ने र अनुपालन सुनिश्चित गर्ने सरकारी एजेन्सीहरू।"
 
-#: .\templates\about\affiliations.html:100
+#: .\apps\about\templates\about\affiliations.html:102
 msgid "Professional Associations"
 msgstr "व्यावसायिक संघहरू"
 
-#: .\templates\about\affiliations.html:101
+#: .\apps\about\templates\about\affiliations.html:103
 msgid ""
 "Industry organizations that promote best practices and professional "
 "development."
 msgstr "उत्कृष्ट अभ्यासहरू र व्यावसायिक विकासलाई बढावा दिने उद्योग संस्थाहरू।"
 
-#: .\templates\about\affiliations.html:108
+#: .\apps\about\templates\about\affiliations.html:110
 msgid "Partnerships"
 msgstr "साझेदारीहरू"
 
-#: .\templates\about\affiliations.html:109
+#: .\apps\about\templates\about\affiliations.html:111
 msgid ""
 "Strategic collaborations that enhance our services and community impact."
 msgstr "हाम्रो सेवाहरू र समुदायिक प्रभावलाई बढाउने रणनीतिक सहयोगहरू।"
 
-#: .\templates\about\affiliations.html:116
+#: .\apps\about\templates\about\affiliations.html:118
 msgid "Certification Bodies"
 msgstr "प्रमाणीकरण निकायहरू"
 
-#: .\templates\about\affiliations.html:117
+#: .\apps\about\templates\about\affiliations.html:119
 msgid ""
 "Organizations that provide certifications and quality assurance standards."
 msgstr "प्रमाणीकरण र गुणस्तर आश्वासन मानकहरू प्रदान गर्ने संस्थाहरू।"
 
-#: .\templates\about\affiliations.html:124
+#: .\apps\about\templates\about\affiliations.html:126
 msgid "Umbrella Organizations"
 msgstr "छाता संस्थाहरू"
 
-#: .\templates\about\affiliations.html:125
+#: .\apps\about\templates\about\affiliations.html:127
 msgid ""
 "Parent organizations that coordinate and support multiple cooperatives and "
 "institutions."
 msgstr "धेरै सहकारीहरू र संस्थाहरूको समन्वय र समर्थन गर्ने मूल संस्थाहरू।"
 
-#: .\templates\about\affiliations.html:132
+#: .\apps\about\templates\about\affiliations.html:134
 msgid "Cooperative Banks"
 msgstr "सहकारी बैंकहरू"
 
-#: .\templates\about\affiliations.html:133
+#: .\apps\about\templates\about\affiliations.html:135
 msgid ""
 "Financial institutions that provide banking services and support to "
 "cooperatives."
 msgstr "सहकारीहरूलाई बैंकिङ सेवाहरू र समर्थन प्रदान गर्ने वित्तीय संस्थाहरू।"
 
-#: .\templates\about\board_of_directors.html:5
-#: .\templates\about\board_of_directors.html:11
-#: .\templates\about\board_of_directors.html:19
-#: .\templates\about\board_of_directors.html:62
-#: .\templates\about\partials\_board_structured_data.html:15
-#: .\templates\about\partials\_board_structured_data.html:98 .\views.py:161
+#: .\apps\about\templates\about\board_of_directors.html:5
+#: .\apps\about\templates\about\board_of_directors.html:11
+#: .\apps\about\templates\about\board_of_directors.html:19
+#: .\apps\about\templates\about\board_of_directors.html:63
+#: .\apps\about\templates\about\partials\_board_structured_data.html:15
+#: .\apps\about\templates\about\partials\_board_structured_data.html:98
+#: .\apps\about\views.py:197
 msgid "Board of Directors"
 msgstr "सञ्चालक समिति"
 
-#: .\templates\about\board_of_directors.html:7
+#: .\apps\about\templates\about\board_of_directors.html:7
 msgid ""
 "Meet the Board of Directors and committees of Bhanjyang Saving & Credit "
 "Cooperative Society Ltd. Learn about our elected leadership and governance "
@@ -650,52 +982,54 @@ msgstr ""
 "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको सञ्चालक समिति र समितिहरूलाई भेट्नुहोस्। "
 "हाम्रो निर्वाचित नेतृत्व र शासन संरचनाको बारेमा जान्नुहोस्।"
 
-#: .\templates\about\board_of_directors.html:13
-#: .\templates\about\board_of_directors.html:21
+#: .\apps\about\templates\about\board_of_directors.html:13
+#: .\apps\about\templates\about\board_of_directors.html:21
 msgid ""
 "Meet the Board of Directors and committees of Bhanjyang Cooperative. Learn "
 "about our elected leadership and governance structure."
 msgstr ""
-"भञ्ज्याङ सहकारीको सञ्चालक समिति र समितिहरूलाई भेट्नुहोस्। हाम्रो निर्वाचित नेतृत्व र "
-"शासन संरचनाको बारेमा जान्नुहोस्।"
+"भञ्ज्याङ सहकारीको सञ्चालक समिति र समितिहरूलाई भेट्नुहोस्। हाम्रो निर्वाचित नेतृत्व र शासन "
+"संरचनाको बारेमा जान्नुहोस्।"
 
-#: .\templates\about\board_of_directors.html:59
+#: .\apps\about\templates\about\board_of_directors.html:60
 msgid "Governance"
 msgstr "शासन"
 
-#: .\templates\about\board_of_directors.html:66
+#: .\apps\about\templates\about\board_of_directors.html:67
 msgid ""
 "Meet our elected leadership who guide our cooperative's vision and governance"
-msgstr "हाम्रो सहकारीको दृष्टिकोण र शासनलाई निर्देशित गर्ने हाम्रो निर्वाचित नेतृत्वलाई भेट्नुहोस्"
+msgstr ""
+"हाम्रो सहकारीको दृष्टिकोण र शासनलाई निर्देशित गर्ने हाम्रो निर्वाचित नेतृत्वलाई भेट्नुहोस्"
 
-#: .\templates\about\board_of_directors.html:96
+#: .\apps\about\templates\about\board_of_directors.html:98
 msgid "Tenure:"
 msgstr "कार्यकाल:"
 
-#: .\templates\about\board_of_directors.html:137
+#: .\apps\about\templates\about\board_of_directors.html:139
 msgid "No Board Information Available"
 msgstr "सञ्चालक समिति जानकारी उपलब्ध छैन"
 
-#: .\templates\about\board_of_directors.html:138
+#: .\apps\about\templates\about\board_of_directors.html:140
 msgid "Board of Directors information will be available soon."
 msgstr "सञ्चालक समिति जानकारी चाँडै उपलब्ध हुनेछ।"
 
-#: .\templates\about\board_of_directors.html:142
-#: .\templates\about\chairperson_message.html:155
-#: .\templates\about\management.html:127
-#: .\templates\about\manager_commitment.html:155
-#: .\templates\about\member_testimonials.html:158
+#: .\apps\about\templates\about\board_of_directors.html:144
+#: .\apps\about\templates\about\chairperson_message.html:155
+#: .\apps\about\templates\about\management.html:131
+#: .\apps\about\templates\about\manager_commitment.html:158
+#: .\apps\about\templates\about\member_testimonials.html:161
 msgid "Back to About Us"
 msgstr "हाम्रो बारेमा फर्कनुहोस्"
 
-#: .\templates\about\chairperson_message.html:5
-#: .\templates\about\chairperson_message.html:11
-#: .\templates\about\chairperson_message.html:25
-#: .\templates\about\chairperson_message.html:74 .\views.py:112
+#: .\apps\about\templates\about\chairperson_message.html:5
+#: .\apps\about\templates\about\chairperson_message.html:11
+#: .\apps\about\templates\about\chairperson_message.html:25
+#: .\apps\about\templates\about\chairperson_message.html:74
+#: .\apps\about\views.py:139
 msgid "Chairperson Message"
 msgstr "अध्यक्षको सन्देश"
 
-#: .\templates\about\chairperson_message.html:7
+#: .\apps\about\templates\about\chairperson_message.html:7
 msgid ""
 "Read the message from the Chairperson of Bhanjyang Saving & Credit "
 "Cooperative Society Ltd. Strategic vision and direction from our elected "
@@ -704,65 +1038,71 @@ msgstr ""
 "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडका अध्यक्षको सन्देश पढ्नुहोस्। हाम्रो निर्वाचित "
 "नेतृत्वबाट रणनीतिक दृष्टिकोण र दिशा।"
 
-#: .\templates\about\chairperson_message.html:13
-#: .\templates\about\chairperson_message.html:27
+#: .\apps\about\templates\about\chairperson_message.html:13
+#: .\apps\about\templates\about\chairperson_message.html:27
 msgid ""
 "Read the message from the Chairperson of Bhanjyang Cooperative. Strategic "
 "vision and direction from our elected leadership."
 msgstr ""
-"भञ्ज्याङ सहकारीका अध्यक्षको सन्देश पढ्नुहोस्। हाम्रो निर्वाचित नेतृत्वबाट रणनीतिक "
-"दृष्टिकोण र दिशा।"
+"भञ्ज्याङ सहकारीका अध्यक्षको सन्देश पढ्नुहोस्। हाम्रो निर्वाचित नेतृत्वबाट रणनीतिक दृष्टिकोण "
+"र दिशा।"
 
-#: .\templates\about\chairperson_message.html:71
+#: .\apps\about\templates\about\chairperson_message.html:71
 msgid "Leadership"
 msgstr "नेतृत्व"
 
-#: .\templates\about\chairperson_message.html:78
+#: .\apps\about\templates\about\chairperson_message.html:78
 msgid "Strategic vision and direction from our elected leadership"
 msgstr "हाम्रो निर्वाचित नेतृत्वबाट रणनीतिक दृष्टिकोण र दिशा"
 
-#: .\templates\about\chairperson_message.html:150
+#: .\apps\about\templates\about\chairperson_message.html:150
 msgid "No Chairperson Message Available"
 msgstr "अध्यक्षको सन्देश उपलब्ध छैन"
 
-#: .\templates\about\chairperson_message.html:151
+#: .\apps\about\templates\about\chairperson_message.html:151
 msgid ""
 "The chairperson message will be available soon. Please check back later."
 msgstr "अध्यक्षको सन्देश चाँडै उपलब्ध हुनेछ। कृपया पछि फेरि जाँच गर्नुहोस्।"
 
-#: .\templates\about\cooperative_detail.html:63
+#: .\apps\about\templates\about\cooperative_detail.html:66
 msgid "About"
 msgstr "बारेमा"
 
-#: .\templates\about\cooperative_detail.html:82
-msgid "Mission"
-msgstr "उद्देश्य"
+#: .\apps\about\templates\about\cooperative_detail.html:85
+#: .\apps\about\templates\about\introduction.html:199
+msgid "Our Mission"
+msgstr "हाम्रो उद्देश्य"
 
-#: .\templates\about\cooperative_detail.html:89
-msgid "Vision"
-msgstr "दृष्टिकोण"
+#: .\apps\about\templates\about\cooperative_detail.html:92
+#: .\apps\about\templates\about\introduction.html:210
+msgid "Our Vision"
+msgstr "हाम्रो दृष्टिकोण"
 
-#: .\templates\about\cooperative_detail.html:96
-msgid "Values"
-msgstr "मान्यताहरू"
+#: .\apps\about\templates\about\cooperative_detail.html:99
+#: .\apps\about\templates\about\introduction.html:221
+#, fuzzy
+#| msgid "Our Core Values"
+msgid "Our Values"
+msgstr "हाम्रा मुख्य मान्यताहरू"
 
-#: .\templates\about\cooperative_detail.html:106
+#: .\apps\about\templates\about\cooperative_detail.html:110
 msgid "Cooperative Details"
 msgstr "सहकारी विवरण"
 
-#: .\templates\about\cooperative_detail.html:135
+#: .\apps\about\templates\about\cooperative_detail.html:141
 msgid "Contact Information"
 msgstr "सम्पर्क विवरण"
 
-#: .\templates\about\introduction.html:5 .\templates\about\introduction.html:11
-#: .\templates\about\introduction.html:25
-#: .\templates\about\introduction.html:77
-#: .\templates\about\partials\_organization_structured_data.html:193
-#: .\views.py:46
+#: .\apps\about\templates\about\introduction.html:5
+#: .\apps\about\templates\about\introduction.html:11
+#: .\apps\about\templates\about\introduction.html:25
+#: .\apps\about\templates\about\introduction.html:78
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:193
+#: .\apps\about\views.py:64
 msgid "Introduction"
 msgstr "परिचय"
 
-#: .\templates\about\introduction.html:7
+#: .\apps\about\templates\about\introduction.html:7
 msgid ""
 "Learn about Bhanjyang Cooperative's story, vision, mission, values, and "
 "journey. Discover our establishment, principles, and key milestones."
@@ -770,8 +1110,8 @@ msgstr ""
 "भञ्ज्याङ सहकारीको कथा, दृष्टिकोण, उद्देश्य, मान्यता, र यात्राको बारेमा जान्नुहोस्। हाम्रो "
 "स्थापना, सिद्धान्त, र प्रमुख कोसेढुङ्गाहरू पत्ता लगाउनुहोस्।"
 
-#: .\templates\about\introduction.html:13
-#: .\templates\about\introduction.html:27
+#: .\apps\about\templates\about\introduction.html:13
+#: .\apps\about\templates\about\introduction.html:27
 msgid ""
 "Learn about Bhanjyang Cooperative's story, vision, mission, and journey. "
 "Empowering communities through cooperative principles."
@@ -779,247 +1119,451 @@ msgstr ""
 "भञ्ज्याङ सहकारीको कथा, दृष्टिकोण, उद्देश्य, र यात्राको बारेमा जान्नुहोस्। सहकारी "
 "सिद्धान्तहरू मार्फत समुदायलाई सशक्त बनाउँदै।"
 
-#: .\templates\about\introduction.html:80
+#: .\apps\about\templates\about\introduction.html:81
 msgid "Our Story, Vision & Journey"
 msgstr "हाम्रो कथा, दृष्टिकोण र यात्रा"
 
-#: .\templates\about\introduction.html:84
+#: .\apps\about\templates\about\introduction.html:85
 msgid ""
 "Discover our foundation, principles, and the milestones that shaped our "
 "cooperative"
 msgstr ""
 "हाम्रो जग, सिद्धान्तहरू, र हाम्रो सहकारीलाई आकार दिने कोसेढुङ्गाहरू पत्ता लगाउनुहोस्"
 
-#: .\templates\about\introduction.html:133
+#: .\apps\about\templates\about\introduction.html:132
 msgid "Registration"
 msgstr "दर्ता"
 
-#: .\templates\about\introduction.html:180
-#: .\templates\about\introduction.html:183
+#: .\apps\about\templates\about\introduction.html:180
+#: .\apps\about\templates\about\introduction.html:183
 msgid "Our Foundation"
 msgstr "हाम्रो आधार"
 
-#: .\templates\about\introduction.html:187
+#: .\apps\about\templates\about\introduction.html:187
 msgid ""
 "The principles that guide our commitment to community development and "
 "financial excellence"
 msgstr ""
 "सामुदायिक विकास र वित्तीय उत्कृष्टताप्रति हाम्रो प्रतिबद्धता निर्देशित गर्ने सिद्धान्तहरू"
 
-#: .\templates\about\introduction.html:199
-msgid "Our Mission"
-msgstr "हाम्रो उद्देश्य"
-
-#: .\templates\about\introduction.html:200
+#: .\apps\about\templates\about\introduction.html:200
 msgid ""
 "To provide exceptional financial services and support community development "
 "through cooperative principles."
 msgstr ""
-"सहकारी सिद्धान्तहरू मार्फत उत्कृष्ट वित्तीय सेवाहरू प्रदान गर्न र सामुदायिक विकासलाई समर्थन "
-"गर्न।"
+"सहकारी सिद्धान्तहरू मार्फत उत्कृष्ट वित्तीय सेवाहरू प्रदान गर्न र सामुदायिक विकासलाई "
+"समर्थन गर्न।"
 
-#: .\templates\about\introduction.html:210
-msgid "Our Vision"
-msgstr "हाम्रो दृष्टिकोण"
-
-#: .\templates\about\introduction.html:211
+#: .\apps\about\templates\about\introduction.html:211
 msgid ""
-"To be the leading cooperative in Nepal, recognized for integrity, innovation, "
-"and member satisfaction."
+"To be the leading cooperative society that empowers communities and fosters "
+"sustainable development."
 msgstr ""
-"अखण्डता, नवीनता, र सदस्य सन्तुष्टिको लागि मान्यता प्राप्त गर्दै नेपालको अग्रणी सहकारी "
-"बन्न।"
 
-#: .\templates\about\introduction.html:221
-msgid "Our Core Values"
-msgstr "हाम्रा मुख्य मान्यताहरू"
+#: .\apps\about\templates\about\introduction.html:222
+msgid ""
+"Integrity, transparency, member focus, community service, and sustainable "
+"growth."
+msgstr ""
 
-#: .\templates\about\introduction.html:236
-msgid "Integrity"
-msgstr "निष्ठा"
-
-#: .\templates\about\introduction.html:237
-msgid "We operate with honesty and transparency."
-msgstr "हामी इमानदारी र पारदर्शिताका साथ काम गर्छौं।"
-
-#: .\templates\about\introduction.html:241
-msgid "Community"
-msgstr "समुदाय"
-
-#: .\templates\about\introduction.html:242
-msgid "We are dedicated to serving our community."
-msgstr "हामी हाम्रो समुदायको सेवा गर्न समर्पित छौं।"
-
-#: .\templates\about\introduction.html:246
-msgid "Excellence"
-msgstr "उत्कृष्टता"
-
-#: .\templates\about\introduction.html:247
-msgid "We strive for excellence in everything we do."
-msgstr "हामीले गर्ने हरेक काममा उत्कृष्टताको लागि प्रयास गर्छौं।"
-
-#: .\templates\about\introduction.html:268
+#: .\apps\about\templates\about\introduction.html:245
+#: .\apps\about\templates\about\introduction.html:248
+#: .\apps\about\templates\about\timeline.html:115
 msgid "Our Journey"
 msgstr "हाम्रो यात्रा"
 
-#: .\templates\about\introduction.html:271
-msgid "Key milestones in our history"
-msgstr "हाम्रो इतिहासका प्रमुख कोसेढुङ्गाहरू"
+#: .\apps\about\templates\about\introduction.html:252
+msgid ""
+"Key milestones in our growth and development as a trusted financial "
+"institution"
+msgstr ""
 
-#: .\templates\about\management.html:5 .\templates\about\management.html:11
-#: .\templates\about\management.html:25 .\templates\about\management.html:62
-#: .\templates\about\partials\_management_structured_data.html:15
-#: .\templates\about\partials\_management_structured_data.html:97
-#: .\views.py:185
+#: .\apps\about\templates\about\introduction.html:285
+msgid "View Complete Timeline"
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:5
+#: .\apps\about\templates\about\management.html:11
+#: .\apps\about\templates\about\management.html:19
+#: .\apps\about\templates\about\management.html:67
+#: .\apps\about\templates\about\partials\_management_structured_data.html:15
+#: .\apps\about\templates\about\partials\_management_structured_data.html:97
 msgid "Management Team"
 msgstr "व्यवस्थापन समूह"
 
-#: .\templates\about\management.html:7
+#: .\apps\about\templates\about\management.html:7
+#, fuzzy
+#| msgid ""
+#| "Meet the management team of Bhanjyang Saving & Credit Cooperative Society "
+#| "Ltd. Our dedicated professionals ensuring efficient operations."
 msgid ""
-"Meet the management team of Bhanjyang Saving & Credit Cooperative Society "
-"Ltd. Our dedicated professionals ensuring efficient operations."
+"Meet the Management Team of Bhanjyang Saving & Credit Cooperative Society "
+"Ltd. Professional staff members who handle day-to-day operations and member "
+"services."
 msgstr ""
 "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको व्यवस्थापन समूहलाई भेट्नुहोस्। कुशल सञ्चालन "
 "सुनिश्चित गर्ने हाम्रा समर्पित पेशेवरहरू।"
 
-#: .\templates\about\management.html:13 .\templates\about\management.html:27
+#: .\apps\about\templates\about\management.html:13
+#: .\apps\about\templates\about\management.html:21
+#, fuzzy
+#| msgid ""
+#| "Meet the management team of Bhanjyang Cooperative. Our dedicated "
+#| "professionals ensuring efficient operations."
 msgid ""
-"Meet the management team of Bhanjyang Cooperative. Our dedicated "
-"professionals ensuring efficient operations."
+"Meet the Management Team of Bhanjyang Cooperative. Professional staff "
+"members who handle day-to-day operations and member services."
 msgstr ""
 "भञ्ज्याङ सहकारीको व्यवस्थापन समूहलाई भेट्नुहोस्। कुशल सञ्चालन सुनिश्चित गर्ने हाम्रा समर्पित "
 "पेशेवरहरू।"
 
-#: .\templates\about\management.html:66
+#: .\apps\about\templates\about\management.html:64
+#, fuzzy
+#| msgid "Registration"
+msgid "Operations"
+msgstr "दर्ता"
+
+#: .\apps\about\templates\about\management.html:71
 msgid ""
-"Our dedicated team of professionals working to serve our members and community"
-msgstr "हाम्रा सदस्यहरू र समुदायको सेवा गर्न कार्यरत हाम्रा समर्पित पेशेवरहरूको समूह"
+"Professional staff members who handle day-to-day operations and member "
+"services"
+msgstr ""
 
-#: .\templates\about\management.html:99
-msgid "Department:"
-msgstr "विभाग:"
-
-#: .\templates\about\management.html:122
-msgid "No Management Information Available"
+#: .\apps\about\templates\about\management.html:126
+#, fuzzy
+#| msgid "No Management Information Available"
+msgid "No Management Team Information Available"
 msgstr "व्यवस्थापन जानकारी उपलब्ध छैन"
 
-#: .\templates\about\management.html:123
+#: .\apps\about\templates\about\management.html:127
 msgid "Management team information will be available soon."
 msgstr "व्यवस्थापन समूहको जानकारी चाँडै उपलब्ध हुनेछ।"
 
+#: .\apps\about\templates\about\manager_commitment.html:5
+#: .\apps\about\templates\about\manager_commitment.html:11
+#: .\apps\about\templates\about\manager_commitment.html:25
+#: .\apps\about\templates\about\manager_commitment.html:79
+#: .\apps\about\views.py:173
+#, fuzzy
+#| msgid "Commitment"
+msgid "Manager Commitment"
+msgstr "प्रतिबद्धता"
 
-
-#: .\templates\about\manager_commitment.html:7
+#: .\apps\about\templates\about\manager_commitment.html:7
+#, fuzzy
+#| msgid ""
+#| "Read the commitment message from the Manager of Bhanjyang Saving & Credit "
+#| "Cooperative Society Ltd. Dedication to service excellence and member "
+#| "satisfaction."
 msgid ""
 "Read the commitment message from the Manager of Bhanjyang Saving & Credit "
-"Cooperative Society Ltd. Dedication to service excellence and member "
-"satisfaction."
+"Cooperative Society Ltd. Operational insights and service commitments from "
+"our management team."
 msgstr ""
 "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडका व्यवस्थापकबाट प्रतिबद्धता सन्देश पढ्नुहोस्। "
 "सेवा उत्कृष्टता र सदस्य सन्तुष्टिप्रति समर्पण।"
 
-#: .\templates\about\manager_commitment.html:13
-#: .\templates\about\manager_commitment.html:27
+#: .\apps\about\templates\about\manager_commitment.html:13
+#: .\apps\about\templates\about\manager_commitment.html:27
+#, fuzzy
+#| msgid ""
+#| "Read the commitment message from the Manager of Bhanjyang Cooperative. "
+#| "Dedication to service excellence."
 msgid ""
 "Read the commitment message from the Manager of Bhanjyang Cooperative. "
-"Dedication to service excellence."
+"Operational insights and service commitments from our management team."
 msgstr ""
 "भञ्ज्याङ सहकारीका व्यवस्थापकबाट प्रतिबद्धता सन्देश पढ्नुहोस्। सेवा उत्कृष्टताप्रति समर्पण।"
 
-#: .\templates\about\manager_commitment.html:71
-msgid "Commitment"
-msgstr "प्रतिबद्धता"
+#: .\apps\about\templates\about\manager_commitment.html:76
+#: .\apps\about\views.py:221
+#, fuzzy
+#| msgid "Management Team"
+msgid "Management"
+msgstr "व्यवस्थापन समूह"
 
-#: .\templates\about\manager_commitment.html:78
-msgid "Dedication to service excellence and member satisfaction"
-msgstr "सेवा उत्कृष्टता र सदस्य सन्तुष्टिप्रति समर्पण"
+#: .\apps\about\templates\about\manager_commitment.html:83
+msgid "Operational insights and service commitments from our management team"
+msgstr ""
 
-#: .\templates\about\manager_commitment.html:150
-msgid "No Manager Message Available"
+#: .\apps\about\templates\about\manager_commitment.html:138
+#, fuzzy
+#| msgid "Featured Event"
+msgid "Featured Commitment"
+msgstr "विशेष कार्यक्रम"
+
+#: .\apps\about\templates\about\manager_commitment.html:153
+#, fuzzy
+#| msgid "No Manager Message Available"
+msgid "No Manager Commitment Available"
 msgstr "व्यवस्थापकको सन्देश उपलब्ध छैन"
 
-#: .\templates\about\manager_commitment.html:151
-msgid "The manager message will be available soon. Please check back later."
+#: .\apps\about\templates\about\manager_commitment.html:154
+#, fuzzy
+#| msgid "The manager message will be available soon. Please check back later."
+msgid ""
+"The manager commitment message will be available soon. Please check back "
+"later."
 msgstr "व्यवस्थापकको सन्देश चाँडै उपलब्ध हुनेछ। कृपया पछि फेरि जाँच गर्नुहोस्।"
 
-#: .\templates\about\member_testimonials.html:5
-#: .\templates\about\member_testimonials.html:11
-#: .\templates\about\member_testimonials.html:25
-#: .\templates\about\member_testimonials.html:62 .\views.py:209
+#: .\apps\about\templates\about\member_testimonials.html:5
+#: .\apps\about\templates\about\member_testimonials.html:11
+#: .\apps\about\templates\about\member_testimonials.html:19
+#: .\apps\about\templates\about\member_testimonials.html:67
+#: .\apps\about\views.py:252
 msgid "Member Testimonials"
 msgstr "सदस्यहरूको प्रतिक्रिया"
 
-#: .\templates\about\member_testimonials.html:7
+#: .\apps\about\templates\about\member_testimonials.html:7
+#, fuzzy
+#| msgid ""
+#| "Read what our members say about Bhanjyang Saving & Credit Cooperative "
+#| "Society Ltd. Real stories of success and financial growth."
 msgid ""
-"Read what our members say about Bhanjyang Saving & Credit Cooperative "
-"Society Ltd. Real stories of success and financial growth."
+"Read testimonials from members of Bhanjyang Saving & Credit Cooperative "
+"Society Ltd. See what our members say about our services and community."
 msgstr ""
 "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको बारेमा हाम्रा सदस्यहरूले के भन्छन् पढ्नुहोस्। "
 "सफलता र वित्तीय वृद्धिका वास्तविक कथाहरू।"
 
-#: .\templates\about\member_testimonials.html:13
-#: .\templates\about\member_testimonials.html:27
+#: .\apps\about\templates\about\member_testimonials.html:13
+#: .\apps\about\templates\about\member_testimonials.html:21
+#, fuzzy
+#| msgid ""
+#| "Read what our members say about Bhanjyang Cooperative. Real stories of "
+#| "success and financial growth."
 msgid ""
-"Read what our members say about Bhanjyang Cooperative. Real stories of "
-"success and financial growth."
+"Read testimonials from members of Bhanjyang Cooperative. See what our "
+"members say about our services and community."
 msgstr ""
 "भञ्ज्याङ सहकारीको बारेमा हाम्रा सदस्यहरूले के भन्छन् पढ्नुहोस्। सफलता र वित्तीय वृद्धिका "
 "वास्तविक कथाहरू।"
 
-#: .\templates\about\member_testimonials.html:66
-msgid "What our valued members fulfill their financial dreams with us"
-msgstr "हाम्रा सम्मानित सदस्यहरूले हामीसँग आफ्ना वित्तीय सपनाहरू पूरा गर्छन्"
-
-#: .\templates\about\member_testimonials.html:128
-msgid "Member since"
+#: .\apps\about\templates\about\member_testimonials.html:64
+#, fuzzy
+#| msgid "Member since"
+msgid "Member Voices"
 msgstr "सदस्यता मिति"
 
-#: .\templates\about\member_testimonials.html:153
+#: .\apps\about\templates\about\member_testimonials.html:71
+msgid ""
+"Hear from our members about their experiences with Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:156
 msgid "No Testimonials Available"
 msgstr "कुनै प्रतिक्रिया उपलब्ध छैन"
 
-#: .\templates\about\member_testimonials.html:154
-msgid "Member testimonials will be available soon."
-msgstr "सदस्य प्रतिक्रियाहरू चाँडै उपलब्ध हुनेछन्।"
+#: .\apps\about\templates\about\member_testimonials.html:157
+#, fuzzy
+#| msgid "The manager message will be available soon. Please check back later."
+msgid "Member testimonials will be available soon. Please check back later."
+msgstr "व्यवस्थापकको सन्देश चाँडै उपलब्ध हुनेछ। कृपया पछि फेरि जाँच गर्नुहोस्।"
 
-#: .\templates\about\timeline.html:5 .\templates\about\timeline.html:11
-#: .\templates\about\timeline.html:25 .\templates\about\timeline.html:71
-#: .\templates\about\timeline.html:76 .\views.py:65
-msgid "Our History"
-msgstr "हाम्रो इतिहास"
-
-#: .\templates\about\timeline.html:7
+#: .\apps\about\templates\about\partials\_board_structured_data.html:17
+#, fuzzy
+#| msgid ""
+#| "Meet the Board of Directors and committees of Bhanjyang Saving & Credit "
+#| "Cooperative Society Ltd. Learn about our elected leadership and "
+#| "governance structure."
 msgid ""
-"Explore the history timeline of Bhanjyang Saving & Credit Cooperative "
-"Society Ltd. From our establishment to major milestones and achievements."
+"Elected leadership and governance committees of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको सञ्चालक समिति र समितिहरूलाई भेट्नुहोस्। "
+"हाम्रो निर्वाचित नेतृत्व र शासन संरचनाको बारेमा जान्नुहोस्।"
+
+#: .\apps\about\templates\about\partials\_management_structured_data.html:17
+msgid ""
+"Professional staff members who handle day-to-day operations and member "
+"services at Bhanjyang Saving & Credit Cooperative Society Ltd."
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:146
+msgid "Savings Accounts"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:147
+msgid "Various savings account options with competitive interest rates"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:154
+msgid "Loan Services"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:155
+msgid "Personal and business loans with flexible repayment options"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:162
+msgid "Remittance Services"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:163
+msgid "International money transfer services"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:15
+#, fuzzy
+#| msgid "Cooperative Name"
+msgid "Bhanjyang Cooperative Timeline"
+msgstr "सहकारीको नाम"
+
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:16
+msgid ""
+"Key milestones, achievements, and events in the history of Bhanjyang Saving "
+"& Credit Cooperative Society Ltd."
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:104
+#: .\apps\about\templates\about\timeline.html:5
+#: .\apps\about\templates\about\timeline.html:11
+#: .\apps\about\templates\about\timeline.html:19 .\apps\about\views.py:83
+#, fuzzy
+#| msgid "Timeline Event"
+msgid "Timeline"
+msgstr "समयरेखा घटना"
+
+#: .\apps\about\templates\about\preview.html:5
+msgid "Preview"
+msgstr ""
+
+#: .\apps\about\templates\about\preview.html:39
+msgid "PREVIEW MODE"
+msgstr ""
+
+#: .\apps\about\templates\about\preview.html:163
+msgid "Edit in Admin"
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:7
+#, fuzzy
+#| msgid ""
+#| "Explore the history timeline of Bhanjyang Saving & Credit Cooperative "
+#| "Society Ltd. From our establishment to major milestones and achievements."
+msgid ""
+"Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. "
+"Discover our key milestones, achievements, and growth journey over the years."
 msgstr ""
 "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको इतिहास समयरेखा अन्वेषण गर्नुहोस्। हाम्रो "
 "स्थापनादेखि प्रमुख कोसेढुङ्गा र उपलब्धिहरूसम्म।"
 
-#: .\templates\about\timeline.html:13 .\templates\about\timeline.html:27
+#: .\apps\about\templates\about\timeline.html:13
+#, fuzzy
+#| msgid ""
+#| "Explore the history timeline of Bhanjyang Cooperative. From our "
+#| "establishment to major milestones."
 msgid ""
-"Explore the history timeline of Bhanjyang Cooperative. From our "
-"establishment to major milestones."
+"Explore the timeline of Bhanjyang Cooperative. Discover our key milestones, "
+"achievements, and growth journey over the years."
 msgstr ""
 "भञ्ज्याङ सहकारीको इतिहास समयरेखा अन्वेषण गर्नुहोस्। हाम्रो स्थापनादेखि प्रमुख "
 "कोसेढुङ्गाहरूसम्म।"
 
-#: .\templates\about\timeline.html:77
-msgid "A timeline of our journey and milestones."
-msgstr "हाम्रो यात्रा र कोसेढुङ्गाहरूको समयरेखा।"
+#: .\apps\about\templates\about\timeline.html:21
+#, fuzzy
+#| msgid ""
+#| "Explore the history timeline of Bhanjyang Saving & Credit Cooperative "
+#| "Society Ltd. From our establishment to major milestones and achievements."
+msgid ""
+"Explore the timeline of Bhanjyang Cooperative. Discover our key milestones "
+"and achievements."
+msgstr ""
+"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको इतिहास समयरेखा अन्वेषण गर्नुहोस्। हाम्रो "
+"स्थापनादेखि प्रमुख कोसेढुङ्गा र उपलब्धिहरूसम्म।"
 
-#: .\templates\about\timeline.html:136
-msgid "No Timeline Events Available"
+#: .\apps\about\templates\about\timeline.html:118
+msgid "Timeline Infographic"
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:122
+msgid ""
+"Explore our key milestones, achievements, and growth journey over the years"
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:233
+#, fuzzy
+#| msgid "Timeline Events"
+msgid "No Timeline Events"
+msgstr "समयरेखा घटनाहरू"
+
+#: .\apps\about\templates\about\timeline.html:234
+#, fuzzy
+#| msgid "No Timeline Events Available"
+msgid "No timeline events are available yet."
 msgstr "कुनै समयरेखा घटनाहरू उपलब्ध छैनन्"
 
-#: .\templates\about\timeline.html:137
-msgid "Timeline events will be added as they occur."
-msgstr "समयरेखा घटनाहरू घट्दै जाँदा थपिनेछन्।"
+#: .\apps\about\templates\about\timeline.html:235
+#, fuzzy
+#| msgid "Affiliation information will be added as it becomes available."
+msgid "Timeline information will be added as it becomes available."
+msgstr "उपलब्ध भएमा सम्बन्ध जानकारी थपिनेछ।"
 
-#: .\templates\about\timeline.html:141
-msgid "Back to Introduction"
-msgstr "परिचयमा फर्कनुहोस्"
+#~ msgid "Mission"
+#~ msgstr "उद्देश्य"
 
-#: .\views.py:243
-msgid "Not Found"
-msgstr "फेला परेन"
+#~ msgid "Vision"
+#~ msgstr "दृष्टिकोण"
+
+#~ msgid "Values"
+#~ msgstr "मान्यताहरू"
+
+#~ msgid ""
+#~ "To be the leading cooperative in Nepal, recognized for integrity, "
+#~ "innovation, and member satisfaction."
+#~ msgstr ""
+#~ "अखण्डता, नवीनता, र सदस्य सन्तुष्टिको लागि मान्यता प्राप्त गर्दै नेपालको अग्रणी सहकारी "
+#~ "बन्न।"
+
+#~ msgid "Integrity"
+#~ msgstr "निष्ठा"
+
+#~ msgid "We operate with honesty and transparency."
+#~ msgstr "हामी इमानदारी र पारदर्शिताका साथ काम गर्छौं।"
+
+#~ msgid "Community"
+#~ msgstr "समुदाय"
+
+#~ msgid "We are dedicated to serving our community."
+#~ msgstr "हामी हाम्रो समुदायको सेवा गर्न समर्पित छौं।"
+
+#~ msgid "Excellence"
+#~ msgstr "उत्कृष्टता"
+
+#~ msgid "We strive for excellence in everything we do."
+#~ msgstr "हामीले गर्ने हरेक काममा उत्कृष्टताको लागि प्रयास गर्छौं।"
+
+#~ msgid "Key milestones in our history"
+#~ msgstr "हाम्रो इतिहासका प्रमुख कोसेढुङ्गाहरू"
+
+#~ msgid ""
+#~ "Our dedicated team of professionals working to serve our members and "
+#~ "community"
+#~ msgstr "हाम्रा सदस्यहरू र समुदायको सेवा गर्न कार्यरत हाम्रा समर्पित पेशेवरहरूको समूह"
+
+#~ msgid "Department:"
+#~ msgstr "विभाग:"
+
+#~ msgid "Dedication to service excellence and member satisfaction"
+#~ msgstr "सेवा उत्कृष्टता र सदस्य सन्तुष्टिप्रति समर्पण"
+
+#~ msgid "What our valued members fulfill their financial dreams with us"
+#~ msgstr "हाम्रा सम्मानित सदस्यहरूले हामीसँग आफ्ना वित्तीय सपनाहरू पूरा गर्छन्"
+
+#~ msgid "Member testimonials will be available soon."
+#~ msgstr "सदस्य प्रतिक्रियाहरू चाँडै उपलब्ध हुनेछन्।"
+
+#~ msgid "Our History"
+#~ msgstr "हाम्रो इतिहास"
+
+#~ msgid "A timeline of our journey and milestones."
+#~ msgstr "हाम्रो यात्रा र कोसेढुङ्गाहरूको समयरेखा।"
+
+#~ msgid "Timeline events will be added as they occur."
+#~ msgstr "समयरेखा घटनाहरू घट्दै जाँदा थपिनेछन्।"
+
+#~ msgid "Back to Introduction"
+#~ msgstr "परिचयमा फर्कनुहोस्"
+
+#~ msgid "Not Found"
+#~ msgstr "फेला परेन"

@@ -18,22 +18,7 @@ from .constants import (
 logger = logging.getLogger(__name__)
 
 
-def get_client_ip(request):
-    """
-    Get client IP address from request.
-    
-    Args:
-        request: Django HttpRequest object
-        
-    Returns:
-        str: Client IP address
-    """
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0].strip()
-    else:
-        ip = request.META.get('REMOTE_ADDR', 'unknown')
-    return ip
+from .helpers import get_client_ip
 
 
 def parse_rate_limit(rate_limit_string):

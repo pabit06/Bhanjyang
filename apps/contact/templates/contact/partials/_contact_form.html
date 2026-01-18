@@ -1,0 +1,170 @@
+{% load static %}
+{% load i18n %}
+<!-- Contact Form Section -->
+<section id="contact-feedback-form" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden" style="opacity: 1 !important; visibility: visible !important;">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-3">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-6 gap-8 items-start">
+            <!-- Column 1: Engaging Text -->
+            <div class="lg:col-span-2 text-center lg:text-left">
+                <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+                    सन्देश पठाउनुहोस्
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 font-montserrat mb-4">
+                    हामीलाई सम्पर्क गर्नुहोस्
+                </h2>
+                <div class="w-24 h-1 bg-deuraligreen rounded-full mb-6"></div>
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                    तपाईंको प्रश्न, सुझाव वा हाम्रा सेवाहरूबारे प्रतिक्रिया भएमा, हामी सुन्न तयार छौं। तपाईंको सल्लाह हाम्रो लागि अमूल्य छ।
+                </p>
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-center gap-3 text-gray-800">
+                        <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-phone text-deuraligreen"></i>
+                        </div>
+                        <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}"
+                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">{{ site_info.phone|default:"+977-9856083101" }}</a>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-800">
+                        <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-envelope text-deuraligreen"></i>
+                        </div>
+                        <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}"
+                            class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</a>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <img src="{% static 'images/plant-illustration.png' %}" alt="" role="presentation"
+                        class="w-32 lg:w-40 h-auto mx-auto lg:mx-0 drop-shadow-xl object-contain"
+                        loading="lazy">
+                </div>
+            </div>
+
+            <!-- Column 2: The Contact Form -->
+            <div class="lg:col-span-4 w-full self-stretch flex">
+                <a href="#contactForm"
+                    class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-md">
+                    Skip to contact form
+                </a>
+
+                <form id="contactForm" method="POST" action="{% url 'contact:contact_view' %}"
+                    class="h-full flex flex-col space-y-6 bg-white border-t-4 border-deuraligreen p-8 rounded-2xl shadow-2xl w-full"
+                    novalidate enctype="multipart/form-data" aria-label="Contact form">
+
+                    <input type="hidden" name="csrfmiddlewaretoken" id="contact-form-csrf-token"
+                        value="{{ csrf_token }}">
+
+                    <div id="form-messages" class="min-h-[1rem] transition-all duration-300" aria-live="polite">
+                        <div id="success-message"
+                            class="hidden bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center gap-3"
+                            role="alert">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                            <p class="text-sm font-poppins" data-en="Message Sent Successfully!" data-ne="सन्देश सफलतापूर्वक पठाइयो!">सन्देश सफलतापूर्वक पठाइयो!</p>
+                        </div>
+                        <div id="error-message"
+                            class="hidden bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center gap-3"
+                            role="alert">
+                            <i class="fas fa-exclamation-circle text-red-600"></i>
+                            <p class="text-sm font-poppins" id="error-details">कृपया पुनः प्रयास गर्नुहोस्।</p>
+                        </div>
+                        <div id="validation-errors"
+                            class="hidden bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg"
+                            role="alert">
+                            <div class="flex items-center gap-3 mb-2">
+                                <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                                <p class="text-sm font-poppins font-semibold">कृपया तलका त्रुटिहरू सच्याउनुहोस्:</p>
+                            </div>
+                            <ul id="validation-list" class="list-disc list-inside text-sm font-poppins space-y-1 ml-6">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="form-group relative">
+                            <label for="{{ form.name.id_for_label }}"
+                                class="block text-sm font-bold text-gray-800 mb-2">
+                                <i class="fas fa-user text-deuraligreen mr-2"></i><span>तपाईंको नाम</span> <span class="text-red-500">*</span>
+                            </label>
+                            <input type="{{ form.name.field.widget_type }}" name="{{ form.name.name }}"
+                                id="{{ form.name.id_for_label }}"
+                                class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen bg-white transition-all font-poppins"
+                                placeholder="पूरा नाम लेख्नुहोस्" required>
+                            <div id="{{ form.name.id_for_label }}_error"
+                                class="error-message hidden text-red-600 text-sm mt-1 font-poppins" role="alert"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.email.id_for_label }}"
+                                class="block text-sm font-bold text-gray-800 mb-2">
+                                <i class="fas fa-envelope text-deuraligreen mr-2"></i><span>तपाईंको इमेल</span> <span class="text-red-500">*</span>
+                            </label>
+                            {{ form.email }}
+                            <div id="{{ form.email.id_for_label }}_error"
+                                class="error-message hidden text-red-600 text-sm mt-1 font-poppins" role="alert"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.phone.id_for_label }}"
+                                class="block text-sm font-bold text-gray-800 mb-2">
+                                <i class="fas fa-phone text-deuraligreen mr-2"></i>फोन नम्बर <span class="text-gray-500 text-xs font-normal">(ऐच्छिक)</span>
+                            </label>
+                            {{ form.phone }}
+                            <div id="{{ form.phone.id_for_label }}_error"
+                                class="error-message hidden text-red-600 text-sm mt-1 font-poppins" role="alert"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.subject.id_for_label }}"
+                            class="block text-sm font-bold text-gray-800 mb-2">
+                            <i class="fas fa-tag text-deuraligreen mr-2"></i><span>विषय</span> <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.subject }}
+                        <div id="{{ form.subject.id_for_label }}_error"
+                            class="error-message hidden text-red-600 text-sm mt-1 font-poppins" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.message.id_for_label }}"
+                            class="block text-sm font-bold text-gray-800 mb-2">
+                            <i class="fas fa-comment text-deuraligreen mr-2"></i><span>तपाईंको सन्देश</span> <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.message }}
+                        <div id="{{ form.message.id_for_label }}_error"
+                            class="error-message hidden text-red-600 text-sm mt-1 font-poppins" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.attachment.id_for_label }}"
+                            class="block text-sm font-bold text-gray-800 mb-2">
+                            <i class="fas fa-paperclip text-deuraligreen mr-2"></i>फाइल संलग्न गर्नुहोस् <span class="text-gray-500 text-xs font-normal">(ऐच्छिक)</span>
+                        </label>
+                        {{ form.attachment }}
+                        <p class="text-xs text-gray-500 mt-1 font-poppins">Max 5MB (PDF, DOC, JPG, PNG)</p>
+                    </div>
+
+                    <div class="text-center pt-4">
+                        <button id="submitButton" type="submit"
+                            class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white text-base font-bold font-poppins py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
+                            <span id="buttonText">सन्देश पठाउनुहोस्</span>
+                            <i id="buttonIcon" class="fas fa-paper-plane"></i>
+                            <i id="loadingIcon" class="fas fa-spinner fa-spin" style="display: none;"></i>
+                        </button>
+                    </div>
+
+                    <div class="text-center text-xs font-poppins text-gray-500 mt-2">
+                        <p>यो फारम बुझाएर, तपाईं हाम्रो <a href="{% url 'contact:privacy_policy' %}"
+                                class="underline hover:text-deuraligreen transition-colors duration-300">गोपनीयता नीति</a> मा सहमत हुनुहुन्छ।</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-15 23:02+0545\n"
+"POT-Creation-Date: 2026-01-18 23:19+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,295 +18,512 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\forms.py:18 .\forms.py:144
+#: .\apps\home\forms.py:18 .\apps\home\forms.py:144
 msgid "Name can only contain letters and spaces."
 msgstr "नाममा केवल अक्षर र खाली ठाउँ हुन सक्छ।"
 
-#: .\forms.py:24
+#: .\apps\home\forms.py:24
 msgid "Your Full Name"
 msgstr "तपाईंको पूरा नाम"
 
-#: .\forms.py:34 .\forms.py:159 .\forms.py:200
+#: .\apps\home\forms.py:34 .\apps\home\forms.py:159 .\apps\home\forms.py:200
 msgid "your.email@example.com"
 msgstr "tapaiko.email@example.com"
 
-#: .\forms.py:46
+#: .\apps\home\forms.py:46
 msgid "Please enter a valid phone number."
 msgstr "कृपया मान्य फोन नम्बर प्रविष्ट गर्नुहोस्।"
 
-#: .\forms.py:52
+#: .\apps\home\forms.py:52
 msgid "Your Phone Number (Optional)"
 msgstr "तपाईंको फोन नम्बर (ऐच्छिक)"
 
-#: .\forms.py:59 .\models.py:170
+#: .\apps\home\forms.py:59 .\apps\home\models.py:339
 msgid "General Inquiry"
 msgstr "सामान्य सोधपुछ"
 
-#: .\forms.py:60 .\models.py:171
+#: .\apps\home\forms.py:60 .\apps\home\models.py:340
 msgid "Service Information"
 msgstr "सेवा जानकारी"
 
-#: .\forms.py:61 .\models.py:172
+#: .\apps\home\forms.py:61 .\apps\home\models.py:341
 msgid "Complaint"
 msgstr "गुनासो"
 
-#: .\forms.py:62 .\models.py:173
+#: .\apps\home\forms.py:62 .\apps\home\models.py:342
 msgid "Suggestion"
 msgstr "सुझाव"
 
-#: .\forms.py:63 .\models.py:174
+#: .\apps\home\forms.py:63 .\apps\home\models.py:343
 msgid "Technical Support"
 msgstr "प्राविधिक सहयोग"
 
-#: .\forms.py:74
+#: .\apps\home\forms.py:74
 msgid "Subject of your inquiry"
 msgstr "तपाईंको सोधपुछको विषय"
 
-#: .\forms.py:83
+#: .\apps\home\forms.py:83
 msgid "Please describe your inquiry in detail..."
 msgstr "कृपया तपाईंको सोधपुछ विस्तृत रूपमा वर्णन गर्नुहोस्..."
 
-#: .\forms.py:93 .\forms.py:169
+#: .\apps\home\forms.py:93 .\apps\home\forms.py:169
 msgid "Name must be at least 2 characters long."
 msgstr "नाम कम्तिमा २ अक्षर लामो हुनुपर्छ।"
 
-#: .\forms.py:100
+#: .\apps\home\forms.py:100
 msgid "Subject must be at least 5 characters long."
 msgstr "विषय कम्तिमा ५ अक्षर लामो हुनुपर्छ।"
 
-#: .\forms.py:107
+#: .\apps\home\forms.py:107
 msgid "Message must be at least 10 characters long."
 msgstr "सन्देश कम्तिमा १० अक्षर लामो हुनुपर्छ।"
 
-#: .\forms.py:120
+#: .\apps\home\forms.py:120
 msgid "Message contains too many links or email addresses."
 msgstr "सन्देशमा धेरै लिङ्क वा इमेल ठेगानाहरू छन्।"
 
-#: .\forms.py:150
+#: .\apps\home\forms.py:150
 msgid "Your Name (Optional)"
 msgstr "तपाईंको नाम (ऐच्छिक)"
 
-#: .\forms.py:178
+#: .\apps\home\forms.py:178
 msgid "Email address is too long."
 msgstr "इमेल ठेगाना धेरै लामो भयो।"
 
-#: .\forms.py:196 .\forms.py:220
-#: .\templates\home\partials\contact_preview.html:83
-#: .\templates\home\partials\contact_preview.html:86
+#: .\apps\home\forms.py:196 .\apps\home\forms.py:220
+#: .\apps\home\templates\home\partials\contact_preview.html:72
+#: .\apps\home\templates\home\partials\contact_preview.html:75
 msgid "Your Name"
 msgstr "तपाईंको नाम"
 
-#: .\forms.py:204
+#: .\apps\home\forms.py:204
 msgid "Testimonial Title"
 msgstr "प्रशंसापत्र शीर्षक"
 
-#: .\forms.py:208
+#: .\apps\home\forms.py:208
 msgid "Share your experience with Bhanjyang Cooperative..."
 msgstr "भञ्ज्याङ सहकारीसँगको तपाईंको अनुभव साझा गर्नुहोस्..."
 
-#: .\forms.py:228 .\templates\home\partials\contact_preview.html:64
+#: .\apps\home\forms.py:228
+#: .\apps\home\templates\home\partials\contact_preview.html:53
 msgid "Email"
 msgstr "इमेल"
 
-#: .\forms.py:236
+#: .\apps\home\forms.py:236
 msgid "Quick message..."
 msgstr "छोटो सन्देश..."
 
-#: .\models.py:19
+#: .\apps\home\models.py:25 .\apps\home\models.py:71 .\apps\home\models.py:150
+#: .\apps\home\models.py:230 .\apps\home\templates\home\preview.html:41
+msgid "Draft"
+msgstr ""
+
+#: .\apps\home\models.py:26 .\apps\home\models.py:72 .\apps\home\models.py:151
+#: .\apps\home\models.py:231 .\apps\home\templates\home\preview.html:44
+msgid "Published"
+msgstr ""
+
+#: .\apps\home\models.py:27 .\apps\home\models.py:73 .\apps\home\models.py:152
+#: .\apps\home\models.py:232 .\apps\home\templates\home\preview.html:42
+msgid "Scheduled"
+msgstr ""
+
+#: .\apps\home\models.py:28 .\apps\home\models.py:74 .\apps\home\models.py:153
+#: .\apps\home\models.py:233 .\apps\home\templates\home\preview.html:43
+msgid "Archived"
+msgstr ""
+
+#: .\apps\home\models.py:30
 msgid "Main title for the home page"
 msgstr "गृह पृष्ठको लागि मुख्य शीर्षक"
 
-#: .\models.py:20
+#: .\apps\home\models.py:31
 msgid "Subtitle or tagline"
 msgstr "उपशीर्षक वा नारा"
 
-#: .\models.py:21
+#: .\apps\home\models.py:32
 msgid "Main description text"
 msgstr "मुख्य विवरण पाठ"
 
-#: .\models.py:25
+#: .\apps\home\models.py:33
+msgid "Hero background image for slider"
+msgstr ""
+
+#: .\apps\home\models.py:36 .\apps\home\models.py:88 .\apps\home\models.py:162
+#: .\apps\home\models.py:251
+#, fuzzy
+#| msgid "Statistic"
+msgid "Status"
+msgstr "तथ्याङ्क"
+
+#: .\apps\home\models.py:36 .\apps\home\models.py:88 .\apps\home\models.py:162
+#: .\apps\home\models.py:251
+msgid "Publication status"
+msgstr ""
+
+#: .\apps\home\models.py:37 .\apps\home\models.py:89 .\apps\home\models.py:163
+#: .\apps\home\models.py:253
+msgid "Scheduled Date"
+msgstr ""
+
+#: .\apps\home\models.py:37
+msgid "Schedule this content to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\home\models.py:38 .\apps\home\models.py:90 .\apps\home\models.py:164
+#: .\apps\home\models.py:254
+msgid "Published Date"
+msgstr ""
+
+#: .\apps\home\models.py:38
+msgid "Date when this content was published"
+msgstr ""
+
+#: .\apps\home\models.py:39 .\apps\home\models.py:91 .\apps\home\models.py:165
+#: .\apps\home\models.py:255
+msgid "Published By"
+msgstr ""
+
+#: .\apps\home\models.py:39
+msgid "User who published this content"
+msgstr ""
+
+#: .\apps\home\models.py:40
 msgid "Display order"
 msgstr "प्रदर्शन क्रम"
 
-#: .\models.py:34
+#: .\apps\home\models.py:43
+msgid "Primary button text (e.g., 'Explore Services')"
+msgstr ""
+
+#: .\apps\home\models.py:44
+msgid "Primary button URL (e.g., '/services/')"
+msgstr ""
+
+#: .\apps\home\models.py:45
+msgid "Secondary button text (e.g., 'Contact Us')"
+msgstr ""
+
+#: .\apps\home\models.py:46
+msgid "Secondary button URL (e.g., '/contact/')"
+msgstr ""
+
+#: .\apps\home\models.py:55
 msgid "Home Page Content"
 msgstr "गृह पृष्ठ सामग्री"
 
-#: .\models.py:35
+#: .\apps\home\models.py:56
 msgid "Home Page Contents"
 msgstr "गृह पृष्ठ सामग्रीहरू"
 
-#: .\models.py:44
+#: .\apps\home\models.py:77
 msgid "Job title or role"
 msgstr "पद वा भूमिका"
 
-#: .\models.py:45
+#: .\apps\home\models.py:78
 msgid "Company or organization"
 msgstr "कम्पनी वा संस्था"
 
-#: .\models.py:46
+#: .\apps\home\models.py:79
 msgid "Testimonial text"
 msgstr "प्रशंसापत्र पाठ"
 
-#: .\models.py:51
+#: .\apps\home\models.py:84
 msgid "Rating from 1 to 5 stars"
 msgstr "१ देखि ५ तारा सम्मको मूल्याङ्कन"
 
-#: .\models.py:53 .\models.py:80 .\models.py:122
+#: .\apps\home\models.py:86 .\apps\home\models.py:160 .\apps\home\models.py:249
 msgid "Show on home page"
 msgstr "गृह पृष्ठमा देखाउनुहोस्"
 
-#: .\models.py:66
+#: .\apps\home\models.py:89
+msgid "Schedule this testimonial to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\home\models.py:90
+msgid "Date when this testimonial was published"
+msgstr ""
+
+#: .\apps\home\models.py:91
+msgid "User who published this testimonial"
+msgstr ""
+
+#: .\apps\home\models.py:103
 msgid "Testimonial"
 msgstr "प्रशंसापत्र"
 
-#: .\models.py:67 .\templates\home\partials\testimonials.html:19
+#: .\apps\home\models.py:104
+#: .\apps\home\templates\home\partials\testimonials.html:19
 msgid "Testimonials"
 msgstr "प्रशंसापत्रहरू"
 
-#: .\models.py:75
+#: .\apps\home\models.py:155
 msgid "e.g., 'Total Members'"
 msgstr "जस्तै, 'कुल सदस्यहरू'"
 
-#: .\models.py:76
+#: .\apps\home\models.py:156
 msgid "e.g., '2,500+' or 'Rs. 50M'"
 msgstr "जस्तै, '२,५००+' वा 'रु. ५ करोड'"
 
-#: .\models.py:77
+#: .\apps\home\models.py:157
 msgid "Additional context"
 msgstr "थप सन्दर्भ"
 
-#: .\models.py:78
+#: .\apps\home\models.py:158
 msgid "FontAwesome icon class"
 msgstr "FontAwesome आइकन क्लास"
 
-#: .\models.py:79
+#: .\apps\home\models.py:159
 msgid "Color theme"
 msgstr "रङ थिम"
 
-#: .\models.py:86
+#: .\apps\home\models.py:163
+msgid "Schedule this statistic to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\home\models.py:164
+msgid "Date when this statistic was published"
+msgstr ""
+
+#: .\apps\home\models.py:165
+msgid "User who published this statistic"
+msgstr ""
+
+#: .\apps\home\models.py:170
 msgid "Statistic"
 msgstr "तथ्याङ्क"
 
-#: .\models.py:87
+#: .\apps\home\models.py:171
 msgid "Statistics"
 msgstr "तथ्याङ्कहरू"
 
-#: .\models.py:96
+#: .\apps\home\models.py:217
 msgid "General"
 msgstr "सामान्य"
 
-#: .\models.py:97
+#: .\apps\home\models.py:218
 msgid "Service Update"
 msgstr "सेवा अद्यावधिक"
 
-#: .\models.py:98
+#: .\apps\home\models.py:219
 msgid "Event"
 msgstr "कार्यक्रम"
 
-#: .\models.py:99
+#: .\apps\home\models.py:220
 msgid "Holiday Notice"
 msgstr "बिदाको सूचना"
 
-#: .\models.py:100
+#: .\apps\home\models.py:221
 msgid "Maintenance"
 msgstr "मर्मत सम्भार"
 
-#: .\models.py:103
+#: .\apps\home\models.py:224
 msgid "Low"
 msgstr "न्यून"
 
-#: .\models.py:104
+#: .\apps\home\models.py:225
 msgid "Medium"
 msgstr "मध्यम"
 
-#: .\models.py:105
+#: .\apps\home\models.py:226
 msgid "High"
 msgstr "उच्च"
 
-#: .\models.py:106
+#: .\apps\home\models.py:227
 msgid "Urgent"
 msgstr "अति जरुरी"
 
-#: .\models.py:110
+#: .\apps\home\models.py:237
 msgid "Short summary for cards"
 msgstr "कार्डहरूको लागि छोटो सारांश"
 
-#: .\models.py:125
+#: .\apps\home\models.py:252
+msgid "Publish Date"
+msgstr ""
+
+#: .\apps\home\models.py:252
+msgid "Original publish date"
+msgstr ""
+
+#: .\apps\home\models.py:253
+msgid "Schedule this announcement to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\home\models.py:254
+msgid "Date when this announcement was actually published"
+msgstr ""
+
+#: .\apps\home\models.py:255
+msgid "User who published this announcement"
+msgstr ""
+
+#: .\apps\home\models.py:256
 msgid "When to stop showing"
 msgstr "कहिले देखाउन बन्द गर्ने"
 
-#: .\models.py:129
+#: .\apps\home\models.py:257
+msgid "Auto Expire"
+msgstr ""
+
+#: .\apps\home\models.py:257
+msgid "Automatically archive this announcement when expiry_date is reached"
+msgstr ""
+
+#: .\apps\home\models.py:261
 msgid "Announcement"
 msgstr "सूचना"
 
-#: .\models.py:130
+#: .\apps\home\models.py:262
 msgid "Announcements"
 msgstr "सूचनाहरू"
 
-#: .\models.py:153
+#: .\apps\home\models.py:322
 msgid "Newsletter Subscriber"
 msgstr "न्यूजलेटर ग्राहक"
 
-#: .\models.py:154
+#: .\apps\home\models.py:323
 msgid "Newsletter Subscribers"
 msgstr "न्यूजलेटर ग्राहकहरू"
 
-#: .\models.py:181
+#: .\apps\home\models.py:350
 msgid "Response to the inquiry"
 msgstr "सोधपुछको प्रतिक्रिया"
 
-#: .\models.py:185
+#: .\apps\home\models.py:354
 msgid "Contact Inquiry"
 msgstr "सम्पर्क सोधपुछ"
 
-#: .\models.py:186
+#: .\apps\home\models.py:355
 msgid "Contact Inquiries"
 msgstr "सम्पर्क सोधपुछहरू"
 
-#: .\models.py:203
+#: .\apps\home\models.py:372
 msgid "Page View"
 msgstr "पृष्ठ हेराई"
 
-#: .\models.py:204
+#: .\apps\home\models.py:373
 msgid "Page Views"
 msgstr "पृष्ठ हेराईहरू"
 
-#: .\templates\admin\gallery\assign_album.html:4
-#: .\templates\admin\gallery\batch_operations.html:4
-#: .\templates\admin\gallery\bulk_upload.html:4
+#: .\apps\home\models.py:385
+msgid "Content Type"
+msgstr ""
+
+#: .\apps\home\models.py:386
+#, fuzzy
+#| msgid "Subject"
+msgid "Object ID"
+msgstr "विषय"
+
+#: .\apps\home\models.py:389
+msgid "Variant Name"
+msgstr ""
+
+#: .\apps\home\models.py:389
+msgid "e.g., 'Variant A', 'Variant B'"
+msgstr ""
+
+#: .\apps\home\models.py:390
+msgid "Variant Data"
+msgstr ""
+
+#: .\apps\home\models.py:390
+msgid "Store variant-specific data (title, description, etc.)"
+msgstr ""
+
+#: .\apps\home\models.py:392
+#, fuzzy
+#| msgid "Active Members"
+msgid "Active"
+msgstr "सक्रिय सदस्यहरू"
+
+#: .\apps\home\models.py:392
+msgid "Is this variant currently active?"
+msgstr ""
+
+#: .\apps\home\models.py:393
+#, fuzzy
+#| msgid "Page Views"
+msgid "Views"
+msgstr "पृष्ठ हेराईहरू"
+
+#: .\apps\home\models.py:393
+msgid "Number of times this variant was viewed"
+msgstr ""
+
+#: .\apps\home\models.py:394
+msgid "Conversions"
+msgstr ""
+
+#: .\apps\home\models.py:394
+msgid "Number of conversions (clicks, signups, etc.)"
+msgstr ""
+
+#: .\apps\home\models.py:398
+msgid "Content Variant"
+msgstr ""
+
+#: .\apps\home\models.py:399
+msgid "Content Variants"
+msgstr ""
+
+#: .\apps\home\services.py:218
+msgid "पूरै सूचना हेर्नुहोस्"
+msgstr ""
+
+#: .\apps\home\templates\admin\gallery\assign_album.html:4
+#: .\apps\home\templates\admin\gallery\batch_operations.html:4
+#: .\apps\home\templates\admin\gallery\bulk_upload.html:4
 msgid "Django site admin"
 msgstr "ज्याङ्गो साइट प्रशासन"
 
-#: .\templates\home\partials\announcements.html:19
+#: .\apps\home\templates\home\index.html:84
+msgid "Close notice"
+msgstr ""
+
+#: .\apps\home\templates\home\index.html:110
+msgid "Click to Open"
+msgstr ""
+
+#: .\apps\home\templates\home\partials\announcements.html:19
 msgid "Latest Updates"
 msgstr "पछिल्लो अद्यावधिकहरू"
 
-#: .\templates\home\partials\announcements.html:22
+#: .\apps\home\templates\home\partials\announcements.html:22
 msgid "Important Announcements"
 msgstr "महत्त्वपूर्ण सूचनाहरू"
 
-#: .\templates\home\partials\announcements.html:26
+#: .\apps\home\templates\home\partials\announcements.html:26
 msgid "Stay informed with our latest news and important updates"
 msgstr "हाम्रो पछिल्लो समाचार र महत्त्वपूर्ण अद्यावधिकहरूसँग सूचित रहनुहोस्"
 
-#: .\templates\home\partials\announcements.html:63
+#: .\apps\home\templates\home\partials\announcements.html:112
 msgid "Read More"
 msgstr "थप पढ्नुहोस्"
 
-#: .\templates\home\partials\call_to_action.html:19
+#: .\apps\home\templates\home\partials\announcements.html:123
+#, fuzzy
+#| msgid "Announcements"
+msgid "No Announcements"
+msgstr "सूचनाहरू"
+
+#: .\apps\home\templates\home\partials\announcements.html:124
+msgid "Check back soon for important announcements and updates."
+msgstr ""
+
+#: .\apps\home\templates\home\partials\call_to_action.html:19
 msgid "Get Started Today"
 msgstr "आजै सुरु गर्नुहोस्"
 
-#: .\templates\home\partials\call_to_action.html:22
+#: .\apps\home\templates\home\partials\call_to_action.html:22
 msgid "Ready to Begin Your Financial Journey?"
 msgstr "आफ्नो वित्तीय यात्रा सुरु गर्न तयार हुनुहुन्छ?"
 
-#: .\templates\home\partials\call_to_action.html:26
+#: .\apps\home\templates\home\partials\call_to_action.html:26
 msgid "Join thousands of satisfied members who trust Bhanjyang Cooperative"
 msgstr "भञ्ज्याङ सहकारीमा विश्वास गर्ने हजारौं सन्तुष्ट सदस्यहरूसँग सामेल हुनुहोस्"
 
-#: .\templates\home\partials\call_to_action.html:29
+#: .\apps\home\templates\home\partials\call_to_action.html:29
 msgid ""
 "Experience reliable financial services, competitive rates, and personalized "
 "support designed for your success."
@@ -314,293 +531,204 @@ msgstr ""
 "तपाईंको सफलताको लागि डिजाइन गरिएको भरपर्दो वित्तीय सेवाहरू, प्रतिस्पर्धी दरहरू र "
 "व्यक्तिगत सहयोगको अनुभव लिनुहोस्।"
 
-#: .\templates\home\partials\call_to_action.html:36
-#: .\templates\home\partials\contact_preview.html:20
-#: .\templates\home\partials\hero.html:60
-#: .\templates\home\partials\hero.html:208
+#: .\apps\home\templates\home\partials\call_to_action.html:33
+#: .\apps\home\templates\home\partials\contact_preview.html:18
 msgid "Contact Us"
 msgstr "हामीलाई सम्पर्क गर्नुहोस्"
 
-#: .\templates\home\partials\call_to_action.html:42
-#: .\templates\home\partials\services.html:66
+#: .\apps\home\templates\home\partials\call_to_action.html:35
+#: .\apps\home\templates\home\partials\services.html:34
 msgid "Learn More"
 msgstr "थप जान्नुहोस्"
 
-#: .\templates\home\partials\contact_preview.html:23
+#: .\apps\home\templates\home\partials\contact_preview.html:18
 msgid "Have Questions?"
 msgstr "केही जिज्ञासाहरू छन्?"
 
-#: .\templates\home\partials\contact_preview.html:27
+#: .\apps\home\templates\home\partials\contact_preview.html:18
 msgid "Get in touch with us for any inquiries or support. We're here to help!"
-msgstr "कुनै पनि सोधपुछ वा सहयोगको लागि हामीलाई सम्पर्क गर्नुहोस्। हामी तपाईंको सेवामा छौं!"
+msgstr ""
+"कुनै पनि सोधपुछ वा सहयोगको लागि हामीलाई सम्पर्क गर्नुहोस्। हामी तपाईंको सेवामा छौं!"
 
-#: .\templates\home\partials\contact_preview.html:36
+#: .\apps\home\templates\home\partials\contact_preview.html:25
 msgid "Contact Information"
 msgstr "सम्पर्क विवरण"
 
-#: .\templates\home\partials\contact_preview.html:44
+#: .\apps\home\templates\home\partials\contact_preview.html:33
 msgid "Address"
 msgstr "ठेगाना"
 
-#: .\templates\home\partials\contact_preview.html:45
+#: .\apps\home\templates\home\partials\contact_preview.html:34
 msgid "Rupa Rural Municipality, Kaski, Nepal"
 msgstr "रूपा गाउँपालिका, कास्की, नेपाल"
 
-#: .\templates\home\partials\contact_preview.html:53
+#: .\apps\home\templates\home\partials\contact_preview.html:42
 msgid "Phone"
 msgstr "फोन"
 
-#: .\templates\home\partials\contact_preview.html:77
+#: .\apps\home\templates\home\partials\contact_preview.html:66
 msgid "Send Us a Message"
 msgstr "हामीलाई सन्देश पठाउनुहोस्"
 
-#: .\templates\home\partials\contact_preview.html:94
-#: .\templates\home\partials\contact_preview.html:97
+#: .\apps\home\templates\home\partials\contact_preview.html:83
+#: .\apps\home\templates\home\partials\contact_preview.html:86
 msgid "Your Email"
 msgstr "तपाईंको इमेल"
 
-#: .\templates\home\partials\contact_preview.html:105
-#: .\templates\home\partials\contact_preview.html:108
+#: .\apps\home\templates\home\partials\contact_preview.html:94
+#: .\apps\home\templates\home\partials\contact_preview.html:97
 msgid "Subject"
 msgstr "विषय"
 
-#: .\templates\home\partials\contact_preview.html:116
-#: .\templates\home\partials\contact_preview.html:119
+#: .\apps\home\templates\home\partials\contact_preview.html:105
+#: .\apps\home\templates\home\partials\contact_preview.html:108
 msgid "Your Message"
 msgstr "तपाईंको सन्देश"
 
-#: .\templates\home\partials\contact_preview.html:130
+#: .\apps\home\templates\home\partials\contact_preview.html:119
 msgid "Send Message"
 msgstr "सन्देश पठाउनुहोस्"
 
-#: .\templates\home\partials\features.html:19
+#: .\apps\home\templates\home\partials\features.html:19
 msgid "Our Features"
 msgstr "हाम्रा विशेषताहरू"
 
-#: .\templates\home\partials\features.html:22
+#: .\apps\home\templates\home\partials\features.html:22
 msgid "Why Choose Our Services"
 msgstr "हाम्रो सेवाहरू किन रोज्ने"
 
-#: .\templates\home\partials\features.html:26
+#: .\apps\home\templates\home\partials\features.html:26
 msgid ""
 "Experience modern banking with features designed for your convenience and "
 "security"
 msgstr ""
 "तपाईंको सुविधा र सुरक्षाको लागि डिजाइन गरिएका विशेषताहरूसँग आधुनिक बैंकिङको अनुभव लिनुहोस्"
 
-#: .\templates\home\partials\features.html:37
+#: .\apps\home\templates\home\partials\features.html:32
 msgid "Mobile Banking"
 msgstr "मोबाइल बैंकिङ"
 
-#: .\templates\home\partials\features.html:38
+#: .\apps\home\templates\home\partials\features.html:32
 msgid "Bank anywhere, anytime with our convenient mobile banking services"
 msgstr "हाम्रो सुविधाजनक मोबाइल बैंकिङ सेवाहरूसँग जहाँसुकै, जुनसुकै बेला बैंकिङ गर्नुहोस्"
 
-#: .\templates\home\partials\features.html:47
+#: .\apps\home\templates\home\partials\features.html:36
 msgid "Secure"
 msgstr "सुरক্ষিত"
 
-#: .\templates\home\partials\features.html:48
+#: .\apps\home\templates\home\partials\features.html:36
 msgid "Bank-level security to protect your financial information"
 msgstr "तपाईंको वित्तीय जानकारी सुरक्षित गर्न बैंक-स्तरको सुरक्षा"
 
-#: .\templates\home\partials\features.html:57
+#: .\apps\home\templates\home\partials\features.html:40
 msgid "24/7 Support"
 msgstr "२४/७ सहयोग"
 
-#: .\templates\home\partials\features.html:58
+#: .\apps\home\templates\home\partials\features.html:40
 msgid "Always here for you with round-the-clock customer support"
 msgstr "चौबीसै घण्टा ग्राहक सहयोगको साथ सधैं तपाईंको सेवामा"
 
-#: .\templates\home\partials\features.html:67
+#: .\apps\home\templates\home\partials\features.html:44
 msgid "Rewards"
 msgstr "पुरस्कारहरू"
 
-#: .\templates\home\partials\features.html:68
+#: .\apps\home\templates\home\partials\features.html:44
 msgid "Earn rewards and benefits while you save with us"
 msgstr "हामीसँग बचत गर्दा पुरस्कार र लाभहरू प्राप्त गर्नुहोस्"
 
-#: .\templates\home\partials\gallery_preview.html:19
+#: .\apps\home\templates\home\partials\gallery_preview.html:19
 msgid "Our Gallery"
 msgstr "हाम्रो ग्यालरी"
 
-#: .\templates\home\partials\gallery_preview.html:22
+#: .\apps\home\templates\home\partials\gallery_preview.html:22
 msgid "Moments & Memories"
 msgstr "पल र सम्झनाहरू"
 
-#: .\templates\home\partials\gallery_preview.html:26
+#: .\apps\home\templates\home\partials\gallery_preview.html:26
 msgid ""
 "Capturing our journey and community events that define our cooperative spirit"
 msgstr ""
 "हाम्रो सहकारी भावनालाई परिभाषित गर्ने हाम्रो यात्रा र सामुदायिक कार्यक्रमहरूलाई कैद गर्दै"
 
-#: .\templates\home\partials\gallery_preview.html:65
+#: .\apps\home\templates\home\partials\gallery_preview.html:65
 msgid "View Full Gallery"
 msgstr "पूरा ग्यालरी हेर्नुहोस्"
 
-#: .\templates\home\partials\hero.html:34
-msgid "Welcome to Bhanjyang Cooperative"
-msgstr "भञ्ज्याङ सहकारीमा स्वागत छ"
-
-#: .\templates\home\partials\hero.html:38
-msgid "Empowering Your Financial Journey in Rupa"
-msgstr "रूपामा तपाईंको वित्तीय यात्रालाई सशक्त बनाउँदै"
-
-#: .\templates\home\partials\hero.html:43
-msgid ""
-"Bhanjyang Cooperative is dedicated to fostering economic growth and "
-"community development in Rupa Rural Municipality through reliable and "
-"accessible financial services."
+#: .\apps\home\templates\home\partials\hero.html:97
+msgid "Welcome"
 msgstr ""
-"भञ्ज्याङ सहकारी रूपा गाउँपालिकामा भरपर्दो र सुलभ वित्तीय सेवाहरूमार्फत आर्थिक विकास र "
-"सामुदायिक उत्थानका लागि समर्पित छ।"
 
-#: .\templates\home\partials\hero.html:48
-msgid "Explore our financial services"
-msgstr "हाम्रो वित्तीय सेवाहरू अन्वेषण गर्नुहोस्"
-
-#: .\templates\home\partials\hero.html:51
-msgid "Explore Services"
-msgstr "सेवाहरू हेर्नुहोस्"
-
-#: .\templates\home\partials\hero.html:58
-msgid "Contact Bhanjyang Cooperative"
-msgstr "भञ्ज्याङ सहकारीलाई सम्पर्क गर्नुहोस्"
-
-#: .\templates\home\partials\hero.html:89
-msgid "Savings & Investments"
-msgstr "बचत र लगानी"
-
-#: .\templates\home\partials\hero.html:93
-msgid "Secure Your Future with Smart Savings"
-msgstr "स्मार्ट बचतको साथ आफ्नो भविष्य सुरक्षित गर्नुहोस्"
-
-#: .\templates\home\partials\hero.html:98
-msgid ""
-"Our flexible savings plans offer competitive interest rates, helping you "
-"achieve your financial goals faster and with peace of mind."
+#: .\apps\home\templates\home\partials\hero.html:100
+msgid "Hero content will appear here once configured in the admin panel."
 msgstr ""
-"हाम्रो लचिलो बचत योजनाहरूले प्रतिस्पर्धी ब्याज दर प्रस्ताव गर्दछ, जसले तपाईंलाई आफ्नो "
-"वित्तीय लक्ष्यहरू छिटो र ढुक्कसँग प्राप्त गर्न मद्दत गर्दछ।"
 
-#: .\templates\home\partials\hero.html:104
-msgid "View Savings Plans"
-msgstr "बचत योजनाहरू हेर्नुहोस्"
+#: .\apps\home\templates\home\partials\hero.html:105
+#, fuzzy
+#| msgid "Home Page Content"
+msgid "Add Hero Content"
+msgstr "गृह पृष्ठ सामग्री"
 
-#: .\templates\home\partials\hero.html:111
-msgid "Open Account"
-msgstr "खाता खोल्नुहोस्"
-
-#: .\templates\home\partials\hero.html:136
-#: .\templates\home\partials\services.html:101
-msgid "Loan Services"
-msgstr "ऋण सेवाहरू"
-
-#: .\templates\home\partials\hero.html:140
-msgid "Loans Tailored to Your Ambition"
-msgstr "तपाईंको महत्वाकांक्षा अनुरूपका ऋणहरू"
-
-#: .\templates\home\partials\hero.html:145
-msgid ""
-"Whether for personal needs, business expansion, or agricultural projects, "
-"our flexible loan products are designed to fuel your success."
-msgstr ""
-"व्यक्तिगत आवश्यकता, व्यापार विस्तार, वा कृषि परियोजनाहरूका लागि, हाम्रो लचिलो ऋण "
-"उत्पादनहरू तपाईंको सफलताका लागि डिजाइन गरिएका छन्।"
-
-#: .\templates\home\partials\hero.html:151
-msgid "Apply for a Loan"
-msgstr "ऋणको लागि आवेदन दिनुहोस्"
-
-#: .\templates\home\partials\hero.html:157
-msgid "Calculate loan EMI and payment"
-msgstr "ऋणको EMI र किस्ता गणना गर्नुहोस्"
-
-#: .\templates\home\partials\hero.html:159
-msgid "Loan Calculator"
-msgstr "ऋण क्याल्कुलेटर"
-
-#: .\templates\home\partials\hero.html:184
-#: .\templates\home\partials\hero.html:201
-msgid "Remittance Services"
-msgstr "रेमिट्यान्स सेवाहरू"
-
-#: .\templates\home\partials\hero.html:199
-msgid "View remittance services"
-msgstr "रेमिट्यान्स सेवाहरू हेर्नुहोस्"
-
-#: .\templates\home\partials\impact.html:20
+#: .\apps\home\templates\home\partials\impact.html:20
 msgid "Our Impact"
 msgstr "हाम्रो प्रभाव"
 
-#: .\templates\home\partials\impact.html:23
+#: .\apps\home\templates\home\partials\impact.html:23
 msgid "Bhanjyang Cooperative's Impact in Numbers"
 msgstr "अङ्कमा भञ्ज्याङ सहकारीको प्रभाव"
 
-#: .\templates\home\partials\impact.html:27
+#: .\apps\home\templates\home\partials\impact.html:27
 msgid ""
 "Measuring our success through the growth and prosperity of our community"
-msgstr ""
-"हाम्रो समुदायको वृद्धि र समृद्धि मार्फत हाम्रो सफलता मापन गर्दै"
+msgstr "हाम्रो समुदायको वृद्धि र समृद्धि मार्फत हाम्रो सफलता मापन गर्दै"
 
-#: .\templates\home\partials\impact.html:41
+#: .\apps\home\templates\home\partials\impact.html:43
 msgid "Growing our community impact."
 msgstr "हाम्रो सामुदायिक प्रभाव बढाउँदै।"
 
-#: .\templates\home\partials\impact.html:52
-msgid "Active Members"
-msgstr "सक्रिय सदस्यहरू"
+#: .\apps\home\templates\home\partials\impact.html:52
+#, fuzzy
+#| msgid "Statistics"
+msgid "No Statistics Available"
+msgstr "तथ्याङ्कहरू"
 
-#: .\templates\home\partials\impact.html:53
-msgid "Growing our community, one member at a time."
-msgstr "एकपछि अर्को सदस्य थप्दै हाम्रो समुदाय बढाउँदै।"
+#: .\apps\home\templates\home\partials\impact.html:53
+msgid "Statistics will appear here once configured in the admin panel."
+msgstr ""
 
-#: .\templates\home\partials\impact.html:62
-msgid "Million NPR Loans Disbursed"
-msgstr "लाख रूपैयाँ ऋण प्रवाह"
+#: .\apps\home\templates\home\partials\impact.html:57
+#, fuzzy
+#| msgid "Statistics"
+msgid "Add Statistics"
+msgstr "तथ्याङ्कहरू"
 
-#: .\templates\home\partials\impact.html:63
-msgid "Supporting dreams and local enterprises."
-msgstr "सपना र स्थानीय उद्यमहरूलाई सहयोग गर्दै।"
-
-#: .\templates\home\partials\impact.html:72
-msgid "Million NPR Total Savings"
-msgstr "लाख रूपैयाँ कुल बचत"
-
-#: .\templates\home\partials\impact.html:73
-msgid "Securing futures for our valued members."
-msgstr "हाम्रा सम्मानित सदस्यहरूको भविष्य सुरक्षित गर्दै।"
-
-#: .\templates\home\partials\impact.html:82
-msgid "Years of Service"
-msgstr "सेवाका वर्षहरू"
-
-#: .\templates\home\partials\impact.html:83
-msgid "A legacy of trust and community commitment."
-msgstr "विश्वास र सामुदायिक प्रतिबद्धताको विरासत।"
-
-#: .\templates\home\partials\introduction.html:39
+#: .\apps\home\templates\home\partials\introduction.html:41
 msgid "Who We Are"
 msgstr "हामी को हौं"
 
-#: .\templates\home\partials\introduction.html:42
+#: .\apps\home\templates\home\partials\introduction.html:44
 msgid "Your Trusted Partner in Community Development"
 msgstr "सामुदायिक विकासमा तपाईंको विश्वासिलो साझेदार"
 
-#: .\templates\home\partials\introduction.html:48
+#: .\apps\home\templates\home\partials\introduction.html:55
+#, fuzzy
+#| msgid ""
+#| "Established with a vision to uplift local communities in Rupa Rural "
+#| "Municipality, Bhanjyang Cooperative provides accessible and fair "
+#| "financial solutions. We believe in strengthening the local economy by "
+#| "empowering individuals and businesses through savings, credit, and expert "
+#| "financial guidance."
 msgid ""
-"Established with a vision to uplift local communities in Rupa Rural "
-"Municipality, Bhanjyang Cooperative provides accessible and fair financial "
-"solutions. We believe in strengthening the local economy by empowering "
-"individuals and businesses through savings, credit, and expert financial "
-"guidance."
+"Established with a vision to uplift local communities, we provide accessible "
+"and fair financial solutions. We believe in strengthening the local economy "
+"by empowering individuals and businesses through savings, credit, and expert "
+"financial guidance."
 msgstr ""
-"रूपा गाउँपालिकाका स्थानीय समुदायको उत्थान गर्ने दृष्टिकोणले स्थापित, भञ्ज्याङ सहकारीले "
-"सुलभ र निष्पक्ष वित्तीय समाधानहरू प्रदान गर्दछ। हामी बचत, ऋण, र विज्ञ वित्तीय "
-"मार्गदर्शन मार्फत व्यक्ति र व्यवसायहरूलाई सशक्त बनाएर स्थानीय अर्थतन्त्रलाई बलियो बनाउन "
-"विश्वास गर्छौं।"
+"रूपा गाउँपालिकाका स्थानीय समुदायको उत्थान गर्ने दृष्टिकोणले स्थापित, भञ्ज्याङ सहकारीले सुलभ "
+"र निष्पक्ष वित्तीय समाधानहरू प्रदान गर्दछ। हामी बचत, ऋण, र विज्ञ वित्तीय मार्गदर्शन "
+"मार्फत व्यक्ति र व्यवसायहरूलाई सशक्त बनाएर स्थानीय अर्थतन्त्रलाई बलियो बनाउन विश्वास "
+"गर्छौं।"
 
-#: .\templates\home\partials\introduction.html:51
+#: .\apps\home\templates\home\partials\introduction.html:58
 msgid ""
 "Our commitment goes beyond traditional banking; we are deeply rooted in the "
 "community, striving to make a tangible difference in the lives of our "
@@ -609,67 +737,75 @@ msgstr ""
 "हाम्रो प्रतिबद्धता परम्परागत बैंकिङ भन्दा माथि छ; हामी समुदायमा गहिरो रूपमा जरा गाडेका "
 "छौं, र हाम्रा सदस्यहरूको जीवनमा ठोस परिवर्तन ल्याउन प्रयासरत छौं।"
 
-#: .\templates\home\partials\introduction.html:62
+#: .\apps\home\templates\home\partials\introduction.html:70
 msgid "Community Focused"
 msgstr "समुदाय केन्द्रित"
 
-#: .\templates\home\partials\introduction.html:63
+#: .\apps\home\templates\home\partials\introduction.html:71
 msgid "Deeply rooted in local community needs"
 msgstr "स्थानीय समुदायको आवश्यकतामा गहिरो रूपमा आधारित"
 
-#: .\templates\home\partials\introduction.html:71
+#: .\apps\home\templates\home\partials\introduction.html:79
 msgid "Trusted & Secure"
 msgstr "विश्वसनीय र सुरक्षित"
 
-#: .\templates\home\partials\introduction.html:72
-msgid "25+ years of reliable service"
+#: .\apps\home\templates\home\partials\introduction.html:82
+#, fuzzy
+#| msgid "25+ years of reliable service"
+msgid "of reliable service"
 msgstr "२५+ वर्षको भरपर्दो सेवा"
 
-#: .\templates\home\partials\introduction.html:79
+#: .\apps\home\templates\home\partials\introduction.html:84
+#, fuzzy
+#| msgid "25+ years of reliable service"
+msgid "Years of reliable service"
+msgstr "२५+ वर्षको भरपर्दो सेवा"
+
+#: .\apps\home\templates\home\partials\introduction.html:93
 msgid "Learn More About Us"
 msgstr "हाम्रो बारेमा थप जान्नुहोस्"
 
-#: .\templates\home\partials\newsletter.html:19
+#: .\apps\home\templates\home\partials\newsletter.html:19
 msgid "Newsletter"
 msgstr "न्यूजलेटर"
 
-#: .\templates\home\partials\newsletter.html:23
+#: .\apps\home\templates\home\partials\newsletter.html:23
 msgid "Stay Updated"
 msgstr "सुसूचित रहनुहोस्"
 
-#: .\templates\home\partials\newsletter.html:27
+#: .\apps\home\templates\home\partials\newsletter.html:27
 msgid "Get the latest news, updates, and exclusive offers"
 msgstr "पछिल्लो समाचार, अद्यावधिकहरू, र विशेष प्रस्तावहरू प्राप्त गर्नुहोस्"
 
-#: .\templates\home\partials\newsletter.html:30
+#: .\apps\home\templates\home\partials\newsletter.html:30
 msgid "delivered directly to your inbox"
 msgstr "सीधै तपाईंको इनबक्समा"
 
-#: .\templates\home\partials\newsletter.html:54
+#: .\apps\home\templates\home\partials\newsletter.html:54
 msgid "Subscribe"
 msgstr "ग्राहक बन्नुहोस्"
 
-#: .\templates\home\partials\newsletter.html:63
+#: .\apps\home\templates\home\partials\newsletter.html:63
 msgid "Latest News"
 msgstr "ताजा समाचार"
 
-#: .\templates\home\partials\newsletter.html:67
+#: .\apps\home\templates\home\partials\newsletter.html:67
 msgid "Exclusive Offers"
 msgstr "विशेष प्रस्तावहरू"
 
-#: .\templates\home\partials\newsletter.html:71
+#: .\apps\home\templates\home\partials\newsletter.html:71
 msgid "No Spam"
 msgstr "स्प्याम छैन"
 
-#: .\templates\home\partials\services.html:19
+#: .\apps\home\templates\home\partials\services.html:19
 msgid "Our Services"
 msgstr "हाम्रा सेवाहरू"
 
-#: .\templates\home\partials\services.html:22
+#: .\apps\home\templates\home\partials\services.html:22
 msgid "Our Key Services"
 msgstr "हाम्रा मुख्य सेवाहरू"
 
-#: .\templates\home\partials\services.html:26
+#: .\apps\home\templates\home\partials\services.html:26
 msgid ""
 "Discover comprehensive financial solutions designed to meet your needs and "
 "help you achieve your goals"
@@ -677,125 +813,271 @@ msgstr ""
 "तपाईंको आवश्यकता पूरा गर्न र लक्ष्यहरू प्राप्त गर्न मद्दत गर्ने व्यापक वित्तीय समाधानहरू "
 "पत्ता लगाउनुहोस्"
 
-#: .\templates\home\partials\services.html:82
-msgid "Savings Accounts"
-msgstr "बचत खाताहरू"
+#: .\apps\home\templates\home\partials\services.html:45
+#, fuzzy
+#| msgid "Our Services"
+msgid "No Featured Services"
+msgstr "हाम्रा सेवाहरू"
 
-#: .\templates\home\partials\services.html:83
-#, python-format
+#: .\apps\home\templates\home\partials\services.html:46
 msgid ""
-"Various types of savings accounts with competitive interest rates up to 8%% "
-"annually."
+"Featured services will appear here once configured. Services can be marked "
+"as featured in the admin panel."
 msgstr ""
-"वार्षिक ८%% सम्मको प्रतिस्पर्धी ब्याज दर भएका विभिन्न प्रकारका बचत खाताहरू।"
 
-#: .\templates\home\partials\services.html:85
-#, python-format
-msgid "Up to 8%%"
-msgstr "८%% सम्म"
+#: .\apps\home\templates\home\partials\services.html:49
+#, fuzzy
+#| msgid "View All Services & Rates"
+msgid "View All Services"
+msgstr "सबै सेवाहरू र दरहरू हेर्नुहोस्"
 
-#: .\templates\home\partials\services.html:90
-msgid "View All Savings Options"
-msgstr "सबै बचत विकल्पहरू हेर्नुहोस्"
-
-#: .\templates\home\partials\services.html:102
-msgid ""
-"Affordable loans for business, agriculture, and home construction with "
-"flexible terms."
-msgstr ""
-"लचिलो सर्तहरूमा व्यापार, कृषि, र घर निर्माणका लागि सहुलियतपूर्ण ऋणहरू।"
-
-#: .\templates\home\partials\services.html:104
-#, python-format
-msgid "From 10.5%%"
-msgstr "१०.५%% बाट सुरु"
-
-#: .\templates\home\partials\services.html:109
-msgid "Explore Loan Options"
-msgstr "ऋण विकल्पहरू हेर्नुहोस्"
-
-#: .\templates\home\partials\services.html:120
-msgid "Fixed Deposits"
-msgstr "मुद्दती निक्षेप"
-
-#: .\templates\home\partials\services.html:121
-#, python-format
-msgid ""
-"Secure your future with fixed deposits offering up to 7%% interest for 1+ "
-"year terms."
-msgstr ""
-"१ वर्ष भन्दा बढी अवधिको लागि ७%% सम्मको ब्याज दिने मुद्दती निक्षेपको साथ आफ्नो भविष्य "
-"सुरक्षित गर्नुहोस्।"
-
-#: .\templates\home\partials\services.html:123
-#, python-format
-msgid "Up to 7%%"
-msgstr "७%% सम्म"
-
-#: .\templates\home\partials\services.html:128
-msgid "View Deposit Rates"
-msgstr "ब्याज दरहरू हेर्नुहोस्"
-
-#: .\templates\home\partials\services.html:141
+#: .\apps\home\templates\home\partials\services.html:60
 msgid "View All Services & Rates"
 msgstr "सबै सेवाहरू र दरहरू हेर्नुहोस्"
 
-#: .\templates\home\partials\testimonials.html:22
+#: .\apps\home\templates\home\partials\testimonials.html:22
 msgid "What Our Members Say About Us"
 msgstr "हाम्रा सदस्यहरू हाम्रो बारेमा के भन्छन्"
 
-#: .\templates\home\partials\testimonials.html:26
+#: .\apps\home\templates\home\partials\testimonials.html:26
 msgid ""
 "Hear from our community members about their experiences with Bhanjyang "
 "Cooperative"
-msgstr ""
-"भञ्ज्याङ सहकारीसँगको आफ्नो अनुभवको बारेमा हाम्रा समुदायका सदस्यहरूबाट सुन्नुहोस्"
+msgstr "भञ्ज्याङ सहकारीसँगको आफ्नो अनुभवको बारेमा हाम्रा समुदायका सदस्यहरूबाट सुन्नुहोस्"
 
-#: .\templates\home\partials\why_choose_us.html:19
+#: .\apps\home\templates\home\partials\testimonials.html:72
+#, fuzzy
+#| msgid "Testimonial text"
+msgid "No Testimonials Yet"
+msgstr "प्रशंसापत्र पाठ"
+
+#: .\apps\home\templates\home\partials\testimonials.html:73
+msgid "Testimonials will appear here once added in the admin panel."
+msgstr ""
+
+#: .\apps\home\templates\home\partials\testimonials.html:77
+#, fuzzy
+#| msgid "Testimonial"
+msgid "Add Testimonial"
+msgstr "प्रशंसापत्र"
+
+#: .\apps\home\templates\home\partials\why_choose_us.html:19
 msgid "Why Choose Us"
 msgstr "हामीलाई किन रोज्ने"
 
-#: .\templates\home\partials\why_choose_us.html:22
+#: .\apps\home\templates\home\partials\why_choose_us.html:22
 msgid "Your Trusted Financial Partner"
 msgstr "तपाईंको विश्वासिलो वित्तीय साझेदार"
 
-#: .\templates\home\partials\why_choose_us.html:26
+#: .\apps\home\templates\home\partials\why_choose_us.html:30
+msgid "With over"
+msgstr ""
+
+#: .\apps\home\templates\home\partials\why_choose_us.html:30
+#, fuzzy
+#| msgid ""
+#| "With over 25 years of experience, we've built a reputation for trust, "
+#| "transparency, and excellent service."
 msgid ""
-"With over 25 years of experience, we've built a reputation for trust, "
-"transparency, and excellent service."
+"we've built a reputation for trust, transparency, and excellent service."
 msgstr ""
 "२५ वर्षभन्दा बढी अनुभवको साथ, हामीले विश्वास, पारदर्शिता, र उत्कृष्ट सेवाको लागि "
 "प्रतिष्ठा बनाएका छौं।"
 
-#: .\templates\home\partials\why_choose_us.html:40
+#: .\apps\home\templates\home\partials\why_choose_us.html:32
+#, fuzzy
+#| msgid ""
+#| "With over 25 years of experience, we've built a reputation for trust, "
+#| "transparency, and excellent service."
+msgid ""
+"With years of experience, we've built a reputation for trust, transparency, "
+"and excellent service."
+msgstr ""
+"२५ वर्षभन्दा बढी अनुभवको साथ, हामीले विश्वास, पारदर्शिता, र उत्कृष्ट सेवाको लागि "
+"प्रतिष्ठा बनाएका छौं।"
+
+#: .\apps\home\templates\home\partials\why_choose_us.html:48
 msgid "Secure & Reliable"
 msgstr "सुरक्षित र भरपर्दो"
 
-#: .\templates\home\partials\why_choose_us.html:41
+#: .\apps\home\templates\home\partials\why_choose_us.html:49
 msgid ""
 "Bank-level security and regulatory compliance ensure your funds and data are "
 "always protected."
 msgstr ""
 "बैंक-स्तरको सुरक्षा र नियमन पालनाको सुनिश्चितताले तपाईंको रकम र डाटा सधैं सुरक्षित रहन्छ।"
 
-#: .\templates\home\partials\why_choose_us.html:52
+#: .\apps\home\templates\home\partials\why_choose_us.html:60
 msgid "Competitive Rates"
 msgstr "प्रतिस्पर्धी दरहरू"
 
-#: .\templates\home\partials\why_choose_us.html:53
+#: .\apps\home\templates\home\partials\why_choose_us.html:61
 msgid ""
 "Enjoy some of the best interest rates in the market, helping your savings "
 "grow faster."
 msgstr ""
 "बजारमा उत्कृष्ट ब्याज दरहरूको आनन्द लिनुहोस्, जसले तपाईंको बचतलाई छिटो बढाउन मद्दत गर्दछ।"
 
-#: .\templates\home\partials\why_choose_us.html:64
+#: .\apps\home\templates\home\partials\why_choose_us.html:72
 msgid "Personalized Support"
 msgstr "व्यक्तिगत सहयोग"
 
-#: .\templates\home\partials\why_choose_us.html:65
+#: .\apps\home\templates\home\partials\why_choose_us.html:73
 msgid ""
 "Our dedicated team provides personalized assistance tailored to your "
 "financial needs."
 msgstr ""
 "हाम्रो समर्पित टोलीले तपाईंको वित्तीय आवश्यकता अनुसार व्यक्तिगत सहयोग प्रदान गर्दछ।"
+
+#: .\apps\home\templates\home\preview.html:5
+msgid "Preview"
+msgstr ""
+
+#: .\apps\home\templates\home\preview.html:39
+msgid "PREVIEW MODE"
+msgstr ""
+
+#: .\apps\home\templates\home\preview.html:123
+msgid "Summary:"
+msgstr ""
+
+#: .\apps\home\templates\home\preview.html:135
+msgid "Edit in Admin"
+msgstr ""
+
+#~ msgid "Welcome to Bhanjyang Cooperative"
+#~ msgstr "भञ्ज्याङ सहकारीमा स्वागत छ"
+
+#~ msgid "Empowering Your Financial Journey in Rupa"
+#~ msgstr "रूपामा तपाईंको वित्तीय यात्रालाई सशक्त बनाउँदै"
+
+#~ msgid ""
+#~ "Bhanjyang Cooperative is dedicated to fostering economic growth and "
+#~ "community development in Rupa Rural Municipality through reliable and "
+#~ "accessible financial services."
+#~ msgstr ""
+#~ "भञ्ज्याङ सहकारी रूपा गाउँपालिकामा भरपर्दो र सुलभ वित्तीय सेवाहरूमार्फत आर्थिक विकास "
+#~ "र सामुदायिक उत्थानका लागि समर्पित छ।"
+
+#~ msgid "Explore our financial services"
+#~ msgstr "हाम्रो वित्तीय सेवाहरू अन्वेषण गर्नुहोस्"
+
+#~ msgid "Explore Services"
+#~ msgstr "सेवाहरू हेर्नुहोस्"
+
+#~ msgid "Contact Bhanjyang Cooperative"
+#~ msgstr "भञ्ज्याङ सहकारीलाई सम्पर्क गर्नुहोस्"
+
+#~ msgid "Savings & Investments"
+#~ msgstr "बचत र लगानी"
+
+#~ msgid "Secure Your Future with Smart Savings"
+#~ msgstr "स्मार्ट बचतको साथ आफ्नो भविष्य सुरक्षित गर्नुहोस्"
+
+#~ msgid ""
+#~ "Our flexible savings plans offer competitive interest rates, helping you "
+#~ "achieve your financial goals faster and with peace of mind."
+#~ msgstr ""
+#~ "हाम्रो लचिलो बचत योजनाहरूले प्रतिस्पर्धी ब्याज दर प्रस्ताव गर्दछ, जसले तपाईंलाई आफ्नो "
+#~ "वित्तीय लक्ष्यहरू छिटो र ढुक्कसँग प्राप्त गर्न मद्दत गर्दछ।"
+
+#~ msgid "View Savings Plans"
+#~ msgstr "बचत योजनाहरू हेर्नुहोस्"
+
+#~ msgid "Open Account"
+#~ msgstr "खाता खोल्नुहोस्"
+
+#~ msgid "Loan Services"
+#~ msgstr "ऋण सेवाहरू"
+
+#~ msgid "Loans Tailored to Your Ambition"
+#~ msgstr "तपाईंको महत्वाकांक्षा अनुरूपका ऋणहरू"
+
+#~ msgid ""
+#~ "Whether for personal needs, business expansion, or agricultural projects, "
+#~ "our flexible loan products are designed to fuel your success."
+#~ msgstr ""
+#~ "व्यक्तिगत आवश्यकता, व्यापार विस्तार, वा कृषि परियोजनाहरूका लागि, हाम्रो लचिलो ऋण "
+#~ "उत्पादनहरू तपाईंको सफलताका लागि डिजाइन गरिएका छन्।"
+
+#~ msgid "Apply for a Loan"
+#~ msgstr "ऋणको लागि आवेदन दिनुहोस्"
+
+#~ msgid "Calculate loan EMI and payment"
+#~ msgstr "ऋणको EMI र किस्ता गणना गर्नुहोस्"
+
+#~ msgid "Loan Calculator"
+#~ msgstr "ऋण क्याल्कुलेटर"
+
+#~ msgid "Remittance Services"
+#~ msgstr "रेमिट्यान्स सेवाहरू"
+
+#~ msgid "View remittance services"
+#~ msgstr "रेमिट्यान्स सेवाहरू हेर्नुहोस्"
+
+#~ msgid "Growing our community, one member at a time."
+#~ msgstr "एकपछि अर्को सदस्य थप्दै हाम्रो समुदाय बढाउँदै।"
+
+#~ msgid "Million NPR Loans Disbursed"
+#~ msgstr "लाख रूपैयाँ ऋण प्रवाह"
+
+#~ msgid "Supporting dreams and local enterprises."
+#~ msgstr "सपना र स्थानीय उद्यमहरूलाई सहयोग गर्दै।"
+
+#~ msgid "Million NPR Total Savings"
+#~ msgstr "लाख रूपैयाँ कुल बचत"
+
+#~ msgid "Securing futures for our valued members."
+#~ msgstr "हाम्रा सम्मानित सदस्यहरूको भविष्य सुरक्षित गर्दै।"
+
+#~ msgid "Years of Service"
+#~ msgstr "सेवाका वर्षहरू"
+
+#~ msgid "A legacy of trust and community commitment."
+#~ msgstr "विश्वास र सामुदायिक प्रतिबद्धताको विरासत।"
+
+#~ msgid "Savings Accounts"
+#~ msgstr "बचत खाताहरू"
+
+#, python-format
+#~ msgid ""
+#~ "Various types of savings accounts with competitive interest rates up to "
+#~ "8%% annually."
+#~ msgstr "वार्षिक ८%% सम्मको प्रतिस्पर्धी ब्याज दर भएका विभिन्न प्रकारका बचत खाताहरू।"
+
+#, python-format
+#~ msgid "Up to 8%%"
+#~ msgstr "८%% सम्म"
+
+#~ msgid "View All Savings Options"
+#~ msgstr "सबै बचत विकल्पहरू हेर्नुहोस्"
+
+#~ msgid ""
+#~ "Affordable loans for business, agriculture, and home construction with "
+#~ "flexible terms."
+#~ msgstr "लचिलो सर्तहरूमा व्यापार, कृषि, र घर निर्माणका लागि सहुलियतपूर्ण ऋणहरू।"
+
+#, python-format
+#~ msgid "From 10.5%%"
+#~ msgstr "१०.५%% बाट सुरु"
+
+#~ msgid "Explore Loan Options"
+#~ msgstr "ऋण विकल्पहरू हेर्नुहोस्"
+
+#~ msgid "Fixed Deposits"
+#~ msgstr "मुद्दती निक्षेप"
+
+#, python-format
+#~ msgid ""
+#~ "Secure your future with fixed deposits offering up to 7%% interest for 1+ "
+#~ "year terms."
+#~ msgstr ""
+#~ "१ वर्ष भन्दा बढी अवधिको लागि ७%% सम्मको ब्याज दिने मुद्दती निक्षेपको साथ आफ्नो "
+#~ "भविष्य सुरक्षित गर्नुहोस्।"
+
+#, python-format
+#~ msgid "Up to 7%%"
+#~ msgstr "७%% सम्म"
+
+#~ msgid "View Deposit Rates"
+#~ msgstr "ब्याज दरहरू हेर्नुहोस्"

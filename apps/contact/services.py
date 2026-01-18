@@ -9,8 +9,16 @@ from django.utils import timezone
 from django.db import connection
 import time
 
+import hashlib
+import uuid
+from django.template.loader import get_template
+from django.conf import settings
+from io import BytesIO
+from xhtml2pdf import pisa
+
 from .models import ContactSubmission, KYMSubmission
 from .tasks import send_contact_email, send_auto_response_email
+from .utils.helpers import get_client_ip, get_attachment_filename, format_file_size_display
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +53,15 @@ class ContactService:
             cooperative_info = CooperativeInfo.objects.active().first()
         except Exception as e:
             logger.warning(f"Could not fetch cooperative info: {e}")
+            logger.warning(f"Could not fetch cooperative info: {e}")
+        
+        # Fetch FAQs
+        faqs = []
+        try:
+            from .models import FAQ
+            faqs = FAQ.objects.filter(is_active=True).order_by('order', 'created_at')
+        except Exception as e:
+            logger.warning(f"Could not fetch FAQs: {e}")
         
         # Fetch Information Officer from Staff (RTI Act 2064)
         information_officer = None
@@ -56,6 +73,7 @@ class ContactService:
         return {
             'form': ContactForm(),
             'cooperative_info': cooperative_info,
+            'faqs': faqs,
             'information_officer': information_officer,
             'breadcrumbs': [
                 {'name': 'Home', 'url': '/'},
@@ -77,8 +95,12 @@ class ContactService:
             ContactSubmission: Created submission instance
         """
         attachment = files.get('attachment')
-        ip_address = request_meta.get('REMOTE_ADDR') or '127.0.0.1'
+        attachment = files.get('attachment')
+        ip_address = get_client_ip(request_meta)
         user_agent = request_meta.get('HTTP_USER_AGENT', '')
+        
+        # Generate a unique tracking hash for this submission
+        submission_hash = hashlib.md5(f"{uuid.uuid4()}-{time.time()}".encode()).hexdigest()[:12]
         
         # Generate subject from message if not provided
         message_body = form_data.get('message', '')
@@ -100,7 +122,8 @@ class ContactService:
             user_agent=user_agent
         )
         
-        logger.info(f"Contact submission saved with ID: {submission.id}")
+        logger.info(f"[SUBMISSION:{submission_hash}] Contact submission saved with ID: {submission.id} for {submission.email}")
+        setattr(submission, 'tracking_hash', submission_hash) # Temporary attribute for email
         return submission
     
     @staticmethod
@@ -113,13 +136,18 @@ class ContactService:
         """
         # Prepare email content
         full_subject = f"Website Contact: {submission.subject}"
+        tracking_hash = getattr(submission, 'tracking_hash', 'N/A')
+        
         attachment_info = ""
         if submission.has_attachment():
-            attachment_info = f"Attachment: {submission.get_attachment_filename()} ({submission.get_attachment_size_display()})"
+            filename = get_attachment_filename(submission.attachment)
+            size_display = format_file_size_display(submission.attachment.size)
+            attachment_info = f"Attachment: {filename} ({size_display})"
         
         full_message = f"""
 New message from Bhanjyang Cooperative website:
 
+Tracking Hash: {tracking_hash}
 Name: {submission.name}
 Email: {submission.email}
 Phone: {submission.phone if submission.phone else 'Not provided'}
@@ -226,8 +254,11 @@ class KYMService:
         Returns:
             KYMSubmission: Created submission instance
         """
-        ip_address = request_meta.get('REMOTE_ADDR', '')
+        ip_address = get_client_ip(request_meta)
         user_agent = request_meta.get('HTTP_USER_AGENT', '')
+        
+        # Generate a unique tracking hash for this submission
+        submission_hash = hashlib.md5(f"{uuid.uuid4()}-{time.time()}".encode()).hexdigest()[:12]
         
         kym_submission = KYMSubmission.objects.create(
             full_name=form_data['full_name'],
@@ -257,8 +288,42 @@ class KYMService:
             user_agent=user_agent
         )
         
-        logger.info(f"KYM submission saved with ID: {kym_submission.id}")
+        logger.info(f"[KYM:{submission_hash}] KYM submission saved with ID: {kym_submission.id} for {kym_submission.email}")
         return kym_submission
+
+    @staticmethod
+    def generate_kym_pdf(submission_id):
+        """
+        Generate a PDF version of a KYM submission.
+        
+        Args:
+            submission_id: ID of the KYMSubmission
+            
+        Returns:
+            BytesIO: PDF content as characters buffer or None if failed
+        """
+        try:
+            instance = KYMSubmission.objects.get(id=submission_id)
+            template = get_template('contact/pdf/kym_pdf_template.html')
+            context = {
+                'instance': instance,
+                'today': timezone.now(),
+                'STATIC_ROOT': settings.STATIC_ROOT,
+            }
+            html = template.render(context)
+            result = BytesIO()
+            pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
+            
+            if not pdf.err:
+                return result
+            logger.error(f"PDF generation error for KYM {submission_id}: {pdf.err}")
+            return None
+        except KYMSubmission.DoesNotExist:
+            logger.error(f"KYM submission {submission_id} not found for PDF generation")
+            return None
+        except Exception as e:
+            logger.error(f"Unexpected error in PDF generation for KYM {submission_id}: {e}")
+            return None
 
 
 class ContactAnalyticsService:

@@ -2,6 +2,7 @@
 Custom validators for the Contact app.
 """
 
+import os
 from django.core.exceptions import ValidationError
 from .constants import (
     MAX_CONTACT_FILE_SIZE_BYTES,
@@ -38,7 +39,6 @@ def validate_contact_file_extension(value):
     Raises:
         ValidationError: If file extension is not allowed
     """
-    import os
     file_extension = os.path.splitext(value.name)[1].lower()
     
     # Remove leading dot for comparison if present

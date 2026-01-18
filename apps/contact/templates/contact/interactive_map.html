@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}कार्यालय स्थानहरू - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "Office Locations" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block extra_head %}
     <meta name="description" content="तपाईं नजिकै भञ्ज्याङ सहकारीका कार्यालय स्थानहरू, शाखा कार्यालयहरू, र ATM केन्द्रहरू फेला पार्नुहोस्।">
@@ -20,10 +21,10 @@
     <section class="relative bg-gradient-to-br from-white via-himalwhite to-deuraligreen/5 text-deuraligreen py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
         <div class="container mx-auto text-center max-w-4xl">
             <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold font-montserrat mb-4 sm:mb-6">
-                कार्यालय स्थानहरू
+                {% trans "Office Locations" %}
             </h1>
             <p class="text-base sm:text-lg md:text-xl opacity-90 leading-relaxed px-4">
-                तपाईं नजिकै हाम्रा कार्यालयहरू, शाखाहरू र ATM केन्द्रहरू फेला पार्नुहोस्
+                {% trans "Find our offices, branches, and ATM centers near you." %}
             </p>
         </div>
     </section>
@@ -35,26 +36,26 @@
                 <!-- Location Filter -->
                 <div class="flex flex-wrap gap-2">
                     <button class="filter-btn active" data-filter="all">
-                        <i class="fas fa-map-marker-alt mr-2"></i>सबै स्थानहरू
+                        <i class="fas fa-map-marker-alt mr-2"></i>{% trans "All Locations" %}
                     </button>
                     <button class="filter-btn" data-filter="main_office">
-                        <i class="fas fa-building mr-2"></i>मुख्य कार्यालय
+                        <i class="fas fa-building mr-2"></i>{% trans "Main Office" %}
                     </button>
                     <button class="filter-btn" data-filter="branch_office">
-                        <i class="fas fa-store mr-2"></i>शाखा कार्यालयहरू
+                        <i class="fas fa-store mr-2"></i>{% trans "Branch Offices" %}
                     </button>
                     <button class="filter-btn" data-filter="atm_center">
-                        <i class="fas fa-credit-card mr-2"></i>ATM केन्द्रहरू
+                        <i class="fas fa-credit-card mr-2"></i>{% trans "ATM Centers" %}
                     </button>
                 </div>
                 
                 <!-- Map Controls -->
                 <div class="flex gap-2">
                     <button id="locate-me" class="bg-deuraligreen hover:bg-bhanjyangred text-white px-4 py-2 rounded-lg transition-colors">
-                        <i class="fas fa-crosshairs mr-2"></i>मेरो स्थान
+                        <i class="fas fa-crosshairs mr-2"></i>{% trans "My Location" %}
                     </button>
                     <button id="fullscreen-map" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors">
-                        <i class="fas fa-expand mr-2"></i>पूरा स्क्रिन
+                        <i class="fas fa-expand mr-2"></i>{% trans "Full Screen" %}
                     </button>
                 </div>
             </div>
@@ -74,12 +75,12 @@
                 <div class="lg:col-span-1">
                     <div class="bg-white rounded-lg shadow-lg p-6">
                         <h3 class="text-xl font-semibold text-deuraligreen mb-4">
-                            <i class="fas fa-list mr-2"></i>सबै स्थानहरू
+                            <i class="fas fa-list mr-2"></i>{% trans "All Locations" %}
                         </h3>
                         
                         <!-- Search Locations -->
                         <div class="relative mb-4">
-                            <input type="text" id="location-search" placeholder="स्थानहरू खोज्नुहोस्..." 
+                            <input type="text" id="location-search" placeholder="{% trans "Search locations..." %}" 
                                    class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
                             <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         </div>
@@ -111,10 +112,10 @@
                 
                 <div class="flex gap-3 mt-6">
                     <button id="get-directions" class="flex-1 bg-deuraligreen hover:bg-bhanjyangred text-white py-2 px-4 rounded-lg transition-colors">
-                        <i class="fas fa-route mr-2"></i>बाटो हेर्नुहोस्
+                        <i class="fas fa-route mr-2"></i>{% trans "Get Directions" %}
                     </button>
                     <button id="call-location" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors">
-                        <i class="fas fa-phone mr-2"></i>कल गर्नुहोस्
+                        <i class="fas fa-phone mr-2"></i>{% trans "Call Now" %}
                     </button>
                 </div>
             </div>
@@ -126,7 +127,7 @@
         <div class="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold text-deuraligreen">दिशा निर्देशन</h3>
+                    <h3 class="text-xl font-semibold text-deuraligreen">{% trans "Directions" %}</h3>
                     <button id="close-directions-modal" class="text-gray-400 hover:text-gray-600">
                         <i class="fas fa-times text-xl"></i>
                     </button>
@@ -142,19 +143,19 @@
     <!-- Location Statistics -->
     <section class="py-12 bg-white">
         <div class="container mx-auto max-w-4xl text-center">
-            <h2 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-8">हाम्रो नेटवर्क</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold text-deuraligreen mb-8">{% trans "Our Network" %}</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
                 <div class="text-center">
                     <div class="text-4xl font-bold text-deuraligreen mb-2" id="total-locations">0</div>
-                    <p class="text-gray-600">जम्मा स्थानहरू</p>
+                    <p class="text-gray-600">{% trans "Total Locations" %}</p>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-deuraligreen mb-2" id="main-offices">0</div>
-                    <p class="text-gray-600">मुख्य कार्यालयहरू</p>
+                    <p class="text-gray-600">{% trans "Main Offices" %}</p>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl font-bold text-deuraligreen mb-2" id="branch-offices">0</div>
-                    <p class="text-gray-600">शाखा कार्यालयहरू</p>
+                    <p class="text-gray-600">{% trans "Branch Offices" %}</p>
                 </div>
             </div>
         </div>
