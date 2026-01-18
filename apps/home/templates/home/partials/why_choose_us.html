@@ -23,7 +23,15 @@
         </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                {% trans "With over 25 years of experience, we've built a reputation for trust, transparency, and excellent service." %}
+                {% if site_info and site_info.why_choose_us_text %}
+                    {{ site_info.why_choose_us_text|linebreaks }}
+                {% else %}
+                    {% if site_info and site_info.get_years_display %}
+                        {% trans "With over" %} {{ site_info.get_years_display|lower }}, {% trans "we've built a reputation for trust, transparency, and excellent service." %}
+                    {% else %}
+                        {% trans "With years of experience, we've built a reputation for trust, transparency, and excellent service." %}
+                    {% endif %}
+                {% endif %}
             </p>
             </div>
         
@@ -81,12 +89,14 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
                     </div>
                     <!-- Floating Badge -->
+                    {% if site_info and site_info.get_years_display %}
                     <div class="absolute -bottom-4 -right-4 bg-deuraligreen text-white px-6 py-3 rounded-full shadow-xl">
                         <div class="flex items-center gap-2">
                             <i class="fas fa-award text-xl"></i>
-                            <span class="font-bold">25+ Years</span>
+                            <span class="font-bold">{{ site_info.get_years_display }}</span>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

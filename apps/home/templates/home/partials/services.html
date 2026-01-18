@@ -36,17 +36,18 @@
             {% endfor %}
         </div>
         {% else %}
-        <div class="grid md:grid-cols-3 gap-8">
-            <div data-aos="fade-up" data-aos-delay="100">
-                {% include "components/info_card.html" with title=_("Savings Accounts") icon="fas fa-piggy-bank" description=_("Various types of savings accounts with competitive interest rates up to 8% annually.") badge_text=_("Up to 8%") link="services:savings_list" link_text=_("View All Savings Options") %}
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="200">
-                {% include "components/info_card.html" with title=_("Loan Services") icon="fas fa-hand-holding-usd" description=_("Affordable loans for business, agriculture, and home construction with flexible terms.") badge_text=_("From 10.5%") link="services:loan_list" link_text=_("Explore Loan Options") %}
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="300">
-                {% include "components/info_card.html" with title=_("Fixed Deposits") icon="fas fa-comments-dollar" description=_("Secure your future with fixed deposits offering up to 7% interest for 1+ year terms.") badge_text=_("Up to 7%") link="services:fixed_deposit_list" link_text=_("View Deposit Rates") %}
+        <!-- Empty state if no featured services exist -->
+        <div class="text-center py-12">
+            <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                <div class="text-6xl text-gray-300 mb-4">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Featured Services" %}</h3>
+                <p class="text-gray-600 mb-6">{% trans "Featured services will appear here once configured. Services can be marked as featured in the admin panel." %}</p>
+                <a href="{% url 'services:overview' %}"
+                   class="inline-block bg-deuraligreen text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-colors">
+                    {% trans "View All Services" %}
+                </a>
             </div>
         </div>
         {% endif %}

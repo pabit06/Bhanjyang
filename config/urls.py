@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import set_language
 # These two imports are necessary for serving media files during development
 from django.conf import settings
@@ -60,3 +60,4 @@ if settings.DEBUG:
         urlpatterns += [
             path('__debug__/', include(debug_toolbar.urls)),
         ]
+

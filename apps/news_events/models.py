@@ -744,6 +744,68 @@ class ContentAnalytics(models.Model):
         return f"{self.content_type} {self.content_id} - {self.date}"
 
 
+class Notice(models.Model):
+    """Notices (Soochana) for general public information"""
+    class Type(models.TextChoices):
+        GENERAL = 'GEN', _('सामान्य सूचना')
+        URGENT = 'URG', _('जरुरी सूचना')
+        AGM = 'AGM', _('साधारण सभा')
+        TENDER = 'TEN', _('बोलपत्र')
+        OTHER = 'OTH', _('अन्य')
+
+    title = models.CharField(max_length=200, verbose_name=_("शीर्षक"), help_text=_("सूचनाको शीर्षक"))
+    slug = models.SlugField(unique=True, blank=True, max_length=250, verbose_name=_("स्लग"), help_text=_("URL-अनुकूल शीर्षक"))
+    content = models.TextField(verbose_name=_("विवरण"), help_text=_("सूचनाको विस्तृत विवरण"))
+    
+    # Optional file attachment (e.g., scanned PDF)
+    file = models.FileField(upload_to='news_events/notices/', blank=True, null=True, verbose_name=_("फाइल"), help_text=_("सूचनाको फाइल (PDF/Image)"))
+    
+    notice_type = models.CharField(max_length=3, choices=Type.choices, default=Type.GENERAL, verbose_name=_("प्रकार"), help_text=_("सूचना प्रकार"))
+    published_date = models.DateTimeField(default=timezone.now, verbose_name=_("प्रकाशन मिति"))
+    
+    is_active = models.BooleanField(default=True, verbose_name=_("सक्रिय"), help_text=_("सक्रिय छ कि छैन"))
+    is_pinned = models.BooleanField(default=False, verbose_name=_("टाँसिएको (Pinned)"), help_text=_("माथि देखाउनको लागि"))
+    show_as_popup = models.BooleanField(default=False, verbose_name=_("Popup मा देखाउनुहोस्"), help_text=_("Home page मा popup modal मा देखाउने हो भने check गर्नुहोस्"))
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    
+    @property
+    def is_currently_active(self):
+        """Check if notice should be displayed (for popup compatibility)"""
+        return self.is_active
+
+    class Meta:
+        ordering = ['-is_pinned', '-published_date']
+        verbose_name = _("सूचना")
+        verbose_name_plural = _("सूचनाहरू")
+        indexes = [
+            models.Index(fields=['is_active', 'published_date']),
+            models.Index(fields=['is_pinned']),
+            models.Index(fields=['show_as_popup', 'is_active']),
+        ]
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('news_events:notice-detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify_nepali(self.title)
+        
+        # Ensure slug is unique
+        if self.slug:
+            original_slug = self.slug
+            counter = 1
+            while Notice.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                self.slug = f"{original_slug}-{counter}"
+                counter += 1
+                
+        super().save(*args, **kwargs)
+
+
 class PopupNotice(models.Model):
     """Popup notice model for home page modal notices (e.g., AGM notices)"""
     
@@ -828,6 +890,14 @@ class PopupNotice(models.Model):
         null=True,
         verbose_name=_("अन्त्य मिति"),
         help_text=_("जब देखाउन बन्द गर्ने (blank = सधै देखाउने)")
+    )
+    
+    # Auto-close Duration (in seconds)
+    auto_close_duration = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        verbose_name=_("Auto-Close Duration (सेकेन्ड)"),
+        help_text=_("Popup कति सेकेन्ड पछि आफैँ बन्द हुने (blank = manual close मात्र, e.g., 5 = 5 सेकेन्ड पछि auto-close)")
     )
     
     # Timestamps
@@ -985,3 +1055,23 @@ def invalidate_popup_notice_cache(sender, instance, **kwargs):
         logger.info(f"Homepage cache cleared due to PopupNotice change: {instance.title if hasattr(instance, 'title') else 'deleted'}")
     except Exception as e:
         logger.warning(f"Failed to clear homepage cache: {e}")
+
+@receiver(post_save, sender=Notice)
+def invalidate_notice_cache(sender, instance, **kwargs):
+    """Invalidate cache when notices are saved"""
+    _cache_delete_pattern('notice_list_*')
+    _cache_delete_pattern('notice_detail_*')
+    # Clear invalid slug cache for this notice's slug
+    if instance.slug:
+        try:
+            from .performance import NewsEventsCache
+            cache_key = NewsEventsCache.get_invalid_slug_cache_key('notice', instance.slug)
+            cache.delete(cache_key)
+        except Exception:
+            pass
+
+@receiver(post_delete, sender=Notice)
+def invalidate_notice_cache_on_delete(sender, instance, **kwargs):
+    """Invalidate cache when notices are deleted"""
+    _cache_delete_pattern('notice_list_*')
+    _cache_delete_pattern('notice_detail_*')

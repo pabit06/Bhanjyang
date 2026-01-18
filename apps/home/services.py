@@ -55,16 +55,45 @@ class HomeService:
         if cached_data and not is_staff:
             # Always fetch popup notice fresh (not from cache) to ensure active status is current
             try:
-                from apps.news_events.models import PopupNotice
+                from apps.news_events.models import PopupNotice, Notice
                 now = timezone.now()
-                active_notices = PopupNotice.objects.filter(
+                
+                # First check PopupNotice
+                active_popup_notices = PopupNotice.objects.filter(
                     is_active=True,
                     start_date__lte=now
                 ).filter(
                     Q(end_date__isnull=True) | Q(end_date__gte=now)
                 ).order_by('-priority', '-start_date')
                 
-                cached_data['popup_notice'] = active_notices.first() if active_notices.exists() else None
+                popup_notice = active_popup_notices.first() if active_popup_notices.exists() else None
+                
+                # If no PopupNotice, check regular Notice
+                if not popup_notice:
+                    active_regular_notices = Notice.objects.filter(
+                        is_active=True,
+                        show_as_popup=True
+                    ).order_by('-is_pinned', '-published_date')
+                    
+                    if active_regular_notices.exists():
+                        regular_notice = active_regular_notices.first()
+                        class NoticeAsPopup:
+                            def __init__(self, notice):
+                                self.title = notice.title
+                                self.description = notice.content
+                                self.image = None
+                                self.image_alt = ""
+                                self.link_url = f"/news-events/notices/{notice.slug}/"
+                                # Use translatable text instead of hardcoded
+                                from django.utils.translation import gettext_lazy as _
+                                self.link_text = str(_("पूरै सूचना हेर्नुहोस्"))
+                                self.open_in_new_tab = False
+                                self.is_active = notice.is_active
+                                self.auto_close_duration = None  # Regular notices don't have auto-close by default
+                        
+                        popup_notice = NoticeAsPopup(regular_notice)
+                
+                cached_data['popup_notice'] = popup_notice
             except Exception as e:
                 logger.warning(f"Error fetching fresh popup notice: {e}")
                 cached_data['popup_notice'] = None
@@ -72,14 +101,16 @@ class HomeService:
             return cached_data
 
         try:
-            # 1. Page Content - Get all active content blocks for hero slider
-            homepage_contents = list(HomePageContent.objects.filter(is_active=True).order_by('order'))
+            # 1. Page Content - Get all published content blocks for hero slider
+            homepage_contents = list(HomePageContent.objects.filter(
+                status=HomePageContent.Status.PUBLISHED
+            ).order_by('order'))
             # Keep first one as main content for backward compatibility
             content = homepage_contents[0] if homepage_contents else None
 
             # 2. Featured Testimonials
             testimonials = list(Testimonial.objects.filter(
-                is_featured=True, is_active=True
+                is_featured=True, status=Testimonial.Status.PUBLISHED
             ).order_by('order')[:3])
 
             # 3. Statistics - Use CooperativeStatistic from about app
@@ -93,30 +124,80 @@ class HomeService:
                 logger.warning("About app not available, using home app statistics")
                 # Fallback to home app statistics
                 stats = list(Statistic.objects.filter(
-                    is_featured=True, is_active=True
+                    is_featured=True, status=Statistic.Status.PUBLISHED
                 ).order_by('order')[:4])
 
-            # 4. Announcements (Active & Not Expired)
+            # 4. Announcements (Published & Not Expired)
             announcements = list(Announcement.objects.filter(
-                is_featured=True, is_active=True
+                is_featured=True, status=Announcement.Status.PUBLISHED
             ).exclude(
                 Q(expiry_date__isnull=False) & Q(expiry_date__lt=timezone.now())
             ).order_by('-priority', '-publish_date')[:3])
+            
+            # 4b. Add Notices to announcements section
+            try:
+                from apps.news_events.models import Notice
+                # Get pinned and active notices (limit to 3 more to fill up to 6 total)
+                notices = list(Notice.objects.filter(
+                    is_active=True,
+                    is_pinned=True  # Only show pinned notices in announcements
+                ).order_by('-published_date')[:3])
+                
+                # Combine announcements and notices, sorted by date
+                all_announcements = announcements + notices
+                # Sort by date (most recent first)
+                all_announcements.sort(key=lambda x: x.published_date if hasattr(x, 'published_date') else x.publish_date, reverse=True)
+                # Limit to 6 total items
+                announcements = all_announcements[:6]
+            except ImportError:
+                logger.warning("News Events app not available, notices not added to announcements")
+            except Exception as e:
+                logger.error(f"Error fetching notices for announcements: {e}")
 
             # 5. Popup Notice - Get highest priority active notice
+            # Check both PopupNotice and regular Notice models
             popup_notice = None
             try:
-                from apps.news_events.models import PopupNotice
+                from apps.news_events.models import PopupNotice, Notice
                 now = timezone.now()
-                # Only get notices that are active AND within date range
-                active_notices = PopupNotice.objects.filter(
+                
+                # First, check PopupNotice (higher priority)
+                active_popup_notices = PopupNotice.objects.filter(
                     is_active=True,  # Must be active
                     start_date__lte=now  # Must have started
                 ).filter(
                     Q(end_date__isnull=True) | Q(end_date__gte=now)  # Either no end date OR not expired
                 ).order_by('-priority', '-start_date')
                 
-                popup_notice = active_notices.first() if active_notices.exists() else None
+                popup_notice = active_popup_notices.first() if active_popup_notices.exists() else None
+                
+                # If no PopupNotice, check regular Notice with show_as_popup=True
+                if not popup_notice:
+                    active_regular_notices = Notice.objects.filter(
+                        is_active=True,
+                        show_as_popup=True
+                    ).order_by('-is_pinned', '-published_date')
+                    
+                    if active_regular_notices.exists():
+                        # Convert regular Notice to popup-compatible format
+                        regular_notice = active_regular_notices.first()
+                        # Create a simple object that mimics PopupNotice structure
+                        class NoticeAsPopup:
+                            def __init__(self, notice):
+                                self.title = notice.title
+                                self.description = notice.content
+                                self.image = None  # Regular notices don't have image field
+                                self.image_alt = ""
+                                self.link_url = f"/news-events/notices/{notice.slug}/"
+                                # Use translatable text
+                                from django.utils.translation import gettext_lazy as _
+                                self.link_text = str(_("पूरै सूचना हेर्नुहोस्"))
+                                self.open_in_new_tab = False
+                                self.notice_type = notice.get_notice_type_display()
+                                self.is_active = notice.is_active
+                                self.auto_close_duration = None  # Regular notices don't have auto-close by default
+                        
+                        popup_notice = NoticeAsPopup(regular_notice)
                 
                 # Debug logging (only in debug mode)
                 if settings.DEBUG and popup_notice:
@@ -225,10 +306,94 @@ class HomeService:
                 'featured_testimonials': [],
                 'featured_statistics': [],
                 'featured_announcements': [],
+                'notices': [],
                 'featured_services': [],
                 'featured_gallery': [],
                 'error': "Unable to load content."
             }
+    
+    @staticmethod
+    def get_content_stats():
+        """Get statistics about content status"""
+        from .models import HomePageContent, Testimonial, Statistic, Announcement
+        
+        stats = {
+            'homepage_content': {
+                'published': HomePageContent.objects.filter(status=HomePageContent.Status.PUBLISHED).count(),
+                'draft': HomePageContent.objects.filter(status=HomePageContent.Status.DRAFT).count(),
+                'scheduled': HomePageContent.objects.filter(status=HomePageContent.Status.SCHEDULED).count(),
+                'archived': HomePageContent.objects.filter(status=HomePageContent.Status.ARCHIVED).count(),
+            },
+            'testimonials': {
+                'published': Testimonial.objects.filter(status=Testimonial.Status.PUBLISHED).count(),
+                'draft': Testimonial.objects.filter(status=Testimonial.Status.DRAFT).count(),
+                'scheduled': Testimonial.objects.filter(status=Testimonial.Status.SCHEDULED).count(),
+                'archived': Testimonial.objects.filter(status=Testimonial.Status.ARCHIVED).count(),
+            },
+            'statistics': {
+                'published': Statistic.objects.filter(status=Statistic.Status.PUBLISHED).count(),
+                'draft': Statistic.objects.filter(status=Statistic.Status.DRAFT).count(),
+                'scheduled': Statistic.objects.filter(status=Statistic.Status.SCHEDULED).count(),
+                'archived': Statistic.objects.filter(status=Statistic.Status.ARCHIVED).count(),
+            },
+            'announcements': {
+                'published': Announcement.objects.filter(status=Announcement.Status.PUBLISHED).count(),
+                'draft': Announcement.objects.filter(status=Announcement.Status.DRAFT).count(),
+                'scheduled': Announcement.objects.filter(status=Announcement.Status.SCHEDULED).count(),
+                'archived': Announcement.objects.filter(status=Announcement.Status.ARCHIVED).count(),
+            },
+        }
+        return stats
+    
+    @staticmethod
+    def track_variant_view(variant_id):
+        """Track a view for an A/B test variant"""
+        from .models import ContentVariant
+        try:
+            variant = ContentVariant.objects.get(pk=variant_id, is_active=True)
+            variant.views += 1
+            variant.save(update_fields=['views'])
+            return True
+        except ContentVariant.DoesNotExist:
+            logger.warning(f"Variant {variant_id} not found")
+            return False
+    
+    @staticmethod
+    def track_variant_conversion(variant_id):
+        """Track a conversion for an A/B test variant"""
+        from .models import ContentVariant
+        try:
+            variant = ContentVariant.objects.get(pk=variant_id, is_active=True)
+            variant.conversions += 1
+            variant.save(update_fields=['conversions'])
+            return True
+        except ContentVariant.DoesNotExist:
+            logger.warning(f"Variant {variant_id} not found")
+            return False
+    
+    @staticmethod
+    def get_winning_variant(content_type_id, object_id):
+        """Get the winning variant for a content object based on conversion rate"""
+        from .models import ContentVariant
+        from django.contrib.contenttypes.models import ContentType
+        
+        try:
+            content_type = ContentType.objects.get(pk=content_type_id)
+            variants = ContentVariant.objects.filter(
+                content_type=content_type,
+                object_id=object_id,
+                is_active=True
+            )
+            
+            if not variants.exists():
+                return None
+            
+            # Find variant with highest conversion rate
+            winning_variant = max(variants, key=lambda v: v.conversion_rate)
+            return winning_variant
+        except Exception as e:
+            logger.error(f"Error getting winning variant: {e}")
+            return None
 
     @staticmethod
     def track_view(request, title: str = "Home") -> None:

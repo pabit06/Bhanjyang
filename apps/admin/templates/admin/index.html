@@ -80,6 +80,57 @@
     </div>
 </div>
 
+<!-- Home Content Status Stats -->
+{% if home_content_stats %}
+<div style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
+    <h2 style="color: #DC3545; margin: 0 0 20px 0; font-size: 20px; border-bottom: 2px solid #e9ecef; padding-bottom: 10px;">Home Page Content Status</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        <div style="background: #28A745; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">{{ home_total_published|default:"0" }}</div>
+            <div style="font-size: 14px; opacity: 0.9;">Published</div>
+        </div>
+        <div style="background: #ffc107; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">{{ home_total_draft|default:"0" }}</div>
+            <div style="font-size: 14px; opacity: 0.9;">Draft</div>
+        </div>
+        <div style="background: #17a2b8; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">{{ home_total_scheduled|default:"0" }}</div>
+            <div style="font-size: 14px; opacity: 0.9;">Scheduled</div>
+        </div>
+        <div style="background: #6c757d; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 32px; font-weight: bold; margin-bottom: 8px;">
+                {{ home_content_stats.homepage_content.archived|add:home_content_stats.testimonials.archived|add:home_content_stats.statistics.archived|add:home_content_stats.announcements.archived|default:"0" }}
+            </div>
+            <div style="font-size: 14px; opacity: 0.9;">Archived</div>
+        </div>
+    </div>
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e9ecef;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; font-size: 12px;">
+            <div>
+                <strong>Hero Slides:</strong> 
+                <span style="color: #28A745;">{{ home_content_stats.homepage_content.published }}</span> published,
+                <span style="color: #ffc107;">{{ home_content_stats.homepage_content.draft }}</span> draft
+            </div>
+            <div>
+                <strong>Testimonials:</strong> 
+                <span style="color: #28A745;">{{ home_content_stats.testimonials.published }}</span> published,
+                <span style="color: #ffc107;">{{ home_content_stats.testimonials.draft }}</span> draft
+            </div>
+            <div>
+                <strong>Statistics:</strong> 
+                <span style="color: #28A745;">{{ home_content_stats.statistics.published }}</span> published,
+                <span style="color: #ffc107;">{{ home_content_stats.statistics.draft }}</span> draft
+            </div>
+            <div>
+                <strong>Announcements:</strong> 
+                <span style="color: #28A745;">{{ home_content_stats.announcements.published }}</span> published,
+                <span style="color: #ffc107;">{{ home_content_stats.announcements.draft }}</span> draft
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <!-- Quick Actions -->
 <div style="background: white; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 30px;">
     <h2 style="color: #DC3545; margin: 0 0 20px 0; font-size: 20px; border-bottom: 2px solid #e9ecef; padding-bottom: 10px;">Quick Actions</h2>

@@ -15,6 +15,8 @@ urlpatterns = [
     path('', views.NewsHomeView.as_view(), name='home'),
     path('articles/', views.ArticleListView.as_view(), name='article-list'),
     path('events/', views.EventListView.as_view(), name='event-list'),
+    path('notices/', views.NoticeListView.as_view(), name='notice-list'),
+    path('notices/<slug:slug>/', views.NoticeDetailView.as_view(), name='notice-detail'),
     path('search/', views.SearchView.as_view(), name='search'),
     
     # Article detail

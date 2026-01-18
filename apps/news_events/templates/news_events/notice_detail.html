@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load nepalidatetime %}
+
+{% block title %}{{ notice.title }} - भञ्ज्याङ्ग सहकारी{% endblock title %}
+
+{% block content %}
+<!-- Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <!-- Notice Header -->
+            <div class="text-center mb-10">
+                <span class="inline-block px-4 py-1.5 bg-bhanjyangred/10 text-bhanjyangred font-bold rounded-full text-sm mb-4">
+                    {{ notice.get_notice_type_display }}
+                </span>
+                <h1 class="text-3xl md:text-5xl font-bold font-montserrat text-gray-900 mb-6 leading-tight">
+                    {{ notice.title }}
+                </h1>
+                <div class="flex items-center justify-center text-gray-500 space-x-6">
+                    <span class="flex items-center">
+                        <i class="far fa-calendar-alt mr-2"></i>
+                        {{ notice.published_date|date:"F d, Y" }}
+                    </span>
+                    {% if notice.is_pinned %}
+                    <span class="flex items-center text-bhanjyangred">
+                        <i class="fas fa-thumbtack mr-2"></i>
+                        Pinned
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="prose prose-lg max-w-none text-gray-700 bg-white p-8 md:p-12 rounded-2xl shadow-sm border border-gray-100">
+                {{ notice.content|linebreaks }}
+                
+                {% if notice.file %}
+                <div class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-file-pdf text-red-500 text-3xl mr-4"></i>
+                        <div>
+                            <h4 class="font-bold text-gray-800">{% trans "Attached Document" %}</h4>
+                            <p class="text-sm text-gray-500">{% trans "Click to download or view" %}</p>
+                        </div>
+                    </div>
+                    <a href="{{ notice.file.url }}" target="_blank" class="px-6 py-2 bg-bhanjyangred text-white rounded-lg hover:bg-red-700 transition-colors font-semibold">
+                        {% trans "Download" %}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Back Actions -->
+            <div class="mt-10 text-center">
+                <a href="{% url 'news_events:notice-list' %}" class="inline-flex items-center text-gray-600 hover:text-bhanjyangred font-medium transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> {% trans "Back to Notices" %}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

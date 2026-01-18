@@ -1,5 +1,5 @@
 import logging
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import TemplateView
 from django.http import JsonResponse, HttpResponse
@@ -251,6 +251,86 @@ class EventListView(NepaliLanguageMixin, View):
                     {'name': 'कार्यक्रमहरू', 'url': '/news-events/events/'}
                 ]
             })
+
+class NoticeListView(NepaliLanguageMixin, View):
+    """Notice listing"""
+    
+    @method_decorator(performance_monitor)
+    def get(self, request):
+        try:
+            from .models import Notice
+            notices = Notice.objects.filter(is_active=True).order_by('-is_pinned', '-published_date')
+            
+            # Simple pagination
+            from django.core.paginator import Paginator
+            paginator = Paginator(notices, 10)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            
+            context = {
+                'page_obj': page_obj,
+                'breadcrumbs': [
+                    {'name': _('Home'), 'url': '/'},
+                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'}
+                ]
+            }
+            return render(request, 'news_events/notice_list.html', context)
+        except Exception as e:
+            logger.error(f"Error loading notice list: {e}", exc_info=True)
+            messages.error(request, _("सूचनाहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            return render(request, 'news_events/notice_list.html', {
+                'page_obj': None,
+                'breadcrumbs': [
+                    {'name': _('Home'), 'url': '/'},
+                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'}
+                ]
+            })
+
+class NoticeDetailView(NepaliLanguageMixin, View):
+    """Notice detail"""
+    
+    @method_decorator(performance_monitor)
+    def get(self, request, slug):
+        try:
+            from .models import Notice
+            notice = get_object_or_404(Notice, slug=slug, is_active=True)
+            
+            context = {
+                'notice': notice,
+                'breadcrumbs': [
+                    {'name': _('Home'), 'url': '/'},
+                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'},
+                    {'name': notice.title, 'url': notice.get_absolute_url()}
+                ]
+            }
+            return render(request, 'news_events/notice_detail.html', context)
+        except Http404:
+            # Show custom 404 page with recent notices
+            try:
+                from .models import Notice
+                recent_notices = Notice.objects.filter(
+                    is_active=True
+                ).order_by('-is_pinned', '-published_date')[:6]
+            except:
+                recent_notices = []
+            
+            context = {
+                'recent_notices': recent_notices,
+                'breadcrumbs': [
+                    {'name': _('Home'), 'url': '/'},
+                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'},
+                    {'name': 'सूचना फेला परेन', 'url': '#'}
+                ]
+            }
+            return render(request, 'news_events/notice_not_found.html', context, status=404)
+        except Exception as e:
+            logger.error(f"Error loading notice detail for slug '{slug}': {e}", exc_info=True)
+            messages.error(request, _("सूचना लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            return redirect('news_events:notice-list')
 
 class SubscriptionView(NepaliLanguageMixin, View):
     """Handle newsletter subscriptions"""

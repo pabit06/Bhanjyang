@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "सर्भर त्रुटि" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "CSRF त्रुटि" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
 {% block extra_css %}
 <style>
@@ -14,20 +14,15 @@
         from { opacity: 0; transform: translateY(30px); }
         to { opacity: 1; transform: translateY(0); }
     }
-    @keyframes pulse-slow {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50% { transform: scale(1.05); opacity: 0.8; }
-    }
     .float-animation { animation: float 3s ease-in-out infinite; }
     .slide-in { animation: slideIn 0.6s ease-out; }
-    .pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
     .slide-in-delay-1 { animation: slideIn 0.8s ease-out 0.1s both; }
     .slide-in-delay-2 { animation: slideIn 1s ease-out 0.2s both; }
 </style>
 {% endblock extra_css %}
 
 {% block content %}
-<!-- 500 Error Section -->
+<!-- CSRF Error Section -->
 <section class="relative py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden min-h-screen flex items-center">
     <!-- Animated Background Pattern -->
     <div class="absolute inset-0 opacity-[0.04]">
@@ -41,28 +36,25 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="max-w-4xl mx-auto">
-            <!-- Main 500 Content -->
+            <!-- Main Content -->
             <div class="text-center mb-16 slide-in">
-                <!-- Animated Icon -->
+                <!-- Icon -->
                 <div class="mb-8 relative">
                     <div class="inline-flex items-center justify-center w-40 h-40 bg-gradient-to-br from-bhanjyangred via-red-500 to-red-600 rounded-full mb-6 shadow-2xl float-animation relative overflow-hidden">
                         <!-- Shine effect -->
                         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 animate-pulse"></div>
-                        <i class="fas fa-server text-7xl text-white relative z-10 pulse-slow"></i>
+                        <i class="fas fa-shield-alt text-7xl text-white relative z-10"></i>
                     </div>
-                    <!-- Floating particles -->
-                    <div class="absolute top-0 left-1/4 w-3 h-3 bg-bhanjyangred rounded-full opacity-60 float-animation" style="animation-delay: 0.5s;"></div>
-                    <div class="absolute top-1/4 right-1/4 w-2 h-2 bg-red-400 rounded-full opacity-60 float-animation" style="animation-delay: 1s;"></div>
                 </div>
                 
-                <!-- 500 Number -->
-                <h1 class="text-8xl sm:text-9xl font-black mb-6 font-montserrat bg-gradient-to-r from-bhanjyangred via-red-500 to-red-600 bg-clip-text text-transparent drop-shadow-2xl slide-in-delay-1">
-                    500
+                <!-- Title -->
+                <h1 class="text-4xl sm:text-5xl font-black mb-6 font-montserrat bg-gradient-to-r from-bhanjyangred via-red-500 to-red-600 bg-clip-text text-transparent drop-shadow-2xl slide-in-delay-1">
+                    {% trans "CSRF प्रमाणिकरण असफल" %}
                 </h1>
                 
-                <!-- Message -->
-                <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 font-montserrat slide-in-delay-1">
-                    <span class="inline-block">{% trans "आन्तरिक सर्भर त्रुटि" %}</span>
+                <!-- Subtitle -->
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 font-montserrat slide-in-delay-1">
+                    <span class="inline-block">{% trans "अनुरोध प्रक्रिया रद्द गरियो" %}</span>
                 </h2>
                 
                 <div class="flex items-center justify-center mb-8 slide-in-delay-1">
@@ -71,37 +63,38 @@
                     <div class="w-24 h-1 bg-gradient-to-r from-transparent via-bhanjyangred to-transparent"></div>
                 </div>
                 
-                <p class="text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto slide-in-delay-2">
-                    {% trans "माफ गर्नुहोस्, हाम्रो प्रणालीमा केही समस्या देखिएको छ। हाम्रो प्राविधिक टोलीलाई सूचित गरिएको छ र समस्या समाधान गर्न काम भइरहेको छ।" %}
-                </p>
+                <div class="max-w-2xl mx-auto text-left bg-white p-8 rounded-xl shadow-lg border border-gray-100 slide-in-delay-2 mb-10">
+                    <p class="text-lg text-gray-700 mb-4 font-semibold">{% trans "यसो किन भयो?" %}</p>
+                    <p class="text-gray-600 mb-4">
+                        {% trans "यो सामान्यतया तब हुन्छ जब तपाइँले फारम भर्दा धेरै समय लगाउनुहुन्छ वा तपाइँको ब्राउजरले कुकीहरू स्वीकार गरिरहेको छैन।" %}
+                    </p>
+                    {% if reason %}
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-100 mb-4">
+                        <p class="text-red-800 text-sm">
+                            <strong>{% trans "प्राविधिक कारण:" %}</strong> {{ reason }}
+                        </p>
+                    </div>
+                    {% endif %}
+                    <p class="text-lg text-gray-700 mb-2 font-semibold">{% trans "अब के गर्ने?" %}</p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-2">
+                        <li>{% trans "पृष्ठ पुन: लोड (Reload) गर्नुहोस् र फेरि प्रयास गर्नुहोस्।" %}</li>
+                        <li>{% trans "यदि तपाइँ फारम भर्दै हुनुहुन्थ्यो भने, तपाइँले फेरि भर्नुपर्ने हुन सक्छ।" %}</li>
+                    </ul>
+                </div>
                 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16 slide-in-delay-2">
-                    <a href="{% url 'home:index' %}" 
+                    <a href="javascript:window.location.reload()" 
                        class="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-bhanjyangred to-red-600 text-white font-bold rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-300 transform hover:scale-110 hover:shadow-2xl shadow-lg relative overflow-hidden">
                         <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
-                        <i class="fas fa-home mr-3 text-xl relative z-10"></i>
-                        <span class="relative z-10">{% trans "मुख्य पृष्ठमा जानुहोस्" %}</span>
+                        <i class="fas fa-sync-alt mr-3 text-xl relative z-10"></i>
+                        <span class="relative z-10">{% trans "पृष्ठ पुन: लोड गर्नुहोस्" %}</span>
                     </a>
-                    <a href="javascript:window.location.reload()" 
+                    <a href="{% url 'home:index' %}" 
                        class="group inline-flex items-center justify-center px-8 py-4 bg-white text-bhanjyangred font-bold rounded-xl border-3 border-bhanjyangred hover:bg-bhanjyangred hover:text-white transition-all duration-300 transform hover:scale-110 hover:shadow-2xl shadow-lg relative overflow-hidden">
                         <span class="absolute inset-0 bg-bhanjyangred opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
-                        <i class="fas fa-redo mr-3 text-xl relative z-10"></i>
-                        <span class="relative z-10">{% trans "पुन: प्रयास गर्नुहोस्" %}</span>
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Contact Info -->
-            <div class="mt-16 pt-12 border-t-2 border-gray-200 slide-in-delay-2">
-                <p class="text-center text-sm text-gray-600 mb-6 font-semibold">{% trans "यदि समस्या रहिरह्यो भने सम्पर्क गर्नुहोस्:" %}</p>
-                <div class="flex flex-wrap justify-center gap-6">
-                    <a href="{% url 'contact:contact_view' %}" 
-                       class="group flex items-center px-6 py-3 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-gray-200 hover:border-deuraligreen">
-                        <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center mr-3 group-hover:bg-deuraligreen group-hover:text-white transition-colors">
-                            <i class="fas fa-envelope text-deuraligreen group-hover:text-white"></i>
-                        </div>
-                        <span class="font-semibold text-gray-700 group-hover:text-deuraligreen transition-colors">{% trans "सम्पर्क गर्नुहोस्" %}</span>
+                        <i class="fas fa-home mr-3 text-xl relative z-10"></i>
+                        <span class="relative z-10">{% trans "मुख्य पृष्ठ" %}</span>
                     </a>
                 </div>
             </div>

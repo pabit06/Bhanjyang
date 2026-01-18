@@ -145,6 +145,15 @@ class CooperativeInfoAdmin(admin.ModelAdmin):
             'fields': ('our_story', 'our_story_nepali', 'our_story_image'),
             'description': _('Content displayed in the "Our Story" section on the About Us page')
         }),
+        ('Home Page Content', {
+            'fields': ('introduction_text', 'introduction_text_nepali', 'why_choose_us_text', 'why_choose_us_text_nepali'),
+            'description': _('Content for home page sections. Years of service is automatically calculated from established date.')
+        }),
+        ('SEO Settings', {
+            'fields': ('meta_title', 'meta_description', 'meta_keywords', 'og_image'),
+            'classes': ('collapse',),
+            'description': _('SEO meta tags for home page. If left blank, defaults will be used.')
+        }),
         ('Media', {
             'fields': ('logo', 'featured_image'),
             'classes': ('collapse',)

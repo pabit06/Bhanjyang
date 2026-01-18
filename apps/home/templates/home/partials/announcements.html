@@ -28,41 +28,101 @@
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for announcement in featured_announcements %}
-            <div class="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 {% if announcement.priority == 'urgent' %}border-red-500{% elif announcement.priority == 'high' %}border-orange-500{% else %}border-deuraligreen{% endif %}" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
-                {% if announcement.image %}
+            {% for item in featured_announcements %}
+            {% with is_notice=item.notice_type %}
+            <div class="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 
+                {% if is_notice %}
+                    {% if item.notice_type == 'URG' %}border-red-500
+                    {% elif item.notice_type == 'AGM' %}border-yellow-500
+                    {% else %}border-blue-500{% endif %}
+                {% else %}
+                    {% if item.priority == 'urgent' %}border-red-500
+                    {% elif item.priority == 'high' %}border-orange-500
+                    {% else %}border-deuraligreen{% endif %}
+                {% endif %}" 
+                data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                
+                {% if item.image and not is_notice %}
                 <div class="relative overflow-hidden rounded-xl mb-4">
-                <img src="{{ announcement.image.url }}" alt="{{ announcement.title|default:'Announcement image' }}"
-                        class="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
-                        loading="lazy" decoding="async" width="400" height="192">
+                    <img src="{{ item.image.url }}" alt="{{ item.title|default:'Announcement image' }}"
+                            class="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                            loading="lazy" decoding="async" width="400" height="192">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </div>
                 {% endif %}
+                
                 <div class="flex items-center justify-between mb-3">
-                    {% if announcement.priority == 'urgent' %}
-                    <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">
-                        {{ announcement.get_announcement_type_display }}
-                    </span>
-                    {% elif announcement.priority == 'high' %}
-                    <span class="inline-block bg-orange-100 text-orange-800 text-xs font-semibold px-3 py-1 rounded-full">
-                        {{ announcement.get_announcement_type_display }}
-                    </span>
+                    {% if is_notice %}
+                        <!-- Notice Type Badge -->
+                        {% if item.notice_type == 'URG' %}
+                        <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            <i class="fas fa-exclamation-circle mr-1"></i>
+                            {{ item.get_notice_type_display }}
+                        </span>
+                        {% elif item.notice_type == 'AGM' %}
+                        <span class="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            <i class="fas fa-users mr-1"></i>
+                            {{ item.get_notice_type_display }}
+                        </span>
+                        {% else %}
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            <i class="fas fa-bullhorn mr-1"></i>
+                            {{ item.get_notice_type_display }}
+                        </span>
+                        {% endif %}
+                        <span class="text-gray-600 text-sm flex items-center gap-1">
+                            <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
+                            {% load nepalidatetime %}
+                            {{ item.published_date|nepalidate_ne:"%B %d, %Y" }}
+                        </span>
                     {% else %}
-                    <span class="inline-block bg-deuraligreen/10 text-deuraligreen text-xs font-semibold px-3 py-1 rounded-full">
-                        {{ announcement.get_announcement_type_display }}
-                    </span>
+                        <!-- Announcement Type Badge -->
+                        {% if item.priority == 'urgent' %}
+                        <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ item.get_announcement_type_display }}
+                        </span>
+                        {% elif item.priority == 'high' %}
+                        <span class="inline-block bg-orange-100 text-orange-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ item.get_announcement_type_display }}
+                        </span>
+                        {% else %}
+                        <span class="inline-block bg-deuraligreen/10 text-deuraligreen text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ item.get_announcement_type_display }}
+                        </span>
+                        {% endif %}
+                        <span class="text-gray-600 text-sm flex items-center gap-1">
+                            <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
+                            {{ item.publish_date|date:"M d, Y" }}
+                        </span>
                     {% endif %}
-                    <span class="text-gray-600 text-sm flex items-center gap-1">
-                        <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
-                        {{ announcement.publish_date|date:"M d, Y" }}
-                    </span>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{{ announcement.title }}</h3>
-                <p class="text-gray-700 text-sm leading-relaxed mb-4">{{ announcement.summary|default:announcement.content|truncatewords:20 }}</p>
-                <a href="{% url 'news_events:article_detail' announcement.slug %}" class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold text-sm transition-colors duration-300">
+                
+                <h3 class="text-xl font-bold text-gray-900 mb-3 font-montserrat">{{ item.title }}</h3>
+                
+                <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                    {% if is_notice %}
+                        {{ item.content|striptags|truncatewords:20 }}
+                    {% else %}
+                        {{ item.summary|default:item.content|truncatewords:20 }}
+                    {% endif %}
+                </p>
+                
+                <a href="{% if is_notice %}{{ item.get_absolute_url }}{% else %}{% url 'news_events:article_detail' item.slug %}{% endif %}" 
+                   class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold text-sm transition-colors duration-300">
                     <span>{% trans "Read More" %}</span>
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                 </a>
+            </div>
+            {% endwith %}
+            {% empty %}
+            <div class="col-span-full text-center py-12">
+                <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                    <div class="text-6xl text-gray-300 mb-4">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Announcements" %}</h3>
+                    <p class="text-gray-600">{% trans "Check back soon for important announcements and updates." %}</p>
+                </div>
             </div>
             {% endfor %}
         </div>

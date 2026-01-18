@@ -4,12 +4,12 @@
 <div class="bg-white text-gray-700 py-2 px-4 sm:px-20 text-xs sm:text-sm shadow-md">
     <div class="container mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-x-2 gap-y-1">
         <div class="flex items-center space-x-2">
-            <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
-                <i class="fas fa-phone-alt mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.phone|default:'+977-9856083101' }}</span>
+            <a href="tel:{{ site_info.phone }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
+                <i class="fas fa-phone-alt mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.phone }}</span>
             </a>
             <span class="hidden sm:inline-block">|</span> 
-            <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
-                <i class="fas fa-envelope mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.email|default:'info@bhanjyang.coop.np' }}</span>
+            <a href="mailto:{{ site_info.email }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
+                <i class="fas fa-envelope mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.email }}</span>
             </a>
         </div>
         <div class="flex items-center space-x-2">

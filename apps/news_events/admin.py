@@ -15,7 +15,7 @@ import logging
 
 from .models import (
     NewsArticle, Event, Category, Subscriber, Comment, 
-    Newsletter, ContentAnalytics, PopupNotice
+    Newsletter, ContentAnalytics, PopupNotice, Notice
 )
 from .forms import NewsArticleForm, EventForm
 from .performance import NewsEventsQueryOptimizer, NewsEventsPerformanceMonitor
@@ -539,6 +539,38 @@ admin_site.register(Comment, CommentAdmin)
 admin_site.register(Newsletter, NewsletterAdmin)
 admin_site.register(ContentAnalytics, ContentAnalyticsAdmin)
 
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    """Admin for General Notices"""
+    list_display = ('title', 'notice_type', 'is_active', 'is_pinned', 'show_as_popup', 'published_date', 'file_available')
+    list_filter = ('notice_type', 'is_active', 'is_pinned', 'show_as_popup', 'published_date')
+    search_fields = ('title', 'content')
+    list_editable = ('is_active', 'is_pinned', 'show_as_popup')
+    ordering = ('-is_pinned', '-published_date')
+    prepopulated_fields = {'slug': ('title',)}
+    date_hierarchy = 'published_date'
+
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'content')
+        }),
+        ('Attachment', {
+            'fields': ('file',),
+             'description': _('Optional file (PDF/Image) download for this notice.')
+        }),
+        ('Settings', {
+            'fields': ('notice_type', 'published_date', 'is_active', 'is_pinned', 'show_as_popup'),
+            'description': _('show_as_popup: Check this to display this notice as a popup modal on the home page.')
+        }),
+    )
+
+    def file_available(self, obj):
+        return bool(obj.file)
+    file_available.boolean = True
+    file_available.short_description = _("फाइल")
+
+admin_site.register(Notice, NoticeAdmin)
+
 
 @admin.register(PopupNotice)
 class PopupNoticeAdmin(admin.ModelAdmin):
@@ -583,12 +615,13 @@ class PopupNoticeAdmin(admin.ModelAdmin):
             )
         }),
         ('Display Settings', {
-            'fields': ('priority', 'is_active', 'start_date', 'end_date'),
+            'fields': ('priority', 'is_active', 'start_date', 'end_date', 'auto_close_duration'),
             'description': _(
                 '<strong>Priority:</strong> Higher numbers appear first. If multiple notices are active, only the highest priority one shows.<br>'
                 '<strong>Active:</strong> Must be checked to display. Uncheck to hide without deleting.<br>'
                 '<strong>Start Date:</strong> When to start showing the notice (default: now).<br>'
-                '<strong>End Date:</strong> When to stop showing (leave blank to show indefinitely).'
+                '<strong>End Date:</strong> When to stop showing (leave blank to show indefinitely).<br>'
+                '<strong>Auto-Close Duration:</strong> Popup कति सेकेन्ड पछि आफैँ बन्द हुने (blank = manual close मात्र, e.g., 5 = 5 सेकेन्ड पछि auto-close)'
             )
         }),
     )

@@ -85,223 +85,26 @@
                 </div>
                 {% endfor %}
             {% else %}
-                {# Fallback: Hardcoded slides if no HomePageContent exists #}
-                <!-- Slide 1 -->
+                {# Empty state if no HomePageContent exists #}
                 <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 z-0">
-                        <img src="{% static 'images/home/hero-1.jpg' %}"
-                            alt="Bhanjyang Cooperative - Empowering financial journey in Rupa"
-                            class="w-full h-full object-cover" 
-                            loading="eager" 
-                            fetchpriority="high" 
-                            decoding="async"
-                            width="1920"
-                            height="1080">
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-deuraligreen via-green-600 to-deuraligreen z-0"></div>
+                    <div class="container mx-auto px-4 text-center relative z-10">
+                        <div class="max-w-3xl mx-auto">
+                            <div class="text-6xl mb-6 text-white/80">
+                                <i class="fas fa-image"></i>
                     </div>
-                    
-                    <!-- Decorative Elements -->
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
-                    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
-                    
-                    <!-- Content -->
-                    <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
-                        <div class="animate-fade-in-up">
-                            <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                {% trans "Welcome to Bhanjyang Cooperative" %}
-                            </span>
-                            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
-                                style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6);">
-                                {% trans "Empowering Your Financial Journey in Rupa" %}
+                            <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">
+                                {% trans "Welcome" %}
                             </h1>
-                            <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
-                            <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
-                                style="text-shadow: 0 2px 8px rgba(0,0,0,0.7);">
-                                {% trans "Bhanjyang Cooperative is dedicated to fostering economic growth and community development in Rupa Rural Municipality through reliable and accessible financial services." %}
+                            <p class="text-xl text-white/90 mb-8">
+                                {% trans "Hero content will appear here once configured in the admin panel." %}
                             </p>
-                            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
-                                <a href="{% url 'services:overview' %}"
-                                    class="btn-primary group bg-bhanjyangred text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-red-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-red-500/50 focus:outline-none focus:ring-4 focus:ring-white/50"
-                                    aria-label="{% trans 'Explore our financial services' %}">
-                                    <span class="relative z-10 flex items-center gap-2">
-                                        <i class="fas fa-search group-hover:rotate-12 transition-transform duration-300" aria-hidden="true"></i>
-                                        <span>{% trans "Explore Services" %}</span>
-                                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
-                                            aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <a href="{% url 'contact:contact_view' %}"
-                                    class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50 focus:outline-none focus:ring-4 focus:ring-white/50"
-                                    aria-label="{% trans 'Contact Bhanjyang Cooperative' %}">
-                                    <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300" aria-hidden="true"></i>
-                                    <span>{% trans "Contact Us" %}</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 z-0">
-                        <img src="{% static 'images/home/hero-2.jpg' %}"
-                            alt="Secure your future with smart savings at Bhanjyang Cooperative"
-                            class="w-full h-full object-cover" 
-                            loading="lazy" 
-                            decoding="async"
-                            width="1920"
-                            height="1080">
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
-                    </div>
-                    
-                    <!-- Decorative Elements -->
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
-                    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
-                    
-                    <!-- Content -->
-                    <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
-                        <div class="animate-fade-in-up">
-                            <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                {% trans "Savings & Investments" %}
-                            </span>
-                            <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
-                                style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6);">
-                                {% trans "Secure Your Future with Smart Savings" %}
-                            </h2>
-                            <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
-                            <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
-                                style="text-shadow: 0 2px 8px rgba(0,0,0,0.7);">
-                                {% trans "Our flexible savings plans offer competitive interest rates, helping you achieve your financial goals faster and with peace of mind." %}
-                            </p>
-                            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
-                                <a href="{% url 'services:savings_list' %}"
-                                    class="group bg-deuraligreen text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-green-500/50">
-                                    <i class="fas fa-piggy-bank group-hover:scale-110 transition-transform duration-300"></i>
-                                    <span>{% trans "View Savings Plans" %}</span>
-                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
-                                        aria-hidden="true"></i>
-                                </a>
-                                <a href="{% url 'contact:contact_view' %}"
-                                    class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50">
-                                    <i class="fas fa-file-invoice-dollar group-hover:rotate-12 transition-transform duration-300"></i>
-                                    <span>{% trans "Open Account" %}</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 z-0">
-                        <img src="{% static 'images/home/hero-3.jpg' %}"
-                            alt="Loans tailored to your ambition at Bhanjyang Cooperative"
-                            class="w-full h-full object-cover" loading="lazy" decoding="async">
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
-                    </div>
-                    
-                    <!-- Decorative Elements -->
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
-                    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
-                    
-                    <!-- Content -->
-                    <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
-                        <div class="animate-fade-in-up">
-                            <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                {% trans "Loan Services" %}
-                            </span>
-                            <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
-                                style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6);">
-                                {% trans "Loans Tailored to Your Ambition" %}
-                            </h2>
-                            <div class="w-32 h-1 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
-                            <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
-                                style="text-shadow: 0 2px 8px rgba(0,0,0,0.7);">
-                                {% trans "Whether for personal needs, business expansion, or agricultural projects, our flexible loan products are designed to fuel your success." %}
-                            </p>
-                            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
-                                <a href="{% url 'services:loan_list' %}"
-                                    class="group bg-bhanjyangred text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-red-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-red-500/50">
-                                    <i class="fas fa-hand-holding-usd group-hover:translate-x-1 transition-transform duration-200"></i>
-                                    <span>{% trans "Apply for a Loan" %}</span>
-                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
-                                        aria-hidden="true"></i>
-                                </a>
-                                <a href="{% url 'services:loan_calculator' %}"
-                                    class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-bhanjyangred hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50"
-                                    aria-label="{% trans 'Calculate loan EMI and payment' %}">
-                                    <i class="fas fa-calculator group-hover:rotate-12 transition-transform duration-300"></i>
-                                    <span>{% trans "Loan Calculator" %}</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 4 - Remittance Services -->
-                <div class="swiper-slide relative flex items-center justify-center" style="min-height: 80vh;">
-                    <!-- Background Image -->
-                    <div class="absolute inset-0 z-0">
-                        <img src="{% static 'images/home/hero-4.jpg' %}"
-                            alt="Remittance services at Bhanjyang Cooperative - Send money home safely"
-                            class="w-full h-full object-cover" loading="lazy" decoding="async">
-                        <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/70 z-0"></div>
-                    </div>
-                    
-                    <!-- Decorative Elements -->
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/10 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl z-0"></div>
-                    <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
-                    
-                    <!-- Content -->
-                    <div class="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
-                        <div class="animate-fade-in-up">
-                            <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-                                {% trans "Remittance Services" %}
-                            </span>
-                            <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
-                                style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6);">
-                                सहकारीको शक्ति - Remittance Services
-                            </h2>
-                            <div class="w-32 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
-                            <p class="text-lg sm:text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20 mb-8"
-                                style="text-shadow: 0 2px 8px rgba(0,0,0,0.7);">
-                                सदस्यको सशक्तिकरण र आर्थिक समृद्धि। Send money home safely and affordably with our trusted
-                                remittance partners including eSewa, Khalti, IME, and more.
-                            </p>
-                            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-10 sm:mt-12 md:mt-14 relative z-20">
-                                <a href="{% url 'services:remittance_list' %}"
-                                    class="group bg-deuraligreen text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-green-700 hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-green-500/50"
-                                    aria-label="{% trans 'View remittance services' %}">
-                                    <i class="fas fa-money-bill-transfer group-hover:translate-x-1 transition-transform duration-200"></i>
-                                    <span>{% trans "Remittance Services" %}</span>
-                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"
-                                        aria-hidden="true"></i>
-                                </a>
-                                <a href="{% url 'contact:contact_view' %}"
-                                    class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white font-bold py-4 px-10 md:py-5 md:px-12 rounded-full text-lg shadow-2xl hover:bg-white hover:text-deuraligreen hover:scale-110 transition-all duration-300 flex items-center justify-center gap-2 min-w-[220px] transform hover:shadow-white/50">
-                                    <i class="fas fa-phone-alt group-hover:rotate-12 transition-transform duration-300"></i>
-                                    <span>{% trans "Contact Us" %}</span>
-                                </a>
-                            </div>
-                            <!-- Remittance Partner Logos -->
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-12 max-w-2xl mx-auto relative z-20">
-                                <img src="{% static 'images/remit_logos/esewa.png' %}" alt="eSewa remittance partner logo"
-                                    class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
-                                    decoding="async" width="120" height="64">
-                                <img src="{% static 'images/remit_logos/khalti.png' %}" alt="Khalti remittance partner logo"
-                                    class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
-                                    decoding="async" width="120" height="64">
-                                <img src="{% static 'images/remit_logos/ime.png' %}" alt="IME remittance partner logo"
-                                    class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
-                                    decoding="async" width="120" height="64">
-                                <img src="{% static 'images/remit_logos/westernunion.png' %}"
-                                    alt="Western Union remittance partner logo"
-                                    class="w-full h-16 object-contain bg-white rounded-lg shadow-lg p-2 hover:scale-110 transition-transform duration-300" loading="lazy"
-                                    decoding="async" width="120" height="64">
-                            </div>
+                            {% if user.is_staff %}
+                            <a href="{% url 'admin:home_homepagecontent_add' %}" 
+                               class="inline-block bg-white text-deuraligreen font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-colors">
+                                {% trans "Add Hero Content" %}
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

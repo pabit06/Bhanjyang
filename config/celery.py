@@ -21,6 +21,11 @@ app.conf.beat_schedule = {
         'schedule': crontab(hour=6, minute=0),  # Run daily at 6:00 AM Nepal time
         'options': {'expires': 3600}  # Task expires after 1 hour if not executed
     },
+    'publish-scheduled-content': {
+        'task': 'home.tasks.publish_scheduled_content',
+        'schedule': crontab(minute='*/5'),  # Every 5 minutes
+        'options': {'expires': 300}  # Task expires after 5 minutes if not executed
+    },
 }
 
 @app.task(bind=True)

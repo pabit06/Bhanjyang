@@ -195,6 +195,9 @@
     {# Footer partial is included here. #}
     {% include 'partials/_footer.html' %}
 
+    {# Overlays block for modals that need to break out of stacking contexts #}
+    {% block overlays %}{% endblock overlays %}
+
     {# Fallback for users with JavaScript disabled #}
     <noscript>
         <div class="fixed bottom-0 left-0 w-full bg-red-800 text-white text-center p-4 z-[100]">

@@ -2,61 +2,58 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}Bhanjyang Cooperative - Home{% endblock title %}
+{% block title %}{{ site_info.meta_title|default:site_info.cooperative_name|default:"Bhanjyang Cooperative" }} - Home{% endblock title %}
 
-{% block meta_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको मुख्य पृष्ठ। हामीले बचत खाता, ऋण सेवा, र अन्य
-वित्तीय सेवाहरू प्रदान गर्छौं। तपाईंको विश्वासिलो वित्तीय साझेदार।{% endblock meta_description %}
+{% block meta_description %}{{ site_info.meta_description|default:site_info.description|default:"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको मुख्य पृष्ठ। हामीले बचत खाता, ऋण सेवा, र अन्य वित्तीय सेवाहरू प्रदान गर्छौं। तपाईंको विश्वासिलो वित्तीय साझेदार।" }}{% endblock meta_description %}
 
-{% block meta_keywords %}bhanjyang cooperative, savings account, credit services, financial services nepal, kaski
-cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
+{% block meta_keywords %}{{ site_info.meta_keywords|default:"bhanjyang cooperative, savings account, credit services, financial services nepal, kaski cooperative, rupa banking, microfinance nepal" }}{% endblock meta_keywords %}
 
-{% block og_title %}Bhanjyang Cooperative - Your Trusted Financial Partner{% endblock og_title %}
+{% block og_title %}{{ site_info.meta_title|default:site_info.cooperative_name|default:"Bhanjyang Cooperative" }} - Your Trusted Financial Partner{% endblock og_title %}
 
-{% block og_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार। बचत खाता, ऋण
-सेवा, र अन्य वित्तीय सेवाहरू।{% endblock og_description %}
+{% block og_description %}{{ site_info.meta_description|default:site_info.description|default:"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार। बचत खाता, ऋण सेवा, र अन्य वित्तीय सेवाहरू।" }}{% endblock og_description %}
 
-{% block og_image %}https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop{% endblock og_image %}
+{% block og_image %}{% if site_info.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.og_image.url }}{% elif site_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.featured_image.url }}{% else %}https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop{% endif %}{% endblock og_image %}
 
 {% block og_type %}website{% endblock og_type %}
 
-{% block twitter_title %}Bhanjyang Cooperative - Your Trusted Financial Partner{% endblock twitter_title %}
+{% block twitter_title %}{{ site_info.meta_title|default:site_info.cooperative_name|default:"Bhanjyang Cooperative" }} - Your Trusted Financial Partner{% endblock twitter_title %}
 
-{% block twitter_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।{% endblock twitter_description %}
+{% block twitter_description %}{{ site_info.meta_description|default:site_info.description|default:"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।" }}{% endblock twitter_description %}
 
-{% block twitter_image %}https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop{% endblock twitter_image %}
+{% block twitter_image %}{% if site_info.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.og_image.url }}{% elif site_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.featured_image.url }}{% else %}https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop{% endif %}{% endblock twitter_image %}
 
 {% block schema_type %}FinancialService{% endblock schema_type %}
 
-{% block schema_name %}Bhanjyang Saving & Credit Cooperative Society Ltd.{% endblock schema_name %}
+{% block schema_name %}{{ site_info.cooperative_name|default:"Bhanjyang Saving & Credit Cooperative Society Ltd." }}{% endblock schema_name %}
 
-{% block schema_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।{% endblock schema_description %}
+{% block schema_description %}{{ site_info.description|default:"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड - तपाईंको विश्वासिलो वित्तीय साझेदार।" }}{% endblock schema_description %}
 
-{% block schema_image %}https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop{% endblock schema_image %}
+{% block schema_image %}{% if site_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.featured_image.url }}{% elif site_info.logo %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.logo.url }}{% else %}https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&h=630&fit=crop{% endif %}{% endblock schema_image %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'home/css/index.css' %}">
 {% endblock extra_css %}
 
-{% block content %}
+{% block overlays %}
     <!-- Popup Notice Modal - Dynamic from Admin -->
     {% if popup_notice %}
     <div id="popup-notice-modal"
          x-data="{ 
              showNotice: true,
-             headerHeight: 0,
+             autoCloseDuration: {% if popup_notice.auto_close_duration %}{{ popup_notice.auto_close_duration }}{% else %}null{% endif %},
              init() {
-                 // Calculate header height dynamically
-                 this.$nextTick(() => {
-                     const header = document.querySelector('header');
-                     const topBar = document.querySelector('.bg-white.text-gray-700');
-                     if (header) {
-                         const headerHeight = header.offsetHeight;
-                         const topBarHeight = topBar ? topBar.offsetHeight : 0;
-                         this.headerHeight = headerHeight + topBarHeight + 16; // 16px for spacing
-                         this.$el.style.paddingTop = this.headerHeight + 'px';
-                     }
+                 // Lock body scroll when modal is open
+                 this.$watch('showNotice', value => {
+                     document.body.style.overflow = value ? 'hidden' : '';
                  });
-                 // Don't lock body scroll - allow backdrop to scroll background page
+                 if (this.showNotice) document.body.style.overflow = 'hidden';
+                 
+                 // Auto-close after duration if set
+                 if (this.autoCloseDuration && this.autoCloseDuration > 0) {
+                     setTimeout(() => {
+                         this.showNotice = false;
+                     }, this.autoCloseDuration * 1000);
+                 }
              }
          }" 
          x-show="showNotice"
@@ -67,14 +64,12 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-[100] flex items-start justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto"
+         class="fixed inset-0 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+         style="z-index: 9999;"
          @click.self="showNotice = false"
-         @keydown.escape.window="showNotice = false"
-         style="pointer-events: auto;"
-         @wheel=""
-         @touchmove="">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full flex flex-col relative mb-8"
-             x-bind:style="'max-height: calc(100vh - ' + (headerHeight + 32) + 'px);'"
+         @keydown.escape.window="showNotice = false">
+        
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl flex flex-col relative max-h-[90vh]"
              @click.stop
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 scale-95"
@@ -90,35 +85,58 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
                 <i class="fa-solid fa-xmark text-gray-700 text-xl"></i>
             </button>
             
-            <!-- Modal Content with Scroll - Only this area scrolls -->
-            <div class="p-4 overflow-y-auto modal-scroll"
-                 x-bind:style="'max-height: calc(100vh - ' + (headerHeight + 120) + 'px);'"
-                 @wheel.stop=""
-                 @touchmove.stop=""
-                 @scroll.stop="">
-                {% if popup_notice.link_url %}
-                <a href="{{ popup_notice.link_url }}" {% if popup_notice.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %} class="block">
+            <!-- Modal Content (Scrollable) -->
+            <div class="p-6 overflow-y-auto custom-scrollbar">
+                {% if popup_notice.title %}
+                <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">{{ popup_notice.title }}</h3>
                 {% endif %}
+
+                {% if popup_notice.link_url %}
+                <a href="{{ popup_notice.link_url }}" {% if popup_notice.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %} class="block group relative">
+                {% endif %}
+                    
+                    {% if popup_notice.image %}
                     <img src="{{ popup_notice.image.url }}" 
                          alt="{{ popup_notice.image_alt|default:popup_notice.title }}"
-                         class="w-full h-auto rounded-lg object-contain mx-auto block"
-                         loading="eager"
-                         onerror="console.error('Notice image failed to load'); this.style.display='none';">
+                         class="w-full h-auto rounded-lg object-contain mx-auto shadow-sm"
+                         loading="eager">
+                    {% endif %}
+
                 {% if popup_notice.link_url %}
+                    {% if not popup_notice.link_text %}
+                    <!-- Hover overlay hint if linked but no button text -->
+                    <div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg pointer-events-none">
+                        <span class="bg-white/90 px-4 py-2 rounded-full shadow-sm text-sm font-medium text-gray-700">
+                            <i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> {% trans "Click to Open" %}
+                        </span>
+                    </div>
+                    {% endif %}
                 </a>
-                {% if popup_notice.link_text %}
-                <div class="mt-4 text-center">
-                    <a href="{{ popup_notice.link_url }}" {% if popup_notice.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
-                       class="inline-block bg-deuraligreen text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold">
-                        {{ popup_notice.link_text }}
-                    </a>
+                {% endif %}
+
+                {% if popup_notice.description %}
+                <div class="mt-4 prose prose-sm max-w-none text-gray-600">
+                    {{ popup_notice.description|linebreaks }}
                 </div>
                 {% endif %}
+
+                {% if popup_notice.link_url and popup_notice.link_text %}
+                <div class="mt-6 text-center">
+                    <a href="{{ popup_notice.link_url }}" {% if popup_notice.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+                       class="inline-flex items-center justify-center bg-deuraligreen text-white px-8 py-3 rounded-full hover:bg-green-700 transition-all transform hover:-translate-y-1 shadow-md font-semibold text-lg">
+                        {{ popup_notice.link_text }}
+                        <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
     {% endif %}
+{% endblock overlays %}
+
+{% block content %}
+
 
     {% include "home/partials/hero.html" %}
     {% include "home/partials/introduction.html" %}
@@ -199,137 +217,9 @@ cooperative, rupa banking, microfinance nepal{% endblock meta_keywords %}
 
 <!-- Popup Notice Modal Initialization -->
 <script>
-    // Prevent page scroll when modal is open
-    document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.querySelector('#popup-notice-modal');
-        const modalContent = modal?.querySelector('.modal-scroll');
-        
-        if (modal && modalContent) {
-            // Allow backdrop scroll to pass through to background page
-            // Only handle content area scroll
-            modalContent.addEventListener('wheel', function(e) {
-                // Only stop propagation if scrolling within content bounds
-                const isScrollable = modalContent.scrollHeight > modalContent.clientHeight;
-                if (isScrollable) {
-                    const isAtTop = modalContent.scrollTop <= 0;
-                    const isAtBottom = modalContent.scrollTop + modalContent.clientHeight >= modalContent.scrollHeight - 1;
-                    
-                    // If at boundaries, allow scroll to pass through to background
-                    if ((e.deltaY < 0 && isAtTop) || (e.deltaY > 0 && isAtBottom)) {
-                        // Allow scroll to pass through to background
-                        // Don't stop propagation
-                        return true;
-                    }
-                    // Within content bounds - stop propagation to backdrop
-                    e.stopPropagation();
-                } else {
-                    // Content not scrollable - allow scroll to pass through
-                    return true;
-                }
-            }, { passive: true });
-            
-            modalContent.addEventListener('touchmove', function(e) {
-                // Stop touch scroll propagation from content to backdrop
-                e.stopPropagation();
-            }, { passive: true });
-            
-            // Allow backdrop scroll to pass through to background page
-            // Manually scroll the window when scrolling on backdrop
-            modal.addEventListener('wheel', function(e) {
-                // Check if scrolling on backdrop (not on content or modal box)
-                const target = e.target;
-                const modalBox = modal.querySelector('.bg-white.rounded-2xl');
-                const isOnBackdrop = target === modal || 
-                                    (modalBox && !modalBox.contains(target) && 
-                                     !modalContent.contains(target));
-                
-                if (isOnBackdrop) {
-                    // Scroll the background page
-                    e.preventDefault();
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
-                    
-                    // Get current scroll position
-                    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                    const newScroll = currentScroll + e.deltaY;
-                    
-                    // Scroll the background page
-                    window.scrollTo({
-                        top: Math.max(0, Math.min(newScroll, document.documentElement.scrollHeight - window.innerHeight)),
-                        behavior: 'auto'
-                    });
-                    
-                    return false;
-                }
-            }, { passive: false, capture: true });
-            
-            // Handle touch scroll on backdrop
-            let touchStartY = 0;
-            let touchStartScrollY = 0;
-            let isTouchingBackdrop = false;
-            
-            modal.addEventListener('touchstart', function(e) {
-                const target = e.target;
-                const modalBox = modal.querySelector('.bg-white.rounded-2xl');
-                const isOnBackdrop = target === modal || 
-                                    (modalBox && !modalBox.contains(target) && 
-                                     !modalContent.contains(target));
-                
-                if (isOnBackdrop) {
-                    touchStartY = e.touches[0].clientY;
-                    touchStartScrollY = window.scrollY || window.pageYOffset;
-                    isTouchingBackdrop = true;
-                }
-            }, { passive: true });
-            
-            modal.addEventListener('touchmove', function(e) {
-                if (isTouchingBackdrop) {
-                    const touchY = e.touches[0].clientY;
-                    const deltaY = touchStartY - touchY;
-                    const newScrollY = touchStartScrollY + deltaY;
-                    
-                    // Scroll the background page
-                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                    window.scrollTo({
-                        top: Math.max(0, Math.min(newScrollY, maxScroll)),
-                        behavior: 'auto'
-                    });
-                }
-            }, { passive: true });
-            
-            modal.addEventListener('touchend', function(e) {
-                isTouchingBackdrop = false;
-            }, { passive: true });
-        }
-        
-        // Wait for Alpine.js to be ready
-        if (window.Alpine) {
-            // Alpine is already loaded
-            initializeModal();
-        } else {
-            // Wait for Alpine to load
-            window.addEventListener('alpine:init', function() {
-                initializeModal();
-            });
-        }
-        
-        function initializeModal() {
-            // Check if image exists, if not hide modal
-            const img = document.querySelector('#popup-notice-modal img');
-            if (img) {
-                img.onload = function() {
-                    console.log('Popup notice image loaded successfully');
-                };
-                img.onerror = function() {
-                    console.error('Popup notice image failed to load');
-                    // Hide modal if image fails to load
-                    const modal = document.querySelector('#popup-notice-modal');
-                    if (modal && modal.__x) {
-                        modal.__x.$data.showNotice = false;
-                    }
-                };
-            }
-        }
+    // Clean up body overflow if page is unloaded while modal is open (rare edge case)
+    window.addEventListener('beforeunload', function() {
+        document.body.style.overflow = '';
     });
 </script>
 {% endblock extra_js %}

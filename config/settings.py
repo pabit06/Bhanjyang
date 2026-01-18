@@ -59,6 +59,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'imagekit',  # Image optimization and processing
     'django_nepali',  # Nepali date conversion for templates
+    'reversion',  # Content versioning
+    'reversion_compare',  # Version comparison UI
+    'django_cleanup.apps.CleanupConfig',  # Automatic media file cleanup on delete
     
     # Local apps (before staticfiles to override runserver command)
     'apps.core',  # Core utilities and shared functionality
@@ -105,6 +108,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'reversion.middleware.RevisionMiddleware',  # Content versioning middleware
     'apps.core.middleware.RateLimitMiddleware',  # Rate limiting (after auth)
     'apps.core.middleware.InputValidationMiddleware',  # Input validation
     'apps.core.middleware.BruteForceProtectionMiddleware',  # Brute force protection

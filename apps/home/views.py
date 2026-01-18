@@ -15,7 +15,9 @@ import logging
 from apps.core.view_mixins import NepaliLanguageMixin
 from .services import HomeService
 from .forms import ContactForm, NewsletterSignupForm
-from .models import Statistic, Testimonial
+from .models import Statistic, Testimonial, HomePageContent, Announcement
+from django.shortcuts import get_object_or_404
+from django.http import Http404
 
 logger = logging.getLogger(__name__)
 
@@ -143,7 +145,7 @@ class StatisticsAPI(NepaliLanguageMixin, generics.ListAPIView):
     """
     API endpoint that allows statistics to be viewed.
     """
-    queryset = Statistic.objects.filter(is_active=True).order_by('order')
+    queryset = Statistic.objects.filter(status=Statistic.Status.PUBLISHED).order_by('order')
     serializer_class = StatisticSerializer
     permission_classes = [AllowAny]
 
@@ -153,6 +155,51 @@ class TestimonialsAPI(NepaliLanguageMixin, generics.ListAPIView):
     """
     API endpoint that allows testimonials to be viewed.
     """
-    queryset = Testimonial.objects.filter(is_active=True).order_by('order')
+    queryset = Testimonial.objects.filter(status=Testimonial.Status.PUBLISHED).order_by('order')
     serializer_class = TestimonialSerializer
     permission_classes = [AllowAny]
+
+
+@method_decorator(never_cache, name='dispatch')
+class PreviewContentView(NepaliLanguageMixin, TemplateView):
+    """
+    Preview view for draft/scheduled content.
+    Only accessible to staff users.
+    """
+    template_name = 'home/preview.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Only allow staff users to preview"""
+        if not request.user.is_staff:
+            raise Http404("Preview not available")
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        model_name = kwargs.get('model_name')
+        pk = kwargs.get('pk')
+        
+        # Map model names to actual models
+        model_map = {
+            'homepagecontent': HomePageContent,
+            'testimonial': Testimonial,
+            'statistic': Statistic,
+            'announcement': Announcement,
+        }
+        
+        model_class = model_map.get(model_name.lower())
+        if not model_class:
+            raise Http404("Invalid model")
+        
+        # Get the content object (can be draft or scheduled)
+        content = get_object_or_404(model_class, pk=pk)
+        
+        context['content'] = content
+        context['model_name'] = model_name
+        context['is_preview'] = True
+        
+        # Get full home context for preview
+        service_data = HomeService.get_home_context(is_staff=True)
+        context.update(service_data)
+        
+        return context

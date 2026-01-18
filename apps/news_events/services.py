@@ -40,6 +40,7 @@ class NewsService:
             'categories': [],
             'article_stats': {},
             'event_stats': {},
+            'recent_notices': [],
         }
     )
     def get_home_page_data() -> Dict[str, Any]:
@@ -66,6 +67,12 @@ class NewsService:
         featured_content = NewsEventsQueryOptimizer.get_featured_content(limit=DEFAULT_FEATURED_LIMIT)
         categories = Category.objects.filter(is_active=True).order_by('sort_order', 'name')
         
+        # Get recent notices (pinned first, then by date)
+        from .models import Notice
+        recent_notices = Notice.objects.filter(
+            is_active=True
+        ).order_by('-is_pinned', '-published_date')[:5]
+        
         # Get statistics with default values
         article_stats = NewsEventsQueryOptimizer.get_article_statistics() or {}
         event_stats = NewsEventsQueryOptimizer.get_event_statistics() or {}
@@ -87,6 +94,7 @@ class NewsService:
             'categories': categories,
             'article_stats': article_stats,
             'event_stats': event_stats,
+            'recent_notices': recent_notices,
         }
         
         # Cache the data

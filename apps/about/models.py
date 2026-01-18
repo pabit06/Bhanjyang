@@ -56,6 +56,18 @@ class CooperativeInfo(models.Model):
     logo = models.ImageField(upload_to='about/cooperative/', blank=True, null=True, verbose_name=_("Cooperative Logo"))
     featured_image = models.ImageField(upload_to='about/cooperative/', blank=True, null=True, verbose_name=_("Featured Image"))
     
+    # SEO Fields (for home page meta tags)
+    meta_title = models.CharField(max_length=200, blank=True, verbose_name=_("Meta Title"), help_text=_("Page title for SEO (e.g., 'Bhanjyang Cooperative - Home')"))
+    meta_description = models.TextField(blank=True, max_length=500, verbose_name=_("Meta Description"), help_text=_("Meta description for SEO and social sharing"))
+    meta_keywords = models.CharField(max_length=500, blank=True, verbose_name=_("Meta Keywords"), help_text=_("Comma-separated keywords for SEO"))
+    og_image = models.ImageField(upload_to='about/cooperative/', blank=True, null=True, verbose_name=_("Open Graph Image"), help_text=_("Image for social media sharing (1200x630px recommended)"))
+    
+    # Home Page Content Fields
+    introduction_text = models.TextField(blank=True, verbose_name=_("Introduction Text"), help_text=_("Text for the introduction section on home page"))
+    introduction_text_nepali = models.TextField(blank=True, verbose_name=_("Introduction Text (Nepali)"), help_text=_("Introduction text in Nepali"))
+    why_choose_us_text = models.TextField(blank=True, verbose_name=_("Why Choose Us Text"), help_text=_("Text for the 'Why Choose Us' section on home page"))
+    why_choose_us_text_nepali = models.TextField(blank=True, verbose_name=_("Why Choose Us Text (Nepali)"), help_text=_("Why Choose Us text in Nepali"))
+    
     # Status
     is_active = models.BooleanField(default=True, verbose_name=_("Active"))
     
@@ -97,6 +109,24 @@ class CooperativeInfo(models.Model):
     def has_our_story(self):
         """Check if our story content exists"""
         return bool(self.our_story or self.our_story_nepali)
+    
+    def get_years_of_service(self):
+        """Calculate years of service from established_date"""
+        if not self.established_date:
+            return None
+        from datetime import date
+        today = date.today()
+        years = today.year - self.established_date.year
+        if today.month < self.established_date.month or (today.month == self.established_date.month and today.day < self.established_date.day):
+            years -= 1
+        return years
+    
+    def get_years_display(self):
+        """Get formatted years display (e.g., '25+ Years')"""
+        years = self.get_years_of_service()
+        if years is None:
+            return None
+        return f"{years}+ Years" if years > 0 else "Less than 1 Year"
 
 
 class CooperativeTimeline(models.Model):

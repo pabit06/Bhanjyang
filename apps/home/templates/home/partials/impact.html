@@ -43,46 +43,21 @@
                 <p class="text-gray-600 text-sm leading-relaxed">{{ stat.description|default:_("Growing our community impact.") }}</p>
             </div>
             {% empty %}
-            <!-- Fallback static statistics -->
-            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-deuraligreen shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="100">
-                <div class="mb-4 flex justify-center">
-                    <div class="w-16 h-16 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-users text-2xl text-deuraligreen"></i>
-            </div>
-            </div>
-                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="10000">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Active Members" %}</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">{% trans "Growing our community, one member at a time." %}</p>
-            </div>
-            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-bhanjyangred shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="200">
-                <div class="mb-4 flex justify-center">
-                    <div class="w-16 h-16 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-hand-holding-usd text-2xl text-bhanjyangred"></i>
+            <!-- Empty state if no statistics exist -->
+            <div class="col-span-full text-center py-12">
+                <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                    <div class="text-6xl text-gray-300 mb-4">
+                        <i class="fas fa-chart-line"></i>
                     </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Statistics Available" %}</h3>
+                    <p class="text-gray-600 mb-6">{% trans "Statistics will appear here once configured in the admin panel." %}</p>
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin:about_cooperativestatistic_add' %}" 
+                       class="inline-block bg-deuraligreen text-white font-bold py-3 px-8 rounded-full hover:bg-green-700 transition-colors">
+                        {% trans "Add Statistics" %}
+                    </a>
+                    {% endif %}
                 </div>
-                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="500">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Million NPR Loans Disbursed" %}</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">{% trans "Supporting dreams and local enterprises." %}</p>
-            </div>
-            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-deuraligreen shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="300">
-                <div class="mb-4 flex justify-center">
-                    <div class="w-16 h-16 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-piggy-bank text-2xl text-deuraligreen"></i>
-                    </div>
-                </div>
-                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="300">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Million NPR Total Savings" %}</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">{% trans "Securing futures for our valued members." %}</p>
-            </div>
-            <div class="group relative bg-white p-8 rounded-2xl border-t-4 border-bhanjyangred shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="400">
-                <div class="mb-4 flex justify-center">
-                    <div class="w-16 h-16 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                        <i class="fas fa-calendar-check text-2xl text-bhanjyangred"></i>
-                    </div>
-                </div>
-                <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter" data-target="15">0</div>
-                <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{% trans "Years of Service" %}</h3>
-                <p class="text-gray-600 text-sm leading-relaxed">{% trans "A legacy of trust and community commitment." %}</p>
             </div>
             {% endfor %}
         </div>

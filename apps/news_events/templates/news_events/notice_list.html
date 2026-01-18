@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load nepalidatetime %}
+
+{% block title %}{% trans "Notices" %} - भञ्ज्याङ सहकारी{% endblock title %}
+
+{% block content %}
+<!-- Modern Breadcrumb -->
+{% if breadcrumbs %}
+{% include 'partials/_breadcrumb.html' %}
+{% endif %}
+
+<!-- Hero Section -->
+<section class="relative py-16 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
+            {% trans "Notices" %}
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+            <span class="text-gray-800">सूचना</span> <span class="text-bhanjyangred">पाटी</span>
+        </h1>
+        <div class="w-24 h-1 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
+    </div>
+</section>
+
+<!-- Notice List -->
+<section class="py-12 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            {% if page_obj %}
+                <div class="space-y-6">
+                    {% for notice in page_obj %}
+                    <article class="bg-white rounded-xl shadow-md overflow-hidden border-l-4 {% if notice.is_pinned %}border-bhanjyangred{% else %}border-gray-300{% endif %} hover:shadow-xl transition-shadow duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-full">
+                                    {{ notice.get_notice_type_display }}
+                                </span>
+                                <span class="text-sm text-gray-500 flex items-center">
+                                    <i class="fas fa-calendar-alt mr-2"></i>
+                                    {{ notice.published_date|date:"F d, Y" }}
+                                </span>
+                            </div>
+                            
+                            <h2 class="text-2xl font-bold text-gray-800 mb-3 font-montserrat">
+                                <a href="{{ notice.get_absolute_url }}" class="hover:text-bhanjyangred transition-colors">
+                                    {% if notice.is_pinned %}<i class="fas fa-thumbtack text-bhanjyangred mr-2 transform rotate-45"></i>{% endif %}
+                                    {{ notice.title }}
+                                </a>
+                            </h2>
+                            
+                            <p class="text-gray-600 mb-4 line-clamp-3">
+                                {{ notice.content|striptags|truncatewords:50 }}
+                            </p>
+                            
+                            <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                                <a href="{{ notice.get_absolute_url }}" class="text-bhanjyangred font-semibold hover:text-red-700 transition-colors flex items-center">
+                                    {% trans "Read More" %} <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                                {% if notice.file %}
+                                <a href="{{ notice.file.url }}" class="text-gray-500 hover:text-bhanjyangred transition-colors" title="Download Attachment" target="_blank">
+                                    <i class="fas fa-paperclip"></i> {% trans "Attachment" %}
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="mt-12 flex justify-center">
+                    <nav class="flex items-center space-x-2 bg-gray-50 p-4 rounded-full shadow-inner">
+                        {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-white text-gray-700 rounded-full shadow hover:bg-bhanjyangred hover:text-white transition-colors">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                        {% endif %}
+                        
+                        <span class="px-6 py-2 bg-bhanjyangred text-white rounded-full font-bold shadow">
+                            {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                        </span>
+                        
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-white text-gray-700 rounded-full shadow hover:bg-bhanjyangred hover:text-white transition-colors">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                        {% endif %}
+                    </nav>
+                </div>
+                {% endif %}
+            {% else %}
+                <div class="text-center py-16 bg-gray-50 rounded-2xl">
+                    <i class="fas fa-info-circle text-6xl text-gray-300 mb-6"></i>
+                    <h3 class="text-2xl font-bold text-gray-700 mb-2">{% trans "No Notices Found" %}</h3>
+                    <p class="text-gray-500">{% trans "There are currently no active notices." %}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

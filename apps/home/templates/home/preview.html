@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Preview" %} - {{ content.title|default:content }}{% endblock title %}
+
+{% block extra_css %}
+<style>
+    .preview-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        padding: 12px 20px;
+        text-align: center;
+        font-weight: bold;
+        z-index: 9999;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .preview-banner .status-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        padding: 4px 12px;
+        border-radius: 12px;
+        margin-left: 10px;
+        font-size: 0.9em;
+    }
+    body {
+        padding-top: 60px;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Preview Banner -->
+<div class="preview-banner">
+    <span>{% trans "PREVIEW MODE" %}</span>
+    <span class="status-badge">
+        {% if content.status == 'DF' %}{% trans "Draft" %}
+        {% elif content.status == 'SC' %}{% trans "Scheduled" %}
+        {% elif content.status == 'AR' %}{% trans "Archived" %}
+        {% else %}{% trans "Published" %}{% endif %}
+    </span>
+    <span style="margin-left: 20px; font-size: 0.9em; opacity: 0.9;">
+        {{ content.title|default:content }}
+    </span>
+</div>
+
+<!-- Actual Content Preview -->
+{% if model_name == 'homepagecontent' %}
+    {# Preview hero section with this content #}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                <h1 class="text-4xl font-bold mb-4">{{ content.title }}</h1>
+                {% if content.subtitle %}
+                <p class="text-xl text-gray-600 mb-6">{{ content.subtitle }}</p>
+                {% endif %}
+                {% if content.hero_image %}
+                <img src="{{ content.hero_image.url }}" alt="{{ content.title }}" class="w-full rounded-lg mb-6">
+                {% endif %}
+                <div class="prose max-w-none">
+                    {{ content.description|linebreaks }}
+                </div>
+                {% if content.primary_button_text %}
+                <div class="mt-8">
+                    <a href="{{ content.primary_button_url }}" class="inline-block bg-deuraligreen text-white px-6 py-3 rounded-lg">
+                        {{ content.primary_button_text }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% elif model_name == 'testimonial' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto text-center">
+                {% if content.photo %}
+                <img src="{{ content.photo.url }}" alt="{{ content.name }}" class="w-24 h-24 rounded-full mx-auto mb-6">
+                {% endif %}
+                <div class="flex justify-center mb-4">
+                    {% for i in "12345" %}
+                    <i class="fas fa-star {% if forloop.counter <= content.rating %}text-yellow-400{% else %}text-gray-200{% endif %}"></i>
+                    {% endfor %}
+                </div>
+                <p class="text-lg italic mb-6">"{{ content.content }}"</p>
+                <h3 class="font-bold text-xl">{{ content.name }}</h3>
+                <p class="text-gray-600">{{ content.position }}{% if content.company %}, {{ content.company }}{% endif %}</p>
+            </div>
+        </div>
+    </div>
+{% elif model_name == 'statistic' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto text-center">
+                {% if content.icon %}
+                <i class="{{ content.icon }} text-4xl text-deuraligreen mb-4"></i>
+                {% endif %}
+                <div class="text-5xl font-bold mb-2">{{ content.value }}</div>
+                <h3 class="text-xl font-bold mb-2">{{ content.title }}</h3>
+                {% if content.description %}
+                <p class="text-gray-600">{{ content.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% elif model_name == 'announcement' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                <h1 class="text-4xl font-bold mb-4">{{ content.title }}</h1>
+                {% if content.image %}
+                <img src="{{ content.image.url }}" alt="{{ content.title }}" class="w-full rounded-lg mb-6">
+                {% endif %}
+                <div class="prose max-w-none">
+                    {{ content.content|linebreaks }}
+                </div>
+                {% if content.summary %}
+                <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                    <strong>{% trans "Summary:" %}</strong> {{ content.summary }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Back to Admin Link -->
+<div class="fixed bottom-4 right-4">
+    <a href="{% url 'admin:home_'|add:model_name|add:'_change' content.pk %}" 
+       class="bg-deuraligreen text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition-colors">
+        {% trans "Edit in Admin" %}
+    </a>
+</div>
+{% endblock content %}
