@@ -188,11 +188,28 @@ class ContactFormTest(TestCase):
             self.assertEqual(cleaned_message, 'This is a test message with enough content to pass validation.')
 
 
+from apps.about.models import CooperativeInfo
+
 class ContactViewsTest(TestCase):
     """Test cases for contact views"""
     
     def setUp(self):
         self.client = Client()
+        CooperativeInfo.objects.create(
+            cooperative_name="Test Co-op",
+            cooperative_name_nepali="Test Co-op Nepali",
+            established_date="2000-01-01",
+            registration_number="123",
+            license_number="456",
+            address="Test Address",
+            phone="9800000000",
+            email="info@test.com",
+            mission="Mission",
+            vision="Vision",
+            values="Values",
+            description="Description",
+            status='PB'
+        )
     
     def test_contact_view_get(self):
         """Test contact view GET request"""

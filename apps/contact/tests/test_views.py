@@ -8,6 +8,7 @@ import json
 
 from apps.contact.models import ContactSubmission, KYMSubmission, OfficeLocation
 from apps.contact.forms import ContactForm, KYMForm
+from apps.about.models import CooperativeInfo
 
 
 class ContactViewsTest(TestCase):
@@ -19,6 +20,23 @@ class ContactViewsTest(TestCase):
         # Clear rate limiting cache before each test
         from django.core.cache import cache
         cache.clear()
+        
+        # Create CooperativeInfo for context processor
+        CooperativeInfo.objects.create(
+            cooperative_name="Test Co-op",
+            cooperative_name_nepali="Test Co-op Nepali",
+            established_date="2000-01-01",
+            registration_number="123",
+            license_number="456",
+            address="Test Address",
+            phone="9800000000",
+            email="info@test.com",
+            mission="Mission",
+            vision="Vision",
+            values="Values",
+            description="Description",
+            status='PB'  # Published -> is_active=True
+        )
 
     def test_contact_view_get(self):
         """Test contact view GET request"""

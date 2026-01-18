@@ -9,12 +9,26 @@ import json
 from apps.contact.models import OfficeLocation
 
 
+from apps.about.models import CooperativeInfo
+
 class MapViewsTest(TestCase):
     """Test map views"""
     
     def setUp(self):
         self.client = Client()
         cache.clear()
+        
+        # Create CooperativeInfo for context processor
+        CooperativeInfo.objects.create(
+            cooperative_name="Test Co-op",
+            cooperative_name_nepali="Test Co-op Nepali",
+            status='PB',
+            email='info@test.com',
+            phone='9800000000',
+            established_date="2000-01-01"
+        )
+        
+        # Create test office locations
         
         # Create test office locations
         OfficeLocation.objects.create(

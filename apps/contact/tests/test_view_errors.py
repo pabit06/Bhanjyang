@@ -1,9 +1,12 @@
 """
 Tests for contact view error handling and edge cases
 """
-from django.test import TestCase, Client
+from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
+from unittest.mock import patch, Mock
 from django.core.files.uploadedfile import SimpleUploadedFile
+from apps.contact.views import ContactView
+from apps.about.models import CooperativeInfo
 
 
 class ContactViewErrorHandlingTest(TestCase):
@@ -11,7 +14,18 @@ class ContactViewErrorHandlingTest(TestCase):
 
     def setUp(self):
         """Set up test data"""
+        self.factory = RequestFactory()
         self.client = Client()
+        
+        # Create CooperativeInfo for context processor
+        CooperativeInfo.objects.create(
+            cooperative_name="Test Co-op",
+            cooperative_name_nepali="Test Co-op Nepali",
+            status='PB',
+            email='info@test.com',
+            phone='9800000000',
+            established_date="2000-01-01"
+        )
 
     def test_contact_view_get(self):
         """Test contact view GET request"""

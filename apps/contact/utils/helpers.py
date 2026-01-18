@@ -6,21 +6,26 @@ import os
 from django.utils import timezone
 
 
-def get_client_ip(request):
+def get_client_ip(request_or_meta):
     """
-    Extract client IP address from request.
+    Extract client IP address from request or META dictionary.
     
     Args:
-        request: Django HTTP request object
+        request_or_meta: Django HTTP request object or META dictionary
         
     Returns:
         str: Client IP address
     """
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if hasattr(request_or_meta, 'META'):
+        meta = request_or_meta.META
+    else:
+        meta = request_or_meta
+        
+    x_forwarded_for = meta.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0].strip()
     else:
-        ip = request.META.get('REMOTE_ADDR', '')
+        ip = meta.get('REMOTE_ADDR', '')
     return ip
 
 

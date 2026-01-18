@@ -13,12 +13,10 @@ from apps.core.error_handling import ErrorResponse
 from .forms import ContactForm, KYMForm
 from .models import ContactSubmission, KYMSubmission
 from .services import ContactService, KYMService
-from .utils.rate_limiting import rate_limit_by_ip
 
 logger = logging.getLogger(__name__)
 
 
-@method_decorator(rate_limit_by_ip('5/m'), name='dispatch')
 class ContactView(NepaliLanguageMixin, View):
     """Main contact form view"""
     template_name = 'contact/contact.html'
@@ -97,7 +95,6 @@ class ContactView(NepaliLanguageMixin, View):
             )
 
 
-@method_decorator(rate_limit_by_ip('3/m'), name='dispatch')
 class KYMFormView(NepaliLanguageMixin, View):
     """Know Your Member (KYM) form view"""
     template_name = 'contact/kym_form.html'

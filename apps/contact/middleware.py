@@ -39,33 +39,38 @@ class ContactRateLimitMiddleware:
         self.get_response = get_response
     
     def __call__(self, request):
-        # Only apply to contact form POST requests
-        if request.path == '/contact/' and request.method == 'POST':
+        # Define protected paths and their specific limits
+        # Path: (limit_count, limit_window_seconds)
+        protected_paths = {
+            '/contact/': (5, 3600),          # 5/hour
+            '/contact/kym-form/': (3, 3600), # 3/hour
+        }
+        
+        if request.method == 'POST' and request.path in protected_paths:
+            limit_count, limit_window = protected_paths[request.path]
             client_ip = get_client_ip(request)
             
             # Check if IP is blacklisted
             if IPBlacklistManager.is_blacklisted(client_ip):
                 logger.warning(f"Blocked blacklisted IP: {client_ip}")
                 
-                # Return JSON for AJAX requests
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                     return JsonResponse({
                         'success': False,
                         'errors': {'__all__': ['Your IP has been temporarily blocked. Please try again later.']}
                     }, status=429)
                 
-                # Return HTML for regular requests
                 return HttpResponse(
                     '<h1>403 Forbidden</h1><p>Your IP has been temporarily blocked.</p>',
                     status=403
                 )
             
-            # Check rate limit (5 submissions per hour)
+            # Check rate limit
             allowed, count, reset_time = RateLimitManager.check_rate_limit(
                 identifier=client_ip,
-                action='contact_submission',
-                max_requests=5,
-                window=3600  # 1 hour
+                action=f'submission_{request.path.strip("/")}',
+                max_requests=limit_count,
+                window=limit_window
             )
             
             if not allowed:
@@ -74,7 +79,6 @@ class ContactRateLimitMiddleware:
                     f"{count} requests, resets in {reset_time}s"
                 )
                 
-                # Return JSON for AJAX requests
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                     return JsonResponse({
                         'success': False,
@@ -85,7 +89,6 @@ class ContactRateLimitMiddleware:
                         }
                     }, status=429)
                 
-                # Return HTML for regular requests
                 return HttpResponse(
                     f'<h1>429 Too Many Requests</h1>'
                     f'<p>You have exceeded the submission limit.</p>'
@@ -94,10 +97,10 @@ class ContactRateLimitMiddleware:
                 )
             
             # Log successful rate limit check
-            remaining = 5 - count
+            remaining = limit_count - count
             logger.info(
-                f"Contact submission allowed for IP {client_ip}: "
-                f"{remaining} remaining this hour"
+                f"Submission allowed for IP {client_ip} on {request.path}: "
+                f"{remaining} remaining this window"
             )
         
         response = self.get_response(request)

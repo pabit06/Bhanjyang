@@ -194,21 +194,7 @@ You can manage it through the admin interface.
         
         logger.info(f"Email tasks queued for submission {submission.id}")
     
-    @staticmethod
-    def get_performance_metrics(start_time, db_queries_start):
-        """
-        Calculate performance metrics.
-        
-        Args:
-            start_time: Start time from time.time()
-            db_queries_start: Initial number of DB queries
-            
-        Returns:
-            tuple: (processing_time, db_queries_count)
-        """
-        processing_time = time.time() - start_time
-        db_queries_count = len(connection.queries) - db_queries_start
-        return processing_time, db_queries_count
+
 
 
 class KYMService:

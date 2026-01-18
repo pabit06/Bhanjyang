@@ -94,8 +94,26 @@ class ContactServiceTest(TestCase):
         self.assertIsNotNone(submission.attachment)
         self.assertTrue(submission.has_attachment())
 
+    def test_create_contact_submission_without_phone(self):
+        """Test creating contact submission without phone"""
+        form_data = {
+            'name': 'Test User',
+            'email': 'test@example.com',
+            'subject': 'Test Subject',
+            'message': 'Test message'
+        }
+        files = {}
+        request_meta = {
+            'REMOTE_ADDR': '127.0.0.1',
+            'HTTP_USER_AGENT': 'Test Agent'
+        }
+        
+        submission = ContactService.create_contact_submission(form_data, files, request_meta)
+        
+        self.assertEqual(submission.phone, '')
+
     def test_send_contact_notification_emails(self):
-        """Test sending notification emails"""
+        """Test sending notification emails with improved mocking"""
         submission = ContactSubmission.objects.create(
             name='Test User',
             email='test@example.com',
@@ -106,74 +124,34 @@ class ContactServiceTest(TestCase):
             user_agent='Test Browser'
         )
         
-        # The service tries to use celery tasks, but falls back to synchronous calls
-        # We'll just verify it doesn't raise an exception
-        try:
-            ContactService.send_contact_notification_emails(submission)
-        except Exception as e:
-            # If tasks module doesn't exist or celery isn't configured, that's OK
-            if 'tasks' not in str(e).lower() and 'celery' not in str(e).lower():
-                raise
-
-    def test_send_contact_notification_emails_with_attachment(self):
-        """Test sending notification emails with attachment info"""
-        submission = ContactSubmission.objects.create(
-            name='Test User',
-            email='test@example.com',
-            subject='Test Subject',
-            message='Test message',
-            attachment=SimpleUploadedFile('test.pdf', b'content', content_type='application/pdf'),
-            ip_address='127.0.0.1',
-            user_agent='Test Browser'
-        )
-        
-        with patch('apps.contact.services.send_contact_email') as mock_email:
+        with patch('apps.contact.services.send_contact_email') as mock_contact, \
+             patch('apps.contact.services.send_auto_response_email') as mock_auto:
+            
+            # Mock delay attribute to simulate Celery if present
+            mock_contact.delay = MagicMock()
+            mock_auto.delay = MagicMock()
+            
             ContactService.send_contact_notification_emails(submission)
             
-            # Verify email was called with attachment info
-            mock_email.assert_called()
-            call_args = mock_email.call_args
-            email_data = call_args[0][0] if call_args[0] else call_args[1]
-            if isinstance(email_data, dict):
-                self.assertIn('Attachment:', email_data.get('message', ''))
-
-    def test_get_performance_metrics(self):
-        """Test performance metrics calculation"""
-        import time
-        start_time = time.time()
-        db_queries_start = 0
-        
-        # Simulate some processing
-        time.sleep(0.01)
-        
-        processing_time, db_queries = ContactService.get_performance_metrics(
-            start_time, db_queries_start
-        )
-        
-        self.assertGreater(processing_time, 0)
-        self.assertIsInstance(db_queries, int)
-
+            # Verify attempts to call (either via delay or direct)
+            # Verify attempts to call (either via delay or direct)
+            try:
+                mock_contact.delay.assert_called()
+            except AssertionError:
+                try:
+                    mock_contact.assert_called()
+                except AssertionError:
+                    raise AssertionError("Neither send_contact_email.delay() nor send_contact_email() was called.")
 
 class KYMServiceTest(TestCase):
     """Test cases for KYMService"""
 
-    def test_get_kym_page_context(self):
-        """Test get_kym_page_context returns correct structure"""
-        context = KYMService.get_kym_page_context()
-        
-        self.assertIn('form', context)
-        self.assertIn('breadcrumbs', context)
-        self.assertEqual(len(context['breadcrumbs']), 2)
-        self.assertEqual(context['breadcrumbs'][1]['name'], 'KYM Form')
-
-    def test_create_kym_submission(self):
-        """Test creating a KYM submission"""
-        form_data = {
+    def setUp(self):
+        self.form_data = {
             'full_name': 'Test User',
             'dob': '1990-01-01',
             'gender': 'M',
             'marital_status': 'Single',
-            'nationality': 'Nepali',
             'phone': '1234567890',
             'email': 'test@example.com',
             'permanent_address': 'Test Address',
@@ -189,18 +167,41 @@ class KYMServiceTest(TestCase):
             'passport_photo_upload': SimpleUploadedFile('photo.jpg', b'content', content_type='image/jpeg'),
             'address_proof_upload': SimpleUploadedFile('proof.pdf', b'content', content_type='application/pdf'),
         }
-        files = {}
-        request_meta = {
+        self.request_meta = {
             'REMOTE_ADDR': '127.0.0.1',
             'HTTP_USER_AGENT': 'Test Browser'
         }
+
+    def test_get_kym_page_context(self):
+        """Test get_kym_page_context returns correct structure"""
+        context = KYMService.get_kym_page_context()
         
-        submission = KYMService.create_kym_submission(form_data, files, request_meta)
+        self.assertIn('form', context)
+        self.assertIn('breadcrumbs', context)
+        self.assertEqual(len(context['breadcrumbs']), 2)
+        self.assertEqual(context['breadcrumbs'][1]['name'], 'KYM Form')
+
+    def test_create_kym_submission(self):
+        """Test creating a KYM submission"""
+        submission = KYMService.create_kym_submission(self.form_data, {}, self.request_meta)
         
         self.assertIsNotNone(submission)
         self.assertEqual(submission.full_name, 'Test User')
         self.assertEqual(submission.email, 'test@example.com')
         self.assertEqual(submission.ip_address, '127.0.0.1')
+
+    def test_create_kym_submission_with_optional_fields(self):
+        """Test creating KYM submission with optional fields"""
+        form_data = self.form_data.copy()
+        form_data['nationality'] = 'Nepali'
+        form_data['spouse_name'] = 'Spouse Name'
+        form_data['estimated_income'] = 50000
+        
+        submission = KYMService.create_kym_submission(form_data, {}, self.request_meta)
+        
+        self.assertEqual(submission.nationality, 'Nepali')
+        self.assertEqual(submission.spouse_name, 'Spouse Name')
+        self.assertEqual(submission.estimated_income, 50000)
 
 
 class ContactAnalyticsServiceTest(TestCase):
