@@ -45,7 +45,8 @@ class AboutViewsTest(TestCase):
             mission="Test Mission",
             vision="Test Vision",
             values="Test Values",
-            description="Test Description"
+            description="Test Description",
+            status=CooperativeInfo.Status.PUBLISHED
         )
         
         # Create timeline event
@@ -53,14 +54,16 @@ class AboutViewsTest(TestCase):
             title="Test Event",
             description="Test Description",
             event_date=date(2020, 1, 1),
-            event_type="milestone"
+            event_type="milestone",
+            status=CooperativeTimeline.Status.PUBLISHED
         )
         
         # Create affiliation
         self.affiliation = CooperativeAffiliation.objects.create(
             name="Test Organization",
             description="Test Description",
-            affiliation_type="association"
+            affiliation_type="association",
+            status=CooperativeAffiliation.Status.PUBLISHED
         )
         
         # Create leadership message
@@ -69,7 +72,8 @@ class AboutViewsTest(TestCase):
             message_type="chairman",
             content="Test content",
             author_name="John Doe",
-            author_position="Chairman"
+            author_position="Chairman",
+            status=LeadershipMessage.Status.PUBLISHED
         )
         
         # Create team data
@@ -178,7 +182,8 @@ class AboutViewsTest(TestCase):
             mission="Test Mission 2",
             vision="Test Vision 2",
             values="Test Values 2",
-            description="Test Description 2"
+            description="Test Description 2",
+            status=CooperativeInfo.Status.PUBLISHED
         )
 
         response = self.client.get(reverse(
@@ -205,8 +210,105 @@ class AboutViewsTest(TestCase):
         """Test ContactView redirects to main contact app"""
         response = self.client.get(reverse('about:contact'))
         self.assertEqual(response.status_code, 302)
-        # Verify redirect pattern or location if possible, or just the status code
-        # pattern_name='contact:contact_view' usually redirects to /contact/
+
+    def test_staff_logic_in_views(self):
+        """Test staff vs non-staff branching in various views"""
+        # Create draft versions of content
+        draft_coop = CooperativeInfo.objects.create(
+            cooperative_name="Draft Coop", established_date=date(2020, 1, 1),
+            registration_number="REG_DRAFT", license_number="LIC_DRAFT",
+            address="Test", phone="123", email="d@e.com",
+            mission="M", vision="V", values="V", description="D",
+            status=CooperativeInfo.Status.DRAFT
+        )
+        
+        # 1. IntroductionView
+        # Non-staff should not see draft coops (not applicable here as introduction uses first())
+        # But should see published timeline events
+        
+        # 2. MemberTestimonialsView logic check
+        # (Assuming Testimonial model is available and has status)
+        from apps.home.models import Testimonial
+        published_t = Testimonial.objects.create(name="Pub", content="C", status='PB')
+        draft_t = Testimonial.objects.create(name="Draft", content="C", status='DF')
+        
+        # Non-staff
+        response = self.client.get(reverse('about:member_testimonials'), follow=True)
+        # Check if we landed on the right page
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(published_t, response.context['testimonials'])
+        self.assertNotIn(draft_t, response.context['testimonials'])
+        
+        # Staff
+        self.user.is_staff = True
+        self.user.save()
+        self.client.login(username='testuser', password='testpass123')
+        response = self.client.get(reverse('about:member_testimonials'), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(published_t, response.context['testimonials'])
+        self.assertIn(draft_t, response.context['testimonials'])
+
+    def test_single_cooperative_redirect(self):
+        """Test redirect to introduction when only one cooperative exists"""
+        # Delete the second cooperative created in setup or by other tests
+        CooperativeInfo.objects.exclude(pk=self.cooperative.pk).delete()
+        
+        # Accessing detail view of the ONLY coop should redirect to introduction
+        response = self.client.get(reverse(
+            'about:cooperative_detail',
+            kwargs={'slug': self.cooperative.slug}
+        ))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('about:introduction'))
+
+    def test_preview_view_access(self):
+        """Test PreviewContentView access control"""
+        url = reverse('about:preview_content', kwargs={
+            'model_name': 'cooperativeinfo',
+            'pk': self.cooperative.pk
+        })
+        
+        # Anonymous/Non-staff should get 404
+        response = self.client.get(url, follow=True)
+        self.assertEqual(response.status_code, 404)
+        
+        self.user.is_staff = True
+        self.user.save()
+        self.client.login(username='testuser', password='testpass123')
+        
+        # Add title attribute to avoid VariableDoesNotExist during template rendering
+        self.cooperative.title = self.cooperative.cooperative_name
+        
+        response = self.client.get(url, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_preview_view_with_token(self):
+        """Test PreviewContentView with signing tokens"""
+        self.user.is_staff = True
+        self.user.save()
+        self.client.login(username='testuser', password='testpass123')
+        
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.cooperative.pk))
+        
+        # Valid token
+        url = reverse('about:preview_content_token', kwargs={
+            'model_name': 'cooperativeinfo',
+            'pk': self.cooperative.pk,
+            'token': token
+        })
+        response = self.client.get(url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        
+        # Invalid token
+        url_invalid = reverse('about:preview_content_token', kwargs={
+            'model_name': 'cooperativeinfo',
+            'pk': self.cooperative.pk,
+            'token': 'invalid-token'
+        })
+        response = self.client.get(url_invalid, follow=True)
+        self.assertEqual(response.status_code, 404)
 
     
     # test_gallery_view removed - gallery functionality moved to main gallery app

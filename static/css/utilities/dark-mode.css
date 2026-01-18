@@ -47,14 +47,16 @@ body {
 /* Base background colors - work in both light and dark mode */
 /* Override Tailwind's bg-white to use CSS variables */
 .bg-white {
-    background-color: #ffffff; /* Fallback for light mode */
+    background-color: #ffffff;
+    /* Fallback for light mode */
     background-color: var(--bg-primary) !important;
 }
 
 /* Ensure header and top bar are always visible */
 header.bg-white,
 header .bg-white {
-    background-color: #ffffff; /* Fallback */
+    background-color: #ffffff;
+    /* Fallback */
     background-color: var(--bg-primary) !important;
     display: block !important;
     visibility: visible !important;
@@ -63,9 +65,9 @@ header .bg-white {
 
 /* Top bar specific styling - ensure it's visible */
 /* Target the top bar div that comes before header */
-div.bg-white.text-gray-700.shadow-md:first-of-type,
-body > div.bg-white:first-of-type {
-    background-color: #ffffff !important; /* Fallback white */
+#top-bar {
+    background-color: #ffffff !important;
+    /* Fallback white */
     background-color: var(--bg-primary) !important;
     display: block !important;
     visibility: visible !important;
@@ -219,9 +221,9 @@ body > div.bg-white:first-of-type {
 }
 
 /* Ensure top bar is visible in dark mode */
-[data-theme="dark"] div.bg-white.text-gray-700.shadow-md:first-of-type,
-[data-theme="dark"] body > div.bg-white:first-of-type {
-    background-color: #1e293b !important; /* Fallback dark */
+[data-theme="dark"] #top-bar {
+    background-color: #1e293b !important;
+    /* Fallback dark */
     background-color: var(--bg-secondary) !important;
     display: block !important;
     visibility: visible !important;
@@ -436,7 +438,7 @@ body > div.bg-white:first-of-type {
         width: 45px;
         height: 45px;
     }
-    
+
     .theme-toggle i {
         font-size: 18px;
     }
@@ -448,7 +450,7 @@ body > div.bg-white:first-of-type {
         --border-color: #000000;
         --text-secondary: #000000;
     }
-    
+
     [data-theme="dark"] {
         --border-color: #ffffff;
         --text-secondary: #ffffff;
@@ -460,7 +462,7 @@ body > div.bg-white:first-of-type {
     .theme-toggle {
         display: none !important;
     }
-    
+
     [data-theme="dark"] {
         --bg-primary: #ffffff;
         --text-primary: #000000;

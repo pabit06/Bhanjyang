@@ -17,6 +17,6 @@ urlpatterns = [
     path('api/statistics/', views.StatisticsAPI.as_view(), name='api_statistics'),
     path('api/testimonials/', views.TestimonialsAPI.as_view(), name='api_testimonials'),
     
-    # Preview
-    path('preview/<str:model_name>/<int:pk>/', views.PreviewContentView.as_view(), name='preview_content'),
+    # Preview (with token for security)
+    path('preview/<str:model_name>/<int:pk>/<str:token>/', views.PreviewContentView.as_view(), name='preview_content'),
 ]

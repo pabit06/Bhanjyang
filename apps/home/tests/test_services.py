@@ -31,6 +31,7 @@ class HomeServiceTest(TestCase):
             title="Test Homepage",
             subtitle="Test Subtitle",
             is_active=True,
+            status=HomePageContent.Status.PUBLISHED,
             order=0
         )
         
@@ -40,6 +41,7 @@ class HomeServiceTest(TestCase):
             rating=5,
             is_featured=True,
             is_active=True,
+            status=Testimonial.Status.PUBLISHED,
             order=0
         )
         
@@ -48,6 +50,7 @@ class HomeServiceTest(TestCase):
             value="2,500+",
             is_featured=True,
             is_active=True,
+            status=Statistic.Status.PUBLISHED,
             order=0
         )
         
@@ -56,6 +59,7 @@ class HomeServiceTest(TestCase):
             content="Test content",
             is_featured=True,
             is_active=True,
+            status=Announcement.Status.PUBLISHED,
             priority=1,
             publish_date=timezone.now()
         )
@@ -167,8 +171,11 @@ class HomeServiceTest(TestCase):
 
     def test_get_home_context_error_handling(self):
         """Test error handling in get_home_context"""
-        with patch('apps.home.services.HomePageContent.objects.filter') as mock_filter:
-            mock_filter.side_effect = Exception("Database error")
+        # We need to make sure the exception bubbles up to get_home_context
+        # Since helpers swallow errors, we check if get_home_context handles
+        # unexpected errors (like if a helper itself was missing or mocked to raise)
+        with patch('apps.home.services.HomeService._get_homepage_content') as mock_method:
+            mock_method.side_effect = Exception("Fatal error")
             
             context = HomeService.get_home_context(is_staff=False)
             
@@ -420,6 +427,7 @@ class HomeServiceTest(TestCase):
                 rating=5,
                 is_featured=True,
                 is_active=True,
+                status=Testimonial.Status.PUBLISHED,
                 order=i
             )
         

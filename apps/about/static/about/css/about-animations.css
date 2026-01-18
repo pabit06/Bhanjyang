@@ -217,6 +217,65 @@ html {
     visibility: visible !important;
 }
 
+/* Background Patterns */
+.bg-pattern-dhaka {
+    background-image: url('../../images/backgrounds/pattern-Dhaka.png');
+    background-repeat: repeat;
+    background-size: 400px;
+}
+
+.bg-pattern-card {
+    background-image: url('../../images/backgrounds/patterncard.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-panel-dark {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Premium Card Effects */
+.premium-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: white;
+}
+
+.premium-card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.premium-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(45deg, #00812F, #E21E26);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.premium-card:hover::before {
+    opacity: 1;
+}
+
 /* Timeline Scroll Animations */
 .timeline-item {
     opacity: 0;

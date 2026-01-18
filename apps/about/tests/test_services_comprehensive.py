@@ -33,6 +33,7 @@ class AboutServiceTest(TestCase):
             vision='Test Vision',
             values='Test Values',
             description='Test Description',
+            status=CooperativeInfo.Status.PUBLISHED,
             is_active=True
         )
         
@@ -40,6 +41,7 @@ class AboutServiceTest(TestCase):
             title='Test Event',
             event_date='2020-01-01',
             is_featured=True,
+            status=CooperativeTimeline.Status.PUBLISHED,
             is_active=True
         )
     
@@ -67,9 +69,10 @@ class AboutServiceTest(TestCase):
         # Should return same data (cached)
         self.assertEqual(data1['cooperative_info'], data2['cooperative_info'])
     
+
     def test_get_about_home_data_error_handling(self):
         """Test error handling in get_about_home_data"""
-        with patch('apps.about.services.CooperativeInfo.objects.active', side_effect=Exception('DB Error')):
+        with patch('apps.about.services.CooperativeInfo.objects.filter', side_effect=Exception('DB Error')):
             data = AboutService.get_about_home_data()
             self.assertIn('error', data)
     
@@ -84,6 +87,7 @@ class AboutServiceTest(TestCase):
         affiliation = CooperativeAffiliation.objects.create(
             name='Test Affiliation',
             is_featured=True,
+            status=CooperativeAffiliation.Status.PUBLISHED,
             is_active=True
         )
         affiliations = AboutService.get_affiliations()
@@ -94,6 +98,7 @@ class AboutServiceTest(TestCase):
         message = LeadershipMessage.objects.create(
             title='Test Message',
             content='Test content',
+            status=LeadershipMessage.Status.PUBLISHED,
             is_active=True,
             order=1
         )

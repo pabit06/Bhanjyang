@@ -31,7 +31,10 @@ router.register(r'social', SocialMediaViewSet, basename='social')
 app_name = 'news_events_api'
 
 urlpatterns = [
-    # API routes
+    # Explicit version support (v1)
+    path('v1/', include(router.urls)),
+    
+    # Default API routes (maps to v1)
     path('', include(router.urls)),
     
     # API documentation

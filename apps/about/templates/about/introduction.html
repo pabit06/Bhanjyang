@@ -73,27 +73,26 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
-            {% trans "Introduction" %}
-        </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
-            {% trans "Our Story, Vision & Journey" %}
-        </h1>
-        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6 shadow-lg"></div>
-        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            {% trans "Discover our foundation, principles, and the milestones that shaped our cooperative" %}
-        </p>
+        <div class="glass-panel-dark inline-block p-8 md:p-12 rounded-3xl border border-white/20 shadow-2xl animate-fade-in-up">
+            <span class="inline-block text-white bg-deuraligreen/80 backdrop-blur-sm font-semibold uppercase text-xs sm:text-sm mb-6 tracking-widest px-6 py-2 rounded-full shadow-lg">
+                {% trans "Introduction" %}
+            </span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 text-white leading-tight">
+                {% trans "Our Story, Vision & Journey" %}
+            </h1>
+            <div class="w-32 h-1.5 bg-gradient-to-r from-deuraligreen to-bhanjyangred mx-auto rounded-full mb-8 shadow-glow"></div>
+            <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
+                {% trans "Discover our foundation, principles, and the milestones that shaped our cooperative" %}
+            </p>
+        </div>
     </div>
 </section>
 
 <!-- Our Story Section -->
 {% if cooperative_info %}
 <section id="our-story" class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
-    </div>
+    <!-- Dhaka Pattern Background -->
+    <div class="absolute inset-0 opacity-[0.04] bg-pattern-dhaka"></div>
     
     <!-- Decorative Elements -->
     <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
@@ -137,21 +136,22 @@
             </div>
             <div class="order-1 lg:order-2">
                 <div class="relative group">
-                    <div class="absolute -inset-4 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
+                    <div class="absolute -inset-4 bg-pattern-dhaka opacity-20 rounded-2xl group-hover:opacity-40 transition-opacity duration-500"></div>
+                    <div class="absolute -inset-2 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-10 blur-xl"></div>
                     {% if cooperative_info.our_story_image %}
                     <img src="{{ cooperative_info.our_story_image.url }}"
                         alt="{{ cooperative_info.cooperative_name|default:'Bhanjyang Cooperative Our Story image' }}"
-                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500 border-4 border-white" loading="lazy"
                         decoding="async" width="800" height="600">
                     {% elif cooperative_info.featured_image %}
                     <img src="{{ cooperative_info.featured_image.url }}"
                         alt="{{ cooperative_info.cooperative_name|default:'Bhanjyang Cooperative featured image' }}"
-                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500 border-4 border-white" loading="lazy"
                         decoding="async" width="800" height="600">
                     {% else %}
                     <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop"
                         alt="Bhanjyang Cooperative - Empowering financial journey"
-                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                        class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500 border-4 border-white" loading="lazy"
                         decoding="async" width="800" height="400">
                     {% endif %}
                 </div>
@@ -188,38 +188,38 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
             <!-- Mission -->
-            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-20 h-20 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
-                        <i class="fas fa-bullseye text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
+            <div class="premium-card relative p-10 rounded-3xl shadow-xl border-t-4 border-deuraligreen text-center">
+                <div class="mb-8 flex justify-center">
+                    <div class="w-24 h-24 rounded-2xl bg-deuraligreen/10 flex items-center justify-center group-hover:rotate-12 transition-all duration-500">
+                        <i class="fas fa-bullseye text-4xl text-deuraligreen" aria-hidden="true"></i>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "Our Mission" %}</h3>
-                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.mission|default:_("To provide exceptional financial services and support community development through cooperative principles.") }}</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-5 font-montserrat tracking-tight">{% trans "Our Mission" %}</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">{{ cooperative_info.mission|default:_("To provide exceptional financial services and support community development through cooperative principles.") }}</p>
             </div>
 
             <!-- Vision -->
-            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-20 h-20 rounded-full bg-bhanjyangred/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-bhanjyangred transition-all duration-300">
-                        <i class="fas fa-eye text-3xl text-bhanjyangred group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
+            <div class="premium-card relative p-10 rounded-3xl shadow-xl border-t-4 border-bhanjyangred text-center">
+                <div class="mb-8 flex justify-center">
+                    <div class="w-24 h-24 rounded-2xl bg-bhanjyangred/10 flex items-center justify-center group-hover:rotate-12 transition-all duration-500">
+                        <i class="fas fa-eye text-4xl text-bhanjyangred" aria-hidden="true"></i>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "Our Vision" %}</h3>
-                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.vision|default:_("To be the leading cooperative society that empowers communities and fosters sustainable development.") }}</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-5 font-montserrat tracking-tight">{% trans "Our Vision" %}</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">{{ cooperative_info.vision|default:_("To be the leading cooperative society that empowers communities and fosters sustainable development.") }}</p>
             </div>
 
             <!-- Values -->
-            <div class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
-                <div class="mb-6 flex justify-center">
-                    <div class="w-20 h-20 rounded-full bg-deuraligreen/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
-                        <i class="fas fa-heart text-3xl text-deuraligreen group-hover:text-white transition-colors duration-300" aria-hidden="true"></i>
+            <div class="premium-card relative p-10 rounded-3xl shadow-xl border-t-4 border-deuraligreen text-center">
+                <div class="mb-8 flex justify-center">
+                    <div class="w-24 h-24 rounded-2xl bg-deuraligreen/10 flex items-center justify-center group-hover:rotate-12 transition-all duration-500">
+                        <i class="fas fa-heart text-4xl text-deuraligreen" aria-hidden="true"></i>
                     </div>
                 </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "Our Values" %}</h3>
-                <p class="text-gray-700 leading-relaxed">{{ cooperative_info.values|default:_("Integrity, transparency, member focus, community service, and sustainable growth.") }}</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-5 font-montserrat tracking-tight">{% trans "Our Values" %}</h3>
+                <p class="text-gray-600 leading-relaxed text-lg">{{ cooperative_info.values|default:_("Integrity, transparency, member focus, community service, and sustainable growth.") }}</p>
             </div>
         </div>
     </div>

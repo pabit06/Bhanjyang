@@ -27,4 +27,8 @@ urlpatterns = [
     
     # Cooperative detail
     path('cooperative/<slug:slug>/', views.CooperativeDetailView.as_view(), name='cooperative_detail'),
+    
+    # Preview (with token for security)
+    path('preview/<str:model_name>/<int:pk>/', views.PreviewContentView.as_view(), name='preview_content'),
+    path('preview/<str:model_name>/<int:pk>/<str:token>/', views.PreviewContentView.as_view(), name='preview_content_token'),
 ]

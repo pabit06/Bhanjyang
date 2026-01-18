@@ -21,7 +21,11 @@ logger = logging.getLogger(__name__)
 try:
     from .constants import (
         MAX_CONTENT_LENGTH, MAX_COMMENT_LENGTH, MAX_TITLE_LENGTH,
-        MAX_SPAM_KEYWORDS
+        MAX_SPAM_KEYWORDS, SPAM_KEYWORDS, SUSPICIOUS_PATTERNS,
+        DISPOSABLE_EMAIL_DOMAINS, SUSPICIOUS_EMAIL_DOMAINS,
+        RATE_LIMIT_SUBSCRIPTION_ATTEMPTS, RATE_LIMIT_SUBSCRIPTION_PERIOD,
+        RATE_LIMIT_COMMENT_ATTEMPTS, RATE_LIMIT_COMMENT_PERIOD,
+        SPAM_SCORE_THRESHOLD, SPAM_LINK_LIMIT, SPAM_REPETITION_THRESHOLD
     )
 except ImportError:
     # Fallback if constants not available
@@ -29,16 +33,17 @@ except ImportError:
     MAX_COMMENT_LENGTH = 2000
     MAX_TITLE_LENGTH = 200
     MAX_SPAM_KEYWORDS = 3
-
-SPAM_KEYWORDS = [
-    'viagra', 'casino', 'lottery', 'winner', 'congratulations', 'free money',
-    'click here', 'limited time', 'act now', 'guaranteed', 'no risk'
-]
-SUSPICIOUS_PATTERNS = [
-    r'https?://[^\s]+',  # URLs
-    r'\b\d{4}[-.]?\d{4}[-.]?\d{4}[-.]?\d{4}\b',  # Credit card numbers
-    r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',  # Phone numbers
-]
+    SPAM_KEYWORDS = []
+    SUSPICIOUS_PATTERNS = []
+    DISPOSABLE_EMAIL_DOMAINS = []
+    SUSPICIOUS_EMAIL_DOMAINS = []
+    RATE_LIMIT_SUBSCRIPTION_ATTEMPTS = 3
+    RATE_LIMIT_SUBSCRIPTION_PERIOD = 3600
+    RATE_LIMIT_COMMENT_ATTEMPTS = 5
+    RATE_LIMIT_COMMENT_PERIOD = 3600
+    SPAM_SCORE_THRESHOLD = 10
+    SPAM_LINK_LIMIT = 2
+    SPAM_REPETITION_THRESHOLD = 0.3
 
 class ContentSecurityValidator:
     """Content security validation"""
@@ -54,7 +59,7 @@ class ContentSecurityValidator:
             # Check for spam keywords
             content_lower = content.lower()
             spam_count = sum(1 for keyword in SPAM_KEYWORDS if keyword in content_lower)
-            if spam_count > 3:
+            if spam_count > MAX_SPAM_KEYWORDS:
                 raise ValidationError("Content contains too many spam indicators.")
             
             # Check for suspicious patterns
@@ -96,7 +101,7 @@ class ContentSecurityValidator:
                 'table': ['border', 'cellpadding', 'cellspacing'],
                 'td': ['colspan', 'rowspan'],
                 'th': ['colspan', 'rowspan'],
-                '*': ['class', 'id']
+                '#': ['class', 'id']
             }
             
             # CSS sanitizer for style attributes
@@ -165,7 +170,7 @@ class SpamProtectionManager:
             
             # Check for excessive links
             link_count = len(re.findall(r'https?://[^\s]+', content))
-            if link_count > 2:
+            if link_count > SPAM_LINK_LIMIT:
                 spam_score += link_count * 3
                 reasons.append(f"Too many links: {link_count}")
             
@@ -177,15 +182,14 @@ class SpamProtectionManager:
                     word_frequency[word.lower()] = word_frequency.get(word.lower(), 0) + 1
                 
                 max_frequency = max(word_frequency.values())
-                if max_frequency > len(words) * 0.3:  # More than 30% repetition
+                if max_frequency > len(words) * SPAM_REPETITION_THRESHOLD:
                     spam_score += 5
                     reasons.append("Repetitive content detected")
             
             # Check email domain
             if author_email:
-                suspicious_domains = ['tempmail.com', '10minutemail.com', 'guerrillamail.com']
                 domain = author_email.split('@')[-1].lower()
-                if domain in suspicious_domains:
+                if domain in SUSPICIOUS_EMAIL_DOMAINS:
                     spam_score += 3
                     reasons.append(f"Suspicious email domain: {domain}")
             
@@ -202,10 +206,10 @@ class SpamProtectionManager:
                 cache.set(cache_key, recent_submissions + 1, 3600)  # 1 hour
             
             return {
-                'is_spam': spam_score > 10,
+                'is_spam': spam_score > SPAM_SCORE_THRESHOLD,
                 'spam_score': spam_score,
                 'reasons': reasons,
-                'threshold': 10
+                'threshold': SPAM_SCORE_THRESHOLD
             }
             
         except Exception as e:
@@ -214,7 +218,7 @@ class SpamProtectionManager:
                 'is_spam': False,
                 'spam_score': 0,
                 'reasons': ['Spam check failed'],
-                'threshold': 10
+                'threshold': SPAM_SCORE_THRESHOLD
             }
 
 class RateLimitManager:
@@ -228,10 +232,10 @@ class RateLimitManager:
         
         try:
             attempts = cache.get(cache_key, 0)
-            if attempts >= 3:  # Max 3 subscription attempts per hour
+            if attempts >= RATE_LIMIT_SUBSCRIPTION_ATTEMPTS:
                 return False, "Too many subscription attempts. Please try again later."
             
-            cache.set(cache_key, attempts + 1, 3600)  # 1 hour
+            cache.set(cache_key, attempts + 1, RATE_LIMIT_SUBSCRIPTION_PERIOD)
             return True, "Rate limit OK"
             
         except Exception as e:
@@ -246,10 +250,10 @@ class RateLimitManager:
         
         try:
             attempts = cache.get(cache_key, 0)
-            if attempts >= 5:  # Max 5 comments per hour
+            if attempts >= RATE_LIMIT_COMMENT_ATTEMPTS:
                 return False, "Too many comments. Please try again later."
             
-            cache.set(cache_key, attempts + 1, 3600)  # 1 hour
+            cache.set(cache_key, attempts + 1, RATE_LIMIT_COMMENT_PERIOD)
             return True, "Rate limit OK"
             
         except Exception as e:
@@ -352,13 +356,8 @@ class EmailSecurityManager:
         """Validate email for security issues"""
         try:
             # Check for disposable email domains
-            disposable_domains = [
-                '10minutemail.com', 'tempmail.com', 'guerrillamail.com',
-                'mailinator.com', 'yopmail.com', 'temp-mail.org'
-            ]
-            
             domain = email.split('@')[-1].lower()
-            if domain in disposable_domains:
+            if domain in DISPOSABLE_EMAIL_DOMAINS:
                 return False, "Disposable email addresses are not allowed"
             
             # Check email format

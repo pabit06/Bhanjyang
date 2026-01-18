@@ -34,266 +34,36 @@ class HomeService:
             is_staff: If True, bypasses cache to show real-time data
             
         Returns:
-            Dictionary containing:
-                - homepage_content: HomePageContent instance
-                - featured_testimonials: List of featured testimonials (max 3)
-                - featured_statistics: List of featured statistics (max 4)
-                - featured_announcements: List of active announcements (max 3)
-                - featured_services: List of featured service highlights (max 3)
-                - featured_gallery: List of featured gallery images (max 6)
-                - breadcrumbs: Navigation breadcrumbs
-                - error: Error message if data fetching fails
-                
-        Example:
-            >>> context = HomeService.get_home_context()
-            >>> len(context['featured_testimonials'])
-            3
+            Dictionary containing content for the homepage sections.
         """
+        from .constants import CACHE_TIMEOUT_HOMEPAGE
+        
         cache_key = f'homepage_data_{is_staff}'
         cached_data = cache.get(cache_key)
 
         if cached_data and not is_staff:
-            # Always fetch popup notice fresh (not from cache) to ensure active status is current
-            try:
-                from apps.news_events.models import PopupNotice, Notice
-                now = timezone.now()
-                
-                # First check PopupNotice
-                active_popup_notices = PopupNotice.objects.filter(
-                    is_active=True,
-                    start_date__lte=now
-                ).filter(
-                    Q(end_date__isnull=True) | Q(end_date__gte=now)
-                ).order_by('-priority', '-start_date')
-                
-                popup_notice = active_popup_notices.first() if active_popup_notices.exists() else None
-                
-                # If no PopupNotice, check regular Notice
-                if not popup_notice:
-                    active_regular_notices = Notice.objects.filter(
-                        is_active=True,
-                        show_as_popup=True
-                    ).order_by('-is_pinned', '-published_date')
-                    
-                    if active_regular_notices.exists():
-                        regular_notice = active_regular_notices.first()
-                        class NoticeAsPopup:
-                            def __init__(self, notice):
-                                self.title = notice.title
-                                self.description = notice.content
-                                self.image = None
-                                self.image_alt = ""
-                                self.link_url = f"/news-events/notices/{notice.slug}/"
-                                # Use translatable text instead of hardcoded
-                                from django.utils.translation import gettext_lazy as _
-                                self.link_text = str(_("पूरै सूचना हेर्नुहोस्"))
-                                self.open_in_new_tab = False
-                                self.is_active = notice.is_active
-                                self.auto_close_duration = None  # Regular notices don't have auto-close by default
-                        
-                        popup_notice = NoticeAsPopup(regular_notice)
-                
-                cached_data['popup_notice'] = popup_notice
-            except Exception as e:
-                logger.warning(f"Error fetching fresh popup notice: {e}")
-                cached_data['popup_notice'] = None
-            
+            # Always fetch popup notice fresh (not from cache)
+            cached_data['popup_notice'] = HomeService._get_popup_notice()
             return cached_data
 
         try:
-            # 1. Page Content - Get all published content blocks for hero slider
-            homepage_contents = list(HomePageContent.objects.filter(
-                status=HomePageContent.Status.PUBLISHED
-            ).order_by('order'))
-            # Keep first one as main content for backward compatibility
-            content = homepage_contents[0] if homepage_contents else None
-
-            # 2. Featured Testimonials
-            testimonials = list(Testimonial.objects.filter(
-                is_featured=True, status=Testimonial.Status.PUBLISHED
-            ).order_by('order')[:3])
-
-            # 3. Statistics - Use CooperativeStatistic from about app
-            stats = []
-            try:
-                from apps.about.models import CooperativeStatistic
-                stats = list(CooperativeStatistic.objects.filter(
-                    is_featured=True, is_active=True
-                ).order_by('order')[:4])
-            except ImportError:
-                logger.warning("About app not available, using home app statistics")
-                # Fallback to home app statistics
-                stats = list(Statistic.objects.filter(
-                    is_featured=True, status=Statistic.Status.PUBLISHED
-                ).order_by('order')[:4])
-
-            # 4. Announcements (Published & Not Expired)
-            announcements = list(Announcement.objects.filter(
-                is_featured=True, status=Announcement.Status.PUBLISHED
-            ).exclude(
-                Q(expiry_date__isnull=False) & Q(expiry_date__lt=timezone.now())
-            ).order_by('-priority', '-publish_date')[:3])
-            
-            # 4b. Add Notices to announcements section
-            try:
-                from apps.news_events.models import Notice
-                # Get pinned and active notices (limit to 3 more to fill up to 6 total)
-                notices = list(Notice.objects.filter(
-                    is_active=True,
-                    is_pinned=True  # Only show pinned notices in announcements
-                ).order_by('-published_date')[:3])
-                
-                # Combine announcements and notices, sorted by date
-                all_announcements = announcements + notices
-                # Sort by date (most recent first)
-                all_announcements.sort(key=lambda x: x.published_date if hasattr(x, 'published_date') else x.publish_date, reverse=True)
-                # Limit to 6 total items
-                announcements = all_announcements[:6]
-            except ImportError:
-                logger.warning("News Events app not available, notices not added to announcements")
-            except Exception as e:
-                logger.error(f"Error fetching notices for announcements: {e}")
-
-            # 5. Popup Notice - Get highest priority active notice
-            # Check both PopupNotice and regular Notice models
-            popup_notice = None
-            try:
-                from apps.news_events.models import PopupNotice, Notice
-                now = timezone.now()
-                
-                # First, check PopupNotice (higher priority)
-                active_popup_notices = PopupNotice.objects.filter(
-                    is_active=True,  # Must be active
-                    start_date__lte=now  # Must have started
-                ).filter(
-                    Q(end_date__isnull=True) | Q(end_date__gte=now)  # Either no end date OR not expired
-                ).order_by('-priority', '-start_date')
-                
-                popup_notice = active_popup_notices.first() if active_popup_notices.exists() else None
-                
-                # If no PopupNotice, check regular Notice with show_as_popup=True
-                if not popup_notice:
-                    active_regular_notices = Notice.objects.filter(
-                        is_active=True,
-                        show_as_popup=True
-                    ).order_by('-is_pinned', '-published_date')
-                    
-                    if active_regular_notices.exists():
-                        # Convert regular Notice to popup-compatible format
-                        regular_notice = active_regular_notices.first()
-                        # Create a simple object that mimics PopupNotice structure
-                        class NoticeAsPopup:
-                            def __init__(self, notice):
-                                self.title = notice.title
-                                self.description = notice.content
-                                self.image = None  # Regular notices don't have image field
-                                self.image_alt = ""
-                                self.link_url = f"/news-events/notices/{notice.slug}/"
-                                # Use translatable text
-                                from django.utils.translation import gettext_lazy as _
-                                self.link_text = str(_("पूरै सूचना हेर्नुहोस्"))
-                                self.open_in_new_tab = False
-                                self.notice_type = notice.get_notice_type_display()
-                                self.is_active = notice.is_active
-                                self.auto_close_duration = None  # Regular notices don't have auto-close by default
-                        
-                        popup_notice = NoticeAsPopup(regular_notice)
-                
-                # Debug logging (only in debug mode)
-                if settings.DEBUG and popup_notice:
-                    logger.debug(f"Popup notice found: {popup_notice.title} (Active: {popup_notice.is_active})")
-            except ImportError:
-                logger.warning("News Events app not available, popup notice not loaded")
-            except Exception as e:
-                logger.error(f"Error fetching popup notice: {e}")
-                popup_notice = None
-
-            # 6. Services - Get from services app
-            featured_services_list = []
-            try:
-                from apps.services.models import SavingsAccount, LoanType, FixedDeposit
-            except ImportError:
-                logger.warning("Services app not available, skipping featured services")
-                SavingsAccount = LoanType = FixedDeposit = None
-            
-            if SavingsAccount and LoanType and FixedDeposit:
-                # Get featured services from different service types
-                
-                # Get featured savings accounts (max 1)
-                featured_savings = SavingsAccount.objects.filter(
-                    is_featured=True, is_active=True
-                ).order_by('-interest_rate')[:1]
-                for savings in featured_savings:
-                    featured_services_list.append({
-                        'title': savings.english_name,
-                        'description': savings.description or f"Interest rate: {savings.interest_rate}%",
-                        'icon': savings.icon or 'fas fa-piggy-bank',
-                        'interest_rate': f"Up to {savings.interest_rate}%",
-                        'link_url': savings.get_absolute_url(),
-                        'link_text': 'View Details',
-                        'color': savings.color or 'deuraligreen'
-                    })
-                
-                # Get featured loan types (max 1)
-                featured_loans = LoanType.objects.filter(
-                    is_featured=True, is_active=True
-                ).order_by('english_name')[:1]
-                for loan in featured_loans:
-                    interest_display = f"{loan.annual_interest_rate}%" if loan.annual_interest_rate else "Contact us"
-                    featured_services_list.append({
-                        'title': loan.english_name,
-                        'description': loan.description or "Flexible loan options for your needs",
-                        'icon': loan.icon or 'fas fa-hand-holding-usd',
-                        'interest_rate': f"From {interest_display}",
-                        'link_url': loan.get_absolute_url(),
-                        'link_text': 'Explore Options',
-                        'color': loan.color or 'bhanjyangred'
-                    })
-                
-                # Get featured fixed deposits (max 1) - get the highest rate
-                featured_fd = FixedDeposit.objects.filter(
-                    is_active=True
-                ).order_by('-interest_rate')[:1]
-                for fd in featured_fd:
-                    featured_services_list.append({
-                        'title': f"Fixed Deposit ({fd.get_duration_months_display()})",
-                        'description': f"Secure your future with fixed deposits",
-                        'icon': 'fas fa-comments-dollar',
-                        'interest_rate': f"Up to {fd.interest_rate}%",
-                        'link_url': reverse('services:fixed_deposit_list'),
-                        'link_text': 'View Deposit Rates',
-                        'color': 'purple'
-                    })
-            
-            # Limit to 3 services total
-            services = featured_services_list[:3]
-
-            # 6. Gallery (Featured)
-            gallery_images = []
-            try:
-                gallery_images = list(GalleryImage.objects.filter(
-                    is_featured=True, is_active=True
-                ).order_by('order')[:6])
-            except Exception as e:
-                logger.warning(f"Error fetching gallery images: {e}")
-
+            # Fetch all data components
             context = {
-                'homepage_content': content,
-                'homepage_contents': homepage_contents,  # All content blocks for hero slider
-                'featured_testimonials': testimonials,
-                'featured_statistics': stats,
-                'featured_announcements': announcements,
-                'popup_notice': popup_notice,  # Popup notice for home page modal
-                'featured_services': services,
-                'featured_gallery': gallery_images,
+                'homepage_content': HomeService._get_homepage_content(),
+                'homepage_contents': HomeService._get_all_homepage_contents(),
+                'featured_testimonials': HomeService._get_featured_testimonials(),
+                'featured_statistics': HomeService._get_featured_statistics(),
+                'featured_announcements': HomeService._get_featured_announcements(),
+                'popup_notice': HomeService._get_popup_notice(),
+                'featured_services': HomeService._get_featured_services(),
+                'featured_gallery': HomeService._get_featured_gallery(),
                 'breadcrumbs': [{'name': 'Home', 'url': '/'}]
             }
 
             # Cache for 5 minutes if not staff
-            # Note: popup_notice is always fetched fresh, not from cache
             if not is_staff:
                 try:
-                    cache.set(cache_key, context, 300)
+                    cache.set(cache_key, context, CACHE_TIMEOUT_HOMEPAGE)
                 except Exception as e:
                     logger.warning(f"Failed to cache homepage data: {e}")
             
@@ -301,17 +71,244 @@ class HomeService:
 
         except Exception as e:
             logger.error(f"Error fetching homepage data: {e}", exc_info=True)
-            return {
-                'homepage_content': None,
-                'featured_testimonials': [],
-                'featured_statistics': [],
-                'featured_announcements': [],
-                'notices': [],
-                'featured_services': [],
-                'featured_gallery': [],
-                'error': "Unable to load content."
-            }
-    
+            return HomeService._get_error_context(str(e))
+
+    # =========================================================================
+    # Helper Methods for Data Fetching
+    # =========================================================================
+
+    @staticmethod
+    def _get_homepage_content():
+        """Get the main homepage content block"""
+        try:
+            homepage_contents = HomeService._get_all_homepage_contents()
+            return homepage_contents[0] if homepage_contents else None
+        except Exception as e:
+            logger.warning(f"Error fetching homepage content: {e}")
+            return None
+
+    @staticmethod
+    def _get_all_homepage_contents():
+        """Get all published homepage content blocks"""
+        try:
+            return list(HomePageContent.objects.filter(
+                status=HomePageContent.Status.PUBLISHED
+            ).select_related('published_by').order_by('order'))
+        except Exception as e:
+            logger.warning(f"Error fetching all homepage contents: {e}")
+            return []
+
+    @staticmethod
+    def _get_featured_testimonials():
+        """Get featured testimonials"""
+        from .constants import LIMIT_TESTIMONIALS
+        
+        try:
+            return list(Testimonial.objects.filter(
+                is_featured=True, status=Testimonial.Status.PUBLISHED
+            ).select_related('published_by').order_by('order')[:LIMIT_TESTIMONIALS])
+        except Exception as e:
+            logger.warning(f"Error fetching testimonials: {e}")
+            return []
+
+    @staticmethod
+    def _get_featured_statistics():
+        """Get featured statistics (preferring About app)"""
+        from .constants import LIMIT_STATISTICS
+        
+        # Try About app first
+        try:
+            from apps.about.models import CooperativeStatistic
+            return list(CooperativeStatistic.objects.filter(
+                is_featured=True, is_active=True
+            ).order_by('order')[:LIMIT_STATISTICS])
+        except (ImportError, Exception):
+            # Fallback to Home app
+            try:
+                logger.warning("Using fallback statistics from home app")
+                return list(Statistic.objects.filter(
+                    is_featured=True, status=Statistic.Status.PUBLISHED
+                ).select_related('published_by').order_by('order')[:LIMIT_STATISTICS])
+            except Exception as e:
+                logger.error(f"Error fetching statistics: {e}")
+                return []
+
+    @staticmethod
+    def _get_featured_announcements():
+        """Get featured announcements and notices"""
+        from .constants import LIMIT_ANNOUNCEMENTS, LIMIT_NOTICES, LIMIT_ANNOUNCEMENTS_TOTAL
+        
+        try:
+            # 1. Get Announcements
+            announcements = list(Announcement.objects.filter(
+                is_featured=True, status=Announcement.Status.PUBLISHED
+            ).select_related('published_by').exclude(
+                Q(expiry_date__isnull=False) & Q(expiry_date__lt=timezone.now())
+            ).order_by('-priority', '-publish_date')[:LIMIT_ANNOUNCEMENTS])
+            
+            # 2. Get Notices (if available)
+            try:
+                from apps.news_events.models import Notice
+                notices = list(Notice.objects.filter(
+                    is_active=True,
+                    is_pinned=True
+                ).order_by('-published_date')[:LIMIT_NOTICES])
+                
+                # Combine
+                all_items = announcements + notices
+                # Sort by date
+                all_items.sort(key=lambda x: getattr(x, 'published_date', getattr(x, 'publish_date', None)), reverse=True)
+                return all_items[:LIMIT_ANNOUNCEMENTS_TOTAL]
+                
+            except ImportError:
+                return announcements[:LIMIT_ANNOUNCEMENTS_TOTAL]
+                
+        except Exception as e:
+            logger.error(f"Error fetching announcements: {e}")
+            return []
+
+    @staticmethod
+    def _get_popup_notice():
+        """Get the most relevant active popup notice"""
+        try:
+            from apps.news_events.models import PopupNotice, Notice
+            now = timezone.now()
+            
+            # 1. Check dedicated PopupNotice (Highest Priority)
+            popup = PopupNotice.objects.filter(
+                is_active=True,
+                start_date__lte=now
+            ).filter(
+                Q(end_date__isnull=True) | Q(end_date__gte=now)
+            ).order_by('-priority', '-start_date').first()
+            
+            if popup:
+                return popup
+                
+            # 2. Check regular Notice with show_as_popup=True
+            regular_notice = Notice.objects.filter(
+                is_active=True,
+                show_as_popup=True
+            ).order_by('-is_pinned', '-published_date').first()
+            
+            if regular_notice:
+                return HomeService._wrap_notice_as_popup(regular_notice)
+                
+            return None
+            
+        except (ImportError, Exception) as e:
+            if isinstance(e, ImportError):
+                logger.debug("News app not available for popup notices")
+            else:
+                logger.warning(f"Error fetching popup notice: {e}")
+            return None
+
+    @staticmethod
+    def _wrap_notice_as_popup(notice):
+        """Wrap a regular Notice to look like a PopupNotice"""
+        from django.utils.translation import gettext_lazy as _
+        
+        class NoticeAsPopup:
+            def __init__(self, n):
+                self.title = n.title
+                self.description = n.content
+                self.image = None
+                self.image_alt = ""
+                self.link_url = f"/news-events/notices/{n.slug}/"
+                self.link_text = str(_("पूरै सूचना हेर्नुहोस्"))
+                self.open_in_new_tab = False
+                self.is_active = n.is_active
+                self.auto_close_duration = None
+                
+        return NoticeAsPopup(notice)
+
+    @staticmethod
+    def _get_featured_services():
+        """Get featured services from Services app"""
+        from .constants import LIMIT_SERVICES, DEFAULT_SERVICE_COLOR, DEFAULT_LOAN_COLOR, DEFAULT_FD_COLOR
+        services_list = []
+        
+        try:
+            from apps.services.models import SavingsAccount, LoanType, FixedDeposit
+            
+            # 1. Savings
+            savings = SavingsAccount.objects.filter(
+                is_featured=True, is_active=True
+            ).order_by('-interest_rate').first()
+            
+            if savings:
+                services_list.append({
+                    'title': savings.english_name,
+                    'description': savings.description or f"Interest rate: {savings.interest_rate}%",
+                    'icon': savings.icon or 'fas fa-piggy-bank',
+                    'interest_rate': f"Up to {savings.interest_rate}%",
+                    'link_url': savings.get_absolute_url(),
+                    'link_text': 'View Details',
+                    'color': savings.color or DEFAULT_SERVICE_COLOR
+                })
+                
+            # 2. Loans
+            loan = LoanType.objects.filter(
+                is_featured=True, is_active=True
+            ).order_by('english_name').first()
+            
+            if loan:
+                rate_text = f"{loan.annual_interest_rate}%" if loan.annual_interest_rate else "Contact us"
+                services_list.append({
+                    'title': loan.english_name,
+                    'description': loan.description or "Flexible loan options",
+                    'icon': loan.icon or 'fas fa-hand-holding-usd',
+                    'interest_rate': f"From {rate_text}",
+                    'link_url': loan.get_absolute_url(),
+                    'link_text': 'Explore Options',
+                    'color': loan.color or DEFAULT_LOAN_COLOR
+                })
+                
+            # 3. Fixed Deposit
+            fd = FixedDeposit.objects.filter(
+                is_active=True
+            ).order_by('-interest_rate').first()
+            
+            if fd:
+                services_list.append({
+                    'title': f"Fixed Deposit ({fd.get_duration_months_display()})",
+                    'description': "Secure your future with fixed deposits",
+                    'icon': 'fas fa-comments-dollar',
+                    'interest_rate': f"Up to {fd.interest_rate}%",
+                    'link_url': reverse('services:fixed_deposit_list'),
+                    'link_text': 'View Rates',
+                    'color': DEFAULT_FD_COLOR
+                })
+                
+            return services_list[:LIMIT_SERVICES]
+            
+        except (ImportError, Exception):
+            logger.warning("Services app not available or error fetching services")
+            return []
+
+    @staticmethod
+    def _get_featured_gallery():
+        """Get featured gallery images"""
+        from .constants import LIMIT_GALLERY
+        try:
+            return list(GalleryImage.objects.filter(
+                is_featured=True, is_active=True
+            ).order_by('order')[:LIMIT_GALLERY])
+        except Exception:
+            return []
+
+    @staticmethod
+    def _get_error_context(error_msg):
+        """Return safe error context"""
+        return {
+            'homepage_content': None,
+            'featured_testimonials': [],
+            'featured_statistics': [],
+            'featured_announcements': [],
+            'featured_services': [],
+            'featured_gallery': [],
+            'error': "Unable to load content."
+        }    
     @staticmethod
     def get_content_stats():
         """Get statistics about content status"""

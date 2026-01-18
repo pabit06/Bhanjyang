@@ -1,117 +1,100 @@
 {% load static %}
-<!-- Loading Animation Component -->
-<div id="loading-overlay" class="fixed inset-0 z-50 bg-white bg-opacity-90 flex items-center justify-center transition-opacity duration-300">
-    <div class="text-center">
-        <!-- Spinning Logo -->
-        <div class="mb-4">
-            <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative" class="w-16 h-16 mx-auto animate-spin" loading="eager">
-        </div>
-        
-        <!-- Loading Text -->
-        <h3 class="text-xl font-semibold text-deuraligreen mb-2">Loading...</h3>
-        <p class="text-gray-600">Please wait while we prepare your experience</p>
-        
-        <!-- Progress Bar -->
-        <div class="w-64 bg-gray-200 rounded-full h-2 mt-4 overflow-hidden">
-            <div class="bg-deuraligreen h-2 rounded-full animate-progress"></div>
-        </div>
-        
-        <!-- Loading Dots -->
-        <div class="flex justify-center mt-4 space-x-2">
-            <div class="w-2 h-2 bg-deuraligreen rounded-full animate-pulse"></div>
-            <div class="w-2 h-2 bg-deuraligreen rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
-            <div class="w-2 h-2 bg-deuraligreen rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
-        </div>
+<!-- Premium Loading Overlay -->
+<div id="loading-overlay" class="fixed inset-0 z-[9999] flex items-center justify-center bg-white transition-all duration-700 ease-in-out">
+    <!-- Background Decor -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <div class="absolute inset-0 bg-repeat bg-center" style="background-image: url('{% static 'images/backgrounds/pattern-light.png' %}'); background-size: 400px;"></div>
     </div>
-</div>
-
-<!-- Skeleton Loading Component -->
-<div class="skeleton-loading hidden">
-    <div class="animate-pulse">
-        <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-        <div class="h-4 bg-gray-200 rounded w-1/2 mb-4"></div>
-        <div class="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
-        <div class="h-4 bg-gray-200 rounded w-2/3"></div>
-    </div>
-</div>
-
-<!-- Card Skeleton -->
-<div class="card-skeleton hidden">
-    <div class="bg-white rounded-lg shadow-md p-6 animate-pulse">
-        <div class="flex items-center space-x-4">
-            <div class="rounded-full bg-gray-200 h-12 w-12"></div>
-            <div class="flex-1 space-y-2">
-                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
-                <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+    
+    <div class="relative z-10 text-center animate-fade-in">
+        <!-- Pulse Logo -->
+        <div class="relative mb-8">
+            <div class="absolute inset-0 bg-deuraligreen/20 rounded-full blur-2xl animate-pulse scale-150"></div>
+            <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative" class="w-24 h-24 mx-auto relative z-10 hover:scale-110 transition-transform duration-500" loading="eager">
+        </div>
+        
+        <!-- Loading Text with Character Animation -->
+        <div class="space-y-4">
+            <h3 class="text-2xl font-bold text-gray-800 font-montserrat tracking-tight overflow-hidden">
+                <span class="inline-block animate-slide-in-up">BHANJYANG</span>
+            </h3>
+            <div class="flex items-center justify-center space-x-2">
+                <div class="w-1.5 h-1.5 bg-deuraligreen rounded-full animate-bounce"></div>
+                <div class="w-1.5 h-1.5 bg-deuraligreen rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                <div class="w-1.5 h-1.5 bg-deuraligreen rounded-full animate-bounce [animation-delay:0.4s]"></div>
             </div>
         </div>
+        
+        <!-- Subtle Progress Line -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 w-48 h-0.5 bg-gray-100 rounded-full overflow-hidden">
+            <div id="loading-bar" class="h-full bg-gradient-to-r from-deuraligreen to-bhanjyangred transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
     </div>
 </div>
 
-<!-- Image Skeleton -->
-<div class="image-skeleton hidden">
-    <div class="bg-gray-200 rounded-lg animate-pulse" style="height: 200px;"></div>
-</div>
+<style>
+    #loading-overlay.hidden-overlay {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(-20px);
+    }
+    
+    .animate-slide-in-up {
+        animation: slideInUpLoading 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    @keyframes slideInUpLoading {
+        0% { transform: translateY(100%); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+    
+    .shadow-glow {
+        box-shadow: 0 0 20px rgba(39, 174, 96, 0.3);
+    }
+</style>
 
 <script>
-// Loading functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const loadingOverlay = document.getElementById('loading-overlay');
-    
-    // Hide loading overlay after page loads
-    setTimeout(() => {
-        if (loadingOverlay) {
-            loadingOverlay.style.opacity = '0';
+    (function() {
+        const overlay = document.getElementById('loading-overlay');
+        const bar = document.getElementById('loading-bar');
+        if (!overlay) return;
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.random() * 30;
+            if (progress > 90) progress = 90;
+            if (bar) bar.style.width = progress + '%';
+        }, 200);
+        
+        window.addEventListener('load', () => {
+            clearInterval(interval);
+            if (bar) bar.style.width = '100%';
+            
             setTimeout(() => {
-                loadingOverlay.style.display = 'none';
-            }, 300);
-        }
-    }, 1500);
-    
-    // Show loading for navigation
-    document.addEventListener('click', function(e) {
-        if (e.target.tagName === 'A' && e.target.href && !e.target.href.includes('#')) {
-            loadingOverlay.style.display = 'flex';
-            loadingOverlay.style.opacity = '1';
-        }
-    });
-});
-
-// Show skeleton loading
-function showSkeleton(container, type = 'default') {
-    const skeleton = document.querySelector(`.${type}-skeleton`);
-    if (skeleton && container) {
-        const clone = skeleton.cloneNode(true);
-        clone.classList.remove('hidden');
-        container.appendChild(clone);
-    }
-}
-
-// Hide skeleton loading
-function hideSkeleton(container) {
-    const skeletons = container.querySelectorAll('[class*="skeleton"]');
-    skeletons.forEach(skeleton => {
-        skeleton.remove();
-    });
-}
-
-// Show loading overlay
-function showLoading() {
-    const loadingOverlay = document.getElementById('loading-overlay');
-    if (loadingOverlay) {
-        loadingOverlay.style.display = 'flex';
-        loadingOverlay.style.opacity = '1';
-    }
-}
-
-// Hide loading overlay
-function hideLoading() {
-    const loadingOverlay = document.getElementById('loading-overlay');
-    if (loadingOverlay) {
-        loadingOverlay.style.opacity = '0';
+                overlay.classList.add('hidden-overlay');
+                // Allow scrolling again
+                document.body.style.overflow = '';
+                
+                // Completely remove from DOM after transition to be safe
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 800);
+            }, 400); // Reduced delay for snappier feel
+        });
+        
+        // Safety timeout - hide anyway after 2.5 seconds to prevent being "stuck"
         setTimeout(() => {
-            loadingOverlay.style.display = 'none';
-        }, 300);
-    }
-}
+            if (!overlay.classList.contains('hidden-overlay')) {
+                overlay.classList.add('hidden-overlay');
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 800);
+            }
+        }, 2500);
+        
+        // Prevent scroll while loading
+        document.body.style.overflow = 'hidden';
+    })();
 </script>

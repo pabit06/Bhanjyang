@@ -25,6 +25,7 @@ class Command(BaseCommand):
             values="Integrity, Transparency, Community Focus, Financial Inclusion, Sustainable Growth, Member Empowerment",
             description="Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski. We believe in strengthening the local economy by empowering individuals and businesses through savings, credit, and expert financial guidance.",
             description_nepali="भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लिमिटेड रुपा गाउँपालिका, कास्कीमा विश्वसनीय वित्तीय सेवाहरू मार्फत आर्थिक वृद्धि र समुदाय विकासलाई बढावा दिन समर्पित छ।",
+            status=CooperativeInfo.Status.PUBLISHED,
             is_active=True
         )
         
@@ -65,6 +66,7 @@ class Command(BaseCommand):
                 event_date=event_data['event_date'],
                 event_type=event_data['event_type'],
                 is_featured=True,
+                status=CooperativeTimeline.Status.PUBLISHED,
                 is_active=True
             )
             self.stdout.write(self.style.SUCCESS(f'Created timeline event: {event.title}'))
@@ -116,6 +118,7 @@ class Command(BaseCommand):
                 icon=stat_data['icon'],
                 color=stat_data['color'],
                 is_featured=True,
+                status=CooperativeStatistic.Status.PUBLISHED,
                 is_active=True
             )
             self.stdout.write(self.style.SUCCESS(f'Created statistic: {stat.title}'))
@@ -149,6 +152,7 @@ class Command(BaseCommand):
                 affiliation_type=affiliation_data['affiliation_type'],
                 website=affiliation_data['website'],
                 is_featured=True,
+                status=CooperativeAffiliation.Status.PUBLISHED,
                 is_active=True
             )
             self.stdout.write(self.style.SUCCESS(f'Created affiliation: {affiliation.name}'))
@@ -179,6 +183,7 @@ class Command(BaseCommand):
                 author_name=message_data['author_name'],
                 author_position=message_data['author_position'],
                 is_featured=True,
+                status=LeadershipMessage.Status.PUBLISHED,
                 is_active=True
             )
             self.stdout.write(self.style.SUCCESS(f'Created leadership message: {message.title}'))

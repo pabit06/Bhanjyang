@@ -54,6 +54,11 @@ class HomePageContent(TimeStampedModel):
         ordering = ['order', '-created_at']
         verbose_name = _("Home Page Content")
         verbose_name_plural = _("Home Page Contents")
+        indexes = [
+            models.Index(fields=['status', 'order'], name='home_status_order_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='home_status_sched_idx'),
+            models.Index(fields=['status', 'published_date'], name='home_status_pub_idx'),
+        ]
     
     def __str__(self):
         return self.title
@@ -97,6 +102,10 @@ class Testimonial(TimeStampedModel):
         ordering = ['order', '-created_at']
         verbose_name = _("Testimonial")
         verbose_name_plural = _("Testimonials")
+        indexes = [
+            models.Index(fields=['status', 'is_featured', 'order'], name='test_status_feat_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='test_status_sched_idx'),
+        ]
     
     def __str__(self):
         return f"{self.name} - {self.content[:50]}..."
@@ -122,9 +131,16 @@ class Testimonial(TimeStampedModel):
         return self.status == self.Status.SCHEDULED and self.scheduled_date and self.scheduled_date > timezone.now()
     
     def get_preview_url(self):
-        """Get preview URL for this testimonial"""
+        """Get preview URL for this testimonial with token for security"""
         from django.urls import reverse
-        return reverse('home:preview_content', kwargs={'model_name': 'testimonial', 'pk': self.pk})
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('home:preview_content', kwargs={
+            'model_name': 'testimonial',
+            'pk': self.pk,
+            'token': token
+        })
 
 
 @reversion.register()
@@ -153,6 +169,10 @@ class Statistic(TimeStampedModel):
         ordering = ['order', '-created_at']
         verbose_name = _("Statistic")
         verbose_name_plural = _("Statistics")
+        indexes = [
+            models.Index(fields=['status', 'is_featured', 'order'], name='stat_status_feat_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='stat_status_sched_idx'),
+        ]
     
     def __str__(self):
         return f"{self.title}: {self.value}"
@@ -178,9 +198,16 @@ class Statistic(TimeStampedModel):
         return self.status == self.Status.SCHEDULED and self.scheduled_date and self.scheduled_date > timezone.now()
     
     def get_preview_url(self):
-        """Get preview URL for this statistic"""
+        """Get preview URL for this statistic with token for security"""
         from django.urls import reverse
-        return reverse('home:preview_content', kwargs={'model_name': 'statistic', 'pk': self.pk})
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('home:preview_content', kwargs={
+            'model_name': 'statistic',
+            'pk': self.pk,
+            'token': token
+        })
 
 
 @reversion.register()
@@ -227,11 +254,17 @@ class Announcement(TimeStampedModel):
     published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Published Date"), help_text=_("Date when this announcement was actually published"))
     published_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=SET_NULL, blank=True, null=True, related_name='published_announcements', verbose_name=_("Published By"), help_text=_("User who published this announcement"))
     expiry_date = models.DateTimeField(blank=True, null=True, help_text=_("When to stop showing"))
+    auto_expire = models.BooleanField(default=False, verbose_name=_("Auto Expire"), help_text=_("Automatically archive this announcement when expiry_date is reached"))
     
     class Meta:
         ordering = ['-priority', '-publish_date']
         verbose_name = _("Announcement")
         verbose_name_plural = _("Announcements")
+        indexes = [
+            models.Index(fields=['status', 'is_featured', '-priority'], name='ann_status_feat_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='ann_status_sched_idx'),
+            models.Index(fields=['status', 'expiry_date'], name='ann_status_expiry_idx'),
+        ]
     
     def __str__(self):
         return self.title
@@ -263,9 +296,16 @@ class Announcement(TimeStampedModel):
         super().save(*args, **kwargs)
     
     def get_preview_url(self):
-        """Get preview URL for this announcement"""
+        """Get preview URL for this announcement with token for security"""
         from django.urls import reverse
-        return reverse('home:preview_content', kwargs={'model_name': 'announcement', 'pk': self.pk})
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('home:preview_content', kwargs={
+            'model_name': 'announcement',
+            'pk': self.pk,
+            'token': token
+        })
 
 
 

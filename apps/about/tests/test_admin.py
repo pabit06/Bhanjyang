@@ -56,19 +56,20 @@ class CooperativeInfoAdminTest(AboutAdminTestCase):
             license_number='456',
             address='Kathmandu',
             phone='9800000000',
-            email='info@example.com'
+            email='info@example.com',
+            status='PB'
         )
     
     def test_list_display(self):
         """Test list display fields"""
         self.assertIn('cooperative_name', self.admin.list_display)
-        self.assertIn('is_active', self.admin.list_display)
+        self.assertIn('status', self.admin.list_display)
         self.assertIn('created_at', self.admin.list_display)
     
     def test_list_filter(self):
         """Test list filters"""
         # list_filter contains class references, not instances
-        self.assertIn(ActiveFilter, self.admin.list_filter)
+        self.assertIn('status', self.admin.list_filter)
     
     def test_search_fields(self):
         """Test search fields"""
@@ -81,8 +82,8 @@ class CooperativeInfoAdminTest(AboutAdminTestCase):
         self.assertIsNotNone(result)
         self.assertIn('View on Site', result)
     
-    def test_activate_selected_action(self):
-        """Test activate selected action"""
+    def test_publish_selected_action(self):
+        """Test publish selected action"""
         coop = CooperativeInfo.objects.create(
             cooperative_name="Inactive Coop",
             is_active=False,
@@ -91,19 +92,22 @@ class CooperativeInfoAdminTest(AboutAdminTestCase):
             license_number='456',
             address='Kathmandu',
             phone='9800000000',
-            email='info@example.com'
+            email='info@example.com',
+            status='DF'
         )
         queryset = CooperativeInfo.objects.filter(id=coop.id)
-        self.admin.activate_selected(self.request, queryset)
+        self.admin.publish_selected(self.request, queryset)
         coop.refresh_from_db()
         self.assertTrue(coop.is_active)
+        self.assertEqual(coop.status, 'PB')
     
-    def test_deactivate_selected_action(self):
-        """Test deactivate selected action"""
+    def test_archive_selected_action(self):
+        """Test archive selected action"""
         queryset = CooperativeInfo.objects.filter(id=self.cooperative.id)
-        self.admin.deactivate_selected(self.request, queryset)
+        self.admin.archive_selected(self.request, queryset)
         self.cooperative.refresh_from_db()
         self.assertFalse(self.cooperative.is_active)
+        self.assertEqual(self.cooperative.status, 'AR')
     
     def test_get_queryset(self):
         """Test queryset optimization"""
@@ -131,7 +135,8 @@ class CooperativeTimelineAdminTest(AboutAdminTestCase):
             description="Test description",
             event_date=timezone.now().date(),
             is_active=True,
-            is_featured=False
+            is_featured=False,
+            status='PB'
         )
     
     def test_list_display(self):
@@ -183,7 +188,8 @@ class ActiveFilterTest(AboutAdminTestCase):
             license_number='456',
             address='Kathmandu',
             phone='9800000000',
-            email='info@example.com'
+            email='info@example.com',
+            status='PB'
         )
         CooperativeInfo.objects.create(
             cooperative_name="Inactive",
@@ -193,7 +199,8 @@ class ActiveFilterTest(AboutAdminTestCase):
             license_number='456',
             address='Kathmandu',
             phone='9800000000',
-            email='info@example.com'
+            email='info@example.com',
+            status='DF'
         )
     
     def test_lookups(self):
@@ -233,13 +240,17 @@ class FeaturedFilterTest(AboutAdminTestCase):
             title="Featured",
             description="Test description",
             event_date=timezone.now().date(),
-            is_featured=True
+            is_featured=True,
+            status='PB',
+            is_active=True
         )
         CooperativeTimeline.objects.create(
             title="Not Featured",
             description="Test description",
             event_date=timezone.now().date(),
-            is_featured=False
+            is_featured=False,
+            status='PB',
+            is_active=True
         )
     
     def test_lookups(self):
@@ -311,7 +322,8 @@ class LeadershipMessageAdminTest(AboutAdminTestCase):
             title="Test Message",
             content="Test content",
             author_name="Test Author",
-            is_active=True
+            is_active=True,
+            status='PB'
         )
     
     def test_list_display(self):
@@ -333,7 +345,8 @@ class CooperativeStatisticAdminTest(AboutAdminTestCase):
         self.statistic = CooperativeStatistic.objects.create(
             title="Test Stat",
             value=100,
-            is_active=True
+            is_active=True,
+            status='PB'
         )
     
     def test_list_display(self):
@@ -351,7 +364,8 @@ class CooperativeAffiliationAdminTest(AboutAdminTestCase):
         self.admin = CooperativeAffiliationAdmin(CooperativeAffiliation, self.site)
         self.affiliation = CooperativeAffiliation.objects.create(
             name="Test Affiliation",
-            is_active=True
+            is_active=True,
+            status='PB'
         )
     
     def test_list_display(self):

@@ -55,27 +55,30 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
-            {% trans "Operations" %}
-        </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
-            {% trans "Management Team" %}
-        </h1>
-        <div class="w-24 h-1 bg-bhanjyangred mx-auto rounded-full mb-6 shadow-lg"></div>
-        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            {% trans "Professional staff members who handle day-to-day operations and member services" %}
-        </p>
+        <div class="max-w-4xl mx-auto glass-panel p-8 md:p-12 rounded-3xl border border-white/20 shadow-2xl overflow-hidden relative">
+            <!-- Subtle Glow -->
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-deuraligreen/20 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-bhanjyangred/20 rounded-full blur-3xl"></div>
+
+            <span class="inline-block text-white bg-white/10 backdrop-blur-md font-semibold uppercase text-sm mb-6 tracking-wider px-6 py-2 rounded-full border border-white/20">
+                {% trans "Operations" %}
+            </span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 text-white leading-tight">
+                {% trans "Management Team" %}
+            </h1>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-deuraligreen to-bhanjyangred mx-auto rounded-full mb-8 shadow-glow"></div>
+            <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
+                {% trans "Professional staff members who handle day-to-day operations and member services" %}
+            </p>
+        </div>
     </div>
 </section>
 
 <!-- Management Team Section -->
 {% if management_team %}
 <section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
-    </div>
+    <!-- Dhaka Pattern Background -->
+    <div class="absolute inset-0 opacity-[0.04] bg-pattern-dhaka"></div>
     
     <!-- Decorative Elements -->
     <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
@@ -84,25 +87,26 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for staff_member in management_team %}
-            <div class="group relative bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred">
-                <div class="relative w-32 h-32 mx-auto mb-4">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-bhanjyangred to-red-600 rounded-full opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
-                    <img class="relative rounded-full w-full h-full object-cover ring-4 ring-bhanjyangred/20 group-hover:ring-bhanjyangred transition-all duration-300 shadow-lg" 
+            <div class="premium-card group relative p-8 rounded-3xl shadow-xl transition-all duration-300 transform hover:-translate-y-3">
+                <div class="relative w-32 h-32 mx-auto mb-6">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-bhanjyangred to-red-600 rounded-full opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300"></div>
+                    <img class="relative rounded-full w-full h-full object-cover ring-4 ring-white/50 group-hover:ring-bhanjyangred transition-all duration-300 shadow-2xl" 
                          src="{% if staff_member.person.photo %}{{ staff_member.person.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" 
                          alt="Photo of {{ staff_member.person.full_name }}" loading="lazy" width="128" height="128">
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-2 font-montserrat text-center">{{ staff_member.person.full_name }}</h3>
-                <p class="text-bhanjyangred font-semibold text-center mb-2">{{ staff_member.position }}</p>
+                <div class="w-12 h-1 bg-bhanjyangred/20 mx-auto rounded-full mb-3 group-hover:w-20 group-hover:bg-bhanjyangred transition-all duration-300"></div>
+                <p class="text-bhanjyangred font-bold text-center mb-2 uppercase text-xs tracking-widest">{{ staff_member.position }}</p>
                 {% if staff_member.department %}
-                <p class="text-sm text-gray-600 text-center mb-3">{{ staff_member.department }}</p>
+                <p class="text-sm text-gray-500 text-center mb-4 font-medium">{{ staff_member.department }}</p>
                 {% endif %}
                 {% if staff_member.person.bio %}
-                <p class="text-sm text-gray-600 text-center">{{ staff_member.person.bio|truncatewords:15 }}</p>
+                <p class="text-sm text-gray-600 text-center italic mb-6 leading-relaxed">"{{ staff_member.person.bio|truncatewords:12 }}"</p>
                 {% endif %}
                 {% if staff_member.person.email %}
-                <div class="mt-4 flex items-center justify-center">
+                <div class="flex items-center justify-center">
                     <a href="mailto:{{ staff_member.person.email }}" 
-                       class="text-deuraligreen hover:text-bhanjyangred transition-colors">
+                       class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-bhanjyangred hover:text-white transition-all duration-300 shadow-inner">
                         <i class="fas fa-envelope"></i>
                     </a>
                 </div>

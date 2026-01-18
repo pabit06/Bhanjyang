@@ -2,22 +2,40 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.urls import reverse
+from django.utils import timezone
+from django.conf import settings
+from django.db.models import SET_NULL
 
 from .constants import DEFAULT_RTI_EMAIL
+
+import reversion
 
 
 
 class ContentManager(models.Manager):
     """Custom manager for content filtering"""
     def active(self):
+        """Filter by is_active=True (backward compatibility)"""
         return self.get_queryset().filter(is_active=True)
     
+    def published(self):
+        """Filter by status=Published"""
+        return self.get_queryset().filter(status='PB')
+    
     def featured(self):
+        """Filter featured and active/published items"""
         return self.active().filter(is_featured=True)
 
+@reversion.register()
 class CooperativeInfo(models.Model):
 
     """Model to store cooperative information and history"""
+    
+    class Status(models.TextChoices):
+        DRAFT = 'DF', _('Draft')
+        PUBLISHED = 'PB', _('Published')
+        SCHEDULED = 'SC', _('Scheduled')
+        ARCHIVED = 'AR', _('Archived')
     
     # Basic Information
     cooperative_name = models.CharField(max_length=200, verbose_name=_("Cooperative Name"))
@@ -69,7 +87,11 @@ class CooperativeInfo(models.Model):
     why_choose_us_text_nepali = models.TextField(blank=True, verbose_name=_("Why Choose Us Text (Nepali)"), help_text=_("Why Choose Us text in Nepali"))
     
     # Status
-    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Active"))  # Kept for backward compatibility
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Publication status"))
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Scheduled Date"), help_text=_("Schedule this content to be published at a specific date/time"))
+    published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Published Date"), help_text=_("Date when this content was published"))
+    published_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=SET_NULL, blank=True, null=True, related_name='published_cooperative_info', verbose_name=_("Published By"), help_text=_("User who published this content"))
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -85,6 +107,9 @@ class CooperativeInfo(models.Model):
         indexes = [
             models.Index(fields=['slug']),  # For URL lookups
             models.Index(fields=['is_active']),  # For filtering active items
+            models.Index(fields=['status', 'is_active'], name='coop_status_active_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='coop_status_sched_idx'),
+            models.Index(fields=['status', 'published_date'], name='coop_status_pub_idx'),
             models.Index(fields=['created_at']),  # For date-based queries
             models.Index(fields=['updated_at']),  # For date-based queries
             models.Index(fields=['cooperative_name']),  # For search
@@ -96,7 +121,33 @@ class CooperativeInfo(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.cooperative_name)
+        # Sync is_active with status for backward compatibility
+        self.is_active = (self.status == self.Status.PUBLISHED)
         super().save(*args, **kwargs)
+    
+    @property
+    def is_published(self):
+        """Check if content is published"""
+        return self.status == self.Status.PUBLISHED
+    
+    @property
+    def is_draft(self):
+        """Check if content is draft"""
+        return self.status == self.Status.DRAFT
+    
+    @property
+    def is_scheduled(self):
+        """Check if content is scheduled and not yet published"""
+        return self.status == self.Status.SCHEDULED and self.scheduled_date and self.scheduled_date > timezone.now()
+    
+    def get_preview_url(self):
+        """Generate token-based preview URL for draft/scheduled content"""
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('about:preview_content', kwargs={
+            'model_name': 'cooperativeinfo', 'pk': self.pk, 'token': token
+        })
     
     def get_absolute_url(self):
         """Get absolute URL for this cooperative"""
@@ -129,8 +180,15 @@ class CooperativeInfo(models.Model):
         return f"{years}+ Years" if years > 0 else "Less than 1 Year"
 
 
+@reversion.register()
 class CooperativeTimeline(models.Model):
     """Model to store cooperative timeline events"""
+    
+    class Status(models.TextChoices):
+        DRAFT = 'DF', _('Draft')
+        PUBLISHED = 'PB', _('Published')
+        SCHEDULED = 'SC', _('Scheduled')
+        ARCHIVED = 'AR', _('Archived')
     
     EVENT_TYPES = [
         ('milestone', _('Milestone')),
@@ -154,7 +212,11 @@ class CooperativeTimeline(models.Model):
     
     # Status
     is_featured = models.BooleanField(default=False, verbose_name=_("Featured Event"))
-    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Active"))  # Kept for backward compatibility
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Publication status"))
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Scheduled Date"), help_text=_("Schedule this event to be published at a specific date/time"))
+    published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Published Date"), help_text=_("Date when this event was published"))
+    published_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=SET_NULL, blank=True, null=True, related_name='published_timeline_events', verbose_name=_("Published By"), help_text=_("User who published this event"))
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -169,6 +231,9 @@ class CooperativeTimeline(models.Model):
         ordering = ['-event_date', 'order']
         indexes = [
             models.Index(fields=['is_active', 'is_featured', '-event_date']),
+            models.Index(fields=['status', 'is_active'], name='timeline_status_active_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='timeline_status_sched_idx'),
+            models.Index(fields=['status', 'event_date'], name='timeline_status_date_idx'),
             models.Index(fields=['event_type', 'is_active']),  # For filtering by event type
             models.Index(fields=['event_date']),  # For date-based queries
             models.Index(fields=['created_at']),  # For date-based queries
@@ -178,15 +243,50 @@ class CooperativeTimeline(models.Model):
     def __str__(self):
         return f"{self.title} - {self.event_date}"
     
+    def save(self, *args, **kwargs):
+        # Sync is_active with status for backward compatibility
+        self.is_active = (self.status == self.Status.PUBLISHED)
+        super().save(*args, **kwargs)
+    
+    @property
+    def is_published(self):
+        """Check if event is published"""
+        return self.status == self.Status.PUBLISHED
+    
+    @property
+    def is_draft(self):
+        """Check if event is draft"""
+        return self.status == self.Status.DRAFT
+    
+    @property
+    def is_scheduled(self):
+        """Check if event is scheduled and not yet published"""
+        return self.status == self.Status.SCHEDULED and self.scheduled_date and self.scheduled_date > timezone.now()
+    
+    def get_preview_url(self):
+        """Generate token-based preview URL for draft/scheduled content"""
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('about:preview_content', kwargs={
+            'model_name': 'cooperativetimeline', 'pk': self.pk, 'token': token
+        })
+    
     def is_recent(self, days=30):
         """Check if event is within specified days from today"""
-        from django.utils import timezone
         from datetime import timedelta
         return self.event_date >= (timezone.now().date() - timedelta(days=days))
 
 
+@reversion.register()
 class CooperativeStatistic(models.Model):
     """Model to store cooperative statistics and metrics"""
+    
+    class Status(models.TextChoices):
+        DRAFT = 'DF', _('Draft')
+        PUBLISHED = 'PB', _('Published')
+        SCHEDULED = 'SC', _('Scheduled')
+        ARCHIVED = 'AR', _('Archived')
     
     STATISTIC_TYPES = [
         ('members', _('Total Members')),
@@ -258,7 +358,11 @@ class CooperativeStatistic(models.Model):
         default=True, 
         verbose_name=_("Active"),
         help_text=_("Uncheck to hide this statistic without deleting it")
-    )
+    )  # Kept for backward compatibility
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Publication status"))
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Scheduled Date"), help_text=_("Schedule this statistic to be published at a specific date/time"))
+    published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Published Date"), help_text=_("Date when this statistic was published"))
+    published_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=SET_NULL, blank=True, null=True, related_name='published_about_statistics', verbose_name=_("Published By"), help_text=_("User who published this statistic"))
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -273,6 +377,9 @@ class CooperativeStatistic(models.Model):
         ordering = ['order', 'title']
         indexes = [
             models.Index(fields=['is_active', 'is_featured']),  # For filtering
+            models.Index(fields=['status', 'is_active'], name='about_stat_status_active_idx'),
+            models.Index(fields=['status', 'order'], name='about_stat_status_order_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='about_stat_status_sched_idx'),
             models.Index(fields=['statistic_type', 'is_active']),  # For filtering by type
             models.Index(fields=['order']),  # For ordering
             models.Index(fields=['title']),  # For search
@@ -282,6 +389,35 @@ class CooperativeStatistic(models.Model):
     def __str__(self):
         return f"{self.title}: {self.value} {self.unit}"
     
+    def save(self, *args, **kwargs):
+        # Sync is_active with status for backward compatibility
+        self.is_active = (self.status == self.Status.PUBLISHED)
+        super().save(*args, **kwargs)
+    
+    @property
+    def is_published(self):
+        """Check if statistic is published"""
+        return self.status == self.Status.PUBLISHED
+    
+    @property
+    def is_draft(self):
+        """Check if statistic is draft"""
+        return self.status == self.Status.DRAFT
+    
+    @property
+    def is_scheduled(self):
+        """Check if statistic is scheduled and not yet published"""
+        return self.status == self.Status.SCHEDULED and self.scheduled_date and self.scheduled_date > timezone.now()
+    
+    def get_preview_url(self):
+        """Generate token-based preview URL for draft/scheduled content"""
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('about:preview_content', kwargs={
+            'model_name': 'cooperativestatistic', 'pk': self.pk, 'token': token
+        })
+    
     def get_display_value(self):
         """Get formatted display value with unit"""
         if self.unit:
@@ -289,8 +425,15 @@ class CooperativeStatistic(models.Model):
         return self.value
 
 
+@reversion.register()
 class CooperativeAffiliation(models.Model):
     """Model to store cooperative affiliations and partnerships"""
+    
+    class Status(models.TextChoices):
+        DRAFT = 'DF', _('Draft')
+        PUBLISHED = 'PB', _('Published')
+        SCHEDULED = 'SC', _('Scheduled')
+        ARCHIVED = 'AR', _('Archived')
     
     AFFILIATION_TYPES = [
         ('regulatory', _('Regulatory Body')),
@@ -315,7 +458,11 @@ class CooperativeAffiliation(models.Model):
     
     # Status
     is_featured = models.BooleanField(default=False, verbose_name=_("Featured Affiliation"))
-    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Active"))  # Kept for backward compatibility
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Publication status"))
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Scheduled Date"), help_text=_("Schedule this affiliation to be published at a specific date/time"))
+    published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Published Date"), help_text=_("Date when this affiliation was published"))
+    published_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=SET_NULL, blank=True, null=True, related_name='published_affiliations', verbose_name=_("Published By"), help_text=_("User who published this affiliation"))
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -330,6 +477,9 @@ class CooperativeAffiliation(models.Model):
         ordering = ['order', 'name']
         indexes = [
             models.Index(fields=['is_active', 'is_featured']),  # For filtering
+            models.Index(fields=['status', 'is_active'], name='aff_status_active_idx'),
+            models.Index(fields=['status', 'order'], name='aff_status_order_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='aff_status_sched_idx'),
             models.Index(fields=['affiliation_type', 'is_active']),  # For filtering by type
             models.Index(fields=['order']),  # For ordering
             models.Index(fields=['name']),  # For search
@@ -339,13 +489,49 @@ class CooperativeAffiliation(models.Model):
     def __str__(self):
         return self.name
     
+    def save(self, *args, **kwargs):
+        # Sync is_active with status for backward compatibility
+        self.is_active = (self.status == self.Status.PUBLISHED)
+        super().save(*args, **kwargs)
+    
+    @property
+    def is_published(self):
+        """Check if affiliation is published"""
+        return self.status == self.Status.PUBLISHED
+    
+    @property
+    def is_draft(self):
+        """Check if affiliation is draft"""
+        return self.status == self.Status.DRAFT
+    
+    @property
+    def is_scheduled(self):
+        """Check if affiliation is scheduled and not yet published"""
+        return self.status == self.Status.SCHEDULED and self.scheduled_date and self.scheduled_date > timezone.now()
+    
+    def get_preview_url(self):
+        """Generate token-based preview URL for draft/scheduled content"""
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('about:preview_content', kwargs={
+            'model_name': 'cooperativeaffiliation', 'pk': self.pk, 'token': token
+        })
+    
     def get_logo_url(self):
         """Get logo URL if available"""
         return self.logo.url if self.logo else None
 
 
+@reversion.register()
 class LeadershipMessage(models.Model):
     """Model to store leadership messages"""
+    
+    class Status(models.TextChoices):
+        DRAFT = 'DF', _('Draft')
+        PUBLISHED = 'PB', _('Published')
+        SCHEDULED = 'SC', _('Scheduled')
+        ARCHIVED = 'AR', _('Archived')
     
     MESSAGE_TYPES = [
         ('chairman', _('Chairman Message')),
@@ -368,7 +554,11 @@ class LeadershipMessage(models.Model):
     
     # Status
     is_featured = models.BooleanField(default=False, verbose_name=_("Featured Message"))
-    is_active = models.BooleanField(default=True, verbose_name=_("Active"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Active"))  # Kept for backward compatibility
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Publication status"))
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Scheduled Date"), help_text=_("Schedule this message to be published at a specific date/time"))
+    published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Published Date"), help_text=_("Date when this message was published"))
+    published_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=SET_NULL, blank=True, null=True, related_name='published_leadership_messages', verbose_name=_("Published By"), help_text=_("User who published this message"))
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -383,6 +573,9 @@ class LeadershipMessage(models.Model):
         ordering = ['order', 'message_type']
         indexes = [
             models.Index(fields=['is_active', 'is_featured']),  # For filtering
+            models.Index(fields=['status', 'is_active'], name='msg_status_active_idx'),
+            models.Index(fields=['status', 'order'], name='msg_status_order_idx'),
+            models.Index(fields=['status', 'scheduled_date'], name='msg_status_sched_idx'),
             models.Index(fields=['message_type', 'is_active']),  # For filtering by type
             models.Index(fields=['order']),  # For ordering
             models.Index(fields=['title']),  # For search
@@ -392,6 +585,35 @@ class LeadershipMessage(models.Model):
     
     def __str__(self):
         return f"{self.title} - {self.author_name}"
+    
+    def save(self, *args, **kwargs):
+        # Sync is_active with status for backward compatibility
+        self.is_active = (self.status == self.Status.PUBLISHED)
+        super().save(*args, **kwargs)
+    
+    @property
+    def is_published(self):
+        """Check if message is published"""
+        return self.status == self.Status.PUBLISHED
+    
+    @property
+    def is_draft(self):
+        """Check if message is draft"""
+        return self.status == self.Status.DRAFT
+    
+    @property
+    def is_scheduled(self):
+        """Check if message is scheduled and not yet published"""
+        return self.status == self.Status.SCHEDULED and self.scheduled_date and self.scheduled_date > timezone.now()
+    
+    def get_preview_url(self):
+        """Generate token-based preview URL for draft/scheduled content"""
+        from django.core.signing import TimestampSigner
+        signer = TimestampSigner()
+        token = signer.sign(str(self.pk))
+        return reverse('about:preview_content', kwargs={
+            'model_name': 'leadershipmessage', 'pk': self.pk, 'token': token
+        })
     
     def get_author_photo_url(self):
         """Get author photo URL if available"""

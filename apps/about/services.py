@@ -59,11 +59,20 @@ class AboutService:
             return cached_data
 
         try:
-            info = CooperativeInfo.objects.active().first()
-            timeline = list(CooperativeTimeline.objects.featured()[:6])
-            stats = list(CooperativeStatistic.objects.active().order_by('order'))
-            affiliations = list(CooperativeAffiliation.objects.featured())
-            messages = list(LeadershipMessage.objects.active().order_by('order'))
+            # Use published() manager for status-based filtering
+            info = CooperativeInfo.objects.filter(status=CooperativeInfo.Status.PUBLISHED).first()
+            timeline = list(CooperativeTimeline.objects.filter(
+                status=CooperativeTimeline.Status.PUBLISHED, is_featured=True
+            )[:6])
+            stats = list(CooperativeStatistic.objects.filter(
+                status=CooperativeStatistic.Status.PUBLISHED
+            ).order_by('order'))
+            affiliations = list(CooperativeAffiliation.objects.filter(
+                status=CooperativeAffiliation.Status.PUBLISHED, is_featured=True
+            ))
+            messages = list(LeadershipMessage.objects.filter(
+                status=LeadershipMessage.Status.PUBLISHED
+            ).order_by('order'))
             
             # Counts
             total_committees = Committee.objects.filter(is_active=True).count()
@@ -98,22 +107,26 @@ class AboutService:
     @staticmethod
     def get_timeline_events() -> QuerySet[CooperativeTimeline]:
         """
-        Retrieve all active timeline events ordered by date (newest first).
+        Retrieve all published timeline events ordered by date (newest first).
         
         Returns:
             QuerySet of CooperativeTimeline objects
         """
-        return CooperativeTimeline.objects.active().order_by('-event_date')
+        return CooperativeTimeline.objects.filter(
+            status=CooperativeTimeline.Status.PUBLISHED
+        ).order_by('-event_date')
 
     @staticmethod
     def get_affiliations() -> QuerySet[CooperativeAffiliation]:
         """
-        Retrieve all active affiliations ordered by display order.
+        Retrieve all published affiliations ordered by display order.
         
         Returns:
             QuerySet of CooperativeAffiliation objects
         """
-        return CooperativeAffiliation.objects.active().order_by('order')
+        return CooperativeAffiliation.objects.filter(
+            status=CooperativeAffiliation.Status.PUBLISHED
+        ).order_by('order')
 
     @staticmethod
     def get_leadership_messages() -> QuerySet[LeadershipMessage]:
@@ -165,21 +178,29 @@ class AboutService:
         """
         results = {
             'query': query,
-            'cooperative_info': list(CooperativeInfo.objects.active().filter(
+            'cooperative_info': list(CooperativeInfo.objects.filter(
+                status=CooperativeInfo.Status.PUBLISHED
+            ).filter(
                 Q(cooperative_name__icontains=query) |
                 Q(description__icontains=query) |
                 Q(mission__icontains=query) |
                 Q(vision__icontains=query)
             )[:5]),
-            'timeline': list(CooperativeTimeline.objects.active().filter(
+            'timeline': list(CooperativeTimeline.objects.filter(
+                status=CooperativeTimeline.Status.PUBLISHED
+            ).filter(
                 Q(title__icontains=query) |
                 Q(description__icontains=query)
             )[:5]),
-            'affiliations': list(CooperativeAffiliation.objects.active().filter(
+            'affiliations': list(CooperativeAffiliation.objects.filter(
+                status=CooperativeAffiliation.Status.PUBLISHED
+            ).filter(
                 Q(name__icontains=query) |
                 Q(description__icontains=query)
             )[:5]),
-            'leadership': list(LeadershipMessage.objects.active().filter(
+            'leadership': list(LeadershipMessage.objects.filter(
+                status=LeadershipMessage.Status.PUBLISHED
+            ).filter(
                 Q(title__icontains=query) |
                 Q(content__icontains=query) |
                 Q(author_name__icontains=query)
@@ -201,10 +222,10 @@ class AboutService:
             Dictionary with counts for all models and last_updated timestamp
         """
         return {
-            'cooperative_info_count': CooperativeInfo.objects.active().count(),
-            'timeline_events_count': CooperativeTimeline.objects.active().count(),
-            'affiliations_count': CooperativeAffiliation.objects.active().count(),
-            'leadership_messages_count': LeadershipMessage.objects.active().count(),
+            'cooperative_info_count': CooperativeInfo.objects.filter(status=CooperativeInfo.Status.PUBLISHED).count(),
+            'timeline_events_count': CooperativeTimeline.objects.filter(status=CooperativeTimeline.Status.PUBLISHED).count(),
+            'affiliations_count': CooperativeAffiliation.objects.filter(status=CooperativeAffiliation.Status.PUBLISHED).count(),
+            'leadership_messages_count': LeadershipMessage.objects.filter(status=LeadershipMessage.Status.PUBLISHED).count(),
             'team_members_count': Person.objects.filter(is_active=True).count(),
             'committees_count': Committee.objects.filter(is_active=True).count(),
             'staff_count': Staff.objects.filter(is_active=True).count(),

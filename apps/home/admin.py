@@ -330,7 +330,8 @@ class AnnouncementAdmin(CompareVersionAdmin):
             'fields': ('announcement_type', 'priority', 'is_featured')
         }),
         ('Publishing', {
-            'fields': ('publish_date', 'expiry_date')
+            'fields': ('publish_date', 'expiry_date', 'auto_expire'),
+            'description': 'Set expiry_date and enable auto_expire to automatically archive this announcement when it expires.'
         }),
         ('Legacy', {
             'fields': ('is_active',),

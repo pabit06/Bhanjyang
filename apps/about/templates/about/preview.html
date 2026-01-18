@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Preview" %} - {{ content.cooperative_name|default:content.title|default:content }}{% endblock title %}
+
+{% block extra_css %}
+<style>
+    .preview-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        padding: 12px 20px;
+        text-align: center;
+        font-weight: bold;
+        z-index: 9999;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .preview-banner .status-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.2);
+        padding: 4px 12px;
+        border-radius: 12px;
+        margin-left: 10px;
+        font-size: 0.9em;
+    }
+    body {
+        padding-top: 60px;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<!-- Preview Banner -->
+<div class="preview-banner">
+    <span>{% trans "PREVIEW MODE" %}</span>
+    <span class="status-badge">
+        {% if content.status == 'DF' %}{% trans "Draft" %}
+        {% elif content.status == 'SC' %}{% trans "Scheduled" %}
+        {% elif content.status == 'AR' %}{% trans "Archived" %}
+        {% else %}{% trans "Published" %}{% endif %}
+    </span>
+    <span style="margin-left: 20px; font-size: 0.9em; opacity: 0.9;">
+        {{ content.cooperative_name|default:content.title|default:content.name|default:content }}
+    </span>
+</div>
+
+<!-- Actual Content Preview -->
+{% if model_name == 'cooperativeinfo' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                {% if content.logo %}
+                <img src="{{ content.logo.url }}" alt="{{ content.cooperative_name }}" class="h-24 mb-6">
+                {% endif %}
+                <h1 class="text-4xl font-bold mb-4">{{ content.cooperative_name }}</h1>
+                {% if content.cooperative_name_nepali %}
+                <p class="text-xl text-gray-600 mb-6">{{ content.cooperative_name_nepali }}</p>
+                {% endif %}
+                {% if content.featured_image %}
+                <img src="{{ content.featured_image.url }}" alt="{{ content.cooperative_name }}" class="w-full rounded-lg mb-6">
+                {% endif %}
+                <div class="prose max-w-none">
+                    {{ content.description|linebreaks }}
+                </div>
+                {% if content.our_story %}
+                <div class="mt-8">
+                    <h2 class="text-2xl font-bold mb-4">{% trans "Our Story" %}</h2>
+                    {{ content.our_story|linebreaks }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% elif model_name == 'cooperativetimeline' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                <div class="flex items-start mb-4">
+                    <div class="flex-shrink-0 w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center text-white font-bold">
+                        {{ content.event_date|date:"M"|slice:":3" }}
+                    </div>
+                    <div class="ml-6 flex-1">
+                        <h1 class="text-3xl font-bold mb-2">{{ content.title }}</h1>
+                        <p class="text-gray-600 mb-4">{{ content.event_date|date:"F d, Y" }}</p>
+                        {% if content.image %}
+                        <img src="{{ content.image.url }}" alt="{{ content.title }}" class="w-full rounded-lg mb-4">
+                        {% endif %}
+                        <div class="prose max-w-none">
+                            {{ content.description|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% elif model_name == 'cooperativestatistic' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto text-center">
+                {% if content.icon %}
+                <i class="{{ content.icon }} text-5xl {% if content.color == 'bhanjyangred' %}text-red-600{% else %}text-green-600{% endif %} mb-4"></i>
+                {% endif %}
+                <div class="text-6xl font-bold mb-2">{{ content.value }}{% if content.unit %} {{ content.unit }}{% endif %}</div>
+                <h3 class="text-2xl font-bold mb-4">{{ content.title }}</h3>
+                {% if content.description %}
+                <p class="text-gray-600">{{ content.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% elif model_name == 'cooperativeaffiliation' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                {% if content.logo %}
+                <img src="{{ content.logo.url }}" alt="{{ content.name }}" class="h-24 mb-6">
+                {% endif %}
+                <h1 class="text-4xl font-bold mb-4">{{ content.name }}</h1>
+                <p class="text-gray-600 mb-6">{{ content.get_affiliation_type_display }}</p>
+                <div class="prose max-w-none">
+                    {{ content.description|linebreaks }}
+                </div>
+                {% if content.website %}
+                <div class="mt-6">
+                    <a href="{{ content.website }}" target="_blank" class="text-deuraligreen hover:underline">
+                        {% trans "Visit Website" %} →
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% elif model_name == 'leadershipmessage' %}
+    <div class="min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-12">
+            <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                <h1 class="text-4xl font-bold mb-4">{{ content.title }}</h1>
+                <div class="flex items-start mb-6">
+                    {% if content.author_photo %}
+                    <img src="{{ content.author_photo.url }}" alt="{{ content.author_name }}" class="w-24 h-24 rounded-full mr-6">
+                    {% endif %}
+                    <div>
+                        <h3 class="text-xl font-bold">{{ content.author_name }}</h3>
+                        <p class="text-gray-600">{{ content.author_position }}</p>
+                    </div>
+                </div>
+                <div class="prose max-w-none">
+                    {{ content.content|linebreaks }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<!-- Back to Admin Link -->
+<div class="fixed bottom-4 right-4">
+    <a href="{% url 'admin:about_'|add:model_name|add:'_change' content.pk %}" 
+       class="bg-deuraligreen text-white px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 transition-colors">
+        {% trans "Edit in Admin" %}
+    </a>
+</div>
+{% endblock content %}

@@ -41,8 +41,9 @@
 
 {% block content %}
 <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8">
-    <div class="container mx-auto text-center z-10">
-        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">
+    <div class="absolute inset-0 opacity-[0.05] bg-pattern-dhaka"></div>
+    <div class="container mx-auto text-center relative z-10">
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate lg:text-7xl">
             {% if cooperative.cooperative_name_nepali %}
                 {{ cooperative.cooperative_name_nepali }}
             {% else %}
@@ -50,12 +51,14 @@
             {% endif %}
         </h1>
         {% if cooperative.cooperative_name_nepali and cooperative.cooperative_name %}
-            <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">{{ cooperative.cooperative_name }}</p>
+            <p class="text-lg sm:text-2xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1 font-medium">{{ cooperative.cooperative_name }}</p>
         {% endif %}
+        <div class="w-32 h-1.5 bg-gradient-to-r from-deuraligreen to-bhanjyangred mx-auto rounded-full mt-8 shadow-glow"></div>
     </div>
 </section>
 
-<section class="py-16 bg-gray-50 px-4 sm:px-6 lg:px-8">
+<section class="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-[0.03] bg-pattern-dhaka"></div>
     <div class="container mx-auto">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
@@ -76,86 +79,96 @@
                 </div>
                 
                 <!-- Mission, Vision, Values -->
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-bold text-deuraligreen mb-3 flex items-center">
-                            <i class="fas fa-bullseye mr-3"></i>{% trans "Mission" %}
+                <div class="space-y-8 mt-12">
+                    <div class="premium-card p-8 rounded-3xl shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-l-8 border-deuraligreen">
+                        <h3 class="text-2xl font-bold text-deuraligreen mb-4 flex items-center font-montserrat">
+                            <i class="fas fa-bullseye mr-4 text-3xl"></i>{% trans "Our Mission" %}
                         </h3>
-                        <p class="text-gray-600">{{ cooperative.mission }}</p>
+                        <p class="text-gray-700 text-lg leading-relaxed">{{ cooperative.mission }}</p>
                     </div>
                     
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-bold text-deuraligreen mb-3 flex items-center">
-                            <i class="fas fa-eye mr-3"></i>{% trans "Vision" %}
+                    <div class="premium-card p-8 rounded-3xl shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-l-8 border-bhanjyangred">
+                        <h3 class="text-2xl font-bold text-bhanjyangred mb-4 flex items-center font-montserrat">
+                            <i class="fas fa-eye mr-4 text-3xl"></i>{% trans "Our Vision" %}
                         </h3>
-                        <p class="text-gray-600">{{ cooperative.vision }}</p>
+                        <p class="text-gray-700 text-lg leading-relaxed">{{ cooperative.vision }}</p>
                     </div>
                     
-                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                        <h3 class="text-xl font-bold text-deuraligreen mb-3 flex items-center">
-                            <i class="fas fa-heart mr-3"></i>{% trans "Values" %}
+                    <div class="premium-card p-8 rounded-3xl shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-l-8 border-deuraligreen">
+                        <h3 class="text-2xl font-bold text-deuraligreen mb-4 flex items-center font-montserrat">
+                            <i class="fas fa-heart mr-4 text-3xl"></i>{% trans "Our Values" %}
                         </h3>
-                        <p class="text-gray-600">{{ cooperative.values }}</p>
+                        <p class="text-gray-700 text-lg leading-relaxed">{{ cooperative.values }}</p>
                     </div>
                 </div>
             </div>
             
             <div>
                 <!-- Cooperative Details -->
-                <div class="bg-white p-8 rounded-lg shadow-lg mb-8">
-                    <h3 class="text-2xl font-bold text-deuraligreen mb-6">{% trans "Cooperative Details" %}</h3>
+                <div class="premium-card p-10 rounded-3xl shadow-2xl mb-10 border-t-8 border-deuraligreen">
+                    <h3 class="text-2xl font-bold text-deuraligreen mb-8 font-montserrat flex items-center">
+                        <i class="fas fa-info-circle mr-3"></i>{% trans "Cooperative Details" %}
+                    </h3>
                     
-                    <div class="space-y-4">
-                        <div class="flex justify-between py-3 border-b border-gray-200">
-                            <span class="font-semibold text-gray-700">{% trans "Established Date" %}</span>
-                            <span class="text-gray-600">{{ cooperative.established_date|date:"F d, Y" }}</span>
+                    <div class="space-y-5">
+                        <div class="flex justify-between py-4 border-b border-gray-100 items-center">
+                            <span class="font-bold text-gray-800">{% trans "Established Date" %}</span>
+                            <span class="text-gray-600 bg-gray-50 px-4 py-1 rounded-full text-sm font-medium">{{ cooperative.established_date|date:"F d, Y" }}</span>
                         </div>
                         
-                        <div class="flex justify-between py-3 border-b border-gray-200">
-                            <span class="font-semibold text-gray-700">{% trans "Registration Number" %}</span>
-                            <span class="text-gray-600">{{ cooperative.registration_number }}</span>
+                        <div class="flex justify-between py-4 border-b border-gray-100 items-center">
+                            <span class="font-bold text-gray-800">{% trans "Registration Number" %}</span>
+                            <span class="text-gray-600 font-medium">{{ cooperative.registration_number }}</span>
                         </div>
                         
-                        <div class="flex justify-between py-3 border-b border-gray-200">
-                            <span class="font-semibold text-gray-700">{% trans "License Number" %}</span>
-                            <span class="text-gray-600">{{ cooperative.license_number }}</span>
+                        <div class="flex justify-between py-4 border-b border-gray-100 items-center">
+                            <span class="font-bold text-gray-800">{% trans "License Number" %}</span>
+                            <span class="text-gray-600 font-medium">{{ cooperative.license_number }}</span>
                         </div>
                         
                         {% if cooperative.website %}
-                        <div class="flex justify-between py-3 border-b border-gray-200">
-                            <span class="font-semibold text-gray-700">{% trans "Website" %}</span>
-                            <a href="{{ cooperative.website }}" target="_blank" class="text-deuraligreen hover:underline">{{ cooperative.website }}</a>
+                        <div class="flex justify-between py-4 border-b border-gray-100 items-center">
+                            <span class="font-bold text-gray-800">{% trans "Website" %}</span>
+                            <a href="{{ cooperative.website }}" target="_blank" class="text-deuraligreen hover:text-bhanjyangred transition-colors font-bold">{{ cooperative.website }}</a>
                         </div>
                         {% endif %}
                     </div>
                 </div>
                 
                 <!-- Contact Information -->
-                <div class="bg-white p-8 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold text-deuraligreen mb-6">{% trans "Contact Information" %}</h3>
+                <div class="premium-card p-10 rounded-3xl shadow-2xl border-t-8 border-bhanjyangred">
+                    <h3 class="text-2xl font-bold text-bhanjyangred mb-8 font-montserrat flex items-center">
+                        <i class="fas fa-address-book mr-3"></i>{% trans "Contact Information" %}
+                    </h3>
                     
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <i class="fas fa-map-marker-alt text-deuraligreen mr-3 mt-1"></i>
+                    <div class="space-y-6">
+                        <div class="group flex items-start p-4 hover:bg-gray-50 rounded-2xl transition-colors">
+                            <div class="w-12 h-12 bg-bhanjyangred/10 rounded-2xl flex items-center justify-center mr-5 group-hover:bg-bhanjyangred group-hover:text-white transition-all">
+                                <i class="fas fa-map-marker-alt text-xl"></i>
+                            </div>
                             <div>
-                                <span class="font-semibold text-gray-700 block">{% trans "Address" %}</span>
-                                <span class="text-gray-600">{{ cooperative.address }}</span>
+                                <span class="font-bold text-gray-800 block text-sm uppercase tracking-wider mb-1">{% trans "Address" %}</span>
+                                <span class="text-gray-600 font-medium text-lg">{{ cooperative.address }}</span>
                             </div>
                         </div>
                         
-                        <div class="flex items-center">
-                            <i class="fas fa-phone text-deuraligreen mr-3"></i>
+                        <div class="group flex items-center p-4 hover:bg-gray-50 rounded-2xl transition-colors">
+                            <div class="w-12 h-12 bg-deuraligreen/10 rounded-2xl flex items-center justify-center mr-5 group-hover:bg-deuraligreen group-hover:text-white transition-all">
+                                <i class="fas fa-phone text-xl"></i>
+                            </div>
                             <div>
-                                <span class="font-semibold text-gray-700 block">{% trans "Phone" %}</span>
-                                <a href="tel:{{ cooperative.phone }}" class="text-gray-600 hover:text-deuraligreen">{{ cooperative.phone }}</a>
+                                <span class="font-bold text-gray-800 block text-sm uppercase tracking-wider mb-1">{% trans "Phone" %}</span>
+                                <a href="tel:{{ cooperative.phone }}" class="text-gray-600 hover:text-deuraligreen font-bold text-lg transition-colors">{{ cooperative.phone }}</a>
                             </div>
                         </div>
                         
-                        <div class="flex items-center">
-                            <i class="fas fa-envelope text-deuraligreen mr-3"></i>
+                        <div class="group flex items-center p-4 hover:bg-gray-50 rounded-2xl transition-colors">
+                            <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mr-5 group-hover:bg-blue-600 group-hover:text-white transition-all text-blue-600">
+                                <i class="fas fa-envelope text-xl"></i>
+                            </div>
                             <div>
-                                <span class="font-semibold text-gray-700 block">{% trans "Email" %}</span>
-                                <a href="mailto:{{ cooperative.email }}" class="text-gray-600 hover:text-deuraligreen">{{ cooperative.email }}</a>
+                                <span class="font-bold text-gray-800 block text-sm uppercase tracking-wider mb-1">{% trans "Email" %}</span>
+                                <a href="mailto:{{ cooperative.email }}" class="text-gray-600 hover:text-blue-600 font-bold text-lg transition-colors">{{ cooperative.email }}</a>
                             </div>
                         </div>
                     </div>

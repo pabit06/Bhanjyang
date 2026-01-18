@@ -67,34 +67,37 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-white bg-white/20 backdrop-blur-sm font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full border border-white/30">
-            {% trans "Management" %}
-        </span>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat mb-6 text-white drop-shadow-lg">
-            {% trans "Manager Commitment" %}
-        </h1>
-        <div class="w-24 h-1 bg-bhanjyangred mx-auto rounded-full mb-6 shadow-lg"></div>
-        <p class="text-lg md:text-xl text-white max-w-3xl mx-auto leading-relaxed drop-shadow-md">
-            {% trans "Operational insights and service commitments from our management team" %}
-        </p>
+        <div class="max-w-4xl mx-auto glass-panel p-8 md:p-12 rounded-3xl border border-white/20 shadow-2xl overflow-hidden relative">
+            <!-- Subtle Glow -->
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-deuraligreen/20 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-bhanjyangred/20 rounded-full blur-3xl"></div>
+
+            <span class="inline-block text-white bg-white/10 backdrop-blur-md font-semibold uppercase text-sm mb-6 tracking-wider px-6 py-2 rounded-full border border-white/20">
+                {% trans "Management" %}
+            </span>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 text-white leading-tight">
+                {% trans "Manager Commitment" %}
+            </h1>
+            <div class="w-24 h-1.5 bg-gradient-to-r from-deuraligreen to-bhanjyangred mx-auto rounded-full mb-8 shadow-glow"></div>
+            <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
+                {% trans "Operational insights and service commitments from our management team" %}
+            </p>
+        </div>
     </div>
 </section>
 
 <!-- Commitment Section -->
 {% if message %}
 <section class="about-section relative py-12 bg-gradient-to-br from-white via-gray-50 to-white overflow-hidden">
-    <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-3">
-        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
-        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
-    </div>
+    <!-- Dhaka Pattern Background -->
+    <div class="absolute inset-0 opacity-[0.04] bg-pattern-dhaka"></div>
     
     <!-- Decorative Elements -->
     <div class="absolute top-0 right-0 w-96 h-96 bg-deuraligreen/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-4xl">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 border-t-4 border-bhanjyangred">
+        <div class="premium-card bg-white rounded-3xl shadow-2xl p-8 md:p-14 border-t-8 border-bhanjyangred">
             <!-- Author Info -->
             <div class="flex flex-col md:flex-row items-center md:items-start mb-8 pb-8 border-b border-gray-200">
                 {% if message.author_photo %}

@@ -32,7 +32,8 @@ class AboutAPITestCase(APITestCase):
             license_number='456',
             address='Kathmandu',
             phone='9800000000',
-            email='info@example.com'
+            email='info@example.com',
+            status='PB'
         )
         self.timeline = CooperativeTimeline.objects.create(
             title="Test Event",
@@ -40,20 +41,23 @@ class AboutAPITestCase(APITestCase):
             event_date=timezone.now().date(),
             event_type="milestone",
             is_active=True,
-            is_featured=True
+            is_featured=True,
+            status='PB'
         )
         self.affiliation = CooperativeAffiliation.objects.create(
             name="Test Affiliation",
             description="Test description",
             is_active=True,
-            is_featured=True
+            is_featured=True,
+            status='PB'
         )
         self.message = LeadershipMessage.objects.create(
             title="Test Message",
             content="Test content",
             author_name="Test Author",
             is_active=True,
-            is_featured=True
+            is_featured=True,
+            status='PB'
         )
         self.person = Person.objects.create(
             full_name="Test Person",
@@ -100,7 +104,8 @@ class CooperativeInfoViewSetTest(AboutAPITestCase):
         CooperativeStatistic.objects.create(
             title="Test Stat",
             value=100,
-            is_active=True
+            is_active=True,
+            status='PB'
         )
         url = reverse('about_api:cooperative-info-statistics')
         response = self.client.get(url)
@@ -132,7 +137,8 @@ class CooperativeInfoViewSetTest(AboutAPITestCase):
                 license_number=f'LIC{i}',
                 address='Kathmandu',
                 phone='9800000000',
-                email='info@example.com'
+                email='info@example.com',
+                status='PB'
             )
         url = reverse('about_api:cooperative-info-list')
         response = self.client.get(url)
@@ -521,7 +527,8 @@ class EdgeCaseTests(AboutAPITestCase):
                 license_number=f'LIC{i}',
                 address='Kathmandu',
                 phone='9800000000',
-                email='info@example.com'
+                email='info@example.com',
+                status='PB'
             )
         url = reverse('about_api:cooperative-info-list')
         response = self.client.get(url, {'page': 1})
@@ -553,7 +560,8 @@ class EdgeCaseTests(AboutAPITestCase):
             license_number='LIC',
             address='Kathmandu',
             phone='9800000000',
-            email='info@example.com'
+            email='info@example.com',
+            status='DF'
         )
         url = reverse('about_api:cooperative-info-list')
         response = self.client.get(url)
@@ -572,6 +580,9 @@ class EdgeCaseTests(AboutAPITestCase):
         Person.objects.all().delete()
         Committee.objects.all().delete()
         Staff.objects.all().delete()
+        
+        from django.core.cache import cache
+        cache.clear()
         
         url = reverse('about_api:statistics')
         response = self.client.get(url)
@@ -611,7 +622,8 @@ class EdgeCaseTests(AboutAPITestCase):
                 description=f"Description {i}",
                 event_date=(timezone.now() - timedelta(days=i)).date(),
                 event_type="milestone",
-                is_active=True
+                is_active=True,
+                status='PB'
             )
         url = reverse('about_api:timeline-recent')
         response = self.client.get(url)

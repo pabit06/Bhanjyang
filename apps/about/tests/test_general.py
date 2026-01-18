@@ -41,6 +41,7 @@ class ModelTestCase(TestCase):
             address="Test Address",
             phone="9800000000",
             email="test@coop.com",
+            status='PB',
             is_active=True
         )
         
@@ -49,6 +50,7 @@ class ModelTestCase(TestCase):
             description="Test event description",
             event_date=timezone.now().date(),
             event_type="milestone",
+            status='PB',
             is_active=True,
             is_featured=True
         )
@@ -57,6 +59,7 @@ class ModelTestCase(TestCase):
             name="Test Affiliation",
             description="Test affiliation description",
             affiliation_type="partner",
+            status='PB',
             is_active=True,
             is_featured=True
         )
@@ -66,6 +69,7 @@ class ModelTestCase(TestCase):
             content="Test leadership message content",
             author_name="Test Author",
             author_position="Test Position",
+            status='PB',
             is_active=True,
             is_featured=True
         )
@@ -172,6 +176,7 @@ class ViewTestCase(TestCase):
             mission="Test Mission",
             vision="Test Vision",
             values="Test Values",
+            status='PB',
             is_active=True
         )
         
@@ -180,6 +185,7 @@ class ViewTestCase(TestCase):
             description="Test event description",
             event_date=timezone.now().date(),
             event_type="milestone",
+            status='PB',
             is_active=True
         )
     
@@ -189,6 +195,7 @@ class ViewTestCase(TestCase):
         CooperativeInfo.objects.create(
             cooperative_name="Second Coop",
             slug="second-coop",
+            status='PB',
             is_active=True,
             established_date=timezone.now().date()
         )
@@ -277,6 +284,7 @@ class APITestCase(TestCase):
             mission="Test Mission",
             vision="Test Vision",
             values="Test Values",
+            status='PB',
             is_active=True
         )
         
@@ -285,6 +293,7 @@ class APITestCase(TestCase):
             description="Test event description",
             event_date=timezone.now().date(),
             event_type="milestone",
+            status='PB',
             is_active=True
         )
     
@@ -383,6 +392,7 @@ class IntegrationTestCase(TestCase):
             address="Test Address",
             phone="9800000000",
             email="test@coop.com",
+            status='PB',
             is_active=True
         )
         
@@ -393,6 +403,7 @@ class IntegrationTestCase(TestCase):
                 description=f"Description for event {i+1}",
                 event_date=timezone.now().date() - timedelta(days=i*30),
                 event_type="milestone",
+                status='PB',
                 is_active=True,
                 is_featured=(i < 2)
             )
@@ -403,6 +414,7 @@ class IntegrationTestCase(TestCase):
         CooperativeInfo.objects.create(
             cooperative_name="Second Coop",
             slug="second-coop-integration",
+            status='PB',
             is_active=True,
             established_date=timezone.now().date()
         )
@@ -466,6 +478,7 @@ class PerformanceTestCase(TestCase):
                 description=f"Description for performance test event {i+1}",
                 event_date=timezone.now().date() - timedelta(days=i),
                 event_type="milestone",
+                status='PB',
                 is_active=True
             )
     
@@ -511,10 +524,10 @@ class ManagerTestCase(TestCase):
 
     def setUp(self):
         # Create active/inactive and featured/non-featured items
-        CooperativeTimeline.objects.create(title="Active Featured", is_active=True, is_featured=True, event_date=timezone.now().date())
-        CooperativeTimeline.objects.create(title="Active Non-Featured", is_active=True, is_featured=False, event_date=timezone.now().date())
-        CooperativeTimeline.objects.create(title="Inactive Featured", is_active=False, is_featured=True, event_date=timezone.now().date())
-        CooperativeTimeline.objects.create(title="Inactive Non-Featured", is_active=False, is_featured=False, event_date=timezone.now().date())
+        CooperativeTimeline.objects.create(title="Active Featured", status='PB', is_active=True, is_featured=True, event_date=timezone.now().date())
+        CooperativeTimeline.objects.create(title="Active Non-Featured", status='PB', is_active=True, is_featured=False, event_date=timezone.now().date())
+        CooperativeTimeline.objects.create(title="Inactive Featured", status='DF', is_active=False, is_featured=True, event_date=timezone.now().date())
+        CooperativeTimeline.objects.create(title="Inactive Non-Featured", status='DF', is_active=False, is_featured=False, event_date=timezone.now().date())
 
     def test_manager_active(self):
         """Test .active() manager method"""

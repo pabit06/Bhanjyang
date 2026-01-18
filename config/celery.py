@@ -26,6 +26,16 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute='*/5'),  # Every 5 minutes
         'options': {'expires': 300}  # Task expires after 5 minutes if not executed
     },
+    'expire-content': {
+        'task': 'home.tasks.expire_content',
+        'schedule': crontab(minute='*/5'),  # Every 5 minutes (same as publish)
+        'options': {'expires': 300}  # Task expires after 5 minutes if not executed
+    },
+    'publish-scheduled-about-content': {
+        'task': 'about.tasks.publish_scheduled_content',
+        'schedule': crontab(minute='*/5'),  # Every 5 minutes
+        'options': {'expires': 300}  # Task expires after 5 minutes if not executed
+    },
 }
 
 @app.task(bind=True)

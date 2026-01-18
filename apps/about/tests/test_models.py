@@ -11,6 +11,7 @@ from apps.about.models import (
     CooperativeAffiliation, LeadershipMessage, Person, Committee,
     Membership, Staff, ContentManager
 )
+from django.conf import settings
 
 
 class ContentManagerTest(TestCase):
@@ -31,6 +32,7 @@ class ContentManagerTest(TestCase):
             vision="Test Vision",
             values="Test Values",
             description="Test Description",
+            status='PB',  # Published to make is_active=True
             is_active=True
         )
     
@@ -49,6 +51,7 @@ class ContentManagerTest(TestCase):
             vision="V",
             values="V",
             description="D",
+            status='PB',
             is_active=True
         )
         inactive_coop = CooperativeInfo.objects.create(
@@ -64,6 +67,7 @@ class ContentManagerTest(TestCase):
             vision="V",
             values="V",
             description="D",
+            status='DF',
             is_active=False
         )
         
@@ -80,6 +84,7 @@ class ContentManagerTest(TestCase):
             description="Test description",
             event_date=date(2020, 1, 1),
             event_type="milestone",
+            status='PB',
             is_active=True,
             is_featured=True
         )
@@ -88,6 +93,7 @@ class ContentManagerTest(TestCase):
             description="Test description",
             event_date=date(2020, 1, 1),
             event_type="milestone",
+            status='PB',
             is_active=True,
             is_featured=False
         )
@@ -95,6 +101,28 @@ class ContentManagerTest(TestCase):
         featured_queryset = CooperativeTimeline.objects.featured()
         self.assertIn(featured_event, featured_queryset)
         self.assertNotIn(non_featured_event, featured_queryset)
+
+    def test_published_manager(self):
+        """Test published() manager method"""
+        # Create a scheduled item
+        scheduled_coop = CooperativeInfo.objects.create(
+            cooperative_name="Scheduled Coop",
+            cooperative_name_nepali="अनुसूचित",
+            established_date=date(2020, 1, 1),
+            registration_number="REG_SCH",
+            license_number="LIC_SCH",
+            address="Test", phone="123", email="s@e.com",
+            mission="M", vision="V", values="V", description="D",
+            status='SC'
+        )
+        published_coops = CooperativeInfo.objects.published()
+        self.assertNotIn(scheduled_coop, published_coops)
+        # Search for our setup coop
+        found = False
+        for c in published_coops:
+            if c.cooperative_name == "Test Cooperative":
+                found = True
+        self.assertTrue(found)
 
 
 class CooperativeInfoModelTest(TestCase):
@@ -114,7 +142,8 @@ class CooperativeInfoModelTest(TestCase):
             mission="Test Mission",
             vision="Test Vision",
             values="Test Values",
-            description="Test Description"
+            description="Test Description",
+            status='PB'
         )
     
     def test_cooperative_creation(self):
@@ -144,6 +173,7 @@ class CooperativeInfoModelTest(TestCase):
             vision="V",
             values="V",
             description="D",
+            status='PB',
             slug="custom-slug"
         )
         self.assertEqual(coop.slug, "custom-slug")
@@ -172,12 +202,61 @@ class CooperativeInfoModelTest(TestCase):
             mission="M",
             vision="V",
             values="V",
-            description="D"
+            description="D",
+            status='PB'
         )
         coops = list(CooperativeInfo.objects.all())
         # Should be ordered by -created_at (newest first)
         self.assertEqual(coops[0], coop2)
         self.assertEqual(coops[1], self.cooperative)
+
+    def test_status_helpers(self):
+        """Test status helper methods (is_published, etc)"""
+        self.assertTrue(self.cooperative.is_published())
+        self.assertFalse(self.cooperative.is_draft())
+        self.assertFalse(self.cooperative.is_scheduled())
+        
+        self.cooperative.status = 'DF'
+        self.assertTrue(self.cooperative.is_draft())
+        self.assertFalse(self.cooperative.is_published())
+        
+        self.cooperative.status = 'SC'
+        self.assertTrue(self.cooperative.is_scheduled())
+
+    def test_preview_url(self):
+        """Test get_preview_url logic"""
+        url = self.cooperative.get_preview_url()
+        self.assertIn('preview', url)
+        self.assertIn(str(self.cooperative.pk), url)
+        # Check if token is present
+        self.assertIn('token=', url)
+
+    def test_get_years_of_service(self):
+        """Test years of service calculation"""
+        # established 2020-01-01. If today is 2026, should be 6.
+        today = timezone.now().date()
+        expected = today.year - self.cooperative.established_date.year
+        self.assertEqual(self.cooperative.get_years_of_service(), expected)
+
+    def test_get_years_display(self):
+        """Test years display string"""
+        years = self.cooperative.get_years_of_service()
+        display = self.cooperative.get_years_display()
+        self.assertIn(str(years), display)
+        self.assertIn("Years", display)
+
+    def test_get_hero_image_url(self):
+        """Test get_hero_image_url default"""
+        # No image set, should return None according to implementation
+        url = self.cooperative.get_hero_image_url()
+        self.assertIsNone(url)
+
+    def test_has_our_story(self):
+        """Test has_our_story logic"""
+        self.cooperative.our_story = ""
+        self.assertFalse(self.cooperative.has_our_story())
+        self.cooperative.our_story = "Once upon a time..."
+        self.assertTrue(self.cooperative.has_our_story())
 
 
 class CooperativeTimelineModelTest(TestCase):
@@ -189,7 +268,8 @@ class CooperativeTimelineModelTest(TestCase):
             title="Test Event",
             description="Test Description",
             event_date=date(2020, 1, 1),
-            event_type="milestone"
+            event_type="milestone",
+            status='PB'
         )
     
     def test_timeline_creation(self):
@@ -211,7 +291,8 @@ class CooperativeTimelineModelTest(TestCase):
                 title=f"Event {event_type}",
                 description="Test",
                 event_date=date(2020, 1, 1),
-                event_type=event_type
+                event_type=event_type,
+                status='PB'
             )
             self.assertEqual(timeline.event_type, event_type)
     
@@ -221,12 +302,38 @@ class CooperativeTimelineModelTest(TestCase):
             title="Earlier Event",
             description="Test",
             event_date=date(2019, 1, 1),
-            event_type="milestone"
+            event_type="milestone",
+            status='PB'
         )
         timelines = list(CooperativeTimeline.objects.all())
         # Should be ordered by -event_date, order
         self.assertEqual(timelines[0], self.timeline)  # 2020 > 2019
         self.assertEqual(timelines[1], timeline2)
+
+    def test_status_helpers(self):
+        """Test status helper methods for timeline"""
+        self.assertTrue(self.timeline.is_published())
+        self.assertFalse(self.timeline.is_draft())
+        
+    def test_preview_url(self):
+        """Test get_preview_url for timeline"""
+        url = self.timeline.get_preview_url()
+        self.assertIn('preview', url)
+        self.assertIn('cooperativetimeline', url)
+
+    def test_is_recent(self):
+        """Test is_recent logic (last 2 years)"""
+        # Current timeline is 2020. Definitely not recent in 2026.
+        self.assertFalse(self.timeline.is_recent())
+        
+        # Create a recent one
+        recent_date = timezone.now().date() - timedelta(days=30)
+        recent_event = CooperativeTimeline.objects.create(
+            title="Recent Event",
+            event_date=recent_date,
+            status='PB'
+        )
+        self.assertTrue(recent_event.is_recent())
 
 
 class CooperativeStatisticModelTest(TestCase):
@@ -238,7 +345,8 @@ class CooperativeStatisticModelTest(TestCase):
             title="Total Members",
             value="1000",
             unit="members",
-            statistic_type="members"
+            statistic_type="members",
+            status='PB'
         )
     
     def test_statistic_creation(self):
@@ -258,13 +366,21 @@ class CooperativeStatisticModelTest(TestCase):
             stat = CooperativeStatistic.objects.create(
                 title=f"Test {stat_type}",
                 value="100",
-                statistic_type=stat_type
+                statistic_type=stat_type,
+                status='PB'
             )
             self.assertEqual(stat.statistic_type, stat_type)
     
     def test_default_color(self):
         """Test default color theme"""
         self.assertEqual(self.statistic.color, "deuraligreen")
+
+    def test_get_display_value(self):
+        """Test get_display_value formatting"""
+        # value="1000", unit="members"
+        self.assertEqual(self.statistic.get_display_value(), "1000 members")
+        self.statistic.unit = ""
+        self.assertEqual(self.statistic.get_display_value(), "1000")
 
 
 class CooperativeAffiliationModelTest(TestCase):
@@ -275,7 +391,8 @@ class CooperativeAffiliationModelTest(TestCase):
         self.affiliation = CooperativeAffiliation.objects.create(
             name="Test Organization",
             description="Test Description",
-            affiliation_type="association"
+            affiliation_type="association",
+            status='PB'
         )
     
     def test_affiliation_creation(self):
@@ -296,9 +413,15 @@ class CooperativeAffiliationModelTest(TestCase):
             aff = CooperativeAffiliation.objects.create(
                 name=f"Test {aff_type}",
                 description="Test",
-                affiliation_type=aff_type
+                affiliation_type=aff_type,
+                status='PB'
             )
             self.assertEqual(aff.affiliation_type, aff_type)
+
+    def test_get_logo_url(self):
+        """Test get_logo_url default"""
+        url = self.affiliation.get_logo_url()
+        self.assertIsNone(url)
 
 
 class LeadershipMessageModelTest(TestCase):
@@ -311,7 +434,8 @@ class LeadershipMessageModelTest(TestCase):
             message_type="chairman",
             content="Test content",
             author_name="John Doe",
-            author_position="Chairman"
+            author_position="Chairman",
+            status='PB'
         )
     
     def test_message_creation(self):
@@ -333,9 +457,15 @@ class LeadershipMessageModelTest(TestCase):
                 message_type=msg_type,
                 content="Test",
                 author_name="Test Author",
-                author_position="Test Position"
+                author_position="Test Position",
+                status='PB'
             )
             self.assertEqual(msg.message_type, msg_type)
+
+    def test_get_author_photo_url(self):
+        """Test get_author_photo_url default"""
+        url = self.message.get_author_photo_url()
+        self.assertIsNone(url)
 
 
 class PersonModelTest(TestCase):
@@ -360,6 +490,24 @@ class PersonModelTest(TestCase):
         """Test that full_name must be unique"""
         with self.assertRaises(IntegrityError):
             Person.objects.create(full_name="John Doe")
+
+    def test_get_photo_url(self):
+        """Test get_photo_url default"""
+        url = self.person.get_photo_url()
+        self.assertIsNone(url)
+
+    def test_is_staff(self):
+        """Test is_staff helper"""
+        self.assertFalse(self.person.is_staff())
+        Staff.objects.create(person=self.person, position="Manager")
+        self.assertTrue(self.person.is_staff())
+
+    def test_get_active_committees(self):
+        """Test get_active_committees helper"""
+        self.assertEqual(self.person.get_active_committees().count(), 0)
+        committee = Committee.objects.create(name="C1", tenure_bs="2080-2081")
+        Membership.objects.create(person=self.person, committee=committee, position="member")
+        self.assertEqual(self.person.get_active_committees().count(), 1)
 
 
 class CommitteeModelTest(TestCase):
@@ -399,6 +547,18 @@ class CommitteeModelTest(TestCase):
         # Should be ordered by -is_active, order (active first)
         self.assertEqual(committees[0], self.committee)
         self.assertEqual(committees[1], inactive_committee)
+
+    def test_get_active_members(self):
+        """Test get_active_members helper"""
+        person = Person.objects.create(full_name="Member 1")
+        Membership.objects.create(person=person, committee=self.committee, position="member")
+        self.assertEqual(self.committee.get_active_members().count(), 1)
+
+    def test_get_member_count(self):
+        """Test get_member_count helper"""
+        person = Person.objects.create(full_name="Member 2")
+        Membership.objects.create(person=person, committee=self.committee, position="member")
+        self.assertEqual(self.committee.get_member_count(), 1)
 
 
 class MembershipModelTest(TestCase):
@@ -461,6 +621,14 @@ class MembershipModelTest(TestCase):
                 position="member"
             )
 
+    def test_is_current(self):
+        """Test is_current logic"""
+        # Membership is_current only checks self.is_active and end_date
+        self.assertTrue(self.membership.is_current())
+        self.membership.is_active = False
+        self.membership.save()
+        self.assertFalse(self.membership.is_current())
+
 
 class StaffModelTest(TestCase):
     """Test suite for Staff model"""
@@ -494,4 +662,25 @@ class StaffModelTest(TestCase):
         # But same person cannot have multiple staff profiles
         with self.assertRaises(IntegrityError):
             Staff.objects.create(person=self.person, position="Another Position")
+
+    def test_get_information_officer(self):
+        """Test get_information_officer helper"""
+        # Current staff Jane Doe is not info officer
+        self.assertIsNone(Staff.get_information_officer())
+        self.staff.is_information_officer = True
+        self.staff.save()
+        self.assertEqual(Staff.get_information_officer(), self.staff)
+
+    def test_get_rti_email(self):
+        """Test get_rti_email helper"""
+        from apps.about.constants import DEFAULT_RTI_EMAIL
+        # Returns general fallback if no info officer and no person email
+        self.assertEqual(self.staff.get_rti_email(), DEFAULT_RTI_EMAIL)
+        
+        # Returns info officer person email if exists
+        self.staff.is_information_officer = True
+        self.staff.save()
+        self.staff.person.email = "rti@example.com"
+        self.staff.person.save()
+        self.assertEqual(self.staff.get_rti_email(), "rti@example.com")
 

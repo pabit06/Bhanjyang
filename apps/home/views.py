@@ -164,14 +164,31 @@ class TestimonialsAPI(NepaliLanguageMixin, generics.ListAPIView):
 class PreviewContentView(NepaliLanguageMixin, TemplateView):
     """
     Preview view for draft/scheduled content.
-    Only accessible to staff users.
+    Only accessible to staff users with valid token.
     """
     template_name = 'home/preview.html'
     
     def dispatch(self, request, *args, **kwargs):
-        """Only allow staff users to preview"""
+        """Only allow staff users to preview with valid token"""
         if not request.user.is_staff:
             raise Http404("Preview not available")
+        
+        # Verify token
+        token = kwargs.get('token')
+        pk = kwargs.get('pk')
+        
+        if token:
+            try:
+                from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
+                signer = TimestampSigner()
+                # Verify token (raises exception if invalid or expired)
+                verified_pk = signer.unsign(token, max_age=3600)  # Token valid for 1 hour
+                
+                if str(verified_pk) != str(pk):
+                    raise Http404("Invalid preview token")
+            except (BadSignature, SignatureExpired):
+                raise Http404("Preview link expired or invalid")
+        
         return super().dispatch(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):

@@ -62,3 +62,37 @@ HTTP_BAD_REQUEST = 400
 HTTP_NOT_FOUND = 404
 HTTP_INTERNAL_SERVER_ERROR = 500
 
+# Security Constants
+SPAM_KEYWORDS = [
+    'viagra', 'casino', 'lottery', 'winner', 'congratulations', 'free money',
+    'click here', 'limited time', 'act now', 'guaranteed', 'no risk',
+    'buy now', 'cheap', 'discount', 'prize', 'urgent'
+]
+
+SUSPICIOUS_PATTERNS = [
+    r'https?://[^\s]+',  # URLs
+    r'\b\d{4}[-.]?\d{4}[-.]?\d{4}[-.]?\d{4}\b',  # Credit card numbers
+    r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',  # Phone numbers
+]
+
+DISPOSABLE_EMAIL_DOMAINS = [
+    '10minutemail.com', 'tempmail.com', 'guerrillamail.com',
+    'mailinator.com', 'yopmail.com', 'temp-mail.org',
+    'trashmail.com', 'sharklasers.com', 'guerrillamailblock.com'
+]
+
+SUSPICIOUS_EMAIL_DOMAINS = [
+    'tempmail.com', '10minutemail.com', 'guerrillamail.com',
+    'throwawaymail.com'
+]
+
+# Rate Limits
+RATE_LIMIT_SUBSCRIPTION_ATTEMPTS = 3
+RATE_LIMIT_SUBSCRIPTION_PERIOD = 3600  # 1 hour
+RATE_LIMIT_COMMENT_ATTEMPTS = 5
+RATE_LIMIT_COMMENT_PERIOD = 3600  # 1 hour
+
+SPAM_SCORE_THRESHOLD = 10
+SPAM_LINK_LIMIT = 2
+SPAM_REPETITION_THRESHOLD = 0.3  # 30%
+
