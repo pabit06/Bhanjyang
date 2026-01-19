@@ -1,4 +1,20 @@
 <script>
+    // Initialize AOS Animation Library
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                once: true,
+                offset: 100,
+                duration: 800,
+                easing: 'ease-out-cubic',
+                delay: 0
+            });
+        }
+    });
+</script>
+<script>
+
+
     // Global toast functions (fallback if not defined elsewhere)
     if (typeof showSuccess === 'undefined') {
         function showSuccess(message, title = 'Success') {

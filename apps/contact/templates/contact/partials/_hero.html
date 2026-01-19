@@ -4,11 +4,12 @@
          style="opacity: 1 !important; visibility: visible !important;"
          aria-labelledby="contact-hero-heading">
     
-    <!-- Background Image -->
+    <!-- Background Image with Darkening Filter -->
     <div class="absolute inset-0 z-0">
         <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1920&h=1080&fit=crop"
             alt="Nepal Himalayas and Landscape - Bhanjyang Cooperative Contact"
             class="w-full h-full object-cover" 
+            style="filter: brightness(0.5) contrast(1.1);"
             loading="eager" 
             fetchpriority="high" 
             decoding="async"
@@ -26,16 +27,34 @@
     <!-- Content -->
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
         <div class="animate-fade-in-up">
-            <span class="inline-block text-white/90 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/20 backdrop-blur-sm rounded-full border border-bhanjyangred/30 shadow-lg">
+            <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/30 backdrop-blur-sm rounded-full border border-white/40 shadow-lg"
+                  style="text-shadow: 0 2px 6px rgba(0,0,0,0.9);">
                 {% trans "Contact Us" %}
             </span>
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
-                style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6); opacity: 1 !important;">
+                style="text-shadow: 
+                    0 2px 4px rgba(0,0,0,0.9), 
+                    0 4px 8px rgba(0,0,0,0.8), 
+                    0 8px 16px rgba(0,0,0,0.7),
+                    0 12px 24px rgba(0,0,0,0.6),
+                    -1px -1px 0 rgba(0,0,0,0.5),
+                    1px -1px 0 rgba(0,0,0,0.5),
+                    -1px 1px 0 rgba(0,0,0,0.5),
+                    1px 1px 0 rgba(0,0,0,0.5);
+                opacity: 1 !important;">
                 {% trans "Get In Touch" %}
             </h1>
             <div class="w-32 h-1 bg-bhanjyangred mx-auto rounded-full mb-6 shadow-lg"></div>
-            <p class="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 text-white/95 relative z-20"
-                style="text-shadow: 0 2px 8px rgba(0,0,0,0.7); opacity: 1 !important;">
+            <p class="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 text-white relative z-20"
+                style="text-shadow: 
+                    0 2px 4px rgba(0,0,0,0.95), 
+                    0 4px 12px rgba(0,0,0,0.85),
+                    0 6px 16px rgba(0,0,0,0.75),
+                    -1px -1px 0 rgba(0,0,0,0.6),
+                    1px -1px 0 rgba(0,0,0,0.6),
+                    -1px 1px 0 rgba(0,0,0,0.6),
+                    1px 1px 0 rgba(0,0,0,0.6);
+                opacity: 1 !important;">
                 {% trans "Whether you have a query, feedback, or need assistance, our dedicated team is ready to help." %}
             </p>
         </div>
