@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from .forms import ContactForm
-from .models import ContactSubmission
+from apps.contact.forms import ContactForm
+from apps.contact.models import ContactSubmission
 
 
 class ContactSecurityTestCase(TestCase):

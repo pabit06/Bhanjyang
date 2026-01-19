@@ -57,8 +57,17 @@ DISPOSABLE_EMAIL_DOMAINS = frozenset([
     'mailinator.com', 'getnada.com'
 ])
 
+# Comprehensive spam patterns (merged from spam_detector.py)
 SPAM_PATTERNS = [
-    r'Click here:', r'free money', r'Win \$1000 prize'
+    # Original patterns
+    r'Click here:', r'free money', r'Win \$1000 prize',
+    # Additional spam keywords
+    r'\bcasino\b', r'\bviagra\b', r'\bcryptocurrency\b', r'\bbitcoin\b',
+    r'\binvestment\b', r'\blottery\b', r'\bprize\b', r'\bwinner\b',
+    r'\bclick here\b', r'\bbuy now\b', r'\bseo ranking\b',
+    r'\bmarketing service\b', r'\bdating\b', r'\bsingles\b',
+    # Excessive links (3 or more http/https)
+    r'(https?://.*?){3,}'
 ]
 
 # Validation Thresholds

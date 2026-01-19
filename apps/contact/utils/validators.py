@@ -68,3 +68,37 @@ def validate_contact_mime_type(value):
                 f'Allowed types: {", ".join(ALLOWED_CONTACT_MIME_TYPES)}'
             )
 
+
+def validate_phone_number(phone):
+    """
+    Basic phone number validation.
+    
+    Args:
+        phone: Phone number string
+        
+    Raises:
+        ValidationError: If phone number is invalid
+    """
+    import re
+    if not re.match(r'^\+?\d{7,20}$', phone.replace('-', '').replace(' ', '')):
+        raise ValidationError('Invalid phone number format.')
+    return phone
+
+
+def validate_nepali_phone(phone):
+    """
+    Validate Nepali phone number format.
+    
+    Args:
+        phone: Phone number string
+        
+    Raises:
+        ValidationError: If phone number doesn't match Nepali format
+    """
+    import re
+    cleaned = phone.replace('-', '').replace(' ', '')
+    if not re.match(r'^(\+977)?9\d{9}$', cleaned):
+        raise ValidationError('Invalid Nepali phone number. Must start with 9 and be 10 digits.')
+    return phone
+
+
