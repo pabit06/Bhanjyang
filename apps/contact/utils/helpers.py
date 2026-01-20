@@ -3,10 +3,12 @@ Helper functions for the Contact app.
 """
 
 import os
+from typing import Union, Dict, Any, Optional
 from django.utils import timezone
+from django.http import HttpRequest
 
 
-def get_client_ip(request_or_meta):
+def get_client_ip(request_or_meta: Union[HttpRequest, Dict[str, Any]]) -> str:
     """
     Extract client IP address from request or META dictionary.
     
@@ -29,7 +31,7 @@ def get_client_ip(request_or_meta):
     return ip
 
 
-def format_file_size_display(size_bytes):
+def format_file_size_display(size_bytes: int) -> str:
     """
     Format file size in human-readable format.
     
@@ -49,7 +51,7 @@ def format_file_size_display(size_bytes):
     return f"{size_bytes:.1f} TB"
 
 
-def get_attachment_filename(file_field):
+def get_attachment_filename(file_field: Any) -> Optional[str]:
     """
     Get the filename of an attachment.
     
@@ -64,7 +66,7 @@ def get_attachment_filename(file_field):
     return None
 
 
-def is_recent_submission(created_at, hours=24):
+def is_recent_submission(created_at: Any, hours: int = 24) -> bool:
     """
     Check if submission is recent (within specified hours).
     

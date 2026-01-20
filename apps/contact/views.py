@@ -1,11 +1,21 @@
 import logging
+import time
+from typing import Dict, Any
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse, HttpRequest
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+
+# Try to import Sentry SDK for error tracking
+try:
+    import sentry_sdk
+    SENTRY_AVAILABLE = True
+except ImportError:
+    SENTRY_AVAILABLE = False
+    sentry_sdk = None
 
 from apps.core.view_mixins import NepaliLanguageMixin
 from apps.core.error_handling import ErrorResponse
@@ -13,6 +23,11 @@ from apps.core.error_handling import ErrorResponse
 from .forms import ContactForm, KYMForm
 from .models import ContactSubmission, KYMSubmission
 from .services import ContactService, KYMService
+from .utils.error_codes import (
+    ContactErrorCodes,
+    get_status_code_for_error,
+    get_user_friendly_message
+)
 
 logger = logging.getLogger(__name__)
 
@@ -21,11 +36,16 @@ class ContactView(NepaliLanguageMixin, View):
     """Main contact form view"""
     template_name = 'contact/contact.html'
     
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         """Render contact form page"""
         # Get context from service (includes form, FAQs, office_locations, information_officer, etc.)
         is_staff = request.user.is_staff if hasattr(request, 'user') and request.user.is_authenticated else False
         context = ContactService.get_contact_page_context(is_staff=is_staff)
+        
+        # Add reCAPTCHA configuration to form context
+        if hasattr(context['form'], 'recaptcha_enabled'):
+            context['form'].recaptcha_enabled = getattr(settings, 'CONTACT_RECAPTCHA_ENABLED', False)
+            context['form'].recaptcha_site_key = getattr(settings, 'RECAPTCHA_SITE_KEY', '')
         
         # Update breadcrumbs with translated strings
         context['breadcrumbs'] = [
@@ -35,34 +55,64 @@ class ContactView(NepaliLanguageMixin, View):
         
         return render(request, self.template_name, context)
     
-    def _is_ajax_request(self, request):
+    def _is_ajax_request(self, request: HttpRequest) -> bool:
         """Check if request is AJAX"""
         return request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     
-    def post(self, request, *args, **kwargs):
+    def post(self, request: HttpRequest, *args: Any, **kwargs: Any) -> JsonResponse:
         """Handle contact form submission"""
+        submission_start_time = time.time()
+        
         if not self._is_ajax_request(request):
             logger.warning("Non-AJAX POST request rejected")
-            return JsonResponse({
-                'success': False,
-                'message': _('This endpoint only accepts AJAX requests.')
-            }, status=400)
+            return ErrorResponse.json_error(
+                message=_('This endpoint only accepts AJAX requests.'),
+                status_code=400,
+                error_code=ContactErrorCodes.AJAX_REQUIRED
+            )
         
+        # Track form validation time
+        validation_start = time.time()
         form = ContactForm(request.POST, request.FILES)
+        is_valid = form.is_valid()
+        validation_time = (time.time() - validation_start) * 1000
         
-        if not form.is_valid():
-            return JsonResponse({
-                'success': False,
-                'message': _('Please correct the errors in the form.'),
-                'errors': form.errors
-            }, status=400)
+        if not is_valid:
+            return ErrorResponse.json_error(
+                message=get_user_friendly_message(ContactErrorCodes.FORM_VALIDATION_ERROR),
+                status_code=400,
+                error_code=ContactErrorCodes.FORM_VALIDATION_ERROR,
+                errors=form.errors
+            )
         
         try:
+            # Track file upload processing (happens in create_contact_submission)
+            file_upload_start = time.time()
+            
             # Use service to handle submission
             submission = ContactService.create_contact_submission(form.cleaned_data, request.FILES, request.META)
             
-            # Send notification emails
+            file_upload_time = (time.time() - file_upload_start) * 1000
+            
+            # Track email queue time
+            email_queue_start = time.time()
             ContactService.send_contact_notification_emails(submission)
+            email_queue_time = (time.time() - email_queue_start) * 1000
+            
+            total_time = (time.time() - submission_start_time) * 1000
+            
+            # Track form submission performance
+            from .utils.performance import track_form_submission_performance
+            track_form_submission_performance(
+                form_validation_time=validation_time,
+                file_upload_time=file_upload_time,
+                email_queue_time=email_queue_time,
+                total_time=total_time,
+                request_meta=request.META,
+                user=request.user if hasattr(request, 'user') and request.user.is_authenticated else None,
+                session_id=request.session.session_key if hasattr(request, 'session') else None,
+                submission_id=submission.id
+            )
             
             return JsonResponse({
                 'success': True,
@@ -73,10 +123,37 @@ class ContactView(NepaliLanguageMixin, View):
         except Exception as e:
             logger.error(f"Error processing contact submission: {e}", exc_info=True)
             
+            # Capture exception in Sentry if available
+            if SENTRY_AVAILABLE:
+                try:
+                    with sentry_sdk.push_scope() as scope:
+                        scope.set_tag("error_type", "contact_submission")
+                        scope.set_tag("submission_path", request.path)
+                        scope.set_context("request", {
+                            "method": request.method,
+                            "path": request.path,
+                            "user_agent": request.META.get('HTTP_USER_AGENT', ''),
+                            "ip": request.META.get('REMOTE_ADDR', ''),
+                        })
+                        if hasattr(request, 'user') and request.user.is_authenticated:
+                            scope.set_user({"id": request.user.id, "email": request.user.email})
+                        sentry_sdk.capture_exception(e)
+                except Exception as sentry_error:
+                    logger.warning(f"Failed to capture exception in Sentry: {sentry_error}")
+            
+            # Determine error code based on exception type
+            error_code = ContactErrorCodes.SUBMISSION_ERROR
+            if isinstance(e, ValueError):
+                error_code = ContactErrorCodes.VALIDATION_ERROR
+            elif 'file' in str(e).lower() or 'upload' in str(e).lower():
+                error_code = ContactErrorCodes.FILE_UPLOAD_ERROR
+            elif 'database' in str(e).lower() or 'db' in str(e).lower():
+                error_code = ContactErrorCodes.DATABASE_ERROR
+            
             return ErrorResponse.json_error(
-                message=_('An error occurred while processing your request. Please try again later.'),
-                status_code=500,
-                error_code='SUBMISSION_ERROR',
+                message=get_user_friendly_message(error_code),
+                status_code=get_status_code_for_error(error_code),
+                error_code=error_code,
                 details={'exception': str(e)} if settings.DEBUG else None
             )
 
@@ -85,7 +162,7 @@ class KYMFormView(NepaliLanguageMixin, View):
     """Know Your Member (KYM) form view"""
     template_name = 'contact/kym_form.html'
     
-    def get(self, request, *args, **kwargs):
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         """Render KYM form page"""
         context = {
             'form': KYMForm(),
@@ -97,27 +174,29 @@ class KYMFormView(NepaliLanguageMixin, View):
         }
         return render(request, self.template_name, context)
     
-    def _is_ajax_request(self, request):
+    def _is_ajax_request(self, request: HttpRequest) -> bool:
         """Check if request is AJAX"""
         return request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     
-    def post(self, request, *args, **kwargs):
+    def post(self, request: HttpRequest, *args: Any, **kwargs: Any) -> JsonResponse:
         """Handle KYM form submission"""
         if not self._is_ajax_request(request):
             logger.warning("Non-AJAX KYM POST request rejected")
-            return JsonResponse({
-                'success': False,
-                'message': _('This endpoint only accepts AJAX requests.')
-            }, status=400)
+            return ErrorResponse.json_error(
+                message=_('This endpoint only accepts AJAX requests.'),
+                status_code=400,
+                error_code=ContactErrorCodes.AJAX_REQUIRED
+            )
         
         form = KYMForm(request.POST, request.FILES)
         
         if not form.is_valid():
-            return JsonResponse({
-                'success': False,
-                'message': _('Please correct the errors in the form.'),
-                'errors': form.errors
-            }, status=400)
+            return ErrorResponse.json_error(
+                message=get_user_friendly_message(ContactErrorCodes.KYM_VALIDATION_ERROR),
+                status_code=400,
+                error_code=ContactErrorCodes.KYM_VALIDATION_ERROR,
+                errors=form.errors
+            )
         
         try:
             # Use service to handle submission
@@ -132,10 +211,39 @@ class KYMFormView(NepaliLanguageMixin, View):
         except Exception as e:
             logger.error(f"Error processing KYM submission: {e}", exc_info=True)
             
-            return JsonResponse({
-                'success': False,
-                'message': _('An error occurred while processing your submission. Please try again later.')
-            }, status=500)
+            # Capture exception in Sentry if available
+            if SENTRY_AVAILABLE:
+                try:
+                    with sentry_sdk.push_scope() as scope:
+                        scope.set_tag("error_type", "kym_submission")
+                        scope.set_tag("submission_path", request.path)
+                        scope.set_context("request", {
+                            "method": request.method,
+                            "path": request.path,
+                            "user_agent": request.META.get('HTTP_USER_AGENT', ''),
+                            "ip": request.META.get('REMOTE_ADDR', ''),
+                        })
+                        if hasattr(request, 'user') and request.user.is_authenticated:
+                            scope.set_user({"id": request.user.id, "email": request.user.email})
+                        sentry_sdk.capture_exception(e)
+                except Exception as sentry_error:
+                    logger.warning(f"Failed to capture exception in Sentry: {sentry_error}")
+            
+            # Determine error code based on exception type
+            error_code = ContactErrorCodes.KYM_SUBMISSION_ERROR
+            if isinstance(e, ValueError):
+                error_code = ContactErrorCodes.KYM_VALIDATION_ERROR
+            elif 'file' in str(e).lower() or 'upload' in str(e).lower():
+                error_code = ContactErrorCodes.FILE_UPLOAD_ERROR
+            elif 'database' in str(e).lower() or 'db' in str(e).lower():
+                error_code = ContactErrorCodes.DATABASE_ERROR
+            
+            return ErrorResponse.json_error(
+                message=get_user_friendly_message(error_code),
+                status_code=get_status_code_for_error(error_code),
+                error_code=error_code,
+                details={'exception': str(e)} if settings.DEBUG else None
+            )
 
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -144,10 +252,10 @@ from django.http import HttpResponse
 class KYMDownloadPDFView(LoginRequiredMixin, UserPassesTestMixin, View):
     """View to download KYM submission as PDF (Admin/Staff only)"""
     
-    def test_func(self):
+    def test_func(self) -> bool:
         return self.request.user.is_staff
         
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request: HttpRequest, pk: int, *args: Any, **kwargs: Any) -> HttpResponse:
         pdf_buffer = KYMService.generate_kym_pdf(pk)
         if not pdf_buffer:
             from django.contrib import messages
@@ -167,7 +275,7 @@ class PrivacyPolicyView(NepaliLanguageMixin, TemplateView):
     """Render the privacy policy page."""
     template_name = 'contact/privacy_policy.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         
         from apps.about.models import CooperativeInfo

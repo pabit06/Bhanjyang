@@ -161,6 +161,15 @@
                         <p id="{{ form.attachment.id_for_label }}_help" class="text-xs text-gray-500 mt-1 font-poppins" role="note" aria-live="polite">{% trans "Max 5MB (PDF, DOC, JPG, PNG)" %}</p>
                     </div>
 
+                    {% if form.recaptcha_token %}
+                    <div class="form-group">
+                        {{ form.recaptcha_token }}
+                        <div id="recaptcha-container" class="flex justify-center my-4"></div>
+                        <div id="{{ form.recaptcha_token.id_for_label }}_error"
+                            class="error-message hidden text-red-600 text-sm mt-1 font-poppins text-center" role="alert" aria-live="polite"></div>
+                    </div>
+                    {% endif %}
+
                     <div class="text-center pt-4">
                         <button id="submitButton" type="submit"
                             class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white text-base font-bold font-poppins py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"

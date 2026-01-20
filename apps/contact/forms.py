@@ -10,6 +10,7 @@ import bleach
 from django import forms
 from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 from apps.core.widgets import NepaliDateInput
 
 from .utils.constants import (
@@ -115,6 +116,65 @@ class ContactForm(forms.Form):
         }),
         label=''
     )
+    
+    # reCAPTCHA field (optional, configurable via settings)
+    recaptcha_token = forms.CharField(
+        required=False,
+        widget=forms.HiddenInput(),
+        label=''
+    )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Enable reCAPTCHA if configured
+        self.recaptcha_enabled = getattr(settings, 'CONTACT_RECAPTCHA_ENABLED', False)
+        self.recaptcha_site_key = getattr(settings, 'RECAPTCHA_SITE_KEY', '')
+        
+        if not self.recaptcha_enabled:
+            # Remove reCAPTCHA field if not enabled
+            self.fields.pop('recaptcha_token', None)
+        elif self.recaptcha_enabled and not self.recaptcha_site_key:
+            # Warn if enabled but no site key configured
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning("reCAPTCHA is enabled but RECAPTCHA_SITE_KEY is not set")
+    
+    def clean_recaptcha_token(self):
+        """Validate reCAPTCHA token if enabled."""
+        if not self.recaptcha_enabled:
+            return self.cleaned_data.get('recaptcha_token', '')
+        
+        token = self.cleaned_data.get('recaptcha_token', '')
+        if not token:
+            raise forms.ValidationError(_('reCAPTCHA verification failed. Please try again.'))
+        
+        # Verify token with Google reCAPTCHA API
+        secret_key = getattr(settings, 'RECAPTCHA_SECRET_KEY', '')
+        if not secret_key:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.warning("reCAPTCHA verification skipped: RECAPTCHA_SECRET_KEY not set")
+            return token
+        
+        try:
+            import requests
+            verify_url = 'https://www.google.com/recaptcha/api/siteverify'
+            response = requests.post(verify_url, data={
+                'secret': secret_key,
+                'response': token
+            }, timeout=5)
+            
+            result = response.json()
+            if not result.get('success', False):
+                raise forms.ValidationError(_('reCAPTCHA verification failed. Please try again.'))
+            
+            return token
+        except requests.RequestException as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"reCAPTCHA verification error: {e}")
+            # In case of network error, allow submission but log it
+            return token
 
     def clean_subject(self):
         """Validate subject field for spam content."""

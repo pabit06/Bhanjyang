@@ -62,6 +62,32 @@
         };
     }
 
+    // reCAPTCHA configuration
+    const RECAPTCHA_SITE_KEY = '{{ form.recaptcha_site_key|default:"" }}';
+    const RECAPTCHA_ENABLED = {{ form.recaptcha_enabled|yesno:"true,false" }};
+    let recaptchaWidgetId = null;
+
+    // Load reCAPTCHA script if enabled
+    if (RECAPTCHA_ENABLED && RECAPTCHA_SITE_KEY) {
+        const script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js?render=explicit';
+        script.async = true;
+        script.defer = true;
+        script.onload = function() {
+            if (typeof grecaptcha !== 'undefined') {
+                const recaptchaContainer = document.getElementById('recaptcha-container');
+                if (recaptchaContainer) {
+                    recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
+                        'sitekey': RECAPTCHA_SITE_KEY,
+                        'theme': 'light',
+                        'size': 'normal'
+                    });
+                }
+            }
+        };
+        document.head.appendChild(script);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('contactForm');
         const submitButton = document.getElementById('submitButton');
@@ -479,6 +505,27 @@
 
                 const formData = new FormData(form);
                 const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                // Get reCAPTCHA token if enabled
+                if (RECAPTCHA_ENABLED && RECAPTCHA_SITE_KEY && recaptchaWidgetId !== null) {
+                    const recaptchaToken = grecaptcha.getResponse(recaptchaWidgetId);
+                    if (!recaptchaToken) {
+                        setLoadingState(false);
+                        const recaptchaError = document.getElementById('recaptcha-container').nextElementSibling;
+                        if (recaptchaError && recaptchaError.classList.contains('error-message')) {
+                            recaptchaError.textContent = 'कृपया reCAPTCHA प्रमाणित गर्नुहोस्।';
+                            recaptchaError.classList.remove('hidden');
+                        }
+                        showErrorMessage('कृपया reCAPTCHA प्रमाणित गर्नुहोस्।');
+                        return;
+                    }
+                    const recaptchaField = form.querySelector('[name="recaptcha_token"]');
+                    if (recaptchaField) {
+                        recaptchaField.value = recaptchaToken;
+                    } else {
+                        formData.append('recaptcha_token', recaptchaToken);
+                    }
+                }
 
                 fetch(form.action, {
                     method: 'POST',

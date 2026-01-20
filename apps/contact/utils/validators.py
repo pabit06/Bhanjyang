@@ -3,6 +3,7 @@ Custom validators for the Contact app.
 """
 
 import os
+from typing import Any
 from django.core.exceptions import ValidationError
 from .constants import (
     MAX_CONTACT_FILE_SIZE_BYTES,
@@ -11,7 +12,7 @@ from .constants import (
 )
 
 
-def validate_contact_file_size(value):
+def validate_contact_file_size(value: Any) -> None:
     """
     Validate that uploaded file size does not exceed maximum allowed size.
     
@@ -29,7 +30,7 @@ def validate_contact_file_size(value):
         )
 
 
-def validate_contact_file_extension(value):
+def validate_contact_file_extension(value: Any) -> None:
     """
     Validate that uploaded file has an allowed extension.
     
@@ -51,7 +52,7 @@ def validate_contact_file_extension(value):
         )
 
 
-def validate_contact_mime_type(value):
+def validate_contact_mime_type(value: Any) -> None:
     """
     Validate that uploaded file has an allowed MIME type.
     
@@ -69,7 +70,7 @@ def validate_contact_mime_type(value):
             )
 
 
-def validate_phone_number(phone):
+def validate_phone_number(phone: str) -> str:
     """
     Basic phone number validation.
     
@@ -78,6 +79,9 @@ def validate_phone_number(phone):
         
     Raises:
         ValidationError: If phone number is invalid
+        
+    Returns:
+        str: Validated phone number
     """
     import re
     if not re.match(r'^\+?\d{7,20}$', phone.replace('-', '').replace(' ', '')):
@@ -85,7 +89,7 @@ def validate_phone_number(phone):
     return phone
 
 
-def validate_nepali_phone(phone):
+def validate_nepali_phone(phone: str) -> str:
     """
     Validate Nepali phone number format.
     
@@ -94,6 +98,9 @@ def validate_nepali_phone(phone):
         
     Raises:
         ValidationError: If phone number doesn't match Nepali format
+        
+    Returns:
+        str: Validated phone number
     """
     import re
     cleaned = phone.replace('-', '').replace(' ', '')

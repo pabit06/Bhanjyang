@@ -1,7 +1,7 @@
 # Contact & Messaging System
 *(Bhanjyang Cooperative Society Ltd.)*
 
-[![Version](https://img.shields.io/badge/Version-2.1.0-blue.svg)]()
+[![Version](https://img.shields.io/badge/Version-2.2.0-blue.svg)]()
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success.svg)]()
 [![Coverage](https://img.shields.io/badge/Coverage-92%25-brightgreen.svg)]()
 [![Django](https://img.shields.io/badge/Django-5.2-green.svg)]()
@@ -57,15 +57,32 @@
 *   **Channels**: Supports General Inquiries, Technical Support, Feedback, and Official RTI requests.
 *   **Smart Routing**: Automatically routes emails to relevant departments (e.g., Loan Dept, Tech Support) based on 'Subject' selection.
 *   **Bilingual UI**: Fully localized connection for Nepali-speaking demographic.
+*   **Performance Monitoring**: Real-time tracking of form submissions, validation times, and email queue performance.
 
 ### 2. Digital KYM (Know Your Member)
 *   **Secure Pipeline**: End-to-end encryption for transmitting sensitive PII (Personally Identifiable Information).
 *   **Multi-File Upload**: Logic to handle specific document types (Citizenship Front/Back, PP Photo) with specific validation rules per file type.
+*   **PDF Generation**: Automated PDF generation with performance tracking.
 
 ### 3. Automated Operations
 *   **Acknowledgement**: Instant branded email response to the user with a tracking reference ID.
 *   **Staff Notification**: Async alerts to admin staff via Celery workers to ensure non-blocking UI experience.
 *   **CRM Integration**: Ready-to-connect hooks for internal CRM systems.
+
+### 4. Performance & Monitoring (NEW in v2.2.0)
+*   **Service-Level Tracking**: Performance decorators for all service methods.
+*   **Database Query Monitoring**: Track query count, slow queries, and N+1 problems.
+*   **Form Submission Metrics**: Validation time, file upload time, email queue time.
+*   **Cache Performance**: Hit/miss ratios and lookup times.
+*   **Alerting**: Automatic alerts for slow operations (>500ms threshold).
+*   **Integration**: Full integration with `PerformanceMetric` model for dashboard analytics.
+
+### 5. Enhanced Security (NEW in v2.2.0)
+*   **Per-Email Rate Limiting**: Additional layer of protection beyond IP-based limiting.
+*   **Content Security Policy**: CSP headers for XSS protection.
+*   **Optional reCAPTCHA**: Configurable bot protection.
+*   **Structured Error Codes**: Consistent error handling and better debugging.
+*   **Sentry Integration**: Production error tracking (if available).
 
 ---
 
@@ -173,7 +190,11 @@ apps/contact/
 └── utils/
     ├── analytics.py         # Reporting Logic
     ├── helpers.py           # IP Extraction, Formatting
-    └── rate_limiting.py     # 🛡️ Protection Decorators
+    ├── rate_limiting.py     # 🛡️ Protection Decorators
+    ├── performance.py       # ⚡ Performance Tracking Utilities
+    ├── error_codes.py       # 🔧 Structured Error Codes
+    ├── validators.py        # ✅ Input Validation
+    └── constants.py         # 📋 Configuration Constants
 ```
 
 ---
@@ -189,6 +210,9 @@ Fine-tune the application via `settings.py`.
 | `DISABLE_RATE_LIMITING` | `bool` | `False` | Set `True` for development or load testing. |
 | `MAX_UPLOAD_SIZE` | `int` | `5242880` | Max file size in bytes (5MB). |
 | `RTI_OFFICER_CACHE_TIMEOUT` | `int` | `3600` | Seconds to cache RTI officer details. |
+| `CONTACT_RECAPTCHA_ENABLED` | `bool` | `False` | Enable reCAPTCHA for contact forms. |
+| `RECAPTCHA_SITE_KEY` | `str` | `''` | Google reCAPTCHA site key. |
+| `RECAPTCHA_SECRET_KEY` | `str` | `''` | Google reCAPTCHA secret key. |
 
 ---
 
@@ -201,14 +225,28 @@ We employ a **"Defense in Depth"** strategy adhering to OWASP Top 10 mitigation 
     *   Filenames are sanitized and randomized (UUID) to prevent directory traversal.
 2.  **Rate Limiting**:
     *   Implemented at the Application Layer using Redis-backed counters.
-    *   Differentiates between public IPs and authenticated users.
+    *   IP-based rate limiting (5/hour for contact form, 3/hour for KYM form).
+    *   **NEW:** Per-email rate limiting (3/hour per email address).
+    *   Integration with IP blacklist system.
 3.  **Spam Heuristics**:
     *   Analyzes message content for known spam patterns.
     *   Checks for forbidden keywords.
-    *   (Planned) Integration with Akismet.
-4.  **Data Minimization**:
+    *   Honeypot field for bot detection.
+    *   Disposable email domain blocking.
+4.  **Content Security Policy (CSP)**:
+    *   **NEW:** CSP headers added to contact routes.
+    *   Configured for Google Maps and form validation.
+    *   Prevents XSS attacks and unauthorized resource loading.
+5.  **reCAPTCHA Integration** (Optional):
+    *   **NEW:** Optional reCAPTCHA v2 support for additional bot protection.
+    *   Configurable via settings (`CONTACT_RECAPTCHA_ENABLED`, `RECAPTCHA_SITE_KEY`).
+    *   Disabled by default, can be enabled when needed.
+6.  **Data Minimization**:
     *   IP addresses are anonymized after 90 days (Compliance requirement).
     *   Attachments are stored in non-public buckets (S3/MinIO) in production.
+7.  **Error Handling**:
+    *   **NEW:** Structured error codes for consistent error responses.
+    *   **NEW:** Sentry integration for production error tracking (if available).
 
 ---
 
@@ -292,6 +330,28 @@ pytest apps/contact --cov=apps/contact --cov-report=html
 *   **Check**: File size < 5MB?
 *   **Check**: Extension in `.jpg`, `.png`, `.pdf`?
 *   **Check**: Does the server have write permissions to `media/` folder?
+
+---
+
+---
+
+## 📊 Version History
+
+### v2.2.0 (January 20, 2026)
+**Major Enhancements:**
+- ✅ Comprehensive performance monitoring system
+- ✅ Enhanced rate limiting (per-email + IP-based)
+- ✅ Content Security Policy (CSP) headers
+- ✅ Optional reCAPTCHA integration
+- ✅ Structured error codes and Sentry integration
+- ✅ Full type hints throughout codebase
+- ✅ Improved error handling and debugging
+
+### v2.1.0 (January 6, 2026)
+- Initial production release
+- W3 Web Standards compliance
+- Dynamic SEO implementation
+- Comprehensive test coverage
 
 ---
 
