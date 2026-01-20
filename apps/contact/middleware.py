@@ -104,6 +104,7 @@ class ContactRateLimitMiddleware:
             
             # Check email-based rate limit (if email is provided)
             email = request.POST.get('email', '').strip().lower()
+            email_count = None  # Initialize to avoid UnboundLocalError
             if email:
                 email_allowed, email_count, email_reset_time = RateLimitManager.check_rate_limit(
                     identifier=email,
@@ -137,7 +138,7 @@ class ContactRateLimitMiddleware:
             
             # Log successful rate limit check
             ip_remaining = limit_count - ip_count
-            email_remaining = self.EMAIL_RATE_LIMIT_COUNT - email_count if email else None
+            email_remaining = self.EMAIL_RATE_LIMIT_COUNT - email_count if email_count is not None else None
             logger.info(
                 f"Submission allowed for IP {client_ip} on {request.path}: "
                 f"{ip_remaining} IP requests remaining"
