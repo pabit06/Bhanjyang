@@ -66,6 +66,7 @@
     const RECAPTCHA_SITE_KEY = '{{ form.recaptcha_site_key|default:"" }}';
     const RECAPTCHA_ENABLED = {{ form.recaptcha_enabled|yesno:"true,false" }};
     let recaptchaWidgetId = null;
+    let recaptchaReady = false; // Track if reCAPTCHA is loaded and ready
 
     // Load reCAPTCHA script if enabled
     if (RECAPTCHA_ENABLED && RECAPTCHA_SITE_KEY) {
@@ -82,10 +83,19 @@
                         'theme': 'light',
                         'size': 'normal'
                     });
+                    recaptchaReady = true; // Mark reCAPTCHA as ready
                 }
             }
         };
+        script.onerror = function() {
+            console.error('Failed to load reCAPTCHA script');
+            // If reCAPTCHA fails to load, we should still prevent submission
+            // to maintain security
+        };
         document.head.appendChild(script);
+    } else {
+        // If reCAPTCHA is not enabled, mark as ready (no validation needed)
+        recaptchaReady = true;
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -503,22 +513,44 @@
                 setLoadingState(true);
                 hideAllMessages();
 
-                const formData = new FormData(form);
-                const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                // Get reCAPTCHA token if enabled
-                if (RECAPTCHA_ENABLED && RECAPTCHA_SITE_KEY && recaptchaWidgetId !== null) {
+                // Validate reCAPTCHA before proceeding
+                if (RECAPTCHA_ENABLED && RECAPTCHA_SITE_KEY) {
+                    // Check if reCAPTCHA is ready (loaded and rendered)
+                    if (!recaptchaReady || recaptchaWidgetId === null) {
+                        setLoadingState(false);
+                        showErrorMessage('कृपया reCAPTCHA लोड हुन प्रतिक्षा गर्नुहोस्। कृपया पृष्ठ पुनः लोड गर्नुहोस्।');
+                        return;
+                    }
+                    
+                    // Get reCAPTCHA token
+                    if (typeof grecaptcha === 'undefined') {
+                        setLoadingState(false);
+                        showErrorMessage('reCAPTCHA लोड भएन। कृपया पृष्ठ पुनः लोड गर्नुहोस्।');
+                        return;
+                    }
+                    
                     const recaptchaToken = grecaptcha.getResponse(recaptchaWidgetId);
                     if (!recaptchaToken) {
                         setLoadingState(false);
-                        const recaptchaError = document.getElementById('recaptcha-container').nextElementSibling;
-                        if (recaptchaError && recaptchaError.classList.contains('error-message')) {
-                            recaptchaError.textContent = 'कृपया reCAPTCHA प्रमाणित गर्नुहोस्।';
-                            recaptchaError.classList.remove('hidden');
+                        const recaptchaContainer = document.getElementById('recaptcha-container');
+                        if (recaptchaContainer) {
+                            const recaptchaError = recaptchaContainer.nextElementSibling;
+                            if (recaptchaError && recaptchaError.classList.contains('error-message')) {
+                                recaptchaError.textContent = 'कृपया reCAPTCHA प्रमाणित गर्नुहोस्।';
+                                recaptchaError.classList.remove('hidden');
+                            }
                         }
                         showErrorMessage('कृपया reCAPTCHA प्रमाणित गर्नुहोस्।');
                         return;
                     }
+                }
+
+                const formData = new FormData(form);
+                const csrftoken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                // Add reCAPTCHA token to form data if enabled
+                if (RECAPTCHA_ENABLED && RECAPTCHA_SITE_KEY && recaptchaWidgetId !== null) {
+                    const recaptchaToken = grecaptcha.getResponse(recaptchaWidgetId);
                     const recaptchaField = form.querySelector('[name="recaptcha_token"]');
                     if (recaptchaField) {
                         recaptchaField.value = recaptchaToken;
