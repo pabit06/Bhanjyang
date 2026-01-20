@@ -29,8 +29,6 @@ class MapViewsTest(TestCase):
         )
         
         # Create test office locations
-        
-        # Create test office locations
         OfficeLocation.objects.create(
             name='Test Main Office',
             address='Test Address 1',
