@@ -156,8 +156,8 @@ class ContactForm(forms.Form):
         if not secret_key:
             import logging
             logger = logging.getLogger(__name__)
-            logger.warning("reCAPTCHA verification skipped: RECAPTCHA_SECRET_KEY not set")
-            return token
+            logger.error("reCAPTCHA verification failed: RECAPTCHA_SECRET_KEY not configured")
+            raise forms.ValidationError(_('reCAPTCHA verification failed. Please contact support.'))
         
         # Try to import requests library
         try:
@@ -165,10 +165,9 @@ class ContactForm(forms.Form):
         except (ImportError, ModuleNotFoundError) as e:
             import logging
             logger = logging.getLogger(__name__)
-            logger.error(f"reCAPTCHA verification skipped: requests library not installed: {e}")
-            # If requests is not available, allow submission but log the issue
-            # This prevents form submission from crashing
-            return token
+            logger.error(f"reCAPTCHA verification failed: requests library not installed: {e}")
+            # Fail closed: reject submission if requests library is missing
+            raise forms.ValidationError(_('reCAPTCHA verification failed. Please contact support.'))
         
         # Verify token with Google reCAPTCHA API
         try:
@@ -182,29 +181,31 @@ class ContactForm(forms.Form):
             try:
                 result = response.json()
             except (ValueError, TypeError) as json_error:
-                # Handle invalid JSON response
+                # Handle invalid JSON response - fail closed for security
                 import logging
                 logger = logging.getLogger(__name__)
                 logger.error(f"reCAPTCHA API returned invalid JSON: {json_error}. Response status: {response.status_code}, Content: {response.text[:200]}")
-                # Allow submission but log the error
-                return token
+                raise forms.ValidationError(_('reCAPTCHA verification failed. Please try again.'))
             
             if not result.get('success', False):
                 raise forms.ValidationError(_('reCAPTCHA verification failed. Please try again.'))
             
             return token
         except requests.RequestException as e:
+            # Network errors - fail closed for security
             import logging
             logger = logging.getLogger(__name__)
             logger.error(f"reCAPTCHA verification network error: {e}")
-            # In case of network error, allow submission but log it
-            return token
+            raise forms.ValidationError(_('reCAPTCHA verification failed. Please try again.'))
+        except forms.ValidationError:
+            # Re-raise validation errors
+            raise
         except Exception as e:
+            # Catch any other unexpected errors - fail closed for security
             import logging
             logger = logging.getLogger(__name__)
             logger.error(f"reCAPTCHA verification unexpected error: {type(e).__name__}: {e}")
-            # Catch any other unexpected errors and allow submission
-            return token
+            raise forms.ValidationError(_('reCAPTCHA verification failed. Please try again.'))
 
     def clean_subject(self):
         """Validate subject field for spam content."""
