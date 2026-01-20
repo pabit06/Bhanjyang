@@ -156,8 +156,19 @@ class ContactForm(forms.Form):
             logger.warning("reCAPTCHA verification skipped: RECAPTCHA_SECRET_KEY not set")
             return token
         
+        # Try to import requests library
         try:
             import requests
+        except (ImportError, ModuleNotFoundError) as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"reCAPTCHA verification skipped: requests library not installed: {e}")
+            # If requests is not available, allow submission but log the issue
+            # This prevents form submission from crashing
+            return token
+        
+        # Verify token with Google reCAPTCHA API
+        try:
             verify_url = 'https://www.google.com/recaptcha/api/siteverify'
             response = requests.post(verify_url, data={
                 'secret': secret_key,
