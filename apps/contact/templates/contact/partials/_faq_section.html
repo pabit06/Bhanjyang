@@ -1,36 +1,55 @@
+{% load static %}
+{% load i18n %}
 <!-- FAQ Section -->
 {% if faqs %}
-<section id="faq" class="relative py-12 bg-white overflow-hidden" data-aos="fade-up" data-aos-duration="800" aria-label="Frequently asked questions">
+<section id="faq" class="relative py-12 bg-white overflow-hidden" data-aos="fade-up" data-aos-duration="800" aria-label="{% trans 'Frequently asked questions' %}">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 opacity-[0.03]">
+        {% static 'images/backgrounds/pattern-light.png' as pattern_img %}
+        <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 300px;"></div>
+    </div>
+    
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-12">
-            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                FAQ
+            <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full"
+                  role="text">
+                {% trans "FAQ" %}
             </span>
-            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                Frequently Asked Questions
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900" id="faq-heading">
+                {% trans "Frequently Asked Questions" %}
             </h2>
-            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
+            <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6" aria-hidden="true"></div>
         </div>
 
-        <div class="max-w-3xl mx-auto space-y-4" x-data="{ activeAccordion: null }">
+        <div class="max-w-3xl mx-auto space-y-4" x-data="{ activeAccordion: null }" aria-labelledby="faq-heading" role="region">
             {% for faq in faqs %}
             <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-deuraligreen/30 transition-colors duration-300">
                 <button @click="activeAccordion = activeAccordion === {{ forloop.counter }} ? null : {{ forloop.counter }}"
-                        class="flex items-center justify-between w-full p-5 text-left bg-white hover:bg-gray-50 transition-colors duration-200 focus:outline-none">
+                        class="flex items-center justify-between w-full p-5 text-left bg-white hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2"
+                        :aria-expanded="activeAccordion === {{ forloop.counter }}"
+                        :aria-controls="'faq-answer-{{ forloop.counter }}'"
+                        :id="'faq-question-{{ forloop.counter }}'"
+                        aria-label="{% trans 'Toggle answer for' %}: {{ faq.question }}">
                     <span class="text-lg font-semibold text-gray-800" :class="{ 'text-deuraligreen': activeAccordion === {{ forloop.counter }} }">
                         {{ faq.question }}
                     </span>
                     <span class="ml-4 flex-shrink-0 transition-transform duration-300"
-                          :class="{ 'rotate-180': activeAccordion === {{ forloop.counter }} }">
-                        <i class="fas fa-chevron-down text-gray-400" :class="{ 'text-deuraligreen': activeAccordion === {{ forloop.counter }} }"></i>
+                          :class="{ 'rotate-180': activeAccordion === {{ forloop.counter }} }"
+                          aria-hidden="true">
+                        <i class="fas fa-chevron-down text-gray-400" :class="{ 'text-deuraligreen': activeAccordion === {{ forloop.counter }} }" aria-hidden="true"></i>
                     </span>
                 </button>
                 <div x-show="activeAccordion === {{ forloop.counter }}"
-                     x-collapse
                      x-transition:enter="transition ease-out duration-200"
                      x-transition:enter-start="opacity-0 transform -translate-y-2"
                      x-transition:enter-end="opacity-100 transform translate-y-0"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 transform translate-y-0"
+                     x-transition:leave-end="opacity-0 transform -translate-y-2"
                      class="p-5 pt-0 bg-white text-gray-600 leading-relaxed border-t border-dashed border-gray-100"
+                     :id="'faq-answer-{{ forloop.counter }}'"
+                     :aria-labelledby="'faq-question-{{ forloop.counter }}'"
+                     role="region"
                      style="display: none;">
                     {{ faq.answer|linebreaks }}
                 </div>

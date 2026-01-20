@@ -4,9 +4,14 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
     
+    <!-- 
+    NOTE: This is a static backup sitemap. The primary sitemap is dynamically generated at /sitemap.xml
+    For production, use the dynamic sitemap which automatically includes all content.
+    -->
+    
     <!-- Homepage -->
     <url>
-        <loc>https://bhanjyangcooperative.com/</loc>
+        <loc>https://bhanjyang.coop.np/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
@@ -14,7 +19,7 @@
     
     <!-- About Page -->
     <url>
-        <loc>https://bhanjyangcooperative.com/about/</loc>
+        <loc>https://bhanjyang.coop.np/about/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -22,7 +27,7 @@
     
     <!-- Services Page -->
     <url>
-        <loc>https://bhanjyangcooperative.com/services/</loc>
+        <loc>https://bhanjyang.coop.np/services/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
@@ -30,7 +35,7 @@
     
     <!-- Contact Page -->
     <url>
-        <loc>https://bhanjyangcooperative.com/contact/</loc>
+        <loc>https://bhanjyang.coop.np/contact/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -38,7 +43,7 @@
     
     <!-- Team Page -->
     <url>
-        <loc>https://bhanjyangcooperative.com/team/</loc>
+        <loc>https://bhanjyang.coop.np/team/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -46,7 +51,7 @@
     
     <!-- News Page -->
     <url>
-        <loc>https://bhanjyangcooperative.com/news/</loc>
+        <loc>https://bhanjyang.coop.np/news-events/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -54,7 +59,7 @@
     
     <!-- Downloads Page -->
     <url>
-        <loc>https://bhanjyangcooperative.com/downloads/</loc>
+        <loc>https://bhanjyang.coop.np/downloads/</loc>
         <lastmod>2025-10-16</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>

@@ -65,8 +65,9 @@
     <link rel="apple-touch-icon" href="{% static 'favicon/apple-touch-icon.png' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
 
-    {# Canonical URL #}
-    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock canonical_url %}">
+    {# Canonical URL - Prevents duplicate content issues by pointing to the preferred version of the page #}
+    {# Removes query parameters to avoid duplicate content (e.g., ?page=2, ?sort=name) #}
+    <link rel="canonical" href="{% block canonical_url %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock canonical_url %}">
 
     {# Design System CSS #}
     <link href="{% static 'css/design-system/tokens.css' %}" rel="stylesheet">

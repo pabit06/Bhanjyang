@@ -8,12 +8,12 @@
 
 
 {% block content %}
-<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white" aria-label="{% trans 'Privacy Policy' %}">
     <div class="container mx-auto max-w-4xl">
         <h1 class="text-3xl sm:text-4xl font-extrabold font-montserrat text-bhanjyangred mb-6">{% trans "Privacy Policy" %}</h1>
         <p class="text-gray-700 mb-6">{% trans "Last Updated" %}: {% now "F j, Y" %}</p>
 
-        <div class="prose max-w-none">
+        <div class="prose max-w-none" role="article">
             <h2>{% trans "1. Introduction" %}</h2>
             <p>{% trans "Bhanjyang Saving and Credit Cooperative Society Ltd. (\"we\", \"our\") respects your privacy and is committed to protecting your personal information." %}</p>
 
@@ -41,7 +41,7 @@
             <p>{% trans "We use necessary cookies for session management and security. Analytics may be used to improve our services. You can control cookies through your browser settings." %}</p>
 
             <h2>{% trans "7. Your Rights" %}</h2>
-            <p>{% trans "You may request to access, correct, or delete your personal data subject to legal limits. Contact us at" %} <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a>.</p>
+            <p>{% trans "You may request to access, correct, or delete your personal data subject to legal limits. Contact us at" %} <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}" aria-label="{% trans 'Email us about privacy rights' %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a>.</p>
 
             <h2>{% trans "8. Security" %}</h2>
             <p>{% trans "We implement appropriate administrative, technical, and physical security measures to protect your information." %} {% trans "However, data transmission over the internet cannot be guaranteed to be completely secure." %}</p>
@@ -50,7 +50,7 @@
             <p>{% trans "Our site may contain links to third-party sites. We are not responsible for their content or privacy practices." %}</p>
 
             <h2>{% trans "10. Contact Us" %}</h2>
-            <p>{% trans "If you have any questions about this policy, please contact us at" %} <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a> {% if cooperative_info and cooperative_info.phone %}{% trans "or call us at" %} <a href="tel:{{ cooperative_info.phone }}">{{ cooperative_info.phone }}</a>{% endif %}.</p>
+            <p>{% trans "If you have any questions about this policy, please contact us at" %} <a href="mailto:{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}" aria-label="{% trans 'Email us about privacy policy' %}">{% if cooperative_info and cooperative_info.email %}{{ cooperative_info.email }}{% else %}info@bhanjyang.coop.np{% endif %}</a> {% if cooperative_info and cooperative_info.phone %}{% trans "or call us at" %} <a href="tel:{{ cooperative_info.phone }}" aria-label="{% trans 'Call us about privacy policy' %}">{{ cooperative_info.phone }}</a>{% endif %}.</p>
         </div>
     </div>
 </section>

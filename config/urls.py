@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.views.generic import RedirectView, TemplateView
 from django.views.i18n import set_language
@@ -9,6 +10,12 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from apps.admin.admin_site import admin_site
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from two_factor.urls import urlpatterns as tf_urls
+from apps.core.sitemaps import (
+    StaticPagesSitemap, NewsArticleSitemap, EventSitemap,
+    SavingsAccountSitemap, LoanTypeSitemap, FixedDepositSitemap,
+    RemittanceServiceSitemap, DigitalServiceSitemap, MemberReliefSitemap,
+    GalleryAlbumSitemap, DocumentSitemap
+)
 
 urlpatterns = [
     # Favicon redirect
@@ -40,6 +47,23 @@ urlpatterns = [
     
     # Health check endpoints
     path('health/', include('apps.core.urls')),
+    
+    # Dynamic Sitemap
+    path('sitemap.xml', sitemap, {
+        'sitemaps': {
+            'static': StaticPagesSitemap,
+            'news': NewsArticleSitemap,
+            'events': EventSitemap,
+            'savings': SavingsAccountSitemap,
+            'loans': LoanTypeSitemap,
+            'fixed_deposits': FixedDepositSitemap,
+            'remittance': RemittanceServiceSitemap,
+            'digital': DigitalServiceSitemap,
+            'relief': MemberReliefSitemap,
+            'gallery': GalleryAlbumSitemap,
+            'documents': DocumentSitemap,
+        }
+    }, name='django.contrib.sitemaps.views.sitemap'),
     
     # API Documentation
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

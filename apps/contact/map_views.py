@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.core.cache import cache
-from django.utils.translation import activate
+from django.utils.translation import activate, gettext_lazy as _
 import json
 import logging
 
 from .models import OfficeLocation
+from .utils.constants import CACHE_TIMEOUT_OFFICE_LOCATIONS
 
 logger = logging.getLogger(__name__)
 
@@ -16,9 +17,9 @@ def interactive_map_view(request):
     activate('ne')
     context = {
         'breadcrumbs': [
-            {'name': 'Home', 'url': '/'},
-            {'name': 'Contact', 'url': '/contact/'},
-            {'name': 'Locations', 'url': '/contact/map/'}
+            {'name': _('Home'), 'url': '/'},
+            {'name': _('Contact'), 'url': '/contact/'},
+            {'name': _('Locations'), 'url': '/contact/map/'}
         ],
     }
     return render(request, 'contact/interactive_map.html', context)
@@ -87,8 +88,8 @@ def map_locations_api(request):
             'center': center
         }
         
-        # Cache for 1 hour
-        cache.set(cache_key, response_data, 3600)
+        # Cache for 10 minutes (same as office_locations in services)
+        cache.set(cache_key, response_data, CACHE_TIMEOUT_OFFICE_LOCATIONS)
         
         return JsonResponse(response_data)
         

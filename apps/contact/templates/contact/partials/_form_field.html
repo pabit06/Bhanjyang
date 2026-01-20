@@ -15,22 +15,24 @@ Parameters:
 <div{% if col_span %} class="{{ col_span }}"{% endif %}>
     <label for="{{ field.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">
         {{ label|default:field.label }}
-        {% if required %}<span class="text-red-600">*</span>{% endif %}
+        {% if required %}<span class="text-red-600" aria-label="{% trans 'required' %}">*</span>{% endif %}
     </label>
     <div class="relative">
         {% if icon %}
-        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-            <i class="fas {{ icon }} text-gray-400"></i>
+        <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" aria-hidden="true">
+            <i class="fas {{ icon }} text-gray-400" aria-hidden="true"></i>
         </span>
         {% endif %}
         {{ field }}
     </div>
     {% comment %}Field-level error messages will be inserted here by JavaScript{% endcomment %}
     {% if field.errors %}
-        <div class="text-red-600 text-sm mt-1">{{ field.errors.0 }}</div>
+        <div id="{{ field.id_for_label }}_error" class="text-red-600 text-sm mt-1" role="alert" aria-live="polite">{{ field.errors.0 }}</div>
+    {% else %}
+        <div id="{{ field.id_for_label }}_error" class="text-red-600 text-sm mt-1 hidden" role="alert" aria-live="polite"></div>
     {% endif %}
     {% if field.help_text %}
-        <p class="text-gray-500 text-xs mt-1">{{ field.help_text }}</p>
+        <p id="{{ field.id_for_label }}_help" class="text-gray-500 text-xs mt-1" role="note">{{ field.help_text }}</p>
     {% endif %}
 </div>
 

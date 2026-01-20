@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-18 23:17+0545\n"
+"POT-Creation-Date: 2026-01-19 23:35+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,7 @@ msgid "Subject of your message"
 msgstr "तपाईंको सन्देशको विषय"
 
 #: .\apps\contact\forms.py:83
+#: .\apps\contact\templates\contact\partials\_contact_form.html:127
 msgid "Subject"
 msgstr "विषय"
 
@@ -189,6 +190,7 @@ msgid "Nationality"
 msgstr "राष्ट्रियता"
 
 #: .\apps\contact\forms.py:287
+#: .\apps\contact\templates\contact\partials\_contact_form.html:116
 msgid "Phone Number"
 msgstr "फोन नम्बर"
 
@@ -310,6 +312,30 @@ msgstr "पेशा/आम्दानी प्रमाण (ऐच्छि�
 msgid "{field_label} file size must be less than 5MB."
 msgstr "{field_label} फाइलको आकार ५MB भन्दा कम हुनुपर्छ।"
 
+#: .\apps\contact\map_views.py:20 .\apps\contact\services.py:155
+#: .\apps\contact\views.py:32 .\apps\contact\views.py:93
+#: .\apps\contact\views.py:184
+msgid "Home"
+msgstr "गृहपृष्ठ"
+
+#: .\apps\contact\map_views.py:21 .\apps\contact\services.py:156
+#: .\apps\contact\templates\contact\contact.html:5
+#: .\apps\contact\templates\contact\contact.html:11
+#: .\apps\contact\templates\contact\contact.html:15
+#: .\apps\contact\templates\contact\contact.html:18
+#: .\apps\contact\templates\contact\contact.html:33
+#: .\apps\contact\templates\contact\kym_form.html:50 .\apps\contact\views.py:94
+#: .\apps\contact\views.py:185
+msgid "Contact"
+msgstr "सम्पर्क"
+
+#: .\apps\contact\map_views.py:22
+#: .\apps\contact\templates\contact\partials\_map_section.html:18
+#, fuzzy
+#| msgid "All Locations"
+msgid "Locations"
+msgstr "सबै स्थानहरू"
+
 #: .\apps\contact\models.py:62
 msgid "New"
 msgstr "नयाँ"
@@ -412,7 +438,9 @@ msgstr "KYM सबमिशनहरू"
 
 #: .\apps\contact\models.py:358
 #: .\apps\contact\templates\contact\interactive_map.html:42
-#: .\apps\contact\templates\contact\partials\_office_locations.html:31
+#: .\apps\contact\templates\contact\partials\_map_section.html:70
+#: .\apps\contact\templates\contact\partials\_map_section.html:71
+#: .\apps\contact\templates\contact\partials\_office_locations.html:33
 msgid "Main Office"
 msgstr "मुख्य कार्यालय"
 
@@ -421,7 +449,9 @@ msgid "Branch Office"
 msgstr "शाखा कार्यालय"
 
 #: .\apps\contact\models.py:360
-#: .\apps\contact\templates\contact\partials\_office_locations.html:33
+#: .\apps\contact\templates\contact\partials\_map_section.html:87
+#: .\apps\contact\templates\contact\partials\_map_section.html:88
+#: .\apps\contact\templates\contact\partials\_office_locations.html:35
 msgid "Service Center"
 msgstr "सेवा केन्द्र"
 
@@ -498,7 +528,7 @@ msgstr "गोपनीयता नीतिको HTML सामग्री"
 #: .\apps\contact\models.py:455
 #: .\apps\contact\templates\contact\privacy_policy.html:5
 #: .\apps\contact\templates\contact\privacy_policy.html:13
-#: .\apps\contact\views.py:203
+#: .\apps\contact\views.py:186
 msgid "Privacy Policy"
 msgstr "गोपनीयता नीति"
 
@@ -508,41 +538,94 @@ msgstr "गोपनीयता नीतिहरू"
 
 #: .\apps\contact\models.py:468
 msgid "Question"
-msgstr ""
+msgstr "प्रश्न"
 
 #: .\apps\contact\models.py:469
 msgid "Answer"
-msgstr ""
+msgstr "जवाफ"
 
 #: .\apps\contact\models.py:470
 msgid "Order"
-msgstr ""
+msgstr "क्रम"
 
 #: .\apps\contact\models.py:470
 msgid "Order to display the FAQ (lowest first)"
-msgstr ""
+msgstr "FAQ प्रदर्शन गर्ने क्रम (सबैभन्दा कम पहिले)"
 
 #: .\apps\contact\models.py:471
 msgid "Active"
-msgstr ""
+msgstr "सक्रिय"
 
 #: .\apps\contact\models.py:478
+#: .\apps\contact\templates\contact\partials\_faq_section.html:15
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: .\apps\contact\models.py:479
 msgid "FAQs"
+msgstr "बारम्बार सोधिने प्रश्नहरू"
+
+#: .\apps\contact\services.py:185
+msgid "Contact Form Inquiry"
+msgstr "सम्पर्क फारम जिज्ञासा"
+
+#: .\apps\contact\templates\contact\contact.html:7
+msgid ""
+"Contact Bhanjyang Saving & Credit Cooperative Society Ltd. Get in touch with "
+"our Main Office and Service Center. Phone, email, and direct message options "
+"available."
 msgstr ""
+"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हाम्रो मुख्य कार्यालय र सेवा "
+"केन्द्रसँग जोडिनुहोस्। फोन, इमेल, र सीधै सन्देश विकल्पहरू उपलब्ध छन्।"
+
+#: .\apps\contact\templates\contact\contact.html:9
+msgid ""
+"bhanjyang cooperative contact, contact details, cooperative office, service "
+"center, phone number, email address, send message, kaski, customer support"
+msgstr ""
+"भञ्ज्याङ सहकारी सम्पर्क, सम्पर्क विवरण, सहकारी कार्यालय, सेवा केन्द्र, फोन नम्बर, इमेल ठेगाना, "
+"सन्देश पठाउनुहोस्, कास्की, ग्राहक सहयोग"
+
+#: .\apps\contact\templates\contact\contact.html:11
+#: .\apps\contact\templates\contact\contact.html:15
+#, fuzzy
+#| msgid "Get In Touch"
+msgid "Get in Touch"
+msgstr "हामीसँग जोडिनुहोस्"
+
+#: .\apps\contact\templates\contact\contact.html:12
+msgid ""
+"Contact Bhanjyang Saving & Credit Cooperative Society Ltd. We are here to "
+"help you."
+msgstr ""
+"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हामी तपाईंको सहयोगका लागि यहाँ "
+"छौं।"
+
+#: .\apps\contact\templates\contact\contact.html:16
+msgid "Contact Bhanjyang Saving & Credit Cooperative Society Ltd."
+msgstr "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।"
+
+#: .\apps\contact\templates\contact\contact.html:19
+msgid ""
+"Contact information for Bhanjyang Saving & Credit Cooperative Society Ltd. "
+"including Main Office and Service Center locations."
+msgstr ""
+"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको सम्पर्क जानकारी, मुख्य कार्यालय र सेवा केन्द्र स्थानहरू "
+"समावेश गर्दै।"
+
+#: .\apps\contact\templates\contact\contact.html:106
+msgid "Skip to main content"
+msgstr "मुख्य सामग्रीमा जानुहोस्"
 
 #: .\apps\contact\templates\contact\interactive_map.html:5
 #: .\apps\contact\templates\contact\kym_form.html:4
 #: .\apps\contact\templates\contact\privacy_policy.html:5
 msgid "Bhanjyang Cooperative"
-msgstr "भञ्ज्याङ सहकारी"
+msgstr "भञ्ज्याङ्ग सहकारी"
 
 #: .\apps\contact\templates\contact\interactive_map.html:27
 msgid "Find our offices, branches, and ATM centers near you."
-msgstr ""
+msgstr "तपाईं नजिकैको हाम्रो कार्यालयहरू, शाखाहरू, र ATM केन्द्रहरू फेला पार्नुहोस्।"
 
 #: .\apps\contact\templates\contact\interactive_map.html:39
 #: .\apps\contact\templates\contact\interactive_map.html:78
@@ -571,8 +654,8 @@ msgid "Search locations..."
 msgstr "स्थानहरू खोज्नुहोस्..."
 
 #: .\apps\contact\templates\contact\interactive_map.html:115
-#: .\apps\contact\templates\contact\partials\_office_locations.html:31
 #: .\apps\contact\templates\contact\partials\_office_locations.html:33
+#: .\apps\contact\templates\contact\partials\_office_locations.html:35
 msgid "Get Directions"
 msgstr "बाटो हेर्नुहोस्"
 
@@ -596,18 +679,13 @@ msgstr "जम्मा स्थानहरू"
 msgid "Main Offices"
 msgstr "मुख्य कार्यालयहरू"
 
-#: .\apps\contact\templates\contact\kym_form.html:4 .\apps\contact\views.py:112
+#: .\apps\contact\templates\contact\kym_form.html:4 .\apps\contact\views.py:95
 msgid "KYM Form"
 msgstr "KYM फारम"
 
 #: .\apps\contact\templates\contact\kym_form.html:46
 msgid "Personal"
 msgstr "व्यक्तिगत"
-
-#: .\apps\contact\templates\contact\kym_form.html:50
-#: .\apps\contact\views.py:111 .\apps\contact\views.py:202
-msgid "Contact"
-msgstr "सम्पर्क"
 
 #: .\apps\contact\templates\contact\kym_form.html:54
 msgid "Family"
@@ -669,16 +747,123 @@ msgstr ""
 msgid "Error"
 msgstr "त्रुटि"
 
-#: .\apps\contact\templates\contact\partials\_hero.html:30
-#: .\apps\contact\views.py:32
+#: .\apps\contact\templates\contact\partials\_contact_form.html:4
+msgid "Contact and feedback form"
+msgstr "सम्पर्क र प्रतिक्रिया फारम"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:20
+#: .\apps\contact\templates\contact\partials\_contact_form.html:156
+msgid "Send Message"
+msgstr "सन्देश पठाउनुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:23
+#: .\apps\contact\templates\contact\partials\_hero.html:32
+#: .\apps\contact\views.py:33
 msgid "Contact Us"
 msgstr "हामीलाई सम्पर्क गर्नुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_hero.html:34
+#: .\apps\contact\templates\contact\partials\_contact_form.html:27
+msgid ""
+"If you have any questions, suggestions or feedback about our services, we "
+"are ready to listen. Your advice is invaluable to us."
+msgstr ""
+"यदि तपाईंसँग हाम्रो सेवाहरूको बारेमा कुनै प्रश्न, सुझाव वा प्रतिक्रिया छ भने, हामी सुन्न "
+"तयार छौं। तपाईंको सुझाव हाम्रो लागि अमूल्य छ।"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:46
+msgid "Decorative plant illustration"
+msgstr "सजावटी बोट चित्रण"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:56
+msgid "Skip to contact form"
+msgstr "सम्पर्क फारममा जानुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:61
+msgid "Contact form"
+msgstr "सम्पर्क फारम"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:71
+msgid "Message Sent Successfully!"
+msgstr "सन्देश सफलतापूर्वक पठाइयो!"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:77
+msgid "Please try again."
+msgstr "कृपया पुनः प्रयास गर्नुहोस्।"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:84
+#, fuzzy
+#| msgid "Please correct the errors in the form."
+msgid "Please correct the following errors:"
+msgstr "कृपया फारममा भएका त्रुटिहरू सच्याउनुहोस्।"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:95
+#, fuzzy
+#| msgid "Your full name"
+msgid "Your Name"
+msgstr "तपाईंको पूरा नाम"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:100
+#, fuzzy
+#| msgid "Your full name"
+msgid "Enter full name"
+msgstr "तपाईंको पूरा नाम"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:107
+#, fuzzy
+#| msgid "Email"
+msgid "Your Email"
+msgstr "इमेल"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:116
+#: .\apps\contact\templates\contact\partials\_contact_form.html:147
+#, fuzzy
+#| msgid "Phone (Optional)"
+msgid "Optional"
+msgstr "फोन (ऐच्छिक)"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:137
+#, fuzzy
+#| msgid "Message"
+msgid "Your Message"
+msgstr "सन्देश"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:147
+msgid "Attach File"
+msgstr "फाइल संलग्न गर्नुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:150
+msgid "Max 5MB (PDF, DOC, JPG, PNG)"
+msgstr "अधिकतम ५MB (PDF, DOC, JPG, PNG)"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:164
+#, python-format
+msgid ""
+"By submitting this form, you agree to our <a href=\"%(privacy_policy_url)s\" "
+"class=\"underline hover:text-deuraligreen transition-colors "
+"duration-300\">Privacy Policy</a>."
+msgstr ""
+"यो फारम बुझाउँदा, तपाईं हाम्रो <a href=\"%(privacy_policy_url)s\" "
+"class=\"underline hover:text-deuraligreen transition-colors "
+"duration-300\">गोपनीयता नीति</a> सँग सहमत हुनुहुन्छ।"
+
+#: .\apps\contact\templates\contact\partials\_faq_section.html:5
+msgid "Frequently asked questions"
+msgstr "बारम्बार सोधिने प्रश्नहरू"
+
+#: .\apps\contact\templates\contact\partials\_faq_section.html:18
+msgid "Frequently Asked Questions"
+msgstr "बारम्बार सोधिने प्रश्नहरू"
+
+#: .\apps\contact\templates\contact\partials\_hero.html:10
+msgid ""
+"Bhanjyang Cooperative Contact Page - Nepal Himalayas and Natural Landscape"
+msgstr "भञ्ज्याङ्ग सहकारी सम्पर्क पृष्ठ - नेपाल हिमालय र प्राकृतिक परिदृश्य"
+
+#: .\apps\contact\templates\contact\partials\_hero.html:45
 msgid "Get In Touch"
 msgstr "हामीसँग जोडिनुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_hero.html:39
+#: .\apps\contact\templates\contact\partials\_hero.html:58
 msgid ""
 "Whether you have a query, feedback, or need assistance, our dedicated team "
 "is ready to help."
@@ -704,7 +889,7 @@ msgstr "सूचना माग निवेदन"
 
 #: .\apps\contact\templates\contact\partials\_info_officer.html:111
 msgid "Phone"
-msgstr ""
+msgstr "फोन"
 
 #: .\apps\contact\templates\contact\partials\_info_officer.html:125
 msgid "Sample Application"
@@ -728,7 +913,7 @@ msgstr "विभागीय प्रमुख,"
 
 #: .\apps\contact\templates\contact\partials\_info_officer.html:157
 msgid "Bhanjyang Saving and Credit Cooperative Society Ltd.,"
-msgstr "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड,"
+msgstr "भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लिमिटेड,"
 
 #: .\apps\contact\templates\contact\partials\_info_officer.html:158
 msgid "Rupa-5, Deurali, Kaski."
@@ -786,11 +971,51 @@ msgstr "मिति:"
 msgid "Close"
 msgstr "बन्द गर्नुहोस्"
 
+#: .\apps\contact\templates\contact\partials\_info_officer.html:186
+msgid "Download (PDF)"
+msgstr "डाउनलोड (PDF)"
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:4
+msgid "Interactive location map"
+msgstr "अन्तरक्रियात्मक स्थान नक्सा"
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:21
+msgid "View Our Locations on the Map"
+msgstr "नक्सामा हाम्रो स्थानहरू हेर्नुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:26
+msgid ""
+"Use the buttons below to view the map of our Main Office (Rupa-5) or Service "
+"Center (Rupa-3)."
+msgstr ""
+"तलका बटनहरू प्रयोग गरेर हाम्रो मुख्य कार्यालय (रूपा-५) वा सेवा केन्द्र (रूपा-३) को नक्सा "
+"हेर्नुहोस्।"
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:36
+msgid "Loading map..."
+msgstr "नक्सा लोड हुँदै..."
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:42
+msgid ""
+"Interactive map showing Bhanjyang Cooperative Main Office and Service Center "
+"locations. Use the toggle buttons below to switch between locations."
+msgstr ""
+"भञ्ज्याङ्ग सहकारीको मुख्य कार्यालय र सेवा केन्द्र स्थानहरू देखाउने अन्तरक्रियात्मक नक्सा। "
+"स्थानहरू बीच स्विच गर्न तलका टगल बटनहरू प्रयोग गर्नुहोस्।"
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:45
+msgid "Interactive map of Bhanjyang Cooperative locations"
+msgstr "भञ्ज्याङ्ग सहकारीको स्थानहरूको अन्तरक्रियात्मक नक्सा"
+
+#: .\apps\contact\templates\contact\partials\_office_locations.html:4
+msgid "Office locations and contact details"
+msgstr "कार्यालय स्थानहरू र सम्पर्क विवरणहरू"
+
 #: .\apps\contact\templates\contact\partials\_office_locations.html:21
 msgid "Our Contact Address and Locations"
 msgstr "हाम्रो सम्पर्क ठेगाना र स्थानहरू"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:25
+#: .\apps\contact\templates\contact\partials\_office_locations.html:26
 msgid ""
 "You can contact directly at Main Office (Rupa-5, Deurali) or Service Center "
 "(Rupa-3, Polyang)."
@@ -799,51 +1024,89 @@ msgstr ""
 "सक्नुहुन्छ।"
 
 #: .\apps\contact\templates\contact\partials\_office_locations.html:33
+#, fuzzy
+#| msgid ""
+#| "Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, "
+#| "Polyang, Kaski<br>Gandaki Province, Nepal"
+msgid "Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal"
+msgstr "रूपा गाउँपालिका-५, देउराली, कास्की<br>गण्डकी प्रदेश, नेपाल"
+
+#: .\apps\contact\templates\contact\partials\_office_locations.html:35
 msgid ""
 "Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, "
 "Polyang, Kaski<br>Gandaki Province, Nepal"
 msgstr ""
+"भञ्ज्याङ्ग SACCOS, पोल्याङ सेवा केन्द्र<br>रूपा गाउँपालिका-३, पोल्याङ, कास्की<br>गण्डकी "
+"प्रदेश, नेपाल"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:35
-#, fuzzy
-#| msgid "Office Locations"
+#: .\apps\contact\templates\contact\partials\_office_locations.html:37
 msgid "Office Hours"
-msgstr "कार्यालय स्थानहरू"
+msgstr "कार्यालय समय"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:35
+#: .\apps\contact\templates\contact\partials\_office_locations.html:37
 msgid ""
 "Sunday - Friday: 10:00 - 4:00<br>Saturday: Holiday<br>Public Holidays: Closed"
-msgstr ""
+msgstr "आइतबार - शुक्रबार: १०:०० - ४:००<br>शनिबार: बिदा<br>सार्वजनिक बिदा: बन्द"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:35
+#: .\apps\contact\templates\contact\partials\_office_locations.html:37
 msgid "Service available during office hours."
-msgstr ""
+msgstr "कार्यालय समयमा सेवा उपलब्ध छ।"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:37
-#, fuzzy
-#| msgid "Contact"
+#: .\apps\contact\templates\contact\partials\_office_locations.html:39
 msgid "Phone Contact"
-msgstr "सम्पर्क"
-
-#: .\apps\contact\templates\contact\partials\_office_locations.html:37
-msgid "Call us for any inquiries."
-msgstr ""
+msgstr "फोन सम्पर्क"
 
 #: .\apps\contact\templates\contact\partials\_office_locations.html:39
 #, fuzzy
-#| msgid "Contact"
-msgid "Email Contact"
-msgstr "सम्पर्क"
+#| msgid "Main Office"
+msgid "Main Office:"
+msgstr "मुख्य कार्यालय"
 
 #: .\apps\contact\templates\contact\partials\_office_locations.html:39
+#, fuzzy
+#| msgid "Service Center"
+msgid "Service Center:"
+msgstr "सेवा केन्द्र"
+
+#: .\apps\contact\templates\contact\partials\_office_locations.html:39
+msgid "Call us for any inquiries."
+msgstr "कुनै पनि जिज्ञासाको लागि हामीलाई कल गर्नुहोस्।"
+
+#: .\apps\contact\templates\contact\partials\_office_locations.html:41
+msgid "Email Contact"
+msgstr "इमेल सम्पर्क"
+
+#: .\apps\contact\templates\contact\partials\_office_locations.html:41
+msgid "Inquiry:"
+msgstr "जिज्ञासा:"
+
+#: .\apps\contact\templates\contact\partials\_office_locations.html:41
+msgid "Support:"
+msgstr "सहयोग:"
+
+#: .\apps\contact\templates\contact\partials\_office_locations.html:41
 msgid "We usually reply within 24 hours."
+msgstr "हामी सामान्यतया २४ घण्टाभित्र जवाफ दिन्छौं।"
+
+#: .\apps\contact\templates\contact\pdf\kym_pdf_template.html:125
+#, fuzzy
+#| msgid "Passport-sized Photo"
+msgid "Passport Photo"
+msgstr "राहदानी आकारको फोटो"
+
+#: .\apps\contact\templates\contact\pdf\kym_pdf_template.html:127
+msgid "PASSPORT"
+msgstr ""
+
+#: .\apps\contact\templates\contact\pdf\kym_pdf_template.html:127
+msgid "PHOTO"
 msgstr ""
 
 #: .\apps\contact\templates\contact\privacy_policy.html:7
 msgid ""
 "Read the Privacy Policy of Bhanjyang Saving and Credit Cooperative Society "
 "Ltd."
-msgstr "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको गोपनीयता नीति पढ्नुहोस्।"
+msgstr "भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लिमिटेडको गोपनीयता नीति पढ्नुहोस्।"
 
 #: .\apps\contact\templates\contact\privacy_policy.html:14
 msgid "Last Updated"
@@ -857,7 +1120,7 @@ msgstr "१. परिचय"
 #, fuzzy
 #| msgid "Bhanjyang Saving and Credit Cooperative Society Ltd.,"
 msgid "Bhanjyang Saving and Credit Cooperative Society Ltd. (\\"
-msgstr "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड,"
+msgstr "भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लिमिटेड,"
 
 #: .\apps\contact\templates\contact\privacy_policy.html:20
 msgid "2. Information We Collect"
@@ -959,13 +1222,13 @@ msgstr ""
 "लागू गर्छौं।"
 
 #: .\apps\contact\templates\contact\privacy_policy.html:47
-#, fuzzy, python-format
+#, fuzzy
 #| msgid ""
 #| "However, data transmission over the internet cannot be guaranteed to be "
 #| "completely secure."
 msgid ""
 "However, data transmission over the internet cannot be guaranteed to be "
-"100%% secure."
+"completely secure."
 msgstr "यद्यपि, इन्टरनेट मार्फत डाटा प्रसारण पूर्ण रूपमा सुरक्षित हुने ग्यारेन्टी गर्न सकिदैन।"
 
 #: .\apps\contact\templates\contact\privacy_policy.html:49
@@ -992,41 +1255,36 @@ msgstr "यदि तपाईंसँग यस नीतिबारे क�
 msgid "or call us at"
 msgstr "वा फोन गर्नुहोस्:"
 
-#: .\apps\contact\views.py:31 .\apps\contact\views.py:110
-#: .\apps\contact\views.py:201
-msgid "Home"
-msgstr "गृहपृष्ठ"
-
-#: .\apps\contact\views.py:64 .\apps\contact\views.py:127
+#: .\apps\contact\views.py:48 .\apps\contact\views.py:110
 msgid "This endpoint only accepts AJAX requests."
 msgstr "यो एन्डपोइन्टले केवल AJAX अनुरोधहरू स्वीकार गर्दछ।"
 
-#: .\apps\contact\views.py:72 .\apps\contact\views.py:135
+#: .\apps\contact\views.py:56 .\apps\contact\views.py:118
 msgid "Please correct the errors in the form."
 msgstr "कृपया फारममा भएका त्रुटिहरू सच्याउनुहोस्।"
 
-#: .\apps\contact\views.py:85
+#: .\apps\contact\views.py:69
 msgid "Thank you! Your message has been sent successfully."
 msgstr "धन्यवाद! तपाईंको सन्देश सफलतापूर्वक पठाइयो।"
 
-#: .\apps\contact\views.py:93
+#: .\apps\contact\views.py:77
 msgid ""
 "An error occurred while processing your request. Please try again later."
 msgstr "तपाईंको अनुरोध प्रशोधन गर्दा त्रुटि भयो। कृपया पछि पुनः प्रयास गर्नुहोस्।"
 
-#: .\apps\contact\views.py:145
+#: .\apps\contact\views.py:128
 msgid ""
 "KYM form submitted successfully! We will review your submission and contact "
 "you soon."
 msgstr ""
 "KYM फारम सफलतापूर्वक बुझाइयो! हामी तपाईंको विवरण समीक्षा गर्नेछौं र छिट्टै सम्पर्क गर्नेछौं।"
 
-#: .\apps\contact\views.py:154
+#: .\apps\contact\views.py:137
 msgid ""
 "An error occurred while processing your submission. Please try again later."
 msgstr "तपाईंको सबमिशन प्रशोधन गर्दा त्रुटि भयो। कृपया पछि पुनः प्रयास गर्नुहोस्।"
 
-#: .\apps\contact\views.py:171
+#: .\apps\contact\views.py:154
 msgid "Failed to generate PDF for this submission."
 msgstr ""
 
@@ -1035,5 +1293,5 @@ msgstr ""
 #~ "respects your privacy and is committed to protecting your personal "
 #~ "information."
 #~ msgstr ""
-#~ "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लि. (\"हामी\", \"हाम्रो\") ले तपाईंको "
+#~ "भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लि. (\"हामी\", \"हाम्रो\") ले तपाईंको "
 #~ "गोपनीयताको सम्मान गर्दछ र तपाईंको व्यक्तिगत जानकारीको सुरक्षा गर्न प्रतिबद्ध छ।"

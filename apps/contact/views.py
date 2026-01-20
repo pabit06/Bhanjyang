@@ -23,29 +23,15 @@ class ContactView(NepaliLanguageMixin, View):
     
     def get(self, request, *args, **kwargs):
         """Render contact form page"""
-        context = {
-            'form': ContactForm(),
-            'breadcrumbs': [
-                {'name': _('Home'), 'url': '/'},
-                {'name': _('Contact Us'), 'url': '/contact/'}
-            ]
-        }
+        # Get context from service (includes form, FAQs, office_locations, information_officer, etc.)
+        is_staff = request.user.is_staff if hasattr(request, 'user') and request.user.is_authenticated else False
+        context = ContactService.get_contact_page_context(is_staff=is_staff)
         
-        # Add office locations if available
-        try:
-            from .models import OfficeLocation
-            context['office_locations'] = OfficeLocation.objects.filter(is_active=True).order_by('order')
-        except Exception as e:
-            logger.warning(f"Could not fetch office locations: {e}")
-            context['office_locations'] = []
-            
-        # Add FAQs
-        try:
-            from .models import FAQ
-            context['faqs'] = FAQ.objects.filter(is_active=True).order_by('order', 'created_at')
-        except Exception as e:
-            logger.warning(f"Could not fetch FAQs: {e}")
-            context['faqs'] = []
+        # Update breadcrumbs with translated strings
+        context['breadcrumbs'] = [
+            {'name': _('Home'), 'url': '/'},
+            {'name': _('Contact Us'), 'url': '/contact/'}
+        ]
         
         return render(request, self.template_name, context)
     

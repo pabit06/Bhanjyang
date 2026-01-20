@@ -108,6 +108,7 @@
     </style>
 </head>
 <body>
+{% load i18n %}
     <div class="header">
         <h1>Bhanjyang Saving & Credit Cooperative Society Ltd.</h1>
         <h2>भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेड</h2>
@@ -121,9 +122,9 @@
     <div class="clearfix">
         <div class="photo-container">
             {% if instance.passport_photo %}
-                <img src="{{ instance.passport_photo.path }}" alt="Passport Photo">
+                <img src="{{ instance.passport_photo.path }}" alt="{% trans 'Passport Photo' %}">
             {% else %}
-                <br><br>PASSPORT<br>PHOTO
+                <br><br>{% trans "PASSPORT" %}<br>{% trans "PHOTO" %}
             {% endif %}
         </div>
         

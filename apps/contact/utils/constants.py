@@ -35,6 +35,12 @@ MIN_MESSAGE_LENGTH = 10
 SECONDS_IN_24_HOURS = 86400
 SUBMISSION_CLEANUP_DAYS = 365
 
+# Cache Timeout Constants
+CACHE_TIMEOUT_FAQS = 600  # 10 minutes
+CACHE_TIMEOUT_OFFICE_LOCATIONS = 600  # 10 minutes
+CACHE_TIMEOUT_COOPERATIVE_INFO = 600  # 10 minutes
+CACHE_TIMEOUT_INFORMATION_OFFICER = 3600  # 1 hour (changes less frequently)
+
 # Rate Limiting
 CONTACT_FORM_RATE_LIMIT_PER_IP = '5/m'  # 5 requests per minute
 CONTACT_FORM_RATE_LIMIT_PER_EMAIL = '3/h'  # 3 requests per hour

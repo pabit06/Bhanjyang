@@ -2,23 +2,21 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}भञ्ज्याङ सहकारी - सम्पर्क गर्नुहोस्{% endblock title %}
+{% block title %}{% if page_seo and page_seo.meta_title %}{{ page_seo.meta_title }}{% elif site_info.meta_title %}{{ site_info.meta_title }} - {% trans "Contact" %}{% else %}{{ site_info.cooperative_name_nepali|default:site_info.cooperative_name|default:"भञ्ज्याङ सहकारी" }} - {% trans "Contact" %}{% endif %}{% endblock title %}
 
-{% block meta_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हाम्रो मुख्य कार्यालय र सेवा
-केन्द्रको ठेगाना, फोन नम्बर, इमेल, र सीधै सन्देश पठाउनुहोस्।{% endblock meta_description %}
+{% block meta_description %}{% if page_seo and page_seo.meta_description %}{{ page_seo.meta_description }}{% elif site_info.meta_description %}{{ site_info.meta_description }}{% else %}{% trans "Contact Bhanjyang Saving & Credit Cooperative Society Ltd. Get in touch with our Main Office and Service Center. Phone, email, and direct message options available." %}{% endif %}{% endblock meta_description %}
 
-{% block meta_keywords %}bhanjyang cooperative contact, contact details, cooperative office, service center, rupa-3,
-phone number, email address, send message, kaski, customer support{% endblock meta_keywords %}
+{% block meta_keywords %}{% if page_seo and page_seo.meta_keywords %}{{ page_seo.meta_keywords }}{% elif site_info.meta_keywords %}{{ site_info.meta_keywords }}{% else %}{% trans "bhanjyang cooperative contact, contact details, cooperative office, service center, phone number, email address, send message, kaski, customer support" %}{% endif %}{% endblock meta_keywords %}
 
-{% block og_title %}Contact Bhanjyang Cooperative - Get in Touch{% endblock og_title %}
-{% block og_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हामी तपाईंको सहयोगका लागि यहाँ
-छौं।{% endblock og_description %}
+{% block og_title %}{% if page_seo and page_seo.og_title %}{{ page_seo.og_title }}{% elif page_seo and page_seo.meta_title %}{{ page_seo.meta_title }}{% elif site_info.meta_title %}{{ site_info.meta_title }} - {% trans "Contact" %}{% else %}{{ site_info.cooperative_name|default:"Bhanjyang Cooperative" }} - {% trans "Get in Touch" %}{% endif %}{% endblock og_title %}
+{% block og_description %}{% if page_seo and page_seo.og_description %}{{ page_seo.og_description }}{% elif page_seo and page_seo.meta_description %}{{ page_seo.meta_description }}{% elif site_info.meta_description %}{{ site_info.meta_description }}{% else %}{% trans "Contact Bhanjyang Saving & Credit Cooperative Society Ltd. We are here to help you." %}{% endif %}{% endblock og_description %}
 {% block og_type %}website{% endblock og_type %}
-{% block twitter_title %}Contact Bhanjyang Cooperative - Get in Touch{% endblock twitter_title %}
-{% block twitter_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।{% endblock twitter_description %}
+{% block og_image %}{% if page_seo and page_seo.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ page_seo.og_image.url }}{% elif site_info.og_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.og_image.url }}{% elif site_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.featured_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}{% endif %}{% endblock og_image %}
+{% block twitter_title %}{% if page_seo and page_seo.og_title %}{{ page_seo.og_title }}{% elif page_seo and page_seo.meta_title %}{{ page_seo.meta_title }}{% elif site_info.meta_title %}{{ site_info.meta_title }} - {% trans "Contact" %}{% else %}{{ site_info.cooperative_name|default:"Bhanjyang Cooperative" }} - {% trans "Get in Touch" %}{% endif %}{% endblock twitter_title %}
+{% block twitter_description %}{% if page_seo and page_seo.og_description %}{{ page_seo.og_description }}{% elif page_seo and page_seo.meta_description %}{{ page_seo.meta_description }}{% elif site_info.meta_description %}{{ site_info.meta_description }}{% else %}{% trans "Contact Bhanjyang Saving & Credit Cooperative Society Ltd." %}{% endif %}{% endblock twitter_description %}
 {% block schema_type %}ContactPage{% endblock schema_type %}
-{% block schema_name %}Contact Bhanjyang Cooperative{% endblock schema_name %}
-{% block schema_description %}भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।{% endblock schema_description %}
+{% block schema_name %}{{ site_info.cooperative_name|default:"Bhanjyang Cooperative" }} - {% trans "Contact" %}{% endblock schema_name %}
+{% block schema_description %}{% if site_info.meta_description %}{{ site_info.meta_description }}{% else %}{% trans "Contact information for Bhanjyang Saving & Credit Cooperative Society Ltd. including Main Office and Service Center locations." %}{% endif %}{% endblock schema_description %}
 
 {% block extra_css %}
 <!-- AOS Animation Library -->
@@ -27,32 +25,37 @@ phone number, email address, send message, kaski, customer support{% endblock me
 
 {% block content %}
 <!-- Schema.org Structured Data -->
+{% if site_info %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    "name": "Contact Bhanjyang Cooperative",
-    "description": "Contact information for Bhanjyang Saving & Credit Cooperative Society Ltd. including Main Office and Service Center locations.",
+    "name": "{{ site_info.cooperative_name|default:'Bhanjyang Cooperative'|escapejs }} - {% trans 'Contact' %}",
+    "description": "{% if site_info.meta_description %}{{ site_info.meta_description|escapejs }}{% else %}{% trans 'Contact information for Bhanjyang Saving & Credit Cooperative Society Ltd. including Main Office and Service Center locations.' %}{% endif %}",
     "url": "{{ request.build_absolute_uri }}",
     "mainEntity": {
         "@type": "FinancialService",
-        "name": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
-        "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+        "name": "{{ site_info.cooperative_name|default:'Bhanjyang Saving & Credit Cooperative Society Ltd.'|escapejs }}",
+        "image": "{% if site_info.logo %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.logo.url }}{% elif site_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.featured_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}{% endif %}",
         "telephone": "{{ site_info.phone|default:'+977-9856083101' }}",
         "email": "{{ site_info.email|default:'info@bhanjyang.coop.np' }}",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Rupa Rural Municipality-5, Deurali",
+            "streetAddress": "{{ site_info.address|truncatewords:10|escapejs }}",
             "addressLocality": "Kaski",
             "addressRegion": "Gandaki Province",
-            "postalCode": "33700",
             "addressCountry": "NP"
-        },
+        }{% if office_locations %}{% for location in office_locations %}{% if location.location_type == 'main_office' and forloop.first %},
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": {{ location.latitude }},
+            "longitude": {{ location.longitude }}
+        }{% endif %}{% endfor %}{% else %},
         "geo": {
             "@type": "GeoCoordinates",
             "latitude": 28.121932,
             "longitude": 84.149533
-        },
+        }{% endif %},
         "openingHoursSpecification": [
             {
                 "@type": "OpeningHoursSpecification",
@@ -64,7 +67,20 @@ phone number, email address, send message, kaski, customer support{% endblock me
             }
         ],
         "contactPoint": [
+            {% if site_info.phone %}{
+                "@type": "ContactPoint",
+                "telephone": "{{ site_info.phone }}",
+                "contactType": "customer service",
+                "areaServed": "NP",
+                "availableLanguage": ["en", "ne"]
+            }{% endif %}{% for location in office_locations %}{% if location.phone %}{% if site_info.phone or not forloop.first %},{% endif %}
             {
+                "@type": "ContactPoint",
+                "telephone": "{{ location.phone }}",
+                "contactType": "{% if location.location_type == 'main_office' %}customer service{% elif location.location_type == 'service_center' %}service center{% else %}customer service{% endif %}",
+                "areaServed": "NP",
+                "availableLanguage": ["en", "ne"]
+            }{% endif %}{% endfor %}{% if not site_info.phone and not office_locations %}{
                 "@type": "ContactPoint",
                 "telephone": "+977-9856083101",
                 "contactType": "customer service",
@@ -77,16 +93,17 @@ phone number, email address, send message, kaski, customer support{% endblock me
                 "contactType": "service center",
                 "areaServed": "NP",
                 "availableLanguage": ["en", "ne"]
-            }
+            }{% endif %}
         ]
     }
 }
 </script>
+{% endif %}
 
 <!-- Skip to Content Link for Keyboard Users -->
 <a href="#contact-information" 
    class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-lg">
-    Skip to main content
+    {% trans "Skip to main content" %}
 </a>
 
 <!-- Hero Section -->

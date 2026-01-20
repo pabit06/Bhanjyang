@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 import secrets
 import logging
 
@@ -82,3 +83,85 @@ class SecurityLog(models.Model):
     
     def __str__(self):
         return f"{self.get_event_type_display()} - {self.ip_address}"
+
+
+class PageSEO(models.Model):
+    """
+    Model for page-specific SEO settings for pages that don't have their own models.
+    Examples: Contact page, About introduction page, etc.
+    """
+    PAGE_CHOICES = [
+        ('contact', _('Contact Page')),
+        ('about_intro', _('About Introduction')),
+        ('about_cooperative', _('About Cooperative')),
+        ('about_board', _('About Board')),
+        ('about_management', _('About Management')),
+        ('about_timeline', _('About Timeline')),
+        ('services_overview', _('Services Overview')),
+        ('downloads', _('Downloads')),
+        ('gallery', _('Gallery')),
+    ]
+    
+    page = models.CharField(
+        max_length=50,
+        choices=PAGE_CHOICES,
+        unique=True,
+        verbose_name=_("Page"),
+        help_text=_("Select the page for SEO settings")
+    )
+    
+    # SEO Fields
+    meta_title = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name=_("Meta Title"),
+        help_text=_("Page-specific SEO title. If empty, falls back to site_info.meta_title or default.")
+    )
+    meta_description = models.TextField(
+        blank=True,
+        max_length=500,
+        verbose_name=_("Meta Description"),
+        help_text=_("Page-specific SEO description. If empty, falls back to site_info.meta_description or default.")
+    )
+    meta_keywords = models.CharField(
+        max_length=500,
+        blank=True,
+        verbose_name=_("Meta Keywords"),
+        help_text=_("Comma-separated keywords for SEO. If empty, falls back to site_info.meta_keywords or default.")
+    )
+    og_title = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name=_("Open Graph Title"),
+        help_text=_("Title for social media sharing. If empty, uses meta_title.")
+    )
+    og_description = models.TextField(
+        blank=True,
+        max_length=500,
+        verbose_name=_("Open Graph Description"),
+        help_text=_("Description for social media sharing. If empty, uses meta_description.")
+    )
+    og_image = models.ImageField(
+        upload_to='seo/page_og_images/',
+        blank=True,
+        null=True,
+        verbose_name=_("Open Graph Image"),
+        help_text=_("Image for social media sharing (1200x630px recommended). If empty, uses site_info.og_image.")
+    )
+    
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name=_("Active"),
+        help_text=_("Only active SEO settings are used.")
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = _("Page SEO")
+        verbose_name_plural = _("Page SEO Settings")
+        ordering = ['page']
+    
+    def __str__(self):
+        return f"SEO: {self.get_page_display()}"

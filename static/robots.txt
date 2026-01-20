@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://bhanjyangcooperative.com/static/sitemap.xml
+# Sitemap (Dynamic - automatically updates when content is added)
+Sitemap: https://bhanjyang.coop.np/sitemap.xml
 
 # Disallow admin and private areas
 Disallow: /admin/

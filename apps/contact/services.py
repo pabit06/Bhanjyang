@@ -6,7 +6,9 @@ separate from views, making the code more maintainable and testable.
 """
 import logging
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.db import connection
+from django.core.cache import cache
 import time
 
 import hashlib
@@ -19,6 +21,12 @@ from xhtml2pdf import pisa
 from .models import ContactSubmission, KYMSubmission
 from .tasks import send_contact_email, send_auto_response_email
 from .utils.helpers import get_client_ip, get_attachment_filename, format_file_size_display
+from .utils.constants import (
+    CACHE_TIMEOUT_FAQS, 
+    CACHE_TIMEOUT_OFFICE_LOCATIONS,
+    CACHE_TIMEOUT_COOPERATIVE_INFO,
+    CACHE_TIMEOUT_INFORMATION_OFFICER
+)
 
 logger = logging.getLogger(__name__)
 
@@ -37,47 +45,124 @@ class ContactService:
     """
     
     @staticmethod
-    def get_contact_page_context():
+    def get_contact_page_context(is_staff=False):
         """
-        Get context data for the contact page.
+        Get context data for the contact page with caching support.
+        
+        Args:
+            is_staff: If True, bypasses cache to show real-time data for staff users
         
         Returns:
-            dict: Context dictionary with form, breadcrumbs, cooperative info, and information officer
+            dict: Context dictionary with form, breadcrumbs, cooperative info, information officer,
+                  FAQs, and office locations
         """
         from .forms import ContactForm
         from apps.about.models import CooperativeInfo, Staff
+        from apps.core.models import PageSEO
         
-        # Fetch cooperative info
+        # Fetch cooperative info with caching
         cooperative_info = None
-        try:
-            cooperative_info = CooperativeInfo.objects.active().first()
-        except Exception as e:
-            logger.warning(f"Could not fetch cooperative info: {e}")
-            logger.warning(f"Could not fetch cooperative info: {e}")
+        if not is_staff:
+            cache_key_coop_info = 'contact_cooperative_info_active'
+            cached_coop_info = cache.get(cache_key_coop_info)
+            if cached_coop_info is not None:
+                cooperative_info = cached_coop_info
+            else:
+                try:
+                    cooperative_info = CooperativeInfo.objects.active().first()
+                    if cooperative_info:
+                        cache.set(cache_key_coop_info, cooperative_info, CACHE_TIMEOUT_COOPERATIVE_INFO)
+                except Exception as e:
+                    logger.warning(f"Could not fetch cooperative info: {e}")
+        else:
+            # Staff users get real-time data
+            try:
+                cooperative_info = CooperativeInfo.objects.active().first()
+            except Exception as e:
+                logger.warning(f"Could not fetch cooperative info: {e}")
         
-        # Fetch FAQs
+        # Fetch FAQs with caching
         faqs = []
-        try:
-            from .models import FAQ
-            faqs = FAQ.objects.filter(is_active=True).order_by('order', 'created_at')
-        except Exception as e:
-            logger.warning(f"Could not fetch FAQs: {e}")
+        if not is_staff:
+            cache_key_faqs = 'contact_faqs_active'
+            cached_faqs = cache.get(cache_key_faqs)
+            if cached_faqs is not None:
+                faqs = cached_faqs
+            else:
+                try:
+                    from .models import FAQ
+                    faqs = list(FAQ.objects.filter(is_active=True).order_by('order', 'created_at'))
+                    cache.set(cache_key_faqs, faqs, CACHE_TIMEOUT_FAQS)
+                except Exception as e:
+                    logger.warning(f"Could not fetch FAQs: {e}")
+        else:
+            # Staff users get real-time data
+            try:
+                from .models import FAQ
+                faqs = list(FAQ.objects.filter(is_active=True).order_by('order', 'created_at'))
+            except Exception as e:
+                logger.warning(f"Could not fetch FAQs: {e}")
         
-        # Fetch Information Officer from Staff (RTI Act 2064)
+        # Fetch office locations with caching
+        office_locations = []
+        if not is_staff:
+            cache_key_locations = 'contact_office_locations_active'
+            cached_locations = cache.get(cache_key_locations)
+            if cached_locations is not None:
+                office_locations = cached_locations
+            else:
+                try:
+                    from .models import OfficeLocation
+                    office_locations = list(OfficeLocation.objects.filter(is_active=True).order_by('order'))
+                    cache.set(cache_key_locations, office_locations, CACHE_TIMEOUT_OFFICE_LOCATIONS)
+                except Exception as e:
+                    logger.warning(f"Could not fetch office locations: {e}")
+        else:
+            # Staff users get real-time data
+            try:
+                from .models import OfficeLocation
+                office_locations = list(OfficeLocation.objects.filter(is_active=True).order_by('order'))
+            except Exception as e:
+                logger.warning(f"Could not fetch office locations: {e}")
+        
+        # Fetch Information Officer from Staff (RTI Act 2064) with caching
         information_officer = None
+        if not is_staff:
+            cache_key_info_officer = 'contact_information_officer_active'
+            cached_info_officer = cache.get(cache_key_info_officer)
+            if cached_info_officer is not None:
+                information_officer = cached_info_officer
+            else:
+                try:
+                    information_officer = Staff.get_information_officer()
+                    if information_officer:
+                        cache.set(cache_key_info_officer, information_officer, CACHE_TIMEOUT_INFORMATION_OFFICER)
+                except Exception as e:
+                    logger.warning(f"Could not fetch information officer: {e}")
+        else:
+            # Staff users get real-time data
+            try:
+                information_officer = Staff.get_information_officer()
+            except Exception as e:
+                logger.warning(f"Could not fetch information officer: {e}")
+        
+        # Get page-specific SEO settings
+        page_seo = None
         try:
-            information_officer = Staff.get_information_officer()
+            page_seo = PageSEO.objects.filter(page='contact', is_active=True).first()
         except Exception as e:
-            logger.warning(f"Could not fetch information officer: {e}")
+            logger.warning(f"Could not fetch page SEO for contact: {e}")
         
         return {
             'form': ContactForm(),
             'cooperative_info': cooperative_info,
             'faqs': faqs,
             'information_officer': information_officer,
+            'office_locations': office_locations,
+            'page_seo': page_seo,
             'breadcrumbs': [
-                {'name': 'Home', 'url': '/'},
-                {'name': 'Contact', 'url': '/contact/'}
+                {'name': _('Home'), 'url': '/'},
+                {'name': _('Contact'), 'url': '/contact/'}
             ]
         }
     
@@ -95,7 +180,6 @@ class ContactService:
             ContactSubmission: Created submission instance
         """
         attachment = files.get('attachment')
-        attachment = files.get('attachment')
         ip_address = get_client_ip(request_meta)
         user_agent = request_meta.get('HTTP_USER_AGENT', '')
         
@@ -107,7 +191,7 @@ class ContactService:
         if 'subject' in form_data and form_data['subject']:
             subject = form_data['subject']
         else:
-            subject = message_body[:50].strip() if message_body else "Contact Form Inquiry"
+            subject = message_body[:50].strip() if message_body else _("Contact Form Inquiry")
             if len(message_body) > 50:
                 subject += "..."
         

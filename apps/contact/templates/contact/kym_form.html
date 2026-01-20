@@ -25,7 +25,7 @@
         <div class="absolute inset-0 z-0 opacity-10 bg-cover bg-center kym-pattern-bg"></div>
 
         <div class="container mx-auto text-center z-10 animated-element animate-in-up delay-500">
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 drop-shadow-lg">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 drop-shadow-lg" id="kym-page-heading">
                 के.वाई.एम. (KYM) फारम
             </h1>
             <p class="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto opacity-90 leading-relaxed">
@@ -34,42 +34,44 @@
         </div>
     </section>
 
-    <section id="kym_form-section" class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center">
+    <section id="kym_form-section" class="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 flex items-center justify-center" aria-labelledby="kym-page-heading">
         <div class="container mx-auto max-w-4xl bg-white p-6 sm:p-10 rounded-lg shadow-xl border-t-4 border-bhanjyangred animated-element animate-in-up delay-200">
             
             <!-- Stepper Container -->
-            <div class="stepper mb-12">
-                <div class="stepper-progress" id="stepper-progress" style="width: 0%;"></div>
+            <div class="stepper mb-12" role="tablist" aria-label="{% trans 'KYM form steps' %}">
+                <div class="stepper-progress" id="stepper-progress" style="width: 0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="{% trans 'Form completion progress' %}"></div>
                 
-                <div class="step-item active" data-step="1">
-                    <div class="step-circle">1</div>
+                <div class="step-item active" data-step="1" role="tab" aria-selected="true" aria-controls="step-1" id="step-tab-1" tabindex="0">
+                    <div class="step-circle" aria-hidden="true">1</div>
                     <span class="step-label hidden sm:block">{% trans "Personal" %}</span>
                 </div>
-                <div class="step-item" data-step="2">
-                    <div class="step-circle">2</div>
+                <div class="step-item" data-step="2" role="tab" aria-selected="false" aria-controls="step-2" id="step-tab-2" tabindex="-1">
+                    <div class="step-circle" aria-hidden="true">2</div>
                     <span class="step-label hidden sm:block">{% trans "Contact" %}</span>
                 </div>
-                <div class="step-item" data-step="3">
-                    <div class="step-circle">3</div>
+                <div class="step-item" data-step="3" role="tab" aria-selected="false" aria-controls="step-3" id="step-tab-3" tabindex="-1">
+                    <div class="step-circle" aria-hidden="true">3</div>
                     <span class="step-label hidden sm:block">{% trans "Family" %}</span>
                 </div>
-                <div class="step-item" data-step="4">
-                    <div class="step-circle">4</div>
+                <div class="step-item" data-step="4" role="tab" aria-selected="false" aria-controls="step-4" id="step-tab-4" tabindex="-1">
+                    <div class="step-circle" aria-hidden="true">4</div>
                     <span class="step-label hidden sm:block">{% trans "Occupation" %}</span>
                 </div>
-                <div class="step-item" data-step="5">
-                    <div class="step-circle">5</div>
+                <div class="step-item" data-step="5" role="tab" aria-selected="false" aria-controls="step-5" id="step-tab-5" tabindex="-1">
+                    <div class="step-circle" aria-hidden="true">5</div>
                     <span class="step-label hidden sm:block">{% trans "Documents" %}</span>
                 </div>
             </div>
 
-            <form action="{% url 'contact:kym_form' %}" method="POST" enctype="multipart/form-data" id="kym-wizard-form">
+            <form action="{% url 'contact:kym_form' %}" method="POST" enctype="multipart/form-data" id="kym-wizard-form"
+                  aria-label="{% trans 'Know Your Member (KYM) registration form' %}"
+                  novalidate>
                 <input type="hidden" name="csrfmiddlewaretoken" id="kym-form-csrf-token" value="{{ csrf_token }}">
 
                 <!-- Step 1: Personal Details -->
-                <div class="kym-wizard-step active" id="step-1">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
-                        <i class="fas fa-user-circle mr-3"></i> {% trans "Personal Details" %}
+                <div class="kym-wizard-step active" id="step-1" role="tabpanel" aria-labelledby="step-1-label" aria-hidden="false">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center" id="step-1-label">
+                        <i class="fas fa-user-circle mr-3" aria-hidden="true"></i> <span>{% trans "Personal Details" %}</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {% include 'contact/partials/_form_field.html' with field=form.full_name icon='fa-user' required=True %}
@@ -81,16 +83,17 @@
                     
                     <div class="wizard-nav">
                         <div></div>
-                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
-                            {% trans "Next" %} <i class="fas fa-arrow-right ml-2"></i>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)"
+                                aria-label="{% trans 'Go to next step' %}">
+                            {% trans "Next" %} <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 2: Contact Information -->
-                <div class="kym-wizard-step" id="step-2">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
-                        <i class="fas fa-address-book mr-3"></i> {% trans "Contact Details" %}
+                <div class="kym-wizard-step" id="step-2" role="tabpanel" aria-labelledby="step-2-label" aria-hidden="true">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center" id="step-2-label">
+                        <i class="fas fa-address-book mr-3" aria-hidden="true"></i> <span>{% trans "Contact Details" %}</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {% include 'contact/partials/_form_field.html' with field=form.phone icon='fa-phone' required=True %}
@@ -101,19 +104,21 @@
                     </div>
                     
                     <div class="wizard-nav">
-                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
-                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)"
+                                aria-label="{% trans 'Go to previous step' %}">
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> {% trans "Previous" %}
                         </button>
-                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
-                            अर्को <i class="fas fa-arrow-right ml-2"></i>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)"
+                                aria-label="{% trans 'Go to next step' %}">
+                            अर्को <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 3: Family Details -->
-                <div class="kym-wizard-step" id="step-3">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
-                        <i class="fas fa-users mr-3"></i> पारिवारिक विवरण
+                <div class="kym-wizard-step" id="step-3" role="tabpanel" aria-labelledby="step-3-label" aria-hidden="true">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center" id="step-3-label">
+                        <i class="fas fa-users mr-3" aria-hidden="true"></i> <span>पारिवारिक विवरण</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {% include 'contact/partials/_form_field.html' with field=form.father_name icon='fa-male' required=True %}
@@ -124,19 +129,21 @@
                     </div>
                     
                     <div class="wizard-nav">
-                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
-                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)"
+                                aria-label="{% trans 'Go to previous step' %}">
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> {% trans "Previous" %}
                         </button>
-                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
-                            अर्को <i class="fas fa-arrow-right ml-2"></i>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)"
+                                aria-label="{% trans 'Go to next step' %}">
+                            अर्को <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 4: Occupation & Income Details -->
-                <div class="kym-wizard-step" id="step-4">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
-                        <i class="fas fa-briefcase mr-3"></i> पेशा र आम्दानी
+                <div class="kym-wizard-step" id="step-4" role="tabpanel" aria-labelledby="step-4-label" aria-hidden="true">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center" id="step-4-label">
+                        <i class="fas fa-briefcase mr-3" aria-hidden="true"></i> <span>पेशा र आम्दानी</span>
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {% include 'contact/partials/_form_field.html' with field=form.occupation icon='fa-hard-hat' required=True %}
@@ -145,19 +152,21 @@
                     </div>
                     
                     <div class="wizard-nav">
-                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
-                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)"
+                                aria-label="{% trans 'Go to previous step' %}">
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> {% trans "Previous" %}
                         </button>
-                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)">
-                            अर्को <i class="fas fa-arrow-right ml-2"></i>
+                        <button type="button" class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(1)"
+                                aria-label="{% trans 'Go to next step' %}">
+                            अर्को <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 5: Document Uploads -->
-                <div class="kym-wizard-step" id="step-5">
-                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center">
-                        <i class="fas fa-cloud-upload-alt mr-3"></i> कागजात अपलोड
+                <div class="kym-wizard-step" id="step-5" role="tabpanel" aria-labelledby="step-5-label" aria-hidden="true">
+                    <h3 class="text-2xl font-bold text-bhanjyangred font-montserrat mb-6 flex items-center" id="step-5-label">
+                        <i class="fas fa-cloud-upload-alt mr-3" aria-hidden="true"></i> <span>कागजात अपलोड</span>
                     </h3>
                     <p class="text-gray-600 mb-6">{% trans "Please upload clear copies of the following required documents. Max file size: 5MB per file." %}</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -169,33 +178,37 @@
                     </div>
                     
                     <div class="wizard-nav">
-                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)">
-                            <i class="fas fa-arrow-left mr-2"></i> {% trans "Previous" %}
+                        <button type="button" class="btn-prev py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center" onclick="changeStep(-1)"
+                                aria-label="{% trans 'Go to previous step' %}">
+                            <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i> {% trans "Previous" %}
                         </button>
                         <button type="submit" id="kym-submit-button"
-                                class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center bg-deuraligreen hover:bg-green-700">
-                            <span id="kym-submit-text">{% trans "Submit Form" %} <i class="fas fa-paper-plane ml-2"></i></span>
-                            <span id="kym-loading-text" class="hidden">
-                                <i class="fas fa-spinner fa-spin mr-2"></i> {% trans "Submitting..." %}
+                                class="btn-next py-3 px-8 rounded-full font-bold shadow-md transition-all flex items-center bg-deuraligreen hover:bg-green-700"
+                                aria-label="{% trans 'Submit KYM form' %}"
+                                aria-describedby="kym-submit-help">
+                            <span id="kym-submit-text">{% trans "Submit Form" %} <i class="fas fa-paper-plane ml-2" aria-hidden="true"></i></span>
+                            <span id="kym-loading-text" class="hidden" aria-live="polite">
+                                <i class="fas fa-spinner fa-spin mr-2" aria-hidden="true"></i> {% trans "Submitting..." %}
                             </span>
                         </button>
+                        <p id="kym-submit-help" class="sr-only">{% trans "Submits your KYM registration form" %}</p>
                     </div>
                 </div>
             </form>
 
             <!-- Success Message -->
-            <div id="submission-success" class="hidden mt-6 bg-green-50 border-l-4 border-green-500 text-green-700 p-6 rounded-lg shadow-sm" role="alert">
+            <div id="submission-success" class="hidden mt-6 bg-green-50 border-l-4 border-green-500 text-green-700 p-6 rounded-lg shadow-sm" role="alert" aria-live="polite" aria-atomic="true">
                 <div class="flex items-center mb-2">
-                    <i class="fas fa-check-circle text-2xl mr-3"></i>
+                    <i class="fas fa-check-circle text-2xl mr-3" aria-hidden="true"></i>
                     <p class="font-bold text-xl">{% trans "Successfully Submitted!" %}</p>
                 </div>
                 <p>{% trans "Your KYM details have been received. We will review it and contact you if needed." %}</p>
             </div>
 
             <!-- Error Message -->
-            <div id="submission-error" class="hidden mt-6 bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-lg shadow-sm" role="alert">
+            <div id="submission-error" class="hidden mt-6 bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-lg shadow-sm" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="flex items-center mb-2">
-                    <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
+                    <i class="fas fa-exclamation-triangle text-2xl mr-3" aria-hidden="true"></i>
                     <p class="font-bold" id="error-title">{% trans "Error" %}</p>
                 </div>
                 <p id="error-message">फारम बुझाउँदा त्रुटि भयो। कृपया सबै विवरणहरू सही छन् कि छैनन् जाँच गर्नुहोस्।</p>
@@ -203,7 +216,7 @@
         </div>
     </section>
 
-    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white text-deuraligreen text-center">
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white text-deuraligreen text-center" aria-label="{% trans 'Help section' %}">
         <div class="container mx-auto max-w-3xl">
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-6">
                 सहयोग चाहिन्छ?
@@ -212,8 +225,9 @@
                 यदि तपाईंलाई फारम भर्न कुनै अप्ठ्यारो परेमा हाम्रो टोली सधैं सहयोगका लागि तयार छ।
             </p>
             <a href="{% url 'contact:contact_view' %}"
-               class="inline-block bg-bhanjyangred hover:bg-black text-white font-bold py-3 px-10 rounded-full shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-                सम्पर्क गर्नुहोस् <i class="fas fa-headset ml-2"></i>
+               class="inline-block bg-bhanjyangred hover:bg-black text-white font-bold py-3 px-10 rounded-full shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+               aria-label="{% trans 'Contact us for help with KYM form' %}">
+                सम्पर्क गर्नुहोस् <i class="fas fa-headset ml-2" aria-hidden="true"></i>
             </a>
         </div>
     </section>
