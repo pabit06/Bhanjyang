@@ -175,7 +175,17 @@ class ContactForm(forms.Form):
                 'response': token
             }, timeout=5)
             
-            result = response.json()
+            # Parse JSON response - can raise JSONDecodeError or ValueError
+            try:
+                result = response.json()
+            except (ValueError, TypeError) as json_error:
+                # Handle invalid JSON response
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"reCAPTCHA API returned invalid JSON: {json_error}. Response status: {response.status_code}, Content: {response.text[:200]}")
+                # Allow submission but log the error
+                return token
+            
             if not result.get('success', False):
                 raise forms.ValidationError(_('reCAPTCHA verification failed. Please try again.'))
             
@@ -183,8 +193,14 @@ class ContactForm(forms.Form):
         except requests.RequestException as e:
             import logging
             logger = logging.getLogger(__name__)
-            logger.error(f"reCAPTCHA verification error: {e}")
+            logger.error(f"reCAPTCHA verification network error: {e}")
             # In case of network error, allow submission but log it
+            return token
+        except Exception as e:
+            import logging
+            logger = logging.getLogger(__name__)
+            logger.error(f"reCAPTCHA verification unexpected error: {type(e).__name__}: {e}")
+            # Catch any other unexpected errors and allow submission
             return token
 
     def clean_subject(self):
