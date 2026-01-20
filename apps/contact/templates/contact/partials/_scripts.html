@@ -68,6 +68,54 @@
     let recaptchaWidgetId = null;
     let recaptchaReady = false; // Track if reCAPTCHA is loaded and ready
 
+    // Function to initialize reCAPTCHA widget
+    function initializeRecaptcha() {
+        if (typeof grecaptcha === 'undefined') {
+            return;
+        }
+        
+        const recaptchaContainer = document.getElementById('recaptcha-container');
+        if (!recaptchaContainer) {
+            return;
+        }
+        
+        // Use grecaptcha.ready() to ensure API is fully loaded
+        if (typeof grecaptcha.ready === 'function') {
+            grecaptcha.ready(function() {
+                try {
+                    recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
+                        'sitekey': RECAPTCHA_SITE_KEY,
+                        'theme': 'light',
+                        'size': 'normal',
+                        'callback': function(token) {
+                            // Token is automatically populated in the hidden field
+                            recaptchaReady = true;
+                        },
+                        'expired-callback': function() {
+                            // Token expired, user needs to solve again
+                            recaptchaReady = false;
+                        }
+                    });
+                    recaptchaReady = true; // Mark reCAPTCHA as ready
+                } catch (error) {
+                    console.error('Error rendering reCAPTCHA widget:', error);
+                }
+            });
+        } else {
+            // Fallback for older reCAPTCHA API versions
+            try {
+                recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
+                    'sitekey': RECAPTCHA_SITE_KEY,
+                    'theme': 'light',
+                    'size': 'normal'
+                });
+                recaptchaReady = true;
+            } catch (error) {
+                console.error('Error rendering reCAPTCHA widget:', error);
+            }
+        }
+    }
+
     // Load reCAPTCHA script if enabled
     if (RECAPTCHA_ENABLED && RECAPTCHA_SITE_KEY) {
         const script = document.createElement('script');
@@ -75,16 +123,12 @@
         script.async = true;
         script.defer = true;
         script.onload = function() {
-            if (typeof grecaptcha !== 'undefined') {
-                const recaptchaContainer = document.getElementById('recaptcha-container');
-                if (recaptchaContainer) {
-                    recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
-                        'sitekey': RECAPTCHA_SITE_KEY,
-                        'theme': 'light',
-                        'size': 'normal'
-                    });
-                    recaptchaReady = true; // Mark reCAPTCHA as ready
-                }
+            // Wait for DOM to be ready before initializing
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeRecaptcha);
+            } else {
+                // DOM is already ready
+                initializeRecaptcha();
             }
         };
         script.onerror = function() {

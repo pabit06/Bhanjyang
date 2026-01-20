@@ -134,10 +134,13 @@ class ContactForm(forms.Form):
             # Remove reCAPTCHA field if not enabled
             self.fields.pop('recaptcha_token', None)
         elif self.recaptcha_enabled and not self.recaptcha_site_key:
+            # Remove reCAPTCHA field if enabled but no site key configured
+            # This prevents the form from being unsubmittable when site key is missing
+            self.fields.pop('recaptcha_token', None)
             # Warn if enabled but no site key configured
             import logging
             logger = logging.getLogger(__name__)
-            logger.warning("reCAPTCHA is enabled but RECAPTCHA_SITE_KEY is not set")
+            logger.warning("reCAPTCHA is enabled but RECAPTCHA_SITE_KEY is not set. reCAPTCHA field removed to prevent form submission issues.")
     
     def clean_recaptcha_token(self):
         """Validate reCAPTCHA token if enabled."""

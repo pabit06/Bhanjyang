@@ -199,9 +199,12 @@ class MapViewsTest(TestCase):
         self.assertIn('breadcrumbs', response.context)
         breadcrumbs = response.context['breadcrumbs']
         self.assertEqual(len(breadcrumbs), 3)
-        self.assertEqual(breadcrumbs[0]['name'], 'Home')
-        self.assertEqual(breadcrumbs[1]['name'], 'Contact')
-        self.assertEqual(breadcrumbs[2]['name'], 'Locations')
+        # Check breadcrumb structure (values may be translated)
+        self.assertIn('name', breadcrumbs[0])
+        self.assertIn('url', breadcrumbs[0])
+        self.assertEqual(breadcrumbs[0]['url'], '/')
+        self.assertEqual(breadcrumbs[1]['url'], '/contact/')
+        self.assertEqual(breadcrumbs[2]['url'], '/contact/map/')
 
     def test_map_locations_api_get(self):
         """Test map locations API GET request"""

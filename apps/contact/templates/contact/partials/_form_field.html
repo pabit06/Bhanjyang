@@ -11,6 +11,7 @@ Parameters:
     required: Boolean, show red asterisk if True
     col_span: Grid column span (default: 1, use 'md:col-span-2' for full width)
 {% endcomment %}
+{% load i18n %}
 
 <div{% if col_span %} class="{{ col_span }}"{% endif %}>
     <label for="{{ field.id_for_label }}" class="block text-gray-800 text-lg font-semibold mb-2">
