@@ -39,13 +39,11 @@ class ContactView(NepaliLanguageMixin, View):
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
         """Render contact form page"""
         # Get context from service (includes form, FAQs, office_locations, information_officer, etc.)
+        # Note: Form is instantiated in service layer where __init__ sets recaptcha_enabled and
+        # recaptcha_site_key attributes and modifies fields dictionary accordingly.
+        # Do not reassign these attributes here to avoid inconsistent state between attributes and fields.
         is_staff = request.user.is_staff if hasattr(request, 'user') and request.user.is_authenticated else False
         context = ContactService.get_contact_page_context(is_staff=is_staff)
-        
-        # Add reCAPTCHA configuration to form context
-        if hasattr(context['form'], 'recaptcha_enabled'):
-            context['form'].recaptcha_enabled = getattr(settings, 'CONTACT_RECAPTCHA_ENABLED', False)
-            context['form'].recaptcha_site_key = getattr(settings, 'RECAPTCHA_SITE_KEY', '')
         
         # Update breadcrumbs with translated strings
         context['breadcrumbs'] = [
