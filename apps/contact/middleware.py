@@ -179,7 +179,7 @@ class ContactSecurityHeadersMiddleware:
         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; "
         "img-src 'self' data: https: blob:; "
         "connect-src 'self' https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
-        "frame-src https://www.google.com https://maps.google.com https://maps.googleapis.com; "
+        "frame-src https://www.google.com; "
         "object-src 'none'; "
         "base-uri 'self'; "
         "form-action 'self'; "
