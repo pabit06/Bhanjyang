@@ -266,6 +266,7 @@ class SecurityHeadersMiddleware(MiddlewareMixin):
     
     # Content Security Policy for downloads pages
     # Allows necessary external resources (CDN, fonts) while maintaining security
+    # Note: frame-src includes 'self' to allow same-origin iframes for PDF previews
     CSP_POLICY = (
         "default-src 'self'; "
         "script-src 'self' 'unsafe-inline' 'unsafe-eval' "

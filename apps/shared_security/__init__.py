@@ -271,7 +271,7 @@ class SecurityHeadersManager:
                 "font-src 'self' https://fonts.gstatic.com; "
                 "img-src 'self' data: https:; "
                 "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
-                "frame-src 'self' https://www.google.com https://maps.google.com https://maps.googleapis.com; "
+                "frame-src https://www.google.com https://maps.google.com https://maps.googleapis.com; "
                 "frame-ancestors 'self';"
             ),
         }
