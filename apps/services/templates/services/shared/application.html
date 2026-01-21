@@ -37,7 +37,7 @@
                         Apply for Service
                     </h2>
                     <p class="text-lg text-gray-600">
-                        Fill out the form below and we'll get back to you within 24 hours
+                        {% trans "Fill out the form below and we'll get back to you within 24 hours" %}
                     </p>
                 </div>
                 
@@ -185,7 +185,7 @@
         <div class="grid md:grid-cols-4 gap-8">
             <div class="text-center">
                 <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span class="text-blue-600 font-bold text-xl">1</span>
+                    <span class="text-blue-600 font-bold text-xl">{% trans "1" %}</span>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Submit Application</h3>
                 <p class="text-gray-600">Fill out the application form with your details</p>
@@ -193,7 +193,7 @@
             
             <div class="text-center">
                 <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span class="text-green-600 font-bold text-xl">2</span>
+                    <span class="text-green-600 font-bold text-xl">{% trans "2" %}</span>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Review Process</h3>
                 <p class="text-gray-600">Our team reviews your application within 24 hours</p>
@@ -201,7 +201,7 @@
             
             <div class="text-center">
                 <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span class="text-purple-600 font-bold text-xl">3</span>
+                    <span class="text-purple-600 font-bold text-xl">{% trans "3" %}</span>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Document Verification</h3>
                 <p class="text-gray-600">We verify your documents and information</p>
@@ -209,7 +209,7 @@
             
             <div class="text-center">
                 <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span class="text-red-600 font-bold text-xl">4</span>
+                    <span class="text-red-600 font-bold text-xl">{% trans "4" %}</span>
                 </div>
                 <h3 class="text-xl font-semibold text-gray-800 mb-2">Approval & Disbursement</h3>
                 <p class="text-gray-600">Get approved and receive your service</p>
@@ -239,7 +239,7 @@
                     <i class="fas fa-envelope text-blue-600 text-3xl mb-4"></i>
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Email Us</h3>
                     <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="text-gray-600 hover:text-blue-600 transition-colors">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</a>
-                    <p class="text-sm text-gray-500">24/7 Support</p>
+                    <p class="text-sm text-gray-500">{% trans "24/7 Support" %}</p>
                 </div>
                 
                 <div class="bg-white rounded-xl p-6 shadow-lg">

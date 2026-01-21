@@ -36,6 +36,11 @@ app.conf.beat_schedule = {
         'schedule': crontab(minute='*/5'),  # Every 5 minutes
         'options': {'expires': 300}  # Task expires after 5 minutes if not executed
     },
+    'cleanup-old-bulk-downloads': {
+        'task': 'downloads.cleanup_old_bulk_downloads',
+        'schedule': crontab(hour=2, minute=0),  # Daily at 2:00 AM
+        'options': {'expires': 3600}  # Task expires after 1 hour if not executed
+    },
 }
 
 @app.task(bind=True)

@@ -52,10 +52,14 @@ class ContextProcessorsTest(TestCase):
     
     def test_admin_stats_with_news_articles(self):
         """Test admin_stats with news articles"""
+        from apps.news_events.models import Category
+        category = Category.objects.create(name="Test Category")
         NewsArticle.objects.create(
             title="Test Article",
             content="Test content",
-            status='PB'
+            status='PB',
+            author=self.admin_user,
+            category=category
         )
         request = self.factory.get('/admin/')
         request.user = self.admin_user

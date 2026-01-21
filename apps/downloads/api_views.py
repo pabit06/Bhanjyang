@@ -145,7 +145,8 @@ class DownloadableFileViewSet(viewsets.ModelViewSet):
             404: Not found
         """
         file_obj = self.get_object()
-        client_ip = RequestValidator.get_client_ip(request)
+        from .utils.helpers import get_client_ip
+        client_ip = get_client_ip(request)
         
         # Process download through service
         success, response, error = FileDownloadService.process_file_download(

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-18 23:19+0545\n"
+"POT-Creation-Date: 2026-01-21 16:28+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -608,31 +608,31 @@ msgstr ""
 msgid "Mobile Banking"
 msgstr "मोबाइल बैंकिङ"
 
-#: .\apps\home\templates\home\partials\features.html:32
+#: .\apps\home\templates\home\partials\features.html:33
 msgid "Bank anywhere, anytime with our convenient mobile banking services"
 msgstr "हाम्रो सुविधाजनक मोबाइल बैंकिङ सेवाहरूसँग जहाँसुकै, जुनसुकै बेला बैंकिङ गर्नुहोस्"
 
-#: .\apps\home\templates\home\partials\features.html:36
+#: .\apps\home\templates\home\partials\features.html:38
 msgid "Secure"
-msgstr "सुरক্ষিত"
+msgstr "सुरक्षित"
 
-#: .\apps\home\templates\home\partials\features.html:36
+#: .\apps\home\templates\home\partials\features.html:39
 msgid "Bank-level security to protect your financial information"
 msgstr "तपाईंको वित्तीय जानकारी सुरक्षित गर्न बैंक-स्तरको सुरक्षा"
 
-#: .\apps\home\templates\home\partials\features.html:40
+#: .\apps\home\templates\home\partials\features.html:44
 msgid "24/7 Support"
 msgstr "२४/७ सहयोग"
 
-#: .\apps\home\templates\home\partials\features.html:40
+#: .\apps\home\templates\home\partials\features.html:45
 msgid "Always here for you with round-the-clock customer support"
 msgstr "चौबीसै घण्टा ग्राहक सहयोगको साथ सधैं तपाईंको सेवामा"
 
-#: .\apps\home\templates\home\partials\features.html:44
+#: .\apps\home\templates\home\partials\features.html:50
 msgid "Rewards"
 msgstr "पुरस्कारहरू"
 
-#: .\apps\home\templates\home\partials\features.html:44
+#: .\apps\home\templates\home\partials\features.html:51
 msgid "Earn rewards and benefits while you save with us"
 msgstr "हामीसँग बचत गर्दा पुरस्कार र लाभहरू प्राप्त गर्नुहोस्"
 
@@ -668,34 +668,34 @@ msgstr ""
 msgid "Add Hero Content"
 msgstr "गृह पृष्ठ सामग्री"
 
-#: .\apps\home\templates\home\partials\impact.html:20
+#: .\apps\home\templates\home\partials\impact.html:21
 msgid "Our Impact"
 msgstr "हाम्रो प्रभाव"
 
-#: .\apps\home\templates\home\partials\impact.html:23
+#: .\apps\home\templates\home\partials\impact.html:24
 msgid "Bhanjyang Cooperative's Impact in Numbers"
 msgstr "अङ्कमा भञ्ज्याङ सहकारीको प्रभाव"
 
-#: .\apps\home\templates\home\partials\impact.html:27
+#: .\apps\home\templates\home\partials\impact.html:28
 msgid ""
 "Measuring our success through the growth and prosperity of our community"
 msgstr "हाम्रो समुदायको वृद्धि र समृद्धि मार्फत हाम्रो सफलता मापन गर्दै"
 
-#: .\apps\home\templates\home\partials\impact.html:43
+#: .\apps\home\templates\home\partials\impact.html:44
 msgid "Growing our community impact."
 msgstr "हाम्रो सामुदायिक प्रभाव बढाउँदै।"
 
-#: .\apps\home\templates\home\partials\impact.html:52
+#: .\apps\home\templates\home\partials\impact.html:53
 #, fuzzy
 #| msgid "Statistics"
 msgid "No Statistics Available"
 msgstr "तथ्याङ्कहरू"
 
-#: .\apps\home\templates\home\partials\impact.html:53
+#: .\apps\home\templates\home\partials\impact.html:54
 msgid "Statistics will appear here once configured in the admin panel."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:57
+#: .\apps\home\templates\home\partials\impact.html:58
 #, fuzzy
 #| msgid "Statistics"
 msgid "Add Statistics"

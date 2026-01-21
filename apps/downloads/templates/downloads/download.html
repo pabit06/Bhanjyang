@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load nepali_digits %}
 {% block title %}{% trans "Bhanjyang Cooperative - Download Center" %}{% endblock title %}
 
 {% block meta_description %}{% trans "Download important forms, documents, and resources from Bhanjyang Saving & Credit Cooperative Society Ltd. Access our downloadable files, policies, and applications." %}{% endblock meta_description %}
@@ -101,10 +102,10 @@
             {% csrf_token %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
-                    <label class="block text-sm font-bold text-gray-800 mb-2">
-                        <i class="fas fa-filter text-deuraligreen mr-2"></i>{% trans "Category" %}
+                    <label for="category-filter" class="block text-sm font-bold text-gray-800 mb-2">
+                        <i class="fas fa-filter text-deuraligreen mr-2" aria-hidden="true"></i>{% trans "Category" %}
                     </label>
-                    <select name="category"
+                    <select name="category" id="category-filter"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
                         <option value="">{% trans "All Categories" %}</option>
                         {% for code,label in categories %}
@@ -114,10 +115,10 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-800 mb-2">
-                        <i class="fas fa-star text-deuraligreen mr-2"></i>{% trans "Priority" %}
+                    <label for="priority-filter" class="block text-sm font-bold text-gray-800 mb-2">
+                        <i class="fas fa-star text-deuraligreen mr-2" aria-hidden="true"></i>{% trans "Priority" %}
                     </label>
-                    <select name="priority"
+                    <select name="priority" id="priority-filter"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent">
                         <option value="">{% trans "All Priorities" %}</option>
                         {% for code,label in priorities %}
@@ -127,12 +128,12 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-gray-800 mb-2">
-                        <i class="fas fa-search text-deuraligreen mr-2"></i>{% trans "Search Files" %}
+                    <label for="search-input" class="block text-sm font-bold text-gray-800 mb-2">
+                        <i class="fas fa-search text-deuraligreen mr-2" aria-hidden="true"></i>{% trans "Search Files" %}
                     </label>
                     <div class="relative">
-                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" name="q" placeholder="{% trans 'Search by title, description, or tags...' %}" value="{{ q }}"
+                        <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" aria-hidden="true"></i>
+                        <input type="text" name="q" id="search-input" placeholder="{% trans 'Search by title, description, or tags...' %}" value="{{ q }}"
                             class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" />
                     </div>
                 </div>
@@ -141,7 +142,7 @@
                         <input type="checkbox" name="featured" value="true" {% if featured_only %}checked{% endif %}
                             class="w-5 h-5 rounded border-gray-300 text-deuraligreen focus:ring-deuraligreen focus:ring-2">
                         <span class="text-sm font-bold text-gray-800">
-                            <i class="fas fa-star text-yellow-500 mr-1"></i>{% trans "Featured Only" %}
+                            <i class="fas fa-star text-yellow-500 mr-1" aria-hidden="true"></i>{% trans "Featured Only" %}
                         </span>
                     </label>
                 </div>
@@ -214,7 +215,7 @@
                 <div class="w-12 h-12 bg-yellow-500/10 rounded-full flex items-center justify-center mr-3">
                     <i class="fas fa-star text-yellow-500"></i>
                 </div>
-                Featured Resources
+                {% trans "Featured Resources" %}
             </h3>
             <div class="w-24 h-1 bg-deuraligreen rounded-full"></div>
         </div>
@@ -270,7 +271,7 @@
                     </div>
                 </div>
                 <div class="bg-deuraligreen/10 text-deuraligreen rounded-full px-4 py-2">
-                    <span class="text-sm font-bold">{{ category_data.total_count }} files</span>
+                    <span class="text-sm font-bold">{{ category_data.total_count }} {% trans "files" %}</span>
                 </div>
             </div>
 
@@ -286,7 +287,7 @@
                     class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                     id="show-more-{{ category_code }}">
                     <i class="fas fa-plus"></i>
-                    <span>Show More ({{ category_data.remaining_count }} remaining)</span>
+                    <span>{% blocktrans with count=category_data.remaining_count %}Show More ({{ count }} remaining){% endblocktrans %}</span>
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                 </button>
             </div>
@@ -300,7 +301,7 @@
             <a href="?{% if active_category %}category={{ active_category }}&{% endif %}{% if active_priority %}priority={{ active_priority }}&{% endif %}{% if featured_only %}featured=true&{% endif %}{% if q %}q={{ q }}&{% endif %}show_all=true"
                 class="group inline-flex items-center gap-2 bg-gradient-to-r from-deuraligreen to-bhanjyangred hover:from-bhanjyangred hover:to-deuraligreen text-white font-bold py-4 px-10 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                 <i class="fas fa-expand-arrows-alt"></i>
-                <span>Show All Files</span>
+                <span>{% trans "Show All Files" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
@@ -309,7 +310,7 @@
             <a href="{% url 'downloads:download_center' %}{% if active_category or active_priority or featured_only or q %}?{% if active_category %}category={{ active_category }}&{% endif %}{% if active_priority %}priority={{ active_priority }}&{% endif %}{% if featured_only %}featured=true&{% endif %}{% if q %}q={{ q }}{% endif %}{% endif %}"
                 class="group inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                 <i class="fas fa-compress-arrows-alt"></i>
-                <span>Show Less</span>
+                <span>{% trans "Show Less" %}</span>
                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
             </a>
         </div>
@@ -320,14 +321,14 @@
                 <div class="text-7xl text-deuraligreen mb-6">
                     <i class="fas fa-folder-open" aria-hidden="true"></i>
                 </div>
-                <h3 class="text-2xl sm:text-3xl text-gray-900 font-bold font-montserrat mb-4">No Resources Found</h3>
+                <h3 class="text-2xl sm:text-3xl text-gray-900 font-bold font-montserrat mb-4">{% trans "No Resources Found" %}</h3>
                 <p class="text-base text-gray-600 leading-relaxed max-w-md mx-auto mb-6">
-                    Your search or filter returned no results. Try adjusting your criteria or reset the filters to see all available documents.
+                    {% trans "Your search or filter returned no results. Try adjusting your criteria or reset the filters to see all available documents." %}
                 </p>
                 <a href="{% url 'downloads:download_center' %}"
                     class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
                     <i class="fas fa-refresh"></i>
-                    <span>Reset Filters</span>
+                    <span>{% trans "Reset Filters" %}</span>
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
                 </a>
             </div>
@@ -351,14 +352,14 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-6xl">
         <div class="text-center mb-12">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
-                Overview
+                {% trans "Overview" %}
             </span>
             <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                Download Center Overview
+                {% trans "Download Center Overview" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Stay informed with our comprehensive collection of resources and documents.
+                {% trans "Stay informed with our comprehensive collection of resources and documents." %}
             </p>
         </div>
 
@@ -369,8 +370,8 @@
                         <i class="fas fa-file-alt text-2xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{{ total_files }}</h3>
-                <p class="text-gray-700 font-semibold">Available Files</p>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{{ total_files|to_nepali_digits }}</h3>
+                <p class="text-gray-700 font-semibold">{% trans "Available Files" %}</p>
             </div>
 
             <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
@@ -379,8 +380,8 @@
                         <i class="fas fa-folder text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{{ categories|length }}</h3>
-                <p class="text-gray-700 font-semibold">Categories</p>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{{ categories|length|to_nepali_digits }}</h3>
+                <p class="text-gray-700 font-semibold">{% trans "Categories" %}</p>
             </div>
 
             <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
@@ -389,8 +390,8 @@
                         <i class="fas fa-download text-2xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">24/7</h3>
-                <p class="text-gray-700 font-semibold">Access Available</p>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{% trans "24/7" %}</h3>
+                <p class="text-gray-700 font-semibold">{% trans "Access Available" %}</p>
             </div>
 
             <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
@@ -399,8 +400,8 @@
                         <i class="fas fa-shield-alt text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">Secure</h3>
-                <p class="text-gray-700 font-semibold">File Downloads</p>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{% trans "Secure" %}</h3>
+                <p class="text-gray-700 font-semibold">{% trans "File Downloads" %}</p>
             </div>
         </div>
     </div>

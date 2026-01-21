@@ -266,11 +266,13 @@ class SecurityHeadersManager:
             'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
             'Content-Security-Policy': (
                 "default-src 'self'; "
-                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; "
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
                 "font-src 'self' https://fonts.gstatic.com; "
                 "img-src 'self' data: https:; "
-                "connect-src 'self';"
+                "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
+                "frame-src 'self' https://www.google.com https://maps.google.com https://maps.googleapis.com; "
+                "frame-ancestors 'self';"
             ),
         }
     

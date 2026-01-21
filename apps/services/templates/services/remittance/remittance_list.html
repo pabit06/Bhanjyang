@@ -2,6 +2,7 @@
 {% load static %}
 {% load i18n %}
 {% load remittance_tags %}
+{% load nepali_digits %}
 
 {% block title %}{% trans "Remittance Services" %} - भञ्ज्याङ सहकारी{% endblock title %}
 
@@ -126,11 +127,11 @@
                 <div class="pt-6 flex items-center gap-8 border-t border-white/10 animate-fade-in-up"
                     style="animation-delay: 0.4s;">
                     <div>
-                        <p class="text-3xl font-bold text-white">१२+</p>
+                        <p class="text-3xl font-bold text-white">{% trans "12+" %}</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Partners" %}</p>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white">२००+</p>
+                        <p class="text-3xl font-bold text-white">{% trans "200+" %}</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Countries" %}</p>
                     </div>
                 </div>
@@ -215,8 +216,7 @@
             </h2>
             <div class="w-20 h-1.5 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-gray-600 text-lg leading-relaxed">
-                हामीले विश्वका २००+ देशहरूबाट पैसा प्राप्त गर्न सहज बनाएका छौं। आफ्नो मनपर्ने रेमिट्यान्स सेवा
-                छान्नुहोस्।
+                {% blocktrans %}We have made it easy to receive money from 200+ countries worldwide. Choose your preferred remittance service.{% endblocktrans %}
             </p>
         </div>
 
@@ -341,7 +341,7 @@
                 <div class="flex gap-6 relative group">
                     <div
                         class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-deuraligreen shadow-lg z-10 group-hover:border-deuraligreen group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative">
-                        1
+                        {{ "1"|to_nepali_digits }}
                         <!-- Mobile connector pulse -->
                         <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-gray-200 md:hidden"></div>
                     </div>
@@ -360,7 +360,7 @@
                         <div class="flex gap-6 relative group md:ml-12 scroll-reveal" style="animation-delay: 0.2s;">
                     <div
                         class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-bhanjyangred shadow-lg z-10 group-hover:border-bhanjyangred group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 relative">
-                        2
+                        {{ "2"|to_nepali_digits }}
                         <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-0.5 h-6 bg-gray-200 md:hidden"></div>
                     </div>
                             <div class="bg-gray-50 p-6 rounded-3xl w-full group-hover:bg-red-50 transition-colors duration-300">
@@ -376,7 +376,7 @@
                         <div class="flex gap-6 relative group md:ml-24 scroll-reveal" style="animation-delay: 0.4s;">
                     <div
                         class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-gray-900 shadow-lg z-10 group-hover:border-gray-900 group-hover:scale-110 transition-all duration-300 relative">
-                        3
+                        {{ "3"|to_nepali_digits }}
                     </div>
                     <div
                                 class="bg-gray-50 p-6 rounded-3xl w-full group-hover:bg-gray-100 transition-colors duration-300">

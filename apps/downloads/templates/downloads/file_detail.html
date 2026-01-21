@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ file.title }} - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
+{% block title %}{{ file.title }} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{{ file.description|truncatewords:20 }}{% endblock meta_description %}
 {% block meta_keywords %}{{ file.title }}, {{ file.get_category_display }}, Download, Bhanjyang Cooperative{% endblock meta_keywords %}
@@ -11,7 +12,7 @@
             <!-- Breadcrumb -->
             <nav class="mb-8">
                 <ol class="flex items-center space-x-2 text-sm text-gray-600">
-                    <li><a href="{% url 'downloads:download_center' %}" class="hover:text-deuraligreen">Download Center</a></li>
+                    <li><a href="{% url 'downloads:download_center' %}" class="hover:text-deuraligreen">{% trans "Download Center" %}</a></li>
                     <li><i class="fas fa-chevron-right text-gray-400"></i></li>
                     <li class="text-gray-900 font-semibold">{{ file.title }}</li>
                 </ol>
@@ -29,7 +30,7 @@
                                 </span>
                                 {% if file.is_featured %}
                                 <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
-                                    <i class="fas fa-star mr-1"></i> Featured
+                                    <i class="fas fa-star mr-1"></i> {% trans "Featured" %}
                                 </span>
                                 {% endif %}
                                 {% if file.priority == 'URG' %}
@@ -38,12 +39,12 @@
                                 </span>
                                 {% elif file.priority == 'HIGH' %}
                                 <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
-                                    <i class="fas fa-arrow-up mr-1"></i> High Priority
+                                    <i class="fas fa-arrow-up mr-1"></i> {% trans "High Priority" %}
                                 </span>
                                 {% endif %}
                                 {% if file.requires_login %}
                                 <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center">
-                                    <i class="fas fa-lock mr-1"></i> Login Required
+                                    <i class="fas fa-lock mr-1"></i> {% trans "Login Required" %}
                                 </span>
                                 {% endif %}
                             </div>
@@ -71,7 +72,7 @@
                     <!-- Description -->
                     {% if file.description %}
                     <div class="mb-8">
-                        <h2 class="text-2xl font-bold text-gray-900 font-montserrat mb-4">Description</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 font-montserrat mb-4">{% trans "Description" %}</h2>
                         <p class="text-gray-700 leading-relaxed">{{ file.description|linebreaks }}</p>
                     </div>
                     {% endif %}
@@ -80,28 +81,28 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                         <div class="bg-gray-50 rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                                <i class="fas fa-info-circle text-deuraligreen mr-2"></i>File Information
+                                <i class="fas fa-info-circle text-deuraligreen mr-2"></i>{% trans "File Information" %}
                             </h3>
                             <ul class="space-y-3">
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">File Type:</span>
+                                    <span class="text-gray-600">{% trans "File Type" %}:</span>
                                     <span class="font-semibold text-gray-900 uppercase">{{ file.file_type }}</span>
                                 </li>
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">File Size:</span>
+                                    <span class="text-gray-600">{% trans "File Size" %}:</span>
                                     <span class="font-semibold text-gray-900">{{ file.file_size }}</span>
                                 </li>
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">Uploaded:</span>
+                                    <span class="text-gray-600">{% trans "Uploaded" %}:</span>
                                     <span class="font-semibold text-gray-900">{{ file.uploaded_at|date:"F d, Y" }}</span>
                                 </li>
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">Last Updated:</span>
+                                    <span class="text-gray-600">{% trans "Last Updated" %}:</span>
                                     <span class="font-semibold text-gray-900">{{ file.updated_at|date:"F d, Y" }}</span>
                                 </li>
                                 {% if file.expires_at %}
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">Expires:</span>
+                                    <span class="text-gray-600">{% trans "Expires" %}:</span>
                                     <span class="font-semibold text-red-600">{{ file.expires_at|date:"F d, Y" }}</span>
                                 </li>
                                 {% endif %}
@@ -110,25 +111,25 @@
 
                         <div class="bg-gray-50 rounded-lg p-6">
                             <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                                <i class="fas fa-chart-bar text-deuraligreen mr-2"></i>Statistics
+                                <i class="fas fa-chart-bar text-deuraligreen mr-2"></i>{% trans "Statistics" %}
                             </h3>
                             <ul class="space-y-3">
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">Downloads:</span>
+                                    <span class="text-gray-600">{% trans "Downloads" %}:</span>
                                     <span class="font-semibold text-gray-900">{{ file.download_count }}</span>
                                 </li>
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">Views:</span>
+                                    <span class="text-gray-600">{% trans "Views" %}:</span>
                                     <span class="font-semibold text-gray-900">{{ file.view_count }}</span>
                                 </li>
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">Priority:</span>
+                                    <span class="text-gray-600">{% trans "Priority" %}:</span>
                                     <span class="font-semibold text-gray-900">{{ file.get_priority_display }}</span>
                                 </li>
                                 <li class="flex justify-between">
-                                    <span class="text-gray-600">Status:</span>
+                                    <span class="text-gray-600">{% trans "Status" %}:</span>
                                     <span class="font-semibold text-green-600">
-                                        {% if file.is_active %}Active{% else %}Inactive{% endif %}
+                                        {% if file.is_active %}{% trans "Active" %}{% else %}{% trans "Inactive" %}{% endif %}
                                     </span>
                                 </li>
                             </ul>
@@ -139,7 +140,7 @@
                     {% if file.tag_list %}
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                            <i class="fas fa-tags text-deuraligreen mr-2"></i>Tags
+                            <i class="fas fa-tags text-deuraligreen mr-2"></i>{% trans "Tags" %}
                         </h3>
                         <div class="flex flex-wrap gap-2">
                             {% for tag in file.tag_list %}
@@ -154,13 +155,13 @@
                         <a href="{% url 'downloads:download_file' file.pk %}"
                            class="inline-block bg-deuraligreen hover:bg-bhanjyangred text-white font-bold py-4 px-12 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 ease-in-out text-lg group">
                             <i class="fas fa-download mr-3 group-hover:animate-bounce"></i>
-                            Download File
+                            {% trans "Download File" %}
                         </a>
                         <p class="text-sm text-gray-600 mt-4">
                             {% if file.requires_login %}
-                                <i class="fas fa-lock mr-1"></i> Login required to download this file.
+                                <i class="fas fa-lock mr-1"></i> {% trans "Login required to download this file." %}
                             {% else %}
-                                Click to download this file instantly.
+                                {% trans "Click to download this file instantly." %}
                             {% endif %}
                         </p>
                     </div>
@@ -172,7 +173,7 @@
                 <a href="{% url 'downloads:download_center' %}" 
                    class="inline-flex items-center text-deuraligreen hover:text-bhanjyangred font-semibold transition-colors duration-200">
                     <i class="fas fa-arrow-left mr-2"></i>
-                    Back to Download Center
+                    {% trans "Back to Download Center" %}
                 </a>
             </div>
         </div>

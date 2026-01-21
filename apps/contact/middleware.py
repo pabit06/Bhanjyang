@@ -174,12 +174,12 @@ class ContactSecurityHeadersMiddleware:
     # Allows inline scripts for form validation, Google Maps, and external resources
     CSP_POLICY = (
         "default-src 'self'; "
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://cdn.jsdelivr.net https://unpkg.com; "
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://www.google-analytics.com; "
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; "
         "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; "
         "img-src 'self' data: https: blob:; "
-        "connect-src 'self' https://maps.googleapis.com; "
-        "frame-src https://www.google.com https://maps.googleapis.com; "
+        "connect-src 'self' https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
+        "frame-src 'self' https://www.google.com https://maps.google.com https://maps.googleapis.com; "
         "object-src 'none'; "
         "base-uri 'self'; "
         "form-action 'self'; "

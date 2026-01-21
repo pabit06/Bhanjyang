@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load static %}
 {% load humanize %}
+{% load nepali_digits %}
 
 <!-- Our Impact in Numbers (Co-op Statistics) -->
 <section id="our-impact" class="relative py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 overflow-hidden">
@@ -37,7 +38,7 @@
                     </div>
                 </div>
                 <div class="text-5xl sm:text-6xl font-extrabold mb-4 text-bhanjyangred counter">
-                    {% if stat.unit %}{{ stat.value }} {{ stat.unit }}{% else %}{{ stat.value }}{% endif %}
+                    {% if stat.unit %}{{ stat.value|to_nepali_digits }} {{ stat.unit }}{% else %}{{ stat.value|to_nepali_digits }}{% endif %}
                 </div>
                 <h3 class="text-xl font-bold font-montserrat mb-3 text-gray-900">{{ stat.title }}</h3>
                 <p class="text-gray-600 text-sm leading-relaxed">{{ stat.description|default:_("Growing our community impact.") }}</p>

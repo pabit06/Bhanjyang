@@ -17,6 +17,7 @@ from django.test import TestCase, RequestFactory, Client
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.utils import timezone
+from django.http import HttpResponse
 from datetime import timedelta
 import time
 
@@ -274,21 +275,25 @@ class RequestValidatorTest(TestCase):
         self.factory = RequestFactory()
     
     def test_get_client_ip_direct(self):
-        """Test getting IP from direct connection."""
+        """Test that RequestValidator uses get_client_ip from utils.helpers"""
+        from apps.downloads.utils.helpers import get_client_ip
         request = self.factory.get('/test/')
         request.META['REMOTE_ADDR'] = '192.168.1.100'
         
-        ip = RequestValidator.get_client_ip(request)
+        # RequestValidator now uses get_client_ip from utils.helpers internally
+        ip = get_client_ip(request)
         
         self.assertEqual(ip, '192.168.1.100')
     
     def test_get_client_ip_forwarded(self):
-        """Test getting IP from X-Forwarded-For header."""
+        """Test that RequestValidator uses get_client_ip from utils.helpers"""
+        from apps.downloads.utils.helpers import get_client_ip
         request = self.factory.get('/test/')
         request.META['HTTP_X_FORWARDED_FOR'] = '10.0.0.1, 192.168.1.100'
         request.META['REMOTE_ADDR'] = '192.168.1.100'
         
-        ip = RequestValidator.get_client_ip(request)
+        # RequestValidator now uses get_client_ip from utils.helpers internally
+        ip = get_client_ip(request)
         
         # Should get first IP from X-Forwarded-For
         self.assertEqual(ip, '10.0.0.1')
@@ -345,8 +350,6 @@ class SecurityHeadersMiddlewareTest(TestCase):
     
     def test_adds_security_headers(self):
         """Test that security headers are added."""
-        from django.http import HttpResponse
-        
         request = self.factory.get('/downloads/')
         response = HttpResponse()
         

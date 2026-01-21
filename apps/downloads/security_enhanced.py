@@ -183,7 +183,15 @@ class IPBlacklistManager:
 
 class RateLimitManager:
     """
-    Rate limiting for downloads and other operations.
+    Advanced rate limiting manager for downloads app.
+    
+    Note: This is the primary rate limiting system used by middleware.
+    DownloadRateLimiter in security.py is a legacy rate limiter used by decorators.
+    Both systems serve different purposes:
+    - RateLimitManager: Used by middleware for all download endpoints (per-user + per-IP)
+    - DownloadRateLimiter: Used by decorators for view-level rate limiting (per-file limits)
+    
+    The middleware rate limiting is more comprehensive and should be preferred for new code.
     
     Features:
     - Flexible rate limits
@@ -242,7 +250,11 @@ class RateLimitManager:
         current_count = cache.get(cache_key, 0)
         
         if current_count >= max_requests:
-            ttl = cache.ttl(cache_key) or window
+            try:
+                ttl = cache.ttl(cache_key)
+            except AttributeError:
+                ttl = None
+            ttl = ttl or window
             logger.warning(
                 f"Rate limit exceeded for {identifier} on {action}. "
                 f"Count: {current_count}/{max_requests}, Reset in: {ttl}s"
@@ -295,7 +307,11 @@ class RateLimitManager:
         cache_key = f"{cls.RATE_LIMIT_PREFIX}{action}_{identifier}"
         current_count = cache.get(cache_key, 0)
         remaining = max(0, max_requests - current_count)
-        ttl = cache.ttl(cache_key) or limits['window']
+        try:
+            ttl = cache.ttl(cache_key)
+        except AttributeError:
+            ttl = None
+        ttl = ttl or limits['window']
         
         return remaining, ttl
 
@@ -455,6 +471,8 @@ class SecurityAuditEnhancedLogger:
 class RequestValidator:
     """
     Validates incoming requests for security.
+    
+    Note: Uses get_client_ip from utils.helpers for IP extraction.
     """
     
     @staticmethod
@@ -463,6 +481,7 @@ class RequestValidator:
         Get client IP address from request.
         
         Handles X-Forwarded-For header for proxies.
+        Delegates to utils.helpers.get_client_ip for consistency.
         
         Args:
             request: Django HttpRequest object
@@ -470,12 +489,8 @@ class RequestValidator:
         Returns:
             str: Client IP address
         """
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0].strip()
-        else:
-            ip = request.META.get('REMOTE_ADDR', '')
-        return ip
+        from .utils.helpers import get_client_ip as get_ip
+        return get_ip(request)
     
     @staticmethod
     def validate_request_signature(request: HttpRequest) -> bool:

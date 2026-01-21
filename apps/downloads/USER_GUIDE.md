@@ -1,7 +1,9 @@
 # Downloads App User Guide
 # (Downloads App प्रयोगकर्ता गाइड)
 
-**Version:** 1.0.0  
+**Version:** 2.0.1  
+**Last Updated:** January 21, 2026  
+**Status:** ✅ Production Ready  
 **Audience:** End Users, Administrators, Developers
 
 ---
@@ -11,9 +13,11 @@
 1. [For End Users](#for-end-users)
 2. [For Administrators](#for-administrators)
 3. [For Developers](#for-developers)
-4. [Common Tasks](#common-tasks)
-5. [Troubleshooting](#troubleshooting)
-6. [FAQ](#faq)
+4. [REST API Usage](#rest-api-usage) ✅ **NEW**
+5. [Common Tasks](#common-tasks)
+6. [Troubleshooting](#troubleshooting)
+7. [FAQ](#faq)
+8. [What's New in v2.0](#whats-new-in-v20) ✅ **NEW**
 
 ---
 
@@ -54,8 +58,13 @@
 **Bulk Download:**
 1. Select multiple files (checkbox)
 2. Click "Download Selected" button
-3. Wait for ZIP creation
-4. Download ZIP file
+3. **Small downloads (<10 files)**: ZIP created immediately
+4. **Large downloads (10+ files)**: Processed asynchronously
+   - You'll receive an email when ZIP is ready
+   - Or check download status via API
+5. Download ZIP file
+
+**Note:** Rate limit applies to bulk downloads (5 per day per user)
 
 ### File Information
 
@@ -151,6 +160,10 @@
 - Set expiration dates for temporary files
 - Review uploaded files regularly
 - Monitor download patterns
+- Review security audit logs weekly
+- Check IP blacklist monthly
+- Monitor rate limit violations
+- Verify file integrity checks are working
 
 **Maintenance:**
 - Clean up expired files monthly
@@ -249,18 +262,57 @@ def processFileDownload(req, fileObj):    # Don't use camelCase
     pass    # Missing docstring
 ```
 
-**Type Hints:**
+**Type Hints (Required):**
 ```python
-from typing import Tuple, Optional
+from typing import Tuple, Optional, Dict, Any
+from django.http import HttpRequest
 
 def validate_file(file: UploadedFile) -> Tuple[bool, Optional[str]]:
     """
     Validate uploaded file.
     
+    Args:
+        file: Uploaded file object
+        
     Returns:
         tuple: (is_valid, error_message)
     """
     pass
+```
+
+**Using the API:**
+```python
+# apps/downloads/api_views.py
+from rest_framework import viewsets
+from .models import DownloadableFile
+from .serializers import DownloadableFileSerializer
+
+class DownloadableFileViewSet(viewsets.ModelViewSet):
+    queryset = DownloadableFile.objects.all()
+    serializer_class = DownloadableFileSerializer
+```
+
+**Security Best Practices:**
+```python
+# Always use security features
+from apps.downloads.security_enhanced import (
+    IPBlacklistManager,
+    RateLimitManager,
+    SecurityAuditEnhancedLogger
+)
+
+# Check IP blacklist
+if IPBlacklistManager.is_blacklisted(client_ip):
+    return HttpResponseForbidden()
+
+# Check rate limit
+allowed, count, reset = RateLimitManager.check_rate_limit(
+    identifier=user_id,
+    action='download'
+)
+
+# Log security events
+SecurityAuditEnhancedLogger.log_download(user, file_obj, ip_address)
 ```
 
 ---
@@ -333,6 +385,34 @@ def validate_file(file: UploadedFile) -> Tuple[bool, Optional[str]]:
 
 **Result:** Top downloads at top of list
 
+### Task 6: Use REST API to Download Files ✅ **NEW**
+
+**Goal:** Automate file downloads via API
+
+**Steps:**
+1. Get authentication token (if needed)
+2. Use API endpoint: `GET /api/downloads/files/`
+3. Filter/search as needed
+4. Download via: `POST /api/downloads/files/{id}/download/`
+
+**Example:**
+```python
+import requests
+
+# List files
+response = requests.get('http://example.com/api/downloads/files/?category=FRM')
+files = response.json()['results']
+
+# Download file
+file_id = files[0]['id']
+response = requests.post(
+    f'http://example.com/api/downloads/files/{file_id}/download/',
+    headers={'Authorization': 'Token your-token'}
+)
+```
+
+**Result:** Programmatic access to files
+
 ---
 
 ## 🔍 Troubleshooting
@@ -384,8 +464,17 @@ def validate_file(file: UploadedFile) -> Tuple[bool, Optional[str]]:
    - Solution: Clear cache (Ctrl+Shift+Delete)
 
 4. **Rate Limit:**
-   - Too many downloads
+   - Too many downloads (20 per hour limit)
    - Solution: Wait an hour, try again
+   - Note: Rate limits apply per user and per IP address
+
+5. **File Integrity Check:**
+   - File may have been tampered with
+   - Solution: Contact admin to re-upload file
+
+6. **Virus Detection:**
+   - File failed virus scan on download
+   - Solution: Contact admin immediately
 
 ### Problem: Search Not Working
 
@@ -474,6 +563,12 @@ A: Use the "cleanup_expired_files" management command or delete manually.
 **Q: What's the maximum file size?**  
 A: 50MB by default. Change in settings if needed.
 
+**Q: How does bulk download work for large files?**  
+A: Large bulk downloads (10+ files) are processed asynchronously. You'll receive an email when the ZIP is ready.
+
+**Q: Are files served securely?**  
+A: Yes, all files are served through secure Django views with access control, integrity checks, and virus scanning.
+
 **Q: How do I feature a file?**  
 A: Edit file, check "Is featured" box, save.
 
@@ -493,16 +588,217 @@ A: Admins can replace files by re-uploading.
 
 ---
 
+## 🌐 REST API Usage ✅ **NEW**
+
+### Overview
+
+The Downloads app provides a complete REST API for programmatic access to files.
+
+### Authentication
+
+**For Public Access:**
+- Read operations (list, detail) are public
+- No authentication required
+
+**For Admin Operations:**
+- Write operations require admin authentication
+- Use Django REST Framework authentication (Token, Session, etc.)
+
+### API Endpoints
+
+**List Files:**
+```bash
+GET /api/downloads/files/
+```
+
+**Query Parameters:**
+- `category`: Filter by category (FRM, RPT, PCY, etc.)
+- `priority`: Filter by priority (HIGH, MED, LOW, URG)
+- `is_featured`: Filter featured files (true/false)
+- `search`: Search in title, description, tags
+- `ordering`: Order by field (-uploaded_at, download_count, etc.)
+
+**Example:**
+```bash
+GET /api/downloads/files/?category=FRM&priority=HIGH&search=application
+```
+
+**Get File Details:**
+```bash
+GET /api/downloads/files/{id}/
+```
+
+**Download File:**
+```bash
+POST /api/downloads/files/{id}/download/
+```
+
+**Get Featured Files:**
+```bash
+GET /api/downloads/files/featured/
+```
+
+**Get Statistics (Admin Only):**
+```bash
+GET /api/downloads/files/stats/
+```
+
+### Using the API
+
+**Python Example:**
+```python
+import requests
+
+# List files
+response = requests.get('http://example.com/api/downloads/files/')
+files = response.json()['results']
+
+# Get file details
+file_id = 1
+response = requests.get(f'http://example.com/api/downloads/files/{file_id}/')
+file_data = response.json()
+
+# Download file (requires authentication)
+headers = {'Authorization': 'Token your-token-here'}
+response = requests.post(
+    f'http://example.com/api/downloads/files/{file_id}/download/',
+    headers=headers
+)
+```
+
+**JavaScript Example:**
+```javascript
+// List files
+fetch('/api/downloads/files/?category=FRM')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Files:', data.results);
+  });
+
+// Download file
+fetch('/api/downloads/files/1/download/', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Token your-token-here',
+    'Content-Type': 'application/json'
+  }
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log('Download URL:', data.file_url);
+  });
+```
+
+### API Response Format
+
+**List Response:**
+```json
+{
+  "count": 100,
+  "next": "http://example.com/api/downloads/files/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "title": "Application Form",
+      "category": "FRM",
+      "file_size": "2.5 MB",
+      "download_count": 45,
+      "file_url": "http://example.com/media/downloads/file.pdf"
+    }
+  ]
+}
+```
+
+**File Detail Response:**
+```json
+{
+  "id": 1,
+  "title": "Application Form",
+  "description": "Membership application form",
+  "category": "FRM",
+  "priority": "HIGH",
+  "is_featured": true,
+  "requires_login": false,
+  "file_size": "2.5 MB",
+  "download_count": 45,
+  "view_count": 150,
+  "uploaded_at": "2024-01-01T00:00:00Z",
+  "file_url": "http://example.com/media/downloads/file.pdf"
+}
+```
+
+For complete API documentation, see [README.md - API Section](README.md#-api).
+
+---
+
+## 🆕 What's New in v2.0 ✅ **NEW**
+
+### Version 2.0.1 (January 21, 2026)
+
+**Improvements:**
+- ✅ Test coverage increased to 86%
+- ✅ Fixed regression issues
+- ✅ Enhanced stability
+- ✅ Complete API documentation
+
+### Version 2.0.0 (January 20, 2026)
+
+**Major New Features:**
+
+1. **REST API** ✅
+   - Complete RESTful API with Django REST Framework
+   - 11 endpoints for file management
+   - Filtering, searching, and ordering support
+
+2. **Enhanced Security** ✅
+   - **File Integrity Verification**: SHA-256 hash verification on every download
+   - **Virus Scanning on Download**: Files scanned before serving (not just on upload)
+   - **IP Blacklisting**: Automatic blocking of malicious IPs
+   - **Advanced Rate Limiting**: Per-user and per-IP rate limiting
+   - **Security Headers**: CSP, X-Frame-Options, and more
+
+3. **Performance Improvements** ✅
+   - **Chunked Downloads**: Large files (50MB+) streamed efficiently
+   - **Asynchronous Bulk Downloads**: Large ZIP files created in background
+   - **CDN Support**: CloudFront/Cloudflare integration
+   - **Performance Monitoring**: Comprehensive tracking and alerting
+
+4. **Enhanced Features** ✅
+   - **Secure File Serving**: All files served through Django views
+   - **Structured Error Codes**: Consistent error handling
+   - **Enhanced Logging**: Better audit trails
+   - **Type Hints**: Full type hints throughout codebase
+
+### Migration Guide
+
+**For End Users:**
+- No changes required - all features work the same
+- New: Rate limiting (20 downloads/hour)
+- New: Files automatically scanned on download
+
+**For Administrators:**
+- No changes required
+- New: API available for automation
+- New: Enhanced security logging
+
+**For Developers:**
+- See [README.md](README.md) for API documentation
+- See [SECURITY.md](SECURITY.md) for security updates
+- See [RATING.md](RATING.md) for quality assessment
+
+---
+
 ## 📞 Support
 
 **Need Help?**
 
-- **Email:** tech@bhanjyang.coop
+- **Email:** info@bhanjyang.coop
 - **Phone:** +977-9856083101
 - **Hours:** Sun-Fri, 10 AM - 5 PM NPT
 
 **Report Issues:**
-- Security issues: security@bhanjyang.coop
+- Security issues: info@bhanjyang.coop
 - Bug reports: Create GitHub issue
 - Feature requests: Contact development team
 

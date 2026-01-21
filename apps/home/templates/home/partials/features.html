@@ -29,19 +29,27 @@
         
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div data-aos="fade-up" data-aos-delay="100">
-                {% include "components/info_card.html" with title=_("Mobile Banking") icon="fas fa-mobile-alt" description=_("Bank anywhere, anytime with our convenient mobile banking services") %}
+                {% trans "Mobile Banking" as mb_title %}
+                {% trans "Bank anywhere, anytime with our convenient mobile banking services" as mb_desc %}
+                {% include "components/info_card.html" with title=mb_title icon="fas fa-mobile-alt" description=mb_desc %}
             </div>
             
             <div data-aos="fade-up" data-aos-delay="200">
-                {% include "components/info_card.html" with title=_("Secure") icon="fas fa-shield-alt" description=_("Bank-level security to protect your financial information") %}
+                {% trans "Secure" as secure_title %}
+                {% trans "Bank-level security to protect your financial information" as secure_desc %}
+                {% include "components/info_card.html" with title=secure_title icon="fas fa-shield-alt" description=secure_desc %}
             </div>
             
             <div data-aos="fade-up" data-aos-delay="300">
-                {% include "components/info_card.html" with title=_("24/7 Support") icon="fas fa-clock" description=_("Always here for you with round-the-clock customer support") %}
+                {% trans "24/7 Support" as support_title %}
+                {% trans "Always here for you with round-the-clock customer support" as support_desc %}
+                {% include "components/info_card.html" with title=support_title icon="fas fa-clock" description=support_desc %}
             </div>
             
             <div data-aos="fade-up" data-aos-delay="400">
-                {% include "components/info_card.html" with title=_("Rewards") icon="fas fa-gift" description=_("Earn rewards and benefits while you save with us") %}
+                {% trans "Rewards" as rewards_title %}
+                {% trans "Earn rewards and benefits while you save with us" as rewards_desc %}
+                {% include "components/info_card.html" with title=rewards_title icon="fas fa-gift" description=rewards_desc %}
             </div>
         </div>
     </div>

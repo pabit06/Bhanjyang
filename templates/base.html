@@ -147,6 +147,12 @@
 </head>
 
 <body class="bg-himalwhite text-patrikaslate font-poppins flex flex-col min-h-screen antialiased">
+    {# Accessibility: Global Skip Link #}
+    <a href="#main-content" 
+       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-deuraligreen focus:text-white focus:rounded-lg focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-white focus:font-bold transition-all duration-300">
+       {% trans "Skip to main content" %}
+    </a>
+
     {# Sticky Notice Toast System #}
     {% if notice_message %}
     <div x-data="{ show: true }" x-show="show" x-transition:enter="transition ease-out duration-300"

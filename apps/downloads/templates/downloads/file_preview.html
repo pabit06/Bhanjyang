@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ file.title }} - Preview - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
+{% block title %}{{ file.title }} - {% trans "Preview" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{{ file.description|truncatewords:20 }}{% endblock meta_description %}
 {% block meta_keywords %}{{ file.title }}, {{ file.get_category_display }}, Preview, Bhanjyang Cooperative{% endblock meta_keywords %}
@@ -154,21 +155,21 @@
         <!-- File Information -->
         <div class="file-info-card">
             <div class="flex flex-wrap items-center justify-between mb-4">
-                <h3 class="text-xl font-semibold text-gray-800">File Information</h3>
+                <h3 class="text-xl font-semibold text-gray-800">{% trans "File Information" %}</h3>
                 <div class="flex flex-wrap gap-2">
                     {% if file.is_featured %}
                         <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">
-                            ⭐ Featured
+                            ⭐ {% trans "Featured" %}
                         </span>
                     {% endif %}
                     {% if file.requires_login %}
                         <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">
-                            🔒 Login Required
+                            🔒 {% trans "Login Required" %}
                         </span>
                     {% endif %}
                     {% if file.is_expired %}
                         <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">
-                            ⏰ Expired
+                            ⏰ {% trans "Expired" %}
                         </span>
                     {% endif %}
                 </div>
@@ -181,25 +182,25 @@
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number">{{ file.file_size }}</div>
-                    <div class="stat-label">File Size</div>
+                    <div class="stat-label">{% trans "File Size" %}</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">{{ file.download_count }}</div>
-                    <div class="stat-label">Downloads</div>
+                    <div class="stat-label">{% trans "Downloads" %}</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">{{ file.view_count }}</div>
-                    <div class="stat-label">Views</div>
+                    <div class="stat-label">{% trans "Views" %}</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number">{{ file.access_count }}</div>
-                    <div class="stat-label">Total Access</div>
+                    <div class="stat-label">{% trans "Total Access" %}</div>
                 </div>
             </div>
             
             {% if file.tags %}
                 <div class="mt-4">
-                    <h4 class="font-semibold text-gray-800 mb-2">Tags:</h4>
+                    <h4 class="font-semibold text-gray-800 mb-2">{% trans "Tags" %}:</h4>
                     <div class="flex flex-wrap gap-2">
                         {% for tag in file.tag_list %}
                             <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm">{{ tag }}</span>
@@ -221,8 +222,8 @@
                 <div class="text-center p-8">
                     <div class="text-gray-500">
                         <i class="fas fa-file-alt text-6xl mb-4"></i>
-                        <h3 class="text-xl font-semibold mb-2">Preview Not Available</h3>
-                        <p class="text-gray-600">This file type cannot be previewed in the browser.</p>
+                        <h3 class="text-xl font-semibold mb-2">{% trans "Preview Not Available" %}</h3>
+                        <p class="text-gray-600">{% trans "This file type cannot be previewed in the browser." %}</p>
                     </div>
                 </div>
             {% endif %}
@@ -232,15 +233,15 @@
                 <div class="flex flex-wrap justify-center gap-4">
                     <a href="{% url 'downloads:download_file' file.pk %}" class="action-btn action-btn-primary">
                         <i class="fas fa-download mr-2"></i>
-                        Download File
+                        {% trans "Download File" %}
                     </a>
                     <a href="{% url 'downloads:file_detail' file.pk %}" class="action-btn action-btn-outline">
                         <i class="fas fa-info-circle mr-2"></i>
-                        View Details
+                        {% trans "View Details" %}
                     </a>
                     <a href="{% url 'downloads:download_center' %}" class="action-btn action-btn-secondary">
                         <i class="fas fa-arrow-left mr-2"></i>
-                        Back to Downloads
+                        {% trans "Back to Downloads" %}
                     </a>
                 </div>
             </div>

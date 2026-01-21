@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-18 23:15+0545\n"
+"POT-Creation-Date: 2026-01-21 13:30+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,13 +118,19 @@ msgstr ""
 msgid "जरूरी परेमा सम्पर्क गर्नुहोस्:"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\base.html:188
+#: .\templates\base.html:153
+#, fuzzy
+#| msgid "Unable to load content"
+msgid "Skip to main content"
+msgstr "सामग्री लोड गर्न असमर्थ"
+
+#: .\templates\base.html:195
 #, fuzzy
 #| msgid "Back to About Us"
 msgid "Back to top"
 msgstr "हाम्रो बारेमा फर्कनुहोस्"
 
-#: .\templates\base.html:190
+#: .\templates\base.html:197
 msgid "Scroll to top"
 msgstr ""
 
@@ -1442,11 +1448,6 @@ msgstr "अँध्यारो मोड"
 
 #~ msgid "Download Center"
 #~ msgstr "डाउनलोड केन्द्र"
-
-#, fuzzy
-#~| msgid "Unable to load content"
-#~ msgid "Skip to main content"
-#~ msgstr "सामग्री लोड गर्न असमर्थ"
 
 #~ msgid "Available Resources"
 #~ msgstr "उपलब्ध स्रोतहरू"

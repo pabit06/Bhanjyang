@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-21 16:13+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\apps\core\admin.py:16
+msgid "Page Information"
+msgstr ""
+
+#: .\apps\core\admin.py:19
+msgid "SEO Meta Tags"
+msgstr ""
+
+#: .\apps\core\admin.py:21
+msgid ""
+"These fields override the global site_info SEO settings for this specific "
+"page."
+msgstr ""
+
+#: .\apps\core\admin.py:23
+msgid "Open Graph (Social Media)"
+msgstr ""
+
+#: .\apps\core\admin.py:25
+msgid ""
+"Settings for social media sharing. If empty, will use meta fields or "
+"site_info defaults."
+msgstr ""
+
+#: .\apps\core\admin.py:27
+msgid "Timestamps"
+msgstr ""
+
+#: .\apps\core\mixins.py:23 .\apps\core\models.py:117
+msgid "Meta Title"
+msgstr ""
+
+#: .\apps\core\mixins.py:24 .\apps\core\models.py:118
+msgid ""
+"Page-specific SEO title. If empty, falls back to site_info.meta_title or "
+"default."
+msgstr ""
+
+#: .\apps\core\mixins.py:29 .\apps\core\models.py:123
+msgid "Meta Description"
+msgstr ""
+
+#: .\apps\core\mixins.py:30 .\apps\core\models.py:124
+msgid ""
+"Page-specific SEO description. If empty, falls back to "
+"site_info.meta_description or default."
+msgstr ""
+
+#: .\apps\core\mixins.py:35 .\apps\core\models.py:129
+msgid "Meta Keywords"
+msgstr ""
+
+#: .\apps\core\mixins.py:36 .\apps\core\models.py:130
+msgid ""
+"Comma-separated keywords for SEO. If empty, falls back to "
+"site_info.meta_keywords or default."
+msgstr ""
+
+#: .\apps\core\mixins.py:41 .\apps\core\models.py:135
+msgid "Open Graph Title"
+msgstr ""
+
+#: .\apps\core\mixins.py:42
+msgid "Title for social media sharing. If empty, uses meta_title or title."
+msgstr ""
+
+#: .\apps\core\mixins.py:47 .\apps\core\models.py:141
+msgid "Open Graph Description"
+msgstr ""
+
+#: .\apps\core\mixins.py:48 .\apps\core\models.py:142
+msgid "Description for social media sharing. If empty, uses meta_description."
+msgstr ""
+
+#: .\apps\core\mixins.py:54 .\apps\core\models.py:148
+msgid "Open Graph Image"
+msgstr ""
+
+#: .\apps\core\mixins.py:55
+msgid ""
+"Image for social media sharing (1200x630px recommended). If empty, uses "
+"featured_image or default."
+msgstr ""
+
+#: .\apps\core\mixins.py:76
+msgid "Image Alt Text"
+msgstr ""
+
+#: .\apps\core\mixins.py:77
+msgid ""
+"Alternative text for the image. Important for accessibility and image search "
+"SEO."
+msgstr ""
+
+#: .\apps\core\models.py:94
+msgid "Contact Page"
+msgstr ""
+
+#: .\apps\core\models.py:95
+msgid "About Introduction"
+msgstr ""
+
+#: .\apps\core\models.py:96
+msgid "About Cooperative"
+msgstr ""
+
+#: .\apps\core\models.py:97
+msgid "About Board"
+msgstr ""
+
+#: .\apps\core\models.py:98
+msgid "About Management"
+msgstr ""
+
+#: .\apps\core\models.py:99
+msgid "About Timeline"
+msgstr ""
+
+#: .\apps\core\models.py:100
+msgid "Services Overview"
+msgstr ""
+
+#: .\apps\core\models.py:101
+msgid "Downloads"
+msgstr ""
+
+#: .\apps\core\models.py:102
+msgid "Gallery"
+msgstr ""
+
+#: .\apps\core\models.py:109
+msgid "Page"
+msgstr ""
+
+#: .\apps\core\models.py:110
+msgid "Select the page for SEO settings"
+msgstr ""
+
+#: .\apps\core\models.py:136
+msgid "Title for social media sharing. If empty, uses meta_title."
+msgstr ""
+
+#: .\apps\core\models.py:149
+msgid ""
+"Image for social media sharing (1200x630px recommended). If empty, uses "
+"site_info.og_image."
+msgstr ""
+
+#: .\apps\core\models.py:154
+msgid "Active"
+msgstr ""
+
+#: .\apps\core\models.py:155
+msgid "Only active SEO settings are used."
+msgstr ""
+
+#: .\apps\core\models.py:162
+msgid "Page SEO"
+msgstr ""
+
+#: .\apps\core\models.py:163
+msgid "Page SEO Settings"
+msgstr ""

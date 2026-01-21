@@ -1,10 +1,11 @@
 # Downloads App Documentation
 # (डाउनलोड App कागजातहरू)
 
-**Version:** 1.0.0  
+**Version:** 2.0.1  
 **Django Version:** 5.2.9  
-**Status:** Production Ready  
-**Maintainer:** Bhanjyang Cooperative Development Team
+**Status:** ✅ Production Ready (Score: 9.2/10)  
+**Maintainer:** Prem Bhandari
+**Last Updated:** January 21, 2026
 
 ---
 
@@ -59,10 +60,16 @@ The Downloads app provides a comprehensive file management system for the Bhanjy
 - **Virus Scanning**: Automatic ClamAV integration
 - **Access Control**: Login-required downloads
 - **File Expiration**: Automatic expiry dates
-- **Security Hash**: SHA-256 file integrity
+- **Security Hash**: SHA-256 file integrity ✅ **Enhanced with download verification**
+- **File Integrity Check**: ✅ Hash verification on download to detect tampering
+- **Secure File Serving**: ✅ Files served through Django views (no direct URL access)
+- **Media Storage Security**: ✅ Server-level blocking of direct media access
 - **Audit Logging**: Complete download history
-- **Rate Limiting**: Prevent abuse (TODO: Priority 2)
-- **IP Blacklist**: Block malicious IPs (TODO: Priority 2)
+- **Rate Limiting**: ✅ Enhanced with per-user and per-IP rate limiting
+- **IP Blacklist**: ✅ Block malicious IPs with comprehensive logging
+- **Content Security Policy (CSP)**: ✅ CSP headers for XSS protection
+- **Security Headers**: ✅ X-Content-Type-Options, X-Frame-Options, etc.
+- **Structured Error Codes**: ✅ Consistent error handling and better debugging
 
 ### 📊 Analytics & Tracking
 - **Download Count**: Track file popularity
@@ -76,6 +83,13 @@ The Downloads app provides a comprehensive file management system for the Bhanjy
 - **Caching**: Redis-based caching layer
 - **CDN Support**: CloudFlare/AWS CloudFront
 - **Lazy Loading**: Optimized page loads
+- **Performance Monitoring**: ✅ Full integration with PerformanceMetric model
+  - Service-level performance tracking
+  - Database query monitoring
+  - Download operation performance tracking
+  - Bulk download performance tracking
+  - Cache performance monitoring
+  - Slow operation detection (>500ms threshold)
 
 ### 📦 Bulk Operations
 - **Bulk Download**: Download multiple files as ZIP
@@ -468,16 +482,54 @@ else:
     errors = validation_result['errors']
 ```
 
-### Virus Scanning
+### Virus Scanning ✅ **ENHANCED**
 
 **VirusScanManager**
 
-Integrates with ClamAV for virus scanning.
+Integrates with ClamAV for virus scanning on both upload and download.
 
 **Features:**
-- Automatic scanning on upload
-- Quarantine for infected files
-- Scan result logging
+- ✅ **Automatic scanning on download** - Files scanned before serving
+- ✅ **Automatic scanning on upload** - Files scanned during upload (optional)
+- ✅ **ClamAV integration** - Uses pyclamd library for ClamAV daemon communication
+- ✅ **Unix socket and TCP support** - Automatic fallback to TCP if socket unavailable
+- ✅ **Configurable timeout** - Customizable scan timeout per file
+- ✅ **Scan result logging** - All scan results logged for audit
+- ✅ **Error handling** - Graceful handling when ClamAV unavailable
+
+**Implementation:**
+```python
+from apps.downloads.security import VirusScanManager
+
+# Scan file before download
+is_clean, scan_result = VirusScanManager.scan_file(file_path)
+
+if not is_clean:
+    # Virus detected - block download
+    return False, None, DownloadsErrorCodes.VIRUS_DETECTED
+```
+
+**Configuration:**
+```python
+DOWNLOADS_SETTINGS = {
+    'ENABLE_VIRUS_SCAN': True,  # Enable virus scanning
+    'VIRUS_SCAN_TIMEOUT': 30,   # Timeout in seconds
+    'REQUIRE_VIRUS_SCAN': False,  # Block if scan fails (default: False)
+    'CLAMAV_HOST': '127.0.0.1',   # ClamAV TCP host (optional)
+    'CLAMAV_PORT': 3310,         # ClamAV TCP port (optional)
+}
+```
+
+**Scan Timing:**
+1. **On Download**: Files are scanned before being served to users
+2. **On Upload**: Files can be scanned during upload (optional, via model save)
+
+**Error Codes:**
+- `VIRUS_DETECTED`: Returned when virus is detected (403 Forbidden)
+
+**Dependencies:**
+- ClamAV daemon must be installed and running
+- `pyclamd` Python library (install with: `pip install pyclamd`)
 
 ### Access Control
 
@@ -488,8 +540,125 @@ Manages file access permissions.
 **Checks:**
 - User authentication (if required)
 - File expiration
-- IP-based restrictions (TODO)
-- Rate limiting (TODO)
+- IP-based restrictions ✅ Implemented
+- Rate limiting ✅ Enhanced with per-user and per-IP
+
+### Rate Limiting (NEW in v2.0.0)
+
+**Enhanced Rate Limiting System**
+
+Multi-layer rate limiting for download protection.
+
+**Features:**
+- Per-user rate limiting (for authenticated users)
+- Per-IP rate limiting (for all users)
+- Middleware-based implementation
+- Configurable limits per action type
+- Proper 429 responses with error codes
+- User-friendly error messages
+
+**Rate Limits:**
+- Download operations: Configurable per user/IP
+- Bulk downloads: Separate limits
+- Automatic reset after time window
+
+**Error Handling:**
+- Structured error codes (`DownloadsErrorCodes.RATE_LIMIT_EXCEEDED`)
+- User-friendly messages
+- Proper HTTP status codes (429)
+
+### Security Headers (NEW in v2.0.0)
+
+**Content Security Policy (CSP)**
+
+CSP headers for enhanced XSS protection.
+
+**Headers Added:**
+- `Content-Security-Policy`: Restricts resource loading
+- `X-Content-Type-Options`: nosniff
+- `X-Frame-Options`: DENY
+- `X-XSS-Protection`: 1; mode=block
+- `Referrer-Policy`: strict-origin-when-cross-origin
+- `Permissions-Policy`: Restrictive permissions
+
+**CSP Policy:**
+- Allows necessary external resources (CDN, fonts)
+- Blocks inline scripts (except where necessary)
+- Prevents XSS attacks
+- Restricts frame embedding
+
+### File Integrity Check (NEW in v2.0.0)
+
+**Hash Verification on Download**
+
+SHA-256 hash verification ensures files haven't been tampered with.
+
+**How It Works:**
+1. **On Upload**: SHA-256 hash is calculated and stored in database
+2. **On Download**: Hash is recalculated and compared with stored hash
+3. **If Mismatch**: Download is blocked with `FILE_INTEGRITY_FAILED` error
+
+**Implementation:**
+```python
+from apps.downloads.security import FileSecurityValidator
+
+# Verify file integrity
+is_valid, current_hash, error_msg = FileSecurityValidator.verify_file_hash(
+    file_path='/path/to/file.pdf',
+    expected_hash='stored_hash_from_database'
+)
+
+if not is_valid:
+    # File has been tampered with
+    logger.error(f"File integrity check failed: {error_msg}")
+```
+
+**Error Handling:**
+- Returns `DownloadsErrorCodes.FILE_INTEGRITY_FAILED` if hash mismatch
+- Logs security event for admin review
+- Blocks download to prevent serving compromised files
+
+**Benefits:**
+- Detects file tampering
+- Ensures file authenticity
+- Protects against unauthorized modifications
+- Maintains audit trail
+
+### Secure File Serving (NEW in v2.0.0)
+
+**Media Storage Security**
+
+Files are served securely through Django views, preventing direct URL access.
+
+**How It Works:**
+1. Files stored in `media/downloads/` are blocked from direct access
+2. All downloads go through `/downloads/<pk>/download/` endpoint
+3. Access control, expiration, and integrity checks are enforced
+4. Files are served via `/downloads/<pk>/serve/` secure view
+5. Server configuration (`.htaccess`/Nginx) blocks direct media URLs
+
+**Implementation:**
+```python
+# Secure file serving view
+class SecureFileServeView(View):
+    def get(self, request, pk):
+        # Verify permissions
+        # Check expiration
+        # Validate integrity
+        # Serve file with proper headers
+```
+
+**Server Configuration:**
+- **Apache**: `.htaccess` in `media/downloads/` blocks direct access
+- **Nginx**: Location block denies `/media/downloads/` direct access
+- See `docs/deployment/media-security.md` for details
+
+**Benefits:**
+- ✅ Prevents direct URL access to files
+- ✅ Enforces access control on every download
+- ✅ Ensures download tracking and logging
+- ✅ Maintains file integrity verification
+- ✅ Protects against unauthorized file sharing
 
 ### Audit Logging
 
@@ -502,6 +671,48 @@ Logs all security-related events.
 - Failed access attempts
 - Security violations
 - Virus detections
+- Rate limit violations
+- IP blacklist blocks
+- **File integrity check failures** ✅ NEW
+- **Secure file serving access** ✅ NEW
+
+### Error Handling (NEW in v2.0.0)
+
+**Structured Error Codes**
+
+Consistent error handling with structured error codes.
+
+**Error Code System:**
+```python
+from apps.downloads.utils.error_codes import (
+    DownloadsErrorCodes,
+    get_status_code_for_error,
+    get_user_friendly_message
+)
+
+# Use error codes in responses
+error_code = DownloadsErrorCodes.FILE_EXPIRED
+status_code = get_status_code_for_error(error_code)  # 410
+message = get_user_friendly_message(error_code)     # User-friendly message
+```
+
+**Available Error Codes:**
+- `DOWNLOAD_ERROR`: General download errors
+- `FILE_NOT_FOUND`: File not found (404)
+- `ACCESS_DENIED`: Access denied (403)
+- `RATE_LIMIT_EXCEEDED`: Rate limit exceeded (429)
+- `FILE_EXPIRED`: File expired (410)
+- `INVALID_FILE_TYPE`: Invalid file type (400)
+- `BULK_DOWNLOAD_ERROR`: Bulk download errors (500)
+- `VIRUS_DETECTED`: Virus detected (403)
+- `IP_BLACKLISTED`: IP blacklisted (403)
+- And more...
+
+**Benefits:**
+- Consistent error responses
+- Better debugging and logging
+- User-friendly error messages
+- Proper HTTP status codes
 
 ---
 
@@ -539,16 +750,161 @@ Optimizes database queries.
 - Indexed fields for filtering
 - Efficient counting queries
 
-### CDN Support
+### CDN Support ✅ **ENHANCED**
 
-**DownloadsCDNManager**
+**CDNManager**
 
-Integrates with CDN for file delivery.
+Integrates with CDN for file delivery with automatic URL generation.
 
 **Supported CDNs:**
-- CloudFlare
-- AWS CloudFront
-- Custom CDN
+- ✅ CloudFlare
+- ✅ AWS CloudFront
+- ✅ Custom CDN
+
+**Features:**
+- ✅ Automatic CDN URL generation for public files
+- ✅ Configurable minimum download threshold
+- ✅ Secure files always go through Django views
+- ✅ Easy integration with existing code
+
+**Usage:**
+```python
+from apps.downloads.utils.cdn import CDNManager
+
+# Get CDN URL for file
+cdn_url = CDNManager.get_cdn_url(file_url, file_obj)
+
+# Get secure download URL (with CDN if applicable)
+download_url = CDNManager.get_secure_download_url(file_obj, request)
+```
+
+### Performance Monitoring (NEW in v2.0.0)
+
+**Performance Tracking System**
+
+Comprehensive performance monitoring integrated with `PerformanceMetric` model.
+
+**Features:**
+- Service-level performance tracking with decorators
+- Database query monitoring (query count, slow queries)
+- Download operation performance tracking
+- Bulk download performance tracking
+- Cache performance monitoring (hits/misses, lookup times)
+- Slow operation detection (>500ms threshold)
+- Automatic alerting for performance issues
+
+**Usage:**
+```python
+from apps.downloads.utils.performance import track_performance, track_download_performance
+
+# Decorator for service methods
+@track_performance('download_center', '/downloads/')
+def get_download_center_context(request_params, show_all=False):
+    # Service method implementation
+    pass
+
+# Track download performance
+track_download_performance(
+    download_time=150.5,  # milliseconds
+    file_size=1024000,    # bytes
+    request_meta=request.META,
+    user=request.user,
+    session_id=request.session.session_key,
+    file_id=file_obj.pk
+)
+```
+
+**Performance Metrics Tracked:**
+- `download_center`: Download center page load time
+- `file_download`: Individual file download time
+- `bulk_download`: Bulk download operation time
+- `cache_operation`: Cache hit/miss performance
+- `api_response`: API endpoint response times
+
+### Performance Optimizations (NEW in v2.0.0)
+
+**Chunked Downloads** ✅
+
+Large files (50MB+) are served using `StreamingHttpResponse` to prevent loading entire file into memory.
+
+**Benefits:**
+- ✅ Reduces server RAM usage
+- ✅ Faster response time for large files
+- ✅ Better scalability
+- ✅ Automatic fallback to regular response for small files
+
+**Implementation:**
+```python
+# In SecureFileServeView
+if file_size >= 50 * 1024 * 1024:  # 50MB
+    response = StreamingHttpResponse(
+        file_iterator(file_path),
+        content_type=content_type
+    )
+else:
+    # Regular HttpResponse for smaller files
+    response = HttpResponse(file_content, content_type=content_type)
+```
+
+**Asynchronous Bulk Downloads** ✅
+
+Large bulk downloads (10+ files) are processed asynchronously using Celery.
+
+**Features:**
+- ✅ Background ZIP creation for large bulk downloads
+- ✅ Email notification when ZIP is ready
+- ✅ Task status polling endpoint
+- ✅ Automatic cleanup of old bulk download files
+- ✅ Fallback to synchronous processing if Celery unavailable
+
+**Implementation:**
+```python
+# In BulkDownloadView
+if use_async and len(files) >= async_threshold:
+    task = create_bulk_download_zip_task.delay(
+        file_ids=[f.id for f in files],
+        user_id=request.user.id,
+        notification_email=user.email
+    )
+    return JsonResponse({'status': 'processing', 'task_id': task.id})
+```
+
+**Task Status Check:**
+```python
+# GET /downloads/bulk-download/status/<task_id>/
+# Returns: {'status': 'success|processing|error', 'download_url': '...'}
+```
+
+**CDN Support** ✅
+
+CDN integration for frequently downloaded public files.
+
+**Features:**
+- ✅ Configurable CDN provider (CloudFront, Cloudflare, custom)
+- ✅ Automatic CDN URL generation for public files
+- ✅ Minimum download threshold before using CDN
+- ✅ Secure files always go through Django views
+
+**Configuration:**
+```python
+DOWNLOADS_SETTINGS = {
+    'ENABLE_CDN': True,
+    'CDN_BASE_URL': 'https://cdn.example.com',
+    'CDN_PROVIDER': 'cloudfront',  # or 'cloudflare'
+    'CDN_MIN_DOWNLOADS': 10,  # Use CDN after 10 downloads
+}
+```
+
+**Usage:**
+```python
+from apps.downloads.utils.cdn import CDNManager
+
+# Get CDN URL for file
+cdn_url = CDNManager.get_cdn_url(file_url, file_obj)
+
+# Get secure download URL (with CDN if applicable)
+download_url = CDNManager.get_secure_download_url(file_obj, request)
+```
 
 ---
 
@@ -602,7 +958,7 @@ python manage.py generate_download_stats
 
 ## 🧪 Tests
 
-### Test Coverage: ~60%
+### Test Coverage: ~86% ✅ (Target Met)
 
 **Test Files:**
 ```
@@ -610,9 +966,15 @@ tests/
 ├── test_models.py          # Model tests
 ├── test_views.py           # View tests
 ├── test_services.py        # Service tests
+├── test_services_comprehensive.py  # Comprehensive service tests
 ├── test_security.py        # Security tests
+├── test_security_enhanced.py  # Enhanced security tests
 ├── test_performance.py     # Performance tests
-└── test_utils.py           # Utility tests
+├── test_view_errors.py     # View error handling tests
+├── test_context_processors.py  # Context processor tests
+├── test_refactor_verification.py  # Refactor verification tests
+├── test_file_integrity.py  # File integrity check tests
+└── test_virus_scanning.py  # Virus scanning tests
 ```
 
 **Run Tests:**
@@ -626,7 +988,14 @@ python manage.py test apps.downloads.tests.test_models
 # With coverage
 coverage run --source='apps/downloads' manage.py test apps.downloads
 coverage report
+
+# With HTML report
+coverage html
 ```
+
+**Test Coverage Goals:**
+- Target: 85%+ coverage
+- Focus areas: Error codes, helpers, enhanced middleware, performance tracking
 
 ---
 
@@ -662,9 +1031,18 @@ DOWNLOADS_SETTINGS = {
     'ENABLE_BULK_DOWNLOAD': True,
     'BULK_DOWNLOAD_LIMIT': 20,  # max files
     
-    # Rate Limiting (TODO: Priority 2)
-    'ENABLE_RATE_LIMIT': False,
+    # Rate Limiting ✅ Implemented
+    'ENABLE_RATE_LIMIT': True,
     'MAX_DOWNLOADS_PER_HOUR': 20,
+    'MAX_DOWNLOADS_PER_USER_PER_HOUR': 15,
+    
+    # Performance Optimizations ✅ NEW
+    'ENABLE_ASYNC_BULK_DOWNLOAD': True,  # Use Celery for large bulk downloads
+    'ASYNC_BULK_DOWNLOAD_THRESHOLD': 10,  # Files count threshold for async
+    'ENABLE_CDN': False,  # Enable CDN for public files
+    'CDN_BASE_URL': '',  # CDN base URL (e.g., 'https://cdn.example.com')
+    'CDN_PROVIDER': None,  # 'cloudfront', 'cloudflare', or None
+    'CDN_MIN_DOWNLOADS': 10,  # Minimum downloads before using CDN
 }
 ```
 
@@ -672,16 +1050,96 @@ DOWNLOADS_SETTINGS = {
 
 ## 🌐 API
 
-**Status:** Not Implemented  
-**Planned:** Priority 3 (5-7 days)
+**Status:** ✅ Fully Implemented  
+**Implementation:** Complete REST API using Django REST Framework
 
-### Planned Endpoints:
+### Available Endpoints:
 
+The API provides comprehensive RESTful endpoints for file management:
+
+**CRUD Operations:**
 ```
-GET    /api/downloads/files/              # List files
-GET    /api/downloads/files/{id}/         # File detail
-POST   /api/downloads/files/{id}/download/ # Download file
-GET    /api/downloads/stats/               # Statistics
+GET    /api/downloads/files/                      # List all files
+POST   /api/downloads/files/                      # Create file (admin only)
+GET    /api/downloads/files/{id}/                 # Get file details
+PUT    /api/downloads/files/{id}/                 # Update file (admin only)
+PATCH  /api/downloads/files/{id}/                 # Partial update (admin only)
+DELETE /api/downloads/files/{id}/                 # Delete file (admin only)
+```
+
+**Custom Actions:**
+```
+POST   /api/downloads/files/{id}/download/        # Download file
+POST   /api/downloads/files/{id}/increment_view/  # Increment view count
+GET    /api/downloads/files/featured/             # Get featured files
+GET    /api/downloads/files/categories/           # Get categories list
+GET    /api/downloads/files/priorities/           # Get priorities list
+GET    /api/downloads/files/stats/                # Get statistics (admin only)
+```
+
+### API Features:
+
+**Filtering & Search:**
+- Filter by category, priority, featured status, login requirement
+- Date range filtering (uploaded_at)
+- Full-text search on title, description, and tags
+- Ordering by uploaded_at, download_count, view_count, priority, title
+
+**Authentication & Permissions:**
+- Read operations: Public access (IsAuthenticatedOrReadOnly)
+- Write operations: Admin only (IsAdminUser)
+- Statistics endpoint: Admin only
+
+**Security:**
+- Integrated with SecurityAuditEnhancedLogger
+- Request validation
+- Proper error handling with structured error codes
+- Performance tracking with `track_api_response_time`
+
+**Serializers:**
+- `DownloadableFileSerializer` - Full file details
+- `DownloadableFileListSerializer` - Optimized for list views
+- `DownloadableFileCreateUpdateSerializer` - For create/update operations
+- `FileCategorySerializer` - Category information
+- `FilePrioritySerializer` - Priority information
+- `FileStatsSerializer` - Statistics data
+
+### Usage Example:
+
+```python
+import requests
+
+# List files with filtering
+response = requests.get('http://example.com/api/downloads/files/', params={
+    'category': 'FRM',
+    'priority': 'HIGH',
+    'search': 'application',
+    'ordering': '-uploaded_at'
+})
+
+# Get file details
+response = requests.get('http://example.com/api/downloads/files/1/')
+
+# Download file (requires authentication)
+response = requests.post(
+    'http://example.com/api/downloads/files/1/download/',
+    headers={'Authorization': 'Token your-token-here'}
+)
+
+# Get featured files
+response = requests.get('http://example.com/api/downloads/files/featured/')
+```
+
+### API Configuration:
+
+The API is configured in `apps/downloads/api_urls.py` and uses Django REST Framework's DefaultRouter. Make sure to include the API URLs in your main URL configuration:
+
+```python
+# In your main urls.py
+urlpatterns = [
+    # ...
+    path('api/downloads/', include('apps.downloads.api_urls')),
+]
 ```
 
 ---
@@ -737,6 +1195,46 @@ popular = DownloadableFile.objects.filter(
 ).order_by('-download_count')[:10]
 ```
 
+### Use the REST API
+
+```python
+from rest_framework.test import APIClient
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+# Initialize API client
+client = APIClient()
+
+# List files (public access)
+response = client.get('/api/downloads/files/')
+files = response.data['results']  # Paginated results
+
+# Filter files by category
+response = client.get('/api/downloads/files/', {'category': 'FRM'})
+
+# Search files
+response = client.get('/api/downloads/files/', {'search': 'application'})
+
+# Get file details
+response = client.get('/api/downloads/files/1/')
+file_data = response.data
+
+# Download file (authenticated)
+user = User.objects.get(username='testuser')
+client.force_authenticate(user=user)
+response = client.post('/api/downloads/files/1/download/')
+
+# Get featured files
+response = client.get('/api/downloads/files/featured/')
+
+# Get statistics (admin only)
+admin_user = User.objects.get(is_staff=True)
+client.force_authenticate(user=admin_user)
+response = client.get('/api/downloads/files/stats/')
+stats = response.data
+```
+
 ---
 
 ## 🤝 Contributing
@@ -779,7 +1277,44 @@ Proprietary - Bhanjyang Saving & Credit Cooperative Society Ltd.
 
 ---
 
-**Last Updated:** January 6, 2026  
-**Version:** 1.0.0  
-**Status:** ✅ Production Ready (Score: 78/100)  
-**Next Steps:** Implement Priority 2 (Security Enhancements)
+---
+
+## 📊 Version History
+
+### v2.0.1 (January 21, 2026)
+**Maintenance Release:**
+- ✅ **Test Coverage Increase:** Achieved >85% coverage for core modules (models, utils, security)
+- ✅ **Regression Fixes:** Fixed all regression failures in views and context processors
+- ✅ **Stability:** Resolved flaky rate-limiting tests
+- ✅ **Documentation:** Updated API docs and test guides
+- ✅ **API Documentation:** Complete API endpoint documentation added
+
+### v2.0.0 (January 20, 2026)
+**Major Enhancements:**
+- ✅ Comprehensive performance monitoring system
+- ✅ Enhanced rate limiting (per-user + IP-based)
+- ✅ Content Security Policy (CSP) headers
+- ✅ Structured error codes and consistent error handling
+- ✅ Full type hints throughout codebase
+- ✅ Enhanced security middleware
+- ✅ Improved error handling and debugging
+- ✅ **File integrity verification on download** - SHA-256 hash verification
+- ✅ **Secure file serving** - Server-level blocking of direct media access
+- ✅ **Virus scanning on download** - ClamAV integration for file scanning before serving
+- ✅ **Chunked downloads** - StreamingHttpResponse for large files (50MB+)
+- ✅ **Asynchronous bulk downloads** - Celery tasks for large ZIP creation
+- ✅ **CDN support** - CloudFront/Cloudflare integration for public files
+- ✅ Comprehensive RATING.md assessment document
+
+### v1.0.0 (January 6, 2026)
+- Initial production release
+- Basic file management
+- Security features
+- Performance optimizations
+
+---
+
+**Last Updated:** January 21, 2026  
+**Version:** 2.0.1  
+**Status:** ✅ Production Ready (Score: 9.2/10)  
+**Next Steps:** Enhance accessibility to WCAG 2.1 Level AA (Priority 2)

@@ -172,21 +172,25 @@ class DownloadRateLimiterTest(TestCase):
         self.factory = RequestFactory()
     
     def test_get_client_ip_direct(self):
-        """Test getting client IP directly"""
+        """Test that DownloadRateLimiter uses get_client_ip from utils.helpers"""
+        from apps.downloads.utils.helpers import get_client_ip
         request = self.factory.get('/download/1/')
         request.META['REMOTE_ADDR'] = '192.168.1.1'
         
-        ip = DownloadRateLimiter.get_client_ip(request)
+        # DownloadRateLimiter now uses get_client_ip from utils.helpers internally
+        ip = get_client_ip(request)
         
         self.assertEqual(ip, '192.168.1.1')
     
     def test_get_client_ip_forwarded(self):
-        """Test getting client IP from X-Forwarded-For header"""
+        """Test that DownloadRateLimiter uses get_client_ip from utils.helpers"""
+        from apps.downloads.utils.helpers import get_client_ip
         request = self.factory.get('/download/1/')
         request.META['HTTP_X_FORWARDED_FOR'] = '10.0.0.1, 192.168.1.1'
         request.META['REMOTE_ADDR'] = '127.0.0.1'
         
-        ip = DownloadRateLimiter.get_client_ip(request)
+        # DownloadRateLimiter now uses get_client_ip from utils.helpers internally
+        ip = get_client_ip(request)
         
         self.assertEqual(ip, '10.0.0.1')
     

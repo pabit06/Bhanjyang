@@ -1,0 +1,681 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-21 16:13+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\apps\downloads\models.py:11
+msgid "Application Form"
+msgstr ""
+
+#: .\apps\downloads\models.py:12
+msgid "Financial Report"
+msgstr ""
+
+#: .\apps\downloads\models.py:13
+msgid "Policy & Bylaw"
+msgstr ""
+
+#: .\apps\downloads\models.py:14
+msgid "Publication"
+msgstr ""
+
+#: .\apps\downloads\models.py:15
+msgid "User Manual"
+msgstr ""
+
+#: .\apps\downloads\models.py:16
+msgid "Certificate"
+msgstr ""
+
+#: .\apps\downloads\models.py:17
+msgid "Brochure"
+msgstr ""
+
+#: .\apps\downloads\models.py:18
+msgid "Other Document"
+msgstr ""
+
+#: .\apps\downloads\models.py:21
+msgid "Low Priority"
+msgstr ""
+
+#: .\apps\downloads\models.py:22
+msgid "Medium Priority"
+msgstr ""
+
+#: .\apps\downloads\models.py:23
+#: .\apps\downloads\templates\downloads\file_detail.html:42
+msgid "High Priority"
+msgstr ""
+
+#: .\apps\downloads\models.py:24
+#: .\apps\downloads\templates\partials\_download_card_template.html:23
+msgid "Urgent"
+msgstr ""
+
+#: .\apps\downloads\models.py:34
+msgid "Category of the file (e.g., Form, Report)."
+msgstr ""
+
+#: .\apps\downloads\models.py:36
+msgid "Title of the file."
+msgstr ""
+
+#: .\apps\downloads\models.py:37
+msgid "Short description of the file."
+msgstr ""
+
+#: .\apps\downloads\models.py:40
+msgid "The file to upload."
+msgstr ""
+
+#: .\apps\downloads\models.py:46
+msgid "Whether to show this file on the website."
+msgstr ""
+
+#: .\apps\downloads\models.py:50
+msgid "Show this file in the featured list?"
+msgstr ""
+
+#: .\apps\downloads\models.py:56
+msgid "Priority level of the file."
+msgstr ""
+
+#: .\apps\downloads\models.py:60
+msgid "Is login required to download this file?"
+msgstr ""
+
+#: .\apps\downloads\models.py:65
+msgid "Expiration date of the file (optional)."
+msgstr ""
+
+#: .\apps\downloads\models.py:70
+msgid "Tags for the file (separated by commas)."
+msgstr ""
+
+#: .\apps\downloads\models.py:76
+msgid "Thumbnail image for the file (optional)."
+msgstr ""
+
+#: .\apps\downloads\models.py:82
+msgid "How many times this file has been downloaded."
+msgstr ""
+
+#: .\apps\downloads\models.py:87
+msgid "How many times this file has been viewed."
+msgstr ""
+
+#: .\apps\downloads\models.py:104
+msgid "User who uploaded this file."
+msgstr ""
+
+#: .\apps\downloads\models.py:109
+msgid "Last time this file was accessed."
+msgstr ""
+
+#: .\apps\downloads\models.py:114
+msgid "Total number of times this file has been accessed."
+msgstr ""
+
+#: .\apps\downloads\models.py:120
+msgid "Type of the file (detected automatically)."
+msgstr ""
+
+#: .\apps\downloads\models.py:125
+msgid "Downloadable File"
+msgstr ""
+
+#: .\apps\downloads\models.py:126
+msgid "Downloadable Files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:5
+msgid "Bhanjyang Cooperative - Download Center"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:7
+msgid ""
+"Download important forms, documents, and resources from Bhanjyang Saving & "
+"Credit Cooperative Society Ltd. Access our downloadable files, policies, and "
+"applications."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:8
+msgid ""
+"Bhanjyang Cooperative, Download, Downloadable Files, Forms, Documents, "
+"Resources, Policies, Applications, PDF, Word, Excel"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:10
+msgid "Download Center - Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:11
+#: .\apps\downloads\templates\downloads\download.html:27
+msgid ""
+"Download important forms, documents, and resources from Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:26
+#: .\apps\downloads\templates\downloads\download.html:75
+#: .\apps\downloads\templates\downloads\file_detail.html:15
+msgid "Download Center"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:58
+msgid "Skip to main content"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:78
+msgid "Available Resources"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:82
+msgid ""
+"Access important documents, forms, and resources from our cooperative. "
+"Download files instantly and stay updated with our latest materials."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:100
+msgid "Search and Filter Downloads"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:101
+msgid "Search and filter downloadable files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:106
+msgid "Category"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:110
+msgid "All Categories"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:119
+#: .\apps\downloads\templates\downloads\file_detail.html:126
+msgid "Priority"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:123
+msgid "All Priorities"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:132
+#: .\apps\downloads\templates\downloads\download.html:155
+msgid "Search Files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:136
+msgid "Search by title, description, or tags..."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:145
+msgid "Featured Only"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:153
+msgid "Search for files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:160
+#: .\apps\downloads\templates\downloads\download.html:331
+msgid "Reset Filters"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:172
+msgid "Bulk Download"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:177
+msgid "Select all files for bulk download"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:178
+msgid "Select All"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:182
+msgid "Clear all selections"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:183
+msgid "Clear All"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:188
+msgid "files selected"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:192
+msgid "Download Selected"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:218
+msgid "Featured Resources"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:274
+msgid "files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:290
+#, python-format
+msgid "Show More (%(count)s remaining)"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:304
+msgid "Show All Files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:313
+msgid "Show Less"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:324
+msgid "No Resources Found"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:326
+msgid ""
+"Your search or filter returned no results. Try adjusting your criteria or "
+"reset the filters to see all available documents."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:355
+msgid "Overview"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:358
+msgid "Download Center Overview"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:362
+msgid ""
+"Stay informed with our comprehensive collection of resources and documents."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:374
+msgid "Available Files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:384
+msgid "Categories"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:393
+msgid "24/7"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:394
+msgid "Access Available"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:403
+msgid "Secure"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download.html:404
+msgid "File Downloads"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:4
+#: .\apps\downloads\templates\downloads\download_history.html:141
+msgid "Download History"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:4
+#: .\apps\downloads\templates\downloads\error.html:9
+#: .\apps\downloads\templates\downloads\file_detail.html:4
+#: .\apps\downloads\templates\downloads\file_preview.html:4
+msgid "Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:6
+msgid ""
+"View your download history and track your downloaded files from Bhanjyang "
+"Cooperative."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:7
+msgid "Download History, Downloads, Bhanjyang Cooperative, Track Files"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:142
+msgid "Track your downloaded files and resources"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:153
+msgid "Total Downloads"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:159
+msgid "This Month"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:165
+msgid "This Week"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:171
+msgid "Today"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:179
+msgid "All Downloads"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:180
+msgid "Recent"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:181
+msgid "Forms"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:182
+msgid "Reports"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:183
+msgid "Policies"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:224
+msgid "Download Again"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:228
+#: .\apps\downloads\templates\downloads\file_preview.html:240
+msgid "View Details"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:237
+msgid "No Downloads Yet"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:238
+msgid "You haven't downloaded any files yet. Start exploring our resources!"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:242
+msgid "Browse Downloads"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:253
+#: .\apps\downloads\templates\downloads\file_preview.html:244
+msgid "Back to Downloads"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:308
+msgid ""
+"Are you sure you want to clear your download history? This action cannot be "
+"undone."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\download_history.html:310
+msgid "Download history cleared successfully!"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:44
+msgid "Error Code"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:55
+msgid "What happened?"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:58
+msgid "Wait a few minutes and try again"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:59
+msgid "Contact us if the problem persists"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:68
+msgid "Too Many Requests"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:71
+msgid "Please wait a while and try again."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:83
+#: .\apps\downloads\templates\downloads\file_detail.html:176
+msgid "Back to Download Center"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:91
+msgid "Home"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\error.html:98
+msgid "If the problem persists:"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:33
+#: .\apps\downloads\templates\downloads\file_preview.html:162
+#: .\apps\downloads\templates\partials\_download_card_template.html:14
+msgid "Featured"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:47
+#: .\apps\downloads\templates\downloads\file_preview.html:167
+#: .\apps\downloads\templates\partials\_download_card_template.html:49
+msgid "Login Required"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:75
+msgid "Description"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:84
+#: .\apps\downloads\templates\downloads\file_preview.html:158
+msgid "File Information"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:88
+msgid "File Type"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:92
+#: .\apps\downloads\templates\downloads\file_preview.html:185
+msgid "File Size"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:96
+msgid "Uploaded"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:100
+msgid "Last Updated"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:105
+msgid "Expires"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:114
+msgid "Statistics"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:118
+#: .\apps\downloads\templates\downloads\file_preview.html:189
+msgid "Downloads"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:122
+#: .\apps\downloads\templates\downloads\file_preview.html:193
+msgid "Views"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:130
+msgid "Status"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:132
+msgid "Active"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:132
+msgid "Inactive"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:143
+#: .\apps\downloads\templates\downloads\file_preview.html:203
+msgid "Tags"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:158
+#: .\apps\downloads\templates\downloads\file_preview.html:236
+#: .\apps\downloads\templates\partials\_download_card_template.html:113
+msgid "Download File"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:162
+msgid "Login required to download this file."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_detail.html:164
+msgid "Click to download this file instantly."
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_preview.html:4
+msgid "Preview"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_preview.html:172
+msgid "Expired"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_preview.html:197
+msgid "Total Access"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_preview.html:225
+msgid "Preview Not Available"
+msgstr ""
+
+#: .\apps\downloads\templates\downloads\file_preview.html:226
+msgid "This file type cannot be previewed in the browser."
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:29
+msgid "High"
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:59
+msgid "File Details"
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:64
+msgid "Uploaded:"
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:70
+msgid "Type:"
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:76
+msgid "Size:"
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:82
+msgid "Downloads:"
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:89
+msgid "Expires:"
+msgstr ""
+
+#: .\apps\downloads\templates\partials\_download_card_template.html:110
+#, python-format
+msgid "Download %(title)s"
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:73
+msgid "An error occurred while processing your download. Please try again."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:74
+msgid "The requested file could not be found."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:75
+msgid "You do not have permission to access this file."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:76
+msgid "Too many download requests. Please wait a moment before trying again."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:77
+msgid "This file has expired and is no longer available."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:78
+msgid "File type not allowed. Please check the allowed file types."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:79
+msgid "File size exceeds the maximum allowed limit."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:80
+msgid "An error occurred while uploading the file. Please try again."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:81
+msgid "An error occurred while creating the bulk download. Please try again."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:82
+msgid "No files selected for bulk download."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:83
+msgid "Too many files selected. Please select fewer files."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:84
+msgid "The file was flagged as potentially unsafe and cannot be downloaded."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:85
+msgid "Your IP address has been temporarily blocked due to security reasons."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:86
+msgid "File integrity check failed. The file may have been tampered with."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:87
+msgid "A database error occurred. Please try again later."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:88
+msgid "Invalid request. Please try again."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:89
+msgid "This endpoint only accepts AJAX requests."
+msgstr ""
+
+#: .\apps\downloads\utils\error_codes.py:91
+msgid "An unexpected error occurred. Please try again."
+msgstr ""

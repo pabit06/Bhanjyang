@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Download History - Bhanjyang Cooperative{% endblock title %}
+{% load i18n %}
+{% block title %}{% trans "Download History" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
-{% block meta_description %}View your download history and track your downloaded files from Bhanjyang Cooperative.{% endblock meta_description %}
-{% block meta_keywords %}Download History, Downloads, Bhanjyang Cooperative, Track Files{% endblock meta_keywords %}
+{% block meta_description %}{% trans "View your download history and track your downloaded files from Bhanjyang Cooperative." %}{% endblock meta_description %}
+{% block meta_keywords %}{% trans "Download History, Downloads, Bhanjyang Cooperative, Track Files" %}{% endblock meta_keywords %}
 
 {% block extra_css %}
 <style>
@@ -137,8 +138,8 @@
     <!-- History Header -->
     <div class="history-header">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-bold font-montserrat mb-4">Download History</h1>
-            <p class="text-xl opacity-90">Track your downloaded files and resources</p>
+            <h1 class="text-4xl font-bold font-montserrat mb-4">{% trans "Download History" %}</h1>
+            <p class="text-xl opacity-90">{% trans "Track your downloaded files and resources" %}</p>
         </div>
     </div>
 
@@ -149,25 +150,25 @@
                 <div class="col-md-3">
                     <div class="stat-card">
                         <div class="stat-number">{{ downloads|length }}</div>
-                        <div class="stat-label">Total Downloads</div>
+                        <div class="stat-label">{% trans "Total Downloads" %}</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
                         <div class="stat-number">{{ downloads|length }}</div>
-                        <div class="stat-label">This Month</div>
+                        <div class="stat-label">{% trans "This Month" %}</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
                         <div class="stat-number">{{ downloads|length }}</div>
-                        <div class="stat-label">This Week</div>
+                        <div class="stat-label">{% trans "This Week" %}</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
                         <div class="stat-number">{{ downloads|length }}</div>
-                        <div class="stat-label">Today</div>
+                        <div class="stat-label">{% trans "Today" %}</div>
                     </div>
                 </div>
             </div>
@@ -175,11 +176,11 @@
 
         <!-- Filter Tabs -->
         <div class="filter-tabs">
-            <a href="#" class="filter-tab active" data-filter="all">All Downloads</a>
-            <a href="#" class="filter-tab" data-filter="recent">Recent</a>
-            <a href="#" class="filter-tab" data-filter="forms">Forms</a>
-            <a href="#" class="filter-tab" data-filter="reports">Reports</a>
-            <a href="#" class="filter-tab" data-filter="policies">Policies</a>
+            <a href="#" class="filter-tab active" data-filter="all">{% trans "All Downloads" %}</a>
+            <a href="#" class="filter-tab" data-filter="recent">{% trans "Recent" %}</a>
+            <a href="#" class="filter-tab" data-filter="forms">{% trans "Forms" %}</a>
+            <a href="#" class="filter-tab" data-filter="reports">{% trans "Reports" %}</a>
+            <a href="#" class="filter-tab" data-filter="policies">{% trans "Policies" %}</a>
         </div>
 
         <!-- Download History List -->
@@ -220,11 +221,11 @@
                         <div class="flex flex-col gap-2">
                             <a href="{% url 'downloads:download_file' download.pk %}" 
                                class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors text-sm font-medium">
-                                <i class="fas fa-download mr-1"></i>Download Again
+                                <i class="fas fa-download mr-1"></i>{% trans "Download Again" %}
                             </a>
                             <a href="{% url 'downloads:file_detail' download.pk %}" 
                                class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm font-medium">
-                                <i class="fas fa-info-circle mr-1"></i>View Details
+                                <i class="fas fa-info-circle mr-1"></i>{% trans "View Details" %}
                             </a>
                         </div>
                     </div>
@@ -233,12 +234,12 @@
             {% else %}
                 <div class="empty-state">
                     <i class="fas fa-download"></i>
-                    <h3 class="text-xl font-semibold mb-2">No Downloads Yet</h3>
-                    <p class="mb-4">You haven't downloaded any files yet. Start exploring our resources!</p>
+                    <h3 class="text-xl font-semibold mb-2">{% trans "No Downloads Yet" %}</h3>
+                    <p class="mb-4">{% trans "You haven't downloaded any files yet. Start exploring our resources!" %}</p>
                     <a href="{% url 'downloads:download_center' %}" 
                        class="inline-flex items-center px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium">
                         <i class="fas fa-search mr-2"></i>
-                        Browse Downloads
+                        {% trans "Browse Downloads" %}
                     </a>
                 </div>
             {% endif %}
@@ -249,7 +250,7 @@
             <a href="{% url 'downloads:download_center' %}" 
                class="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium mr-4">
                 <i class="fas fa-arrow-left mr-2"></i>
-                Back to Downloads
+                {% trans "Back to Downloads" %}
             </a>
             <button onclick="clearHistory()" 
                     class="inline-flex items-center px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors font-medium">
@@ -304,9 +305,9 @@ function isRecent(item) {
 }
 
 function clearHistory() {
-    if (confirm('Are you sure you want to clear your download history? This action cannot be undone.')) {
+    if (confirm('{% trans "Are you sure you want to clear your download history? This action cannot be undone." %}')) {
         // This would typically make an AJAX request to clear history
-        alert('Download history cleared successfully!');
+        alert('{% trans "Download history cleared successfully!" %}');
         location.reload();
     }
 }

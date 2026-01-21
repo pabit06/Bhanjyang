@@ -215,22 +215,29 @@ class DownloadsViewsTest(TestCase):
     
     def test_bulk_download_view_requires_login(self):
         """Test bulk download view requires login"""
-        response = self.client.post(reverse('downloads:bulk_download'))
+        from unittest.mock import patch
         
-        # Should redirect to login
-        self.assertEqual(response.status_code, 302)
+        # Mock rate limit to ensure we hit login required check
+        with patch('apps.downloads.security.DownloadRateLimiter.check_bulk_download_limit'):
+            response = self.client.post(reverse('downloads:bulk_download'))
+            
+            # Should redirect to login
+            self.assertEqual(response.status_code, 302)
     
     def test_bulk_download_view_no_files(self):
         """Test bulk download view with no files selected"""
         self.client.login(username='testuser', password='testpass123')
         
-        response = self.client.post(reverse('downloads:bulk_download'))
-        
-        # Should return 400 error
-        self.assertEqual(response.status_code, 400)
-        data = response.json()
-        self.assertIn('error', data)
-        self.assertIn('No files selected', data['error'])
+        # Mock rate limit check to avoid 429
+        from unittest.mock import patch
+        with patch('apps.downloads.security.DownloadRateLimiter.check_bulk_download_limit'): 
+            response = self.client.post(reverse('downloads:bulk_download'))
+            
+            # Should return 400 error
+            self.assertEqual(response.status_code, 400)
+            data = response.json()
+            self.assertIn('error', data)
+            self.assertIn('No files selected', data['error'])
     
     def test_bulk_download_view_success(self):
         """Test bulk download view with valid files"""

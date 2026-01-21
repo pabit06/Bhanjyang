@@ -32,9 +32,9 @@ class DownloadsRefactorTest(TestCase):
 
     def test_download_file_cbv(self):
         response = self.client.get(reverse('downloads:download_file', args=[self.file.id]))
-        # Should redirect to the file url
+        # Should redirect to the secure serve url
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, self.file.file.url)
+        self.assertEqual(response.url, reverse('downloads:serve_file', kwargs={'pk': self.file.pk}))
 
     def test_download_file_cbv_permission(self):
         self.file.requires_login = True

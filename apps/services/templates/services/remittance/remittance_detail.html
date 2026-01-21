@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load nepali_digits %}
 
 {% block title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock %}
 
@@ -156,20 +157,20 @@
 
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                                 <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">२५K+</div>
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">{% trans "25K+" %}</div>
                                     <div class="text-xs text-blue-100 uppercase tracking-wide">भुक्तानी केन्द्रहरू</div>
                                 </div>
                                 <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">१००+</div>
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">{% trans "100+" %}</div>
                                     <div class="text-xs text-blue-100 uppercase tracking-wide">विश्वव्यापी साझेदारहरू
                                     </div>
                                 </div>
                                 <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">१८+</div>
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">{% trans "18+" %}</div>
                                     <div class="text-xs text-blue-100 uppercase tracking-wide">वर्षको अनुभव</div>
                                 </div>
                                 <div class="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10">
-                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">५० लाख+</div>
+                                    <div class="text-3xl font-extrabold text-yellow-400 mb-1">{% trans "5 Million+" %}</div>
                                     <div class="text-xs text-blue-100 uppercase tracking-wide">सन्तुष्ट ग्राहकहरू</div>
                                 </div>
                             </div>
@@ -229,15 +230,15 @@
                                 IME को व्यापक सञ्जाल</h2>
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                                 <div class="text-center">
-                                    <div class="text-4xl font-extrabold mb-1">४५K+</div>
+                                    <div class="text-4xl font-extrabold mb-1">{% trans "45K+" %}</div>
                                     <div class="text-xs opacity-80 uppercase">एजेन्टहरू</div>
                                 </div>
                                 <div class="text-center">
-                                    <div class="text-4xl font-extrabold mb-1">२००+</div>
+                                    <div class="text-4xl font-extrabold mb-1">{% trans "200+" %}</div>
                                     <div class="text-xs opacity-80 uppercase">देशहरू</div>
                                 </div>
                                 <div class="text-center">
-                                    <div class="text-4xl font-extrabold mb-1">१ करोड+</div>
+                                    <div class="text-4xl font-extrabold mb-1">{% trans "10 Million+" %}</div>
                                     <div class="text-xs opacity-80 uppercase">लाभान्वित घरधुरी</div>
                                 </div>
                             </div>
@@ -452,8 +453,7 @@
                             <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                                 <span class="text-gray-600 text-sm"><i
                                         class="far fa-clock mr-2 text-deuraligreen"></i>{% trans "Time" %}</span>
-                                <span class="font-semibold text-gray-800">{{ service.processing_time|default:"तत्काल"
-                                    }}</span>
+                                <span class="font-semibold text-gray-800">{{ service.processing_time|default:_("Instant")|to_nepali_digits }}</span>
                             </div>
 
                             {% if service.fees %}
@@ -490,7 +490,7 @@
                         <h4 class="font-bold text-lg mb-2">{% trans "Need Help?" %}</h4>
                         <p class="text-green-100 text-sm mb-4">हाम्रो ग्राहक सेवा प्रतिनिधिहरू तपाईंलाई सहयोग गर्न तयार
                             छन्।</p>
-                        <p class="font-bold text-xl">+९७७-०६१-५६१६६६</p>
+                        <p class="font-bold text-xl">{% trans "+977-061-561666" %}</p>
                     </div>
                 </div>
 

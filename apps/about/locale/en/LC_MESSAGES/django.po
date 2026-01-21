@@ -1,0 +1,1364 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-21 16:12+0545\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: .\apps\about\admin.py:37 .\apps\about\models.py:91
+#: .\apps\about\models.py:216 .\apps\about\models.py:362
+#: .\apps\about\models.py:462 .\apps\about\models.py:558
+msgid "Status"
+msgstr ""
+
+#: .\apps\about\admin.py:42 .\apps\about\models.py:90
+#: .\apps\about\models.py:215 .\apps\about\models.py:359
+#: .\apps\about\models.py:461 .\apps\about\models.py:557
+#: .\apps\about\models.py:636 .\apps\about\models.py:746
+msgid "Active"
+msgstr ""
+
+#: .\apps\about\admin.py:43
+msgid "Inactive"
+msgstr ""
+
+#: .\apps\about\admin.py:55 .\apps\about\admin.py:60
+#: .\apps\about\templates\about\member_testimonials.html:96
+msgid "Featured"
+msgstr ""
+
+#: .\apps\about\admin.py:61
+msgid "Not Featured"
+msgstr ""
+
+#: .\apps\about\admin.py:153
+msgid "Content displayed in the \"Our Story\" section on the About Us page"
+msgstr ""
+
+#: .\apps\about\admin.py:157
+msgid ""
+"Content for home page sections. Years of service is automatically calculated "
+"from established date."
+msgstr ""
+
+#: .\apps\about\admin.py:161
+msgid ""
+"Set status to Published to make this content visible on the site. Use "
+"Scheduled to auto-publish at a specific time."
+msgstr ""
+
+#: .\apps\about\admin.py:166
+msgid "SEO meta tags for home page. If left blank, defaults will be used."
+msgstr ""
+
+#: .\apps\about\admin.py:175
+msgid ""
+"Legacy field - automatically synced with status. Use status field instead."
+msgstr ""
+
+#: .\apps\about\admin.py:280
+msgid "Set status to Published to make this event visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:292 .\apps\about\admin.py:410
+#: .\apps\about\admin.py:527 .\apps\about\admin.py:615
+msgid "Legacy field - automatically synced with status."
+msgstr ""
+
+#: .\apps\about\admin.py:373
+msgid ""
+"<strong>Home Page Impact Section Statistics</strong><br>These statistics are "
+"displayed in the \"Our Impact\" section on the home page.<br>Only statistics "
+"with <strong>Featured</strong> and <strong>Status=Published</strong> will be "
+"shown.<br>Maximum 4 statistics are displayed, ordered by the \"Display "
+"Order\" field.<br><br><strong>Examples:</strong><br>• Title: \"Active "
+"Members\", Value: \"10K+\", Unit: \"members\"<br>• Title: \"Years of "
+"Service\", Value: \"25+\", Unit: \"years\"<br>• Title: \"Total Savings\", "
+"Value: \"500\", Unit: \"Million NPR\""
+msgstr ""
+
+#: .\apps\about\admin.py:385
+msgid "Set status to Published to make this statistic visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:391
+msgid ""
+"<strong>Icon:</strong> Use FontAwesome icon classes. Examples:<br>• fas fa-"
+"users (for members)<br>• fas fa-chart-line (for growth)<br>• fas fa-hand-"
+"holding-usd (for loans)<br>• fas fa-piggy-bank (for savings)<br>• fas fa-"
+"calendar-check (for years)<br><br><strong>Color:</strong> Choose "
+"\"deuraligreen\" (green) or \"bhanjyangred\" (red) for border and icon "
+"colors."
+msgstr ""
+
+#: .\apps\about\admin.py:403
+msgid ""
+"<strong>Display Order:</strong> Lower numbers appear first (0, 1, 2, 3...)."
+"<br><strong>Featured:</strong> Only featured statistics appear on home page. "
+"Check this to display."
+msgstr ""
+
+#: .\apps\about\admin.py:519
+msgid "Set status to Published to make this affiliation visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:607
+msgid "Set status to Published to make this message visible on the site."
+msgstr ""
+
+#: .\apps\about\admin.py:928
+msgid "RTI Act 2064 - Information Officer (सूचना अधिकारी)"
+msgstr ""
+
+#: .\apps\about\admin.py:931
+msgid ""
+"Designate this staff member as the Information Officer. Only one staff can "
+"be the active Information Officer at a time."
+msgstr ""
+
+#: .\apps\about\admin.py:938
+msgid "Information Officer"
+msgstr ""
+
+#: .\apps\about\constants.py:18 .\apps\about\models.py:818
+msgid ""
+"Designate this staff member as the Information Officer under RTI Act 2064"
+msgstr ""
+
+#: .\apps\about\constants.py:19 .\apps\about\models.py:824
+msgid "Dedicated email for RTI requests (e.g., rti@bhanjyang.coop.np)"
+msgstr ""
+
+#: .\apps\about\constants.py:109
+msgid "Unable to load content"
+msgstr ""
+
+#: .\apps\about\constants.py:110
+msgid "Either select a person or enter a name."
+msgstr ""
+
+#: .\apps\about\constants.py:111
+msgid "Please select a position."
+msgstr ""
+
+#: .\apps\about\constants.py:112
+msgid "Custom position must be provided when 'Other' is selected."
+msgstr ""
+
+#: .\apps\about\models.py:35 .\apps\about\models.py:188
+#: .\apps\about\models.py:286 .\apps\about\models.py:433
+#: .\apps\about\models.py:531 .\apps\about\templates\about\preview.html:41
+msgid "Draft"
+msgstr ""
+
+#: .\apps\about\models.py:36 .\apps\about\models.py:189
+#: .\apps\about\models.py:287 .\apps\about\models.py:434
+#: .\apps\about\models.py:532 .\apps\about\templates\about\preview.html:44
+msgid "Published"
+msgstr ""
+
+#: .\apps\about\models.py:37 .\apps\about\models.py:190
+#: .\apps\about\models.py:288 .\apps\about\models.py:435
+#: .\apps\about\models.py:533 .\apps\about\templates\about\preview.html:42
+msgid "Scheduled"
+msgstr ""
+
+#: .\apps\about\models.py:38 .\apps\about\models.py:191
+#: .\apps\about\models.py:289 .\apps\about\models.py:436
+#: .\apps\about\models.py:534 .\apps\about\templates\about\preview.html:43
+msgid "Archived"
+msgstr ""
+
+#: .\apps\about\models.py:41
+msgid "Cooperative Name"
+msgstr ""
+
+#: .\apps\about\models.py:42
+msgid "Cooperative Name (Nepali)"
+msgstr ""
+
+#: .\apps\about\models.py:43
+msgid "URL-friendly identifier"
+msgstr ""
+
+#: .\apps\about\models.py:46
+#: .\apps\about\templates\about\cooperative_detail.html:115
+#: .\apps\about\templates\about\introduction.html:128
+msgid "Established Date"
+msgstr ""
+
+#: .\apps\about\models.py:47
+#: .\apps\about\templates\about\cooperative_detail.html:120
+msgid "Registration Number"
+msgstr ""
+
+#: .\apps\about\models.py:48
+#: .\apps\about\templates\about\cooperative_detail.html:125
+msgid "License Number"
+msgstr ""
+
+#: .\apps\about\models.py:51
+#: .\apps\about\templates\about\cooperative_detail.html:150
+msgid "Address"
+msgstr ""
+
+#: .\apps\about\models.py:52 .\apps\about\models.py:632
+#: .\apps\about\templates\about\cooperative_detail.html:160
+msgid "Phone"
+msgstr ""
+
+#: .\apps\about\models.py:53 .\apps\about\models.py:631
+#: .\apps\about\templates\about\cooperative_detail.html:170
+msgid "Email"
+msgstr ""
+
+#: .\apps\about\models.py:54 .\apps\about\models.py:451
+#: .\apps\about\templates\about\cooperative_detail.html:131
+msgid "Website"
+msgstr ""
+
+#: .\apps\about\models.py:60
+msgid "Mission Statement"
+msgstr ""
+
+#: .\apps\about\models.py:61
+msgid "Vision Statement"
+msgstr ""
+
+#: .\apps\about\models.py:62
+msgid "Core Values"
+msgstr ""
+
+#: .\apps\about\models.py:65
+msgid "Cooperative Description"
+msgstr ""
+
+#: .\apps\about\models.py:66
+msgid "Cooperative Description (Nepali)"
+msgstr ""
+
+#: .\apps\about\models.py:69 .\apps\about\templates\about\introduction.html:105
+#: .\apps\about\templates\about\preview.html:71
+msgid "Our Story"
+msgstr ""
+
+#: .\apps\about\models.py:69
+msgid "Content for the 'Our Story' section on About Us page"
+msgstr ""
+
+#: .\apps\about\models.py:70
+msgid "Our Story (Nepali)"
+msgstr ""
+
+#: .\apps\about\models.py:70
+msgid "Our Story content in Nepali"
+msgstr ""
+
+#: .\apps\about\models.py:71
+msgid "Our Story Image"
+msgstr ""
+
+#: .\apps\about\models.py:71
+msgid "Image for the Our Story section on About Us page"
+msgstr ""
+
+#: .\apps\about\models.py:74
+msgid "Cooperative Logo"
+msgstr ""
+
+#: .\apps\about\models.py:75
+msgid "Featured Image"
+msgstr ""
+
+#: .\apps\about\models.py:78
+msgid "Meta Title"
+msgstr ""
+
+#: .\apps\about\models.py:78
+msgid "Page title for SEO (e.g., 'Bhanjyang Cooperative - Home')"
+msgstr ""
+
+#: .\apps\about\models.py:79
+msgid "Meta Description"
+msgstr ""
+
+#: .\apps\about\models.py:79
+msgid "Meta description for SEO and social sharing"
+msgstr ""
+
+#: .\apps\about\models.py:80
+msgid "Meta Keywords"
+msgstr ""
+
+#: .\apps\about\models.py:80
+msgid "Comma-separated keywords for SEO"
+msgstr ""
+
+#: .\apps\about\models.py:81
+msgid "Open Graph Image"
+msgstr ""
+
+#: .\apps\about\models.py:81
+msgid "Image for social media sharing (1200x630px recommended)"
+msgstr ""
+
+#: .\apps\about\models.py:84
+msgid "Introduction Text"
+msgstr ""
+
+#: .\apps\about\models.py:84
+msgid "Text for the introduction section on home page"
+msgstr ""
+
+#: .\apps\about\models.py:85
+msgid "Introduction Text (Nepali)"
+msgstr ""
+
+#: .\apps\about\models.py:85
+msgid "Introduction text in Nepali"
+msgstr ""
+
+#: .\apps\about\models.py:86
+msgid "Why Choose Us Text"
+msgstr ""
+
+#: .\apps\about\models.py:86
+msgid "Text for the 'Why Choose Us' section on home page"
+msgstr ""
+
+#: .\apps\about\models.py:87
+msgid "Why Choose Us Text (Nepali)"
+msgstr ""
+
+#: .\apps\about\models.py:87
+msgid "Why Choose Us text in Nepali"
+msgstr ""
+
+#: .\apps\about\models.py:91 .\apps\about\models.py:216
+#: .\apps\about\models.py:362 .\apps\about\models.py:462
+#: .\apps\about\models.py:558
+msgid "Publication status"
+msgstr ""
+
+#: .\apps\about\models.py:92 .\apps\about\models.py:217
+#: .\apps\about\models.py:363 .\apps\about\models.py:463
+#: .\apps\about\models.py:559
+msgid "Scheduled Date"
+msgstr ""
+
+#: .\apps\about\models.py:92
+msgid "Schedule this content to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:93 .\apps\about\models.py:218
+#: .\apps\about\models.py:364 .\apps\about\models.py:464
+#: .\apps\about\models.py:560
+msgid "Published Date"
+msgstr ""
+
+#: .\apps\about\models.py:93
+msgid "Date when this content was published"
+msgstr ""
+
+#: .\apps\about\models.py:94 .\apps\about\models.py:219
+#: .\apps\about\models.py:365 .\apps\about\models.py:465
+#: .\apps\about\models.py:561
+msgid "Published By"
+msgstr ""
+
+#: .\apps\about\models.py:94
+msgid "User who published this content"
+msgstr ""
+
+#: .\apps\about\models.py:104 .\apps\about\models.py:105
+msgid "Cooperative Information"
+msgstr ""
+
+#: .\apps\about\models.py:194
+msgid "Milestone"
+msgstr ""
+
+#: .\apps\about\models.py:195
+msgid "Achievement"
+msgstr ""
+
+#: .\apps\about\models.py:196
+msgid "Expansion"
+msgstr ""
+
+#: .\apps\about\models.py:197
+msgid "Award"
+msgstr ""
+
+#: .\apps\about\models.py:198 .\apps\about\models.py:441
+msgid "Partnership"
+msgstr ""
+
+#: .\apps\about\models.py:199 .\apps\about\models.py:298
+#: .\apps\about\models.py:445 .\apps\about\models.py:540
+#: .\apps\about\models.py:725
+msgid "Other"
+msgstr ""
+
+#: .\apps\about\models.py:202
+msgid "Event Title"
+msgstr ""
+
+#: .\apps\about\models.py:203
+msgid "Event Description"
+msgstr ""
+
+#: .\apps\about\models.py:204
+msgid "Event Date"
+msgstr ""
+
+#: .\apps\about\models.py:205
+msgid "Event Type"
+msgstr ""
+
+#: .\apps\about\models.py:208
+msgid "Event Image"
+msgstr ""
+
+#: .\apps\about\models.py:211 .\apps\about\models.py:347
+#: .\apps\about\models.py:457 .\apps\about\models.py:553
+msgid "Display Order"
+msgstr ""
+
+#: .\apps\about\models.py:214
+msgid "Featured Event"
+msgstr ""
+
+#: .\apps\about\models.py:217
+msgid "Schedule this event to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:218
+msgid "Date when this event was published"
+msgstr ""
+
+#: .\apps\about\models.py:219
+msgid "User who published this event"
+msgstr ""
+
+#: .\apps\about\models.py:229
+msgid "Timeline Event"
+msgstr ""
+
+#: .\apps\about\models.py:230
+msgid "Timeline Events"
+msgstr ""
+
+#: .\apps\about\models.py:292
+msgid "Total Members"
+msgstr ""
+
+#: .\apps\about\models.py:293
+msgid "Total Deposits"
+msgstr ""
+
+#: .\apps\about\models.py:294
+msgid "Total Loans Disbursed"
+msgstr ""
+
+#: .\apps\about\models.py:295
+msgid "Number of Branches"
+msgstr ""
+
+#: .\apps\about\models.py:296
+msgid "Number of Employees"
+msgstr ""
+
+#: .\apps\about\models.py:297
+msgid "Total Assets"
+msgstr ""
+
+#: .\apps\about\models.py:303
+msgid "Statistic Title"
+msgstr ""
+
+#: .\apps\about\models.py:304
+msgid "e.g., 'Active Members', 'Years of Service', 'Total Savings'"
+msgstr ""
+
+#: .\apps\about\models.py:308
+msgid "Value"
+msgstr ""
+
+#: .\apps\about\models.py:309
+msgid "e.g., '10K+', '25+', '500', '98%' (numbers or text)"
+msgstr ""
+
+#: .\apps\about\models.py:314
+msgid "Unit"
+msgstr ""
+
+#: .\apps\about\models.py:315
+msgid "Optional unit (e.g., 'members', 'years', 'Million NPR', '%')"
+msgstr ""
+
+#: .\apps\about\models.py:319 .\apps\about\models.py:449
+msgid "Description"
+msgstr ""
+
+#: .\apps\about\models.py:320
+msgid ""
+"Short description shown below the statistic (e.g., 'Growing our community, "
+"one member at a time.')"
+msgstr ""
+
+#: .\apps\about\models.py:326
+msgid "Statistic Type"
+msgstr ""
+
+#: .\apps\about\models.py:327
+msgid "Category for organizing statistics"
+msgstr ""
+
+#: .\apps\about\models.py:334
+msgid "Icon Class"
+msgstr ""
+
+#: .\apps\about\models.py:335
+msgid ""
+"FontAwesome icon class (e.g., 'fas fa-users', 'fas fa-chart-line', 'fas fa-"
+"hand-holding-usd', 'fas fa-piggy-bank', 'fas fa-calendar-check')"
+msgstr ""
+
+#: .\apps\about\models.py:340
+msgid "Color Theme"
+msgstr ""
+
+#: .\apps\about\models.py:341
+msgid "Choose 'deuraligreen' or 'bhanjyangred' for border and icon colors"
+msgstr ""
+
+#: .\apps\about\models.py:348
+msgid "Lower numbers appear first. Set 0, 1, 2, 3... for ordering on home page"
+msgstr ""
+
+#: .\apps\about\models.py:354
+msgid "Featured Statistic"
+msgstr ""
+
+#: .\apps\about\models.py:355
+msgid ""
+"Only featured statistics appear in the 'Our Impact' section on the home "
+"page. Check this to display on home page."
+msgstr ""
+
+#: .\apps\about\models.py:360
+msgid "Uncheck to hide this statistic without deleting it"
+msgstr ""
+
+#: .\apps\about\models.py:363
+msgid "Schedule this statistic to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:364
+msgid "Date when this statistic was published"
+msgstr ""
+
+#: .\apps\about\models.py:365
+msgid "User who published this statistic"
+msgstr ""
+
+#: .\apps\about\models.py:375
+msgid "Statistic"
+msgstr ""
+
+#: .\apps\about\models.py:376
+msgid "Statistics"
+msgstr ""
+
+#: .\apps\about\models.py:439
+msgid "Regulatory Body"
+msgstr ""
+
+#: .\apps\about\models.py:440
+msgid "Professional Association"
+msgstr ""
+
+#: .\apps\about\models.py:442
+msgid "Certification Body"
+msgstr ""
+
+#: .\apps\about\models.py:443
+msgid "Umbrella Organization"
+msgstr ""
+
+#: .\apps\about\models.py:444
+msgid "Cooperative Bank"
+msgstr ""
+
+#: .\apps\about\models.py:448
+msgid "Organization Name"
+msgstr ""
+
+#: .\apps\about\models.py:450
+msgid "Affiliation Type"
+msgstr ""
+
+#: .\apps\about\models.py:454
+msgid "Organization Logo"
+msgstr ""
+
+#: .\apps\about\models.py:460
+msgid "Featured Affiliation"
+msgstr ""
+
+#: .\apps\about\models.py:463
+msgid "Schedule this affiliation to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:464
+msgid "Date when this affiliation was published"
+msgstr ""
+
+#: .\apps\about\models.py:465
+msgid "User who published this affiliation"
+msgstr ""
+
+#: .\apps\about\models.py:475
+msgid "Affiliation"
+msgstr ""
+
+#: .\apps\about\models.py:476 .\apps\about\templates\about\affiliations.html:5
+#: .\apps\about\templates\about\affiliations.html:11
+#: .\apps\about\templates\about\affiliations.html:19 .\apps\about\views.py:105
+msgid "Affiliations"
+msgstr ""
+
+#: .\apps\about\models.py:537
+msgid "Chairman Message"
+msgstr ""
+
+#: .\apps\about\models.py:538
+msgid "Manager Message"
+msgstr ""
+
+#: .\apps\about\models.py:539
+msgid "Director Message"
+msgstr ""
+
+#: .\apps\about\models.py:543
+msgid "Message Title"
+msgstr ""
+
+#: .\apps\about\models.py:544
+msgid "Message Type"
+msgstr ""
+
+#: .\apps\about\models.py:545
+msgid "Message Content"
+msgstr ""
+
+#: .\apps\about\models.py:546
+msgid "Author Name"
+msgstr ""
+
+#: .\apps\about\models.py:547
+msgid "Author Position"
+msgstr ""
+
+#: .\apps\about\models.py:550
+msgid "Author Photo"
+msgstr ""
+
+#: .\apps\about\models.py:556
+#: .\apps\about\templates\about\chairperson_message.html:135
+msgid "Featured Message"
+msgstr ""
+
+#: .\apps\about\models.py:559
+msgid "Schedule this message to be published at a specific date/time"
+msgstr ""
+
+#: .\apps\about\models.py:560
+msgid "Date when this message was published"
+msgstr ""
+
+#: .\apps\about\models.py:561
+msgid "User who published this message"
+msgstr ""
+
+#: .\apps\about\models.py:571
+msgid "Leadership Message"
+msgstr ""
+
+#: .\apps\about\models.py:572
+msgid "Leadership Messages"
+msgstr ""
+
+#: .\apps\about\models.py:633
+msgid "General Position"
+msgstr ""
+
+#: .\apps\about\models.py:644
+msgid "Person"
+msgstr ""
+
+#: .\apps\about\models.py:645
+msgid "People"
+msgstr ""
+
+#: .\apps\about\models.py:678
+msgid "Committee Description"
+msgstr ""
+
+#: .\apps\about\models.py:679
+msgid "Committee Photo"
+msgstr ""
+
+#: .\apps\about\models.py:680 .\apps\about\models.py:744
+msgid "Start Date"
+msgstr ""
+
+#: .\apps\about\models.py:681 .\apps\about\models.py:745
+msgid "End Date"
+msgstr ""
+
+#: .\apps\about\models.py:685
+#: .\apps\about\templates\about\board_of_directors.html:90
+msgid "Committee"
+msgstr ""
+
+#: .\apps\about\models.py:686
+msgid "Committees"
+msgstr ""
+
+#: .\apps\about\models.py:715
+msgid "Select Position"
+msgstr ""
+
+#: .\apps\about\models.py:717
+msgid "Chairman"
+msgstr ""
+
+#: .\apps\about\models.py:718
+msgid "Vice-Chairman"
+msgstr ""
+
+#: .\apps\about\models.py:719
+msgid "Secretary"
+msgstr ""
+
+#: .\apps\about\models.py:720
+msgid "Treasurer"
+msgstr ""
+
+#: .\apps\about\models.py:721
+msgid "Member"
+msgstr ""
+
+#: .\apps\about\models.py:723
+msgid "Coordinator"
+msgstr ""
+
+#: .\apps\about\models.py:751
+msgid "Committee Membership"
+msgstr ""
+
+#: .\apps\about\models.py:752
+msgid "Committee Memberships"
+msgstr ""
+
+#: .\apps\about\models.py:810
+msgid "Department"
+msgstr ""
+
+#: .\apps\about\models.py:811
+msgid "Salary Range"
+msgstr ""
+
+#: .\apps\about\models.py:812
+msgid "Qualifications"
+msgstr ""
+
+#: .\apps\about\models.py:817
+msgid "Information Officer (सूचना अधिकारी)"
+msgstr ""
+
+#: .\apps\about\models.py:823
+msgid "RTI Email"
+msgstr ""
+
+#: .\apps\about\models.py:829
+msgid "Staff Member"
+msgstr ""
+
+#: .\apps\about\models.py:830
+msgid "Staff Members"
+msgstr ""
+
+#: .\apps\about\services.py:90
+#: .\apps\about\templates\about\partials\_board_structured_data.html:86
+#: .\apps\about\templates\about\partials\_management_structured_data.html:85
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:181
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:92
+#: .\apps\about\views.py:62 .\apps\about\views.py:81 .\apps\about\views.py:103
+#: .\apps\about\views.py:137 .\apps\about\views.py:171
+#: .\apps\about\views.py:195 .\apps\about\views.py:219
+#: .\apps\about\views.py:250 .\apps\about\views.py:286
+msgid "Home"
+msgstr ""
+
+#: .\apps\about\services.py:91
+#: .\apps\about\templates\about\partials\_board_structured_data.html:92
+#: .\apps\about\templates\about\partials\_management_structured_data.html:91
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:187
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:98
+#: .\apps\about\views.py:63 .\apps\about\views.py:82 .\apps\about\views.py:104
+#: .\apps\about\views.py:138 .\apps\about\views.py:172
+#: .\apps\about\views.py:196 .\apps\about\views.py:220
+#: .\apps\about\views.py:251 .\apps\about\views.py:287
+msgid "About Us"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:7
+msgid ""
+"Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, "
+"professional associations, and partnerships that ensure our compliance and "
+"excellence."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:13
+msgid ""
+"Learn about Bhanjyang Cooperative's affiliations with regulatory bodies, "
+"professional associations, and partnerships."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:21
+msgid ""
+"Learn about Bhanjyang Cooperative's affiliations with regulatory bodies and "
+"professional associations."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:30
+msgid "Our Affiliations"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:31
+msgid ""
+"We are proud to be associated with these organizations and regulatory "
+"bodies, including our local regulatory authority Rupa Rural Municipality."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:65
+#: .\apps\about\templates\about\preview.html:130
+msgid "Visit Website"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:74
+msgid "No affiliations are available yet."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:75
+msgid "Affiliation information will be added as it becomes available."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:85
+msgid "Types of Affiliations"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:86
+msgid "Understanding our various partnerships and regulatory relationships."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:94
+msgid "Regulatory Bodies"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:95
+msgid ""
+"Government agencies that oversee cooperative operations and ensure "
+"compliance."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:102
+msgid "Professional Associations"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:103
+msgid ""
+"Industry organizations that promote best practices and professional "
+"development."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:110
+msgid "Partnerships"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:111
+msgid ""
+"Strategic collaborations that enhance our services and community impact."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:118
+msgid "Certification Bodies"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:119
+msgid ""
+"Organizations that provide certifications and quality assurance standards."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:126
+msgid "Umbrella Organizations"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:127
+msgid ""
+"Parent organizations that coordinate and support multiple cooperatives and "
+"institutions."
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:134
+msgid "Cooperative Banks"
+msgstr ""
+
+#: .\apps\about\templates\about\affiliations.html:135
+msgid ""
+"Financial institutions that provide banking services and support to "
+"cooperatives."
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:5
+#: .\apps\about\templates\about\board_of_directors.html:11
+#: .\apps\about\templates\about\board_of_directors.html:19
+#: .\apps\about\templates\about\board_of_directors.html:63
+#: .\apps\about\templates\about\partials\_board_structured_data.html:15
+#: .\apps\about\templates\about\partials\_board_structured_data.html:98
+#: .\apps\about\views.py:197
+msgid "Board of Directors"
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:7
+msgid ""
+"Meet the Board of Directors and committees of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd. Learn about our elected leadership and governance "
+"structure."
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:13
+#: .\apps\about\templates\about\board_of_directors.html:21
+msgid ""
+"Meet the Board of Directors and committees of Bhanjyang Cooperative. Learn "
+"about our elected leadership and governance structure."
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:60
+msgid "Governance"
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:67
+msgid ""
+"Meet our elected leadership who guide our cooperative's vision and governance"
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:98
+msgid "Tenure:"
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:139
+msgid "No Board Information Available"
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:140
+msgid "Board of Directors information will be available soon."
+msgstr ""
+
+#: .\apps\about\templates\about\board_of_directors.html:144
+#: .\apps\about\templates\about\chairperson_message.html:155
+#: .\apps\about\templates\about\management.html:131
+#: .\apps\about\templates\about\manager_commitment.html:158
+#: .\apps\about\templates\about\member_testimonials.html:161
+msgid "Back to About Us"
+msgstr ""
+
+#: .\apps\about\templates\about\chairperson_message.html:5
+#: .\apps\about\templates\about\chairperson_message.html:11
+#: .\apps\about\templates\about\chairperson_message.html:25
+#: .\apps\about\templates\about\chairperson_message.html:74
+#: .\apps\about\views.py:139
+msgid "Chairperson Message"
+msgstr ""
+
+#: .\apps\about\templates\about\chairperson_message.html:7
+msgid ""
+"Read the message from the Chairperson of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd. Strategic vision and direction from our elected "
+"leadership."
+msgstr ""
+
+#: .\apps\about\templates\about\chairperson_message.html:13
+#: .\apps\about\templates\about\chairperson_message.html:27
+msgid ""
+"Read the message from the Chairperson of Bhanjyang Cooperative. Strategic "
+"vision and direction from our elected leadership."
+msgstr ""
+
+#: .\apps\about\templates\about\chairperson_message.html:71
+msgid "Leadership"
+msgstr ""
+
+#: .\apps\about\templates\about\chairperson_message.html:78
+msgid "Strategic vision and direction from our elected leadership"
+msgstr ""
+
+#: .\apps\about\templates\about\chairperson_message.html:150
+msgid "No Chairperson Message Available"
+msgstr ""
+
+#: .\apps\about\templates\about\chairperson_message.html:151
+msgid ""
+"The chairperson message will be available soon. Please check back later."
+msgstr ""
+
+#: .\apps\about\templates\about\cooperative_detail.html:66
+msgid "About"
+msgstr ""
+
+#: .\apps\about\templates\about\cooperative_detail.html:85
+#: .\apps\about\templates\about\introduction.html:199
+msgid "Our Mission"
+msgstr ""
+
+#: .\apps\about\templates\about\cooperative_detail.html:92
+#: .\apps\about\templates\about\introduction.html:210
+msgid "Our Vision"
+msgstr ""
+
+#: .\apps\about\templates\about\cooperative_detail.html:99
+#: .\apps\about\templates\about\introduction.html:221
+msgid "Our Values"
+msgstr ""
+
+#: .\apps\about\templates\about\cooperative_detail.html:110
+msgid "Cooperative Details"
+msgstr ""
+
+#: .\apps\about\templates\about\cooperative_detail.html:141
+msgid "Contact Information"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:5
+#: .\apps\about\templates\about\introduction.html:11
+#: .\apps\about\templates\about\introduction.html:25
+#: .\apps\about\templates\about\introduction.html:78
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:193
+#: .\apps\about\views.py:64
+msgid "Introduction"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:7
+msgid ""
+"Learn about Bhanjyang Cooperative's story, vision, mission, values, and "
+"journey. Discover our establishment, principles, and key milestones."
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:13
+#: .\apps\about\templates\about\introduction.html:27
+msgid ""
+"Learn about Bhanjyang Cooperative's story, vision, mission, and journey. "
+"Empowering communities through cooperative principles."
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:81
+msgid "Our Story, Vision & Journey"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:85
+msgid ""
+"Discover our foundation, principles, and the milestones that shaped our "
+"cooperative"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:132
+msgid "Registration"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:180
+#: .\apps\about\templates\about\introduction.html:183
+msgid "Our Foundation"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:187
+msgid ""
+"The principles that guide our commitment to community development and "
+"financial excellence"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:200
+msgid ""
+"To provide exceptional financial services and support community development "
+"through cooperative principles."
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:211
+msgid ""
+"To be the leading cooperative society that empowers communities and fosters "
+"sustainable development."
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:222
+msgid ""
+"Integrity, transparency, member focus, community service, and sustainable "
+"growth."
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:245
+#: .\apps\about\templates\about\introduction.html:248
+#: .\apps\about\templates\about\timeline.html:115
+msgid "Our Journey"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:252
+msgid ""
+"Key milestones in our growth and development as a trusted financial "
+"institution"
+msgstr ""
+
+#: .\apps\about\templates\about\introduction.html:285
+msgid "View Complete Timeline"
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:5
+#: .\apps\about\templates\about\management.html:11
+#: .\apps\about\templates\about\management.html:19
+#: .\apps\about\templates\about\management.html:67
+#: .\apps\about\templates\about\partials\_management_structured_data.html:15
+#: .\apps\about\templates\about\partials\_management_structured_data.html:97
+msgid "Management Team"
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:7
+msgid ""
+"Meet the Management Team of Bhanjyang Saving & Credit Cooperative Society "
+"Ltd. Professional staff members who handle day-to-day operations and member "
+"services."
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:13
+#: .\apps\about\templates\about\management.html:21
+msgid ""
+"Meet the Management Team of Bhanjyang Cooperative. Professional staff "
+"members who handle day-to-day operations and member services."
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:64
+msgid "Operations"
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:71
+msgid ""
+"Professional staff members who handle day-to-day operations and member "
+"services"
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:126
+msgid "No Management Team Information Available"
+msgstr ""
+
+#: .\apps\about\templates\about\management.html:127
+msgid "Management team information will be available soon."
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:5
+#: .\apps\about\templates\about\manager_commitment.html:11
+#: .\apps\about\templates\about\manager_commitment.html:25
+#: .\apps\about\templates\about\manager_commitment.html:79
+#: .\apps\about\views.py:173
+msgid "Manager Commitment"
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:7
+msgid ""
+"Read the commitment message from the Manager of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd. Operational insights and service commitments from "
+"our management team."
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:13
+#: .\apps\about\templates\about\manager_commitment.html:27
+msgid ""
+"Read the commitment message from the Manager of Bhanjyang Cooperative. "
+"Operational insights and service commitments from our management team."
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:76
+#: .\apps\about\views.py:221
+msgid "Management"
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:83
+msgid "Operational insights and service commitments from our management team"
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:138
+msgid "Featured Commitment"
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:153
+msgid "No Manager Commitment Available"
+msgstr ""
+
+#: .\apps\about\templates\about\manager_commitment.html:154
+msgid ""
+"The manager commitment message will be available soon. Please check back "
+"later."
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:5
+#: .\apps\about\templates\about\member_testimonials.html:11
+#: .\apps\about\templates\about\member_testimonials.html:19
+#: .\apps\about\templates\about\member_testimonials.html:67
+#: .\apps\about\views.py:252
+msgid "Member Testimonials"
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:7
+msgid ""
+"Read testimonials from members of Bhanjyang Saving & Credit Cooperative "
+"Society Ltd. See what our members say about our services and community."
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:13
+#: .\apps\about\templates\about\member_testimonials.html:21
+msgid ""
+"Read testimonials from members of Bhanjyang Cooperative. See what our "
+"members say about our services and community."
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:64
+msgid "Member Voices"
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:71
+msgid ""
+"Hear from our members about their experiences with Bhanjyang Cooperative"
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:156
+msgid "No Testimonials Available"
+msgstr ""
+
+#: .\apps\about\templates\about\member_testimonials.html:157
+msgid "Member testimonials will be available soon. Please check back later."
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_board_structured_data.html:17
+msgid ""
+"Elected leadership and governance committees of Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_management_structured_data.html:17
+msgid ""
+"Professional staff members who handle day-to-day operations and member "
+"services at Bhanjyang Saving & Credit Cooperative Society Ltd."
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:146
+msgid "Savings Accounts"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:147
+msgid "Various savings account options with competitive interest rates"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:154
+msgid "Loan Services"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:155
+msgid "Personal and business loans with flexible repayment options"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:162
+msgid "Remittance Services"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_organization_structured_data.html:163
+msgid "International money transfer services"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:15
+msgid "Bhanjyang Cooperative Timeline"
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:16
+msgid ""
+"Key milestones, achievements, and events in the history of Bhanjyang Saving "
+"& Credit Cooperative Society Ltd."
+msgstr ""
+
+#: .\apps\about\templates\about\partials\_timeline_structured_data.html:104
+#: .\apps\about\templates\about\timeline.html:5
+#: .\apps\about\templates\about\timeline.html:11
+#: .\apps\about\templates\about\timeline.html:19 .\apps\about\views.py:83
+msgid "Timeline"
+msgstr ""
+
+#: .\apps\about\templates\about\preview.html:5
+msgid "Preview"
+msgstr ""
+
+#: .\apps\about\templates\about\preview.html:39
+msgid "PREVIEW MODE"
+msgstr ""
+
+#: .\apps\about\templates\about\preview.html:163
+msgid "Edit in Admin"
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:7
+msgid ""
+"Explore the timeline of Bhanjyang Saving & Credit Cooperative Society Ltd. "
+"Discover our key milestones, achievements, and growth journey over the years."
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:13
+msgid ""
+"Explore the timeline of Bhanjyang Cooperative. Discover our key milestones, "
+"achievements, and growth journey over the years."
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:21
+msgid ""
+"Explore the timeline of Bhanjyang Cooperative. Discover our key milestones "
+"and achievements."
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:118
+msgid "Timeline Infographic"
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:122
+msgid ""
+"Explore our key milestones, achievements, and growth journey over the years"
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:233
+msgid "No Timeline Events"
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:234
+msgid "No timeline events are available yet."
+msgstr ""
+
+#: .\apps\about\templates\about\timeline.html:235
+msgid "Timeline information will be added as it becomes available."
+msgstr ""

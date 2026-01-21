@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 23:35+0545\n"
+"POT-Creation-Date: 2026-01-21 13:31+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,319 +18,329 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\apps\contact\forms.py:46
+#: .\apps\contact\forms.py:47
 msgid "Your full name"
 msgstr "तपाईंको पूरा नाम"
 
-#: .\apps\contact\forms.py:49
+#: .\apps\contact\forms.py:50
 msgid "Name"
 msgstr "नाम"
 
-#: .\apps\contact\forms.py:51
+#: .\apps\contact\forms.py:52
 #, python-brace-format
 msgid "Name must be at least {min_length} characters long."
 msgstr "नाम कम्तिमा {min_length} अक्षरको हुनुपर्छ।"
 
-#: .\apps\contact\forms.py:58 .\apps\contact\forms.py:293
+#: .\apps\contact\forms.py:59 .\apps\contact\forms.py:385
 msgid "your.email@example.com"
 msgstr "तपाईंको.इमेल@example.com"
 
-#: .\apps\contact\forms.py:61
-#: .\apps\contact\templates\contact\partials\_info_officer.html:96
+#: .\apps\contact\forms.py:62
+#: .\apps\contact\templates\contact\partials\_info_officer.html:97
 msgid "Email"
 msgstr "इमेल"
 
-#: .\apps\contact\forms.py:69 .\apps\contact\forms.py:285
+#: .\apps\contact\forms.py:70 .\apps\contact\forms.py:377
 msgid "+977-XXXXXXXXXX"
 msgstr "+९७७-XXXXXXXXXX"
 
-#: .\apps\contact\forms.py:72
+#: .\apps\contact\forms.py:73
 msgid "Phone (Optional)"
 msgstr "फोन (ऐच्छिक)"
 
-#: .\apps\contact\forms.py:80
+#: .\apps\contact\forms.py:81
 msgid "Subject of your message"
 msgstr "तपाईंको सन्देशको विषय"
 
-#: .\apps\contact\forms.py:83
-#: .\apps\contact\templates\contact\partials\_contact_form.html:127
+#: .\apps\contact\forms.py:84
+#: .\apps\contact\templates\contact\partials\_contact_form.html:138
 msgid "Subject"
 msgstr "विषय"
 
-#: .\apps\contact\forms.py:90
+#: .\apps\contact\forms.py:91
 msgid "Your message here..."
 msgstr "तपाईंको सन्देश यहाँ लेख्नुहोस्..."
 
-#: .\apps\contact\forms.py:93
+#: .\apps\contact\forms.py:94
 msgid "Message"
 msgstr "सन्देश"
 
-#: .\apps\contact\forms.py:103
+#: .\apps\contact\forms.py:104
 msgid "Attachment (Optional)"
 msgstr "संलग्नक (ऐच्छिक)"
 
-#: .\apps\contact\forms.py:123
+#: .\apps\contact\forms.py:153 .\apps\contact\forms.py:189
+#: .\apps\contact\forms.py:192 .\apps\contact\forms.py:200
+#: .\apps\contact\forms.py:209
+msgid "reCAPTCHA verification failed. Please try again."
+msgstr ""
+
+#: .\apps\contact\forms.py:161 .\apps\contact\forms.py:171
+msgid "reCAPTCHA verification failed. Please contact support."
+msgstr ""
+
+#: .\apps\contact\forms.py:215
 msgid "Invalid subject."
 msgstr "अमान्य विषय।"
 
-#: .\apps\contact\forms.py:130
+#: .\apps\contact\forms.py:222
 msgid "Name should not contain numbers."
 msgstr "नाममा अङ्कहरू समावेश हुनु हुँदैन।"
 
-#: .\apps\contact\forms.py:144
+#: .\apps\contact\forms.py:236
 msgid "Invalid characters in phone number."
 msgstr "फोन नम्बरमा अमान्य क्यारेक्टरहरू छन्।"
 
-#: .\apps\contact\forms.py:147
+#: .\apps\contact\forms.py:239
 msgid "Phone number too short."
 msgstr "फोन नम्बर धेरै छोटो भयो।"
 
-#: .\apps\contact\forms.py:156
+#: .\apps\contact\forms.py:248
 msgid "Enter a valid email address."
 msgstr "मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्।"
 
-#: .\apps\contact\forms.py:162
+#: .\apps\contact\forms.py:254
 msgid "Disposable email addresses are not allowed."
 msgstr "अस्थायी इमेल ठेगानाहरू (Disposable) प्रयोग गर्न पाइँदैन।"
 
-#: .\apps\contact\forms.py:167
+#: .\apps\contact\forms.py:259
 msgid "Email address should not start with numbers."
 msgstr "इमेल ठेगाना अङ्कबाट सुरु हुनु हुँदैन।"
 
-#: .\apps\contact\forms.py:172
+#: .\apps\contact\forms.py:264
 msgid "Suspicious email domain detected."
 msgstr "शंकास्पद इमेल डोमेन फेला पर्यो।"
 
-#: .\apps\contact\forms.py:178
+#: .\apps\contact\forms.py:270
 msgid "Suspicious email pattern detected."
 msgstr "शंकास्पद इमेल ढाँचा फेला पर्यो।"
 
-#: .\apps\contact\forms.py:192
+#: .\apps\contact\forms.py:284
 msgid "Message detected as spam."
 msgstr "सन्देश स्प्यामको रूपमा पहिचान भयो।"
 
-#: .\apps\contact\forms.py:200
+#: .\apps\contact\forms.py:292
 msgid "Message seems to contain excessive repetition."
 msgstr "सन्देशमा धेरै शब्दहरू दोहोरिएको देखिन्छ।"
 
-#: .\apps\contact\forms.py:208
+#: .\apps\contact\forms.py:300
 msgid "File size must be less than 5MB."
 msgstr "फाइलको आकार ५MB भन्दा कम हुनुपर्छ।"
 
-#: .\apps\contact\forms.py:219
+#: .\apps\contact\forms.py:311
 msgid "Invalid submission detected. Please try again."
 msgstr "अमान्य सबमिशन। कृपया पुनः प्रयास गर्नुहोस्।"
 
-#: .\apps\contact\forms.py:234
+#: .\apps\contact\forms.py:326
 msgid "As per your ID"
 msgstr "तपाईंको परिचय पत्र अनुसार"
 
-#: .\apps\contact\forms.py:236
+#: .\apps\contact\forms.py:328
 msgid "Full Name"
 msgstr "पूरा नाम"
 
-#: .\apps\contact\forms.py:237
+#: .\apps\contact\forms.py:329
 msgid "Enter your full name as it appears on your citizenship/ID card"
 msgstr "नागरिकता/परिचय पत्रमा भएको जस्तै पूरा नाम प्रविष्ट गर्नुहोस्"
 
-#: .\apps\contact\forms.py:244 .\apps\contact\models.py:234
+#: .\apps\contact\forms.py:336 .\apps\contact\models.py:234
 msgid "Date of Birth"
 msgstr "जन्म मिति"
 
-#: .\apps\contact\forms.py:249
+#: .\apps\contact\forms.py:341
 msgid "Select Gender"
 msgstr "लिङ्ग छान्नुहोस्"
 
-#: .\apps\contact\forms.py:250 .\apps\contact\models.py:220
+#: .\apps\contact\forms.py:342 .\apps\contact\models.py:220
 msgid "Male"
 msgstr "पुरुष"
 
-#: .\apps\contact\forms.py:251 .\apps\contact\models.py:221
+#: .\apps\contact\forms.py:343 .\apps\contact\models.py:221
 msgid "Female"
 msgstr "महिला"
 
-#: .\apps\contact\forms.py:252 .\apps\contact\models.py:222
+#: .\apps\contact\forms.py:344 .\apps\contact\models.py:222
 msgid "Other"
 msgstr "अन्य"
 
-#: .\apps\contact\forms.py:255
+#: .\apps\contact\forms.py:347
 msgid "Gender"
 msgstr "लिङ्ग"
 
-#: .\apps\contact\forms.py:260
+#: .\apps\contact\forms.py:352
 msgid "Select Status"
 msgstr "स्थिति छान्नुहोस्"
 
-#: .\apps\contact\forms.py:261 .\apps\contact\models.py:226
+#: .\apps\contact\forms.py:353 .\apps\contact\models.py:226
 msgid "Single"
 msgstr "अविवाहित"
 
-#: .\apps\contact\forms.py:262 .\apps\contact\models.py:227
+#: .\apps\contact\forms.py:354 .\apps\contact\models.py:227
 msgid "Married"
 msgstr "विवाहित"
 
-#: .\apps\contact\forms.py:263 .\apps\contact\models.py:228
+#: .\apps\contact\forms.py:355 .\apps\contact\models.py:228
 msgid "Divorced"
 msgstr "सम्बन्धविच्छेद"
 
-#: .\apps\contact\forms.py:264 .\apps\contact\models.py:229
+#: .\apps\contact\forms.py:356 .\apps\contact\models.py:229
 msgid "Widowed"
 msgstr "विधवा/विधुर"
 
-#: .\apps\contact\forms.py:267
+#: .\apps\contact\forms.py:359
 msgid "Marital Status"
 msgstr "वैवाहिक स्थिति"
 
-#: .\apps\contact\forms.py:274
+#: .\apps\contact\forms.py:366
 msgid "e.g., Nepali"
 msgstr "जस्तै, नेपाली"
 
-#: .\apps\contact\forms.py:276
+#: .\apps\contact\forms.py:368
 msgid "Nationality"
 msgstr "राष्ट्रियता"
 
-#: .\apps\contact\forms.py:287
-#: .\apps\contact\templates\contact\partials\_contact_form.html:116
+#: .\apps\contact\forms.py:379
+#: .\apps\contact\templates\contact\partials\_contact_form.html:127
 msgid "Phone Number"
 msgstr "फोन नम्बर"
 
-#: .\apps\contact\forms.py:295
+#: .\apps\contact\forms.py:387
 msgid "Email Address"
 msgstr "इमेल ठेगाना"
 
-#: .\apps\contact\forms.py:302
+#: .\apps\contact\forms.py:394
 msgid "Street, Village, Ward No."
 msgstr "टोल, गाउँ, वडा नं."
 
-#: .\apps\contact\forms.py:304
+#: .\apps\contact\forms.py:396
 msgid "Permanent Address"
 msgstr "स्थायी ठेगाना"
 
-#: .\apps\contact\forms.py:311
+#: .\apps\contact\forms.py:403
 msgid "e.g., Kaski"
 msgstr "जस्तै, कास्की"
 
-#: .\apps\contact\forms.py:313
+#: .\apps\contact\forms.py:405
 msgid "District"
 msgstr "जिल्ला"
 
-#: .\apps\contact\forms.py:321
+#: .\apps\contact\forms.py:413
 msgid "e.g., Gandaki Province"
 msgstr "जस्तै, गण्डकी प्रदेश"
 
-#: .\apps\contact\forms.py:323
+#: .\apps\contact\forms.py:415
 msgid "Province"
 msgstr "प्रदेश"
 
-#: .\apps\contact\forms.py:332
+#: .\apps\contact\forms.py:424
 msgid "Father's Full Name"
 msgstr "बुवाको पूरा नाम"
 
-#: .\apps\contact\forms.py:334
+#: .\apps\contact\forms.py:426
 msgid "Father's Name"
 msgstr "बुवाको नाम"
 
-#: .\apps\contact\forms.py:341
+#: .\apps\contact\forms.py:433
 msgid "Mother's Full Name"
 msgstr "आमाको पूरा नाम"
 
-#: .\apps\contact\forms.py:343
+#: .\apps\contact\forms.py:435
 msgid "Mother's Name"
 msgstr "आमाको नाम"
 
-#: .\apps\contact\forms.py:351
+#: .\apps\contact\forms.py:443
 msgid "Spouse's Full Name"
 msgstr "पति/पत्नीको पूरा नाम"
 
-#: .\apps\contact\forms.py:353
+#: .\apps\contact\forms.py:445
 msgid "Spouse's Name (if married)"
 msgstr "पति/पत्नीको नाम (विवाहित भएमा)"
 
-#: .\apps\contact\forms.py:360
+#: .\apps\contact\forms.py:452
 msgid "Grand Father's Full Name"
 msgstr "हजुरबुवाको पूरा नाम"
 
-#: .\apps\contact\forms.py:362
+#: .\apps\contact\forms.py:454
 msgid "Grand Father's Name"
 msgstr "हजुरबुवाको नाम"
 
-#: .\apps\contact\forms.py:370
+#: .\apps\contact\forms.py:462
 msgid "Full name of your nominee"
 msgstr "तपाईंको हकवालाको पूरा नाम"
 
-#: .\apps\contact\forms.py:372
+#: .\apps\contact\forms.py:464
 msgid "Nominee Name (Optional)"
 msgstr "हकवालाको नाम (ऐच्छिक)"
 
-#: .\apps\contact\forms.py:380
+#: .\apps\contact\forms.py:472
 msgid "Your profession/business"
 msgstr "तपाईंको पेशा/व्यवसाय"
 
-#: .\apps\contact\forms.py:382
+#: .\apps\contact\forms.py:474
 #: .\apps\contact\templates\contact\kym_form.html:58
 msgid "Occupation"
 msgstr "पेशा"
 
-#: .\apps\contact\forms.py:389
+#: .\apps\contact\forms.py:481
 msgid "e.g., Salary, Business, Agriculture"
 msgstr "जस्तै, तलब, व्यापार, कृषि"
 
-#: .\apps\contact\forms.py:391
+#: .\apps\contact\forms.py:483
 msgid "Source of Income"
 msgstr "आम्दानीको स्रोत"
 
-#: .\apps\contact\forms.py:400
+#: .\apps\contact\forms.py:492
 msgid "e.g., 500000"
 msgstr "जस्तै, ५०००००"
 
-#: .\apps\contact\forms.py:402
+#: .\apps\contact\forms.py:494
 msgid "Estimated Annual Income (NPR)"
 msgstr "अनुमानित वार्षिक आम्दानी (नेरु)"
 
-#: .\apps\contact\forms.py:411
+#: .\apps\contact\forms.py:503
 msgid "Citizenship/ID Card (Front)"
 msgstr "नागरिकता/परिचय पत्र (अगाडि)"
 
-#: .\apps\contact\forms.py:420
+#: .\apps\contact\forms.py:512
 msgid "Citizenship/ID Card (Back)"
 msgstr "नागरिकता/परिचय पत्र (पछाडि)"
 
-#: .\apps\contact\forms.py:429
+#: .\apps\contact\forms.py:521
 msgid "Passport-sized Photo"
 msgstr "राहदानी आकारको फोटो"
 
-#: .\apps\contact\forms.py:438
+#: .\apps\contact\forms.py:530
 msgid "Address Proof (e.g., Utility Bill)"
 msgstr "ठेगाना प्रमाण (जस्तै, बिजुली/पानीको बिल)"
 
-#: .\apps\contact\forms.py:448
+#: .\apps\contact\forms.py:540
 msgid "Occupation/Income Proof (Optional)"
 msgstr "पेशा/आम्दानी प्रमाण (ऐच्छिक)"
 
-#: .\apps\contact\forms.py:465
+#: .\apps\contact\forms.py:557
 #, python-brace-format
 msgid "{field_label} file size must be less than 5MB."
 msgstr "{field_label} फाइलको आकार ५MB भन्दा कम हुनुपर्छ।"
 
-#: .\apps\contact\map_views.py:20 .\apps\contact\services.py:155
-#: .\apps\contact\views.py:32 .\apps\contact\views.py:93
-#: .\apps\contact\views.py:184
+#: .\apps\contact\map_views.py:20 .\apps\contact\services.py:170
+#: .\apps\contact\views.py:50 .\apps\contact\views.py:168
+#: .\apps\contact\views.py:290
 msgid "Home"
 msgstr "गृहपृष्ठ"
 
-#: .\apps\contact\map_views.py:21 .\apps\contact\services.py:156
+#: .\apps\contact\map_views.py:21 .\apps\contact\services.py:171
 #: .\apps\contact\templates\contact\contact.html:5
 #: .\apps\contact\templates\contact\contact.html:11
 #: .\apps\contact\templates\contact\contact.html:15
 #: .\apps\contact\templates\contact\contact.html:18
 #: .\apps\contact\templates\contact\contact.html:33
-#: .\apps\contact\templates\contact\kym_form.html:50 .\apps\contact\views.py:94
-#: .\apps\contact\views.py:185
+#: .\apps\contact\templates\contact\kym_form.html:50
+#: .\apps\contact\views.py:169 .\apps\contact\views.py:291
 msgid "Contact"
 msgstr "सम्पर्क"
 
 #: .\apps\contact\map_views.py:22
-#: .\apps\contact\templates\contact\partials\_map_section.html:18
+#: .\apps\contact\templates\contact\partials\_map_section.html:19
 #, fuzzy
 #| msgid "All Locations"
 msgid "Locations"
@@ -438,9 +448,9 @@ msgstr "KYM सबमिशनहरू"
 
 #: .\apps\contact\models.py:358
 #: .\apps\contact\templates\contact\interactive_map.html:42
-#: .\apps\contact\templates\contact\partials\_map_section.html:70
-#: .\apps\contact\templates\contact\partials\_map_section.html:71
-#: .\apps\contact\templates\contact\partials\_office_locations.html:33
+#: .\apps\contact\templates\contact\partials\_map_section.html:76
+#: .\apps\contact\templates\contact\partials\_map_section.html:77
+#: .\apps\contact\templates\contact\partials\_office_locations.html:34
 msgid "Main Office"
 msgstr "मुख्य कार्यालय"
 
@@ -449,9 +459,9 @@ msgid "Branch Office"
 msgstr "शाखा कार्यालय"
 
 #: .\apps\contact\models.py:360
-#: .\apps\contact\templates\contact\partials\_map_section.html:87
-#: .\apps\contact\templates\contact\partials\_map_section.html:88
-#: .\apps\contact\templates\contact\partials\_office_locations.html:35
+#: .\apps\contact\templates\contact\partials\_map_section.html:95
+#: .\apps\contact\templates\contact\partials\_map_section.html:96
+#: .\apps\contact\templates\contact\partials\_office_locations.html:36
 msgid "Service Center"
 msgstr "सेवा केन्द्र"
 
@@ -527,8 +537,9 @@ msgstr "गोपनीयता नीतिको HTML सामग्री"
 
 #: .\apps\contact\models.py:455
 #: .\apps\contact\templates\contact\privacy_policy.html:5
+#: .\apps\contact\templates\contact\privacy_policy.html:11
 #: .\apps\contact\templates\contact\privacy_policy.html:13
-#: .\apps\contact\views.py:186
+#: .\apps\contact\views.py:292
 msgid "Privacy Policy"
 msgstr "गोपनीयता नीति"
 
@@ -557,7 +568,7 @@ msgid "Active"
 msgstr "सक्रिय"
 
 #: .\apps\contact\models.py:478
-#: .\apps\contact\templates\contact\partials\_faq_section.html:15
+#: .\apps\contact\templates\contact\partials\_faq_section.html:16
 msgid "FAQ"
 msgstr "FAQ"
 
@@ -565,7 +576,7 @@ msgstr "FAQ"
 msgid "FAQs"
 msgstr "बारम्बार सोधिने प्रश्नहरू"
 
-#: .\apps\contact\services.py:185
+#: .\apps\contact\services.py:200
 msgid "Contact Form Inquiry"
 msgstr "सम्पर्क फारम जिज्ञासा"
 
@@ -583,8 +594,8 @@ msgid ""
 "bhanjyang cooperative contact, contact details, cooperative office, service "
 "center, phone number, email address, send message, kaski, customer support"
 msgstr ""
-"भञ्ज्याङ सहकारी सम्पर्क, सम्पर्क विवरण, सहकारी कार्यालय, सेवा केन्द्र, फोन नम्बर, इमेल ठेगाना, "
-"सन्देश पठाउनुहोस्, कास्की, ग्राहक सहयोग"
+"भञ्ज्याङ सहकारी सम्पर्क, सम्पर्क विवरण, सहकारी कार्यालय, सेवा केन्द्र, फोन नम्बर, इमेल "
+"ठेगाना, सन्देश पठाउनुहोस्, कास्की, ग्राहक सहयोग"
 
 #: .\apps\contact\templates\contact\contact.html:11
 #: .\apps\contact\templates\contact\contact.html:15
@@ -598,20 +609,21 @@ msgid ""
 "Contact Bhanjyang Saving & Credit Cooperative Society Ltd. We are here to "
 "help you."
 msgstr ""
-"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हामी तपाईंको सहयोगका लागि यहाँ "
-"छौं।"
+"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्। हामी तपाईंको सहयोगका "
+"लागि यहाँ छौं।"
 
 #: .\apps\contact\templates\contact\contact.html:16
 msgid "Contact Bhanjyang Saving & Credit Cooperative Society Ltd."
 msgstr "भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडसँग सम्पर्क गर्नुहोस्।"
 
 #: .\apps\contact\templates\contact\contact.html:19
+#: .\apps\contact\templates\contact\contact.html:34
 msgid ""
 "Contact information for Bhanjyang Saving & Credit Cooperative Society Ltd. "
 "including Main Office and Service Center locations."
 msgstr ""
-"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको सम्पर्क जानकारी, मुख्य कार्यालय र सेवा केन्द्र स्थानहरू "
-"समावेश गर्दै।"
+"भञ्ज्याङ बचत तथा ऋण सहकारी संस्था लिमिटेडको सम्पर्क जानकारी, मुख्य कार्यालय र सेवा केन्द्र "
+"स्थानहरू समावेश गर्दै।"
 
 #: .\apps\contact\templates\contact\contact.html:106
 msgid "Skip to main content"
@@ -654,8 +666,8 @@ msgid "Search locations..."
 msgstr "स्थानहरू खोज्नुहोस्..."
 
 #: .\apps\contact\templates\contact\interactive_map.html:115
-#: .\apps\contact\templates\contact\partials\_office_locations.html:33
-#: .\apps\contact\templates\contact\partials\_office_locations.html:35
+#: .\apps\contact\templates\contact\partials\_office_locations.html:34
+#: .\apps\contact\templates\contact\partials\_office_locations.html:36
 msgid "Get Directions"
 msgstr "बाटो हेर्नुहोस्"
 
@@ -679,9 +691,19 @@ msgstr "जम्मा स्थानहरू"
 msgid "Main Offices"
 msgstr "मुख्य कार्यालयहरू"
 
-#: .\apps\contact\templates\contact\kym_form.html:4 .\apps\contact\views.py:95
+#: .\apps\contact\templates\contact\kym_form.html:4 .\apps\contact\views.py:170
 msgid "KYM Form"
 msgstr "KYM फारम"
+
+#: .\apps\contact\templates\contact\kym_form.html:41
+#, fuzzy
+#| msgid "KYM Form"
+msgid "KYM form steps"
+msgstr "KYM फारम"
+
+#: .\apps\contact\templates\contact\kym_form.html:42
+msgid "Form completion progress"
+msgstr ""
 
 #: .\apps\contact\templates\contact\kym_form.html:46
 msgid "Personal"
@@ -695,27 +717,45 @@ msgstr "पारिवारिक"
 msgid "Documents"
 msgstr "कागजात"
 
-#: .\apps\contact\templates\contact\kym_form.html:72
+#: .\apps\contact\templates\contact\kym_form.html:67
+msgid "Know Your Member (KYM) registration form"
+msgstr ""
+
+#: .\apps\contact\templates\contact\kym_form.html:74
 msgid "Personal Details"
 msgstr "व्यक्तिगत विवरण"
 
-#: .\apps\contact\templates\contact\kym_form.html:85
+#: .\apps\contact\templates\contact\kym_form.html:87
+#: .\apps\contact\templates\contact\kym_form.html:112
+#: .\apps\contact\templates\contact\kym_form.html:137
+#: .\apps\contact\templates\contact\kym_form.html:160
+msgid "Go to next step"
+msgstr ""
+
+#: .\apps\contact\templates\contact\kym_form.html:88
 msgid "Next"
 msgstr "अर्को"
 
-#: .\apps\contact\templates\contact\kym_form.html:93
-#: .\apps\contact\templates\contact\partials\_office_locations.html:18
+#: .\apps\contact\templates\contact\kym_form.html:96
+#: .\apps\contact\templates\contact\partials\_office_locations.html:19
 msgid "Contact Details"
 msgstr "सम्पर्क विवरण"
 
-#: .\apps\contact\templates\contact\kym_form.html:105
-#: .\apps\contact\templates\contact\kym_form.html:128
-#: .\apps\contact\templates\contact\kym_form.html:149
-#: .\apps\contact\templates\contact\kym_form.html:173
+#: .\apps\contact\templates\contact\kym_form.html:108
+#: .\apps\contact\templates\contact\kym_form.html:133
+#: .\apps\contact\templates\contact\kym_form.html:156
+#: .\apps\contact\templates\contact\kym_form.html:182
+msgid "Go to previous step"
+msgstr ""
+
+#: .\apps\contact\templates\contact\kym_form.html:109
+#: .\apps\contact\templates\contact\kym_form.html:134
+#: .\apps\contact\templates\contact\kym_form.html:157
+#: .\apps\contact\templates\contact\kym_form.html:183
 msgid "Previous"
 msgstr "अघिल्लो"
 
-#: .\apps\contact\templates\contact\kym_form.html:162
+#: .\apps\contact\templates\contact\kym_form.html:171
 msgid ""
 "Please upload clear copies of the following required documents. Max file "
 "size: 5MB per file."
@@ -723,19 +763,29 @@ msgstr ""
 "कृपया तलका आवश्यक कागजातहरूको स्पष्ट प्रतिलिपि अपलोड गर्नुहोस्। अधिकतम फाइल साइज: ५MB "
 "प्रति फाइल।"
 
-#: .\apps\contact\templates\contact\kym_form.html:177
+#: .\apps\contact\templates\contact\kym_form.html:187
+#, fuzzy
+#| msgid "Submit Form"
+msgid "Submit KYM form"
+msgstr "फारम बुझाउनुहोस्"
+
+#: .\apps\contact\templates\contact\kym_form.html:189
 msgid "Submit Form"
 msgstr "फारम बुझाउनुहोस्"
 
-#: .\apps\contact\templates\contact\kym_form.html:179
+#: .\apps\contact\templates\contact\kym_form.html:191
 msgid "Submitting..."
 msgstr "बुझाउँदै..."
 
-#: .\apps\contact\templates\contact\kym_form.html:190
+#: .\apps\contact\templates\contact\kym_form.html:194
+msgid "Submits your KYM registration form"
+msgstr ""
+
+#: .\apps\contact\templates\contact\kym_form.html:203
 msgid "Successfully Submitted!"
 msgstr "सफलतापूर्वक बुझाइयो!"
 
-#: .\apps\contact\templates\contact\kym_form.html:192
+#: .\apps\contact\templates\contact\kym_form.html:205
 msgid ""
 "Your KYM details have been received. We will review it and contact you if "
 "needed."
@@ -743,22 +793,32 @@ msgstr ""
 "तपाईंको KYM विवरण प्राप्त भएको छ। हामी यसलाई समीक्षा गर्नेछौं र केहि परेमा सम्पर्क "
 "गर्नेछौं।"
 
-#: .\apps\contact\templates\contact\kym_form.html:199
+#: .\apps\contact\templates\contact\kym_form.html:212
 msgid "Error"
 msgstr "त्रुटि"
+
+#: .\apps\contact\templates\contact\kym_form.html:219
+#, fuzzy
+#| msgid "Get Directions"
+msgid "Help section"
+msgstr "बाटो हेर्नुहोस्"
+
+#: .\apps\contact\templates\contact\kym_form.html:229
+msgid "Contact us for help with KYM form"
+msgstr ""
 
 #: .\apps\contact\templates\contact\partials\_contact_form.html:4
 msgid "Contact and feedback form"
 msgstr "सम्पर्क र प्रतिक्रिया फारम"
 
 #: .\apps\contact\templates\contact\partials\_contact_form.html:20
-#: .\apps\contact\templates\contact\partials\_contact_form.html:156
+#: .\apps\contact\templates\contact\partials\_contact_form.html:178
 msgid "Send Message"
 msgstr "सन्देश पठाउनुहोस्"
 
 #: .\apps\contact\templates\contact\partials\_contact_form.html:23
-#: .\apps\contact\templates\contact\partials\_hero.html:32
-#: .\apps\contact\views.py:33
+#: .\apps\contact\templates\contact\partials\_hero.html:33
+#: .\apps\contact\views.py:51
 msgid "Contact Us"
 msgstr "हामीलाई सम्पर्क गर्नुहोस्"
 
@@ -770,77 +830,132 @@ msgstr ""
 "यदि तपाईंसँग हाम्रो सेवाहरूको बारेमा कुनै प्रश्न, सुझाव वा प्रतिक्रिया छ भने, हामी सुन्न "
 "तयार छौं। तपाईंको सुझाव हाम्रो लागि अमूल्य छ।"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:46
+#: .\apps\contact\templates\contact\partials\_contact_form.html:36
+#, fuzzy
+#| msgid "or call us at"
+msgid "Call us at"
+msgstr "वा फोन गर्नुहोस्:"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:44
+#, fuzzy
+#| msgid "or call us at"
+msgid "Email us at"
+msgstr "वा फोन गर्नुहोस्:"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:48
 msgid "Decorative plant illustration"
 msgstr "सजावटी बोट चित्रण"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:56
+#: .\apps\contact\templates\contact\partials\_contact_form.html:58
 msgid "Skip to contact form"
 msgstr "सम्पर्क फारममा जानुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:61
+#: .\apps\contact\templates\contact\partials\_contact_form.html:65
 msgid "Contact form"
 msgstr "सम्पर्क फारम"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:71
+#: .\apps\contact\templates\contact\partials\_contact_form.html:76
 msgid "Message Sent Successfully!"
 msgstr "सन्देश सफलतापूर्वक पठाइयो!"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:77
+#: .\apps\contact\templates\contact\partials\_contact_form.html:83
 msgid "Please try again."
 msgstr "कृपया पुनः प्रयास गर्नुहोस्।"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:84
+#: .\apps\contact\templates\contact\partials\_contact_form.html:91
 #, fuzzy
 #| msgid "Please correct the errors in the form."
 msgid "Please correct the following errors:"
 msgstr "कृपया फारममा भएका त्रुटिहरू सच्याउनुहोस्।"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:95
+#: .\apps\contact\templates\contact\partials\_contact_form.html:98
+#, fuzzy
+#| msgid "Contact form"
+msgid "Contact information"
+msgstr "सम्पर्क फारम"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:99
+#, fuzzy
+#| msgid "Contact form"
+msgid "Contact Information Fields"
+msgstr "सम्पर्क फारम"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:103
 #, fuzzy
 #| msgid "Your full name"
 msgid "Your Name"
 msgstr "तपाईंको पूरा नाम"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:100
+#: .\apps\contact\templates\contact\partials\_contact_form.html:103
+#: .\apps\contact\templates\contact\partials\_contact_form.html:118
+#: .\apps\contact\templates\contact\partials\_contact_form.html:138
+#: .\apps\contact\templates\contact\partials\_contact_form.html:148
+#: .\apps\contact\templates\contact\partials\_form_field.html:19
+#: .\apps\contact\templates\contact\partials\_form_file_field.html:18
+msgid "required"
+msgstr ""
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:108
 #, fuzzy
 #| msgid "Your full name"
 msgid "Enter full name"
 msgstr "तपाईंको पूरा नाम"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:107
+#: .\apps\contact\templates\contact\partials\_contact_form.html:118
 #, fuzzy
 #| msgid "Email"
 msgid "Your Email"
 msgstr "इमेल"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:116
-#: .\apps\contact\templates\contact\partials\_contact_form.html:147
+#: .\apps\contact\templates\contact\partials\_contact_form.html:127
+#: .\apps\contact\templates\contact\partials\_contact_form.html:158
 #, fuzzy
 #| msgid "Phone (Optional)"
 msgid "Optional"
 msgstr "फोन (ऐच्छिक)"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:137
+#: .\apps\contact\templates\contact\partials\_contact_form.html:148
 #, fuzzy
 #| msgid "Message"
 msgid "Your Message"
 msgstr "सन्देश"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:147
+#: .\apps\contact\templates\contact\partials\_contact_form.html:158
 msgid "Attach File"
 msgstr "फाइल संलग्न गर्नुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:150
+#: .\apps\contact\templates\contact\partials\_contact_form.html:161
 msgid "Max 5MB (PDF, DOC, JPG, PNG)"
 msgstr "अधिकतम ५MB (PDF, DOC, JPG, PNG)"
 
-#: .\apps\contact\templates\contact\partials\_contact_form.html:164
-#, python-format
+#: .\apps\contact\templates\contact\partials\_contact_form.html:176
+#, fuzzy
+#| msgid "Skip to contact form"
+msgid "Submit contact form"
+msgstr "सम्पर्क फारममा जानुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:182
+#, fuzzy
+#| msgid "Skip to contact form"
+msgid "Submits your contact form message"
+msgstr "सम्पर्क फारममा जानुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:187
+#, fuzzy
+#| msgid "Privacy Policy"
+msgid "Read our Privacy Policy"
+msgstr "गोपनीयता नीति"
+
+#: .\apps\contact\templates\contact\partials\_contact_form.html:188
+#, fuzzy, python-format
+#| msgid ""
+#| "By submitting this form, you agree to our <a "
+#| "href=\"%(privacy_policy_url)s\" class=\"underline hover:text-deuraligreen "
+#| "transition-colors duration-300\">Privacy Policy</a>."
 msgid ""
 "By submitting this form, you agree to our <a href=\"%(privacy_policy_url)s\" "
-"class=\"underline hover:text-deuraligreen transition-colors "
-"duration-300\">Privacy Policy</a>."
+"class=\"underline hover:text-deuraligreen transition-colors duration-300\" "
+"aria-label=\"%(privacy_policy_aria_label)s\">Privacy Policy</a>."
 msgstr ""
 "यो फारम बुझाउँदा, तपाईं हाम्रो <a href=\"%(privacy_policy_url)s\" "
 "class=\"underline hover:text-deuraligreen transition-colors "
@@ -850,24 +965,34 @@ msgstr ""
 msgid "Frequently asked questions"
 msgstr "बारम्बार सोधिने प्रश्नहरू"
 
-#: .\apps\contact\templates\contact\partials\_faq_section.html:18
+#: .\apps\contact\templates\contact\partials\_faq_section.html:19
 msgid "Frequently Asked Questions"
 msgstr "बारम्बार सोधिने प्रश्नहरू"
+
+#: .\apps\contact\templates\contact\partials\_faq_section.html:32
+msgid "Toggle answer for"
+msgstr ""
 
 #: .\apps\contact\templates\contact\partials\_hero.html:10
 msgid ""
 "Bhanjyang Cooperative Contact Page - Nepal Himalayas and Natural Landscape"
 msgstr "भञ्ज्याङ्ग सहकारी सम्पर्क पृष्ठ - नेपाल हिमालय र प्राकृतिक परिदृश्य"
 
-#: .\apps\contact\templates\contact\partials\_hero.html:45
+#: .\apps\contact\templates\contact\partials\_hero.html:46
 msgid "Get In Touch"
 msgstr "हामीसँग जोडिनुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_hero.html:58
+#: .\apps\contact\templates\contact\partials\_hero.html:59
 msgid ""
 "Whether you have a query, feedback, or need assistance, our dedicated team "
 "is ready to help."
 msgstr "तपाईंको जिज्ञासा, सुझाव वा सहयोगको लागि हाम्रो टिम सधैं तयार छ।"
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:5
+#, fuzzy
+#| msgid "Information Officer"
+msgid "Information officer details"
+msgstr "सूचना अधिकारी"
 
 #: .\apps\contact\templates\contact\partials\_info_officer.html:25
 msgid "Information Officer"
@@ -876,6 +1001,10 @@ msgstr "सूचना अधिकारी"
 #: .\apps\contact\templates\contact\partials\_info_officer.html:30
 msgid "Right to Information Act 2064"
 msgstr "Right to Information Act 2064 (सूचनाको हक सम्बन्धी ऐन, २०६४)"
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:69
+msgid "No photo available"
+msgstr ""
 
 #: .\apps\contact\templates\contact\partials\_info_officer.html:82
 msgid ""
@@ -887,47 +1016,71 @@ msgstr "नेपालको सूचनाको हक सम्बन्ध
 msgid "Information Request"
 msgstr "सूचना माग निवेदन"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:111
+#: .\apps\contact\templates\contact\partials\_info_officer.html:92
+#, fuzzy
+#| msgid "Information Officer"
+msgid "Email Information Officer at"
+msgstr "सूचना अधिकारी"
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:108
+#, fuzzy
+#| msgid "Information Officer"
+msgid "Call Information Officer at"
+msgstr "सूचना अधिकारी"
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:113
 msgid "Phone"
 msgstr "फोन"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:125
+#: .\apps\contact\templates\contact\partials\_info_officer.html:123
+#, fuzzy
+#| msgid "View Information Request Format"
+msgid "View sample information request format"
+msgstr "सूचना माग गर्ने ढाँचा हेर्नुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:131
 msgid "Sample Application"
 msgstr "नमूना निवेदन"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:126
+#: .\apps\contact\templates\contact\partials\_info_officer.html:132
 msgid "View Information Request Format"
 msgstr "सूचना माग गर्ने ढाँचा हेर्नुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:152
+#: .\apps\contact\templates\contact\partials\_info_officer.html:163
 msgid "Format of Information Request Application"
 msgstr "सूचना माग गर्ने निवेदनको ढाँचा"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:155
+#: .\apps\contact\templates\contact\partials\_info_officer.html:165
+#, fuzzy
+#| msgid "View Information Request Format"
+msgid "Sample information request format"
+msgstr "सूचना माग गर्ने ढाँचा हेर्नुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:166
 msgid "To,"
 msgstr "श्री सूचना अधिकारी,"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:156
+#: .\apps\contact\templates\contact\partials\_info_officer.html:167
 msgid "Information Officer,"
 msgstr "विभागीय प्रमुख,"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:157
+#: .\apps\contact\templates\contact\partials\_info_officer.html:168
 msgid "Bhanjyang Saving and Credit Cooperative Society Ltd.,"
 msgstr "भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लिमिटेड,"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:158
+#: .\apps\contact\templates\contact\partials\_info_officer.html:169
 msgid "Rupa-5, Deurali, Kaski."
 msgstr "रूपा-५, देउराली, कास्की।"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:160
+#: .\apps\contact\templates\contact\partials\_info_officer.html:171
 msgid "Subject: Request for Information."
 msgstr "विषय: सूचना पाऊँ ।"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:162
+#: .\apps\contact\templates\contact\partials\_info_officer.html:173
 msgid "Sir/Madam,"
 msgstr "महाशय,"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:164
+#: .\apps\contact\templates\contact\partials\_info_officer.html:175
 msgid ""
 "As per Article 27 of the Constitution of Nepal and Section 3 of the Right to "
 "Information Act, 2064, I would like to request/study/obtain a copy of the "
@@ -936,42 +1089,52 @@ msgstr ""
 "नेपालको संविधानको धारा २७ तथा सूचनाको हक सम्बन्धी ऐन, २०६४ को दफा ३ बमोजिम म निम्न "
 "लिखित विषयको सूचना/विवरण प्रतिलिपि/अध्ययन गर्न चाहन्छु।"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:166
+#: .\apps\contact\templates\contact\partials\_info_officer.html:177
 msgid "Details of Requested Information:"
 msgstr "माग गरिएको सूचनाको विवरण:"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:170
+#: .\apps\contact\templates\contact\partials\_info_officer.html:181
 msgid ""
 "I agree to pay the fees as per the rules for obtaining the said information."
 msgstr "उक्त सूचना प्राप्त गर्न लाग्ने दस्तुर नियम अनुसार बुझाउन मन्जुर छु।"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:172
+#: .\apps\contact\templates\contact\partials\_info_officer.html:183
 msgid "Applicant,"
 msgstr "निवेदक,"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:173
+#: .\apps\contact\templates\contact\partials\_info_officer.html:184
 #, fuzzy
 #| msgid "Name"
 msgid "Name:"
 msgstr "नाम"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:174
+#: .\apps\contact\templates\contact\partials\_info_officer.html:185
 msgid "Address:"
 msgstr "ठेगाना:"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:175
+#: .\apps\contact\templates\contact\partials\_info_officer.html:186
 msgid "Contact No:"
 msgstr "सम्पर्क नं:"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:176
+#: .\apps\contact\templates\contact\partials\_info_officer.html:187
 msgid "Date:"
 msgstr "मिति:"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:183
+#: .\apps\contact\templates\contact\partials\_info_officer.html:194
+#, fuzzy
+#| msgid "Close"
+msgid "Close modal"
+msgstr "बन्द गर्नुहोस्"
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:195
 msgid "Close"
 msgstr "बन्द गर्नुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_info_officer.html:186
+#: .\apps\contact\templates\contact\partials\_info_officer.html:198
+msgid "Download RTI request format PDF"
+msgstr ""
+
+#: .\apps\contact\templates\contact\partials\_info_officer.html:199
 msgid "Download (PDF)"
 msgstr "डाउनलोड (PDF)"
 
@@ -979,11 +1142,11 @@ msgstr "डाउनलोड (PDF)"
 msgid "Interactive location map"
 msgstr "अन्तरक्रियात्मक स्थान नक्सा"
 
-#: .\apps\contact\templates\contact\partials\_map_section.html:21
+#: .\apps\contact\templates\contact\partials\_map_section.html:22
 msgid "View Our Locations on the Map"
 msgstr "नक्सामा हाम्रो स्थानहरू हेर्नुहोस्"
 
-#: .\apps\contact\templates\contact\partials\_map_section.html:26
+#: .\apps\contact\templates\contact\partials\_map_section.html:27
 msgid ""
 "Use the buttons below to view the map of our Main Office (Rupa-5) or Service "
 "Center (Rupa-3)."
@@ -991,11 +1154,17 @@ msgstr ""
 "तलका बटनहरू प्रयोग गरेर हाम्रो मुख्य कार्यालय (रूपा-५) वा सेवा केन्द्र (रूपा-३) को नक्सा "
 "हेर्नुहोस्।"
 
-#: .\apps\contact\templates\contact\partials\_map_section.html:36
+#: .\apps\contact\templates\contact\partials\_map_section.html:37
+#, fuzzy
+#| msgid "Loading map..."
+msgid "Loading map"
+msgstr "नक्सा लोड हुँदै..."
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:40
 msgid "Loading map..."
 msgstr "नक्सा लोड हुँदै..."
 
-#: .\apps\contact\templates\contact\partials\_map_section.html:42
+#: .\apps\contact\templates\contact\partials\_map_section.html:46
 msgid ""
 "Interactive map showing Bhanjyang Cooperative Main Office and Service Center "
 "locations. Use the toggle buttons below to switch between locations."
@@ -1003,19 +1172,39 @@ msgstr ""
 "भञ्ज्याङ्ग सहकारीको मुख्य कार्यालय र सेवा केन्द्र स्थानहरू देखाउने अन्तरक्रियात्मक नक्सा। "
 "स्थानहरू बीच स्विच गर्न तलका टगल बटनहरू प्रयोग गर्नुहोस्।"
 
-#: .\apps\contact\templates\contact\partials\_map_section.html:45
+#: .\apps\contact\templates\contact\partials\_map_section.html:49
 msgid "Interactive map of Bhanjyang Cooperative locations"
 msgstr "भञ्ज्याङ्ग सहकारीको स्थानहरूको अन्तरक्रियात्मक नक्सा"
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:56
+msgid "Map location selector"
+msgstr ""
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:70
+msgid "Show Main Office location on map"
+msgstr ""
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:89
+#, fuzzy
+#| msgid "Interactive location map"
+msgid "Show Service Center location on map"
+msgstr "अन्तरक्रियात्मक स्थान नक्सा"
+
+#: .\apps\contact\templates\contact\partials\_map_section.html:103
+#, fuzzy
+#| msgid "Type of location"
+msgid "Current map location"
+msgstr "स्थानको प्रकार"
 
 #: .\apps\contact\templates\contact\partials\_office_locations.html:4
 msgid "Office locations and contact details"
 msgstr "कार्यालय स्थानहरू र सम्पर्क विवरणहरू"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:21
+#: .\apps\contact\templates\contact\partials\_office_locations.html:22
 msgid "Our Contact Address and Locations"
 msgstr "हाम्रो सम्पर्क ठेगाना र स्थानहरू"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:26
+#: .\apps\contact\templates\contact\partials\_office_locations.html:27
 msgid ""
 "You can contact directly at Main Office (Rupa-5, Deurali) or Service Center "
 "(Rupa-3, Polyang)."
@@ -1023,7 +1212,7 @@ msgstr ""
 "मुख्य कार्यालय (रूपा-५, देउराली) वा सेवा केन्द्र (रूपा-३, पोल्याङ) मा सिधै सम्पर्क गर्न "
 "सक्नुहुन्छ।"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:33
+#: .\apps\contact\templates\contact\partials\_office_locations.html:34
 #, fuzzy
 #| msgid ""
 #| "Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, "
@@ -1031,7 +1220,7 @@ msgstr ""
 msgid "Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal"
 msgstr "रूपा गाउँपालिका-५, देउराली, कास्की<br>गण्डकी प्रदेश, नेपाल"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:35
+#: .\apps\contact\templates\contact\partials\_office_locations.html:36
 msgid ""
 "Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, "
 "Polyang, Kaski<br>Gandaki Province, Nepal"
@@ -1039,52 +1228,52 @@ msgstr ""
 "भञ्ज्याङ्ग SACCOS, पोल्याङ सेवा केन्द्र<br>रूपा गाउँपालिका-३, पोल्याङ, कास्की<br>गण्डकी "
 "प्रदेश, नेपाल"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:37
+#: .\apps\contact\templates\contact\partials\_office_locations.html:38
 msgid "Office Hours"
 msgstr "कार्यालय समय"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:37
+#: .\apps\contact\templates\contact\partials\_office_locations.html:38
 msgid ""
 "Sunday - Friday: 10:00 - 4:00<br>Saturday: Holiday<br>Public Holidays: Closed"
 msgstr "आइतबार - शुक्रबार: १०:०० - ४:००<br>शनिबार: बिदा<br>सार्वजनिक बिदा: बन्द"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:37
+#: .\apps\contact\templates\contact\partials\_office_locations.html:38
 msgid "Service available during office hours."
 msgstr "कार्यालय समयमा सेवा उपलब्ध छ।"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:39
+#: .\apps\contact\templates\contact\partials\_office_locations.html:40
 msgid "Phone Contact"
 msgstr "फोन सम्पर्क"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:39
+#: .\apps\contact\templates\contact\partials\_office_locations.html:40
 #, fuzzy
 #| msgid "Main Office"
 msgid "Main Office:"
 msgstr "मुख्य कार्यालय"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:39
+#: .\apps\contact\templates\contact\partials\_office_locations.html:40
 #, fuzzy
 #| msgid "Service Center"
 msgid "Service Center:"
 msgstr "सेवा केन्द्र"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:39
+#: .\apps\contact\templates\contact\partials\_office_locations.html:40
 msgid "Call us for any inquiries."
 msgstr "कुनै पनि जिज्ञासाको लागि हामीलाई कल गर्नुहोस्।"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:41
+#: .\apps\contact\templates\contact\partials\_office_locations.html:42
 msgid "Email Contact"
 msgstr "इमेल सम्पर्क"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:41
+#: .\apps\contact\templates\contact\partials\_office_locations.html:42
 msgid "Inquiry:"
 msgstr "जिज्ञासा:"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:41
+#: .\apps\contact\templates\contact\partials\_office_locations.html:42
 msgid "Support:"
 msgstr "सहयोग:"
 
-#: .\apps\contact\templates\contact\partials\_office_locations.html:41
+#: .\apps\contact\templates\contact\partials\_office_locations.html:42
 msgid "We usually reply within 24 hours."
 msgstr "हामी सामान्यतया २४ घण्टाभित्र जवाफ दिन्छौं।"
 
@@ -1209,6 +1398,10 @@ msgstr ""
 "तपाईंले कानूनी सीमाहरूको अधीनमा रही आफ्नो व्यक्तिगत डेटा पहुँच, सच्याउन वा हटाउन अनुरोध "
 "गर्न सक्नुहुन्छ। हामीलाई सम्पर्क गर्नुहोस्:"
 
+#: .\apps\contact\templates\contact\privacy_policy.html:44
+msgid "Email us about privacy rights"
+msgstr ""
+
 #: .\apps\contact\templates\contact\privacy_policy.html:46
 msgid "8. Security"
 msgstr "८. सुरक्षा"
@@ -1252,41 +1445,51 @@ msgid "If you have any questions about this policy, please contact us at"
 msgstr "यदि तपाईंसँग यस नीतिबारे कुनै प्रश्नहरू छन् भने, कृपया हामीलाई सम्पर्क गर्नुहोस्:"
 
 #: .\apps\contact\templates\contact\privacy_policy.html:53
+#, fuzzy
+#| msgid "HTML content of the privacy policy"
+msgid "Email us about privacy policy"
+msgstr "गोपनीयता नीतिको HTML सामग्री"
+
+#: .\apps\contact\templates\contact\privacy_policy.html:53
 msgid "or call us at"
 msgstr "वा फोन गर्नुहोस्:"
 
-#: .\apps\contact\views.py:48 .\apps\contact\views.py:110
+#: .\apps\contact\templates\contact\privacy_policy.html:53
+#, fuzzy
+#| msgid "HTML content of the privacy policy"
+msgid "Call us about privacy policy"
+msgstr "गोपनीयता नीतिको HTML सामग्री"
+
+#: .\apps\contact\views.py:67 .\apps\contact\views.py:184
 msgid "This endpoint only accepts AJAX requests."
 msgstr "यो एन्डपोइन्टले केवल AJAX अनुरोधहरू स्वीकार गर्दछ।"
 
-#: .\apps\contact\views.py:56 .\apps\contact\views.py:118
-msgid "Please correct the errors in the form."
-msgstr "कृपया फारममा भएका त्रुटिहरू सच्याउनुहोस्।"
-
-#: .\apps\contact\views.py:69
+#: .\apps\contact\views.py:117
 msgid "Thank you! Your message has been sent successfully."
 msgstr "धन्यवाद! तपाईंको सन्देश सफलतापूर्वक पठाइयो।"
 
-#: .\apps\contact\views.py:77
-msgid ""
-"An error occurred while processing your request. Please try again later."
-msgstr "तपाईंको अनुरोध प्रशोधन गर्दा त्रुटि भयो। कृपया पछि पुनः प्रयास गर्नुहोस्।"
-
-#: .\apps\contact\views.py:128
+#: .\apps\contact\views.py:205
 msgid ""
 "KYM form submitted successfully! We will review your submission and contact "
 "you soon."
 msgstr ""
 "KYM फारम सफलतापूर्वक बुझाइयो! हामी तपाईंको विवरण समीक्षा गर्नेछौं र छिट्टै सम्पर्क गर्नेछौं।"
 
-#: .\apps\contact\views.py:137
-msgid ""
-"An error occurred while processing your submission. Please try again later."
-msgstr "तपाईंको सबमिशन प्रशोधन गर्दा त्रुटि भयो। कृपया पछि पुनः प्रयास गर्नुहोस्।"
-
-#: .\apps\contact\views.py:154
+#: .\apps\contact\views.py:260
 msgid "Failed to generate PDF for this submission."
 msgstr ""
+
+#~ msgid "Please correct the errors in the form."
+#~ msgstr "कृपया फारममा भएका त्रुटिहरू सच्याउनुहोस्।"
+
+#~ msgid ""
+#~ "An error occurred while processing your request. Please try again later."
+#~ msgstr "तपाईंको अनुरोध प्रशोधन गर्दा त्रुटि भयो। कृपया पछि पुनः प्रयास गर्नुहोस्।"
+
+#~ msgid ""
+#~ "An error occurred while processing your submission. Please try again "
+#~ "later."
+#~ msgstr "तपाईंको सबमिशन प्रशोधन गर्दा त्रुटि भयो। कृपया पछि पुनः प्रयास गर्नुहोस्।"
 
 #~ msgid ""
 #~ "Bhanjyang Saving and Credit Cooperative Society Ltd. (\"we\", \"our\") "

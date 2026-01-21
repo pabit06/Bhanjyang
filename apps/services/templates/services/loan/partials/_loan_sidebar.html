@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load nepali_digits %}
 {% comment %}
 Loan information sidebar
 Usage: {% include 'services/loan/partials/_loan_sidebar.html' with service=service %}
@@ -11,27 +12,27 @@ Usage: {% include 'services/loan/partials/_loan_sidebar.html' with service=servi
         <div class="space-y-4">
             <div class="flex justify-between items-center py-3 border-b border-gray-200">
                 <span class="text-gray-600">{% trans "Monthly Interest" %}</span>
-                <span class="font-bold text-bhanjyangred text-lg">{{ service.monthly_interest_rate }}%</span>
+                <span class="font-bold text-bhanjyangred text-lg">{{ service.monthly_interest_rate|to_nepali_digits }}%</span>
             </div>
 
             {% if service.minimum_amount %}
             <div class="flex justify-between items-center py-3 border-b border-gray-200">
                 <span class="text-gray-600">{% trans "Minimum Amount" %}</span>
-                <span class="font-semibold">NPR {{ service.minimum_amount|floatformat:0 }}</span>
+                <span class="font-semibold">NPR {{ service.minimum_amount|floatformat:0|to_nepali_digits }}</span>
             </div>
             {% endif %}
 
             {% if service.maximum_amount %}
             <div class="flex justify-between items-center py-3 border-b border-gray-200">
                 <span class="text-gray-600">{% trans "Maximum Amount" %}</span>
-                <span class="font-semibold">NPR {{ service.maximum_amount|floatformat:0 }}</span>
+                <span class="font-semibold">NPR {{ service.maximum_amount|floatformat:0|to_nepali_digits }}</span>
             </div>
             {% endif %}
 
             {% if service.max_tenure_years %}
             <div class="flex justify-between items-center py-3">
                 <span class="text-gray-600">{% trans "Max Tenure" %}</span>
-                <span class="font-semibold">{{ service.max_tenure_years }} {% trans "years" %}</span>
+                <span class="font-semibold">{{ service.max_tenure_years|to_nepali_digits }} {% trans "years" %}</span>
             </div>
             {% endif %}
         </div>
@@ -64,7 +65,7 @@ Usage: {% include 'services/loan/partials/_loan_sidebar.html' with service=servi
         <div class="space-y-3">
             <div class="flex items-start space-x-3">
                 <i class="fas fa-check-circle text-green-600 mt-1"></i>
-                <span class="text-sm text-gray-700">{% blocktrans with rate=service.monthly_interest_rate %}Competitive {{ rate }}% monthly rate{% endblocktrans %}</span>
+                <span class="text-sm text-gray-700">{% blocktrans with rate=service.monthly_interest_rate|to_nepali_digits %}Competitive {{ rate }}% monthly rate{% endblocktrans %}</span>
             </div>
 
             {% if service.minimum_amount %}

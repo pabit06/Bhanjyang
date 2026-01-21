@@ -13,6 +13,7 @@ from apps.downloads.services import (
     DownloadsService, FileDownloadService, BulkDownloadService,
     DownloadsAnalyticsService
 )
+from apps.downloads.utils.error_codes import DownloadsErrorCodes
 
 User = get_user_model()
 
@@ -271,7 +272,7 @@ class FileDownloadServiceTest(TestCase):
         success, response, error = FileDownloadService.process_file_download(request, self.file)
         
         self.assertFalse(success)
-        self.assertIn('permission', error.lower())
+        self.assertEqual(error, DownloadsErrorCodes.ACCESS_DENIED)
         mock_log.assert_called_once()
     
     def test_process_file_view_success(self):

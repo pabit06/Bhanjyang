@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - भञ्ज्याङ सहकारी</title>
+    <title>{{ title }} - {% trans "Bhanjyang Cooperative" %}</title>
     <link rel="stylesheet" href="{% static 'dist/output.css' %}">
     <style>
         .error-icon {
@@ -41,7 +41,7 @@
             <!-- Status Code -->
             {% if status_code %}
             <p class="text-sm text-gray-500 mb-6 font-mono bg-gray-100 inline-block px-3 py-1 rounded">
-                त्रुटि कोड: {{ status_code }}
+                {% trans "Error Code" %}: {{ status_code }}
             </p>
             {% endif %}
             
@@ -52,11 +52,11 @@
                     <svg class="inline h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                     </svg>
-                    केमला पर्यो?
+                    {% trans "What happened?" %}
                 </p>
                 <ul class="text-blue-700 space-y-1 list-disc list-inside">
-                    <li>केही मिनेट पर्खेर पुनः प्रयास गर्नुहोस्</li>
-                    <li>समस्या जारी भएमा सम्पर्क गर्नुहोस्</li>
+                    <li>{% trans "Wait a few minutes and try again" %}</li>
+                    <li>{% trans "Contact us if the problem persists" %}</li>
                 </ul>
             </div>
             {% elif status_code == 429 %}
@@ -65,10 +65,10 @@
                     <svg class="inline h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                     </svg>
-                    धेरै अनुरोधहरू
+                    {% trans "Too Many Requests" %}
                 </p>
                 <p class="text-yellow-700">
-                    कृपया केही समय पर्खेर पुनः प्रयास गर्नुहोस्।
+                    {% trans "Please wait a while and try again." %}
                 </p>
             </div>
             {% endif %}
@@ -80,7 +80,7 @@
                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    डाउनलोड पृष्ठमा फर्कनुहोस्
+                    {% trans "Back to Download Center" %}
                 </a>
                 
                 <a href="/" 
@@ -88,14 +88,14 @@
                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                     </svg>
-                    गृहपृष्ठ
+                    {% trans "Home" %}
                 </a>
             </div>
             
             <!-- Contact Info -->
             <div class="mt-8 pt-6 border-t border-gray-200">
                 <p class="text-xs text-gray-500">
-                    समस्या जारी भएमा:
+                    {% trans "If the problem persists:" %}
                     <a href="mailto:tech@bhanjyang.coop" class="text-deuraligreen hover:underline">tech@bhanjyang.coop</a>
                 </p>
             </div>

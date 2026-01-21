@@ -13,6 +13,7 @@ from apps.downloads.services import (
     DownloadsService, FileDownloadService, BulkDownloadService, DownloadsAnalyticsService
 )
 from apps.downloads.models import DownloadableFile, FileCategory, PriorityLevel
+from apps.downloads.utils.error_codes import DownloadsErrorCodes
 
 
 class DownloadsServiceTest(TestCase):
@@ -201,7 +202,7 @@ class FileDownloadServiceTest(TestCase):
         
         self.assertFalse(success)
         self.assertIsNone(url)
-        self.assertIn('expired', error.lower())
+        self.assertEqual(error, DownloadsErrorCodes.FILE_EXPIRED)
 
     def test_process_file_download_requires_login(self):
         """Test download of file requiring login"""
@@ -255,7 +256,8 @@ class FileDownloadServiceTest(TestCase):
             self.assertFalse(success)
             self.assertIsNone(url)
             self.assertIsNotNone(error)
-            self.assertIn('Test error', error)
+            # Should return error code, not error message
+            self.assertEqual(error, DownloadsErrorCodes.DATABASE_ERROR)
     
     def test_process_file_view_exception_handling(self):
         """Test exception handling in process_file_view"""

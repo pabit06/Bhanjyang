@@ -160,25 +160,63 @@ class FileSecurityValidator:
             return file_hash
         except Exception:
             return None
+    
+    @staticmethod
+    def verify_file_hash(file_path, expected_hash):
+        """
+        Verify file integrity by comparing current hash with expected hash.
+        
+        Args:
+            file_path: Path to the file on disk
+            expected_hash: SHA-256 hash stored in database
+            
+        Returns:
+            tuple: (is_valid: bool, current_hash: str or None, error_message: str or None)
+        """
+        if not expected_hash:
+            # If no hash was stored, we can't verify but don't block
+            logger.warning("No hash stored for file, skipping integrity check")
+            return True, None, None
+        
+        try:
+            import os
+            if not os.path.exists(file_path):
+                return False, None, "File not found on disk"
+            
+            # Read file and calculate hash
+            with open(file_path, 'rb') as f:
+                file_content = f.read()
+                current_hash = hashlib.sha256(file_content).hexdigest()
+            
+            # Compare hashes
+            if current_hash == expected_hash:
+                return True, current_hash, None
+            else:
+                logger.error(
+                    f"File integrity check failed for {file_path}. "
+                    f"Expected: {expected_hash[:16]}..., Got: {current_hash[:16]}..."
+                )
+                return False, current_hash, "File hash mismatch - file may have been tampered with"
+                
+        except Exception as e:
+            logger.error(f"Error verifying file hash for {file_path}: {e}", exc_info=True)
+            return False, None, f"Error during integrity check: {str(e)}"
 
 
 class DownloadRateLimiter:
-    """Rate limiting for downloads"""
+    """
+    Rate limiting for downloads.
     
-    @staticmethod
-    def get_client_ip(request):
-        """Get client IP address"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+    Note: This is a legacy rate limiter used by decorators.
+    The middleware uses RateLimitManager from security_enhanced.py for more advanced rate limiting.
+    Both are kept for backward compatibility and different use cases.
+    """
     
     @staticmethod
     def check_download_rate_limit(request, file_id):
         """Check if user has exceeded download rate limit"""
-        ip = DownloadRateLimiter.get_client_ip(request)
+        from .utils.helpers import get_client_ip
+        ip = get_client_ip(request)
         cache_key = f"download_rate_limit_{ip}_{file_id}"
         
         # Allow 5 downloads per hour per file per IP
@@ -194,7 +232,8 @@ class DownloadRateLimiter:
     @staticmethod
     def check_bulk_download_limit(request):
         """Check bulk download limits"""
-        ip = DownloadRateLimiter.get_client_ip(request)
+        from .utils.helpers import get_client_ip
+        ip = get_client_ip(request)
         cache_key = f"bulk_download_limit_{ip}"
         
         bulk_downloads = cache.get(cache_key, 0)
@@ -225,7 +264,9 @@ class AccessControlManager:
             return False, "This file is not available"
         
         # Check user permissions for sensitive files
-        if file_obj.category == 'RPT' and not AccessControlManager.has_financial_access(user):
+        # For RPT files: only check financial access for public files (not requiring login)
+        # If requires_login=True and user is authenticated, allow access
+        if file_obj.category == 'RPT' and not file_obj.requires_login and not AccessControlManager.has_financial_access(user):
             return False, "Insufficient permissions for financial reports"
         
         if file_obj.category == 'PCY' and not AccessControlManager.has_admin_access(user):
@@ -251,13 +292,176 @@ class AccessControlManager:
         return user.is_staff or user.is_superuser
 
 
+class VirusScanManager:
+    """Manages virus scanning using ClamAV"""
+    
+    # ClamAV connection settings
+    CLAMAV_SOCKET = '/var/run/clamav/clamd.ctl'  # Unix socket
+    CLAMAV_HOST = '127.0.0.1'  # TCP host
+    CLAMAV_PORT = 3310  # TCP port
+    CLAMAV_TIMEOUT = 30  # seconds
+    
+    @staticmethod
+    def is_clamav_available() -> bool:
+        """
+        Check if ClamAV is available and running.
+        
+        Returns:
+            bool: True if ClamAV is available, False otherwise
+        """
+        try:
+            import pyclamd
+            # Try to connect to ClamAV daemon
+            cd = pyclamd.ClamdUnixSocket()
+            cd.ping()
+            return True
+        except ImportError:
+            # pyclamd not installed
+            logger.debug("pyclamd not installed, ClamAV scanning unavailable")
+            return False
+        except Exception as e:
+            # Unix socket failed, try TCP if configured
+            try:
+                from django.conf import settings
+                downloads_settings = getattr(settings, 'DOWNLOADS_SETTINGS', {})
+                host = downloads_settings.get('CLAMAV_HOST', VirusScanManager.CLAMAV_HOST)
+                port = downloads_settings.get('CLAMAV_PORT', VirusScanManager.CLAMAV_PORT)
+                
+                cd = pyclamd.ClamdNetworkSocket(host, port)
+                cd.ping()
+                return True
+            except Exception as tcp_e:
+                logger.debug(f"ClamAV not available (Unix: {e}, TCP: {tcp_e})")
+                return False
+    
+    @staticmethod
+    def scan_file(file_path: str) -> tuple[bool, str]:
+        """
+        Scan a file for viruses using ClamAV.
+        
+        Args:
+            file_path: Path to the file to scan
+            
+        Returns:
+            tuple: (is_clean: bool, scan_result: str)
+                - is_clean: True if file is clean, False if virus detected
+                - scan_result: Detailed scan result message
+        """
+        if not os.path.exists(file_path):
+            return False, "File not found"
+        
+        # Check if virus scanning is enabled
+        from django.conf import settings
+        downloads_settings = getattr(settings, 'DOWNLOADS_SETTINGS', {})
+        if not downloads_settings.get('ENABLE_VIRUS_SCAN', False):
+            logger.debug("Virus scanning is disabled in settings")
+            return True, "Virus scanning disabled"
+        
+        # Check if ClamAV is available
+        if not VirusScanManager.is_clamav_available():
+            logger.warning("ClamAV not available, skipping virus scan")
+            # If ClamAV is required but not available, we might want to block
+            # For now, we'll allow but log a warning
+            return True, "ClamAV not available - scan skipped"
+        
+        try:
+            import pyclamd
+            import time
+            
+            # Try Unix socket first (faster), fallback to TCP
+            try:
+                cd = pyclamd.ClamdUnixSocket()
+            except Exception:
+                # Fallback to TCP connection
+                host = downloads_settings.get('CLAMAV_HOST', VirusScanManager.CLAMAV_HOST)
+                port = downloads_settings.get('CLAMAV_PORT', VirusScanManager.CLAMAV_PORT)
+                cd = pyclamd.ClamdNetworkSocket(host, port)
+            
+            # Get timeout from settings
+            timeout = downloads_settings.get('VIRUS_SCAN_TIMEOUT', VirusScanManager.CLAMAV_TIMEOUT)
+            
+            # Scan the file
+            start_time = time.time()
+            scan_result = cd.scan_file(file_path)
+            scan_time = time.time() - start_time
+            
+            if scan_result is None:
+                # File is clean
+                logger.info(f"Virus scan passed for {file_path} (took {scan_time:.2f}s)")
+                return True, f"File is clean (scan time: {scan_time:.2f}s)"
+            else:
+                # Virus detected
+                virus_name = scan_result.get(file_path, ['Unknown virus'])[0]
+                logger.error(
+                    f"Virus detected in {file_path}: {virus_name} "
+                    f"(scan time: {scan_time:.2f}s)"
+                )
+                return False, f"Virus detected: {virus_name}"
+                
+        except ImportError:
+            logger.warning("pyclamd not installed. Install with: pip install pyclamd")
+            return True, "pyclamd not installed - scan skipped"
+        except Exception as e:
+            logger.error(f"Error scanning file {file_path} for viruses: {e}", exc_info=True)
+            # On error, we might want to block or allow
+            # For security, we'll block if scan fails
+            return False, f"Scan error: {str(e)}"
+    
+    @staticmethod
+    def scan_file_content(file_content: bytes) -> tuple[bool, str]:
+        """
+        Scan file content in memory for viruses.
+        
+        Args:
+            file_content: File content as bytes
+            
+        Returns:
+            tuple: (is_clean: bool, scan_result: str)
+        """
+        from django.conf import settings
+        downloads_settings = getattr(settings, 'DOWNLOADS_SETTINGS', {})
+        if not downloads_settings.get('ENABLE_VIRUS_SCAN', False):
+            return True, "Virus scanning disabled"
+        
+        if not VirusScanManager.is_clamav_available():
+            return True, "ClamAV not available - scan skipped"
+        
+        try:
+            import pyclamd
+            
+            # Try Unix socket first, fallback to TCP
+            try:
+                cd = pyclamd.ClamdUnixSocket()
+            except Exception:
+                host = downloads_settings.get('CLAMAV_HOST', VirusScanManager.CLAMAV_HOST)
+                port = downloads_settings.get('CLAMAV_PORT', VirusScanManager.CLAMAV_PORT)
+                cd = pyclamd.ClamdNetworkSocket(host, port)
+            
+            # Scan the content
+            scan_result = cd.scan_stream(file_content)
+            
+            if scan_result is None:
+                return True, "File content is clean"
+            else:
+                virus_name = scan_result.get('stream', ['Unknown virus'])[0]
+                logger.error(f"Virus detected in file content: {virus_name}")
+                return False, f"Virus detected: {virus_name}"
+                
+        except ImportError:
+            return True, "pyclamd not installed - scan skipped"
+        except Exception as e:
+            logger.error(f"Error scanning file content for viruses: {e}", exc_info=True)
+            return False, f"Scan error: {str(e)}"
+
+
 class SecurityAuditLogger:
     """Log security events for audit trail"""
     
     @staticmethod
     def log_download_attempt(request, file_obj, success=True, reason=""):
         """Log download attempt"""
-        ip = DownloadRateLimiter.get_client_ip(request)
+        from .utils.helpers import get_client_ip
+        ip = get_client_ip(request)
         user_id = request.user.id if request.user.is_authenticated else None
         
         log_data = {
@@ -281,7 +485,8 @@ class SecurityAuditLogger:
     @staticmethod
     def log_file_upload(request, file_obj, success=True, reason=""):
         """Log file upload attempt"""
-        ip = DownloadRateLimiter.get_client_ip(request)
+        from .utils.helpers import get_client_ip
+        ip = get_client_ip(request)
         user_id = request.user.id if request.user.is_authenticated else None
         
         log_data = {

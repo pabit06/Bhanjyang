@@ -5,14 +5,18 @@ This module contains service classes that handle business logic
 separate from views, making the code more maintainable and testable.
 """
 import logging
-from django.db.models import Q
+from typing import Dict, Any, List, Tuple, Optional, Union
+from django.db.models import Q, QuerySet
 from django.utils import timezone
+from django.http import HttpRequest
 
 from .models import DownloadableFile, FileCategory, PriorityLevel
 from .performance import (
     DownloadsCache, DownloadsPerformanceMonitor, DownloadsQueryOptimizer
 )
 from .security import AccessControlManager, SecurityAuditLogger
+from .utils.performance import track_performance
+from .utils.error_codes import DownloadsErrorCodes
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +25,11 @@ class DownloadsService:
     """Service class for handling download center operations."""
     
     @staticmethod
-    def get_download_center_context(request_params, show_all=False):
+    @track_performance('download_center', '/downloads/')
+    def get_download_center_context(
+        request_params: Dict[str, Any], 
+        show_all: bool = False
+    ) -> Dict[str, Any]:
         """
         Get context data for the download center page.
         
@@ -83,7 +91,12 @@ class DownloadsService:
         return context
     
     @staticmethod
-    def _get_filtered_files(category_code, priority_code, featured_only, query):
+    def _get_filtered_files(
+        category_code: Optional[str],
+        priority_code: Optional[str],
+        featured_only: bool,
+        query: str
+    ) -> QuerySet[DownloadableFile]:
         """
         Get filtered list of downloadable files.
         
@@ -125,7 +138,10 @@ class DownloadsService:
         return downloads_list
     
     @staticmethod
-    def _group_files_by_category(downloads_list, show_all=False):
+    def _group_files_by_category(
+        downloads_list: QuerySet[DownloadableFile],
+        show_all: bool = False
+    ) -> Dict[str, Dict[str, Any]]:
         """
         Group files by category with "Show More" functionality.
         
@@ -158,7 +174,7 @@ class DownloadsService:
         return files_by_category
     
     @staticmethod
-    def _get_featured_files():
+    def _get_featured_files() -> List[DownloadableFile]:
         """
         Get featured files for display.
         
@@ -186,7 +202,11 @@ class FileDownloadService:
     """Service class for handling file download operations."""
     
     @staticmethod
-    def process_file_download(request, file_obj):
+    @track_performance('file_download')
+    def process_file_download(
+        request: HttpRequest,
+        file_obj: DownloadableFile
+    ) -> Tuple[bool, Optional[str], Optional[str]]:
         """
         Process a file download request.
         
@@ -195,34 +215,112 @@ class FileDownloadService:
             file_obj: DownloadableFile instance
             
         Returns:
-            tuple: (success: bool, response_or_redirect, error_message: str)
+            tuple: (success: bool, file_url_or_none: Optional[str], error_code_or_none: Optional[str])
         """
         # Check if file has expired
         if file_obj.is_expired:
             logger.warning(f"Attempted download of expired file ID {file_obj.pk}")
             SecurityAuditLogger.log_download_attempt(request, file_obj, False, "File expired")
-            return False, None, "File expired"
+            return False, None, DownloadsErrorCodes.FILE_EXPIRED
         
         # Check access permissions
         can_download, reason = AccessControlManager.can_download_file(request.user, file_obj)
         if not can_download:
             SecurityAuditLogger.log_download_attempt(request, file_obj, False, reason)
-            return False, None, reason
+            error_code = DownloadsErrorCodes.ACCESS_DENIED
+            return False, None, error_code
+        
+        # Virus scan check (before allowing download)
+        from .security import VirusScanManager
+        try:
+            file_path = file_obj.file.path
+            is_clean, scan_result = VirusScanManager.scan_file(file_path)
+            
+            if not is_clean:
+                logger.error(
+                    f"Virus detected in file ID {file_obj.pk}: {scan_result}"
+                )
+                SecurityAuditLogger.log_download_attempt(
+                    request, file_obj, False,
+                    f"Virus detected: {scan_result}"
+                )
+                return False, None, DownloadsErrorCodes.VIRUS_DETECTED
+            else:
+                logger.debug(f"Virus scan passed for file ID {file_obj.pk}: {scan_result}")
+        except Exception as e:
+            # If file path doesn't exist or scan fails, log but decide based on settings
+            from django.conf import settings
+            downloads_settings = getattr(settings, 'DOWNLOADS_SETTINGS', {})
+            require_scan = downloads_settings.get('REQUIRE_VIRUS_SCAN', False)
+            
+            if require_scan:
+                # If scan is required but failed, block download
+                logger.error(
+                    f"Virus scan required but failed for file ID {file_obj.pk}: {e}"
+                )
+                SecurityAuditLogger.log_download_attempt(
+                    request, file_obj, False,
+                    f"Virus scan failed: {str(e)}"
+                )
+                return False, None, DownloadsErrorCodes.VIRUS_DETECTED
+            else:
+                # If scan is optional and fails, allow but log warning
+                logger.warning(
+                    f"Could not scan file ID {file_obj.pk} for viruses: {e}. "
+                    "Allowing download (scan is optional)."
+                )
+        
+        # Verify file integrity (hash check)
+        if file_obj.file_hash:
+            from .security import FileSecurityValidator
+            try:
+                file_path = file_obj.file.path
+                is_valid, current_hash, error_msg = FileSecurityValidator.verify_file_hash(
+                    file_path,
+                    file_obj.file_hash
+                )
+                
+                if not is_valid:
+                    logger.error(
+                        f"File integrity check failed for file ID {file_obj.pk}. "
+                        f"Expected hash: {file_obj.file_hash[:16]}..., "
+                        f"Current hash: {current_hash[:16] if current_hash else 'N/A'}"
+                    )
+                    SecurityAuditLogger.log_download_attempt(
+                        request, file_obj, False, 
+                        f"File integrity check failed: {error_msg}"
+                    )
+                    return False, None, DownloadsErrorCodes.FILE_INTEGRITY_FAILED
+            except Exception as e:
+                # If file path doesn't exist or other error, log but don't block
+                # (file might be on remote storage)
+                logger.warning(
+                    f"Could not verify file integrity for file ID {file_obj.pk}: {e}. "
+                    "Skipping integrity check."
+                )
         
         try:
             # Increment download count
             file_obj.increment_download_count()
             SecurityAuditLogger.log_download_attempt(request, file_obj, True)
-            return True, file_obj.file.url, None
+            # Return secure URL instead of direct media URL
+            # This ensures files are served through Django view with access control
+            from django.urls import reverse
+            secure_url = reverse('downloads:serve_file', kwargs={'pk': file_obj.pk})
+            return True, secure_url, None
         except Exception as exc:
-            logger.warning(
+            logger.error(
                 "Failed to increment download count for file ID %s: %s",
-                file_obj.pk, exc
+                file_obj.pk, exc,
+                exc_info=True
             )
-            return False, None, str(exc)
+            return False, None, DownloadsErrorCodes.DATABASE_ERROR
     
     @staticmethod
-    def process_file_view(request, file_obj):
+    def process_file_view(
+        request: HttpRequest,
+        file_obj: DownloadableFile
+    ) -> bool:
         """
         Process a file view request (increment view count).
         
@@ -241,9 +339,10 @@ class FileDownloadService:
             file_obj.increment_view_count()
             return True
         except Exception as exc:
-            logger.warning(
+            logger.error(
                 "Failed to increment view count for file ID %s: %s",
-                file_obj.pk, exc
+                file_obj.pk, exc,
+                exc_info=True
             )
             return False
 
@@ -252,12 +351,15 @@ class BulkDownloadService:
     """Service class for handling bulk download operations."""
     
     @staticmethod
-    def get_accessible_files(user, file_ids):
+    def get_accessible_files(
+        user: Optional[Any],
+        file_ids: List[Union[int, str]]
+    ) -> List[DownloadableFile]:
         """
         Get list of files that user can download.
         
         Args:
-            user: User instance
+            user: User instance (optional)
             file_ids: List of file IDs to check
             
         Returns:
@@ -277,7 +379,10 @@ class BulkDownloadService:
         return accessible_files
     
     @staticmethod
-    def create_zip_file(file_objects):
+    @track_performance('bulk_download')
+    def create_zip_file(
+        file_objects: List[DownloadableFile]
+    ) -> Tuple[str, int, List[int]]:
         """
         Create a ZIP file containing multiple files.
         
@@ -285,7 +390,7 @@ class BulkDownloadService:
             file_objects: List of DownloadableFile objects
             
         Returns:
-            tuple: (temp_file_path: str, success_count: int, failed_files: list)
+            tuple: (temp_file_path: str, success_count: int, failed_files: List[int])
         """
         import zipfile
         import tempfile
@@ -312,7 +417,8 @@ class DownloadsAnalyticsService:
     """Service class for download analytics and statistics."""
     
     @staticmethod
-    def get_download_stats():
+    @track_performance('download_stats')
+    def get_download_stats() -> Dict[str, Any]:
         """
         Get statistics about downloads.
         

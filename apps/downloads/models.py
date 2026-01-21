@@ -31,60 +31,60 @@ class DownloadableFile(models.Model):
         max_length=4,
         choices=FileCategory.choices,
         default=FileCategory.OTHER,
-        help_text=_("फाइलको श्रेणी (जस्तै: फारम, रिपोर्ट)।")
+        help_text=_("Category of the file (e.g., Form, Report).")
     )
-    title = models.CharField(max_length=200, help_text=_("फाइलको शीर्षक।"))
-    description = models.TextField(blank=True, help_text=_("फाइलको संक्षिप्त विवरण।"))
+    title = models.CharField(max_length=200, help_text=_("Title of the file."))
+    description = models.TextField(blank=True, help_text=_("Short description of the file."))
     file = models.FileField(
         upload_to='downloads/', 
-        help_text=_("अपलोड गर्ने फाइल।"),
+        help_text=_("The file to upload."),
         validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'jpg', 'jpeg', 'png'])]
     )
 
     is_active = models.BooleanField(
         default=True,
-        help_text=_("यो फाइल वेबसाइटमा देखाउने कि नदेखाउने?")
+        help_text=_("Whether to show this file on the website.")
     )
     is_featured = models.BooleanField(
         default=False,
-        help_text=_("यो फाइल फिचर्ड सूचीमा देखाउने?")
+        help_text=_("Show this file in the featured list?")
     )
     priority = models.CharField(
         max_length=4,
         choices=PriorityLevel.choices,
         default=PriorityLevel.MEDIUM,
-        help_text=_("फाइलको प्राथमिकता स्तर।")
+        help_text=_("Priority level of the file.")
     )
     requires_login = models.BooleanField(
         default=False,
-        help_text=_("यो फाइल डाउनलोड गर्न लगइन आवश्यक छ?")
+        help_text=_("Is login required to download this file?")
     )
     expires_at = models.DateTimeField(
         blank=True,
         null=True,
-        help_text=_("फाइलको समाप्ति मिति (वैकल्पिक)।")
+        help_text=_("Expiration date of the file (optional).")
     )
     tags = models.CharField(
         max_length=500,
         blank=True,
-        help_text=_("फाइलका ट्यागहरू (कमा द्वारा अलग)।")
+        help_text=_("Tags for the file (separated by commas).")
     )
     thumbnail = models.ImageField(
         upload_to='downloads/thumbnails/',
         blank=True,
         null=True,
-        help_text=_("फाइलको थम्बनेल छवि (वैकल्पिक)।")
+        help_text=_("Thumbnail image for the file (optional).")
     )
 
     download_count = models.PositiveIntegerField(
         default=0,
         editable=False,
-        help_text=_("यो फाइल कति पटक डाउनलोड भयो।")
+        help_text=_("How many times this file has been downloaded.")
     )
     view_count = models.PositiveIntegerField(
         default=0,
         editable=False,
-        help_text=_("यो फाइल कति पटक हेरियो।")
+        help_text=_("How many times this file has been viewed.")
     )
 
     uploaded_at = models.DateTimeField(auto_now_add=True)
@@ -117,13 +117,13 @@ class DownloadableFile(models.Model):
         max_length=10,
         blank=True,
         editable=False,
-        help_text=_("फाइलको प्रकार (स्वचालित रूपमा पत्ता लगाइन्छ)।")
+        help_text=_("Type of the file (detected automatically).")
     )
 
     class Meta:
         ordering = ['-priority', '-uploaded_at']
-        verbose_name = _("डाउनलोड फाइल")
-        verbose_name_plural = _("डाउनलोड फाइलहरू")
+        verbose_name = _("Downloadable File")
+        verbose_name_plural = _("Downloadable Files")
         get_latest_by = 'uploaded_at'
         indexes = [
             models.Index(fields=['category', 'is_active'], name='downloads_d_categor_0ca7e6_idx'),
@@ -138,21 +138,40 @@ class DownloadableFile(models.Model):
         """
         Overrides the save method to automatically set the file_type
         based on the file's extension and generate security hash.
+        
+        Hash is calculated using SHA-256 for file integrity verification.
         """
+        import hashlib
+        import logging
+        
+        logger = logging.getLogger(__name__)
+        
         if self.file:
             _name, extension = os.path.splitext(self.file.name)
             self.file_type = extension.replace('.', '').lower()
             
-            # Generate file hash for security
+            # Generate file hash for security and integrity checking
+            # Always recalculate hash if file is new or has changed
             try:
-                from .security import FileSecurityValidator
-                security_data = FileSecurityValidator.validate_file_security(self.file)
-                self.file_hash = security_data.get('file_hash', '')
+                # Check if file is being uploaded (has read method)
+                if hasattr(self.file, 'read'):
+                    # New file upload - generate hash from file content
+                    from .security import FileSecurityValidator
+                    file_hash = FileSecurityValidator.generate_file_hash(self.file)
+                    if file_hash:
+                        self.file_hash = file_hash
+                # If file already exists on disk, calculate hash from disk
+                elif hasattr(self.file, 'path') and os.path.exists(self.file.path):
+                    with open(self.file.path, 'rb') as f:
+                        self.file_hash = hashlib.sha256(f.read()).hexdigest()
             except Exception as e:
                 # Log error but don't fail the save
-                import logging
-                logger = logging.getLogger(__name__)
-                logger.warning(f"Failed to generate file hash: {e}")
+                logger.warning(
+                    f"Failed to generate file hash for file '{self.file.name}': {e}",
+                    exc_info=True
+                )
+                # If hash generation fails, we still save the file
+                # but log the warning for admin attention
         
         super().save(*args, **kwargs)
 
