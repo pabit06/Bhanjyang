@@ -18,6 +18,10 @@
     <!-- Resource hints for CDN assets -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <link rel="stylesheet" href="{% static 'services/css/remittance.css' %}">
 {% endblock extra_css %}
@@ -52,24 +56,25 @@
             <!-- Content - Left Aligned -->
             <div class="text-left space-y-8">
                 <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold animate-fade-in-up shadow-sm">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold shadow-sm"
+                    data-aos="fade-down">
                     <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                     {% trans "Financial Growth" %}
                 </div>
 
-                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
-                    style="animation-delay: 0.1s;">
+                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight drop-shadow-2xl"
+                    data-aos="fade-up" data-aos-delay="100">
                     <span class="text-white block mb-2">तपाईंको समृद्धिको सहयात्री:</span>
                     <span class="text-green-300 block drop-shadow-lg" style="text-shadow: 0 4px 12px rgba(0,0,0,0.8), 0 8px 24px rgba(0,0,0,0.6);">भञ्ज्याङ बचत खाताहरू</span>
                 </h1>
 
-                <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
-                    style="animation-delay: 0.2s;">
+                <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md"
+                    data-aos="fade-up" data-aos-delay="200">
                     बालबालिकादेखि जेष्ठ नागरिकसम्म, सबैका लागि लक्षित हाम्रा विशेष बचत योजनाहरू मार्फत आर्थिक स्वतन्त्रता प्राप्त गर्नुहोस्।
                 </p>
 
-                <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up touch-target"
-                    style="animation-delay: 0.3s;">
+                <div class="flex flex-col sm:flex-row gap-4 touch-target"
+                    data-aos="fade-up" data-aos-delay="300">
                     <a href="{% url 'contact:contact_view' %}"
                         class="px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold rounded-xl shadow-lg shadow-green-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 border border-green-300/30 touch-target">
                         <i class="fas fa-user-plus"></i> खाता खोल्नुहोस्
@@ -81,8 +86,8 @@
                 </div>
 
                 <!-- Live Stats (Static Visual) -->
-                <div class="pt-6 flex items-center gap-8 border-t border-white/10 animate-fade-in-up"
-                    style="animation-delay: 0.4s;">
+                <div class="pt-6 flex items-center gap-8 border-t border-white/10"
+                    data-aos="fade-up" data-aos-delay="400">
                     <div>
                         <p class="text-3xl font-bold text-white">८%</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Interest Rate" %}</p>
@@ -107,7 +112,7 @@
     {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.03' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mobile-spacing">
-        <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+        <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
             <span class="inline-block text-deuraligreen bg-green-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Recommended" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
                 <span class="text-gray-800">विशेष</span> <span class="text-deuraligreen font-extrabold">बचत</span> <span class="text-gray-800">योजनाहरू</span>
@@ -121,8 +126,8 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for account in featured_accounts %}
             <div
-                class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 border-t-4 border-deuraligreen group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden service-card-enhanced scroll-reveal-scale"
-                style="animation-delay: {{ forloop.counter0|add:'0.1'|floatformat:1 }}s;">
+                class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 border-t-4 border-deuraligreen group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden service-card-enhanced"
+                data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'0'|floatformat:0|add:'00' }}">
                 <!-- Card Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
                     {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
@@ -199,7 +204,7 @@
     {% include 'services/savings/partials/_background_pattern.html' with pattern_type='light' opacity='0.02' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center max-w-3xl mx-auto mb-12 scroll-reveal">
+        <div class="text-center max-w-3xl mx-auto mb-12" data-aos="fade-up">
             <span class="inline-block text-deuraligreen bg-green-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Compare" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
                 <span class="text-gray-800">बचत</span> <span class="text-deuraligreen font-extrabold">तुलना</span> <span class="text-gray-800">तालिका</span>
@@ -210,7 +215,7 @@
             </p>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden scroll-reveal relative">
+        <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden relative" data-aos="fade-up" data-aos-delay="100">
             <!-- Mobile scroll hint - Better positioned -->
             <div class="md:hidden absolute top-3 right-3 z-20 bg-deuraligreen text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1.5 pointer-events-none animate-pulse">
                 <i class="fas fa-arrows-alt-h text-sm"></i>
@@ -263,13 +268,17 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mobile-spacing">
         <!-- Regular & Optional Savings -->
         {% if regular_savings or optional_savings %}
-        <div class="mb-20">
+        <div class="mb-20" data-aos="fade-up">
             <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 service-grid-mobile">
                 {% for account in regular_savings %}
-                {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                <div data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 100 %}">
+                    {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                </div>
                 {% endfor %}
                 {% for account in optional_savings %}
-                {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                <div data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0|add:regular_savings|length 1 100 %}">
+                    {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -278,7 +287,7 @@
         <!-- Recurring Savings -->
         {% if recurring_savings %}
         <div id="recurring-savings" class="category-section mb-20 scroll-mt-20">
-            <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-8 border-l-4 border-rupablue scroll-reveal">
+            <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-8 border-l-4 border-rupablue" data-aos="fade-up">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-3">
@@ -291,7 +300,9 @@
             </div>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 service-grid-mobile">
                 {% for account in recurring_savings %}
-                {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                <div data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 100 %}">
+                    {% include 'services/savings/partials/_saving_card.html' with account=account %}
+                </div>
                 {% endfor %}
             </div>
         </div>
@@ -299,7 +310,7 @@
 
         <!-- आवधिक बचत (Periodic Savings / Fixed Deposits) -->
         <div id="periodic-savings" class="category-section mb-10 scroll-mt-20">
-            <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-8 border-l-4 border-orange-500 scroll-reveal">
+            <div class="bg-white rounded-2xl shadow-sm p-6 md:p-8 mb-8 border-l-4 border-orange-500" data-aos="fade-up">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-3">
@@ -315,7 +326,7 @@
 
             <!-- Fixed Deposit Rates Table -->
             {% if periodic_savings %}
-            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 mb-8 border border-gray-100 scroll-reveal">
+            <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10 mb-8 border border-gray-100" data-aos="fade-up" data-aos-delay="100">
                 <div class="text-center mb-8">
                     <h3 class="text-2xl md:text-3xl font-bold text-gray-800 font-montserrat mb-3">{% trans "Interest Rates" %}</h3>
                     <div class="w-16 h-1.5 bg-orange-500 mx-auto rounded-full mb-4"></div>
@@ -401,7 +412,7 @@
             </div>
 
             <!-- Call to Action -->
-            <div class="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-8 md:p-10 text-center text-white shadow-2xl relative overflow-hidden scroll-reveal">
+            <div class="bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-8 md:p-10 text-center text-white shadow-2xl relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
                 {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.20' %}
                 <div class="relative z-10">
                     <h3 class="text-2xl md:text-3xl font-bold font-montserrat mb-3">{% trans "Want to open a Fixed Deposit?" %}</h3>
@@ -419,7 +430,7 @@
                 </div>
             </div>
             {% else %}
-            <div class="bg-white p-12 rounded-2xl shadow-sm text-center border-2 border-dashed border-gray-200 scroll-reveal">
+            <div class="bg-white p-12 rounded-2xl shadow-sm text-center border-2 border-dashed border-gray-200" data-aos="fade-up">
                 <i class="fas fa-certificate text-5xl text-gray-300 mb-4 block"></i>
                 <p class="text-gray-500 text-lg">आवधिक बचत योजनाहरू थपिँदै छन्।</p>
             </div>
@@ -433,7 +444,7 @@
     {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.03' %}
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-12 scroll-reveal">
+        <div class="text-center mb-12" data-aos="fade-up">
             <span class="inline-block text-deuraligreen bg-green-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Why Choose Us" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
                 <span class="text-gray-800">तपाईंको बचत</span> <span class="text-deuraligreen font-extrabold">सँगै</span> <span class="text-gray-800">बढ्दै</span>
@@ -443,7 +454,7 @@
 
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1 space-y-8">
-                <div class="flex items-start group scroll-reveal-left">
+                <div class="flex items-start group" data-aos="fade-right">
                     <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-deuraligreen to-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-chart-line text-xl"></i>
                     </div>
@@ -452,7 +463,7 @@
                         <p class="text-gray-600 leading-relaxed">{% trans "Enjoy some of the most competitive interest rates in the market, calculated daily and posted quarterly." %}</p>
                     </div>
                 </div>
-                <div class="flex items-start group scroll-reveal-left" style="animation-delay: 0.2s;">
+                <div class="flex items-start group" data-aos="fade-right" data-aos-delay="100">
                     <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-deuraligreen to-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-shield-alt text-xl"></i>
                     </div>
@@ -461,7 +472,7 @@
                         <p class="text-gray-600 leading-relaxed">{% trans "Your deposits are safe with us. We are fully regulated and follow strict financial guidelines." %}</p>
                     </div>
                 </div>
-                <div class="flex items-start group scroll-reveal-left" style="animation-delay: 0.4s;">
+                <div class="flex items-start group" data-aos="fade-right" data-aos-delay="200">
                     <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-deuraligreen to-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-mobile-alt text-xl"></i>
                     </div>
@@ -471,7 +482,7 @@
                     </div>
                 </div>
             </div>
-            <div class="order-1 lg:order-2 relative scroll-reveal-right">
+            <div class="order-1 lg:order-2 relative" data-aos="fade-left">
                 <div class="absolute inset-0 bg-gradient-to-tr from-deuraligreen to-green-300 transform rotate-3 rounded-3xl opacity-20 blur-xl"></div>
                 <div class="relative rounded-3xl shadow-2xl overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
@@ -490,11 +501,11 @@
     {% include 'services/savings/partials/_background_pattern.html' with pattern_type='dark' opacity='0.20' %}
     
     <div class="container mx-auto px-4 text-center relative z-10">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
-        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat" data-aos="fade-up">{% trans "Your Trust, Our Responsibility" %}</h2>
+        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
             {% trans "Ready to start saving? Open an account today and take the first step towards your financial freedom." %}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
             <a href="{% url 'contact:contact_view' %}"
                 class="px-10 py-5 bg-white text-deuraligreen rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-all flex items-center justify-center gap-3 touch-target">
                 <i class="fas fa-user-plus"></i> {% trans "Open an Account" %}
@@ -511,8 +522,34 @@
 {% block extra_js %}
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <!-- Remittance Services JS (reused for animations) -->
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
+
+<!-- Initialize AOS Animation Library -->
+<script>
+    // Initialize AOS Animation Library
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        }
+    });
+</script>
 
 <!-- Enhanced Structured Data (JSON-LD) for SEO -->
 <script type="application/ld+json">

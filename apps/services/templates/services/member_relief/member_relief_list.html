@@ -19,6 +19,10 @@
     <!-- Resource hints for CDN assets -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <link rel="stylesheet" href="{% static 'services/css/remittance.css' %}">
 {% endblock extra_css %}
@@ -45,25 +49,26 @@
             <!-- Content -->
             <div class="text-left space-y-8">
                 <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold animate-fade-in-up shadow-sm">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold shadow-sm"
+                    data-aos="fade-down">
                     <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
                     {% trans "Member Support" %}
                 </div>
 
-                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
-                    style="animation-delay: 0.1s;">
+                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight drop-shadow-2xl"
+                    data-aos="fade-up" data-aos-delay="100">
                     <span class="text-gray-200">सदस्य</span> <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-purple-400 text-glow">सहायता</span><br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-purple-400 text-glow">कार्यक्रमहरू</span>
                 </h1>
 
-                <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
-                    style="animation-delay: 0.2s;">
+                <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md"
+                    data-aos="fade-up" data-aos-delay="200">
                     {% trans "Supporting our valued members through comprehensive relief and assistance programs." %}
                 </p>
 
-                <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up touch-target"
-                    style="animation-delay: 0.3s;">
+                <div class="flex flex-col sm:flex-row gap-4 touch-target"
+                    data-aos="fade-up" data-aos-delay="300">
                     <a href="{% url 'contact:contact_view' %}"
                         class="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 border border-purple-300/30 touch-target">
                         <i class="fas fa-heart"></i> {% trans "Contact Us" %}
@@ -76,8 +81,8 @@
                 </div>
 
                 <!-- Live Stats (Static Visual) -->
-                <div class="pt-6 flex items-center gap-8 border-t border-white/10 animate-fade-in-up"
-                    style="animation-delay: 0.4s;">
+                <div class="pt-6 flex items-center gap-8 border-t border-white/10"
+                    data-aos="fade-up" data-aos-delay="400">
                     <div>
                         <p class="text-3xl font-bold text-white">{{ member_reliefs|length|to_nepali_digits }}+</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Programs" %}</p>
@@ -104,7 +109,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mobile-spacing">
         {% for relief_type, reliefs in reliefs_by_type.items %}
         <div class="mb-20">
-            <div class="text-center mb-12 scroll-reveal">
+            <div class="text-center mb-12" data-aos="fade-up">
                 <span class="inline-block text-purple-600 bg-purple-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{{ relief_type }}</span>
                 <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
                     <span class="text-gray-800">{{ relief_type }}</span>
@@ -114,8 +119,8 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 service-grid-mobile">
                 {% for relief in reliefs %}
                 <div
-                    class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 border-t-4 border-purple-600 group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden service-card-enhanced scroll-reveal-scale"
-                    style="animation-delay: {{ forloop.counter0|add:'0.1'|floatformat:1 }}s;">
+                    class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 border-t-4 border-purple-600 group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden service-card-enhanced"
+                    data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 100 %}">
                     <!-- Card Background Pattern -->
                     <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
                         {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
@@ -188,7 +193,7 @@
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto scroll-reveal">
+        <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto" data-aos="fade-up">
             <div class="mb-6">
                 <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
                     <i class="fas fa-heart text-4xl text-gray-300"></i>
@@ -210,7 +215,7 @@
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-16 scroll-reveal">
+        <div class="text-center mb-16" data-aos="fade-up">
             <span class="inline-block text-purple-600 bg-purple-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Application Process" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
                 <span class="text-gray-800">{% trans "How to Get" %}</span> <span class="text-purple-600 font-extrabold">{% trans "Support" %}</span>
@@ -220,7 +225,7 @@
         </div>
         
         <div class="grid md:grid-cols-4 gap-8">
-            <div class="text-center scroll-reveal">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="0">
                 <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <span class="text-3xl font-bold text-white">{% trans "1" %}</span>
                 </div>
@@ -228,7 +233,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Reach out to our relief committee or visit our office" %}</p>
             </div>
             
-            <div class="text-center scroll-reveal" style="animation-delay: 0.2s;">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
                 <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <span class="text-3xl font-bold text-white">{% trans "2" %}</span>
                 </div>
@@ -236,7 +241,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Complete the application form with required documents" %}</p>
             </div>
             
-            <div class="text-center scroll-reveal" style="animation-delay: 0.4s;">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
                 <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <span class="text-3xl font-bold text-white">{% trans "3" %}</span>
                 </div>
@@ -244,7 +249,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Our committee will review your application" %}</p>
             </div>
             
-            <div class="text-center scroll-reveal" style="animation-delay: 0.6s;">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
                 <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <span class="text-3xl font-bold text-white">{% trans "4" %}</span>
                 </div>
@@ -264,7 +269,7 @@
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-12 scroll-reveal">
+        <div class="text-center mb-12" data-aos="fade-up">
             <span class="inline-block text-purple-600 bg-purple-50 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full">{% trans "Why Choose Us" %}</span>
             <h2 class="text-3xl md:text-5xl font-bold font-montserrat mb-6">
                 <span class="text-gray-800">{% trans "Supporting Our" %}</span> <span class="text-purple-600 font-extrabold">{% trans "Members" %}</span>
@@ -274,7 +279,7 @@
         
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="order-2 lg:order-1 space-y-8">
-                <div class="flex items-start group scroll-reveal-left">
+                <div class="flex items-start group" data-aos="fade-right">
                     <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-heart text-xl"></i>
                     </div>
@@ -283,7 +288,7 @@
                         <p class="text-gray-600 leading-relaxed">{% trans "We understand your needs and provide personalized assistance during difficult times." %}</p>
                     </div>
                 </div>
-                <div class="flex items-start group scroll-reveal-left" style="animation-delay: 0.2s;">
+                <div class="flex items-start group" data-aos="fade-right" data-aos-delay="100">
                     <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-users text-xl"></i>
                     </div>
@@ -292,7 +297,7 @@
                         <p class="text-gray-600 leading-relaxed">{% trans "Our relief committee works tirelessly to ensure members receive the support they need." %}</p>
                     </div>
                 </div>
-                <div class="flex items-start group scroll-reveal-left" style="animation-delay: 0.4s;">
+                <div class="flex items-start group" data-aos="fade-right" data-aos-delay="200">
                     <div class="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                         <i class="fas fa-clock text-xl"></i>
                     </div>
@@ -302,7 +307,7 @@
                     </div>
                 </div>
             </div>
-            <div class="order-1 lg:order-2 relative scroll-reveal-right">
+            <div class="order-1 lg:order-2 relative" data-aos="fade-left">
                 <div class="absolute inset-0 bg-gradient-to-tr from-purple-600 to-purple-300 transform rotate-3 rounded-3xl opacity-20 blur-xl"></div>
                 <div class="relative rounded-3xl shadow-2xl overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
@@ -324,11 +329,11 @@
     </div>
     
     <div class="container mx-auto px-4 text-center relative z-10">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
-        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-3xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat" data-aos="fade-up">{% trans "Your Trust, Our Responsibility" %}</h2>
+        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="100">
             {% trans "Need immediate assistance? Our relief committee is available 24/7 for emergency situations. Don't hesitate to reach out." %}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
             <a href="{% url 'contact:contact_view' %}"
                 class="px-10 py-5 bg-white text-purple-600 rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-all flex items-center justify-center gap-3 touch-target">
                 <i class="fas fa-phone-alt"></i> {% trans "Contact Relief Committee" %}
@@ -345,8 +350,34 @@
 {% block extra_js %}
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <!-- Remittance Services JS (reused for animations) -->
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
+
+<!-- Initialize AOS Animation Library -->
+<script>
+    // Initialize AOS Animation Library
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        }
+    });
+</script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
 <script type="application/ld+json">

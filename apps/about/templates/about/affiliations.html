@@ -23,12 +23,17 @@
 {% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endblock twitter_image %}
 
 
+{% block extra_css %}
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+{% endblock extra_css %}
+
 {% block content %}
 <section class="relative bg-white text-deuraligreen py-16 px-4 sm:px-6 lg:px-8">
     <div class="absolute inset-0 opacity-[0.05] bg-pattern-dhaka"></div>
     <div class="container mx-auto text-center relative z-10">
-        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4 scroll-animate">{% trans "Our Affiliations" %}</h1>
-        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700 scroll-animate stagger-1">{% trans "We are proud to be associated with these organizations and regulatory bodies, including our local regulatory authority Rupa Rural Municipality." %}</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold font-montserrat mb-4" data-aos="fade-up">{% trans "Our Affiliations" %}</h1>
+        <p class="text-lg sm:text-xl max-w-3xl mx-auto text-gray-700" data-aos="fade-up" data-aos-delay="100">{% trans "We are proud to be associated with these organizations and regulatory bodies, including our local regulatory authority Rupa Rural Municipality." %}</p>
     </div>
 </section>
 
@@ -38,7 +43,7 @@
         {% if affiliations %}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {% for affiliation in affiliations %}
-                <div class="premium-card relative p-10 rounded-3xl shadow-xl transition-all duration-300 transform hover:-translate-y-3">
+                <div class="premium-card relative p-10 rounded-3xl shadow-xl transition-all duration-300 transform hover:-translate-y-3" data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 100 %}">
                     {% if affiliation.logo %}
                         <div class="mb-6">
                             <img src="{{ affiliation.logo.url }}" alt="{{ affiliation.name }}" class="w-32 h-32 object-contain mx-auto rounded-lg border border-gray-200 p-4">
@@ -69,10 +74,10 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div class="text-center py-16">
-                <i class="fas fa-handshake text-6xl text-gray-300 mb-4"></i>
-                <p class="text-gray-600 text-xl scroll-animate">{% trans "No affiliations are available yet." %}</p>
-                <p class="text-gray-500 mt-2">{% trans "Affiliation information will be added as it becomes available." %}</p>
+            <div class="text-center py-16" data-aos="fade-up">
+                <i class="fas fa-handshake text-6xl text-gray-300 mb-4" data-aos="fade-up" data-aos-delay="100"></i>
+                <p class="text-gray-600 text-xl" data-aos="fade-up" data-aos-delay="200">{% trans "No affiliations are available yet." %}</p>
+                <p class="text-gray-500 mt-2" data-aos="fade-up" data-aos-delay="300">{% trans "Affiliation information will be added as it becomes available." %}</p>
             </div>
         {% endif %}
     </div>
@@ -81,13 +86,13 @@
 <!-- Affiliation Types Section -->
 <section class="py-16 bg-white px-4 sm:px-6 lg:px-8">
     <div class="container mx-auto">
-        <div class="text-center mb-16">
+        <div class="text-center mb-16" data-aos="fade-up">
             <h2 class="text-3xl font-bold text-deuraligreen mb-4">{% trans "Types of Affiliations" %}</h2>
             <p class="text-gray-600 max-w-2xl mx-auto">{% trans "Understanding our various partnerships and regulatory relationships." %}</p>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-8">
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="0">
                 <div class="w-16 h-16 bg-deuraligreen rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-gavel text-white text-2xl"></i>
                 </div>
@@ -95,7 +100,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Government agencies that oversee cooperative operations and ensure compliance." %}</p>
             </div>
             
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
                 <div class="w-16 h-16 bg-bhanjyangred rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-users text-white text-2xl"></i>
                 </div>
@@ -103,7 +108,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Industry organizations that promote best practices and professional development." %}</p>
             </div>
             
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
                 <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-handshake text-white text-2xl"></i>
                 </div>
@@ -111,7 +116,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Strategic collaborations that enhance our services and community impact." %}</p>
             </div>
             
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="300">
                 <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-certificate text-white text-2xl"></i>
                 </div>
@@ -119,7 +124,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Organizations that provide certifications and quality assurance standards." %}</p>
             </div>
             
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="400">
                 <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-sitemap text-white text-2xl"></i>
                 </div>
@@ -127,7 +132,7 @@
                 <p class="text-gray-600 text-sm">{% trans "Parent organizations that coordinate and support multiple cooperatives and institutions." %}</p>
             </div>
             
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up" data-aos-delay="500">
                 <div class="w-16 h-16 bg-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <i class="fas fa-university text-white text-2xl"></i>
                 </div>
@@ -138,3 +143,43 @@
     </div>
 </section>
 {% endblock content %}
+
+{% block extra_js %}
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- Initialize AOS Animation Library -->
+<script>
+    // Initialize AOS Animation Library - Ensure it loads properly
+    function initAOS() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        } else {
+            // Retry if AOS not loaded yet
+            setTimeout(initAOS, 100);
+        }
+    }
+
+    // Try to initialize immediately
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAOS);
+    } else {
+        // DOM already loaded
+        initAOS();
+    }
+</script>
+{% endblock extra_js %}

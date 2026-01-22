@@ -30,6 +30,10 @@
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
     <link rel="dns-prefetch" href="https://flagcdn.com">
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <link rel="stylesheet" href="{% static 'services/css/remittance.css' %}">
 {% endblock extra_css %}
@@ -90,26 +94,27 @@
             <!-- Content -->
             <div class="text-left space-y-8">
                 <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold animate-fade-in-up shadow-sm">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-white/90 text-sm font-bold shadow-sm"
+                    data-aos="fade-down">
                     <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
                     {% trans "Global Money Transfer" %}
                 </div>
 
-                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
-                    style="animation-delay: 0.1s;">
+                <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight drop-shadow-2xl"
+                    data-aos="fade-up" data-aos-delay="100">
                     {% trans "Earnings from Abroad," %}<br>
                     <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-glow">{% trans "Joy at Home" %}</span>
                 </h1>
 
                 <!-- Improved Readability: Heavier font, high contrast white -->
-                <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
-                    style="animation-delay: 0.2s;">
+                <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md"
+                    data-aos="fade-up" data-aos-delay="200">
                     {% trans "Receive money (love) sent from anywhere in the world safely and quickly through Bhanjyang Cooperative." %}
                 </p>
 
-                <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up"
-                    style="animation-delay: 0.3s;">
+                <div class="flex flex-col sm:flex-row gap-4"
+                    data-aos="fade-up" data-aos-delay="300">
                     <a href="{% url 'contact:contact_view' %}"
                         class="px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-amber-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 border border-amber-300/30">
                         <i class="fas fa-paper-plane"></i> {% trans "Contact Us" %}
@@ -122,8 +127,8 @@
                 </div>
 
                 <!-- Live Stats (Static Visual) -->
-                <div class="pt-6 flex items-center gap-8 border-t border-white/10 animate-fade-in-up"
-                    style="animation-delay: 0.4s;">
+                <div class="pt-6 flex items-center gap-8 border-t border-white/10"
+                    data-aos="fade-up" data-aos-delay="400">
                     <div>
                         <p class="text-3xl font-bold text-white">{% with count=12 %}{{ count|to_nepali_digits }}{% endwith %}+</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Partners" %}</p>
@@ -147,7 +152,7 @@
         <div class="absolute inset-0" style="background-image: url('{{ pattern_img }}'); background-repeat: repeat; background-size: 200px;"></div>
     </div>
     
-    <div class="container mx-auto px-4 mb-6 relative z-10">
+    <div class="container mx-auto px-4 mb-6 relative z-10" data-aos="fade-up">
         <p class="text-center text-sm font-bold text-gray-400 uppercase tracking-widest">{% trans "Our Trusted Global Partners" %}</p>
     </div>
     <div class="marquee-container relative w-full flex overflow-hidden z-10">
@@ -209,7 +214,7 @@
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
+        <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
             <h2 class="text-3xl md:text-5xl font-bold text-gray-900 font-montserrat mb-6">{% trans "International Partners" %}
             </h2>
             <div class="w-20 h-1.5 bg-deuraligreen mx-auto rounded-full mb-6"></div>
@@ -222,8 +227,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {% for service in international_remittances %}
             <div
-                class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 {% if forloop.counter0|divisibleby:2 %}border-t-4 border-deuraligreen{% else %}border-t-4 border-bhanjyangred{% endif %} group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden service-card-enhanced scroll-reveal-scale"
-                style="animation-delay: {{ forloop.counter0|add:'0.1'|floatformat:1 }}s;">
+                class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 md:p-8 {% if forloop.counter0|divisibleby:2 %}border-t-4 border-deuraligreen{% else %}border-t-4 border-bhanjyangred{% endif %} group flex flex-col h-full transform hover:-translate-y-2 relative overflow-hidden service-card-enhanced"
+                data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 100 %}">
                 <!-- Card Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-300 rounded-2xl overflow-hidden">
                     {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
@@ -311,7 +316,7 @@
 
             <!-- Left: Title -->
             <div class="md:w-1/3">
-                <div class="sticky top-24">
+                <div class="sticky top-24" data-aos="fade-right">
                     <span
                         class="text-bhanjyangred font-bold tracking-widest uppercase text-sm mb-2 block">{% trans "Process" %}</span>
                     <h2 class="text-4xl md:text-5xl font-bold font-montserrat mb-6 leading-tight">
@@ -336,7 +341,7 @@
                 <div class="hidden md:block absolute left-8 top-8 bottom-8 w-0.5 timeline-line"></div>
 
                 <!-- Step 1 -->
-                <div class="flex gap-6 relative group">
+                <div class="flex gap-6 relative group" data-aos="fade-left">
                     <div
                         class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-deuraligreen shadow-lg z-10 group-hover:border-deuraligreen group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 relative">
                         {{ "1"|to_nepali_digits }}
@@ -355,7 +360,7 @@
                 </div>
 
                 <!-- Step 2 -->
-                        <div class="flex gap-6 relative group md:ml-12 scroll-reveal" style="animation-delay: 0.2s;">
+                        <div class="flex gap-6 relative group md:ml-12" data-aos="fade-left" data-aos-delay="100">
                     <div
                         class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-bhanjyangred shadow-lg z-10 group-hover:border-bhanjyangred group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 relative">
                         {{ "2"|to_nepali_digits }}
@@ -371,7 +376,7 @@
                 </div>
 
                 <!-- Step 3 -->
-                        <div class="flex gap-6 relative group md:ml-24 scroll-reveal" style="animation-delay: 0.4s;">
+                        <div class="flex gap-6 relative group md:ml-24" data-aos="fade-left" data-aos-delay="200">
                     <div
                         class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-xl font-bold text-gray-900 shadow-lg z-10 group-hover:border-gray-900 group-hover:scale-110 transition-all duration-300 relative">
                         {{ "3"|to_nepali_digits }}
@@ -389,7 +394,7 @@
 
                     <!-- Exchange Rate Widget Column -->
                     <div class="relative exchange-rate-widget">
-                        <div class="sticky top-24">
+                        <div class="sticky top-24" data-aos="fade-left" data-aos-delay="300">
                             <!-- Loading Spinner (hidden by default) -->
                             <div class="hidden exchange-rate-loading absolute inset-0 bg-green-800/90 rounded-2xl flex items-center justify-center z-20 backdrop-blur-sm">
                                 <div class="text-center">
@@ -557,11 +562,11 @@
     </div>
     
     <div class="container mx-auto px-4 text-center relative z-10 text-white">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
-        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat" data-aos="fade-up">{% trans "Your Trust, Our Responsibility" %}</h2>
+        <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
             {% trans "We are always ready to help with any remittance-related information." %}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
             <a href="tel:+97761561666"
                 class="px-10 py-5 bg-white text-deuraligreen rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-all flex items-center justify-center gap-3 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-700"
                 aria-label="{% trans 'Call us at' %} +97761561666">
@@ -580,8 +585,34 @@
 {% block extra_js %}
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <!-- Remittance Services JS -->
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
+
+<!-- Initialize AOS Animation Library -->
+<script>
+    // Initialize AOS Animation Library
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        }
+    });
+</script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
 <script type="application/ld+json">

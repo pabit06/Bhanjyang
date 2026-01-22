@@ -27,6 +27,8 @@
 <link rel="stylesheet" href="{% static 'about/css/about-animations.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock extra_css %}
 
 {% block content %}
@@ -55,15 +57,15 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/10 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl z-0"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <div class="glass-panel-dark inline-block p-8 md:p-12 rounded-3xl border border-white/20 shadow-2xl animate-fade-in-up">
-            <span class="inline-block text-white bg-bhanjyangred/80 backdrop-blur-sm font-semibold uppercase text-xs sm:text-sm mb-6 tracking-widest px-6 py-2 rounded-full shadow-lg">
+        <div class="glass-panel-dark inline-block p-8 md:p-12 rounded-3xl border border-white/20 shadow-2xl">
+            <span class="inline-block text-white bg-bhanjyangred/80 backdrop-blur-sm font-semibold uppercase text-xs sm:text-sm mb-6 tracking-widest px-6 py-2 rounded-full shadow-lg" data-aos="fade-down">
                 {% trans "Governance" %}
             </span>
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 text-white leading-tight">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 text-white leading-tight" data-aos="fade-up" data-aos-delay="100">
                 {% trans "Board of Directors" %}
             </h1>
-            <div class="w-32 h-1.5 bg-gradient-to-r from-deuraligreen to-bhanjyangred mx-auto rounded-full mb-8 shadow-glow"></div>
-            <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
+            <div class="w-32 h-1.5 bg-gradient-to-r from-deuraligreen to-bhanjyangred mx-auto rounded-full mb-8 shadow-glow" data-aos="fade-up" data-aos-delay="200"></div>
+            <p class="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-medium" data-aos="fade-up" data-aos-delay="300">
                 {% trans "Meet our elected leadership who guide our cooperative's vision and governance" %}
             </p>
         </div>
@@ -85,7 +87,7 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {% for committee in committees %}
             <div class="mb-16">
-                <div class="text-center mb-12">
+                <div class="text-center mb-12" data-aos="fade-up">
                     <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
                         {% trans "Committee" %}
                     </span>
@@ -106,7 +108,7 @@
                 </div>
                 
                 {% if committee.photo %}
-                <div class="mb-8 flex justify-center">
+                <div class="mb-8 flex justify-center" data-aos="fade-up" data-aos-delay="100">
                     <img src="{{ committee.photo.url }}" alt="{{ committee.name }}" 
                         class="rounded-2xl shadow-2xl max-w-4xl w-full h-auto object-cover" loading="lazy">
                 </div>
@@ -115,7 +117,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                     {% for membership in committee.memberships.all %}
                     {% if membership.is_active %}
-                    <div class="premium-card relative p-8 rounded-3xl shadow-xl border-t-4 border-deuraligreen text-center">
+                    <div class="premium-card relative p-8 rounded-3xl shadow-xl border-t-4 border-deuraligreen text-center" data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 50 %}">
                         <div class="relative w-40 h-40 mx-auto mb-6">
                             <div class="absolute -inset-2 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-full opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500"></div>
                             <img class="relative rounded-full w-full h-full object-cover ring-4 ring-deuraligreen/20 group-hover:ring-deuraligreen transition-all duration-300 shadow-xl" 
@@ -133,7 +135,7 @@
                 </div>
             </div>
         {% empty %}
-            <div class="text-center py-16">
+            <div class="text-center py-16" data-aos="fade-up">
                 <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
                     <i class="fas fa-users text-5xl text-gray-300 mb-4"></i>
                     <h3 class="text-2xl font-bold text-gray-900 mb-4 font-montserrat">{% trans "No Board Information Available" %}</h3>
@@ -152,6 +154,44 @@
 {% endblock content %}
 
 {% block extra_js %}
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<!-- Initialize AOS Animation Library -->
+<script>
+    // Initialize AOS Animation Library - Ensure it loads properly
+    function initAOS() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        } else {
+            // Retry if AOS not loaded yet
+            setTimeout(initAOS, 100);
+        }
+    }
+
+    // Try to initialize immediately
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAOS);
+    } else {
+        // DOM already loaded
+        initAOS();
+    }
+</script>
+
 <!-- Structured Data (JSON-LD) for SEO -->
 {% include 'about/partials/_board_structured_data.html' with committees=committees %}
 {% endblock extra_js %}
