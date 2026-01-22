@@ -6,12 +6,17 @@ This directory contains deployment guides and configuration for the Bhanjyang Co
 
 ```
 deployment/
-├── README.md                # This file
-├── production.md            # Production deployment guide
-├── docker.md                # Docker deployment
-├── nginx.md                 # Nginx configuration
-├── ssl.md                   # SSL/TLS setup
-└── monitoring.md            # Monitoring and logging
+├── README.md                           # This file
+├── BABAL_HOST_DEPLOYMENT_NEPALI.md    # Babal.host deployment guide (Nepali)
+├── BABAL_HOST_QUICK_GUIDE_NEPALI.md   # Babal.host quick guide (Nepali)
+├── DEPLOYMENT_GUIDE_NEPALI.md         # Complete VPS deployment guide (Nepali)
+├── QUICK_DEPLOYMENT_CHECKLIST_NEPALI.md # Quick checklist (Nepali)
+├── PRODUCTION_DEPLOYMENT_CHECKLIST.md  # Detailed production checklist
+├── production.md                       # Production deployment guide
+├── docker.md                           # Docker deployment
+├── nginx.md                            # Nginx configuration
+├── ssl.md                              # SSL/TLS setup
+└── monitoring.md                       # Monitoring and logging
 ```
 
 ## Deployment Options
@@ -35,10 +40,20 @@ deployment/
 
 ## Quick Start
 
-1. Read [production.md](./production.md) for production setup
-2. Configure [nginx.md](./nginx.md) for web server
-3. Set up [ssl.md](./ssl.md) for HTTPS
-4. Configure [monitoring.md](./monitoring.md) for logging
+### For Babal.host Users (बबल होस्ट)
+1. **Start here:** [BABAL_HOST_DEPLOYMENT_NEPALI.md](./BABAL_HOST_DEPLOYMENT_NEPALI.md) - Complete babal.host deployment guide in Nepali
+2. **Quick reference:** [BABAL_HOST_QUICK_GUIDE_NEPALI.md](./BABAL_HOST_QUICK_GUIDE_NEPALI.md) - Quick checklist for babal.host
+
+### For Nepali Speakers (नेपाली) - VPS/Server
+1. **Start here:** [DEPLOYMENT_GUIDE_NEPALI.md](./DEPLOYMENT_GUIDE_NEPALI.md) - Complete step-by-step guide in Nepali
+2. **Quick reference:** [QUICK_DEPLOYMENT_CHECKLIST_NEPALI.md](./QUICK_DEPLOYMENT_CHECKLIST_NEPALI.md) - Quick checklist
+
+### For English Speakers
+1. Read [PRODUCTION_DEPLOYMENT_CHECKLIST.md](./PRODUCTION_DEPLOYMENT_CHECKLIST.md) for detailed checklist
+2. Read [production.md](./production.md) for production setup
+3. Configure [nginx.md](./nginx.md) for web server
+4. Set up [ssl.md](./ssl.md) for HTTPS
+5. Configure [monitoring.md](./monitoring.md) for logging
 
 ## Prerequisites
 
