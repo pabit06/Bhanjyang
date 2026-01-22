@@ -176,9 +176,6 @@ apps/contact/
 ├── services.py              # ⚙️ CORE LOGIC: Email, Validation, Processing
 ├── urls.py                  # URL Routing
 ├── views.py                 # Class-Based Views (CBVs)
-├── management/
-│   └── commands/
-│       └── contact_analytics.py  # CLI Reporting Tool
 ├── migrations/              # Database State History
 ├── tasks.py                 # 🐇 Celery Async Tasks
 ├── templates/
