@@ -49,9 +49,9 @@ hero_slides = [
         'secondary_button_url': '/services/loan-calculator/',
     },
     {
-        'title': 'सहकारीको शक्ति - Remittance Services',
+        'title': 'Power of Cooperation - Remittance Services',
         'subtitle': 'Remittance Services',
-        'description': 'सदस्यको सशक्तिकरण र आर्थिक समृद्धि। Send money home safely and affordably with our trusted remittance partners including eSewa, Khalti, IME, and more.',
+        'description': 'Member empowerment and economic prosperity. Send money home safely and affordably with our trusted remittance partners including eSewa, Khalti, IME, and more.',
         'order': 3,
         'primary_button_text': 'Remittance Services',
         'primary_button_url': '/services/remittance/',
