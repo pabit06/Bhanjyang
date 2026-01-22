@@ -1,22 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 16:12+0545\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: .\apps\about\admin.py:37 .\apps\about\models.py:91
 #: .\apps\about\models.py:216 .\apps\about\models.py:362
 #: .\apps\about\models.py:462 .\apps\about\models.py:558
@@ -83,9 +64,9 @@ msgid ""
 "displayed in the \"Our Impact\" section on the home page.<br>Only statistics "
 "with <strong>Featured</strong> and <strong>Status=Published</strong> will be "
 "shown.<br>Maximum 4 statistics are displayed, ordered by the \"Display "
-"Order\" field.<br><br><strong>Examples:</strong><br>• Title: \"Active "
-"Members\", Value: \"10K+\", Unit: \"members\"<br>• Title: \"Years of "
-"Service\", Value: \"25+\", Unit: \"years\"<br>• Title: \"Total Savings\", "
+"Order\" field.<br><br><strong>Examples:</strong><br> Title: \"Active "
+"Members\", Value: \"10K+\", Unit: \"members\"<br> Title: \"Years of "
+"Service\", Value: \"25+\", Unit: \"years\"<br> Title: \"Total Savings\", "
 "Value: \"500\", Unit: \"Million NPR\""
 msgstr ""
 
@@ -95,9 +76,9 @@ msgstr ""
 
 #: .\apps\about\admin.py:391
 msgid ""
-"<strong>Icon:</strong> Use FontAwesome icon classes. Examples:<br>• fas fa-"
-"users (for members)<br>• fas fa-chart-line (for growth)<br>• fas fa-hand-"
-"holding-usd (for loans)<br>• fas fa-piggy-bank (for savings)<br>• fas fa-"
+"<strong>Icon:</strong> Use FontAwesome icon classes. Examples:<br> fas fa-"
+"users (for members)<br> fas fa-chart-line (for growth)<br> fas fa-hand-"
+"holding-usd (for loans)<br> fas fa-piggy-bank (for savings)<br> fas fa-"
 "calendar-check (for years)<br><br><strong>Color:</strong> Choose "
 "\"deuraligreen\" (green) or \"bhanjyangred\" (red) for border and icon "
 "colors."
@@ -119,7 +100,7 @@ msgid "Set status to Published to make this message visible on the site."
 msgstr ""
 
 #: .\apps\about\admin.py:928
-msgid "RTI Act 2064 - Information Officer (सूचना अधिकारी)"
+msgid "RTI Act 2064 - Information Officer ( )"
 msgstr ""
 
 #: .\apps\about\admin.py:931
@@ -788,7 +769,7 @@ msgid "Qualifications"
 msgstr ""
 
 #: .\apps\about\models.py:817
-msgid "Information Officer (सूचना अधिकारी)"
+msgid "Information Officer ( )"
 msgstr ""
 
 #: .\apps\about\models.py:823

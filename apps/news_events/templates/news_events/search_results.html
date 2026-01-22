@@ -2,13 +2,14 @@
 {% load static %}
 {% load i18n %}
 {% load nepalidatetime %}
+{% load nepali_digits %}
 
-{% block title %}{% trans "Search Results" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "Search Results" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{% trans "Search results for news articles and events from Bhanjyang Cooperative." %}{% endblock meta_description %}
-{% block meta_keywords %}Search Results, News, Events, Bhanjyang Cooperative, खोज{% endblock meta_keywords %}
+{% block meta_keywords %}{% trans "Search Results" %}, {% trans "News" %}, {% trans "Events" %}, {% trans "Bhanjyang Cooperative" %}, {% trans "Search" %}{% endblock meta_keywords %}
 
-{% block og_title %}{% trans "Search Results" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{% trans "Search Results" %} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{% trans "Search results for news articles and events from Bhanjyang Cooperative." %}{% endblock og_description %}
 
@@ -34,7 +35,7 @@
         </div>
         <div class="container mx-auto text-center z-10 relative">
             <h1 id="main-content" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-montserrat mb-4 text-bhanjyangred drop-shadow-lg">
-                <span class="text-gray-800">खोज</span> <span class="text-bhanjyangred">नतिजा</span>
+                {% blocktrans %}<span class="text-gray-800">Search</span> <span class="text-bhanjyangred">Results</span>{% endblocktrans %}
             </h1>
             <p class="text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto text-gray-700">
                 {% if query %}
@@ -89,7 +90,7 @@
                     {% if results %}
                         <div class="mb-8">
                             <p class="text-gray-600">
-                                {% trans "Found" %} {{ results|length }} {% trans "result" %}{{ results|length|pluralize }} {% trans "for" %} "{{ query }}"
+                                {% trans "Found" %} {{ results|length|to_nepali_digits }} {% trans "result" %}{{ results|length|pluralize }} {% trans "for" %} "{{ query }}"
                             </p>
                         </div>
 
@@ -141,13 +142,13 @@
                                                     </span>
                                                     <span class="flex items-center">
                                                         <i class="fas fa-eye mr-1"></i>
-                                                        {{ result.view_count }}
+                                                        {{ result.view_count|to_nepali_digits }}
                                                     </span>
                                                 </div>
                                                 {% if result.content_type == 'article' %}
                                                 <span class="flex items-center">
                                                     <i class="fas fa-clock mr-1"></i>
-                                                    {{ result.read_time }} {% trans "min read" %}
+                                                    {{ result.read_time|to_nepali_digits }} {% trans "min read" %}
                                                 </span>
                                                 {% endif %}
                                             </div>

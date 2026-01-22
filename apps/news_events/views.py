@@ -47,12 +47,12 @@ class NewsHomeView(NepaliLanguageMixin, View):
             context['subscription_form'] = SubscriptionForm()
             context['breadcrumbs'] = [
                 {'name': _('Home'), 'url': '/'},
-                {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'}
+                {'name': _('News & Events'), 'url': '/news-events/'}
             ]
             return render(request, 'news_events/home.html', context)
         except Exception as e:
             logger.error(f"Error loading news home page: {e}", exc_info=True)
-            messages.error(request, _("समाचार पृष्ठ लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to load news page. Please try again later."))
             # Try to get basic data even on error
             try:
                 from .models import NewsArticle, Event, Category
@@ -79,7 +79,7 @@ class NewsHomeView(NepaliLanguageMixin, View):
                 'subscription_form': SubscriptionForm(),
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'}
                 ]
             })
 
@@ -92,7 +92,7 @@ class ArticleDetailView(NepaliLanguageMixin, View):
             data = NewsService.get_article_detail(slug, request.user, request)
             
             if data.get('login_required'):
-                messages.warning(request, _("यो लेख हेर्नको लागि कृपया लगइन गर्नुहोस्।"))
+                messages.warning(request, _("Please login to view this article."))
                 return redirect('auth:login')
                 
             context = {
@@ -102,7 +102,7 @@ class ArticleDetailView(NepaliLanguageMixin, View):
                 'comment_form': CommentForm(),
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
+                    {'name': _('News & Events'), 'url': '/news-events/'},
                     {'name': data['article'].title, 'url': data['article'].get_absolute_url()}
                 ]
             }
@@ -121,14 +121,14 @@ class ArticleDetailView(NepaliLanguageMixin, View):
                 'recent_articles': recent_articles,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'लेख फेला परेन', 'url': '#'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Article Not Found'), 'url': '#'}
                 ]
             }
             return render(request, 'news_events/article_not_found.html', context, status=404)
         except Exception as e:
             logger.error(f"Error loading article detail for slug '{slug}': {e}", exc_info=True)
-            messages.error(request, _("लेख लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to load article. Please try again later."))
             return redirect('news_events:article-list')
 
 class EventDetailView(NepaliLanguageMixin, View):
@@ -143,8 +143,8 @@ class EventDetailView(NepaliLanguageMixin, View):
                 'related_events': data['related_events'],
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'कार्यक्रमहरू', 'url': '/news-events/events/'},
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Events'), 'url': '/news-events/events/'},
                     {'name': data['event'].title, 'url': data['event'].get_absolute_url()}
                 ]
             }
@@ -163,14 +163,14 @@ class EventDetailView(NepaliLanguageMixin, View):
                 'recent_events': recent_events,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'कार्यक्रम फेला परेन', 'url': '#'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Event Not Found'), 'url': '#'}
                 ]
             }
             return render(request, 'news_events/event_not_found.html', context, status=404)
         except Exception as e:
             logger.error(f"Error loading event detail for slug '{slug}': {e}", exc_info=True)
-            messages.error(request, _("कार्यक्रम लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to load event. Please try again later."))
             return redirect('news_events:event-list')
 
 class ArticleListView(NepaliLanguageMixin, View):
@@ -195,34 +195,34 @@ class ArticleListView(NepaliLanguageMixin, View):
                     category = Category.objects.get(slug=category_slug, is_active=True)
                     context['breadcrumbs'] = [
                         {'name': _('Home'), 'url': '/'},
-                        {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                        {'name': 'सबै समाचार', 'url': '/news-events/articles/'},
+                        {'name': _('News & Events'), 'url': '/news-events/'},
+                        {'name': _('News Articles'), 'url': '/news-events/articles/'},
                         {'name': category.name, 'url': category.get_absolute_url()}
                     ]
                 except Category.DoesNotExist:
                     # Invalid category, use default breadcrumbs
                     context['breadcrumbs'] = [
                         {'name': _('Home'), 'url': '/'},
-                        {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                        {'name': 'सबै समाचार', 'url': '/news-events/articles/'}
+                        {'name': _('News & Events'), 'url': '/news-events/'},
+                        {'name': _('News Articles'), 'url': '/news-events/articles/'}
                     ]
             else:
                 context['breadcrumbs'] = [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'सबै समाचार', 'url': '/news-events/articles/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('News Articles'), 'url': '/news-events/articles/'}
                 ]
             
             return render(request, 'news_events/article_list.html', context)
         except Exception as e:
             logger.error(f"Error loading article list: {e}", exc_info=True)
-            messages.error(request, _("लेखहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to load articles. Please try again later."))
             return render(request, 'news_events/article_list.html', {
                 'page_obj': None,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'सबै समाचार', 'url': '/news-events/articles/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('News Articles'), 'url': '/news-events/articles/'}
                 ]
             })
 
@@ -236,19 +236,19 @@ class EventListView(NepaliLanguageMixin, View):
             context = data
             context['breadcrumbs'] = [
                 {'name': _('Home'), 'url': '/'},
-                {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                {'name': 'कार्यक्रमहरू', 'url': '/news-events/events/'}
+                {'name': _('News & Events'), 'url': '/news-events/'},
+                {'name': _('Events'), 'url': '/news-events/events/'}
             ]
             return render(request, 'news_events/event_list.html', context)
         except Exception as e:
             logger.error(f"Error loading event list: {e}", exc_info=True)
-            messages.error(request, _("कार्यक्रमहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to load events. Please try again later."))
             return render(request, 'news_events/event_list.html', {
                 'page_obj': None,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'कार्यक्रमहरू', 'url': '/news-events/events/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Events'), 'url': '/news-events/events/'}
                 ]
             })
 
@@ -271,20 +271,20 @@ class NoticeListView(NepaliLanguageMixin, View):
                 'page_obj': page_obj,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Notices'), 'url': '/news-events/notices/'}
                 ]
             }
             return render(request, 'news_events/notice_list.html', context)
         except Exception as e:
             logger.error(f"Error loading notice list: {e}", exc_info=True)
-            messages.error(request, _("सूचनाहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to load notices. Please try again later."))
             return render(request, 'news_events/notice_list.html', {
                 'page_obj': None,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Notices'), 'url': '/news-events/notices/'}
                 ]
             })
 
@@ -301,8 +301,8 @@ class NoticeDetailView(NepaliLanguageMixin, View):
                 'notice': notice,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'},
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Notices'), 'url': '/news-events/notices/'},
                     {'name': notice.title, 'url': notice.get_absolute_url()}
                 ]
             }
@@ -321,15 +321,15 @@ class NoticeDetailView(NepaliLanguageMixin, View):
                 'recent_notices': recent_notices,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'सूचनाहरू', 'url': '/news-events/notices/'},
-                    {'name': 'सूचना फेला परेन', 'url': '#'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Notices'), 'url': '/news-events/notices/'},
+                    {'name': _('Notice Not Found'), 'url': '#'}
                 ]
             }
             return render(request, 'news_events/notice_not_found.html', context, status=404)
         except Exception as e:
             logger.error(f"Error loading notice detail for slug '{slug}': {e}", exc_info=True)
-            messages.error(request, _("सूचना लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to load notice. Please try again later."))
             return redirect('news_events:notice-list')
 
 class SubscriptionView(NepaliLanguageMixin, View):
@@ -342,7 +342,7 @@ class SubscriptionView(NepaliLanguageMixin, View):
             success, message = InteractionService.handle_subscription(form.cleaned_data, request)
             return JsonResponse({'success': success, 'message': message})
         else:
-            error = form.errors.get('email', ['Invalid email.'])[0]
+            error = form.errors.get('email', [_('Invalid email.')])[0]
             # Log failure via specialized service if strict logging is needed,
             # but InteractionService logs inside handle_subscription only.
             # Here we might want to log invalid form attempts too.
@@ -361,7 +361,7 @@ class CommentSubmissionView(NepaliLanguageMixin, View):
             )
             return JsonResponse({'success': success, 'message': message})
         else:
-            return JsonResponse({'success': False, 'message': 'Invalid comment data.'})
+            return JsonResponse({'success': False, 'message': _('Invalid comment data.')})
 
 class ArticleShareView(NepaliLanguageMixin, View):
     """Handle article sharing analytics"""
@@ -381,8 +381,8 @@ class SearchView(NepaliLanguageMixin, View):
                 'form': form,
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'खोज', 'url': '/news-events/search/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Search'), 'url': '/news-events/search/'}
                 ]
             }
             
@@ -394,13 +394,13 @@ class SearchView(NepaliLanguageMixin, View):
             return render(request, 'news_events/search.html', context)
         except Exception as e:
             logger.error(f"Error performing search: {e}", exc_info=True)
-            messages.error(request, _("खोज गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to perform search. Please try again later."))
             return render(request, 'news_events/search.html', {
                 'form': ContentSearchForm(),
                 'breadcrumbs': [
                     {'name': _('Home'), 'url': '/'},
-                    {'name': 'समाचार र कार्यक्रमहरू', 'url': '/news-events/'},
-                    {'name': 'खोज', 'url': '/news-events/search/'}
+                    {'name': _('News & Events'), 'url': '/news-events/'},
+                    {'name': _('Search'), 'url': '/news-events/search/'}
                 ]
             })
 
@@ -429,14 +429,14 @@ class SubscriptionConfirmationView(LoginRequiredMixin, NepaliLanguageMixin, View
                 subscriber.is_confirmed = True
                 subscriber.confirmed_at = timezone.now()
                 subscriber.save()
-                messages.success(request, _("तपाईंको सदस्यता पुष्टि भयो! धन्यवाद।"))
+                messages.success(request, _("Your subscription has been confirmed! Thank you."))
             else:
-                messages.info(request, _("तपाईंको सदस्यता पहिले नै पुष्टि भइसकेको छ।"))
+                messages.info(request, _("Your subscription has already been confirmed."))
         except Subscriber.DoesNotExist:
-            messages.error(request, _("अवैध पुष्टिकरण टोकन।"))
+            messages.error(request, _("Invalid confirmation token."))
         except Exception as e:
             logger.error(f"Error confirming subscription: {e}", exc_info=True)
-            messages.error(request, _("सदस्यता पुष्टि गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to confirm subscription. Please try again later."))
         return redirect('news_events:home')
 
 class UnsubscribeView(LoginRequiredMixin, NepaliLanguageMixin, View):
@@ -447,12 +447,12 @@ class UnsubscribeView(LoginRequiredMixin, NepaliLanguageMixin, View):
             subscriber = Subscriber.objects.get(confirmation_token=token)
             subscriber.status = Subscriber.Status.UNSUBSCRIBED
             subscriber.save()
-            messages.success(request, _("तपाईंको सदस्यता रद्द भयो।"))
+            messages.success(request, _("Your subscription has been cancelled."))
         except Subscriber.DoesNotExist:
-            messages.error(request, _("अवैध टोकन।"))
+            messages.error(request, _("Invalid token."))
         except Exception as e:
             logger.error(f"Error unsubscribing: {e}", exc_info=True)
-            messages.error(request, _("सदस्यता रद्द गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"))
+            messages.error(request, _("Failed to cancel subscription. Please try again later."))
         return redirect('news_events:home')
 
 class RSSFeedView(View):
@@ -474,7 +474,7 @@ class RSSFeedView(View):
                 'articles': articles,
                 'events': events,
                 'site_url': getattr(settings, 'SITE_URL', request.build_absolute_uri('/')),
-                'site_name': getattr(settings, 'SITE_NAME', 'Bhanjyang Cooperative'),
+                'site_name': getattr(settings, 'SITE_NAME', _('Bhanjyang Cooperative')),
             }
             response = render(request, 'news_events/rss.xml', context)
             response['Content-Type'] = 'application/rss+xml; charset=utf-8'
@@ -486,7 +486,7 @@ class RSSFeedView(View):
                 'articles': [],
                 'events': [],
                 'site_url': getattr(settings, 'SITE_URL', request.build_absolute_uri('/')),
-                'site_name': getattr(settings, 'SITE_NAME', 'Bhanjyang Cooperative'),
+                'site_name': getattr(settings, 'SITE_NAME', _('Bhanjyang Cooperative')),
             }
             response = render(request, 'news_events/rss.xml', context)
             response['Content-Type'] = 'application/rss+xml; charset=utf-8'

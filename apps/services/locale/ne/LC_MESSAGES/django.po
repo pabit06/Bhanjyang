@@ -1,52 +1,32 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 16:28+0545\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ne\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 #: .\apps\services\apps.py:15
 msgid "Financial Services"
-msgstr "वित्तीय सेवाहरू"
+msgstr ""
 
 #: .\apps\services\forms.py:33
 msgid "Select a Loan Product"
-msgstr "ऋण योजना छान्नुहोस्"
+msgstr ""
 
 #: .\apps\services\forms.py:34
 msgid "Loan Product"
-msgstr "ऋण योजना"
+msgstr ""
 
 #: .\apps\services\forms.py:39
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:20
 #: .\apps\services\templates\services\shared\loan_calculator.html:50
 msgid "Loan Amount (NPR)"
-msgstr "ऋण रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\forms.py:42
 msgid "e.g., 500000"
-msgstr "जस्तै, ५०००००"
+msgstr ""
 
 #: .\apps\services\forms.py:48
 msgid "Loan Tenure (in Years)"
-msgstr "ऋण अवधि (वर्षमा)"
+msgstr ""
 
 #: .\apps\services\forms.py:51
 msgid "e.g., 5"
-msgstr "जस्तै, ५"
+msgstr ""
 
 #: .\apps\services\forms.py:55
 #: .\apps\services\templates\services\loan\loan_list.html:145
@@ -56,7 +36,7 @@ msgstr "जस्तै, ५"
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:60
 #: .\apps\services\templates\services\shared\loan_calculator.html:67
 msgid "Monthly"
-msgstr "मासिक"
+msgstr ""
 
 #: .\apps\services\forms.py:55
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:41
@@ -64,7 +44,7 @@ msgstr "मासिक"
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:61
 #: .\apps\services\templates\services\shared\loan_calculator.html:68
 msgid "Quarterly"
-msgstr "त्रैमासिक"
+msgstr ""
 
 #: .\apps\services\forms.py:56
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:37
@@ -73,84 +53,84 @@ msgstr "त्रैमासिक"
 #: .\apps\services\templates\services\shared\comparison.html:264
 #: .\apps\services\templates\services\shared\loan_calculator.html:65
 msgid "Payment Frequency"
-msgstr "भुक्तानी आवृत्ति"
+msgstr ""
 
 #: .\apps\services\forms.py:81
 msgid "Select a Savings Product"
-msgstr "बचत योजना छान्नुहोस्"
+msgstr ""
 
 #: .\apps\services\forms.py:82
 msgid "Savings Product"
-msgstr "बचत योजना"
+msgstr ""
 
 #: .\apps\services\forms.py:87
 #: .\apps\services\templates\services\savings\savings_detail.html:160
 #: .\apps\services\templates\services\shared\savings_calculator.html:42
 msgid "Monthly Deposit (NPR)"
-msgstr "मासिक जम्मा (नेरु)"
+msgstr ""
 
 #: .\apps\services\forms.py:88
 msgid "e.g., 10000"
-msgstr "जस्तै, १००००"
+msgstr ""
 
 #: .\apps\services\forms.py:92
 msgid "Savings Period (in Years)"
-msgstr "बचत अवधि (वर्षमा)"
+msgstr ""
 
 #: .\apps\services\forms.py:93
 msgid "e.g., 10"
-msgstr "जस्तै, १०"
+msgstr ""
 
 #: .\apps\services\forms.py:100
 msgid "Select a Deposit Scheme"
-msgstr "निक्षेप योजना छान्नुहोस्"
+msgstr ""
 
 #: .\apps\services\forms.py:101
 msgid "Fixed Deposit Scheme"
-msgstr "मुद्दती निक्षेप योजना"
+msgstr ""
 
 #: .\apps\services\forms.py:106
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:157
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:42
 msgid "Deposit Amount (NPR)"
-msgstr "निक्षेप रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\forms.py:107
 msgid "e.g., 100000"
-msgstr "जस्तै, १०००००"
+msgstr ""
 
 #: .\apps\services\forms.py:132
 msgid "I agree to the Terms and Conditions and Privacy Policy."
-msgstr "म नियम तथा सर्तहरू र गोपनीयता नीतिमा सहमत छु।"
+msgstr ""
 
 #: .\apps\services\forms.py:143
 msgid "Your Full Name"
-msgstr "तपाईंको पूरा नाम"
+msgstr ""
 
 #: .\apps\services\forms.py:144
 msgid "your.email@example.com"
-msgstr "तपाईंको.इमेल@example.com"
+msgstr ""
 
 #: .\apps\services\forms.py:145
 msgid "+977-98XXXXXXXX"
-msgstr "+९७७-९८XXXXXXXX"
+msgstr ""
 
 #: .\apps\services\forms.py:146
 msgid "Your Full Address"
-msgstr "तपाईंको पूरा ठेगाना"
+msgstr ""
 
 #: .\apps\services\forms.py:147
 msgid "Optional: Any additional details..."
-msgstr "ऐच्छिक: कुनै थप विवरण..."
+msgstr ""
 
 #: .\apps\services\forms.py:188
 msgid "Please enter a valid Nepali mobile number, e.g., +977-98..."
-msgstr "कृपया मान्य नेपाली मोबाइल नम्बर प्रविष्ट गर्नुहोस्, जस्तै, +९७७-९८..."
+msgstr ""
 
 #: .\apps\services\forms.py:205
 #: .\apps\services\templates\services\shared\comparison.html:53
 msgid "Select Service Type"
-msgstr "सेवा प्रकार छान्नुहोस्"
+msgstr ""
 
 #: .\apps\services\forms.py:206 .\apps\services\forms.py:255
 #: .\apps\services\models.py:89
@@ -162,7 +142,7 @@ msgstr "सेवा प्रकार छान्नुहोस्"
 #: .\apps\services\templates\services\shared\comparison.html:54
 #: .\apps\services\views.py:82
 msgid "Savings Accounts"
-msgstr "बचत खाताहरू"
+msgstr ""
 
 #: .\apps\services\forms.py:207 .\apps\services\forms.py:256
 #: .\apps\services\templates\services\loan\loan_list.html:5
@@ -172,271 +152,271 @@ msgstr "बचत खाताहरू"
 #: .\apps\services\templates\services\shared\comparison.html:55
 #: .\apps\services\views.py:139
 msgid "Loan Services"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\forms.py:208 .\apps\services\forms.py:257
 #: .\apps\services\models.py:122
 #: .\apps\services\templates\services\shared\comparison.html:56
 msgid "Fixed Deposits"
-msgstr "मुद्दती निक्षेप"
+msgstr ""
 
 #: .\apps\services\forms.py:210 .\apps\services\models.py:269
 #: .\apps\services\models.py:515 .\apps\services\models.py:554
 #: .\apps\services\templates\services\remittance\remittance_detail.html:550
 #: .\apps\services\templates\services\shared\comparison.html:49
 msgid "Service Type"
-msgstr "सेवा प्रकार"
+msgstr ""
 
 #: .\apps\services\forms.py:214
 msgid "Select Services to Compare"
-msgstr "तुलना गर्न सेवाहरू छान्नुहोस्"
+msgstr ""
 
 #: .\apps\services\forms.py:239
 msgid "Please select between 2 and 4 services to compare."
-msgstr "तुलनाको लागि कृपया २ देखि ४ सेवाहरू छान्नुहोस्।"
+msgstr ""
 
 #: .\apps\services\forms.py:248
 msgid "Search by name or keyword..."
-msgstr "नाम वा शब्दबाट खोज्नुहोस्..."
+msgstr ""
 
 #: .\apps\services\forms.py:254
 msgid "All Service Types"
-msgstr "सबै सेवा प्रकारहरू"
+msgstr ""
 
 #: .\apps\services\forms.py:263
 msgid "Min Rate (%)"
-msgstr "न्यूनतम दर (%)"
+msgstr ""
 
 #: .\apps\services\forms.py:267
 msgid "Show Featured Only"
-msgstr "विशेष मात्र देखाउनुहोस्"
+msgstr ""
 
 #: .\apps\services\forms.py:277
 msgid "Your Age"
-msgstr "तपाईंको उमेर"
+msgstr ""
 
 #: .\apps\services\forms.py:278
 msgid "e.g., 35"
-msgstr "जस्तै, ३५"
+msgstr ""
 
 #: .\apps\services\forms.py:281
 msgid "Your Monthly Income (NPR)"
-msgstr "तपाईंको मासिक आम्दानी (नेरु)"
+msgstr ""
 
 #: .\apps\services\forms.py:282
 msgid "e.g., 75000"
-msgstr "जस्तै, ७५०००"
+msgstr ""
 
 #: .\apps\services\forms.py:285
 msgid "What are your financial goals? (Select multiple)"
-msgstr "तपाईंको वित्तीय लक्ष्यहरू के हुन्? (एक भन्दा बढी छान्न सकिन्छ)"
+msgstr ""
 
 #: .\apps\services\forms.py:287
 msgid "Buy a House or Land"
-msgstr "घर वा जग्गा खरिद"
+msgstr ""
 
 #: .\apps\services\forms.py:288
 msgid "Fund Education"
-msgstr "शिक्षा लगानी"
+msgstr ""
 
 #: .\apps\services\forms.py:289
 msgid "Start or Grow a Business"
-msgstr "व्यापार सुरु वा विस्तार"
+msgstr ""
 
 #: .\apps\services\forms.py:290
 msgid "Purchase a Vehicle"
-msgstr "सवारी साधन खरिद"
+msgstr ""
 
 #: .\apps\services\forms.py:291
 msgid "Save for Retirement"
-msgstr "सेवानिवृत्तिको लागि बचत"
+msgstr ""
 
 #: .\apps\services\forms.py:296
 msgid "Your Risk Tolerance"
-msgstr "तपाईंको जोखिम क्षमता"
+msgstr ""
 
 #: .\apps\services\forms.py:298
 msgid "Conservative (I prefer guaranteed returns)"
-msgstr "रूढिवादी (म सुनिश्चित प्रतिफल रुचाउँछु)"
+msgstr ""
 
 #: .\apps\services\forms.py:299
 msgid "Moderate (I can take some risk for better returns)"
-msgstr "मध्यम (म राम्रो प्रतिफलको लागि केही जोखिम लिन सक्छु)"
+msgstr ""
 
 #: .\apps\services\forms.py:300
 msgid "Aggressive (I aim for high growth, even with higher risk)"
-msgstr "आक्रामक (म उच्च वृद्धिको लक्ष्य राख्छु, उच्च जोखिम भए पनि)"
+msgstr ""
 
 #: .\apps\services\models.py:17
 msgid "English Name"
-msgstr "अंग्रेजी नाम"
+msgstr ""
 
 #: .\apps\services\models.py:18
 msgid "Nepali Name"
-msgstr "नेपाली नाम"
+msgstr ""
 
 #: .\apps\services\models.py:19
 msgid "A unique, URL-friendly identifier. Auto-generated if left blank."
-msgstr "अद्वितीय URL-मैत्री पहिचानकर्ता। खाली छोडिएमा स्वचालित रूपमा सिर्जना हुनेछ।"
+msgstr ""
 
 #: .\apps\services\models.py:20
 msgid "Description"
-msgstr "विवरण"
+msgstr ""
 
 #: .\apps\services\models.py:21
 msgid "Icon Class (e.g., 'fas fa-piggy-bank')"
-msgstr "आइकन क्लास (जस्तै, 'fas fa-piggy-bank')"
+msgstr ""
 
 #: .\apps\services\models.py:22
 msgid "Color Theme"
-msgstr "रङ थिम"
+msgstr ""
 
 #: .\apps\services\models.py:22
 msgid "Tailwind CSS color name for branding."
-msgstr "ब्रान्डिङको लागि टेलविन्ड CSS रङको नाम।"
+msgstr ""
 
 #: .\apps\services\models.py:23
 msgid "Featured Product"
-msgstr "विशेष उत्पादन"
+msgstr ""
 
 #: .\apps\services\models.py:23
 msgid "Featured products appear prominently on the site."
-msgstr "विशेष उत्पादनहरू साइटमा प्रमुख रूपमा देखिन्छन्।"
+msgstr ""
 
 #: .\apps\services\models.py:24 .\apps\services\models.py:245
 #: .\apps\services\models.py:416
 #: .\apps\services\templates\services\savings\savings_detail.html:264
 msgid "Active"
-msgstr "सक्रिय"
+msgstr ""
 
 #: .\apps\services\models.py:24
 msgid "Only active services are visible to users."
-msgstr "केवल सक्रिय सेवाहरू प्रयोगकर्ताहरूलाई देखिन्छन्।"
+msgstr ""
 
 #: .\apps\services\models.py:62
-msgid "Regular Savings (नियमित बचत)"
-msgstr "नियमित बचत"
+msgid "Regular Savings ( )"
+msgstr ""
 
 #: .\apps\services\models.py:63
-msgid "Optional Savings (एच्छिक बचत)"
-msgstr "ऐच्छिक बचत"
+msgid "Optional Savings ( )"
+msgstr ""
 
 #: .\apps\services\models.py:64
-msgid "Recurring Savings (क्रमिक बचत)"
-msgstr "क्रमिक बचत"
+msgid "Recurring Savings ( )"
+msgstr ""
 
 #: .\apps\services\models.py:68
 msgid "General Savings"
-msgstr "साधारण बचत"
+msgstr ""
 
 #: .\apps\services\models.py:68
 msgid "Daily Savings"
-msgstr "दैनिक बचत"
+msgstr ""
 
 #: .\apps\services\models.py:69
 msgid "Institutional Savings"
-msgstr "संस्थागत बचत"
+msgstr ""
 
 #: .\apps\services\models.py:69
 msgid "Child Savings"
-msgstr "बाल बचत"
+msgstr ""
 
 #: .\apps\services\models.py:70
 msgid "Senior Citizen Savings"
-msgstr "ज्येष्ठ नागरिक बचत"
+msgstr ""
 
 #: .\apps\services\models.py:70
 msgid "Remit Savings"
-msgstr "रेमिट बचत"
+msgstr ""
 
 #: .\apps\services\models.py:71
 msgid "Insurance Savings"
-msgstr "बीमा बचत"
+msgstr ""
 
 #: .\apps\services\models.py:71
 msgid "Monthly Savings"
-msgstr "मासिक बचत"
+msgstr ""
 
 #: .\apps\services\models.py:72
 msgid "Regular Savings"
-msgstr "नियमित बचत"
+msgstr ""
 
 #: .\apps\services\models.py:72
 msgid "Recurring Savings"
-msgstr "क्रमिक बचत"
+msgstr ""
 
 #: .\apps\services\models.py:75
 msgid "Category"
-msgstr "श्रेणी"
+msgstr ""
 
 #: .\apps\services\models.py:76
 #: .\apps\services\templates\services\savings\savings_detail.html:255
 #: .\apps\services\templates\services\savings\savings_list.html:225
 msgid "Account Type"
-msgstr "खाता प्रकार"
+msgstr ""
 
 #: .\apps\services\models.py:79 .\apps\services\models.py:114
 msgid "Interest Rate (%)"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\models.py:79
 msgid "Annual interest rate."
-msgstr "वार्षिक ब्याज दर।"
+msgstr ""
 
 #: .\apps\services\models.py:83
 msgid "Minimum Balance (NPR)"
-msgstr "न्यूनतम मौज्दात (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:83
 msgid "Required minimum balance to maintain."
-msgstr "कायम राख्नुपर्ने आवश्यक न्यूनतम मौज्दात।"
+msgstr ""
 
 #: .\apps\services\models.py:85 .\apps\services\models.py:516
 #: .\apps\services\templates\services\digital\digital_detail.html:130
 #: .\apps\services\templates\services\savings\savings_detail.html:138
 #: .\apps\services\templates\services\savings\savings_list.html:234
 msgid "Key Features"
-msgstr "मुख्य विशेषताहरू"
+msgstr ""
 
 #: .\apps\services\models.py:85 .\apps\services\models.py:516
 msgid "List key features, one per line."
-msgstr "मुख्य विशेषताहरू सूचीकृत गर्नुहोस्, प्रति लाइन एक।"
+msgstr ""
 
 #: .\apps\services\models.py:88
 msgid "Savings Account"
-msgstr "बचत खाता"
+msgstr ""
 
 #: .\apps\services\models.py:109
 msgid "3 Months"
-msgstr "३ महिना"
+msgstr ""
 
 #: .\apps\services\models.py:109
 msgid "6 Months"
-msgstr "६ महिना"
+msgstr ""
 
 #: .\apps\services\models.py:109
 msgid "1 Year"
-msgstr "१ वर्ष"
+msgstr ""
 
 #: .\apps\services\models.py:109
 msgid "2 Years"
-msgstr "२ वर्ष"
+msgstr ""
 
 #: .\apps\services\models.py:109
 msgid "3 Years"
-msgstr "३ वर्ष"
+msgstr ""
 
 #: .\apps\services\models.py:110
 msgid "Monthly Payout"
-msgstr "मासिक भुक्तानी"
+msgstr ""
 
 #: .\apps\services\models.py:110
 msgid "Quarterly Payout"
-msgstr "त्रैमासिक भुक्तानी"
+msgstr ""
 
 #: .\apps\services\models.py:110
 msgid "Maturity Payout"
-msgstr "परिपक्वता भुक्तानी"
+msgstr ""
 
 #: .\apps\services\models.py:112
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:88
@@ -445,30 +425,30 @@ msgstr "परिपक्वता भुक्तानी"
 #: .\apps\services\templates\services\savings\savings_list.html:334
 #: .\apps\services\templates\services\shared\comparison.html:262
 msgid "Duration"
-msgstr "अवधि"
+msgstr ""
 
 #: .\apps\services\models.py:113
 msgid "Interest Payout"
-msgstr "ब्याज भुक्तानी"
+msgstr ""
 
 #: .\apps\services\models.py:115
 msgid "Minimum Amount (NPR)"
-msgstr "न्यूनतम रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:116
 msgid "Maximum Amount (NPR)"
-msgstr "अधिकतम रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:117 .\apps\services\models.py:168
 #: .\apps\services\templates\services\loan\partials\_loan_details.html:34
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:160
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:135
 msgid "Benefits"
-msgstr "फाइदाहरू"
+msgstr ""
 
 #: .\apps\services\models.py:117 .\apps\services\models.py:168
 msgid "List key benefits, one per line."
-msgstr "मुख्य फाइदाहरू सूचीकृत गर्नुहोस्, प्रति लाइन एक।"
+msgstr ""
 
 #: .\apps\services\models.py:121
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:6
@@ -478,210 +458,209 @@ msgstr "मुख्य फाइदाहरू सूचीकृत गर्
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:392
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:496
 msgid "Fixed Deposit"
-msgstr "मुद्दती निक्षेप"
+msgstr ""
 
 #: .\apps\services\models.py:140
 msgid "Business Loan"
-msgstr "व्यापार ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:140
 msgid "Agricultural Loan"
-msgstr "कृषि ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:141
 msgid "Vehicle Loan"
-msgstr "सवारी ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:141
 msgid "Foreign Employment Loan"
-msgstr "वैदेशिक रोजगार ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:142
 msgid "Household Loan"
-msgstr "घरायसी ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:142
 msgid "House Construction Loan"
-msgstr "घर निर्माण ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:143
 msgid "Home Loan"
-msgstr "आवास ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:143
 msgid "Land Purchase Loan"
-msgstr "जग्गा खरिद ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:144
 msgid "Education Loan"
-msgstr "शिक्षा ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:144
 msgid "Personal Loan"
-msgstr "व्यक्तिगत ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:148
-msgid "Monthly (मासिक)"
-msgstr "मासिक"
+msgid "Monthly ()"
+msgstr ""
 
 #: .\apps\services\models.py:149
-msgid "Quarterly (त्रैमासिक)"
-msgstr "त्रैमासिक"
+msgid "Quarterly ()"
+msgstr ""
 
 #: .\apps\services\models.py:150
-msgid "Seasonal (मौसमी)"
-msgstr "मौसमी"
+msgid "Seasonal ()"
+msgstr ""
 
 #: .\apps\services\models.py:153
 msgid "Loan Category"
-msgstr "ऋण वर्ग"
+msgstr ""
 
 #: .\apps\services\models.py:156
 msgid "Monthly Interest Rate (%)"
-msgstr "मासिक ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\models.py:157
-msgid "Monthly interest rate. Annual rate = Monthly rate × 12."
-msgstr "मासिक ब्याज दर। वार्षिक दर = मासिक दर × १२।"
+msgid "Monthly interest rate. Annual rate = Monthly rate  12."
+msgstr ""
 
 #: .\apps\services\models.py:161
 msgid "Repayment Type"
-msgstr "भुक्तानी प्रकार"
+msgstr ""
 
 #: .\apps\services\models.py:162
 msgid ""
 "Frequency of loan repayment. Seasonal is typically used for agricultural "
 "loans."
-msgstr "ऋण भुक्तानीको आवृत्ति। मौसमी सामान्यतया कृषि ऋणको लागि प्रयोग गरिन्छ।"
+msgstr ""
 
 #: .\apps\services\models.py:164
 msgid "Minimum Loan Amount (NPR)"
-msgstr "न्यूनतम ऋण रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:165
 msgid "Maximum Loan Amount (NPR)"
-msgstr "अधिकतम ऋण रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:166
 msgid "Maximum Tenure (Years)"
-msgstr "अधिकतम अवधि (वर्ष)"
+msgstr ""
 
 #: .\apps\services\models.py:167 .\apps\services\models.py:517
 #: .\apps\services\templates\services\digital\digital_detail.html:149
 #: .\apps\services\templates\services\loan\partials\_loan_details.html:25
 msgid "Requirements"
-msgstr "आवश्यकताहरू"
+msgstr ""
 
 #: .\apps\services\models.py:167
 msgid "List required documents, one per line."
-msgstr "आवश्यक कागजातहरू सूचीकृत गर्नुहोस्, प्रति लाइन एक।"
+msgstr ""
 
 #: .\apps\services\models.py:169 .\apps\services\models.py:485
 #: .\apps\services\models.py:519
 msgid "Image"
-msgstr "फोटो"
+msgstr ""
 
 #: .\apps\services\models.py:172 .\apps\services\models.py:207
 #: .\apps\services\templates\services\shared\comparison.html:195
 msgid "Loan Type"
-msgstr "ऋण प्रकार"
+msgstr ""
 
 #: .\apps\services\models.py:173
 #: .\apps\services\templates\services\loan\loan_list.html:86
 msgid "Loan Types"
-msgstr "ऋण प्रकारहरू"
+msgstr ""
 
 #: .\apps\services\models.py:211
 msgid "Carousel Image"
-msgstr "क्यासेल छवि"
+msgstr ""
 
 #: .\apps\services\models.py:212
 msgid "Upload image for carousel slide. Recommended size: 1920x1080px"
 msgstr ""
-"क्यासेल स्लाइडको लागि छवि अपलोड गर्नुहोस्। सिफारिस गरिएको आकार: १९२०x१०८० पिक्सेल"
 
 #: .\apps\services\models.py:217
 msgid "Nepali Tagline"
-msgstr "नेपाली ट्यागलाइन"
+msgstr ""
 
 #: .\apps\services\models.py:218
 msgid "Main Nepali tagline for this slide"
-msgstr "यस स्लाइडको लागि मुख्य नेपाली ट्यागलाइन"
+msgstr ""
 
 #: .\apps\services\models.py:223
 msgid "English Tagline"
-msgstr "अंग्रेजी ट्यागलाइन"
+msgstr ""
 
 #: .\apps\services\models.py:224
 msgid "Main English tagline for this slide"
-msgstr "यस स्लाइडको लागि मुख्य अंग्रेजी ट्यागलाइन"
+msgstr ""
 
 #: .\apps\services\models.py:229
 msgid "Nepali Subtitle"
-msgstr "नेपाली उपशीर्षक"
+msgstr ""
 
 #: .\apps\services\models.py:230
 msgid "Nepali subtitle/description for this slide"
-msgstr "यस स्लाइडको लागि नेपाली उपशीर्षक/विवरण"
+msgstr ""
 
 #: .\apps\services\models.py:235
 msgid "English Subtitle"
-msgstr "अंग्रेजी उपशीर्षक"
+msgstr ""
 
 #: .\apps\services\models.py:236
 msgid "English subtitle/description for this slide"
-msgstr "यस स्लाइडको लागि अंग्रेजी उपशीर्षक/विवरण"
+msgstr ""
 
 #: .\apps\services\models.py:240 .\apps\services\models.py:349
 msgid "Display Order"
-msgstr "प्रदर्शन क्रम"
+msgstr ""
 
 #: .\apps\services\models.py:241
 msgid ""
 "Order in which this image appears in the carousel (lower numbers appear "
 "first)"
-msgstr "क्यासेलमा यो छवि देखिने क्रम (कम नम्बरहरू पहिले देखिन्छन्)"
+msgstr ""
 
 #: .\apps\services\models.py:246
 msgid "Only active images are displayed in the carousel"
-msgstr "केवल सक्रिय छविहरू क्यासेलमा देखाइन्छन्"
+msgstr ""
 
 #: .\apps\services\models.py:252
 msgid "Loan Carousel Image"
-msgstr "ऋण क्यासेल छवि"
+msgstr ""
 
 #: .\apps\services\models.py:253
 msgid "Loan Carousel Images"
-msgstr "ऋण क्यासेल छविहरू"
+msgstr ""
 
 #: .\apps\services\models.py:266
 msgid "Domestic Transfer"
-msgstr "आन्तरिक ट्रान्सफर"
+msgstr ""
 
 #: .\apps\services\models.py:266
 msgid "International Remittance"
-msgstr "अन्तर्राष्ट्रिय रेमिट्यान्स"
+msgstr ""
 
 #: .\apps\services\models.py:267
 msgid "Mobile Banking Transfer"
-msgstr "मोबाइल बैंकिङ ट्रान्सफर"
+msgstr ""
 
 #: .\apps\services\models.py:270
 msgid "Processing Time"
-msgstr "प्रशोधन समय"
+msgstr ""
 
 #: .\apps\services\models.py:270
 msgid "e.g., 'Instant' or '1-2 business days'"
-msgstr "जस्तै, 'तत्काल' वा '१-२ कार्य दिन'"
+msgstr ""
 
 #: .\apps\services\models.py:271 .\apps\services\models.py:518
 #: .\apps\services\templates\services\digital\digital_detail.html:165
 msgid "Fees & Charges"
-msgstr "शुल्क र दस्तुरहरू"
+msgstr ""
 
 #: .\apps\services\models.py:274 .\apps\services\models.py:344
 msgid "Remittance Service"
-msgstr "रेमिट्यान्स सेवा"
+msgstr ""
 
 #: .\apps\services\models.py:275
 #: .\apps\services\templates\services\remittance\remittance_list.html:7
@@ -690,135 +669,135 @@ msgstr "रेमिट्यान्स सेवा"
 #: .\apps\services\templates\services\remittance\remittance_list.html:593
 #: .\apps\services\views.py:176
 msgid "Remittance Services"
-msgstr "रेमिट्यान्स सेवाहरू"
+msgstr ""
 
 #: .\apps\services\models.py:346
 msgid "Country"
-msgstr "देश"
+msgstr ""
 
 #: .\apps\services\models.py:347
 msgid "Charge"
-msgstr "शुल्क"
+msgstr ""
 
 #: .\apps\services\models.py:347
 msgid "e.g., 'US Dollar - 3.99'"
-msgstr "जस्तै, 'अमेरिकी डलर - ३.९९'"
+msgstr ""
 
 #: .\apps\services\models.py:348 .\apps\services\models.py:381
 msgid "Currency Code"
-msgstr "मुद्रा संकेत"
+msgstr ""
 
 #: .\apps\services\models.py:352
 msgid "Remittance Charge"
-msgstr "रेमिट्यान्स शुल्क"
+msgstr ""
 
 #: .\apps\services\models.py:353
 msgid "Remittance Charges"
-msgstr "रेमिट्यान्स शुल्कहरू"
+msgstr ""
 
 #: .\apps\services\models.py:367
 msgid "US Dollar"
-msgstr "अमेरिकी डलर"
+msgstr ""
 
 #: .\apps\services\models.py:367
 msgid "Euro"
-msgstr "युरो"
+msgstr ""
 
 #: .\apps\services\models.py:367
 msgid "British Pound"
-msgstr "पाउण्ड स्टर्लिङ"
+msgstr ""
 
 #: .\apps\services\models.py:368
 msgid "Australian Dollar"
-msgstr "अस्ट्रेलियन डलर"
+msgstr ""
 
 #: .\apps\services\models.py:368
 msgid "Canadian Dollar"
-msgstr "क्यानेडियन डलर"
+msgstr ""
 
 #: .\apps\services\models.py:369
 msgid "Japanese Yen"
-msgstr "जापानी येन"
+msgstr ""
 
 #: .\apps\services\models.py:369
 msgid "Swiss Franc"
-msgstr "स्विस फ्रैंक"
+msgstr ""
 
 #: .\apps\services\models.py:370
 msgid "Chinese Yuan"
-msgstr "चिनियाँ युआन"
+msgstr ""
 
 #: .\apps\services\models.py:370
 msgid "Indian Rupee"
-msgstr "भारतीय रुपैयाँ"
+msgstr ""
 
 #: .\apps\services\models.py:371
 msgid "UAE Dirham"
-msgstr "युएई दिराम"
+msgstr ""
 
 #: .\apps\services\models.py:371
 msgid "Saudi Riyal"
-msgstr "साउदी रियाल"
+msgstr ""
 
 #: .\apps\services\models.py:372
 msgid "Qatari Riyal"
-msgstr "कतारी रियाल"
+msgstr ""
 
 #: .\apps\services\models.py:372
 msgid "Kuwaiti Dinar"
-msgstr "कुवेनी दिनार"
+msgstr ""
 
 #: .\apps\services\models.py:373
 msgid "Bahraini Dinar"
-msgstr "बहरािनी दिनार"
+msgstr ""
 
 #: .\apps\services\models.py:373
 msgid "Omani Rial"
-msgstr "ओमानी रियाल"
+msgstr ""
 
 #: .\apps\services\models.py:374
 msgid "Singapore Dollar"
-msgstr "सिंगापुर डलर"
+msgstr ""
 
 #: .\apps\services\models.py:374
 msgid "Malaysian Ringgit"
-msgstr "मलेशियन रिंगिट"
+msgstr ""
 
 #: .\apps\services\models.py:375
 msgid "Thai Baht"
-msgstr "थाई भाट"
+msgstr ""
 
 #: .\apps\services\models.py:375
 msgid "Hong Kong Dollar"
-msgstr "हङकङ डलर"
+msgstr ""
 
 #: .\apps\services\models.py:382
 msgid "ISO 4217 currency code"
-msgstr "ISO 4217 मुद्रा संकेत"
+msgstr ""
 
 #: .\apps\services\models.py:387
 msgid "Buy Rate (NPR)"
-msgstr "खरिद दर (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:388
 msgid "Rate at which bank buys foreign currency"
-msgstr "बैंकले विदेशी मुद्रा खरिद गर्ने दर"
+msgstr ""
 
 #: .\apps\services\models.py:393
 msgid "Sell Rate (NPR)"
-msgstr "बिक्री दर (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:394
 msgid "Rate at which bank sells foreign currency"
-msgstr "बैंकले विदेशी मुद्रा बिक्री गर्ने दर"
+msgstr ""
 
 #: .\apps\services\models.py:401
 msgid "Mid Rate (NPR)"
-msgstr "मध्य दर (नेरु)"
+msgstr ""
 
 #: .\apps\services\models.py:402
 msgid "Average of buy and sell rate"
-msgstr "खरिद र बिक्री दरको औसत"
+msgstr ""
 
 #: .\apps\services\models.py:405
 msgid "Rate Date"
@@ -837,10 +816,8 @@ msgid "Source of exchange rate (e.g., NRB, Manual)"
 msgstr ""
 
 #: .\apps\services\models.py:417
-#, fuzzy
-#| msgid "Only active images are displayed in the carousel"
 msgid "Only active rates are used in calculations"
-msgstr "केवल सक्रिय छविहरू क्यासेलमा देखाइन्छन्"
+msgstr ""
 
 #: .\apps\services\models.py:421
 msgid "Notes"
@@ -864,10 +841,8 @@ msgid "Medical Relief"
 msgstr ""
 
 #: .\apps\services\models.py:478
-#, fuzzy
-#| msgid "Education Loan"
 msgid "Educational Support"
-msgstr "शिक्षा ऋण"
+msgstr ""
 
 #: .\apps\services\models.py:479
 msgid "Disaster Relief"
@@ -878,10 +853,8 @@ msgid "Welfare Support"
 msgstr ""
 
 #: .\apps\services\models.py:481
-#, fuzzy
-#| msgid "Service Type"
 msgid "Relief Type"
-msgstr "सेवा प्रकार"
+msgstr ""
 
 #: .\apps\services\models.py:482
 #: .\apps\services\templates\services\member_relief\member_relief_detail.html:118
@@ -890,10 +863,8 @@ msgstr ""
 
 #: .\apps\services\models.py:483
 #: .\apps\services\templates\services\member_relief\member_relief_detail.html:127
-#, fuzzy
-#| msgid "Benefits"
 msgid "Benefits & Support"
-msgstr "फाइदाहरू"
+msgstr ""
 
 #: .\apps\services\models.py:484
 #: .\apps\services\templates\services\member_relief\member_relief_detail.html:137
@@ -915,10 +886,8 @@ msgid "Member Relief Programs"
 msgstr ""
 
 #: .\apps\services\models.py:510
-#, fuzzy
-#| msgid "Mobile Banking Transfer"
 msgid "Mobile Banking"
-msgstr "मोबाइल बैंकिङ ट्रान्सफर"
+msgstr ""
 
 #: .\apps\services\models.py:510
 msgid "Online Banking"
@@ -949,26 +918,20 @@ msgid "SMS Banking"
 msgstr ""
 
 #: .\apps\services\models.py:517
-#, fuzzy
-#| msgid "List required documents, one per line."
 msgid "List requirements, one per line."
-msgstr "आवश्यक कागजातहरू सूचीकृत गर्नुहोस्, प्रति लाइन एक।"
+msgstr ""
 
 #: .\apps\services\models.py:522
-#, fuzzy
-#| msgid "Financial Services"
 msgid "Digital Service"
-msgstr "वित्तीय सेवाहरू"
+msgstr ""
 
 #: .\apps\services\models.py:523
 #: .\apps\services\templates\services\digital\digital_list.html:5
 #: .\apps\services\templates\services\digital\digital_list.html:11
 #: .\apps\services\templates\services\digital\digital_list.html:364
 #: .\apps\services\views.py:454
-#, fuzzy
-#| msgid "Financial Services"
 msgid "Digital Services"
-msgstr "वित्तीय सेवाहरू"
+msgstr ""
 
 #: .\apps\services\models.py:549
 msgid "Pending"
@@ -987,16 +950,12 @@ msgid "Rejected"
 msgstr ""
 
 #: .\apps\services\models.py:555
-#, fuzzy
-#| msgid "Service Type"
 msgid "Service ID"
-msgstr "सेवा प्रकार"
+msgstr ""
 
 #: .\apps\services\models.py:558
-#, fuzzy
-#| msgid "Nepali Name"
 msgid "Applicant Name"
-msgstr "नेपाली नाम"
+msgstr ""
 
 #: .\apps\services\models.py:559
 msgid "Email"
@@ -1045,20 +1004,16 @@ msgid "Date"
 msgstr ""
 
 #: .\apps\services\models.py:603 .\apps\services\models.py:604
-#, fuzzy
-#| msgid "Service Type"
 msgid "Service Analytics"
-msgstr "सेवा प्रकार"
+msgstr ""
 
 #: .\apps\services\models.py:619
 msgid "User Profile"
 msgstr ""
 
 #: .\apps\services\models.py:620
-#, fuzzy
-#| msgid "Remittance Services"
 msgid "Recommended Services"
-msgstr "रेमिट्यान्स सेवाहरू"
+msgstr ""
 
 #: .\apps\services\models.py:621
 msgid "Recommendation Reason"
@@ -1092,10 +1047,8 @@ msgid "No detailed description available."
 msgstr ""
 
 #: .\apps\services\templates\services\digital\digital_detail.html:244
-#, fuzzy
-#| msgid "Featured Product"
 msgid "Featured Service"
-msgstr "विशेष उत्पादन"
+msgstr ""
 
 #: .\apps\services\templates\services\digital\digital_detail.html:266
 #: .\apps\services\templates\services\loan\loan_list.html:107
@@ -1104,10 +1057,8 @@ msgstr "विशेष उत्पादन"
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:87
 #: .\apps\services\templates\services\savings\partials\_saving_card.html:18
 #: .\apps\services\templates\services\savings\savings_list.html:145
-#, fuzzy
-#| msgid "Key Features"
 msgid "Featured"
-msgstr "मुख्य विशेषताहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\digital\digital_detail.html:275
 #: .\apps\services\templates\services\loan\loan_detail.html:128
@@ -1130,10 +1081,8 @@ msgstr ""
 
 #: .\apps\services\templates\services\digital\digital_detail.html:296
 #: .\apps\services\templates\services\digital\digital_detail.html:352
-#, fuzzy
-#| msgid "Financial Services"
 msgid "View All Digital Services"
-msgstr "वित्तीय सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\digital\digital_detail.html:304
 msgid "Sitemap"
@@ -1186,10 +1135,8 @@ msgid "Contact Us"
 msgstr ""
 
 #: .\apps\services\templates\services\digital\digital_list.html:107
-#, fuzzy
-#| msgid "Loan Services"
 msgid "View Services"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\digital\digital_list.html:116
 msgid "Available"
@@ -1233,10 +1180,8 @@ msgstr ""
 #: .\apps\services\templates\services\loan\loan_detail.html:93
 #: .\apps\services\templates\services\loan\loan_list.html:107
 #: .\apps\services\templates\services\loan\loan_list.html:190
-#, fuzzy
-#| msgid "Home Loan"
 msgid "Loan"
-msgstr "आवास ऋण"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_detail.html:93
 #: .\apps\services\templates\services\savings\partials\_seo_structured_data.html:67
@@ -1244,17 +1189,13 @@ msgstr "आवास ऋण"
 #: .\apps\services\views.py:81 .\apps\services\views.py:138
 #: .\apps\services\views.py:175 .\apps\services\views.py:219
 #: .\apps\services\views.py:453
-#, fuzzy
-#| msgid "Loan Services"
 msgid "Services"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_detail.html:103
 #: .\apps\services\templates\services\loan\loan_detail.html:111
-#, fuzzy
-#| msgid "Loan Services"
 msgid "View All Loan Services"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_detail.html:109
 msgid "Explore our other loan options"
@@ -1264,10 +1205,8 @@ msgstr ""
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:28
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:93
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:14
-#, fuzzy
-#| msgid "Monthly Interest Rate (%)"
 msgid "Monthly Interest"
-msgstr "मासिक ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_detail.html:126
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:392
@@ -1290,10 +1229,8 @@ msgid ""
 msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:49
-#, fuzzy
-#| msgid "Financial Services"
 msgid "Financial Support"
-msgstr "वित्तीय सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:60
 #: .\apps\services\templates\services\loan\loan_list.html:310
@@ -1330,10 +1267,8 @@ msgstr ""
 #: .\apps\services\templates\services\shared\comparison.html:126
 #: .\apps\services\templates\services\shared\comparison.html:196
 #: .\apps\services\templates\services\shared\comparison.html:263
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "Interest Rate"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:105
 #: .\apps\services\templates\services\savings\savings_list.html:111
@@ -1341,10 +1276,8 @@ msgid "Recommended"
 msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:107
-#, fuzzy
-#| msgid "Loan Product"
 msgid "Products"
-msgstr "ऋण योजना"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:111
 msgid "Our most popular loan products tailored for your specific needs."
@@ -1366,10 +1299,8 @@ msgid "Apply"
 msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:188
-#, fuzzy
-#| msgid "Agricultural Loan"
 msgid "All Loans"
-msgstr "कृषि ऋण"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:190
 msgid "Complete"
@@ -1400,10 +1331,8 @@ msgid "Supporting Your"
 msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:223
-#, fuzzy
-#| msgid "Financial Services"
 msgid "Financial"
-msgstr "वित्तीय सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\loan_list.html:223
 msgid "Goals"
@@ -1454,10 +1383,8 @@ msgid "Enter loan amount"
 msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:28
-#, fuzzy
-#| msgid "Loan Tenure (in Years)"
 msgid "Loan Tenure (Years)"
-msgstr "ऋण अवधि (वर्षमा)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:31
 msgid "Enter loan tenure"
@@ -1473,33 +1400,25 @@ msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:64
 #: .\apps\services\templates\services\loan\partials\_loan_calculator_js.html:84
-#, fuzzy
-#| msgid "Monthly Payout"
 msgid "Monthly payment"
-msgstr "मासिक भुक्तानी"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:75
 #: .\apps\services\templates\services\shared\loan_calculator.html:106
-#, fuzzy
-#| msgid "Loan Amount (NPR)"
 msgid "Total Amount"
-msgstr "ऋण रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:76
 msgid "Total amount to be paid"
 msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:87
-#, fuzzy
-#| msgid "Interest Payout"
 msgid "Interest Amount"
-msgstr "ब्याज भुक्तानी"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:88
-#, fuzzy
-#| msgid "Annual interest rate."
 msgid "Total interest to be paid"
-msgstr "वार्षिक ब्याज दर।"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator.html:100
 msgid "Fill in the form to see your EMI calculation results"
@@ -1511,56 +1430,42 @@ msgid "Please fill in all fields"
 msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_calculator_js.html:84
-#, fuzzy
-#| msgid "Quarterly Payout"
 msgid "Quarterly payment"
-msgstr "त्रैमासिक भुक्तानी"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:45
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:110
 #: .\apps\services\templates\services\loan\partials\_loan_hero_quick_stats.html:16
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:93
-#, fuzzy
-#| msgid "Minimum Amount (NPR)"
 msgid "Min Amount"
-msgstr "न्यूनतम रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:51
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:116
 #: .\apps\services\templates\services\loan\partials\_loan_hero_quick_stats.html:22
 #: .\apps\services\templates\services\shared\comparison.html:197
-#, fuzzy
-#| msgid "Maximum Amount (NPR)"
 msgid "Max Amount"
-msgstr "अधिकतम रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:57
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:122
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:34
 #: .\apps\services\templates\services\shared\comparison.html:198
-#, fuzzy
-#| msgid "Maximum Tenure (Years)"
 msgid "Max Tenure"
-msgstr "अधिकतम अवधि (वर्ष)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:58
 #: .\apps\services\templates\services\loan\partials\_loan_card.html:123
-#, fuzzy
-#| msgid "2 Years"
 msgid "Years"
-msgstr "२ वर्ष"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_details.html:16
-#, fuzzy
-#| msgid "Loan Services"
 msgid "Loan Details"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_hero_quick_stats.html:11
-#, fuzzy
-#| msgid "Monthly Payout"
 msgid "Monthly Rate"
-msgstr "मासिक भुक्तानी"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_seo_structured_data.html:31
 #, python-format
@@ -1573,34 +1478,26 @@ msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:20
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:263
-#, fuzzy
-#| msgid "Minimum Amount (NPR)"
 msgid "Minimum Amount"
-msgstr "न्यूनतम रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:27
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:270
-#, fuzzy
-#| msgid "Maximum Amount (NPR)"
 msgid "Maximum Amount"
-msgstr "अधिकतम रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:35
 #: .\apps\services\templates\services\shared\comparison.html:224
-#, fuzzy
-#| msgid "2 Years"
 msgid "years"
-msgstr "२ वर्ष"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:43
 msgid "Apply for Loan"
 msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:48
-#, fuzzy
-#| msgid "Home Loan"
 msgid "Compare Loans"
-msgstr "आवास ऋण"
+msgstr ""
 
 #: .\apps\services\templates\services\loan\partials\_loan_sidebar.html:62
 msgid "Why Choose This Loan?"
@@ -1646,10 +1543,8 @@ msgid "Overview"
 msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_detail.html:147
-#, fuzzy
-#| msgid "Requirements"
 msgid "Required Documents"
-msgstr "आवश्यकताहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_detail.html:157
 msgid "Contact Information"
@@ -1688,14 +1583,12 @@ msgid ""
 "Supporting our valued members through comprehensive relief and assistance "
 "programs. 24/7 support available for emergency situations."
 msgstr ""
-"समग्र राहत र सहायता कार्यक्रमहरू मार्फत हाम्रा मूल्यवान सदस्यहरूलाई सहयोग गर्दै। "
-"आपतकालीन परिस्थितिहरूको लागि २४/७ समर्थन उपलब्ध छ।"
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:14
 msgid ""
 "Comprehensive relief and assistance programs for our members. 24/7 support "
 "available."
-msgstr "हाम्रा सदस्यहरूका लागि व्यापक राहत र सहायता कार्यक्रमहरू। २४/७ समर्थन उपलब्ध छ।"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:50
 msgid "Member Support"
@@ -1710,13 +1603,13 @@ msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:86
 msgid "24/7"
-msgstr "२४/७"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:87
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:216
 #: .\apps\services\templates\services\member_relief\partials\_hero_section.html:58
 msgid "Support"
-msgstr "सहयोग"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:151
 msgid "Eligibility"
@@ -1748,7 +1641,7 @@ msgstr ""
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:225
 #: .\apps\services\templates\services\shared\application.html:188
 msgid "1"
-msgstr "१"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:228
 #: .\apps\services\templates\services\member_relief\partials\_application_process.html:29
@@ -1758,7 +1651,7 @@ msgstr ""
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:233
 #: .\apps\services\templates\services\shared\application.html:196
 msgid "2"
-msgstr "२"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:235
 #: .\apps\services\templates\services\member_relief\partials\_application_process.html:36
@@ -1773,7 +1666,7 @@ msgstr ""
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:241
 #: .\apps\services\templates\services\shared\application.html:204
 msgid "3"
-msgstr "३"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:243
 #: .\apps\services\templates\services\member_relief\partials\_application_process.html:44
@@ -1788,7 +1681,7 @@ msgstr ""
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:249
 #: .\apps\services\templates\services\shared\application.html:212
 msgid "4"
-msgstr "४"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:251
 #: .\apps\services\templates\services\member_relief\partials\_application_process.html:52
@@ -1830,7 +1723,7 @@ msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:300
 msgid "24/7 Availability"
-msgstr "२४/७ उपलब्धता"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:301
 msgid "Emergency support is available around the clock for urgent situations."
@@ -1841,14 +1734,10 @@ msgid ""
 "Need immediate assistance? Our relief committee is available 24/7 for "
 "emergency situations. Don't hesitate to reach out."
 msgstr ""
-"तत्काल सहायता चाहिन्छ? हाम्रो राहत समिति आपतकालीन परिस्थितिहरूको लागि २४/७ उपलब्ध "
-"छ। सम्पर्क गर्न नहिचकिचाउनुहोस्।"
 
 #: .\apps\services\templates\services\member_relief\member_relief_list.html:338
-#, fuzzy
-#| msgid "Loan Services"
 msgid "Back to Services"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\partials\_cta_section.html:12
 msgid "Need Immediate Assistance?"
@@ -1881,20 +1770,16 @@ msgid "Assistance"
 msgstr ""
 
 #: .\apps\services\templates\services\member_relief\partials\_relief_card_content.html:12
-#, fuzzy
-#| msgid "Image"
 msgid "Image for"
-msgstr "फोटो"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\partials\_relief_card_content.html:24
 msgid "Relief type"
 msgstr ""
 
 #: .\apps\services\templates\services\member_relief\partials\_relief_card_content.html:47
-#, fuzzy
-#| msgid "Benefits"
 msgid "Key Benefit"
-msgstr "फाइदाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\member_relief\partials\_relief_card_content.html:61
 #: .\apps\services\templates\services\remittance\remittance_list.html:286
@@ -1907,53 +1792,47 @@ msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:116
 #: .\apps\services\templates\services\savings\savings_detail.html:129
-#, fuzzy
-#| msgid "Service Type"
 msgid "Service Details"
-msgstr "सेवा प्रकार"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:130
 #: .\apps\services\templates\services\shared\comparison.html:128
-#, fuzzy
-#| msgid "Key Features"
 msgid "Features"
-msgstr "मुख्य विशेषताहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:160
 msgid "25K+"
-msgstr "२५K+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:164
 msgid "100+"
-msgstr "१००+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:169
 msgid "18+"
-msgstr "१८+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:173
 msgid "5 Million+"
-msgstr "५० लाख+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:233
 msgid "45K+"
-msgstr "४५K+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:237
 #: .\apps\services\templates\services\remittance\remittance_list.html:134
 msgid "200+"
-msgstr "२००+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:241
 msgid "10 Million+"
-msgstr "१ करोड+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:253
 #: .\apps\services\templates\services\remittance\remittance_list.html:318
-#, fuzzy
-#| msgid "Processing Time"
 msgid "Process"
-msgstr "प्रशोधन समय"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:312
 msgid "Service Partners & Features"
@@ -1982,10 +1861,8 @@ msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:449
 #: .\apps\services\templates\services\savings\savings_detail.html:101
-#, fuzzy
-#| msgid "Loan Type"
 msgid "Type"
-msgstr "ऋण प्रकार"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:455
 msgid "Time"
@@ -1993,7 +1870,7 @@ msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:456
 msgid "Instant"
-msgstr "तत्काल"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:462
 msgid "Fees"
@@ -2009,13 +1886,11 @@ msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:493
 msgid "+977-061-561666"
-msgstr "+९७७-०६१-५६१६६६"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:538
-#, fuzzy
-#| msgid "Remittance Services"
 msgid "View All Remittance Services"
-msgstr "रेमिट्यान्स सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_detail.html:555
 #: .\apps\services\templates\services\remittance\remittance_list.html:291
@@ -2043,16 +1918,12 @@ msgid ""
 msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:51
-#, fuzzy
-#| msgid "Remittance Services"
 msgid "Remittance Services Hero Section"
-msgstr "रेमिट्यान्स सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:95
-#, fuzzy
-#| msgid "Mobile Banking Transfer"
 msgid "Global Money Transfer"
-msgstr "मोबाइल बैंकिङ ट्रान्सफर"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:121
 msgid "Scroll to partners section"
@@ -2060,17 +1931,15 @@ msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:130
 msgid "12+"
-msgstr "१२+"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:131
 msgid "Partners"
 msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:135
-#, fuzzy
-#| msgid "Country"
 msgid "Countries"
-msgstr "देशहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:153
 msgid "Our Trusted Global Partners"
@@ -2080,7 +1949,7 @@ msgstr ""
 msgid ""
 "We have made it easy to receive money from 200+ countries worldwide. Choose "
 "your preferred remittance service."
-msgstr "हामीले विश्वका २००+ देशहरूबाट पैसा प्राप्त गर्न सहज बनाएका छौं। आफ्नो मनपर्ने रेमिट्यान्स सेवा छान्नुहोस्।"
+msgstr ""
 
 #: .\apps\services\templates\services\remittance\remittance_list.html:327
 msgid "Get Assistance"
@@ -2160,10 +2029,8 @@ msgid "Invest Now"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:126
-#, fuzzy
-#| msgid "Fixed Deposits"
 msgid "Fixed Deposit Details"
-msgstr "मुद्दती निक्षेप"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:147
 #: .\apps\services\templates\services\savings\savings_detail.html:150
@@ -2171,10 +2038,8 @@ msgid "Calculate Your Returns"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:160
-#, fuzzy
-#| msgid "Interest Payout"
 msgid "Enter deposit amount"
-msgstr "ब्याज भुक्तानी"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:190
 msgid "FD Calculation Results"
@@ -2184,10 +2049,8 @@ msgstr ""
 #: .\apps\services\templates\services\savings\savings_detail.html:192
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:83
 #: .\apps\services\templates\services\shared\savings_calculator.html:74
-#, fuzzy
-#| msgid "Maturity Payout"
 msgid "Maturity Amount"
-msgstr "परिपक्वता भुक्तानी"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:197
 #: .\apps\services\templates\services\savings\savings_detail.html:193
@@ -2209,10 +2072,8 @@ msgstr ""
 #: .\apps\services\templates\services\savings\savings_detail.html:216
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:113
 #: .\apps\services\templates\services\shared\savings_calculator.html:104
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "Interest Earned"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:221
 #: .\apps\services\templates\services\savings\savings_detail.html:217
@@ -2236,16 +2097,13 @@ msgid "Why Choose This FD?"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:304
-#, fuzzy, python-format
-#| msgid "Annual interest rate."
+#, python-format
 msgid "High %(rate)s%% interest rate"
-msgstr "वार्षिक ब्याज दर।"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:309
-#, fuzzy
-#| msgid "Conservative (I prefer guaranteed returns)"
 msgid "Secure and guaranteed returns"
-msgstr "रूढिवादी (म सुनिश्चित प्रतिफल रुचाउँछु)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:315
 msgid "Low minimum investment"
@@ -2261,17 +2119,13 @@ msgid "Tax benefits available"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:354
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "Interest Rate p.a."
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:369
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:377
-#, fuzzy
-#| msgid "Fixed Deposits"
 msgid "View All Fixed Deposits"
-msgstr "मुद्दती निक्षेप"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\fixed_deposit\detail.html:375
 msgid "Explore our other fixed deposit options"
@@ -2298,37 +2152,29 @@ msgid "No minimum"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\partials\_saving_card.html:25
-#, fuzzy
-#| msgid "Annual interest rate."
 msgid "Annual Interest"
-msgstr "वार्षिक ब्याज दर।"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\partials\_saving_card.html:41
 #: .\apps\services\templates\services\savings\savings_detail.html:94
-#, fuzzy
-#| msgid "Minimum Balance (NPR)"
 msgid "Min Balance"
-msgstr "न्यूनतम मौज्दात (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\partials\_seo_structured_data.html:61
 #: .\apps\services\templates\services\savings\savings_list.html:570
 #: .\apps\services\views.py:80 .\apps\services\views.py:137
 #: .\apps\services\views.py:174 .\apps\services\views.py:218
 #: .\apps\services\views.py:452
-#, fuzzy
-#| msgid "Home Loan"
 msgid "Home"
-msgstr "आवास ऋण"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:163
 msgid "Enter monthly deposit amount"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:168
-#, fuzzy
-#| msgid "Savings Period (in Years)"
 msgid "Savings Period (Years)"
-msgstr "बचत अवधि (वर्षमा)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:171
 msgid "Enter savings period"
@@ -2340,10 +2186,8 @@ msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:204
 #: .\apps\services\templates\services\shared\savings_calculator.html:89
-#, fuzzy
-#| msgid "Fixed Deposits"
 msgid "Total Deposits"
-msgstr "मुद्दती निक्षेप"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:229
 msgid "Fill in the form to see your savings calculation results"
@@ -2351,24 +2195,18 @@ msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:249
 #: .\apps\services\templates\services\shared\comparison.html:127
-#, fuzzy
-#| msgid "Minimum Balance (NPR)"
 msgid "Minimum Balance"
-msgstr "न्यूनतम मौज्दात (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:264
-#, fuzzy
-#| msgid "Active"
 msgid "Inactive"
-msgstr "सक्रिय"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:277
 #: .\apps\services\templates\services\shared\comparison.html:37
 #: .\apps\services\templates\services\shared\comparison.html:97
-#, fuzzy
-#| msgid "Loan Services"
 msgid "Compare Services"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:291
 msgid "Why Choose This Account?"
@@ -2392,17 +2230,13 @@ msgid "Secure and reliable banking"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:329
-#, fuzzy
-#| msgid "Savings Accounts"
 msgid "Other Savings Accounts"
-msgstr "बचत खाताहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:339
 #: .\apps\services\templates\services\savings\savings_detail.html:347
-#, fuzzy
-#| msgid "Savings Accounts"
 msgid "View All Savings Accounts"
-msgstr "बचत खाताहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_detail.html:345
 msgid "Explore our other savings account options"
@@ -2424,16 +2258,12 @@ msgid ""
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:57
-#, fuzzy
-#| msgid "Financial Services"
 msgid "Financial Growth"
-msgstr "वित्तीय सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:92
-#, fuzzy
-#| msgid "Category"
 msgid "Categories"
-msgstr "श्रेणी"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:96
 msgid "Access"
@@ -2458,19 +2288,15 @@ msgid "Scroll"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:231
-#, fuzzy
-#| msgid "Minimum Balance (NPR)"
 msgid "Min. Balance"
-msgstr "न्यूनतम मौज्दात (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:237
 #: .\apps\services\templates\services\shared\comparison.html:129
 #: .\apps\services\templates\services\shared\comparison.html:199
 #: .\apps\services\templates\services\shared\comparison.html:265
-#, fuzzy
-#| msgid "Active"
 msgid "Action"
-msgstr "सक्रिय"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:288
 msgid "Savings made at regular intervals for a fixed period."
@@ -2481,16 +2307,12 @@ msgid "Fixed deposits for a fixed period ranging from 3 months to 3 years."
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:311
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "High Interest Rate"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:320
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "Interest Rates"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:322
 msgid "Monthly, Quarterly, and Lump Sum Interest Payment Options"
@@ -2501,10 +2323,8 @@ msgid "Lump Sum"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:407
-#, fuzzy
-#| msgid "Fixed Deposit"
 msgid "Want to open a Fixed Deposit?"
-msgstr "मुद्दती निक्षेप"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:408
 msgid "Contact our team to choose the best plan for you."
@@ -2515,10 +2335,8 @@ msgid "Calculator"
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:451
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "High Interest Rates"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:452
 msgid ""
@@ -2548,10 +2366,8 @@ msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:478
 #: .\apps\services\templates\services\savings\savings_list.html:479
-#, fuzzy
-#| msgid "Savings Product"
 msgid "Savings Growth"
-msgstr "बचत योजना"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:495
 msgid ""
@@ -2560,10 +2376,8 @@ msgid ""
 msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:500
-#, fuzzy
-#| msgid "Savings Account"
 msgid "Open an Account"
-msgstr "बचत खाता"
+msgstr ""
 
 #: .\apps\services\templates\services\savings\savings_list.html:524
 msgid ""
@@ -2573,23 +2387,19 @@ msgstr ""
 
 #: .\apps\services\templates\services\shared\application.html:40
 msgid "Fill out the form below and we'll get back to you within 24 hours"
-msgstr "तलको फारम भर्नुहोस् र हामी तपाईंलाई २४ घण्टा भित्र सम्पर्क गर्नेछौं"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\application.html:242
 msgid "24/7 Support"
-msgstr "२४/७ सहयोग"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:40
-#, fuzzy
-#| msgid "Select Services to Compare"
 msgid "Select the services you want to compare side by side"
-msgstr "तुलना गर्न सेवाहरू छान्नुहोस्"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:63
-#, fuzzy
-#| msgid "Select Services to Compare"
 msgid "Select Services to Compare (Choose 2-4 services)"
-msgstr "तुलना गर्न सेवाहरू छान्नुहोस्"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:85
 msgid "No services available for this category."
@@ -2608,67 +2418,47 @@ msgid "Side-by-side comparison of selected services"
 msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:125
-#, fuzzy
-#| msgid "Service Type"
 msgid "Service"
-msgstr "सेवा प्रकार"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:175
 #: .\apps\services\templates\services\shared\comparison.html:300
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "Best Interest Rate"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:183
-#, fuzzy
-#| msgid "Minimum Balance (NPR)"
 msgid "Lowest Minimum Balance"
-msgstr "न्यूनतम मौज्दात (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:241
-#, fuzzy
-#| msgid "Monthly Interest Rate (%)"
 msgid "Lowest Interest Rate"
-msgstr "मासिक ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:249
-#, fuzzy
-#| msgid "Loan Amount (NPR)"
 msgid "Highest Loan Amount"
-msgstr "ऋण रकम (नेरु)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:261
-#, fuzzy
-#| msgid "Repayment Type"
 msgid "Deposit Type"
-msgstr "भुक्तानी प्रकार"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:278
 #: .\apps\services\templates\services\shared\comparison.html:310
 #: .\apps\services\templates\services\shared\comparison.html:318
-#, fuzzy
-#| msgid "3 Months"
 msgid "months"
-msgstr "३ महिना"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:308
-#, fuzzy
-#| msgid "Duration"
 msgid "Shortest Duration"
-msgstr "अवधि"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:316
-#, fuzzy
-#| msgid "Duration"
 msgid "Longest Duration"
-msgstr "अवधि"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:331
-#, fuzzy
-#| msgid "Loan Services"
 msgid "Why Compare Services?"
-msgstr "ऋण सेवाहरू"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:333
 msgid ""
@@ -2684,10 +2474,8 @@ msgid "Compare multiple services side by side with all key details"
 msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:350
-#, fuzzy
-#| msgid "Description"
 msgid "Best Options"
-msgstr "विवरण"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\comparison.html:351
 msgid "Identify the best options based on your specific needs"
@@ -2708,22 +2496,17 @@ msgstr ""
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:47
 #: .\apps\services\templates\services\shared\loan_calculator.html:55
 #: .\apps\services\templates\services\shared\savings_calculator.html:47
-#, fuzzy, python-format
-#| msgid "Interest Rate (%)"
+#, python-format
 msgid "Interest Rate (%%)"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:52
-#, fuzzy
-#| msgid "Duration"
 msgid "Duration (Months)"
-msgstr "अवधि"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:57
-#, fuzzy
-#| msgid "Payment Frequency"
 msgid "Payout Frequency"
-msgstr "भुक्तानी आवृत्ति"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:59
 msgid "Lump Sum (At Maturity)"
@@ -2746,32 +2529,24 @@ msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:114
 #: .\apps\services\templates\services\shared\loan_calculator.html:121
-#, fuzzy
-#| msgid "Monthly Interest Rate (%)"
 msgid "Total Interest"
-msgstr "मासिक ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:127
-#, fuzzy
-#| msgid "Interest Rate (%)"
 msgid "Interest Rate:"
-msgstr "ब्याज दर (%)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:128
 msgid "Annual"
 msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:131
-#, fuzzy
-#| msgid "Duration"
 msgid "Duration:"
-msgstr "अवधि"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:132
-#, fuzzy
-#| msgid "3 Months"
 msgid "Months"
-msgstr "३ महिना"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\fixed_deposit_calculator.html:140
 msgid "Apply for FD"
@@ -2786,22 +2561,16 @@ msgid "Calculate your high-yield fixed deposit returns."
 msgstr ""
 
 #: .\apps\services\templates\services\shared\loan_calculator.html:42
-#, fuzzy
-#| msgid "Agricultural Loan"
 msgid "Calculate Your Loan"
-msgstr "कृषि ऋण"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\loan_calculator.html:60
-#, fuzzy
-#| msgid "Maximum Tenure (Years)"
 msgid "Tenure (Years)"
-msgstr "अधिकतम अवधि (वर्ष)"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\loan_calculator.html:69
-#, fuzzy
-#| msgid "1 Year"
 msgid "Yearly"
-msgstr "१ वर्ष"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\loan_calculator.html:107
 msgid "Principal + Interest"
@@ -2816,10 +2585,8 @@ msgid "Enter your loan details to see the breakdown."
 msgstr ""
 
 #: .\apps\services\templates\services\shared\savings_calculator.html:52
-#, fuzzy
-#| msgid "Duration"
 msgid "Duration (Years)"
-msgstr "अवधि"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\savings_calculator.html:58
 msgid "Calculate Maturity"
@@ -2830,10 +2597,8 @@ msgid "Principal Invested"
 msgstr ""
 
 #: .\apps\services\templates\services\shared\savings_calculator.html:118
-#, fuzzy
-#| msgid "Regular Savings"
 msgid "Start Saving"
-msgstr "नियमित बचत"
+msgstr ""
 
 #: .\apps\services\templates\services\shared\savings_calculator.html:129
 msgid "Plan Your Future"

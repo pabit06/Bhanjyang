@@ -93,20 +93,20 @@ def calculate_read_time(content: str) -> int:
 
 class Category(models.Model):
     """News and events categories"""
-    name = models.CharField(max_length=100, unique=True, verbose_name=_("नाम"), help_text=_("श्रेणीको नाम"))
-    slug = models.SlugField(max_length=100, unique=True, blank=True, verbose_name=_("स्लग"), help_text=_("URL-अनुकूल संस्करण"))
-    description = models.TextField(blank=True, verbose_name=_("विवरण"), help_text=_("श्रेणीको विवरण"))
-    color = models.CharField(max_length=7, default="#28A745", verbose_name=_("रङ"), help_text=_("श्रेणीको हेक्स रङ कोड"))
-    icon = models.CharField(max_length=50, blank=True, verbose_name=_("आइकन"), help_text=_("FontAwesome आइकन क्लास"))
-    is_active = models.BooleanField(default=True, verbose_name=_("सक्रिय"), help_text=_("यो श्रेणी सक्रिय छ कि छैन"))
-    sort_order = models.PositiveIntegerField(default=0, verbose_name=_("क्रम"), help_text=_("प्रदर्शनको लागि क्रम"))
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    name = models.CharField(max_length=100, unique=True, verbose_name=_("Name"), help_text=_("Name of the category"))
+    slug = models.SlugField(max_length=100, unique=True, blank=True, verbose_name=_("Slug"), help_text=_("URL-friendly version"))
+    description = models.TextField(blank=True, verbose_name=_("Description"), help_text=_("Category description"))
+    color = models.CharField(max_length=7, default="#28A745", verbose_name=_("Color"), help_text=_("Hex color code for the category"))
+    icon = models.CharField(max_length=50, blank=True, verbose_name=_("Icon"), help_text=_("FontAwesome icon class"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Is Active"), help_text=_("Whether this category is active"))
+    sort_order = models.PositiveIntegerField(default=0, verbose_name=_("Sort Order"), help_text=_("Order for display"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
     class Meta:
         ordering = ['sort_order', 'name']
-        verbose_name = _("श्रेणी")
-        verbose_name_plural = _("श्रेणीहरू")
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
         indexes = [
             models.Index(fields=['is_active', 'sort_order']),
             models.Index(fields=['slug']),
@@ -131,28 +131,28 @@ class Category(models.Model):
 class NewsArticle(models.Model):
     """News articles with enterprise features"""
     class Status(models.TextChoices):
-        DRAFT = 'DF', _('मस्यौदा')
-        PUBLISHED = 'PB', _('प्रकाशित')
-        ARCHIVED = 'AR', _('संग्रह')
-        SCHEDULED = 'SC', _('तालिकाबद्ध')
+        DRAFT = 'DF', _('Draft')
+        PUBLISHED = 'PB', _('Published')
+        ARCHIVED = 'AR', _('Archived')
+        SCHEDULED = 'SC', _('Scheduled')
 
     class Priority(models.TextChoices):
-        LOW = 'LOW', _('न्यून प्राथमिकता')
-        MEDIUM = 'MED', _('मध्यम प्राथमिकता')
-        HIGH = 'HIGH', _('उच्च प्राथमिकता')
-        URGENT = 'URG', _('तत्काल')
+        LOW = 'LOW', _('Low Priority')
+        MEDIUM = 'MED', _('Medium Priority')
+        HIGH = 'HIGH', _('High Priority')
+        URGENT = 'URG', _('Urgent')
 
     # Basic fields
-    title = models.CharField(max_length=200, verbose_name=_("शीर्षक"), help_text=_("लेखको शीर्षक"))
-    slug = models.SlugField(unique=True, blank=True, max_length=250, verbose_name=_("स्लग"), help_text=_("URL-अनुकूल शीर्षक"))
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='articles', verbose_name=_("श्रेणी"), help_text=_("लेखको श्रेणी"))
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='news_events_articles', verbose_name=_("लेखक"), help_text=_("लेखको लेखक"))
+    title = models.CharField(max_length=200, verbose_name=_("Title"), help_text=_("Title of the article"))
+    slug = models.SlugField(unique=True, blank=True, max_length=250, verbose_name=_("Slug"), help_text=_("URL-friendly title"))
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='articles', verbose_name=_("Category"), help_text=_("Category of the article"))
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='news_events_articles', verbose_name=_("Author"), help_text=_("Author of the article"))
     
     # Content fields
-    content = models.TextField(verbose_name=_("सामग्री"), help_text=_("लेखको सामग्री"))
-    excerpt = models.TextField(blank=True, max_length=500, verbose_name=_("सारांश"), help_text=_("छोटो लेख सारांश"))
-    image = models.ImageField(upload_to='news_events/images/', blank=True, null=True, verbose_name=_("छवि"), help_text=_("मुख्य छवि"))
-    image_alt = models.CharField(max_length=200, blank=True, verbose_name=_("छवि Alt पाठ"), help_text=_("छविको Alt पाठ"))
+    content = models.TextField(verbose_name=_("Content"), help_text=_("Content of the article"))
+    excerpt = models.TextField(blank=True, max_length=500, verbose_name=_("Excerpt"), help_text=_("Short article summary"))
+    image = models.ImageField(upload_to='news_events/images/', blank=True, null=True, verbose_name=_("Image"), help_text=_("Main image"))
+    image_alt = models.CharField(max_length=200, blank=True, verbose_name=_("Image Alt Text"), help_text=_("Alt text for the image"))
     
     # Optimized image variants (automatically generated on save)
     # Thumbnail for list views (300x200, WebP format)
@@ -199,39 +199,39 @@ class NewsArticle(models.Model):
     )
     
     # Metadata
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("स्थिति"), help_text=_("प्रकाशन स्थिति"))
-    priority = models.CharField(max_length=4, choices=Priority.choices, default=Priority.MEDIUM, verbose_name=_("प्राथमिकता"), help_text=_("सामग्री प्राथमिकता"))
-    published_date = models.DateTimeField(default=timezone.now, verbose_name=_("प्रकाशन मिति"), help_text=_("प्रकाशन मिति"))
-    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("तालिकाबद्ध मिति"), help_text=_("तालिकाबद्ध प्रकाशन मिति"))
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Publication status"))
+    priority = models.CharField(max_length=4, choices=Priority.choices, default=Priority.MEDIUM, verbose_name=_("Priority"), help_text=_("Content priority"))
+    published_date = models.DateTimeField(default=timezone.now, verbose_name=_("Published Date"), help_text=_("Publication date"))
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Scheduled Date"), help_text=_("Scheduled publication date"))
     
     # SEO fields
-    meta_title = models.CharField(max_length=200, blank=True, verbose_name=_("SEO शीर्षक"), help_text=_("SEO शीर्षक"))
-    meta_description = models.TextField(blank=True, max_length=300, verbose_name=_("SEO विवरण"), help_text=_("SEO विवरण"))
-    meta_keywords = models.CharField(max_length=500, blank=True, verbose_name=_("SEO कीवर्ड"), help_text=_("SEO कीवर्ड"))
+    meta_title = models.CharField(max_length=200, blank=True, verbose_name=_("SEO Title"), help_text=_("SEO title"))
+    meta_description = models.TextField(blank=True, max_length=300, verbose_name=_("SEO Description"), help_text=_("SEO description"))
+    meta_keywords = models.CharField(max_length=500, blank=True, verbose_name=_("SEO Keywords"), help_text=_("SEO keywords"))
     
     # Analytics fields
-    read_time = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("पढ्ने समय"), help_text=_("अनुमानित पढ्ने समय (मिनेटमा)"))
-    view_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("हेराइ संख्या"), help_text=_("हेराइको संख्या"))
-    share_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("साझेदारी संख्या"), help_text=_("साझेदारीको संख्या"))
-    comment_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("टिप्पणी संख्या"), help_text=_("टिप्पणीको संख्या"))
+    read_time = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("Read Time"), help_text=_("Estimated reading time (in minutes)"))
+    view_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("View Count"), help_text=_("Number of views"))
+    share_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("Share Count"), help_text=_("Number of shares"))
+    comment_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("Comment Count"), help_text=_("Number of comments"))
     
     # Security fields
-    content_hash = models.CharField(max_length=64, blank=True, editable=False, verbose_name=_("सामग्री ह्यास"), help_text=_("सामग्रीको SHA-256 ह्यास"))
-    is_featured = models.BooleanField(default=False, verbose_name=_("मुख्य"), help_text=_("मुख्य लेख"))
-    allow_comments = models.BooleanField(default=True, verbose_name=_("टिप्पणी अनुमति"), help_text=_("टिप्पणी अनुमति दिनुहोस्"))
-    require_login = models.BooleanField(default=False, verbose_name=_("लगइन आवश्यक"), help_text=_("हेर्नको लागि लगइन आवश्यक"))
+    content_hash = models.CharField(max_length=64, blank=True, editable=False, verbose_name=_("Content Hash"), help_text=_("SHA-256 hash of the content"))
+    is_featured = models.BooleanField(default=False, verbose_name=_("Is Featured"), help_text=_("Featured article"))
+    allow_comments = models.BooleanField(default=True, verbose_name=_("Allow Comments"), help_text=_("Allow comments for this article"))
+    require_login = models.BooleanField(default=False, verbose_name=_("Require Login"), help_text=_("Login required to view"))
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
-    last_accessed = models.DateTimeField(blank=True, null=True, verbose_name=_("अन्तिम पहुँच मिति"), help_text=_("अन्तिम पहुँच समय"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
+    last_accessed = models.DateTimeField(blank=True, null=True, verbose_name=_("Last Accessed"), help_text=_("Last accessed time"))
 
     objects = ArticleManager()
 
     class Meta:
         ordering = ['-published_date']
-        verbose_name = _("समाचार लेख")
-        verbose_name_plural = _("समाचार लेखहरू")
+        verbose_name = _("News Article")
+        verbose_name_plural = _("News Articles")
         indexes = [
             models.Index(fields=['status', 'published_date']),
             models.Index(fields=['slug']),
@@ -360,42 +360,42 @@ class NewsArticle(models.Model):
 class Event(models.Model):
     """Events with enhanced features"""
     class EventType(models.TextChoices):
-        MEETING = 'MEET', _('बैठक')
-        WORKSHOP = 'WORK', _('कार्यशाला')
-        CONFERENCE = 'CONF', _('सम्मेलन')
-        SEMINAR = 'SEMI', _('सेमिनार')
-        SOCIAL = 'SOC', _('सामाजिक कार्यक्रम')
-        TRAINING = 'TRAIN', _('प्रशिक्षण')
-        OTHER = 'OTH', _('अन्य')
+        MEETING = 'MEET', _('Meeting')
+        WORKSHOP = 'WORK', _('Workshop')
+        CONFERENCE = 'CONF', _('Conference')
+        SEMINAR = 'SEMI', _('Seminar')
+        SOCIAL = 'SOC', _('Social Event')
+        TRAINING = 'TRAIN', _('Training')
+        OTHER = 'OTH', _('Other')
 
     class Status(models.TextChoices):
-        DRAFT = 'DF', _('मस्यौदा')
-        PUBLISHED = 'PB', _('प्रकाशित')
-        CANCELLED = 'CAN', _('रद्द')
-        COMPLETED = 'COM', _('पूर्ण')
+        DRAFT = 'DF', _('Draft')
+        PUBLISHED = 'PB', _('Published')
+        CANCELLED = 'CAN', _('Cancelled')
+        COMPLETED = 'COM', _('Completed')
 
     # Basic fields
-    title = models.CharField(max_length=200, verbose_name=_("शीर्षक"), help_text=_("कार्यक्रमको शीर्षक"))
-    slug = models.SlugField(unique=True, blank=True, max_length=250, verbose_name=_("स्लग"), help_text=_("URL-अनुकूल शीर्षक"))
-    description = models.TextField(verbose_name=_("विवरण"), help_text=_("कार्यक्रमको विवरण"))
-    short_description = models.TextField(blank=True, max_length=300, verbose_name=_("छोटो विवरण"), help_text=_("छोटो कार्यक्रम विवरण"))
+    title = models.CharField(max_length=200, verbose_name=_("Title"), help_text=_("Title of the event"))
+    slug = models.SlugField(unique=True, blank=True, max_length=250, verbose_name=_("Slug"), help_text=_("URL-friendly title"))
+    description = models.TextField(verbose_name=_("Description"), help_text=_("Description of the event"))
+    short_description = models.TextField(blank=True, max_length=300, verbose_name=_("Short Description"), help_text=_("Brief event description"))
     
     # Event details
-    event_type = models.CharField(max_length=5, choices=EventType.choices, default=EventType.OTHER, verbose_name=_("कार्यक्रम प्रकार"), help_text=_("कार्यक्रमको प्रकार"))
-    location = models.CharField(max_length=150, default="Cooperative Office", verbose_name=_("स्थान"), help_text=_("कार्यक्रम स्थान"))
-    address = models.TextField(blank=True, verbose_name=_("ठेगाना"), help_text=_("पूर्ण कार्यक्रम ठेगाना"))
-    event_date = models.DateTimeField(verbose_name=_("कार्यक्रम मिति"), help_text=_("कार्यक्रम मिति र समय"))
-    end_date = models.DateTimeField(blank=True, null=True, verbose_name=_("अन्त्य मिति"), help_text=_("कार्यक्रम अन्त्य मिति र समय"))
+    event_type = models.CharField(max_length=5, choices=EventType.choices, default=EventType.OTHER, verbose_name=_("Event Type"), help_text=_("Type of the event"))
+    location = models.CharField(max_length=150, default=_("Cooperative Office"), verbose_name=_("Location"), help_text=_("Event location"))
+    address = models.TextField(blank=True, verbose_name=_("Address"), help_text=_("Full event address"))
+    event_date = models.DateTimeField(verbose_name=_("Event Date"), help_text=_("Event date and time"))
+    end_date = models.DateTimeField(blank=True, null=True, verbose_name=_("End Date"), help_text=_("Event end date and time"))
     
     # Registration
-    max_attendees = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("अधिकतम सहभागी"), help_text=_("अधिकतम सहभागी संख्या"))
-    registration_required = models.BooleanField(default=False, verbose_name=_("दर्ता आवश्यक"), help_text=_("दर्ता आवश्यक"))
-    registration_deadline = models.DateTimeField(blank=True, null=True, verbose_name=_("दर्ता अन्तिम मिति"), help_text=_("दर्ता अन्तिम मिति"))
-    registration_url = models.URLField(blank=True, verbose_name=_("दर्ता URL"), help_text=_("दर्ता URL"))
+    max_attendees = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Max Attendees"), help_text=_("Maximum number of attendees"))
+    registration_required = models.BooleanField(default=False, verbose_name=_("Registration Required"), help_text=_("Is registration required"))
+    registration_deadline = models.DateTimeField(blank=True, null=True, verbose_name=_("Registration Deadline"), help_text=_("Registration deadline"))
+    registration_url = models.URLField(blank=True, verbose_name=_("Registration URL"), help_text=_("Registration URL"))
     
     # Media
-    image = models.ImageField(upload_to='news_events/events/', blank=True, null=True, verbose_name=_("छवि"), help_text=_("कार्यक्रम छवि"))
-    image_alt = models.CharField(max_length=200, blank=True, verbose_name=_("छवि Alt पाठ"), help_text=_("छविको Alt पाठ"))
+    image = models.ImageField(upload_to='news_events/events/', blank=True, null=True, verbose_name=_("Image"), help_text=_("Event image"))
+    image_alt = models.CharField(max_length=200, blank=True, verbose_name=_("Image Alt Text"), help_text=_("Alt text for the image"))
     
     # Optimized image variants (automatically generated on save)
     # Thumbnail for list views (300x200, WebP format)
@@ -442,25 +442,25 @@ class Event(models.Model):
     )
     
     # Status and visibility
-    status = models.CharField(max_length=3, choices=Status.choices, default=Status.DRAFT, verbose_name=_("स्थिति"), help_text=_("कार्यक्रम स्थिति"))
-    is_featured = models.BooleanField(default=False, verbose_name=_("मुख्य"), help_text=_("मुख्य कार्यक्रम"))
-    is_recurring = models.BooleanField(default=False, verbose_name=_("पुनरावृत्ति"), help_text=_("पुनरावृत्ति हुने कार्यक्रम"))
+    status = models.CharField(max_length=3, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Event status"))
+    is_featured = models.BooleanField(default=False, verbose_name=_("Is Featured"), help_text=_("Featured event"))
+    is_recurring = models.BooleanField(default=False, verbose_name=_("Is Recurring"), help_text=_("Recurring event"))
     
     # Analytics
-    view_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("हेराइ संख्या"), help_text=_("हेराइको संख्या"))
-    registration_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("दर्ता संख्या"), help_text=_("दर्ताको संख्या"))
+    view_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("View Count"), help_text=_("Number of views"))
+    registration_count = models.PositiveIntegerField(default=0, editable=False, verbose_name=_("Registration Count"), help_text=_("Number of registrations"))
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
-    last_accessed = models.DateTimeField(blank=True, null=True, verbose_name=_("अन्तिम पहुँच मिति"), help_text=_("अन्तिम पहुँच समय"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
+    last_accessed = models.DateTimeField(blank=True, null=True, verbose_name=_("Last Accessed"), help_text=_("Last accessed time"))
 
     objects = EventManager()
 
     class Meta:
         ordering = ['event_date']
-        verbose_name = _("कार्यक्रम")
-        verbose_name_plural = _("कार्यक्रमहरू")
+        verbose_name = _("Event")
+        verbose_name_plural = _("Events")
         indexes = [
             models.Index(fields=['event_date']),
             models.Index(fields=['status', 'event_date']),
@@ -565,39 +565,39 @@ class Event(models.Model):
 class Subscriber(models.Model):
     """Newsletter subscribers with enhanced features"""
     class Status(models.TextChoices):
-        ACTIVE = 'ACT', _('सक्रिय')
-        UNSUBSCRIBED = 'UNS', _('सदस्यता रद्द')
-        BOUNCED = 'BOU', _('बाउन्स')
-        SPAM = 'SPA', _('स्प्याम')
+        ACTIVE = 'ACT', _('Active')
+        UNSUBSCRIBED = 'UNS', _('Unsubscribed')
+        BOUNCED = 'BOU', _('Bounced')
+        SPAM = 'SPA', _('Spam')
 
-    email = models.EmailField(unique=True, verbose_name=_("इमेल"), help_text=_("सदस्यको इमेल"))
-    first_name = models.CharField(max_length=100, blank=True, verbose_name=_("पहिलो नाम"), help_text=_("पहिलो नाम"))
-    last_name = models.CharField(max_length=100, blank=True, verbose_name=_("अन्तिम नाम"), help_text=_("अन्तिम नाम"))
-    status = models.CharField(max_length=3, choices=Status.choices, default=Status.ACTIVE, verbose_name=_("स्थिति"), help_text=_("सदस्यता स्थिति"))
+    email = models.EmailField(unique=True, verbose_name=_("Email"), help_text=_("Subscriber email address"))
+    first_name = models.CharField(max_length=100, blank=True, verbose_name=_("First Name"), help_text=_("First name"))
+    last_name = models.CharField(max_length=100, blank=True, verbose_name=_("Last Name"), help_text=_("Last name"))
+    status = models.CharField(max_length=3, choices=Status.choices, default=Status.ACTIVE, verbose_name=_("Status"), help_text=_("Subscription status"))
     
     # Preferences
-    categories = models.ManyToManyField(Category, blank=True, verbose_name=_("प्राथमिकता श्रेणी"), help_text=_("प्राथमिकता श्रेणीहरू"))
-    frequency = models.CharField(max_length=20, default='weekly', verbose_name=_("आवृत्ति"), help_text=_("इमेल आवृत्ति प्राथमिकता"))
+    categories = models.ManyToManyField(Category, blank=True, verbose_name=_("Preferred Categories"), help_text=_("Preferred categories"))
+    frequency = models.CharField(max_length=20, default=_('weekly'), verbose_name=_("Frequency"), help_text=_("Email frequency preference"))
     
     # Analytics
-    open_count = models.PositiveIntegerField(default=0, verbose_name=_("खोलिएको संख्या"), help_text=_("खोलिएको इमेल संख्या"))
-    click_count = models.PositiveIntegerField(default=0, verbose_name=_("क्लिक संख्या"), help_text=_("क्लिक गरिएको लिङ्क संख्या"))
+    open_count = models.PositiveIntegerField(default=0, verbose_name=_("Open Count"), help_text=_("Number of emails opened"))
+    click_count = models.PositiveIntegerField(default=0, verbose_name=_("Click Count"), help_text=_("Number of links clicked"))
     
     # Security
-    ip_address = models.GenericIPAddressField(blank=True, null=True, verbose_name=_("IP ठेगाना"), help_text=_("सदस्यता लिँदा IP ठेगाना"))
-    user_agent = models.TextField(blank=True, verbose_name=_("प्रयोगकर्ता एजेन्ट"), help_text=_("सदस्यता लिँदा प्रयोगकर्ता एजेन्ट"))
-    confirmation_token = models.CharField(max_length=64, blank=True, verbose_name=_("पुष्टिकरण टोकन"), help_text=_("इमेल पुष्टिकरण टोकन"))
-    is_confirmed = models.BooleanField(default=False, verbose_name=_("पुष्टि भएको"), help_text=_("इमेल पुष्टि भएको"))
+    ip_address = models.GenericIPAddressField(blank=True, null=True, verbose_name=_("IP Address"), help_text=_("IP address during subscription"))
+    user_agent = models.TextField(blank=True, verbose_name=_("User Agent"), help_text=_("User agent during subscription"))
+    confirmation_token = models.CharField(max_length=64, blank=True, verbose_name=_("Confirmation Token"), help_text=_("Email confirmation token"))
+    is_confirmed = models.BooleanField(default=False, verbose_name=_("Is Confirmed"), help_text=_("Whether email is confirmed"))
     
     # Timestamps
-    subscribed_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सदस्यता मिति"))
-    confirmed_at = models.DateTimeField(blank=True, null=True, verbose_name=_("पुष्टि मिति"), help_text=_("इमेल पुष्टि मिति"))
-    last_activity = models.DateTimeField(blank=True, null=True, verbose_name=_("अन्तिम गतिविधि मिति"), help_text=_("अन्तिम गतिविधि मिति"))
+    subscribed_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Subscribed At"))
+    confirmed_at = models.DateTimeField(blank=True, null=True, verbose_name=_("Confirmed At"), help_text=_("Email confirmation date"))
+    last_activity = models.DateTimeField(blank=True, null=True, verbose_name=_("Last Activity Date"), help_text=_("Last activity date"))
 
     class Meta:
         ordering = ['-subscribed_at']
-        verbose_name = _("सदस्य")
-        verbose_name_plural = _("सदस्यहरू")
+        verbose_name = _("Subscriber")
+        verbose_name_plural = _("Subscribers")
         indexes = [
             models.Index(fields=['status', 'subscribed_at']),
             models.Index(fields=['email']),
@@ -623,37 +623,37 @@ class Subscriber(models.Model):
 class Comment(models.Model):
     """Comments on news articles"""
     class Status(models.TextChoices):
-        PENDING = 'PEN', _('अनुमोदन पछि')
-        APPROVED = 'APP', _('अनुमोदित')
-        REJECTED = 'REJ', _('अस्वीकृत')
-        SPAM = 'SPA', _('स्प्याम')
+        PENDING = 'PEN', _('Pending Approval')
+        APPROVED = 'APP', _('Approved')
+        REJECTED = 'REJ', _('Rejected')
+        SPAM = 'SPA', _('Spam')
 
-    article = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name='comments', verbose_name=_("लेख"), help_text=_("सम्बन्धित लेख"))
-    author_name = models.CharField(max_length=100, verbose_name=_("लेखकको नाम"), help_text=_("टिप्पणी लेखकको नाम"))
-    author_email = models.EmailField(verbose_name=_("लेखकको इमेल"), help_text=_("टिप्पणी लेखकको इमेल"))
-    content = models.TextField(verbose_name=_("सामग्री"), help_text=_("टिप्पणी सामग्री"))
-    status = models.CharField(max_length=3, choices=Status.choices, default=Status.PENDING, verbose_name=_("स्थिति"), help_text=_("टिप्पणी स्थिति"))
+    article = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name='comments', verbose_name=_("Article"), help_text=_("Related article"))
+    author_name = models.CharField(max_length=100, verbose_name=_("Author Name"), help_text=_("Comment author's name"))
+    author_email = models.EmailField(verbose_name=_("Author Email"), help_text=_("Comment author's email"))
+    content = models.TextField(verbose_name=_("Content"), help_text=_("Comment content"))
+    status = models.CharField(max_length=3, choices=Status.choices, default=Status.PENDING, verbose_name=_("Status"), help_text=_("Comment status"))
     
     # Moderation
-    is_approved = models.BooleanField(default=False, verbose_name=_("अनुमोदित"), help_text=_("टिप्पणी अनुमोदित"))
-    moderated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("निरीक्षण गरेको"), help_text=_("निरीक्षण गरेको"))
-    moderation_notes = models.TextField(blank=True, verbose_name=_("निरीक्षण नोट"), help_text=_("निरीक्षण नोट"))
+    is_approved = models.BooleanField(default=False, verbose_name=_("Is Approved"), help_text=_("Whether comment is approved"))
+    moderated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Moderated By"), help_text=_("User who moderated"))
+    moderation_notes = models.TextField(blank=True, verbose_name=_("Moderation Notes"), help_text=_("Moderation notes"))
     
     # Analytics
-    like_count = models.PositiveIntegerField(default=0, verbose_name=_("मन पराइएको संख्या"), help_text=_("मन पराइएको संख्या"))
+    like_count = models.PositiveIntegerField(default=0, verbose_name=_("Like Count"), help_text=_("Number of likes"))
     
     # Security
-    ip_address = models.GenericIPAddressField(blank=True, null=True, verbose_name=_("IP ठेगाना"), help_text=_("IP ठेगाना"))
-    user_agent = models.TextField(blank=True, verbose_name=_("प्रयोगकर्ता एजेन्ट"), help_text=_("प्रयोगकर्ता एजेन्ट"))
+    ip_address = models.GenericIPAddressField(blank=True, null=True, verbose_name=_("IP Address"), help_text=_("IP address"))
+    user_agent = models.TextField(blank=True, verbose_name=_("User Agent"), help_text=_("User agent"))
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name = _("टिप्पणी")
-        verbose_name_plural = _("टिप्पणीहरू")
+        verbose_name = _("Comment")
+        verbose_name_plural = _("Comments")
         indexes = [
             models.Index(fields=['article', 'status']),
             models.Index(fields=['status', 'created_at']),
@@ -666,39 +666,39 @@ class Comment(models.Model):
 class Newsletter(models.Model):
     """Newsletter campaigns"""
     class Status(models.TextChoices):
-        DRAFT = 'DF', _('मस्यौदा')
-        SCHEDULED = 'SC', _('तालिकाबद्ध')
-        SENDING = 'SE', _('पठाइरहेको')
-        SENT = 'SN', _('पठाइएको')
-        FAILED = 'FA', _('असफल')
+        DRAFT = 'DF', _('Draft')
+        SCHEDULED = 'SC', _('Scheduled')
+        SENDING = 'SE', _('Sending')
+        SENT = 'SN', _('Sent')
+        FAILED = 'FA', _('Failed')
 
-    title = models.CharField(max_length=200, verbose_name=_("शीर्षक"), help_text=_("न्युजलेटर शीर्षक"))
-    subject = models.CharField(max_length=200, verbose_name=_("विषय"), help_text=_("इमेल विषय"))
-    content = models.TextField(verbose_name=_("सामग्री"), help_text=_("न्युजलेटर सामग्री"))
-    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("स्थिति"), help_text=_("न्युजलेटर स्थिति"))
+    title = models.CharField(max_length=200, verbose_name=_("Title"), help_text=_("Newsletter title"))
+    subject = models.CharField(max_length=200, verbose_name=_("Subject"), help_text=_("Email subject"))
+    content = models.TextField(verbose_name=_("Content"), help_text=_("Newsletter content"))
+    status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name=_("Status"), help_text=_("Newsletter status"))
     
     # Targeting
-    categories = models.ManyToManyField(Category, blank=True, verbose_name=_("लक्ष्य श्रेणी"), help_text=_("लक्ष्य श्रेणीहरू"))
-    send_to_all = models.BooleanField(default=True, verbose_name=_("सबैलाई पठाउनुहोस्"), help_text=_("सबै सदस्यहरूलाई पठाउनुहोस्"))
+    categories = models.ManyToManyField(Category, blank=True, verbose_name=_("Target Categories"), help_text=_("Target categories"))
+    send_to_all = models.BooleanField(default=True, verbose_name=_("Send to All"), help_text=_("Send to all subscribers"))
     
     # Scheduling
-    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("तालिकाबद्ध मिति"), help_text=_("तालिकाबद्ध पठाउने मिति"))
-    sent_date = models.DateTimeField(blank=True, null=True, verbose_name=_("पठाइएको मिति"), help_text=_("वास्तविक पठाउने मिति"))
+    scheduled_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Scheduled Date"), help_text=_("Scheduled send date"))
+    sent_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Sent Date"), help_text=_("Actual send date"))
     
     # Analytics
-    total_sent = models.PositiveIntegerField(default=0, verbose_name=_("कुल पठाइएको"), help_text=_("कुल पठाइएको इमेल"))
-    total_opened = models.PositiveIntegerField(default=0, verbose_name=_("कुल खोलिएको"), help_text=_("कुल खोलिएको इमेल"))
-    total_clicked = models.PositiveIntegerField(default=0, verbose_name=_("कुल क्लिक गरिएको"), help_text=_("कुल क्लिक गरिएको लिङ्क"))
-    failed_recipients = models.TextField(blank=True, verbose_name=_("असफल प्रापकहरू"), help_text=_("इमेल पठाउन असफल भएका प्रापकहरूको सूची (JSON format)"))
+    total_sent = models.PositiveIntegerField(default=0, verbose_name=_("Total Sent"), help_text=_("Total emails sent"))
+    total_opened = models.PositiveIntegerField(default=0, verbose_name=_("Total Opened"), help_text=_("Total emails opened"))
+    total_clicked = models.PositiveIntegerField(default=0, verbose_name=_("Total Clicked"), help_text=_("Total links clicked"))
+    failed_recipients = models.TextField(blank=True, verbose_name=_("Failed Recipients"), help_text=_("List of recipients who failed to receive email (JSON format)"))
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name = _("न्युजलेटर")
-        verbose_name_plural = _("न्युजलेटरहरू")
+        verbose_name = _("Newsletter")
+        verbose_name_plural = _("Newsletters")
         indexes = [
             models.Index(fields=['status', 'scheduled_date']),
             models.Index(fields=['sent_date']),
@@ -709,32 +709,32 @@ class Newsletter(models.Model):
 
 class ContentAnalytics(models.Model):
     """Content analytics and performance tracking"""
-    content_type = models.CharField(max_length=20, verbose_name=_("सामग्री प्रकार"), help_text=_("सामग्री प्रकार (लेख, कार्यक्रम)"))
-    content_id = models.PositiveIntegerField(verbose_name=_("सामग्री ID"), help_text=_("सामग्री ID"))
-    date = models.DateField(verbose_name=_("मिति"), help_text=_("विश्लेषण मिति"))
+    content_type = models.CharField(max_length=20, verbose_name=_("Content Type"), help_text=_("Content type (article, event)"))
+    content_id = models.PositiveIntegerField(verbose_name=_("Content ID"), help_text=_("Content identifier"))
+    date = models.DateField(verbose_name=_("Date"), help_text=_("Analytics date"))
     
     # Metrics
-    views = models.PositiveIntegerField(default=0, verbose_name=_("हेराइ"), help_text=_("हेराइको संख्या"))
-    unique_views = models.PositiveIntegerField(default=0, verbose_name=_("अद्वितीय हेराइ"), help_text=_("अद्वितीय हेराइको संख्या"))
-    shares = models.PositiveIntegerField(default=0, verbose_name=_("साझेदारी"), help_text=_("साझेदारीको संख्या"))
-    comments = models.PositiveIntegerField(default=0, verbose_name=_("टिप्पणी"), help_text=_("टिप्पणीको संख्या"))
-    time_on_page = models.FloatField(default=0, verbose_name=_("पृष्ठमा समय"), help_text=_("पृष्ठमा औसत समय (सेकेन्डमा)"))
+    views = models.PositiveIntegerField(default=0, verbose_name=_("Views"), help_text=_("Number of views"))
+    unique_views = models.PositiveIntegerField(default=0, verbose_name=_("Unique Views"), help_text=_("Number of unique views"))
+    shares = models.PositiveIntegerField(default=0, verbose_name=_("Shares"), help_text=_("Number of shares"))
+    comments = models.PositiveIntegerField(default=0, verbose_name=_("Comments"), help_text=_("Number of comments"))
+    time_on_page = models.FloatField(default=0, verbose_name=_("Time on Page"), help_text=_("Average time on page (in seconds)"))
     
     # Traffic sources
-    organic_search = models.PositiveIntegerField(default=0, verbose_name=_("जैविक खोज"), help_text=_("जैविक खोज हेराइ"))
-    social_media = models.PositiveIntegerField(default=0, verbose_name=_("सामाजिक मिडिया"), help_text=_("सामाजिक मिडिया हेराइ"))
-    direct_traffic = models.PositiveIntegerField(default=0, verbose_name=_("प्रत्यक्ष ट्राफिक"), help_text=_("प्रत्यक्ष ट्राफिक हेराइ"))
-    referral_traffic = models.PositiveIntegerField(default=0, verbose_name=_("रेफरल ट्राफिक"), help_text=_("रेफरल ट्राफिक हेराइ"))
+    organic_search = models.PositiveIntegerField(default=0, verbose_name=_("Organic Search"), help_text=_("Organic search views"))
+    social_media = models.PositiveIntegerField(default=0, verbose_name=_("Social Media"), help_text=_("Social media views"))
+    direct_traffic = models.PositiveIntegerField(default=0, verbose_name=_("Direct Traffic"), help_text=_("Direct traffic views"))
+    referral_traffic = models.PositiveIntegerField(default=0, verbose_name=_("Referral Traffic"), help_text=_("Referral traffic views"))
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
     class Meta:
         unique_together = ['content_type', 'content_id', 'date']
         ordering = ['-date']
-        verbose_name = _("सामग्री विश्लेषण")
-        verbose_name_plural = _("सामग्री विश्लेषणहरू")
+        verbose_name = _("Content Analytics")
+        verbose_name_plural = _("Content Analytics")
         indexes = [
             models.Index(fields=['content_type', 'content_id', 'date']),
             models.Index(fields=['date']),
@@ -747,28 +747,28 @@ class ContentAnalytics(models.Model):
 class Notice(models.Model):
     """Notices (Soochana) for general public information"""
     class Type(models.TextChoices):
-        GENERAL = 'GEN', _('सामान्य सूचना')
-        URGENT = 'URG', _('जरुरी सूचना')
-        AGM = 'AGM', _('साधारण सभा')
-        TENDER = 'TEN', _('बोलपत्र')
-        OTHER = 'OTH', _('अन्य')
+        GENERAL = 'GEN', _('General Notice')
+        URGENT = 'URG', _('Urgent Notice')
+        AGM = 'AGM', _('Annual General Meeting')
+        TENDER = 'TEN', _('Tender Notice')
+        OTHER = 'OTH', _('Other')
 
-    title = models.CharField(max_length=200, verbose_name=_("शीर्षक"), help_text=_("सूचनाको शीर्षक"))
-    slug = models.SlugField(unique=True, blank=True, max_length=250, verbose_name=_("स्लग"), help_text=_("URL-अनुकूल शीर्षक"))
-    content = models.TextField(verbose_name=_("विवरण"), help_text=_("सूचनाको विस्तृत विवरण"))
+    title = models.CharField(max_length=200, verbose_name=_("Title"), help_text=_("Notice title"))
+    slug = models.SlugField(unique=True, blank=True, max_length=250, verbose_name=_("Slug"), help_text=_("URL-friendly title"))
+    content = models.TextField(verbose_name=_("Description"), help_text=_("Detailed description of the notice"))
     
     # Optional file attachment (e.g., scanned PDF)
-    file = models.FileField(upload_to='news_events/notices/', blank=True, null=True, verbose_name=_("फाइल"), help_text=_("सूचनाको फाइल (PDF/Image)"))
+    file = models.FileField(upload_to='news_events/notices/', blank=True, null=True, verbose_name=_("File"), help_text=_("Notice file (PDF/Image)"))
     
-    notice_type = models.CharField(max_length=3, choices=Type.choices, default=Type.GENERAL, verbose_name=_("प्रकार"), help_text=_("सूचना प्रकार"))
-    published_date = models.DateTimeField(default=timezone.now, verbose_name=_("प्रकाशन मिति"))
+    notice_type = models.CharField(max_length=3, choices=Type.choices, default=Type.GENERAL, verbose_name=_("Type"), help_text=_("Notice type"))
+    published_date = models.DateTimeField(default=timezone.now, verbose_name=_("Published Date"))
     
-    is_active = models.BooleanField(default=True, verbose_name=_("सक्रिय"), help_text=_("सक्रिय छ कि छैन"))
-    is_pinned = models.BooleanField(default=False, verbose_name=_("टाँसिएको (Pinned)"), help_text=_("माथि देखाउनको लागि"))
-    show_as_popup = models.BooleanField(default=False, verbose_name=_("Popup मा देखाउनुहोस्"), help_text=_("Home page मा popup modal मा देखाउने हो भने check गर्नुहोस्"))
+    is_active = models.BooleanField(default=True, verbose_name=_("Is Active"), help_text=_("Whether notice is active"))
+    is_pinned = models.BooleanField(default=False, verbose_name=_("Pinned"), help_text=_("Pin to top"))
+    show_as_popup = models.BooleanField(default=False, verbose_name=_("Show as Popup"), help_text=_("Check if this notice should be shown in a popup modal on the home page"))
     
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
     
     @property
     def is_currently_active(self):
@@ -777,8 +777,8 @@ class Notice(models.Model):
 
     class Meta:
         ordering = ['-is_pinned', '-published_date']
-        verbose_name = _("सूचना")
-        verbose_name_plural = _("सूचनाहरू")
+        verbose_name = _("Notice")
+        verbose_name_plural = _("Notices")
         indexes = [
             models.Index(fields=['is_active', 'published_date']),
             models.Index(fields=['is_pinned']),
@@ -810,99 +810,99 @@ class PopupNotice(models.Model):
     """Popup notice model for home page modal notices (e.g., AGM notices)"""
     
     class NoticeType(models.TextChoices):
-        AGM = 'agm', _('वार्षिक साधारण सभा (AGM)')
-        EGM = 'egm', _('असाधारण साधारण सभा (EGM)')
-        GENERAL = 'general', _('सामान्य सूचना')
-        IMPORTANT = 'important', _('महत्वपूर्ण सूचना')
-        EVENT = 'event', _('कार्यक्रम')
-        OTHER = 'other', _('अन्य')
+        AGM = 'agm', _('Annual General Meeting (AGM)')
+        EGM = 'egm', _('Extraordinary General Meeting (EGM)')
+        GENERAL = 'general', _('General Notice')
+        IMPORTANT = 'important', _('Important Notice')
+        EVENT = 'event', _('Event')
+        OTHER = 'other', _('Other')
     
     # Basic Information
     title = models.CharField(
         max_length=200, 
-        verbose_name=_("शीर्षक"),
-        help_text=_("Popup notice को शीर्षक (e.g., '14th Annual General Meeting Notice')")
+        verbose_name=_("Title"),
+        help_text=_("Popup notice title (e.g., '14th Annual General Meeting Notice')")
     )
     description = models.TextField(
         blank=True,
-        verbose_name=_("विवरण"),
-        help_text=_("Notice को छोटो विवरण (optional)")
+        verbose_name=_("Description"),
+        help_text=_("Short description of the notice (optional)")
     )
     notice_type = models.CharField(
         max_length=20,
         choices=NoticeType.choices,
         default=NoticeType.GENERAL,
-        verbose_name=_("Notice प्रकार"),
-        help_text=_("Notice को प्रकार छान्नुहोस्")
+        verbose_name=_("Notice Type"),
+        help_text=_("Select the type of notice")
     )
     
     # Image
     image = models.ImageField(
         upload_to='news_events/popup_notices/',
         verbose_name=_("Notice Image"),
-        help_text=_("Popup मा देखाउने image (JPG, PNG format मा)")
+        help_text=_("Image to display in the popup (JPG, PNG format)")
     )
     image_alt = models.CharField(
         max_length=200,
         blank=True,
         verbose_name=_("Image Alt Text"),
-        help_text=_("Image को alt text (accessibility को लागि)")
+        help_text=_("Alt text for the image (for accessibility)")
     )
     
     # Link (optional)
     link_url = models.URLField(
         blank=True,
         verbose_name=_("Link URL"),
-        help_text=_("यदि image click गर्दा कुनै page मा जानुपर्छ भने URL (optional)")
+        help_text=_("URL if the image should link to another page (optional)")
     )
     link_text = models.CharField(
         max_length=100,
         blank=True,
         verbose_name=_("Link Text"),
-        help_text=_("Link button को text (optional)")
+        help_text=_("Text for the link button (optional)")
     )
     open_in_new_tab = models.BooleanField(
         default=False,
-        verbose_name=_("नयाँ tab मा खोल्नुहोस्"),
-        help_text=_("Link नयाँ tab मा खोल्ने हो भने check गर्नुहोस्")
+        verbose_name=_("Open in New Tab"),
+        help_text=_("Check if the link should open in a new tab")
     )
     
     # Display Settings
     priority = models.PositiveIntegerField(
         default=0,
-        verbose_name=_("प्राथमिकता"),
+        verbose_name=_("Priority"),
         help_text=_("Higher priority notices appear first. If multiple active notices exist, highest priority shows.")
     )
     is_active = models.BooleanField(
         default=True,
-        verbose_name=_("सक्रिय"),
+        verbose_name=_("Is Active"),
         help_text=_("Check this to show the popup on home page. Uncheck to hide without deleting.")
     )
     
     # Date Settings
     start_date = models.DateTimeField(
         default=timezone.now,
-        verbose_name=_("सुरु मिति"),
-        help_text=_("जब देखाउन सुरु गर्ने (default: अहिले)")
+        verbose_name=_("Start Date"),
+        help_text=_("When to start showing (default: now)")
     )
     end_date = models.DateTimeField(
         blank=True,
         null=True,
-        verbose_name=_("अन्त्य मिति"),
-        help_text=_("जब देखाउन बन्द गर्ने (blank = सधै देखाउने)")
+        verbose_name=_("End Date"),
+        help_text=_("When to stop showing (blank = show indefinitely)")
     )
     
     # Auto-close Duration (in seconds)
     auto_close_duration = models.PositiveIntegerField(
         blank=True,
         null=True,
-        verbose_name=_("Auto-Close Duration (सेकेन्ड)"),
-        help_text=_("Popup कति सेकेन्ड पछि आफैँ बन्द हुने (blank = manual close मात्र, e.g., 5 = 5 सेकेन्ड पछि auto-close)")
+        verbose_name=_("Auto-Close Duration (Seconds)"),
+        help_text=_("Seconds before popup auto-closes (blank = manual close only)")
     )
     
     # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("सिर्जना मिति"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("अपडेट मिति"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
     
     class Meta:
         verbose_name = _("Popup Notice")

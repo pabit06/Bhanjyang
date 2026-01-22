@@ -195,17 +195,17 @@ class UserFriendlyErrorHandler:
         error_type = type(error).__name__
         
         error_messages = {
-            'ValidationError': _("कृपया सबै आवश्यक फिल्डहरू सही रूपमा भर्नुहोस्।"),
-            'PermissionDenied': _("तपाईंसँग यो कार्य गर्नको लागि अनुमति छैन।"),
-            'DatabaseError': _("डेटाबेस त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"),
-            'IntegrityError': _("डेटा अमान्य छ। कृपया जाँच गर्नुहोस्।"),
-            'Http404': _("अनुरोध गरिएको पृष्ठ फेला परेन।"),
-            'ValueError': _("अमान्य मान प्रदान गरिएको छ।"),
-            'TypeError': _("गलत प्रकारको डेटा प्रदान गरिएको छ।"),
+            'ValidationError': _("Please fill in all required fields correctly."),
+            'PermissionDenied': _("You do not have permission to perform this action."),
+            'DatabaseError': _("A database error occurred. Please try again later."),
+            'IntegrityError': _("The data is invalid. Please check and try again."),
+            'Http404': _("The requested page was not found."),
+            'ValueError': _("An invalid value was provided."),
+            'TypeError': _("Incorrect data type provided."),
         }
         
         # Default message
-        default_message = _("एक त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।")
+        default_message = _("An error occurred. Please try again later.")
         
         # Get specific message or default
         message = error_messages.get(error_type, default_message)

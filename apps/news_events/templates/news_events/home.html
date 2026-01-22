@@ -2,13 +2,14 @@
 {% load static %}
 {% load i18n %}
 {% load nepalidatetime %}
+{% load nepali_digits %}
 
-{% block title %}{% trans "News & Events" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "News & Events" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{% trans "Stay updated with the latest news, events, and announcements from Bhanjyang Saving & Credit Cooperative Society Ltd." %}{% endblock meta_description %}
-{% block meta_keywords %}Bhanjyang Cooperative, News, Events, Updates, Announcements, Cooperative News, समाचार, कार्यक्रम{% endblock meta_keywords %}
+{% block meta_keywords %}Bhanjyang Cooperative, News, Events, Updates, Announcements, Cooperative News, {% trans "News" %}, {% trans "Events" %}{% endblock meta_keywords %}
 
-{% block og_title %}{% trans "News & Events" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{% trans "News & Events" %} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{% trans "Stay updated with the latest news, events, and announcements from Bhanjyang Cooperative." %}{% endblock og_description %}
 
@@ -68,7 +69,7 @@
             {% trans "News & Events" %}
         </span>
         <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            <span class="text-gray-800">समाचार</span> <span class="text-deuraligreen">र</span> <span class="text-gray-800">कार्यक्रमहरू</span>
+            {% trans "News & Events" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -145,11 +146,11 @@
                                         </span>
                                         <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
                                             <i class="fas fa-clock text-deuraligreen text-xs"></i>
-                                            <span>{{ article.read_time }} {% trans "min" %}</span>
+                                            <span>{{ article.read_time|to_nepali_digits }} {% trans "min" %}</span>
                                         </span>
                                         <span class="flex items-center gap-1 bg-gray-100 px-1.5 py-0.5 rounded-full">
                                             <i class="fas fa-eye text-deuraligreen text-xs"></i>
-                                            <span>{{ article.view_count }}</span>
+                                            <span>{{ article.view_count|to_nepali_digits }}</span>
                                         </span>
                                     </div>
                                 </div>
@@ -255,7 +256,7 @@
                     {% trans "Latest News" %}
                 </span>
                 <h2 id="latest-news-heading" class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
-                    <span class="text-gray-800">नयाँ</span> <span class="text-deuraligreen">समाचार</span>
+                    {% blocktrans %}<span class="text-gray-800">New</span> <span class="text-deuraligreen">News</span>{% endblocktrans %}
                 </h2>
                 <div class="w-24 h-1 bg-deuraligreen rounded-full mt-4"></div>
             </div>
@@ -325,11 +326,11 @@
                             <span>{{ article.author.get_full_name|default:article.author.username }}</span>
                             <span class="mx-2">•</span>
                             <i class="fas fa-clock mr-1"></i>
-                            <span>{{ article.read_time }} min</span>
+                            <span>{{ article.read_time|to_nepali_digits }} {% trans "min" %}</span>
                         </div>
                         <div class="flex items-center space-x-3 text-xs text-gray-500">
-                            <span><i class="fas fa-eye mr-1"></i>{{ article.view_count }}</span>
-                            <span><i class="fas fa-share mr-1"></i>{{ article.share_count }}</span>
+                            <span><i class="fas fa-eye mr-1"></i>{{ article.view_count|to_nepali_digits }}</span>
+                            <span><i class="fas fa-share mr-1"></i>{{ article.share_count|to_nepali_digits }}</span>
                         </div>
                     </div>
                 </div>
@@ -369,7 +370,7 @@
                     {% trans "Notices" %}
                 </span>
                 <h2 id="notices-heading" class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
-                    <span class="text-gray-800">सूचना</span> <span class="text-blue-600">हरू</span>
+                    {% trans "Notices" %}
                 </h2>
                 <div class="w-24 h-1 bg-blue-600 rounded-full mt-4"></div>
             </div>
@@ -462,7 +463,7 @@
                     {% trans "Upcoming Events" %}
                 </span>
                 <h2 id="upcoming-events-heading" class="text-3xl sm:text-4xl font-bold font-montserrat text-gray-900">
-                    <span class="text-gray-800">आगामी</span> <span class="text-bhanjyangred">कार्यक्रमहरू</span>
+                    {% blocktrans %}<span class="text-gray-800">Upcoming</span> <span class="text-bhanjyangred">Events</span>{% endblocktrans %}
                 </h2>
                 <div class="w-24 h-1 bg-bhanjyangred rounded-full mt-4"></div>
             </div>
@@ -544,7 +545,7 @@
                         </div>
                         <div class="flex items-center text-xs text-gray-500">
                             <i class="fas fa-eye mr-1"></i>
-                            <span>{{ event.view_count }}</span>
+                            <span>{{ event.view_count|to_nepali_digits }}</span>
                         </div>
                     </div>
 
@@ -648,7 +649,7 @@
                 {% trans "Our Impact" %}
             </span>
             <h2 id="statistics-heading" class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-gray-900">
-                <span class="text-gray-800">हाम्रो</span> <span class="text-deuraligreen">प्रभाव</span>
+                {% trans "Our Impact" %}
             </h2>
             <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         </div>
@@ -661,7 +662,7 @@
                     </div>
                 </div>
                 <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">
-                    {% if article_stats.published_articles %}{{ article_stats.published_articles }}{% else %}0{% endif %}
+                    {% if article_stats.published_articles %}{{ article_stats.published_articles|to_nepali_digits }}{% else %}{{ 0|to_nepali_digits }}{% endif %}
                 </h3>
                 <p class="text-gray-700 font-semibold">{% trans "Published Articles" %}</p>
             </div>
@@ -673,7 +674,7 @@
                     </div>
                 </div>
                 <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">
-                    {% if event_stats.upcoming_events %}{{ event_stats.upcoming_events }}{% else %}0{% endif %}
+                    {% if event_stats.upcoming_events %}{{ event_stats.upcoming_events|to_nepali_digits }}{% else %}{{ 0|to_nepali_digits }}{% endif %}
                 </h3>
                 <p class="text-gray-700 font-semibold">{% trans "Upcoming Events" %}</p>
             </div>
@@ -685,7 +686,7 @@
                     </div>
                 </div>
                 <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">
-                    {% if article_stats.total_views %}{{ article_stats.total_views }}{% else %}0{% endif %}
+                    {% if article_stats.total_views %}{{ article_stats.total_views|to_nepali_digits }}{% else %}{{ 0|to_nepali_digits }}{% endif %}
                 </h3>
                 <p class="text-gray-700 font-semibold">{% trans "Total Views" %}</p>
             </div>
@@ -696,7 +697,7 @@
                         <i class="fas fa-users text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
                     </div>
                 </div>
-                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">२४/७</h3>
+                <h3 class="text-4xl font-extrabold text-bhanjyangred mb-2 font-montserrat">{% trans "24/7" %}</h3>
                 <p class="text-gray-700 font-semibold">{% trans "Community Access" %}</p>
             </div>
         </div>
@@ -834,19 +835,19 @@ if ('serviceWorker' in navigator) {
 {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "{% trans 'News & Events' %} - भञ्ज्याङ सहकारी",
+    "name": "{% trans 'News & Events' %} - {% trans 'Bhanjyang Cooperative' %}",
     "description": "{% trans 'Stay updated with the latest news, events, and announcements from Bhanjyang Saving & Credit Cooperative Society Ltd.' %}",
     "url": "{{ request.build_absolute_uri }}",
     "inLanguage": "ne",
     "isPartOf": {
         "@type": "WebSite",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "{% trans 'Bhanjyang Cooperative' %}",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "url": "{{ request.scheme }}://{{ request.get_host }}/"
     },
     "publisher": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "{% trans 'Bhanjyang Cooperative' %}",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "url": "{{ request.scheme }}://{{ request.get_host }}/",
         "logo": {

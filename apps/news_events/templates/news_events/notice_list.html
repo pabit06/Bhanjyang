@@ -2,8 +2,9 @@
 {% load static %}
 {% load i18n %}
 {% load nepalidatetime %}
+{% load nepali_digits %}
 
-{% block title %}{% trans "Notices" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "Notices" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block content %}
 <!-- Modern Breadcrumb -->
@@ -18,7 +19,7 @@
             {% trans "Notices" %}
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            <span class="text-gray-800">सूचना</span> <span class="text-bhanjyangred">पाटी</span>
+            {% trans "Notices" %}
         </h1>
         <div class="w-24 h-1 bg-bhanjyangred mx-auto rounded-full mb-6"></div>
     </div>
@@ -39,7 +40,7 @@
                                 </span>
                                 <span class="text-sm text-gray-500 flex items-center">
                                     <i class="fas fa-calendar-alt mr-2"></i>
-                                    {{ notice.published_date|date:"F d, Y" }}
+                                    {{ notice.published_date|nepalidate_ne }}
                                 </span>
                             </div>
                             
@@ -80,7 +81,7 @@
                         {% endif %}
                         
                         <span class="px-6 py-2 bg-bhanjyangred text-white rounded-full font-bold shadow">
-                            {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                            {{ page_obj.number|to_nepali_digits }} / {{ page_obj.paginator.num_pages|to_nepali_digits }}
                         </span>
                         
                         {% if page_obj.has_next %}

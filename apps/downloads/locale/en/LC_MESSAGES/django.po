@@ -1,22 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 16:13+0545\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: .\apps\downloads\models.py:11
 msgid "Application Form"
 msgstr ""
@@ -63,7 +44,7 @@ msgid "High Priority"
 msgstr ""
 
 #: .\apps\downloads\models.py:24
-#: .\apps\downloads\templates\partials\_download_card_template.html:23
+#: .\apps\downloads\templates\partials\_download_card_template.html:24
 msgid "Urgent"
 msgstr ""
 
@@ -470,13 +451,13 @@ msgstr ""
 
 #: .\apps\downloads\templates\downloads\file_detail.html:33
 #: .\apps\downloads\templates\downloads\file_preview.html:162
-#: .\apps\downloads\templates\partials\_download_card_template.html:14
+#: .\apps\downloads\templates\partials\_download_card_template.html:15
 msgid "Featured"
 msgstr ""
 
 #: .\apps\downloads\templates\downloads\file_detail.html:47
 #: .\apps\downloads\templates\downloads\file_preview.html:167
-#: .\apps\downloads\templates\partials\_download_card_template.html:49
+#: .\apps\downloads\templates\partials\_download_card_template.html:50
 msgid "Login Required"
 msgstr ""
 
@@ -543,7 +524,7 @@ msgstr ""
 
 #: .\apps\downloads\templates\downloads\file_detail.html:158
 #: .\apps\downloads\templates\downloads\file_preview.html:236
-#: .\apps\downloads\templates\partials\_download_card_template.html:113
+#: .\apps\downloads\templates\partials\_download_card_template.html:114
 msgid "Download File"
 msgstr ""
 
@@ -575,35 +556,35 @@ msgstr ""
 msgid "This file type cannot be previewed in the browser."
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:29
+#: .\apps\downloads\templates\partials\_download_card_template.html:30
 msgid "High"
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:59
+#: .\apps\downloads\templates\partials\_download_card_template.html:60
 msgid "File Details"
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:64
+#: .\apps\downloads\templates\partials\_download_card_template.html:65
 msgid "Uploaded:"
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:70
+#: .\apps\downloads\templates\partials\_download_card_template.html:71
 msgid "Type:"
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:76
+#: .\apps\downloads\templates\partials\_download_card_template.html:77
 msgid "Size:"
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:82
+#: .\apps\downloads\templates\partials\_download_card_template.html:83
 msgid "Downloads:"
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:89
+#: .\apps\downloads\templates\partials\_download_card_template.html:90
 msgid "Expires:"
 msgstr ""
 
-#: .\apps\downloads\templates\partials\_download_card_template.html:110
+#: .\apps\downloads\templates\partials\_download_card_template.html:111
 #, python-format
 msgid "Download %(title)s"
 msgstr ""

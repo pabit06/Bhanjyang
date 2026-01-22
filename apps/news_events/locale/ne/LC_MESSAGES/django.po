@@ -8,2119 +8,413 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-18 23:19+0545\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2026-01-22 00:45+0545\n"
+"PO-Revision-Date: 2026-01-22 00:45+0545\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ne\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\apps\news_events\admin.py:49
-#: .\apps\news_events\templates\news_events\event_not_found.html:196
-msgid "लेखहरू"
-msgstr ""
-
-#: .\apps\news_events\admin.py:59 .\apps\news_events\models.py:99
-msgid "रङ"
-msgstr ""
-
-#: .\apps\news_events\admin.py:108
-msgid "चयनित लेखहरूलाई प्रकाशन गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:114
-msgid "चयनित लेखहरूलाई संग्रह गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:120
-msgid "चयनित लेखहरूलाई ड्राफ्टमा सार्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:126
-msgid "चयनित लेखहरूलाई फिचर्ड बनाउनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:132
-msgid "चयनित लेखहरूबाट फिचर्ड हटाउनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:157
-msgid "चयनित लेखहरूलाई CSV मा निर्यात गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:173
-msgid "चयनित लेखहरूलाई डुप्लिकेट गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:367
-msgid "चयनित सदस्यहरूलाई CSV मा निर्यात गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:390
-msgid "चयनित सदस्यहरूलाई न्युजलेटर पठाउनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:426
-msgid "चयनित टिप्पणीहरू अनुमोदन गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:432
-msgid "चयनित टिप्पणीहरू अस्वीकृत गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:438
-msgid "चयनित टिप्पणीहरूलाई स्प्यामको रूपमा चिन्ह लगाउनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\admin.py:505
-msgid "चयनित न्युजलेटरहरू पठाउनुहोस् (Asynchronous)"
-msgstr ""
-
-#: .\apps\news_events\admin.py:559
-msgid "Optional file (PDF/Image) download for this notice."
-msgstr ""
-
-#: .\apps\news_events\admin.py:563
-msgid ""
-"show_as_popup: Check this to display this notice as a popup modal on the "
-"home page."
-msgstr ""
-
-#: .\apps\news_events\admin.py:570 .\apps\news_events\models.py:761
-msgid "फाइल"
-msgstr ""
-
-#: .\apps\news_events\admin.py:591
-msgid ""
-"<strong>Home Page Popup Notice</strong><br>This notice appears as a popup "
-"modal when users visit the home page.<br>Only ONE active notice will be "
-"shown at a time (highest priority).<br><br><strong>Examples:</strong><br>• "
-"Title: \"14th Annual General Meeting Notice\"<br>• Type: \"वार्षिक साधारण सभा "
-"(AGM)\""
-msgstr ""
-
-#: .\apps\news_events\admin.py:602
-msgid ""
-"<strong>Image Requirements:</strong><br>• Recommended size: 800x1200px or "
-"larger<br>• Format: JPG or PNG<br>• The image will be displayed in a "
-"scrollable modal popup<br>• Alt text is important for accessibility"
-msgstr ""
-
-#: .\apps\news_events\admin.py:613
-msgid ""
-"If you want the image to be clickable and link to another page, fill these "
-"fields.<br>Leave blank if the image should not be clickable."
-msgstr ""
-
-#: .\apps\news_events\admin.py:620
-msgid ""
-"<strong>Priority:</strong> Higher numbers appear first. If multiple notices "
-"are active, only the highest priority one shows.<br><strong>Active:</strong> "
-"Must be checked to display. Uncheck to hide without deleting."
-"<br><strong>Start Date:</strong> When to start showing the notice (default: "
-"now).<br><strong>End Date:</strong> When to stop showing (leave blank to "
-"show indefinitely).<br><strong>Auto-Close Duration:</strong> Popup कति सेकेन्ड "
-"पछि आफैँ बन्द हुने (blank = manual close मात्र, e.g., 5 = 5 सेकेन्ड पछि auto-close)"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:198
-msgid "कृपया सबै आवश्यक फिल्डहरू सही रूपमा भर्नुहोस्।"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:199
-msgid "तपाईंसँग यो कार्य गर्नको लागि अनुमति छैन।"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:200
-msgid "डेटाबेस त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:201
-msgid "डेटा अमान्य छ। कृपया जाँच गर्नुहोस्।"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:202
-msgid "अनुरोध गरिएको पृष्ठ फेला परेन।"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:203
-msgid "अमान्य मान प्रदान गरिएको छ।"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:204
-msgid "गलत प्रकारको डेटा प्रदान गरिएको छ।"
-msgstr ""
-
-#: .\apps\news_events\error_handling.py:208
-msgid "एक त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:34
-msgid "लेखको शीर्षक प्रविष्ट गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\forms.py:40
-msgid "लेखको सामग्री यहाँ लेख्नुहोस्..."
-msgstr ""
-
-#: .\apps\news_events\forms.py:45
-msgid "लेखको संक्षिप्त सारांश (वैकल्पिक)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:50
-msgid "SEO शीर्षक (वैकल्पिक)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:56
-msgid "SEO विवरण (वैकल्पिक)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:61
-msgid "SEO कीवर्ड (अल्पविरामले छुट्याइएको)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:66 .\apps\news_events\forms.py:161
-msgid "इमेजको लागि Alt text"
-msgstr ""
-
-#: .\apps\news_events\forms.py:79 .\apps\news_events\forms.py:374
-msgid "सामग्रीमा सुरक्षा समस्या छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:83 .\apps\news_events\forms.py:378
-msgid "सामग्री प्रमाणीकरण असफल भयो।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:94
-msgid "शीर्षक २०० वर्ण वा कम हुनुपर्छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:103
-msgid "तालिकाबद्ध लेखहरूको लागि तालिकाबद्ध मिति आवश्यक छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:106
-msgid "तालिकाबद्ध मिति भविष्यमा हुनुपर्छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:131
-msgid "कार्यक्रमको शीर्षक प्रविष्ट गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\forms.py:137
-msgid "कार्यक्रमको विवरण लेख्नुहोस्..."
-msgstr ""
-
-#: .\apps\news_events\forms.py:142
-msgid "कार्यक्रमको संक्षिप्त विवरण"
-msgstr ""
-
-#: .\apps\news_events\forms.py:147
-msgid "कार्यक्रमको स्थान"
-msgstr ""
-
-#: .\apps\news_events\forms.py:153
-msgid "कार्यक्रमको पूर्ण ठेगाना"
-msgstr ""
-
-#: .\apps\news_events\forms.py:174
-msgid "विवरणमा सुरक्षा समस्या छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:178
-msgid "विवरण प्रमाणीकरण असफल भयो।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:191
-msgid "अन्त्य मिति कार्यक्रम मिति पछि हुनुपर्छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:202
-msgid "दर्ता आवश्यक भएमा दर्ता अन्तिम मिति आवश्यक छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:205
-msgid "दर्ता अन्तिम मिति कार्यक्रम मिति अघि हुनुपर्छ।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:218 .\apps\news_events\models.py:96
-msgid "श्रेणीको नाम"
-msgstr ""
-
-#: .\apps\news_events\forms.py:224 .\apps\news_events\models.py:98
-msgid "श्रेणीको विवरण"
-msgstr ""
-
-#: .\apps\news_events\forms.py:251
-msgid "आफ्नो इमेल ठेगाना प्रविष्ट गर्नुहोस्..."
-msgstr ""
-
-#: .\apps\news_events\forms.py:252
-msgid "इमेल ठेगाना"
-msgstr ""
-
-#: .\apps\news_events\forms.py:257
-msgid "पहिलो नाम (वैकल्पिक)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:262
-msgid "अन्तिम नाम (वैकल्पिक)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:291
-msgid "आफ्नो नाम"
-msgstr ""
-
-#: .\apps\news_events\forms.py:297
-msgid "आफ्नो इमेल ठेगाना"
-msgstr ""
-
-#: .\apps\news_events\forms.py:303
-msgid "आफ्नो टिप्पणी लेख्नुहोस्..."
-msgstr ""
-
-#: .\apps\news_events\forms.py:316
-msgid "टिप्पणी स्प्याम जस्तो देखिन्छ। कृपया पुनः समीक्षा गर्नुहोस्।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:344 .\apps\news_events\models.py:675
-msgid "न्युजलेटर शीर्षक"
-msgstr ""
-
-#: .\apps\news_events\forms.py:349
-msgid "इमेल विषय पङ्क्ति"
-msgstr ""
-
-#: .\apps\news_events\forms.py:355
-msgid "न्युजलेटर सामग्री..."
-msgstr ""
-
-#: .\apps\news_events\forms.py:398
-msgid "सबै सामग्री"
-msgstr ""
-
-#: .\apps\news_events\forms.py:399
-msgid "लेख मात्र"
-msgstr ""
-
-#: .\apps\news_events\forms.py:400
-msgid "कार्यक्रम मात्र"
-msgstr ""
-
-#: .\apps\news_events\forms.py:404
-msgid "प्रासङ्गिकता"
-msgstr ""
-
-#: .\apps\news_events\forms.py:405 .\apps\news_events\models.py:714
-msgid "मिति"
-msgstr ""
-
-#: .\apps\news_events\forms.py:406 .\apps\news_events\models.py:717
-msgid "हेराइ"
-msgstr ""
-
-#: .\apps\news_events\forms.py:407 .\apps\news_events\models.py:146
-#: .\apps\news_events\models.py:378 .\apps\news_events\models.py:675
-#: .\apps\news_events\models.py:756 .\apps\news_events\models.py:823
-msgid "शीर्षक"
-msgstr ""
-
-#: .\apps\news_events\forms.py:415
-msgid "लेख र कार्यक्रमहरू खोज्नुहोस्..."
-msgstr ""
-
-#: .\apps\news_events\forms.py:431
-msgid "सबै श्रेणीहरू"
-msgstr ""
-
-#: .\apps\news_events\forms.py:463
-msgid "सबै लेखकहरू"
-msgstr ""
-
-#: .\apps\news_events\forms.py:468
-msgid "सबै स्थिति"
-msgstr ""
-
-#: .\apps\news_events\forms.py:469
-msgid "प्रकाशित मात्र"
-msgstr ""
-
-#: .\apps\news_events\forms.py:470
-msgid "मस्यौदा मात्र"
-msgstr ""
-
-#: .\apps\news_events\forms.py:488
-msgid "न्यूनतम पढ्ने समय (मिनेट)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:497
-msgid "अधिकतम पढ्ने समय (मिनेट)"
-msgstr ""
-
-#: .\apps\news_events\forms.py:547
-msgid "कुनै सामग्री छानिएको छैन।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:552
-msgid "वैध सामग्री ID प्रदान गरिएको छैन।"
-msgstr ""
-
-#: .\apps\news_events\forms.py:555
-msgid "अवैध सामग्री ID प्रदान गरिएको छ।"
-msgstr ""
-
-#: .\apps\news_events\models.py:96
-msgid "नाम"
-msgstr ""
-
-#: .\apps\news_events\models.py:97 .\apps\news_events\models.py:147
-#: .\apps\news_events\models.py:379 .\apps\news_events\models.py:757
-msgid "स्लग"
-msgstr ""
-
-#: .\apps\news_events\models.py:97
-msgid "URL-अनुकूल संस्करण"
-msgstr ""
-
-#: .\apps\news_events\models.py:98 .\apps\news_events\models.py:380
-#: .\apps\news_events\models.py:758 .\apps\news_events\models.py:828
-msgid "विवरण"
-msgstr ""
-
-#: .\apps\news_events\models.py:99
-msgid "श्रेणीको हेक्स रङ कोड"
-msgstr ""
-
-#: .\apps\news_events\models.py:100
-msgid "आइकन"
-msgstr ""
-
-#: .\apps\news_events\models.py:100
-msgid "FontAwesome आइकन क्लास"
-msgstr ""
-
-#: .\apps\news_events\models.py:101 .\apps\news_events\models.py:568
-#: .\apps\news_events\models.py:766 .\apps\news_events\models.py:878
-msgid "सक्रिय"
-msgstr ""
-
-#: .\apps\news_events\models.py:101
-msgid "यो श्रेणी सक्रिय छ कि छैन"
-msgstr ""
-
-#: .\apps\news_events\models.py:102
-msgid "क्रम"
-msgstr ""
-
-#: .\apps\news_events\models.py:102
-msgid "प्रदर्शनको लागि क्रम"
-msgstr ""
-
-#: .\apps\news_events\models.py:103 .\apps\news_events\models.py:225
-#: .\apps\news_events\models.py:454 .\apps\news_events\models.py:650
-#: .\apps\news_events\models.py:695 .\apps\news_events\models.py:730
-#: .\apps\news_events\models.py:770 .\apps\news_events\models.py:904
-msgid "सिर्जना मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:104 .\apps\news_events\models.py:226
-#: .\apps\news_events\models.py:455 .\apps\news_events\models.py:651
-#: .\apps\news_events\models.py:696 .\apps\news_events\models.py:731
-#: .\apps\news_events\models.py:771 .\apps\news_events\models.py:905
-msgid "अपडेट मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:108 .\apps\news_events\models.py:148
-msgid "श्रेणी"
-msgstr ""
-
-#: .\apps\news_events\models.py:109
-msgid "श्रेणीहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:134 .\apps\news_events\models.py:372
-#: .\apps\news_events\models.py:669
-msgid "मस्यौदा"
-msgstr ""
-
-#: .\apps\news_events\models.py:135 .\apps\news_events\models.py:373
-msgid "प्रकाशित"
-msgstr ""
-
-#: .\apps\news_events\models.py:136
-msgid "संग्रह"
-msgstr ""
-
-#: .\apps\news_events\models.py:137 .\apps\news_events\models.py:670
-msgid "तालिकाबद्ध"
-msgstr ""
-
-#: .\apps\news_events\models.py:140
-msgid "न्यून प्राथमिकता"
-msgstr ""
-
-#: .\apps\news_events\models.py:141
-msgid "मध्यम प्राथमिकता"
-msgstr ""
-
-#: .\apps\news_events\models.py:142
-msgid "उच्च प्राथमिकता"
-msgstr ""
-
-#: .\apps\news_events\models.py:143
-msgid "तत्काल"
-msgstr ""
-
-#: .\apps\news_events\models.py:146
-msgid "लेखको शीर्षक"
-msgstr ""
-
-#: .\apps\news_events\models.py:147 .\apps\news_events\models.py:379
-#: .\apps\news_events\models.py:757
-msgid "URL-अनुकूल शीर्षक"
-msgstr ""
-
-#: .\apps\news_events\models.py:148
-msgid "लेखको श्रेणी"
-msgstr ""
-
-#: .\apps\news_events\models.py:149
-msgid "लेखक"
-msgstr ""
-
-#: .\apps\news_events\models.py:149
-msgid "लेखको लेखक"
-msgstr ""
-
-#: .\apps\news_events\models.py:152 .\apps\news_events\models.py:634
-#: .\apps\news_events\models.py:677
-msgid "सामग्री"
-msgstr ""
-
-#: .\apps\news_events\models.py:152
-msgid "लेखको सामग्री"
-msgstr ""
-
-#: .\apps\news_events\models.py:153
-msgid "सारांश"
-msgstr ""
-
-#: .\apps\news_events\models.py:153
-msgid "छोटो लेख सारांश"
-msgstr ""
-
-#: .\apps\news_events\models.py:154 .\apps\news_events\models.py:397
-msgid "छवि"
-msgstr ""
-
-#: .\apps\news_events\models.py:154
-msgid "मुख्य छवि"
-msgstr ""
-
-#: .\apps\news_events\models.py:155 .\apps\news_events\models.py:398
-msgid "छवि Alt पाठ"
-msgstr ""
-
-#: .\apps\news_events\models.py:155 .\apps\news_events\models.py:398
-msgid "छविको Alt पाठ"
-msgstr ""
-
-#: .\apps\news_events\models.py:202 .\apps\news_events\models.py:445
-#: .\apps\news_events\models.py:576 .\apps\news_events\models.py:635
-#: .\apps\news_events\models.py:678
-msgid "स्थिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:202
-msgid "प्रकाशन स्थिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:203 .\apps\news_events\models.py:873
-msgid "प्राथमिकता"
-msgstr ""
-
-#: .\apps\news_events\models.py:203
-msgid "सामग्री प्राथमिकता"
-msgstr ""
-
-#: .\apps\news_events\models.py:204 .\apps\news_events\models.py:764
-msgid "प्रकाशन मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:205 .\apps\news_events\models.py:685
-msgid "तालिकाबद्ध मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:205
-msgid "तालिकाबद्ध प्रकाशन मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:208
-msgid "SEO शीर्षक"
-msgstr ""
-
-#: .\apps\news_events\models.py:209
-msgid "SEO विवरण"
-msgstr ""
-
-#: .\apps\news_events\models.py:210
-msgid "SEO कीवर्ड"
-msgstr ""
-
-#: .\apps\news_events\models.py:213
-msgid "पढ्ने समय"
-msgstr ""
-
-#: .\apps\news_events\models.py:213
-msgid "अनुमानित पढ्ने समय (मिनेटमा)"
-msgstr ""
-
-#: .\apps\news_events\models.py:214 .\apps\news_events\models.py:450
-msgid "हेराइ संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:214 .\apps\news_events\models.py:450
-#: .\apps\news_events\models.py:717
-msgid "हेराइको संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:215
-msgid "साझेदारी संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:215 .\apps\news_events\models.py:719
-msgid "साझेदारीको संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:216
-msgid "टिप्पणी संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:216 .\apps\news_events\models.py:720
-msgid "टिप्पणीको संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:219
-msgid "सामग्री ह्यास"
-msgstr ""
-
-#: .\apps\news_events\models.py:219
-msgid "सामग्रीको SHA-256 ह्यास"
-msgstr ""
-
-#: .\apps\news_events\models.py:220 .\apps\news_events\models.py:446
-msgid "मुख्य"
-msgstr ""
-
-#: .\apps\news_events\models.py:220
-msgid "मुख्य लेख"
-msgstr ""
-
-#: .\apps\news_events\models.py:221
-msgid "टिप्पणी अनुमति"
-msgstr ""
-
-#: .\apps\news_events\models.py:221
-msgid "टिप्पणी अनुमति दिनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:222
-msgid "लगइन आवश्यक"
-msgstr ""
-
-#: .\apps\news_events\models.py:222
-msgid "हेर्नको लागि लगइन आवश्यक"
-msgstr ""
-
-#: .\apps\news_events\models.py:227 .\apps\news_events\models.py:456
-msgid "अन्तिम पहुँच मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:227 .\apps\news_events\models.py:456
-msgid "अन्तिम पहुँच समय"
-msgstr ""
-
-#: .\apps\news_events\models.py:233
-msgid "समाचार लेख"
-msgstr ""
-
-#: .\apps\news_events\models.py:234
-msgid "समाचार लेखहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:363
-msgid "बैठक"
-msgstr ""
-
-#: .\apps\news_events\models.py:364
-msgid "कार्यशाला"
-msgstr ""
-
-#: .\apps\news_events\models.py:365
-msgid "सम्मेलन"
-msgstr ""
-
-#: .\apps\news_events\models.py:366
-msgid "सेमिनार"
-msgstr ""
-
-#: .\apps\news_events\models.py:367
-msgid "सामाजिक कार्यक्रम"
-msgstr ""
-
-#: .\apps\news_events\models.py:368
-msgid "प्रशिक्षण"
-msgstr ""
-
-#: .\apps\news_events\models.py:369 .\apps\news_events\models.py:754
-#: .\apps\news_events\models.py:818
-msgid "अन्य"
-msgstr ""
-
-#: .\apps\news_events\models.py:374
-msgid "रद्द"
-msgstr ""
-
-#: .\apps\news_events\models.py:375
-msgid "पूर्ण"
-msgstr ""
-
-#: .\apps\news_events\models.py:378
-msgid "कार्यक्रमको शीर्षक"
-msgstr ""
-
-#: .\apps\news_events\models.py:380
-msgid "कार्यक्रमको विवरण"
-msgstr ""
-
-#: .\apps\news_events\models.py:381
-msgid "छोटो विवरण"
-msgstr ""
-
-#: .\apps\news_events\models.py:381
-msgid "छोटो कार्यक्रम विवरण"
-msgstr ""
-
-#: .\apps\news_events\models.py:384
-msgid "कार्यक्रम प्रकार"
-msgstr ""
-
-#: .\apps\news_events\models.py:384
-msgid "कार्यक्रमको प्रकार"
-msgstr ""
-
-#: .\apps\news_events\models.py:385
-msgid "स्थान"
-msgstr ""
-
-#: .\apps\news_events\models.py:385
-msgid "कार्यक्रम स्थान"
-msgstr ""
-
-#: .\apps\news_events\models.py:386
-msgid "ठेगाना"
-msgstr ""
-
-#: .\apps\news_events\models.py:386
-msgid "पूर्ण कार्यक्रम ठेगाना"
-msgstr ""
-
-#: .\apps\news_events\models.py:387
-msgid "कार्यक्रम मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:387
-msgid "कार्यक्रम मिति र समय"
-msgstr ""
-
-#: .\apps\news_events\models.py:388 .\apps\news_events\models.py:891
-msgid "अन्त्य मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:388
-msgid "कार्यक्रम अन्त्य मिति र समय"
-msgstr ""
-
-#: .\apps\news_events\models.py:391
-msgid "अधिकतम सहभागी"
-msgstr ""
-
-#: .\apps\news_events\models.py:391
-msgid "अधिकतम सहभागी संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:392
-msgid "दर्ता आवश्यक"
-msgstr ""
-
-#: .\apps\news_events\models.py:393
-msgid "दर्ता अन्तिम मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:394
-msgid "दर्ता URL"
-msgstr ""
-
-#: .\apps\news_events\models.py:397
-msgid "कार्यक्रम छवि"
-msgstr ""
-
-#: .\apps\news_events\models.py:445
-msgid "कार्यक्रम स्थिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:446
-msgid "मुख्य कार्यक्रम"
-msgstr ""
-
-#: .\apps\news_events\models.py:447
-msgid "पुनरावृत्ति"
-msgstr ""
-
-#: .\apps\news_events\models.py:447
-msgid "पुनरावृत्ति हुने कार्यक्रम"
-msgstr ""
-
-#: .\apps\news_events\models.py:451
-msgid "दर्ता संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:451
-msgid "दर्ताको संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:462 .\apps\news_events\models.py:817
-msgid "कार्यक्रम"
-msgstr ""
-
-#: .\apps\news_events\models.py:463
-#: .\apps\news_events\templates\news_events\article_not_found.html:183
-msgid "कार्यक्रमहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:569
-msgid "सदस्यता रद्द"
-msgstr ""
-
-#: .\apps\news_events\models.py:570
-msgid "बाउन्स"
-msgstr ""
-
-#: .\apps\news_events\models.py:571 .\apps\news_events\models.py:629
-msgid "स्प्याम"
-msgstr ""
-
-#: .\apps\news_events\models.py:573
-msgid "इमेल"
-msgstr ""
-
-#: .\apps\news_events\models.py:573
-msgid "सदस्यको इमेल"
-msgstr ""
-
-#: .\apps\news_events\models.py:574
-msgid "पहिलो नाम"
-msgstr ""
-
-#: .\apps\news_events\models.py:575
-msgid "अन्तिम नाम"
-msgstr ""
-
-#: .\apps\news_events\models.py:576
-msgid "सदस्यता स्थिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:579
-msgid "प्राथमिकता श्रेणी"
-msgstr ""
-
-#: .\apps\news_events\models.py:579
-msgid "प्राथमिकता श्रेणीहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:580
-msgid "आवृत्ति"
-msgstr ""
-
-#: .\apps\news_events\models.py:580
-msgid "इमेल आवृत्ति प्राथमिकता"
-msgstr ""
-
-#: .\apps\news_events\models.py:583
-msgid "खोलिएको संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:583
-msgid "खोलिएको इमेल संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:584
-msgid "क्लिक संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:584
-msgid "क्लिक गरिएको लिङ्क संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:587 .\apps\news_events\models.py:646
-msgid "IP ठेगाना"
-msgstr ""
-
-#: .\apps\news_events\models.py:587
-msgid "सदस्यता लिँदा IP ठेगाना"
-msgstr ""
-
-#: .\apps\news_events\models.py:588 .\apps\news_events\models.py:647
-msgid "प्रयोगकर्ता एजेन्ट"
-msgstr ""
-
-#: .\apps\news_events\models.py:588
-msgid "सदस्यता लिँदा प्रयोगकर्ता एजेन्ट"
-msgstr ""
-
-#: .\apps\news_events\models.py:589
-msgid "पुष्टिकरण टोकन"
-msgstr ""
-
-#: .\apps\news_events\models.py:589
-msgid "इमेल पुष्टिकरण टोकन"
-msgstr ""
-
-#: .\apps\news_events\models.py:590
-msgid "पुष्टि भएको"
-msgstr ""
-
-#: .\apps\news_events\models.py:590
-msgid "इमेल पुष्टि भएको"
-msgstr ""
-
-#: .\apps\news_events\models.py:593
-msgid "सदस्यता मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:594
-msgid "पुष्टि मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:594
-msgid "इमेल पुष्टि मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:595
-msgid "अन्तिम गतिविधि मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:599
-msgid "सदस्य"
-msgstr ""
-
-#: .\apps\news_events\models.py:600
-msgid "सदस्यहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:626
-msgid "अनुमोदन पछि"
-msgstr ""
-
-#: .\apps\news_events\models.py:627 .\apps\news_events\models.py:638
-msgid "अनुमोदित"
-msgstr ""
-
-#: .\apps\news_events\models.py:628
-msgid "अस्वीकृत"
-msgstr ""
-
-#: .\apps\news_events\models.py:631
-msgid "लेख"
-msgstr ""
-
-#: .\apps\news_events\models.py:631
-msgid "सम्बन्धित लेख"
-msgstr ""
-
-#: .\apps\news_events\models.py:632
-msgid "लेखकको नाम"
-msgstr ""
-
-#: .\apps\news_events\models.py:632
-msgid "टिप्पणी लेखकको नाम"
-msgstr ""
-
-#: .\apps\news_events\models.py:633
-msgid "लेखकको इमेल"
-msgstr ""
-
-#: .\apps\news_events\models.py:633
-msgid "टिप्पणी लेखकको इमेल"
-msgstr ""
-
-#: .\apps\news_events\models.py:634
-msgid "टिप्पणी सामग्री"
-msgstr ""
-
-#: .\apps\news_events\models.py:635
-msgid "टिप्पणी स्थिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:638
-msgid "टिप्पणी अनुमोदित"
-msgstr ""
-
-#: .\apps\news_events\models.py:639
-msgid "निरीक्षण गरेको"
-msgstr ""
-
-#: .\apps\news_events\models.py:640
-msgid "निरीक्षण नोट"
-msgstr ""
-
-#: .\apps\news_events\models.py:643
-msgid "मन पराइएको संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:655 .\apps\news_events\models.py:720
-msgid "टिप्पणी"
-msgstr ""
-
-#: .\apps\news_events\models.py:656
-msgid "टिप्पणीहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:671
-msgid "पठाइरहेको"
-msgstr ""
-
-#: .\apps\news_events\models.py:672
-msgid "पठाइएको"
-msgstr ""
-
-#: .\apps\news_events\models.py:673
-msgid "असफल"
-msgstr ""
-
-#: .\apps\news_events\models.py:676
-msgid "विषय"
-msgstr ""
-
-#: .\apps\news_events\models.py:676
-msgid "इमेल विषय"
-msgstr ""
-
-#: .\apps\news_events\models.py:677
-msgid "न्युजलेटर सामग्री"
-msgstr ""
-
-#: .\apps\news_events\models.py:678
-msgid "न्युजलेटर स्थिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:681
-msgid "लक्ष्य श्रेणी"
-msgstr ""
-
-#: .\apps\news_events\models.py:681
-msgid "लक्ष्य श्रेणीहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:682
-msgid "सबैलाई पठाउनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:682
-msgid "सबै सदस्यहरूलाई पठाउनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:685
-msgid "तालिकाबद्ध पठाउने मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:686
-msgid "पठाइएको मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:686
-msgid "वास्तविक पठाउने मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:689
-msgid "कुल पठाइएको"
-msgstr ""
-
-#: .\apps\news_events\models.py:689
-msgid "कुल पठाइएको इमेल"
-msgstr ""
-
-#: .\apps\news_events\models.py:690
-msgid "कुल खोलिएको"
-msgstr ""
-
-#: .\apps\news_events\models.py:690
-msgid "कुल खोलिएको इमेल"
-msgstr ""
-
-#: .\apps\news_events\models.py:691
-msgid "कुल क्लिक गरिएको"
-msgstr ""
-
-#: .\apps\news_events\models.py:691
-msgid "कुल क्लिक गरिएको लिङ्क"
-msgstr ""
-
-#: .\apps\news_events\models.py:692
-msgid "असफल प्रापकहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:692
-msgid "इमेल पठाउन असफल भएका प्रापकहरूको सूची (JSON format)"
-msgstr ""
-
-#: .\apps\news_events\models.py:700
-msgid "न्युजलेटर"
-msgstr ""
-
-#: .\apps\news_events\models.py:701
-msgid "न्युजलेटरहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:712
-msgid "सामग्री प्रकार"
-msgstr ""
-
-#: .\apps\news_events\models.py:712
-msgid "सामग्री प्रकार (लेख, कार्यक्रम)"
-msgstr ""
-
-#: .\apps\news_events\models.py:713
-msgid "सामग्री ID"
-msgstr ""
-
-#: .\apps\news_events\models.py:714
-msgid "विश्लेषण मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:718
-msgid "अद्वितीय हेराइ"
-msgstr ""
-
-#: .\apps\news_events\models.py:718
-msgid "अद्वितीय हेराइको संख्या"
-msgstr ""
-
-#: .\apps\news_events\models.py:719
-msgid "साझेदारी"
-msgstr ""
-
-#: .\apps\news_events\models.py:721
-msgid "पृष्ठमा समय"
-msgstr ""
-
-#: .\apps\news_events\models.py:721
-msgid "पृष्ठमा औसत समय (सेकेन्डमा)"
-msgstr ""
-
-#: .\apps\news_events\models.py:724
-msgid "जैविक खोज"
-msgstr ""
-
-#: .\apps\news_events\models.py:724
-msgid "जैविक खोज हेराइ"
-msgstr ""
-
-#: .\apps\news_events\models.py:725
-msgid "सामाजिक मिडिया"
-msgstr ""
-
-#: .\apps\news_events\models.py:725
-msgid "सामाजिक मिडिया हेराइ"
-msgstr ""
-
-#: .\apps\news_events\models.py:726
-msgid "प्रत्यक्ष ट्राफिक"
-msgstr ""
-
-#: .\apps\news_events\models.py:726
-msgid "प्रत्यक्ष ट्राफिक हेराइ"
-msgstr ""
-
-#: .\apps\news_events\models.py:727
-msgid "रेफरल ट्राफिक"
-msgstr ""
-
-#: .\apps\news_events\models.py:727
-msgid "रेफरल ट्राफिक हेराइ"
-msgstr ""
-
-#: .\apps\news_events\models.py:736
-msgid "सामग्री विश्लेषण"
-msgstr ""
-
-#: .\apps\news_events\models.py:737
-msgid "सामग्री विश्लेषणहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:750 .\apps\news_events\models.py:815
-msgid "सामान्य सूचना"
-msgstr ""
-
-#: .\apps\news_events\models.py:751
-msgid "जरुरी सूचना"
-msgstr ""
-
-#: .\apps\news_events\models.py:752
-msgid "साधारण सभा"
-msgstr ""
-
-#: .\apps\news_events\models.py:753
-msgid "बोलपत्र"
-msgstr ""
-
-#: .\apps\news_events\models.py:756
-msgid "सूचनाको शीर्षक"
-msgstr ""
-
-#: .\apps\news_events\models.py:758
-msgid "सूचनाको विस्तृत विवरण"
-msgstr ""
-
-#: .\apps\news_events\models.py:761
-msgid "सूचनाको फाइल (PDF/Image)"
-msgstr ""
-
-#: .\apps\news_events\models.py:763
-msgid "प्रकार"
-msgstr ""
-
-#: .\apps\news_events\models.py:763
-msgid "सूचना प्रकार"
-msgstr ""
-
-#: .\apps\news_events\models.py:766
-msgid "सक्रिय छ कि छैन"
-msgstr ""
-
-#: .\apps\news_events\models.py:767
-msgid "टाँसिएको (Pinned)"
-msgstr ""
-
-#: .\apps\news_events\models.py:767
-msgid "माथि देखाउनको लागि"
-msgstr ""
-
-#: .\apps\news_events\models.py:768
-msgid "Popup मा देखाउनुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:768
-msgid "Home page मा popup modal मा देखाउने हो भने check गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:780
-msgid "सूचना"
-msgstr ""
-
-#: .\apps\news_events\models.py:781
-msgid "सूचनाहरू"
-msgstr ""
-
-#: .\apps\news_events\models.py:813
-msgid "वार्षिक साधारण सभा (AGM)"
-msgstr ""
-
-#: .\apps\news_events\models.py:814
-msgid "असाधारण साधारण सभा (EGM)"
-msgstr ""
-
-#: .\apps\news_events\models.py:816
-msgid "महत्वपूर्ण सूचना"
-msgstr ""
-
-#: .\apps\news_events\models.py:824
-msgid "Popup notice को शीर्षक (e.g., '14th Annual General Meeting Notice')"
-msgstr ""
-
-#: .\apps\news_events\models.py:829
-msgid "Notice को छोटो विवरण (optional)"
-msgstr ""
-
-#: .\apps\news_events\models.py:835
-msgid "Notice प्रकार"
-msgstr ""
-
-#: .\apps\news_events\models.py:836
-msgid "Notice को प्रकार छान्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:842
-msgid "Notice Image"
-msgstr ""
-
-#: .\apps\news_events\models.py:843
-msgid "Popup मा देखाउने image (JPG, PNG format मा)"
-msgstr ""
-
-#: .\apps\news_events\models.py:848
-msgid "Image Alt Text"
-msgstr ""
-
-#: .\apps\news_events\models.py:849
-msgid "Image को alt text (accessibility को लागि)"
-msgstr ""
-
-#: .\apps\news_events\models.py:855
-msgid "Link URL"
-msgstr ""
-
-#: .\apps\news_events\models.py:856
-msgid "यदि image click गर्दा कुनै page मा जानुपर्छ भने URL (optional)"
-msgstr ""
-
-#: .\apps\news_events\models.py:861
-msgid "Link Text"
-msgstr ""
-
-#: .\apps\news_events\models.py:862
-msgid "Link button को text (optional)"
-msgstr ""
-
-#: .\apps\news_events\models.py:866
-msgid "नयाँ tab मा खोल्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:867
-msgid "Link नयाँ tab मा खोल्ने हो भने check गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\models.py:874
-msgid ""
-"Higher priority notices appear first. If multiple active notices exist, "
-"highest priority shows."
-msgstr ""
-
-#: .\apps\news_events\models.py:879
-msgid ""
-"Check this to show the popup on home page. Uncheck to hide without deleting."
-msgstr ""
-
-#: .\apps\news_events\models.py:885
-msgid "सुरु मिति"
-msgstr ""
-
-#: .\apps\news_events\models.py:886
-msgid "जब देखाउन सुरु गर्ने (default: अहिले)"
-msgstr ""
-
-#: .\apps\news_events\models.py:892
-msgid "जब देखाउन बन्द गर्ने (blank = सधै देखाउने)"
-msgstr ""
-
-#: .\apps\news_events\models.py:899
-msgid "Auto-Close Duration (सेकेन्ड)"
-msgstr ""
-
-#: .\apps\news_events\models.py:900
-msgid ""
-"Popup कति सेकेन्ड पछि आफैँ बन्द हुने (blank = manual close मात्र, e.g., 5 = 5 सेकेन्ड "
-"पछि auto-close)"
-msgstr ""
-
-#: .\apps\news_events\models.py:908
-msgid "Popup Notice"
-msgstr ""
-
-#: .\apps\news_events\models.py:909
-msgid "Popup Notices"
-msgstr ""
-
-#: .\apps\news_events\models.py:941
-msgid "End date must be after start date."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:44
-#: .\apps\news_events\templates\news_events\article_list.html:20
-#: .\apps\news_events\templates\news_events\event_detail.html:42
-#: .\apps\news_events\templates\news_events\event_list.html:20
-#: .\apps\news_events\templates\news_events\home.html:33
-#: .\apps\news_events\templates\news_events\search.html:23
-#: .\apps\news_events\templates\news_events\search_results.html:20
-msgid "Skip to main content"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:64
-#: .\apps\news_events\templates\news_events\article_list.html:128
-#: .\apps\news_events\templates\news_events\article_not_found.html:150
-#: .\apps\news_events\templates\news_events\event_detail.html:62
-#: .\apps\news_events\templates\news_events\event_list.html:81
-#: .\apps\news_events\templates\news_events\event_list.html:145
-#: .\apps\news_events\templates\news_events\home.html:96
-#: .\apps\news_events\templates\news_events\search_results.html:117
-msgid "Featured"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:71
-#: .\apps\news_events\templates\news_events\event_detail.html:72
-msgid "views"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:75
-#: .\apps\news_events\templates\news_events\search_results.html:150
-msgid "min read"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:151
-msgid "Comments"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:158
-msgid "Name"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:163
-msgid "Email"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:168
-msgid "Comment"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:174
-msgid "Submit Comment"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:197
-msgid "No comments yet. Be the first to comment!"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:243
-msgid "No related articles found."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_detail.html:255
-#: .\apps\news_events\templates\news_events\event_detail.html:249
-msgid "Link copied to clipboard!"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:6
-#: .\apps\news_events\templates\news_events\article_list.html:11
-msgid "News Articles"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:8
-msgid ""
-"Browse all news articles and updates from Bhanjyang Saving & Credit "
-"Cooperative Society Ltd."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:13
-msgid "Browse all news articles and updates from Bhanjyang Cooperative."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:42
-msgid "Articles"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:49
-msgid "Stay updated with the latest news and announcements"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:67
-msgid "Search articles..."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:73
-#: .\apps\news_events\templates\news_events\search.html:89
-#: .\apps\news_events\templates\news_events\search_results.html:68
-msgid "All Categories"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:81
-#: .\apps\news_events\templates\news_events\search.html:119
-msgid "Newest First"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:82
-#: .\apps\news_events\templates\news_events\search.html:121
-msgid "Oldest First"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:83
-#: .\apps\news_events\templates\news_events\search.html:123
-msgid "Most Popular"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:84
-msgid "Featured Only"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:176
-msgid "No Articles Found"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:177
-msgid "We couldn't find any articles matching your criteria."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:180
-#: .\apps\news_events\templates\news_events\event_list.html:225
-msgid "Clear Filters"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:226
-#: .\apps\news_events\templates\news_events\event_list.html:271
-#: .\apps\news_events\templates\news_events\home.html:591
-msgid "Newsletter"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:229
-#: .\apps\news_events\templates\news_events\event_list.html:274
-#: .\apps\news_events\templates\news_events\home.html:594
-msgid "Stay Updated"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:233
-msgid "Subscribe to our newsletter for the latest news and updates."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:238
-#: .\apps\news_events\templates\news_events\event_list.html:283
-msgid "Enter your email"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_list.html:241
-#: .\apps\news_events\templates\news_events\event_list.html:287
-#: .\apps\news_events\templates\news_events\home.html:620
-msgid "Subscribe"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:6
-#: .\apps\news_events\templates\news_events\article_not_found.html:68
-msgid "लेख फेला परेन"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:79
-msgid ""
-"माफ गर्नुहोस्, तपाईंले खोज्नुभएको लेख अहिले उपलब्ध छैन। यो लेख हटाइएको, सार्वजनिक नभएको, "
-"वा URL गलत हुन सक्छ।"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:88
-#: .\apps\news_events\templates\news_events\event_not_found.html:93
-msgid "मुख्य पृष्ठमा जानुहोस्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:94
-msgid "सबै लेखहरू हेर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:109
-msgid "हालैका लेखहरू"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:111
-msgid "यी लेखहरू तपाईंको लागि रोचक हुन सक्छन्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:164
-msgid "पढ्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:176
-#: .\apps\news_events\templates\news_events\event_not_found.html:189
-msgid "अन्य उपयोगी लिङ्कहरू:"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:190
-#: .\apps\news_events\templates\news_events\event_not_found.html:203
-msgid "खोज गर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\article_not_found.html:197
-#: .\apps\news_events\templates\news_events\event_not_found.html:210
-msgid "गृह पृष्ठ"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:77
-msgid "hours"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:97
-msgid "Event Date"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:104
-msgid "Time"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:112
-msgid "End Date"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:121
-msgid "Location"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:131
-msgid "Created"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:184
-msgid "Register for this Event"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:185
-msgid "Join us for this exciting event!"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:187
-#: .\apps\news_events\templates\news_events\home.html:555
-msgid "Register Now"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_detail.html:237
-msgid "No related events found."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:6
-#: .\apps\news_events\templates\news_events\event_list.html:11
-#: .\apps\news_events\templates\news_events\event_list.html:42
-msgid "Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:8
-msgid ""
-"Browse all upcoming and past events from Bhanjyang Saving & Credit "
-"Cooperative Society Ltd."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:13
-msgid "Browse all upcoming and past events from Bhanjyang Cooperative."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:49
-msgid "Join us for exciting events and activities"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:66
-#: .\apps\news_events\templates\news_events\search.html:171
-msgid "All Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:71
-msgid "Upcoming"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:76
-msgid "Past Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:91
-msgid "Search events..."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:98
-msgid "All Types"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:203
-msgid "Registration Required"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:220
-msgid "No Events Found"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:221
-msgid "We couldn't find any events matching your criteria."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_list.html:278
-msgid "Subscribe to our newsletter for the latest events and updates."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_not_found.html:6
-#: .\apps\news_events\templates\news_events\event_not_found.html:73
-msgid "कार्यक्रम फेला परेन"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_not_found.html:84
-msgid ""
-"माफ गर्नुहोस्, तपाईंले खोज्नुभएको कार्यक्रम अहिले उपलब्ध छैन। यो कार्यक्रम हटाइएको, "
-"सार्वजनिक नभएको, वा URL गलत हुन सक्छ।"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_not_found.html:99
-msgid "सबै कार्यक्रमहरू हेर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_not_found.html:114
-msgid "हालैका कार्यक्रमहरू"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_not_found.html:116
-msgid "यी कार्यक्रमहरू तपाईंको लागि रोचक हुन सक्छन्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\event_not_found.html:177
-msgid "विवरण हेर्नुहोस्"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:6
-#: .\apps\news_events\templates\news_events\home.html:11
-#: .\apps\news_events\templates\news_events\home.html:68
-#: .\apps\news_events\templates\news_events\home.html:837
-msgid "News & Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:8
-#: .\apps\news_events\templates\news_events\home.html:838
-msgid ""
-"Stay updated with the latest news, events, and announcements from Bhanjyang "
-"Saving & Credit Cooperative Society Ltd."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:13
-msgid ""
-"Stay updated with the latest news, events, and announcements from Bhanjyang "
-"Cooperative."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:31
-msgid "Skip links"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:36
-msgid "Skip to latest news"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:39
-msgid "Skip to upcoming events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:42
-msgid "Skip to notices"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:45
-msgid "Skip to newsletter"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:55
-msgid "News and Events Hero"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:75
-msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:99
-#: .\apps\news_events\templates\news_events\search.html:187
-msgid "Featured Content"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:114
-msgid "Featured Articles"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:148
-msgid "min"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:178
-msgid "Featured Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:255
-#: .\apps\news_events\templates\news_events\home.html:863
-msgid "Latest News"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:264
-msgid "View All Articles"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:270
-msgid "Loading articles"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:343
-msgid "No Articles Yet"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:344
-msgid "Check back soon for the latest news and updates."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:369
-#: .\apps\news_events\templates\news_events\notice_list.html:6
-#: .\apps\news_events\templates\news_events\notice_list.html:18
-msgid "Notices"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:378
-msgid "View All Notices"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:398
-msgid "Pinned"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:426
-msgid "File"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:434
-#: .\apps\news_events\templates\news_events\notice_list.html:59
-msgid "Read More"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:462
-#: .\apps\news_events\templates\news_events\home.html:678
-#: .\apps\news_events\templates\news_events\home.html:869
-#: .\apps\news_events\templates\news_events\search.html:179
-msgid "Upcoming Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:471
-msgid "View All Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:477
-msgid "Loading events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:568
-msgid "No Upcoming Events"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:569
-msgid "Check back soon for upcoming events and activities."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:578
-msgid "Newsletter Subscription"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:598
-msgid ""
-"Subscribe to our newsletter and never miss important updates, news, and "
-"events from Bhanjyang Cooperative."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:601
-msgid "Newsletter subscription form"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:611
-msgid "Enter your email address"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:614
-msgid "Email address"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:628
-msgid "We respect your privacy and never share your email address."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:648
-msgid "Our Impact"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:666
-msgid "Published Articles"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:690
-msgid "Total Views"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:700
-msgid "Community Access"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:711
-msgid "Please enter your email address."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:712
-msgid "Subscribing..."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\home.html:713
-msgid "Subscription failed. Please try again later."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\notice_detail.html:48
-msgid "Attached Document"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\notice_detail.html:49
-msgid "Click to download or view"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\notice_detail.html:53
-msgid "Download"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\notice_detail.html:62
-msgid "Back to Notices"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\notice_list.html:63
-msgid "Attachment"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\notice_list.html:97
-msgid "No Notices Found"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\notice_list.html:98
-msgid "There are currently no active notices."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:5
-#: .\apps\news_events\templates\news_events\search.html:10
-#: .\apps\news_events\templates\news_events\search.html:134
-#: .\apps\news_events\templates\news_events\search_results.html:77
-msgid "Search"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:7
-#: .\apps\news_events\templates\news_events\search.html:12
-msgid "Search through news articles and events from Bhanjyang Cooperative."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:44
-msgid "Find articles and events that interest you."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:56
-msgid "Search Term"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:58
-msgid "Enter keywords to search..."
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:64
-msgid "Content Type"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:69
-#: .\apps\news_events\templates\news_events\search_results.html:61
-msgid "All Content"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:74
-#: .\apps\news_events\templates\news_events\search_results.html:62
-msgid "Articles Only"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:79
-#: .\apps\news_events\templates\news_events\search_results.html:63
-msgid "Events Only"
-msgstr ""
-
-#: .\apps\news_events\templates\news_events\search.html:86
+#: apps/news_events/models.py:108 apps/news_events/models.py:148
 msgid "Category"
-msgstr ""
+msgstr "श्रेणी"
 
-#: .\apps\news_events\templates\news_events\search.html:101
-msgid "From Date"
-msgstr ""
+#: apps/news_events/models.py:109
+msgid "Categories"
+msgstr "श्रेणीहरू"
 
-#: .\apps\news_events\templates\news_events\search.html:106
-msgid "To Date"
-msgstr ""
+#: apps/news_events/models.py:96
+msgid "Name"
+msgstr "नाम"
 
-#: .\apps\news_events\templates\news_events\search.html:114
-msgid "Sort By"
-msgstr ""
+#: apps/news_events/models.py:96
+msgid "Name of the category"
+msgstr "श्रेणीको नाम"
 
-#: .\apps\news_events\templates\news_events\search.html:118
-msgid "Relevance"
-msgstr ""
+#: apps/news_events/models.py:97
+msgid "Slug"
+msgstr "स्लग"
 
-#: .\apps\news_events\templates\news_events\search.html:125
-msgid "Featured First"
-msgstr ""
+#: apps/news_events/models.py:97
+msgid "URL-friendly version"
+msgstr "URL-अनुकूल संस्करण"
 
-#: .\apps\news_events\templates\news_events\search.html:138
-msgid "Clear"
-msgstr ""
+#: apps/news_events/models.py:98
+msgid "Description"
+msgstr "विवरण"
 
-#: .\apps\news_events\templates\news_events\search.html:157
-msgid "Quick Access"
-msgstr ""
+#: apps/news_events/models.py:98
+msgid "Category description"
+msgstr "श्रेणी विवरण"
 
-#: .\apps\news_events\templates\news_events\search.html:163
-msgid "All Articles"
-msgstr ""
+#: apps/news_events/models.py:99
+msgid "Color"
+msgstr "रङ"
 
-#: .\apps\news_events\templates\news_events\search.html:164
-msgid "Browse all news articles"
-msgstr ""
+#: apps/news_events/models.py:100
+msgid "Icon"
+msgstr "आइकन"
 
-#: .\apps\news_events\templates\news_events\search.html:172
-msgid "Browse all events"
-msgstr ""
+#: apps/news_events/models.py:101
+msgid "Is Active"
+msgstr "सक्रिय छ"
 
-#: .\apps\news_events\templates\news_events\search.html:180
-msgid "See what's coming up"
-msgstr ""
+#: apps/news_events/models.py:102
+msgid "Sort Order"
+msgstr "क्रमबद्ध क्रम"
 
-#: .\apps\news_events\templates\news_events\search.html:188
-msgid "See featured articles"
-msgstr ""
+#: apps/news_events/models.py:233
+msgid "News Article"
+msgstr "समाचार लेख"
 
-#: .\apps\news_events\templates\news_events\search.html:207
-msgid "Browse by Category"
-msgstr ""
+#: apps/news_events/models.py:234
+msgid "News Articles"
+msgstr "समाचार लेखहरू"
 
-#: .\apps\news_events\templates\news_events\search_results.html:6
-#: .\apps\news_events\templates\news_events\search_results.html:11
-msgid "Search Results"
-msgstr ""
+#: apps/news_events/models.py:134
+msgid "Draft"
+msgstr "मस्यौदा"
 
-#: .\apps\news_events\templates\news_events\search_results.html:8
-#: .\apps\news_events\templates\news_events\search_results.html:13
-msgid "Search results for news articles and events from Bhanjyang Cooperative."
-msgstr ""
+#: apps/news_events/models.py:135
+msgid "Published"
+msgstr "प्रकाशित"
 
-#: .\apps\news_events\templates\news_events\search_results.html:41
-msgid "Results for"
-msgstr ""
+#: apps/news_events/models.py:136
+msgid "Archived"
+msgstr "अभिलेखीकरण गरिएको"
 
-#: .\apps\news_events\templates\news_events\search_results.html:43
-msgid "Search our content"
-msgstr ""
+#: apps/news_events/models.py:137
+msgid "Scheduled"
+msgstr "निर्धारित"
 
-#: .\apps\news_events\templates\news_events\search_results.html:56
-msgid "Search articles and events..."
-msgstr ""
+#: apps/news_events/models.py:140
+msgid "Low Priority"
+msgstr "न्यून प्राथमिकता"
 
-#: .\apps\news_events\templates\news_events\search_results.html:92
-msgid "Found"
-msgstr ""
+#: apps/news_events/models.py:141
+msgid "Medium Priority"
+msgstr "मध्यम प्राथमिकता"
 
-#: .\apps\news_events\templates\news_events\search_results.html:92
-msgid "result"
-msgstr ""
+#: apps/news_events/models.py:142
+msgid "High Priority"
+msgstr "उच्च प्राथमिकता"
 
-#: .\apps\news_events\templates\news_events\search_results.html:92
-msgid "for"
-msgstr ""
+#: apps/news_events/models.py:143
+msgid "Urgent"
+msgstr "अत्यन्त जरुरी"
 
-#: .\apps\news_events\templates\news_events\search_results.html:110
-msgid "Article"
-msgstr ""
+#: apps/news_events/models.py:146
+msgid "Title"
+msgstr "शीर्षक"
 
-#: .\apps\news_events\templates\news_events\search_results.html:110
+#: apps/news_events/models.py:149
+msgid "Author"
+msgstr "लेखक"
+
+#: apps/news_events/models.py:152
+msgid "Content"
+msgstr "सामग्री"
+
+#: apps/news_events/models.py:153
+msgid "Excerpt"
+msgstr "उद्धरण"
+
+#: apps/news_events/models.py:154
+msgid "Image"
+msgstr "छवि"
+
+#: apps/news_events/models.py:202
+msgid "Status"
+msgstr "स्थिति"
+
+#: apps/news_events/models.py:203
+msgid "Priority"
+msgstr "प्राथमिकता"
+
+#: apps/news_events/models.py:204
+msgid "Published Date"
+msgstr "प्रकाशित मिति"
+
+#: apps/news_events/models.py:205
+msgid "Scheduled Date"
+msgstr "निर्धारित मिति"
+
+#: apps/news_events/models.py:208
+msgid "SEO Title"
+msgstr "SEO शीर्षक"
+
+#: apps/news_events/models.py:209
+msgid "SEO Description"
+msgstr "SEO विवरण"
+
+#: apps/news_events/models.py:210
+msgid "SEO Keywords"
+msgstr "SEO शब्दहरू"
+
+#: apps/news_events/models.py:220
+msgid "Is Featured"
+msgstr "विशेष हो"
+
+#: apps/news_events/models.py:221
+msgid "Allow Comments"
+msgstr "टिप्पणीहरू अनुमति दिनुहोस्"
+
+#: apps/news_events/models.py:222
+msgid "Require Login"
+msgstr "लगइन आवश्यक छ"
+
+#: apps/news_events/models.py:462
 msgid "Event"
-msgstr ""
+msgstr "कार्यक्रम"
 
-#: .\apps\news_events\templates\news_events\search_results.html:163
-msgid "No Results Found"
-msgstr ""
+#: apps/news_events/models.py:463
+msgid "Events"
+msgstr "कार्यक्रमहरू"
 
-#: .\apps\news_events\templates\news_events\search_results.html:164
-msgid "We couldn't find any content matching"
-msgstr ""
+#: apps/news_events/models.py:363
+msgid "Meeting"
+msgstr "बैठक"
 
-#: .\apps\news_events\templates\news_events\search_results.html:167
-msgid "Browse Articles"
-msgstr ""
+#: apps/news_events/models.py:364
+msgid "Workshop"
+msgstr "कार्यशाला"
 
-#: .\apps\news_events\templates\news_events\search_results.html:170
-msgid "Browse Events"
-msgstr ""
+#: apps/news_events/models.py:365
+msgid "Conference"
+msgstr "सम्मेलन"
 
-#: .\apps\news_events\templates\news_events\search_results.html:178
-msgid "Search Our Content"
-msgstr ""
+#: apps/news_events/models.py:366
+msgid "Seminar"
+msgstr "गोष्ठी"
 
-#: .\apps\news_events\templates\news_events\search_results.html:179
-msgid "Enter a search term to find articles and events."
-msgstr ""
+#: apps/news_events/models.py:367
+msgid "Social Event"
+msgstr "सामाजिक कार्यक्रम"
 
-#: .\apps\news_events\templates\news_events\search_results.html:197
-msgid "Popular Searches"
-msgstr ""
+#: apps/news_events/models.py:368
+msgid "Training"
+msgstr "तालिम"
 
-#: .\apps\news_events\views.py:49 .\apps\news_events\views.py:81
-#: .\apps\news_events\views.py:104 .\apps\news_events\views.py:123
-#: .\apps\news_events\views.py:145 .\apps\news_events\views.py:165
-#: .\apps\news_events\views.py:197 .\apps\news_events\views.py:205
-#: .\apps\news_events\views.py:211 .\apps\news_events\views.py:223
-#: .\apps\news_events\views.py:238 .\apps\news_events\views.py:249
-#: .\apps\news_events\views.py:273 .\apps\news_events\views.py:285
-#: .\apps\news_events\views.py:303 .\apps\news_events\views.py:323
-#: .\apps\news_events\views.py:383 .\apps\news_events\views.py:401
-msgid "Home"
-msgstr ""
+#: apps/news_events/models.py:369
+msgid "Other"
+msgstr "अन्य"
 
-#: .\apps\news_events\views.py:55
-msgid "समाचार पृष्ठ लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:374
+msgid "Cancelled"
+msgstr "रद्द गरिएको"
 
-#: .\apps\news_events\views.py:95
-msgid "यो लेख हेर्नको लागि कृपया लगइन गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:375
+msgid "Completed"
+msgstr "सकिएको"
 
-#: .\apps\news_events\views.py:131
-msgid "लेख लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:384
+msgid "Event Type"
+msgstr "कार्यक्रमको प्रकार"
 
-#: .\apps\news_events\views.py:173
-msgid "कार्यक्रम लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:385
+msgid "Location"
+msgstr "स्थान"
 
-#: .\apps\news_events\views.py:219
-msgid "लेखहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:386
+msgid "Address"
+msgstr "ठेगाना"
 
-#: .\apps\news_events\views.py:245
-msgid "कार्यक्रमहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:387
+msgid "Event Date"
+msgstr "कार्यक्रमको मिति"
 
-#: .\apps\news_events\views.py:281
-msgid "सूचनाहरू लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:388
+msgid "End Date"
+msgstr "अन्त्य मिति"
 
-#: .\apps\news_events\views.py:332
-msgid "सूचना लोड गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:391
+msgid "Max Attendees"
+msgstr "अधिकतम सहभागीहरू"
 
-#: .\apps\news_events\views.py:397
-msgid "खोज गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:392
+msgid "Registration Required"
+msgstr "दर्ता आवश्यक छ"
 
-#: .\apps\news_events\views.py:432
-msgid "तपाईंको सदस्यता पुष्टि भयो! धन्यवाद।"
-msgstr ""
+#: apps/news_events/models.py:599
+msgid "Subscriber"
+msgstr "ग्राहक"
 
-#: .\apps\news_events\views.py:434
-msgid "तपाईंको सदस्यता पहिले नै पुष्टि भइसकेको छ।"
-msgstr ""
+#: apps/news_events/models.py:600
+msgid "Subscribers"
+msgstr "ग्राहकहरू"
 
-#: .\apps\news_events\views.py:436
-msgid "अवैध पुष्टिकरण टोकन।"
-msgstr ""
+#: apps/news_events/models.py:568
+msgid "Active"
+msgstr "सक्रिय"
 
-#: .\apps\news_events\views.py:439
-msgid "सदस्यता पुष्टि गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:569
+msgid "Unsubscribed"
+msgstr "सदस्यता रद्द गरिएको"
 
-#: .\apps\news_events\views.py:450
-msgid "तपाईंको सदस्यता रद्द भयो।"
-msgstr ""
+#: apps/news_events/models.py:573
+msgid "Email"
+msgstr "इमेल"
 
-#: .\apps\news_events\views.py:452
-msgid "अवैध टोकन।"
-msgstr ""
+#: apps/news_events/models.py:574
+msgid "First Name"
+msgstr "पहिलो नाम"
 
-#: .\apps\news_events\views.py:455
-msgid "सदस्यता रद्द गर्न असफल भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।"
-msgstr ""
+#: apps/news_events/models.py:575
+msgid "Last Name"
+msgstr "अन्तिम नाम"
+
+#: apps/news_events/models.py:655
+msgid "Comment"
+msgstr "टिप्पणी"
+
+#: apps/news_events/models.py:656
+msgid "Comments"
+msgstr "टिप्पणीहरू"
+
+#: apps/news_events/models.py:626
+msgid "Pending Approval"
+msgstr "स्वीकृतिको पर्खाइमा"
+
+#: apps/news_events/models.py:627
+msgid "Approved"
+msgstr "स्वीकृत"
+
+#: apps/news_events/models.py:628
+msgid "Rejected"
+msgstr "तिरस्कृत"
+
+#: apps/news_events/models.py:631
+msgid "Article"
+msgstr "लेख"
+
+#: apps/news_events/models.py:632
+msgid "Author Name"
+msgstr "लेखकको नाम"
+
+#: apps/news_events/models.py:633
+msgid "Author Email"
+msgstr "लेखकको इमेल"
+
+#: apps/news_events/models.py:638
+msgid "Is Approved"
+msgstr "स्वीकृत छ"
+
+#: apps/news_events/models.py:700
+msgid "Newsletter"
+msgstr "समाचारपत्र"
+
+#: apps/news_events/models.py:701
+msgid "Newsletters"
+msgstr "समाचारपत्रहरू"
+
+#: apps/news_events/models.py:780
+msgid "Notice"
+msgstr "सूचना"
+
+#: apps/news_events/models.py:781
+msgid "Notices"
+msgstr "सूचनाहरू"
+
+#: apps/news_events/models.py:750
+msgid "General Notice"
+msgstr "साधारण सूचना"
+
+#: apps/news_events/models.py:751
+msgid "Urgent Notice"
+msgstr "अत्यन्त जरुरी सूचना"
+
+#: apps/news_events/models.py:752
+msgid "Annual General Meeting"
+msgstr "वार्षिक साधारण सभा"
+
+#: apps/news_events/models.py:753
+msgid "Tender Notice"
+msgstr "बोलपत्र सूचना"
+
+#: apps/news_events/models.py:763
+msgid "Type"
+msgstr "प्रकार"
+
+#: apps/news_events/models.py:768
+msgid "Show as Popup"
+msgstr "पपअपको रूपमा देखाउनुहोस्"
+
+#: apps/news_events/templates/news_events/article_list.html:306
+msgid "News & Events"
+msgstr "समाचार र घटनाहरू"
+
+#: apps/news_events/templates/news_events/article_list.html:309
+msgid "Latest News"
+msgstr "ताजा समाचार"
+
+#: apps/news_events/templates/news_events/article_list.html:313
+msgid "Stay updated with the latest happenings at Bhanjyang Cooperative."
+msgstr "भान्ज्याङ सहकारीका पछिल्ला गतिविधिहरूसँग अद्यावधिक रहनुहोस्।"
+
+#: apps/news_events/templates/news_events/article_list.html:324
+msgid "Featured News"
+msgstr "विशेष समाचार"
+
+#: apps/news_events/templates/news_events/article_list.html:334
+msgid "Recent Articles"
+msgstr "भर्खरका लेखहरू"
+
+#: apps/news_events/templates/news_events/article_list.html:344
+msgid "Browse by Category"
+msgstr "श्रेणी अनुसार ब्राउज गर्नुहोस्"
+
+#: apps/news_events/templates/news_events/article_list.html:354
+msgid "Search Articles"
+msgstr "लेखहरू खोज्नुहोस्"
+
+#: apps/news_events/templates/news_events/article_list.html:364
+msgid "Upcoming Events"
+msgstr "आगामी कार्यक्रमहरू"
+
+#: apps/news_events/templates/news_events/article_list.html:374
+msgid "Recent Notices"
+msgstr "भर्खरका सूचनाहरू"
+
+#: apps/news_events/templates/news_events/article_list.html:384
+msgid "View All"
+msgstr "सबै हेर्नुहोस्"
+
+#: apps/news_events/templates/news_events/article_list.html:394
+msgid "No articles found."
+msgstr "कुनै लेखहरू फेला परेनन्।"
+
+#: apps/news_events/templates/news_events/notice_list.html:5
+msgid "Notice Board"
+msgstr "सूचना पाटी"
+
+#: apps/news_events/templates/news_events/event_list.html:5
+msgid "Events Calendar"
+msgstr "कार्यक्रम पात्रो"
+
+#: apps/news_events/templates/news_events/article_detail.html:5
+msgid "Article Details"
+msgstr "लेख विवरण"
+
+#: apps/news_events/templates/news_events/event_detail.html:5
+msgid "Event Details"
+msgstr "कार्यक्रम विवरण"
+
+#: apps/news_events/templates/news_events/notice_detail.html:5
+msgid "Notice Details"
+msgstr "सूचना विवरण"
+
+#: apps/news_events/templates/news_events/home.html:5
+msgid "Welcome to Bhanjyang News"
+msgstr "भान्ज्याङ समाचारमा स्वागत छ"
+
+#: apps/news_events/templates/news_events/home.html:10
+msgid "Your reliable source for cooperative updates and events."
+msgstr "सहकारी अपडेट र कार्यक्रमहरूको लागि तपाईंको विश्वसनीय स्रोत।"
+
+#: apps/news_events/templates/news_events/home.html:76
+msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
+msgstr "भान्ज्याङ सहकारीका पछिल्ला गतिविधिहरूसँग जोडिएर रहनुहोस्"
+# Additional template translations for news_events app

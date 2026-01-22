@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load nepalidatetime %}
 
-{% block title %}{% trans "लेख फेला परेन" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "Article Not Found" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block extra_css %}
 <style>
@@ -65,7 +65,7 @@
                 
                 <!-- Error Message -->
                 <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 font-montserrat slide-in-delay-1">
-                    <span class="inline-block">{% trans "लेख फेला परेन" %}</span>
+                    <span class="inline-block">{% trans "Article Not Found" %}</span>
                 </h2>
                 
                 <!-- Decorative line -->
@@ -76,7 +76,7 @@
                 </div>
                 
                 <p class="text-xl text-gray-600 mb-10 leading-relaxed max-w-2xl mx-auto slide-in-delay-2">
-                    {% trans "माफ गर्नुहोस्, तपाईंले खोज्नुभएको लेख अहिले उपलब्ध छैन। यो लेख हटाइएको, सार्वजनिक नभएको, वा URL गलत हुन सक्छ।" %}
+                    {% trans "Sorry, the article you're looking for is currently unavailable. It may have been removed, not public yet, or the URL might be incorrect." %}
                 </p>
                 
                 <!-- Action Buttons with hover effects -->
@@ -85,13 +85,13 @@
                        class="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-deuraligreen to-green-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-110 hover:shadow-2xl shadow-lg relative overflow-hidden">
                         <span class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
                         <i class="fas fa-home mr-3 text-xl relative z-10"></i>
-                        <span class="relative z-10">{% trans "मुख्य पृष्ठमा जानुहोस्" %}</span>
+                        <span class="relative z-10">{% trans "Go to Homepage" %}</span>
                     </a>
                     <a href="{% url 'news_events:article-list' %}" 
                        class="group inline-flex items-center justify-center px-8 py-4 bg-white text-deuraligreen font-bold rounded-xl border-3 border-deuraligreen hover:bg-deuraligreen hover:text-white transition-all duration-300 transform hover:scale-110 hover:shadow-2xl shadow-lg relative overflow-hidden">
                         <span class="absolute inset-0 bg-deuraligreen opacity-0 group-hover:opacity-10 transition-opacity duration-300"></span>
                         <i class="fas fa-list mr-3 text-xl relative z-10"></i>
-                        <span class="relative z-10">{% trans "सबै लेखहरू हेर्नुहोस्" %}</span>
+                        <span class="relative z-10">{% trans "View All Articles" %}</span>
                     </a>
                 </div>
             </div>
@@ -106,9 +106,9 @@
                         <div class="w-12 h-1 bg-deuraligreen ml-4"></div>
                     </div>
                     <h3 class="text-3xl font-bold text-gray-900 font-montserrat">
-                        {% trans "हालैका लेखहरू" %}
+                        {% trans "Recent Articles" %}
                     </h3>
-                    <p class="text-gray-600 mt-2">{% trans "यी लेखहरू तपाईंको लागि रोचक हुन सक्छन्" %}</p>
+                    <p class="text-gray-600 mt-2">{% trans "These articles might be interesting for you" %}</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {% for article in recent_articles %}
@@ -161,7 +161,7 @@
                             </p>
                             <a href="{{ article.get_absolute_url }}" 
                                class="inline-flex items-center text-sm text-deuraligreen font-bold hover:text-green-700 transition-colors group/link">
-                                {% trans "पढ्नुहोस्" %} 
+                                {% trans "Read More" %} 
                                 <i class="fas fa-arrow-right ml-2 group-hover/link:translate-x-1 transition-transform"></i>
                             </a>
                         </div>
@@ -173,28 +173,28 @@
             
             <!-- Helpful Links with icons -->
             <div class="mt-16 pt-12 border-t-2 border-gray-200 slide-in-delay-2">
-                <p class="text-center text-sm text-gray-600 mb-6 font-semibold">{% trans "अन्य उपयोगी लिङ्कहरू:" %}</p>
+                <p class="text-center text-sm text-gray-600 mb-6 font-semibold">{% trans "Other Useful Links:" %}</p>
                 <div class="flex flex-wrap justify-center gap-6">
                     <a href="{% url 'news_events:event-list' %}" 
                        class="group flex items-center px-6 py-3 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-gray-200 hover:border-bhanjyangred">
                         <div class="w-10 h-10 bg-bhanjyangred/10 rounded-full flex items-center justify-center mr-3 group-hover:bg-bhanjyangred group-hover:text-white transition-colors">
                             <i class="fas fa-calendar-alt text-bhanjyangred group-hover:text-white"></i>
                         </div>
-                        <span class="font-semibold text-gray-700 group-hover:text-bhanjyangred transition-colors">{% trans "कार्यक्रमहरू" %}</span>
+                        <span class="font-semibold text-gray-700 group-hover:text-bhanjyangred transition-colors">{% trans "Events" %}</span>
                     </a>
                     <a href="{% url 'news_events:search' %}" 
                        class="group flex items-center px-6 py-3 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-gray-200 hover:border-deuraligreen">
                         <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center mr-3 group-hover:bg-deuraligreen group-hover:text-white transition-colors">
                             <i class="fas fa-search text-deuraligreen group-hover:text-white"></i>
                         </div>
-                        <span class="font-semibold text-gray-700 group-hover:text-deuraligreen transition-colors">{% trans "खोज गर्नुहोस्" %}</span>
+                        <span class="font-semibold text-gray-700 group-hover:text-deuraligreen transition-colors">{% trans "Search" %}</span>
                     </a>
                     <a href="/" 
                        class="group flex items-center px-6 py-3 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-2 border-gray-200 hover:border-deuraligreen">
                         <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center mr-3 group-hover:bg-deuraligreen group-hover:text-white transition-colors">
                             <i class="fas fa-home text-deuraligreen group-hover:text-white"></i>
                         </div>
-                        <span class="font-semibold text-gray-700 group-hover:text-deuraligreen transition-colors">{% trans "गृह पृष्ठ" %}</span>
+                        <span class="font-semibold text-gray-700 group-hover:text-deuraligreen transition-colors">{% trans "Home" %}</span>
                     </a>
                 </div>
             </div>

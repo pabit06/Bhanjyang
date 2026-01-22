@@ -1,23 +1,3 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 16:28+0545\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 #: .\apps\services\apps.py:15
 msgid "Financial Services"
 msgstr ""
@@ -314,15 +294,15 @@ msgid "Only active services are visible to users."
 msgstr ""
 
 #: .\apps\services\models.py:62
-msgid "Regular Savings (नियमित बचत)"
+msgid "Regular Savings ( )"
 msgstr ""
 
 #: .\apps\services\models.py:63
-msgid "Optional Savings (एच्छिक बचत)"
+msgid "Optional Savings ( )"
 msgstr ""
 
 #: .\apps\services\models.py:64
-msgid "Recurring Savings (क्रमिक बचत)"
+msgid "Recurring Savings ( )"
 msgstr ""
 
 #: .\apps\services\models.py:68
@@ -521,15 +501,15 @@ msgid "Personal Loan"
 msgstr ""
 
 #: .\apps\services\models.py:148
-msgid "Monthly (मासिक)"
+msgid "Monthly ()"
 msgstr ""
 
 #: .\apps\services\models.py:149
-msgid "Quarterly (त्रैमासिक)"
+msgid "Quarterly ()"
 msgstr ""
 
 #: .\apps\services\models.py:150
-msgid "Seasonal (मौसमी)"
+msgid "Seasonal ()"
 msgstr ""
 
 #: .\apps\services\models.py:153
@@ -541,7 +521,7 @@ msgid "Monthly Interest Rate (%)"
 msgstr ""
 
 #: .\apps\services\models.py:157
-msgid "Monthly interest rate. Annual rate = Monthly rate × 12."
+msgid "Monthly interest rate. Annual rate = Monthly rate  12."
 msgstr ""
 
 #: .\apps\services\models.py:161

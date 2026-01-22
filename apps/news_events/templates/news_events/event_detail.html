@@ -2,13 +2,14 @@
 {% load static %}
 {% load i18n %}
 {% load nepalidatetime %}
+{% load nepali_digits %}
 
-{% block title %}{{ event.title }} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{{ event.title }} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{{ event.description|truncatewords:20 }}{% endblock meta_description %}
-{% block meta_keywords %}{{ event.event_type|default:"Event" }}, Event, Bhanjyang Cooperative, कार्यक्रम{% endblock meta_keywords %}
+{% block meta_keywords %}{{ event.event_type|default:"Event" }}, Event, Bhanjyang Cooperative, {% trans "Events" %}{% endblock meta_keywords %}
 
-{% block og_title %}{{ event.title }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{{ event.title }} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{{ event.short_description|default:event.description|truncatewords:25 }}{% endblock og_description %}
 
@@ -69,12 +70,12 @@
                     <div class="flex items-center space-x-4 text-sm text-gray-600">
                         <span class="flex items-center">
                             <i class="fas fa-eye mr-1"></i>
-                            {{ event.view_count }} {% trans "views" %}
+                            {{ event.view_count|to_nepali_digits }} {% trans "views" %}
                         </span>
                         {% if event.end_date %}
                             <span class="flex items-center">
                                 <i class="fas fa-clock mr-1"></i>
-                                {{ event.duration_hours }} {% trans "hours" %}
+                                {{ event.duration_hours|to_nepali_digits }} {% trans "hours" %}
                             </span>
                         {% endif %}
                     </div>
@@ -128,7 +129,7 @@
 
                 <div class="flex items-center justify-between border-t border-b border-gray-200 py-4">
                     <div class="text-sm text-gray-600">
-                        {% trans "Created" %} {{ event.created_at|date:"F d, Y" }}
+                        {% trans "Created" %} {{ event.created_at|nepalidate_ne }}
                     </div>
                     <div class="flex items-center space-x-2">
                         <!-- Social Share Buttons -->
@@ -200,7 +201,7 @@
         
         <div class="container mx-auto max-w-6xl px-4 relative z-10">
             <h3 class="text-2xl font-bold text-deuraligreen mb-8 font-montserrat">
-                <span class="text-gray-800">सम्बन्धित</span> <span class="text-deuraligreen">कार्यक्रमहरू</span>
+                {% blocktrans %}<span class="text-gray-800">Related</span> <span class="text-deuraligreen">Events</span>{% endblocktrans %}
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {% for related_event in related_events %}
@@ -292,7 +293,7 @@ function copyLink() {
     "image": "{% if event.image %}{{ request.scheme }}://{{ request.get_host }}{{ event.image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}{% endif %}",
     "organizer": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "{% trans 'Bhanjyang Cooperative' %}",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "url": "{{ request.scheme }}://{{ request.get_host }}/"
     },

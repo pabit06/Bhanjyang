@@ -7,6 +7,8 @@ from typing import Optional
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _, get_language
+from apps.core.templatetags.nepali_digits import to_nepali_digits
 from .models import (
     NewsArticle, Event, Category, Comment, Subscriber, Newsletter, ContentAnalytics
 )
@@ -51,6 +53,8 @@ class NewsArticleSerializer(serializers.ModelSerializer):
     optimized_image_url = serializers.SerializerMethodField()
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     priority_display = serializers.CharField(source='get_priority_display', read_only=True)
+    view_count_display = serializers.SerializerMethodField()
+    read_time_display = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
     
     class Meta:
@@ -59,8 +63,8 @@ class NewsArticleSerializer(serializers.ModelSerializer):
             'id', 'title', 'slug', 'category', 'category_id', 'author',
             'content', 'excerpt', 'image', 'image_alt', 'optimized_image_url',
             'status', 'status_display', 'priority', 'priority_display',
-            'is_featured', 'view_count', 'share_count',
-            'comment_count', 'read_time', 'published_date', 'created_at',
+            'is_featured', 'view_count', 'view_count_display', 'share_count',
+            'comment_count', 'read_time', 'read_time_display', 'published_date', 'created_at',
             'updated_at', 'last_accessed', 'url'
         ]
         read_only_fields = [
@@ -85,20 +89,28 @@ class NewsArticleSerializer(serializers.ModelSerializer):
     def validate_title(self, value: str) -> str:
         """Validate article title."""
         if not value or not value.strip():
-            raise serializers.ValidationError("Title cannot be empty.")
+            raise serializers.ValidationError(_("Title cannot be empty."))
         if len(value) > 200:
-            raise serializers.ValidationError("Title cannot exceed 200 characters.")
+            raise serializers.ValidationError(_("Title cannot exceed 200 characters."))
         return value.strip()
     
     def validate_content(self, value: str) -> str:
         """Validate article content."""
         if not value or not value.strip():
-            raise serializers.ValidationError("Content cannot be empty.")
+            raise serializers.ValidationError(_("Content cannot be empty."))
         return value.strip()
     
     def get_url(self, obj: NewsArticle) -> str:
         """Get absolute URL for the article."""
         return obj.get_absolute_url()
+
+    def get_view_count_display(self, obj: NewsArticle) -> str:
+        """Get localized view count."""
+        return to_nepali_digits(obj.view_count)
+
+    def get_read_time_display(self, obj: NewsArticle) -> str:
+        """Get localized read time."""
+        return to_nepali_digits(obj.read_time)
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -106,6 +118,7 @@ class EventSerializer(serializers.ModelSerializer):
     event_type_display = serializers.CharField(source='get_event_type_display', read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     optimized_image_url = serializers.SerializerMethodField()
+    view_count_display = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
     
     class Meta:
@@ -115,7 +128,7 @@ class EventSerializer(serializers.ModelSerializer):
             'event_type', 'event_type_display', 'status', 'status_display',
             'location', 'address', 'event_date', 'end_date',
             'image', 'image_alt', 'optimized_image_url',
-            'is_featured', 'is_recurring', 'view_count', 'registration_count',
+            'is_featured', 'is_recurring', 'view_count', 'view_count_display', 'registration_count',
             'created_at', 'updated_at', 'last_accessed', 'url'
         ]
         read_only_fields = [
@@ -138,9 +151,9 @@ class EventSerializer(serializers.ModelSerializer):
     def validate_title(self, value: str) -> str:
         """Validate event title."""
         if not value or not value.strip():
-            raise serializers.ValidationError("Title cannot be empty.")
+            raise serializers.ValidationError(_("Title cannot be empty."))
         if len(value) > 200:
-            raise serializers.ValidationError("Title cannot exceed 200 characters.")
+            raise serializers.ValidationError(_("Title cannot exceed 200 characters."))
         return value.strip()
     
     def validate_event_date(self, value):
@@ -148,12 +161,16 @@ class EventSerializer(serializers.ModelSerializer):
         if value and value < timezone.now():
             # Allow past dates for existing events (update case)
             if not self.instance:  # New event
-                raise serializers.ValidationError("Event date cannot be in the past.")
+                raise serializers.ValidationError(_("Event date cannot be in the past."))
         return value
     
     def get_url(self, obj: Event) -> str:
         """Get absolute URL for the event."""
         return obj.get_absolute_url()
+
+    def get_view_count_display(self, obj: Event) -> str:
+        """Get localized view count."""
+        return to_nepali_digits(obj.view_count)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -171,28 +188,28 @@ class CommentSerializer(serializers.ModelSerializer):
     def validate_author_name(self, value: str) -> str:
         """Validate author name."""
         if not value or not value.strip():
-            raise serializers.ValidationError("Author name cannot be empty.")
+            raise serializers.ValidationError(_("Author name cannot be empty."))
         if len(value) > 100:
-            raise serializers.ValidationError("Author name cannot exceed 100 characters.")
+            raise serializers.ValidationError(_("Author name cannot exceed 100 characters."))
         return value.strip()
     
     def validate_author_email(self, value: str) -> str:
         """Validate author email."""
         if not value or not value.strip():
-            raise serializers.ValidationError("Author email cannot be empty.")
+            raise serializers.ValidationError(_("Author email cannot be empty."))
         # Basic email validation
         if '@' not in value or '.' not in value.split('@')[1]:
-            raise serializers.ValidationError("Please enter a valid email address.")
+            raise serializers.ValidationError(_("Please enter a valid email address."))
         return value.strip().lower()
     
     def validate_content(self, value: str) -> str:
         """Validate comment content."""
         if not value or not value.strip():
-            raise serializers.ValidationError("Comment content cannot be empty.")
+            raise serializers.ValidationError(_("Comment content cannot be empty."))
         if len(value) < 10:
-            raise serializers.ValidationError("Comment must be at least 10 characters long.")
+            raise serializers.ValidationError(_("Comment must be at least 10 characters long."))
         if len(value) > 2000:
-            raise serializers.ValidationError("Comment cannot exceed 2000 characters.")
+            raise serializers.ValidationError(_("Comment cannot exceed 2000 characters."))
         return value.strip()
 
 
@@ -214,15 +231,15 @@ class SubscriberSerializer(serializers.ModelSerializer):
     def validate_email(self, value: str) -> str:
         """Validate subscriber email."""
         if not value or not value.strip():
-            raise serializers.ValidationError("Email cannot be empty.")
+            raise serializers.ValidationError(_("Email cannot be empty."))
         value = value.strip().lower()
         # Basic email validation
         if '@' not in value or '.' not in value.split('@')[1]:
-            raise serializers.ValidationError("Please enter a valid email address.")
+            raise serializers.ValidationError(_("Please enter a valid email address."))
         # Check for duplicate
         if self.instance is None:  # New subscriber
             if Subscriber.objects.filter(email=value).exists():
-                raise serializers.ValidationError("This email is already subscribed.")
+                raise serializers.ValidationError(_("This email is already subscribed."))
         return value
 
 
@@ -269,6 +286,8 @@ class NewsArticleListSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(source='category.name', read_only=True)
     author_name = serializers.SerializerMethodField()
     image_thumbnail = serializers.SerializerMethodField()
+    view_count_display = serializers.SerializerMethodField()
+    read_time_display = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
     
     class Meta:
@@ -276,7 +295,7 @@ class NewsArticleListSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'title', 'slug', 'excerpt', 'category_name',
             'author_name', 'image_thumbnail', 'status', 'is_featured',
-            'view_count', 'published_date', 'read_time', 'url'
+            'view_count', 'view_count_display', 'published_date', 'read_time', 'read_time_display', 'url'
         ]
         read_only_fields = ['id', 'slug', 'view_count', 'read_time']
     
@@ -301,10 +320,19 @@ class NewsArticleListSerializer(serializers.ModelSerializer):
         """Get absolute URL for the article."""
         return obj.get_absolute_url()
 
+    def get_view_count_display(self, obj: NewsArticle) -> str:
+        """Get localized view count."""
+        return to_nepali_digits(obj.view_count)
+
+    def get_read_time_display(self, obj: NewsArticle) -> str:
+        """Get localized read time."""
+        return to_nepali_digits(obj.read_time)
+
 
 class EventListSerializer(serializers.ModelSerializer):
     """Lightweight serializer for event lists."""
     event_type_display = serializers.CharField(source='get_event_type_display', read_only=True)
+    view_count_display = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
     
     class Meta:
@@ -313,11 +341,15 @@ class EventListSerializer(serializers.ModelSerializer):
             'id', 'title', 'slug', 'short_description', 'event_type',
             'event_type_display', 'location', 'event_date', 'end_date',
             'image_thumbnail', 'status', 'is_featured', 'view_count',
-            'registration_count', 'url'
+            'registration_count', 'view_count_display', 'url'
         ]
         read_only_fields = ['id', 'slug', 'view_count', 'registration_count']
     
     def get_url(self, obj: Event) -> str:
         """Get absolute URL for the event."""
         return obj.get_absolute_url()
+
+    def get_view_count_display(self, obj: Event) -> str:
+        """Get localized view count."""
+        return to_nepali_digits(obj.view_count)
 

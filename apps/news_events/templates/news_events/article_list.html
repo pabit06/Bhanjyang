@@ -3,12 +3,12 @@
 {% load i18n %}
 {% load nepalidatetime %}
 
-{% block title %}{% trans "News Articles" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "News Articles" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{% trans "Browse all news articles and updates from Bhanjyang Saving & Credit Cooperative Society Ltd." %}{% endblock meta_description %}
-{% block meta_keywords %}Bhanjyang Cooperative, News Articles, Updates, Cooperative News, समाचार{% endblock meta_keywords %}
+{% block meta_keywords %}Bhanjyang Cooperative, News Articles, Updates, Cooperative News, {% trans "News" %}{% endblock meta_keywords %}
 
-{% block og_title %}{% trans "News Articles" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{% trans "News Articles" %} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{% trans "Browse all news articles and updates from Bhanjyang Cooperative." %}{% endblock og_description %}
 
@@ -42,7 +42,7 @@
             {% trans "Articles" %}
         </span>
         <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
-            <span class="text-gray-800">समाचार</span> <span class="text-deuraligreen">लेखहरू</span>
+            {% trans "News Articles" %}
         </h1>
         <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
         <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -152,12 +152,12 @@
                                                 </span>
                                                 <span class="flex items-center">
                                                     <i class="fas fa-eye mr-1"></i>
-                                                    <span x-text="article.view_count"></span>
+                                                    <span x-text="article.view_count_display"></span>
                                                 </span>
                                             </div>
                                             <span class="flex items-center text-xs text-gray-500">
                                                 <i class="fas fa-clock mr-1"></i>
-                                                <span x-text="article.read_time + ' min'"></span>
+                                                <span x-text="article.read_time_display + ' {% trans 'min' %}'"></span>
                                             </span>
                                         </div>
                                     </div>
@@ -193,7 +193,7 @@
                             </button>
 
                             <span class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-bold">
-                                <span x-text="currentPage"></span> / <span x-text="numPages"></span>
+                                <span x-text="currentPageDisplay"></span> / <span x-text="numPagesDisplay"></span>
                             </span>
 
                             <button @click="nextPage()" :disabled="!hasNext"
@@ -364,6 +364,19 @@
                tmp.innerHTML = html;
                let text = tmp.textContent || tmp.innerText || "";
                return text.split(" ").slice(0, 20).join(" ") + "...";
+            },
+
+            get currentPageDisplay() {
+                return this.toNepaliDigits(this.currentPage);
+            },
+
+            get numPagesDisplay() {
+                return this.toNepaliDigits(this.numPages);
+            },
+
+            toNepaliDigits(n) {
+                const nepaliDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+                return n.toString().split('').map(char => nepaliDigits[parseInt(char)] || char).join('');
             }
         }));
     });

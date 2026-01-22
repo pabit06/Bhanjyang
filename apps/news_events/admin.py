@@ -46,7 +46,7 @@ class CategoryAdmin(admin.ModelAdmin):
     def article_count(self, obj):
         """Get article count for category"""
         return obj.article_count
-    article_count.short_description = _('लेखहरू')
+    article_count.short_description = _('Articles')
     
     def color_preview(self, obj):
         """Show color preview"""
@@ -56,7 +56,7 @@ class CategoryAdmin(admin.ModelAdmin):
                 obj.color
             )
         return '-'
-    color_preview.short_description = _('रङ')
+    color_preview.short_description = _('Color')
 
 @admin.register(NewsArticle)
 class NewsArticleAdmin(admin.ModelAdmin):
@@ -105,31 +105,31 @@ class NewsArticleAdmin(admin.ModelAdmin):
         """Bulk publish selected articles"""
         count = queryset.update(status=NewsArticle.Status.PUBLISHED)
         self.message_user(request, f'{count} articles published successfully.', messages.SUCCESS)
-    publish_selected.short_description = _("चयनित लेखहरूलाई प्रकाशन गर्नुहोस्")
+    publish_selected.short_description = _("Publish selected articles")
     
     def archive_selected(self, request, queryset):
         """Bulk archive selected articles"""
         count = queryset.update(status=NewsArticle.Status.ARCHIVED)
         self.message_user(request, f'{count} articles archived successfully.', messages.SUCCESS)
-    archive_selected.short_description = _("चयनित लेखहरूलाई संग्रह गर्नुहोस्")
+    archive_selected.short_description = _("Archive selected articles")
     
     def draft_selected(self, request, queryset):
         """Bulk move selected articles to draft"""
         count = queryset.update(status=NewsArticle.Status.DRAFT)
         self.message_user(request, f'{count} articles moved to draft.', messages.SUCCESS)
-    draft_selected.short_description = _("चयनित लेखहरूलाई ड्राफ्टमा सार्नुहोस्")
+    draft_selected.short_description = _("Move selected articles to draft")
     
     def feature_selected(self, request, queryset):
         """Bulk feature selected articles"""
         count = queryset.update(is_featured=True)
         self.message_user(request, f'{count} articles marked as featured.', messages.SUCCESS)
-    feature_selected.short_description = _("चयनित लेखहरूलाई फिचर्ड बनाउनुहोस्")
+    feature_selected.short_description = _("Feature selected articles")
     
     def unfeature_selected(self, request, queryset):
         """Bulk unfeature selected articles"""
         count = queryset.update(is_featured=False)
         self.message_user(request, f'{count} articles unfeatured.', messages.SUCCESS)
-    unfeature_selected.short_description = _("चयनित लेखहरूबाट फिचर्ड हटाउनुहोस्")
+    unfeature_selected.short_description = _("Unfeature selected articles")
     
     def export_selected_csv(self, request, queryset):
         """Export selected articles to CSV"""
@@ -154,7 +154,7 @@ class NewsArticleAdmin(admin.ModelAdmin):
             ])
         
         return response
-    export_selected_csv.short_description = _("चयनित लेखहरूलाई CSV मा निर्यात गर्नुहोस्")
+    export_selected_csv.short_description = _("Export selected articles to CSV")
     
     def duplicate_selected(self, request, queryset):
         """Duplicate selected articles"""
@@ -170,7 +170,7 @@ class NewsArticleAdmin(admin.ModelAdmin):
             article.save()
             count += 1
         self.message_user(request, f'{count} articles duplicated successfully.', messages.SUCCESS)
-    duplicate_selected.short_description = _("चयनित लेखहरूलाई डुप्लिकेट गर्नुहोस्")
+    duplicate_selected.short_description = _("Duplicate selected articles")
     
     def get_urls(self):
         urls = super().get_urls()
@@ -364,7 +364,7 @@ class SubscriberAdmin(admin.ModelAdmin):
             ])
         
         return response
-    export_subscribers.short_description = _("चयनित सदस्यहरूलाई CSV मा निर्यात गर्नुहोस्")
+    export_subscribers.short_description = _("Export selected subscribers to CSV")
     
     def send_newsletter(self, request, queryset):
         """Send newsletter to selected subscribers asynchronously"""
@@ -387,7 +387,7 @@ class SubscriberAdmin(admin.ModelAdmin):
             )
         else:
             messages.warning(request, "No subscribers selected.")
-    send_newsletter.short_description = _("चयनित सदस्यहरूलाई न्युजलेटर पठाउनुहोस्")
+    send_newsletter.short_description = _("Send newsletter to selected subscribers")
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
@@ -423,19 +423,19 @@ class CommentAdmin(admin.ModelAdmin):
         """Approve selected comments"""
         updated = queryset.update(status=Comment.Status.APPROVED, is_approved=True, moderated_by=request.user)
         messages.success(request, f'{updated} comments approved.')
-    approve_comments.short_description = _("चयनित टिप्पणीहरू अनुमोदन गर्नुहोस्")
+    approve_comments.short_description = _("Approve selected comments")
     
     def reject_comments(self, request, queryset):
         """Reject selected comments"""
         updated = queryset.update(status=Comment.Status.REJECTED, is_approved=False, moderated_by=request.user)
         messages.success(request, f'{updated} comments rejected.')
-    reject_comments.short_description = _("चयनित टिप्पणीहरू अस्वीकृत गर्नुहोस्")
+    reject_comments.short_description = _("Reject selected comments")
     
     def mark_as_spam(self, request, queryset):
         """Mark selected comments as spam"""
         updated = queryset.update(status=Comment.Status.SPAM, is_approved=False, moderated_by=request.user)
         messages.success(request, f'{updated} comments marked as spam.')
-    mark_as_spam.short_description = _("चयनित टिप्पणीहरूलाई स्प्यामको रूपमा चिन्ह लगाउनुहोस्")
+    mark_as_spam.short_description = _("Mark selected comments as spam")
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
@@ -502,7 +502,7 @@ class NewsletterAdmin(admin.ModelAdmin):
             for error in errors:
                 messages.error(request, error)
     
-    dispatch_newsletter.short_description = _("चयनित न्युजलेटरहरू पठाउनुहोस् (Asynchronous)")
+    dispatch_newsletter.short_description = _("Dispatch selected newsletters (Asynchronous)")
 
 @admin.register(ContentAnalytics)
 class ContentAnalyticsAdmin(admin.ModelAdmin):
@@ -567,7 +567,7 @@ class NoticeAdmin(admin.ModelAdmin):
     def file_available(self, obj):
         return bool(obj.file)
     file_available.boolean = True
-    file_available.short_description = _("फाइल")
+    file_available.short_description = _("File")
 
 admin_site.register(Notice, NoticeAdmin)
 
@@ -593,7 +593,7 @@ class PopupNoticeAdmin(admin.ModelAdmin):
                 'Only ONE active notice will be shown at a time (highest priority).<br><br>'
                 '<strong>Examples:</strong><br>'
                 '• Title: "14th Annual General Meeting Notice"<br>'
-                '• Type: "वार्षिक साधारण सभा (AGM)"'
+                '• Type: "%s (AGM)"' % _('Annual General Meeting')
             )
         }),
         ('Notice Image', {
@@ -621,7 +621,7 @@ class PopupNoticeAdmin(admin.ModelAdmin):
                 '<strong>Active:</strong> Must be checked to display. Uncheck to hide without deleting.<br>'
                 '<strong>Start Date:</strong> When to start showing the notice (default: now).<br>'
                 '<strong>End Date:</strong> When to stop showing (leave blank to show indefinitely).<br>'
-                '<strong>Auto-Close Duration:</strong> Popup कति सेकेन्ड पछि आफैँ बन्द हुने (blank = manual close मात्र, e.g., 5 = 5 सेकेन्ड पछि auto-close)'
+                '<strong>Auto-Close Duration:</strong> How many seconds before popup auto-closes (blank = manual close only, e.g., 5 = auto-close after 5 seconds)'
             )
         }),
     )

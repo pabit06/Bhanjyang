@@ -2,13 +2,14 @@
 {% load static %}
 {% load i18n %}
 {% load nepalidatetime %}
+{% load nepali_digits %}
 
-{% block title %}{{ article.title }} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{{ article.title }} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{{ article.meta_description|default:article.excerpt|truncatewords:20 }}{% endblock meta_description %}
-{% block meta_keywords %}{{ article.meta_keywords|default:article.category.name }}, Bhanjyang Cooperative, समाचार{% endblock meta_keywords %}
+{% block meta_keywords %}{{ article.meta_keywords|default:article.category.name }}, Bhanjyang Cooperative, {% trans "News" %}{% endblock meta_keywords %}
 
-{% block og_title %}{{ article.title }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{{ article.title }} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{{ article.excerpt|default:article.meta_description|truncatewords:25 }}{% endblock og_description %}
 
@@ -68,11 +69,11 @@
                 <div class="flex items-center space-x-4 text-sm text-gray-600">
                     <span class="flex items-center">
                         <i class="fas fa-eye mr-1"></i>
-                        {{ article.view_count }} {% trans "views" %}
+                        {{ article.view_count|to_nepali_digits }} {% trans "views" %}
                     </span>
                     <span class="flex items-center">
                         <i class="fas fa-clock mr-1"></i>
-                        {{ article.read_time }} {% trans "min read" %}
+                        {{ article.read_time|to_nepali_digits }} {% trans "min read" %}
                     </span>
                 </div>
             </div>
@@ -212,7 +213,7 @@
     
     <div class="container mx-auto max-w-6xl px-4 relative z-10">
         <h3 class="text-2xl font-bold text-deuraligreen mb-8 font-montserrat">
-            <span class="text-gray-800">सम्बन्धित</span> <span class="text-deuraligreen">लेखहरू</span>
+            {% trans "Related Articles" %}
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for related_article in related_articles %}
@@ -273,7 +274,7 @@ window.newsEventsMessages = {
     },
     "publisher": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "{% trans 'Bhanjyang Cooperative' %}",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "logo": {
             "@type": "ImageObject",
