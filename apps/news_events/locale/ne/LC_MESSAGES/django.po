@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 00:45+0545\n"
+"POT-Creation-Date: 2026-01-22 13:15+0545\n"
 "PO-Revision-Date: 2026-01-22 00:45+0545\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,403 +18,1933 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: apps/news_events/models.py:108 apps/news_events/models.py:148
-msgid "Category"
-msgstr "श्रेणी"
+msgid "Articles"
+msgstr "लेखहरू"
 
-#: apps/news_events/models.py:109
-msgid "Categories"
-msgstr "श्रेणीहरू"
-
-#: apps/news_events/models.py:96
-msgid "Name"
-msgstr "नाम"
-
-#: apps/news_events/models.py:96
-msgid "Name of the category"
-msgstr "श्रेणीको नाम"
-
-#: apps/news_events/models.py:97
-msgid "Slug"
-msgstr "स्लग"
-
-#: apps/news_events/models.py:97
-msgid "URL-friendly version"
-msgstr "URL-अनुकूल संस्करण"
-
-#: apps/news_events/models.py:98
-msgid "Description"
-msgstr "विवरण"
-
-#: apps/news_events/models.py:98
-msgid "Category description"
-msgstr "श्रेणी विवरण"
-
-#: apps/news_events/models.py:99
 msgid "Color"
 msgstr "रङ"
 
-#: apps/news_events/models.py:100
-msgid "Icon"
-msgstr "आइकन"
-
-#: apps/news_events/models.py:101
-msgid "Is Active"
-msgstr "सक्रिय छ"
-
-#: apps/news_events/models.py:102
-msgid "Sort Order"
-msgstr "क्रमबद्ध क्रम"
-
-#: apps/news_events/models.py:233
-msgid "News Article"
-msgstr "समाचार लेख"
-
-#: apps/news_events/models.py:234
-msgid "News Articles"
-msgstr "समाचार लेखहरू"
-
-#: apps/news_events/models.py:134
-msgid "Draft"
-msgstr "मस्यौदा"
-
-#: apps/news_events/models.py:135
-msgid "Published"
-msgstr "प्रकाशित"
-
-#: apps/news_events/models.py:136
-msgid "Archived"
-msgstr "अभिलेखीकरण गरिएको"
-
-#: apps/news_events/models.py:137
-msgid "Scheduled"
-msgstr "निर्धारित"
-
-#: apps/news_events/models.py:140
-msgid "Low Priority"
-msgstr "न्यून प्राथमिकता"
-
-#: apps/news_events/models.py:141
-msgid "Medium Priority"
-msgstr "मध्यम प्राथमिकता"
-
-#: apps/news_events/models.py:142
-msgid "High Priority"
-msgstr "उच्च प्राथमिकता"
-
-#: apps/news_events/models.py:143
-msgid "Urgent"
-msgstr "अत्यन्त जरुरी"
-
-#: apps/news_events/models.py:146
-msgid "Title"
-msgstr "शीर्षक"
-
-#: apps/news_events/models.py:149
-msgid "Author"
-msgstr "लेखक"
-
-#: apps/news_events/models.py:152
-msgid "Content"
-msgstr "सामग्री"
-
-#: apps/news_events/models.py:153
-msgid "Excerpt"
-msgstr "उद्धरण"
-
-#: apps/news_events/models.py:154
-msgid "Image"
-msgstr "छवि"
-
-#: apps/news_events/models.py:202
-msgid "Status"
-msgstr "स्थिति"
-
-#: apps/news_events/models.py:203
-msgid "Priority"
-msgstr "प्राथमिकता"
-
-#: apps/news_events/models.py:204
-msgid "Published Date"
-msgstr "प्रकाशित मिति"
-
-#: apps/news_events/models.py:205
-msgid "Scheduled Date"
-msgstr "निर्धारित मिति"
-
-#: apps/news_events/models.py:208
-msgid "SEO Title"
-msgstr "SEO शीर्षक"
-
-#: apps/news_events/models.py:209
-msgid "SEO Description"
-msgstr "SEO विवरण"
-
-#: apps/news_events/models.py:210
-msgid "SEO Keywords"
-msgstr "SEO शब्दहरू"
-
-#: apps/news_events/models.py:220
-msgid "Is Featured"
-msgstr "विशेष हो"
-
-#: apps/news_events/models.py:221
-msgid "Allow Comments"
-msgstr "टिप्पणीहरू अनुमति दिनुहोस्"
-
-#: apps/news_events/models.py:222
-msgid "Require Login"
-msgstr "लगइन आवश्यक छ"
-
-#: apps/news_events/models.py:462
-msgid "Event"
-msgstr "कार्यक्रम"
-
-#: apps/news_events/models.py:463
-msgid "Events"
-msgstr "कार्यक्रमहरू"
-
-#: apps/news_events/models.py:363
-msgid "Meeting"
-msgstr "बैठक"
-
-#: apps/news_events/models.py:364
-msgid "Workshop"
-msgstr "कार्यशाला"
-
-#: apps/news_events/models.py:365
-msgid "Conference"
-msgstr "सम्मेलन"
-
-#: apps/news_events/models.py:366
-msgid "Seminar"
-msgstr "गोष्ठी"
-
-#: apps/news_events/models.py:367
-msgid "Social Event"
-msgstr "सामाजिक कार्यक्रम"
-
-#: apps/news_events/models.py:368
-msgid "Training"
-msgstr "तालिम"
-
-#: apps/news_events/models.py:369
-msgid "Other"
-msgstr "अन्य"
-
-#: apps/news_events/models.py:374
-msgid "Cancelled"
-msgstr "रद्द गरिएको"
-
-#: apps/news_events/models.py:375
-msgid "Completed"
-msgstr "सकिएको"
-
-#: apps/news_events/models.py:384
-msgid "Event Type"
-msgstr "कार्यक्रमको प्रकार"
-
-#: apps/news_events/models.py:385
-msgid "Location"
-msgstr "स्थान"
-
-#: apps/news_events/models.py:386
-msgid "Address"
-msgstr "ठेगाना"
-
-#: apps/news_events/models.py:387
-msgid "Event Date"
-msgstr "कार्यक्रमको मिति"
-
-#: apps/news_events/models.py:388
-msgid "End Date"
-msgstr "अन्त्य मिति"
-
-#: apps/news_events/models.py:391
-msgid "Max Attendees"
-msgstr "अधिकतम सहभागीहरू"
-
-#: apps/news_events/models.py:392
-msgid "Registration Required"
-msgstr "दर्ता आवश्यक छ"
-
-#: apps/news_events/models.py:599
-msgid "Subscriber"
-msgstr "ग्राहक"
-
-#: apps/news_events/models.py:600
-msgid "Subscribers"
-msgstr "ग्राहकहरू"
-
-#: apps/news_events/models.py:568
-msgid "Active"
-msgstr "सक्रिय"
-
-#: apps/news_events/models.py:569
-msgid "Unsubscribed"
-msgstr "सदस्यता रद्द गरिएको"
-
-#: apps/news_events/models.py:573
-msgid "Email"
-msgstr "इमेल"
-
-#: apps/news_events/models.py:574
-msgid "First Name"
-msgstr "पहिलो नाम"
-
-#: apps/news_events/models.py:575
-msgid "Last Name"
-msgstr "अन्तिम नाम"
-
-#: apps/news_events/models.py:655
-msgid "Comment"
-msgstr "टिप्पणी"
-
-#: apps/news_events/models.py:656
-msgid "Comments"
-msgstr "टिप्पणीहरू"
-
-#: apps/news_events/models.py:626
-msgid "Pending Approval"
-msgstr "स्वीकृतिको पर्खाइमा"
-
-#: apps/news_events/models.py:627
-msgid "Approved"
-msgstr "स्वीकृत"
-
-#: apps/news_events/models.py:628
-msgid "Rejected"
-msgstr "तिरस्कृत"
-
-#: apps/news_events/models.py:631
-msgid "Article"
-msgstr "लेख"
-
-#: apps/news_events/models.py:632
-msgid "Author Name"
-msgstr "लेखकको नाम"
-
-#: apps/news_events/models.py:633
-msgid "Author Email"
-msgstr "लेखकको इमेल"
-
-#: apps/news_events/models.py:638
-msgid "Is Approved"
-msgstr "स्वीकृत छ"
-
-#: apps/news_events/models.py:700
-msgid "Newsletter"
-msgstr "समाचारपत्र"
-
-#: apps/news_events/models.py:701
-msgid "Newsletters"
-msgstr "समाचारपत्रहरू"
-
-#: apps/news_events/models.py:780
-msgid "Notice"
-msgstr "सूचना"
-
-#: apps/news_events/models.py:781
-msgid "Notices"
-msgstr "सूचनाहरू"
-
-#: apps/news_events/models.py:750
-msgid "General Notice"
-msgstr "साधारण सूचना"
-
-#: apps/news_events/models.py:751
-msgid "Urgent Notice"
-msgstr "अत्यन्त जरुरी सूचना"
-
-#: apps/news_events/models.py:752
+#, fuzzy
+#| msgid "Published Articles"
+msgid "Publish selected articles"
+msgstr "प्रकाशित लेखहरू"
+
+msgid "Archive selected articles"
+msgstr ""
+
+msgid "Move selected articles to draft"
+msgstr ""
+
+#, fuzzy
+#| msgid "Featured Articles"
+msgid "Feature selected articles"
+msgstr "विशेष लेखहरू"
+
+#, fuzzy
+#| msgid "Featured Articles"
+msgid "Unfeature selected articles"
+msgstr "विशेष लेखहरू"
+
+msgid "Export selected articles to CSV"
+msgstr ""
+
+#, fuzzy
+#| msgid "Published Articles"
+msgid "Duplicate selected articles"
+msgstr "प्रकाशित लेखहरू"
+
+msgid "Export selected subscribers to CSV"
+msgstr ""
+
+msgid "Send newsletter to selected subscribers"
+msgstr ""
+
+msgid "Approve selected comments"
+msgstr ""
+
+msgid "Reject selected comments"
+msgstr ""
+
+msgid "Mark selected comments as spam"
+msgstr ""
+
+msgid "Dispatch selected newsletters (Asynchronous)"
+msgstr ""
+
+msgid "Optional file (PDF/Image) download for this notice."
+msgstr ""
+
+msgid ""
+"show_as_popup: Check this to display this notice as a popup modal on the "
+"home page."
+msgstr ""
+
+msgid "File"
+msgstr ""
+
 msgid "Annual General Meeting"
 msgstr "वार्षिक साधारण सभा"
 
-#: apps/news_events/models.py:753
+#, python-format
+msgid ""
+"<strong>Home Page Popup Notice</strong><br>This notice appears as a popup "
+"modal when users visit the home page.<br>Only ONE active notice will be "
+"shown at a time (highest priority).<br><br><strong>Examples:</strong><br>• "
+"Title: \"14th Annual General Meeting Notice\"<br>• Type: \"%s (AGM)\""
+msgstr ""
+
+msgid ""
+"<strong>Image Requirements:</strong><br>• Recommended size: 800x1200px or "
+"larger<br>• Format: JPG or PNG<br>• The image will be displayed in a "
+"scrollable modal popup<br>• Alt text is important for accessibility"
+msgstr ""
+
+msgid ""
+"If you want the image to be clickable and link to another page, fill these "
+"fields.<br>Leave blank if the image should not be clickable."
+msgstr ""
+
+msgid ""
+"<strong>Priority:</strong> Higher numbers appear first. If multiple notices "
+"are active, only the highest priority one shows.<br><strong>Active:</strong> "
+"Must be checked to display. Uncheck to hide without deleting."
+"<br><strong>Start Date:</strong> When to start showing the notice (default: "
+"now).<br><strong>End Date:</strong> When to stop showing (leave blank to "
+"show indefinitely).<br><strong>Auto-Close Duration:</strong> How many "
+"seconds before popup auto-closes (blank = manual close only, e.g., 5 = auto-"
+"close after 5 seconds)"
+msgstr ""
+
+msgid "Please fill in all required fields correctly."
+msgstr ""
+
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+msgid "A database error occurred. Please try again later."
+msgstr ""
+
+msgid "The data is invalid. Please check and try again."
+msgstr ""
+
+msgid "The requested page was not found."
+msgstr ""
+
+msgid "An invalid value was provided."
+msgstr ""
+
+msgid "Incorrect data type provided."
+msgstr ""
+
+msgid "An error occurred. Please try again later."
+msgstr ""
+
+msgid "Enter article title"
+msgstr ""
+
+msgid "Write article content here..."
+msgstr ""
+
+msgid "Brief article summary (optional)"
+msgstr ""
+
+#, fuzzy
+#| msgid "SEO Title"
+msgid "SEO Title (optional)"
+msgstr "SEO शीर्षक"
+
+#, fuzzy
+#| msgid "SEO Description"
+msgid "SEO description (optional)"
+msgstr "SEO विवरण"
+
+msgid "SEO Keywords (comma separated)"
+msgstr ""
+
+msgid "Alt text for image"
+msgstr ""
+
+msgid "Content has security issues."
+msgstr ""
+
+msgid "Content validation failed."
+msgstr ""
+
+msgid "Title must be 200 characters or less."
+msgstr ""
+
+msgid "Scheduled date is required for scheduled articles."
+msgstr ""
+
+msgid "Scheduled date must be in the future."
+msgstr ""
+
+#, fuzzy
+#| msgid "Event Details"
+msgid "Enter event title"
+msgstr "कार्यक्रम विवरण"
+
+msgid "Write event description here..."
+msgstr ""
+
+#, fuzzy
+#| msgid "Category description"
+msgid "Brief event description"
+msgstr "श्रेणी विवरण"
+
+#, fuzzy
+#| msgid "Event Date"
+msgid "Event location"
+msgstr "कार्यक्रमको मिति"
+
+msgid "Full event address"
+msgstr ""
+
+msgid "Description has security issues."
+msgstr ""
+
+msgid "Description validation failed."
+msgstr ""
+
+msgid "End date must be after event date."
+msgstr ""
+
+msgid "Registration deadline is required when registration is required."
+msgstr ""
+
+msgid "Registration deadline must be before event date."
+msgstr ""
+
+#, fuzzy
+#| msgid "Category"
+msgid "Category name"
+msgstr "श्रेणी"
+
+msgid "Category description"
+msgstr "श्रेणी विवरण"
+
+#, fuzzy
+#| msgid "Enter your email address"
+msgid "Enter your email address..."
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+#, fuzzy
+#| msgid "Enter your email address"
+msgid "Email address"
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+msgid "First name (optional)"
+msgstr ""
+
+msgid "Last name (optional)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Author Name"
+msgid "Your Name"
+msgstr "लेखकको नाम"
+
+#, fuzzy
+#| msgid "Enter your email address"
+msgid "Your email address"
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+msgid "Write your comment..."
+msgstr ""
+
+msgid "Comment looks like spam. Please review."
+msgstr ""
+
+#, fuzzy
+#| msgid "Newsletter"
+msgid "Newsletter title"
+msgstr "समाचारपत्र"
+
+msgid "Email subject line"
+msgstr ""
+
+#, fuzzy
+#| msgid "Newsletter"
+msgid "Newsletter content..."
+msgstr "समाचारपत्र"
+
+msgid "सामग्रीमा सुरक्षा समस्या छ।"
+msgstr ""
+
+#, fuzzy
+#| msgid "Content"
+msgid "All Content"
+msgstr "सामग्री"
+
+#, fuzzy
+#| msgid "Articles"
+msgid "Articles Only"
+msgstr "लेखहरू"
+
+#, fuzzy
+#| msgid "Events"
+msgid "Events Only"
+msgstr "कार्यक्रमहरू"
+
+msgid "Relevance"
+msgstr ""
+
+#, fuzzy
+#| msgid "End Date"
+msgid "Date"
+msgstr "अन्त्य मिति"
+
+#, fuzzy
+#| msgid "Total Views"
+msgid "Views"
+msgstr "कुल हेराइहरू"
+
+msgid "Title"
+msgstr "शीर्षक"
+
+#, fuzzy
+#| msgid "Search Articles"
+msgid "Search articles and events..."
+msgstr "लेखहरू खोज्नुहोस्"
+
+#, fuzzy
+#| msgid "Categories"
+msgid "All Categories"
+msgstr "श्रेणीहरू"
+
+#, fuzzy
+#| msgid "Author"
+msgid "All Authors"
+msgstr "लेखक"
+
+#, fuzzy
+#| msgid "Status"
+msgid "All Status"
+msgstr "स्थिति"
+
+#, fuzzy
+#| msgid "Published"
+msgid "Published Only"
+msgstr "प्रकाशित"
+
+#, fuzzy
+#| msgid "Draft"
+msgid "Draft Only"
+msgstr "मस्यौदा"
+
+msgid "Minimum read time (min)"
+msgstr ""
+
+msgid "Maximum read time (min)"
+msgstr ""
+
+msgid "End date must be after start date."
+msgstr ""
+
+#, fuzzy
+#| msgid "Published"
+msgid "Publish Selected"
+msgstr "प्रकाशित"
+
+msgid "Move to Draft"
+msgstr ""
+
+#, fuzzy
+#| msgid "Archived"
+msgid "Archive Selected"
+msgstr "अभिलेखीकरण गरिएको"
+
+msgid "Delete Selected"
+msgstr ""
+
+#, fuzzy
+#| msgid "Is Featured"
+msgid "Mark as Featured"
+msgstr "विशेष हो"
+
+#, fuzzy
+#| msgid "Is Featured"
+msgid "Remove Featured"
+msgstr "विशेष हो"
+
+msgid "No content selected."
+msgstr ""
+
+msgid "No valid content IDs provided."
+msgstr ""
+
+msgid "Invalid content ID provided."
+msgstr ""
+
+msgid "Name"
+msgstr "नाम"
+
+msgid "Name of the category"
+msgstr "श्रेणीको नाम"
+
+msgid "Slug"
+msgstr "स्लग"
+
+msgid "URL-friendly version"
+msgstr "URL-अनुकूल संस्करण"
+
+msgid "Description"
+msgstr "विवरण"
+
+#, fuzzy
+#| msgid "Name of the category"
+msgid "Hex color code for the category"
+msgstr "श्रेणीको नाम"
+
+msgid "Icon"
+msgstr "आइकन"
+
+msgid "FontAwesome icon class"
+msgstr ""
+
+msgid "Is Active"
+msgstr "सक्रिय छ"
+
+msgid "Whether this category is active"
+msgstr ""
+
+msgid "Sort Order"
+msgstr "क्रमबद्ध क्रम"
+
+msgid "Order for display"
+msgstr ""
+
+msgid "Created At"
+msgstr ""
+
+#, fuzzy
+#| msgid "Stay Updated"
+msgid "Updated At"
+msgstr "अद्यावधिक रहनुहोस्"
+
+msgid "Category"
+msgstr "श्रेणी"
+
+msgid "Categories"
+msgstr "श्रेणीहरू"
+
+msgid "Draft"
+msgstr "मस्यौदा"
+
+msgid "Published"
+msgstr "प्रकाशित"
+
+msgid "Archived"
+msgstr "अभिलेखीकरण गरिएको"
+
+msgid "Scheduled"
+msgstr "निर्धारित"
+
+msgid "Low Priority"
+msgstr "न्यून प्राथमिकता"
+
+msgid "Medium Priority"
+msgstr "मध्यम प्राथमिकता"
+
+msgid "High Priority"
+msgstr "उच्च प्राथमिकता"
+
+msgid "Urgent"
+msgstr "अत्यन्त जरुरी"
+
+#, fuzzy
+#| msgid "Name of the category"
+msgid "Title of the article"
+msgstr "श्रेणीको नाम"
+
+#, fuzzy
+#| msgid "URL-friendly version"
+msgid "URL-friendly title"
+msgstr "URL-अनुकूल संस्करण"
+
+#, fuzzy
+#| msgid "Name of the category"
+msgid "Category of the article"
+msgstr "श्रेणीको नाम"
+
+msgid "Author"
+msgstr "लेखक"
+
+#, fuzzy
+#| msgid "Author Email"
+msgid "Author of the article"
+msgstr "लेखकको इमेल"
+
+msgid "Content"
+msgstr "सामग्री"
+
+msgid "Content of the article"
+msgstr ""
+
+msgid "Excerpt"
+msgstr "उद्धरण"
+
+msgid "Short article summary"
+msgstr ""
+
+msgid "Image"
+msgstr "छवि"
+
+msgid "Main image"
+msgstr ""
+
+msgid "Image Alt Text"
+msgstr ""
+
+msgid "Alt text for the image"
+msgstr ""
+
+msgid "Status"
+msgstr "स्थिति"
+
+msgid "Publication status"
+msgstr ""
+
+msgid "Priority"
+msgstr "प्राथमिकता"
+
+#, fuzzy
+#| msgid "Low Priority"
+msgid "Content priority"
+msgstr "न्यून प्राथमिकता"
+
+msgid "Published Date"
+msgstr "प्रकाशित मिति"
+
+#, fuzzy
+#| msgid "Published Date"
+msgid "Publication date"
+msgstr "प्रकाशित मिति"
+
+msgid "Scheduled Date"
+msgstr "निर्धारित मिति"
+
+#, fuzzy
+#| msgid "Scheduled Date"
+msgid "Scheduled publication date"
+msgstr "निर्धारित मिति"
+
+msgid "SEO Title"
+msgstr "SEO शीर्षक"
+
+#, fuzzy
+#| msgid "SEO Title"
+msgid "SEO title"
+msgstr "SEO शीर्षक"
+
+msgid "SEO Description"
+msgstr "SEO विवरण"
+
+#, fuzzy
+#| msgid "SEO Description"
+msgid "SEO description"
+msgstr "SEO विवरण"
+
+msgid "SEO Keywords"
+msgstr "SEO शब्दहरू"
+
+#, fuzzy
+#| msgid "SEO Keywords"
+msgid "SEO keywords"
+msgstr "SEO शब्दहरू"
+
+#, fuzzy
+#| msgid "Read More"
+msgid "Read Time"
+msgstr "थप पढ्नुहोस्"
+
+msgid "Estimated reading time (in minutes)"
+msgstr ""
+
+msgid "View Count"
+msgstr ""
+
+msgid "Number of views"
+msgstr ""
+
+msgid "Share Count"
+msgstr ""
+
+msgid "Number of shares"
+msgstr ""
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Comment Count"
+msgstr "टिप्पणी"
+
+msgid "Number of comments"
+msgstr ""
+
+#, fuzzy
+#| msgid "Content"
+msgid "Content Hash"
+msgstr "सामग्री"
+
+msgid "SHA-256 hash of the content"
+msgstr ""
+
+msgid "Is Featured"
+msgstr "विशेष हो"
+
+#, fuzzy
+#| msgid "Featured Articles"
+msgid "Featured article"
+msgstr "विशेष लेखहरू"
+
+msgid "Allow Comments"
+msgstr "टिप्पणीहरू अनुमति दिनुहोस्"
+
+msgid "Allow comments for this article"
+msgstr ""
+
+msgid "Require Login"
+msgstr "लगइन आवश्यक छ"
+
+msgid "Login required to view"
+msgstr ""
+
+msgid "Last Accessed"
+msgstr ""
+
+msgid "Last accessed time"
+msgstr ""
+
+msgid "News Article"
+msgstr "समाचार लेख"
+
+msgid "News Articles"
+msgstr "समाचार लेखहरू"
+
+msgid "Meeting"
+msgstr "बैठक"
+
+msgid "Workshop"
+msgstr "कार्यशाला"
+
+msgid "Conference"
+msgstr "सम्मेलन"
+
+msgid "Seminar"
+msgstr "गोष्ठी"
+
+msgid "Social Event"
+msgstr "सामाजिक कार्यक्रम"
+
+msgid "Training"
+msgstr "तालिम"
+
+msgid "Other"
+msgstr "अन्य"
+
+msgid "Cancelled"
+msgstr "रद्द गरिएको"
+
+msgid "Completed"
+msgstr "सकिएको"
+
+msgid "Title of the event"
+msgstr ""
+
+#, fuzzy
+#| msgid "Description"
+msgid "Description of the event"
+msgstr "विवरण"
+
+#, fuzzy
+#| msgid "SEO Description"
+msgid "Short Description"
+msgstr "SEO विवरण"
+
+msgid "Event Type"
+msgstr "कार्यक्रमको प्रकार"
+
+msgid "Type of the event"
+msgstr ""
+
+msgid "Cooperative Office"
+msgstr ""
+
+msgid "Location"
+msgstr "स्थान"
+
+msgid "Address"
+msgstr "ठेगाना"
+
+msgid "Event Date"
+msgstr "कार्यक्रमको मिति"
+
+#, fuzzy
+#| msgid "Event Date"
+msgid "Event date and time"
+msgstr "कार्यक्रमको मिति"
+
+msgid "End Date"
+msgstr "अन्त्य मिति"
+
+msgid "Event end date and time"
+msgstr ""
+
+msgid "Max Attendees"
+msgstr "अधिकतम सहभागीहरू"
+
+#, fuzzy
+#| msgid "Max Attendees"
+msgid "Maximum number of attendees"
+msgstr "अधिकतम सहभागीहरू"
+
+msgid "Registration Required"
+msgstr "दर्ता आवश्यक छ"
+
+#, fuzzy
+#| msgid "Registration Required"
+msgid "Is registration required"
+msgstr "दर्ता आवश्यक छ"
+
+#, fuzzy
+#| msgid "Registration Required"
+msgid "Registration Deadline"
+msgstr "दर्ता आवश्यक छ"
+
+#, fuzzy
+#| msgid "Registration Required"
+msgid "Registration deadline"
+msgstr "दर्ता आवश्यक छ"
+
+#, fuzzy
+#| msgid "Registration Required"
+msgid "Registration URL"
+msgstr "दर्ता आवश्यक छ"
+
+#, fuzzy
+#| msgid "Event Date"
+msgid "Event image"
+msgstr "कार्यक्रमको मिति"
+
+#, fuzzy
+#| msgid "Event Date"
+msgid "Event status"
+msgstr "कार्यक्रमको मिति"
+
+#, fuzzy
+#| msgid "Featured News"
+msgid "Featured event"
+msgstr "विशेष समाचार"
+
+msgid "Is Recurring"
+msgstr ""
+
+#, fuzzy
+#| msgid "Upcoming Events"
+msgid "Recurring event"
+msgstr "आगामी कार्यक्रमहरू"
+
+#, fuzzy
+#| msgid "Registration Required"
+msgid "Registration Count"
+msgstr "दर्ता आवश्यक छ"
+
+msgid "Number of registrations"
+msgstr ""
+
+msgid "Event"
+msgstr "कार्यक्रम"
+
+msgid "Events"
+msgstr "कार्यक्रमहरू"
+
+msgid "Active"
+msgstr "सक्रिय"
+
+msgid "Unsubscribed"
+msgstr "सदस्यता रद्द गरिएको"
+
+msgid "Bounced"
+msgstr ""
+
+msgid "Spam"
+msgstr ""
+
+msgid "Email"
+msgstr "इमेल"
+
+#, fuzzy
+#| msgid "Enter your email address"
+msgid "Subscriber email address"
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+msgid "First Name"
+msgstr "पहिलो नाम"
+
+#, fuzzy
+#| msgid "First Name"
+msgid "First name"
+msgstr "पहिलो नाम"
+
+msgid "Last Name"
+msgstr "अन्तिम नाम"
+
+#, fuzzy
+#| msgid "Last Name"
+msgid "Last name"
+msgstr "अन्तिम नाम"
+
+#, fuzzy
+#| msgid "Description"
+msgid "Subscription status"
+msgstr "विवरण"
+
+#, fuzzy
+#| msgid "Categories"
+msgid "Preferred Categories"
+msgstr "श्रेणीहरू"
+
+#, fuzzy
+#| msgid "Categories"
+msgid "Preferred categories"
+msgstr "श्रेणीहरू"
+
+msgid "weekly"
+msgstr ""
+
+msgid "Frequency"
+msgstr ""
+
+msgid "Email frequency preference"
+msgstr ""
+
+msgid "Open Count"
+msgstr ""
+
+msgid "Number of emails opened"
+msgstr ""
+
+msgid "Click Count"
+msgstr ""
+
+msgid "Number of links clicked"
+msgstr ""
+
+#, fuzzy
+#| msgid "Address"
+msgid "IP Address"
+msgstr "ठेगाना"
+
+msgid "IP address during subscription"
+msgstr ""
+
+#, fuzzy
+#| msgid "Urgent"
+msgid "User Agent"
+msgstr "अत्यन्त जरुरी"
+
+msgid "User agent during subscription"
+msgstr ""
+
+msgid "Confirmation Token"
+msgstr ""
+
+msgid "Email confirmation token"
+msgstr ""
+
+msgid "Is Confirmed"
+msgstr ""
+
+msgid "Whether email is confirmed"
+msgstr ""
+
+#, fuzzy
+#| msgid "Subscribe"
+msgid "Subscribed At"
+msgstr "सदस्यता लिनुहोस्"
+
+msgid "Confirmed At"
+msgstr ""
+
+msgid "Email confirmation date"
+msgstr ""
+
+msgid "Last Activity Date"
+msgstr ""
+
+msgid "Last activity date"
+msgstr ""
+
+msgid "Subscriber"
+msgstr "ग्राहक"
+
+msgid "Subscribers"
+msgstr "ग्राहकहरू"
+
+msgid "Pending Approval"
+msgstr "स्वीकृतिको पर्खाइमा"
+
+msgid "Approved"
+msgstr "स्वीकृत"
+
+msgid "Rejected"
+msgstr "तिरस्कृत"
+
+msgid "Article"
+msgstr "लेख"
+
+#, fuzzy
+#| msgid "Featured Articles"
+msgid "Related article"
+msgstr "विशेष लेखहरू"
+
+msgid "Author Name"
+msgstr "लेखकको नाम"
+
+msgid "Comment author's name"
+msgstr ""
+
+msgid "Author Email"
+msgstr "लेखकको इमेल"
+
+msgid "Comment author's email"
+msgstr ""
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Comment content"
+msgstr "टिप्पणी"
+
+#, fuzzy
+#| msgid "Comments"
+msgid "Comment status"
+msgstr "टिप्पणीहरू"
+
+msgid "Is Approved"
+msgstr "स्वीकृत छ"
+
+msgid "Whether comment is approved"
+msgstr ""
+
+msgid "Moderated By"
+msgstr ""
+
+msgid "User who moderated"
+msgstr ""
+
+msgid "Moderation Notes"
+msgstr ""
+
+msgid "Moderation notes"
+msgstr ""
+
+msgid "Like Count"
+msgstr ""
+
+msgid "Number of likes"
+msgstr ""
+
+#, fuzzy
+#| msgid "Address"
+msgid "IP address"
+msgstr "ठेगाना"
+
+#, fuzzy
+#| msgid "Urgent"
+msgid "User agent"
+msgstr "अत्यन्त जरुरी"
+
+msgid "Comment"
+msgstr "टिप्पणी"
+
+msgid "Comments"
+msgstr "टिप्पणीहरू"
+
+msgid "Sending"
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Email subject"
+msgstr ""
+
+#, fuzzy
+#| msgid "Newsletter"
+msgid "Newsletter content"
+msgstr "समाचारपत्र"
+
+#, fuzzy
+#| msgid "Newsletters"
+msgid "Newsletter status"
+msgstr "समाचारपत्रहरू"
+
+#, fuzzy
+#| msgid "Categories"
+msgid "Target Categories"
+msgstr "श्रेणीहरू"
+
+#, fuzzy
+#| msgid "Categories"
+msgid "Target categories"
+msgstr "श्रेणीहरू"
+
+msgid "Send to All"
+msgstr ""
+
+#, fuzzy
+#| msgid "Subscribers"
+msgid "Send to all subscribers"
+msgstr "ग्राहकहरू"
+
+#, fuzzy
+#| msgid "Scheduled Date"
+msgid "Scheduled send date"
+msgstr "निर्धारित मिति"
+
+#, fuzzy
+#| msgid "Event Date"
+msgid "Sent Date"
+msgstr "कार्यक्रमको मिति"
+
+msgid "Actual send date"
+msgstr ""
+
+#, fuzzy
+#| msgid "Total Views"
+msgid "Total Sent"
+msgstr "कुल हेराइहरू"
+
+msgid "Total emails sent"
+msgstr ""
+
+#, fuzzy
+#| msgid "Total Views"
+msgid "Total Opened"
+msgstr "कुल हेराइहरू"
+
+msgid "Total emails opened"
+msgstr ""
+
+#, fuzzy
+#| msgid "Total Views"
+msgid "Total Clicked"
+msgstr "कुल हेराइहरू"
+
+msgid "Total links clicked"
+msgstr ""
+
+msgid "Failed Recipients"
+msgstr ""
+
+msgid "List of recipients who failed to receive email (JSON format)"
+msgstr ""
+
+msgid "Newsletter"
+msgstr "समाचारपत्र"
+
+msgid "Newsletters"
+msgstr "समाचारपत्रहरू"
+
+#, fuzzy
+#| msgid "Content"
+msgid "Content Type"
+msgstr "सामग्री"
+
+msgid "Content type (article, event)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Content"
+msgid "Content ID"
+msgstr "सामग्री"
+
+msgid "Content identifier"
+msgstr ""
+
+msgid "Analytics date"
+msgstr ""
+
+msgid "Unique Views"
+msgstr ""
+
+msgid "Number of unique views"
+msgstr ""
+
+msgid "Shares"
+msgstr ""
+
+msgid "Time on Page"
+msgstr ""
+
+msgid "Average time on page (in seconds)"
+msgstr ""
+
+msgid "Organic Search"
+msgstr ""
+
+msgid "Organic search views"
+msgstr ""
+
+#, fuzzy
+#| msgid "Social Event"
+msgid "Social Media"
+msgstr "सामाजिक कार्यक्रम"
+
+#, fuzzy
+#| msgid "Social Event"
+msgid "Social media views"
+msgstr "सामाजिक कार्यक्रम"
+
+msgid "Direct Traffic"
+msgstr ""
+
+msgid "Direct traffic views"
+msgstr ""
+
+msgid "Referral Traffic"
+msgstr ""
+
+msgid "Referral traffic views"
+msgstr ""
+
+msgid "Content Analytics"
+msgstr ""
+
+msgid "General Notice"
+msgstr "साधारण सूचना"
+
+msgid "Urgent Notice"
+msgstr "अत्यन्त जरुरी सूचना"
+
 msgid "Tender Notice"
 msgstr "बोलपत्र सूचना"
 
-#: apps/news_events/models.py:763
+#, fuzzy
+#| msgid "Notice Details"
+msgid "Notice title"
+msgstr "सूचना विवरण"
+
+msgid "Detailed description of the notice"
+msgstr ""
+
+msgid "Notice file (PDF/Image)"
+msgstr ""
+
 msgid "Type"
 msgstr "प्रकार"
 
-#: apps/news_events/models.py:768
+#, fuzzy
+#| msgid "Notice"
+msgid "Notice type"
+msgstr "सूचना"
+
+msgid "Whether notice is active"
+msgstr ""
+
+msgid "Pinned"
+msgstr ""
+
+msgid "Pin to top"
+msgstr ""
+
 msgid "Show as Popup"
 msgstr "पपअपको रूपमा देखाउनुहोस्"
 
-#: apps/news_events/templates/news_events/article_list.html:306
-msgid "News & Events"
-msgstr "समाचार र घटनाहरू"
+msgid "Check if this notice should be shown in a popup modal on the home page"
+msgstr ""
 
-#: apps/news_events/templates/news_events/article_list.html:309
-msgid "Latest News"
-msgstr "ताजा समाचार"
+msgid "Notice"
+msgstr "सूचना"
 
-#: apps/news_events/templates/news_events/article_list.html:313
-msgid "Stay updated with the latest happenings at Bhanjyang Cooperative."
-msgstr "भान्ज्याङ सहकारीका पछिल्ला गतिविधिहरूसँग अद्यावधिक रहनुहोस्।"
+msgid "Notices"
+msgstr "सूचनाहरू"
 
-#: apps/news_events/templates/news_events/article_list.html:324
-msgid "Featured News"
+#, fuzzy
+#| msgid "Annual General Meeting"
+msgid "Annual General Meeting (AGM)"
+msgstr "वार्षिक साधारण सभा"
+
+#, fuzzy
+#| msgid "Annual General Meeting"
+msgid "Extraordinary General Meeting (EGM)"
+msgstr "वार्षिक साधारण सभा"
+
+#, fuzzy
+#| msgid "Urgent Notice"
+msgid "Important Notice"
+msgstr "अत्यन्त जरुरी सूचना"
+
+msgid "Popup notice title (e.g., '14th Annual General Meeting Notice')"
+msgstr ""
+
+msgid "Short description of the notice (optional)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Notice"
+msgid "Notice Type"
+msgstr "सूचना"
+
+msgid "Select the type of notice"
+msgstr ""
+
+#, fuzzy
+#| msgid "Notice Board"
+msgid "Notice Image"
+msgstr "सूचना पाटी"
+
+msgid "Image to display in the popup (JPG, PNG format)"
+msgstr ""
+
+msgid "Alt text for the image (for accessibility)"
+msgstr ""
+
+msgid "Link URL"
+msgstr ""
+
+msgid "URL if the image should link to another page (optional)"
+msgstr ""
+
+msgid "Link Text"
+msgstr ""
+
+msgid "Text for the link button (optional)"
+msgstr ""
+
+msgid "Open in New Tab"
+msgstr ""
+
+msgid "Check if the link should open in a new tab"
+msgstr ""
+
+msgid ""
+"Higher priority notices appear first. If multiple active notices exist, "
+"highest priority shows."
+msgstr ""
+
+msgid ""
+"Check this to show the popup on home page. Uncheck to hide without deleting."
+msgstr ""
+
+#, fuzzy
+#| msgid "Event Date"
+msgid "Start Date"
+msgstr "कार्यक्रमको मिति"
+
+msgid "When to start showing (default: now)"
+msgstr ""
+
+msgid "When to stop showing (blank = show indefinitely)"
+msgstr ""
+
+msgid "Auto-Close Duration (Seconds)"
+msgstr ""
+
+msgid "Seconds before popup auto-closes (blank = manual close only)"
+msgstr ""
+
+#, fuzzy
+#| msgid "Notice"
+msgid "Popup Notice"
+msgstr "सूचना"
+
+#, fuzzy
+#| msgid "Notices"
+msgid "Popup Notices"
+msgstr "सूचनाहरू"
+
+msgid "Title cannot be empty."
+msgstr ""
+
+msgid "Title cannot exceed 200 characters."
+msgstr ""
+
+msgid "Content cannot be empty."
+msgstr ""
+
+msgid "Event date cannot be in the past."
+msgstr ""
+
+msgid "Author name cannot be empty."
+msgstr ""
+
+msgid "Author name cannot exceed 100 characters."
+msgstr ""
+
+msgid "Author email cannot be empty."
+msgstr ""
+
+#, fuzzy
+#| msgid "Enter your email address"
+msgid "Please enter a valid email address."
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+msgid "Comment content cannot be empty."
+msgstr ""
+
+msgid "Comment must be at least 10 characters long."
+msgstr ""
+
+msgid "Comment cannot exceed 2000 characters."
+msgstr ""
+
+msgid "Email cannot be empty."
+msgstr ""
+
+msgid "This email is already subscribed."
+msgstr ""
+
+msgid "Bhanjyang Cooperative"
+msgstr ""
+
+msgid "News"
+msgstr ""
+
+msgid "Skip to main content"
+msgstr ""
+
+msgid "Featured"
+msgstr "विशेष"
+
+msgid "views"
+msgstr ""
+
+msgid "min read"
+msgstr ""
+
+#, fuzzy
+#| msgid "Comment"
+msgid "Submit Comment"
+msgstr "टिप्पणी"
+
+msgid "No comments yet. Be the first to comment!"
+msgstr ""
+
+#, fuzzy
+#| msgid "Featured Articles"
+msgid "Related Articles"
+msgstr "विशेष लेखहरू"
+
+#, fuzzy
+#| msgid "No articles found."
+msgid "No related articles found."
+msgstr "कुनै लेखहरू फेला परेनन्।"
+
+msgid "Link copied to clipboard!"
+msgstr ""
+
+msgid ""
+"Browse all news articles and updates from Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+
+#, fuzzy
+#| msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
+msgid "Browse all news articles and updates from Bhanjyang Cooperative."
+msgstr "भञ्ज्याङ्ग सहकारीका पछिल्ला गतिविधिहरूसँग जोडिएर रहनुहोस्"
+
+msgid "Stay updated with the latest news and announcements"
+msgstr "ताजा समाचार र घोषणाहरूसँग अद्यावधिक रहनुहोस्"
+
+#, fuzzy
+#| msgid "Search Articles"
+msgid "Search articles..."
+msgstr "लेखहरू खोज्नुहोस्"
+
+msgid "Newest First"
+msgstr ""
+
+msgid "Oldest First"
+msgstr ""
+
+msgid "Most Popular"
+msgstr ""
+
+#, fuzzy
+#| msgid "Featured News"
+msgid "Featured Only"
 msgstr "विशेष समाचार"
 
-#: apps/news_events/templates/news_events/article_list.html:334
+#, fuzzy
+#| msgid "Seminar"
+msgid "min"
+msgstr "गोष्ठी"
+
+#, fuzzy
+#| msgid "No articles found."
+msgid "No Articles Found"
+msgstr "कुनै लेखहरू फेला परेनन्।"
+
+msgid "We couldn't find any articles matching your criteria."
+msgstr ""
+
+msgid "Clear Filters"
+msgstr ""
+
+msgid "Stay Updated"
+msgstr "अद्यावधिक रहनुहोस्"
+
+#, fuzzy
+#| msgid ""
+#| "Subscribe to our newsletter and never miss important updates, news, and "
+#| "events from Bhanjyang Cooperative."
+msgid "Subscribe to our newsletter for the latest news and updates."
+msgstr ""
+"हाम्रो समाचारपत्रको सदस्यता लिनुहोस् र भञ्ज्याङ्ग सहकारीबाट महत्वपूर्ण अपडेटहरू, "
+"समाचारहरू, र कार्यक्रमहरू कहिल्यै नछुटाउनुहोस्।"
+
+#, fuzzy
+#| msgid "Enter your email address"
+msgid "Enter your email"
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+msgid "Subscribe"
+msgstr "सदस्यता लिनुहोस्"
+
+#, fuzzy
+#| msgid "No articles found."
+msgid "Article Not Found"
+msgstr "कुनै लेखहरू फेला परेनन्।"
+
+msgid ""
+"Sorry, the article you're looking for is currently unavailable. It may have "
+"been removed, not public yet, or the URL might be incorrect."
+msgstr ""
+
+msgid "Go to Homepage"
+msgstr ""
+
+msgid "View All Articles"
+msgstr "सबै लेखहरू हेर्नुहोस्"
+
 msgid "Recent Articles"
 msgstr "भर्खरका लेखहरू"
 
-#: apps/news_events/templates/news_events/article_list.html:344
-msgid "Browse by Category"
-msgstr "श्रेणी अनुसार ब्राउज गर्नुहोस्"
+msgid "These articles might be interesting for you"
+msgstr ""
 
-#: apps/news_events/templates/news_events/article_list.html:354
-msgid "Search Articles"
-msgstr "लेखहरू खोज्नुहोस्"
+msgid "Read More"
+msgstr "थप पढ्नुहोस्"
 
-#: apps/news_events/templates/news_events/article_list.html:364
+msgid "Other Useful Links:"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "hours"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Register for this Event"
+msgstr ""
+
+msgid "Join us for this exciting event!"
+msgstr ""
+
+msgid "Register Now"
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "<span class=\"text-gray-800\">New</span> <span class=\"text-"
+#| "deuraligreen\">News</span>"
+msgid ""
+"<span class=\"text-gray-800\">Related</span> <span class=\"text-"
+"deuraligreen\">Events</span>"
+msgstr ""
+"<span class=\"text-gray-800\">नयाँ</span> <span class=\"text-"
+"deuraligreen\">समाचार</span>"
+
+#, fuzzy
+#| msgid "No articles found."
+msgid "No related events found."
+msgstr "कुनै लेखहरू फेला परेनन्।"
+
+msgid ""
+"Browse all upcoming and past events from Bhanjyang Saving & Credit "
+"Cooperative Society Ltd."
+msgstr ""
+
+#, fuzzy
+#| msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
+msgid "Browse all upcoming and past events from Bhanjyang Cooperative."
+msgstr "भञ्ज्याङ्ग सहकारीका पछिल्ला गतिविधिहरूसँग जोडिएर रहनुहोस्"
+
+#, fuzzy
+#| msgid "Check back soon for upcoming events and activities."
+msgid "Join us for exciting events and activities"
+msgstr "आगामी कार्यक्रमहरू र गतिविधिहरूको लागि चाँडै फेरि जाँच गर्नुहोस्।"
+
+#, fuzzy
+#| msgid "View All Events"
+msgid "All Events"
+msgstr "सबै कार्यक्रमहरू हेर्नुहोस्"
+
+#, fuzzy
+#| msgid "Upcoming Events"
+msgid "Upcoming"
+msgstr "आगामी कार्यक्रमहरू"
+
+#, fuzzy
+#| msgid "Events"
+msgid "Past Events"
+msgstr "कार्यक्रमहरू"
+
+msgid "Search events..."
+msgstr ""
+
+#, fuzzy
+#| msgid "Type"
+msgid "All Types"
+msgstr "प्रकार"
+
+#, fuzzy
+#| msgid "No articles found."
+msgid "No Events Found"
+msgstr "कुनै लेखहरू फेला परेनन्।"
+
+msgid "We couldn't find any events matching your criteria."
+msgstr ""
+
+#, fuzzy
+#| msgid ""
+#| "Subscribe to our newsletter and never miss important updates, news, and "
+#| "events from Bhanjyang Cooperative."
+msgid "Subscribe to our newsletter for the latest events and updates."
+msgstr ""
+"हाम्रो समाचारपत्रको सदस्यता लिनुहोस् र भञ्ज्याङ्ग सहकारीबाट महत्वपूर्ण अपडेटहरू, "
+"समाचारहरू, र कार्यक्रमहरू कहिल्यै नछुटाउनुहोस्।"
+
+msgid "Event Not Found"
+msgstr ""
+
+msgid ""
+"Sorry, the event you're looking for is currently unavailable. It may have "
+"been removed, not public yet, or the URL might be incorrect."
+msgstr ""
+
+msgid "View All Events"
+msgstr "सबै कार्यक्रमहरू हेर्नुहोस्"
+
+#, fuzzy
+#| msgid "Recent Notices"
+msgid "Recent Events"
+msgstr "भर्खरका सूचनाहरू"
+
+msgid "These events might be interesting for you"
+msgstr ""
+
+#, fuzzy
+#| msgid "Notice Details"
+msgid "View Detail"
+msgstr "सूचना विवरण"
+
+msgid "News & Events"
+msgstr "समाचार र घटनाहरू"
+
+#, fuzzy
+#| msgid "Stay updated with the latest happenings at Bhanjyang Cooperative."
+msgid ""
+"Stay updated with the latest news, events, and announcements from Bhanjyang "
+"Saving & Credit Cooperative Society Ltd."
+msgstr "भञ्ज्याङ्ग सहकारीका पछिल्ला गतिविधिहरूसँग अद्यावधिक रहनुहोस्।"
+
+#, fuzzy
+#| msgid "Stay updated with the latest happenings at Bhanjyang Cooperative."
+msgid ""
+"Stay updated with the latest news, events, and announcements from Bhanjyang "
+"Cooperative."
+msgstr "भञ्ज्याङ्ग सहकारीका पछिल्ला गतिविधिहरूसँग अद्यावधिक रहनुहोस्।"
+
+msgid "Skip links"
+msgstr ""
+
+#, fuzzy
+#| msgid "Latest News"
+msgid "Skip to latest news"
+msgstr "ताजा समाचार"
+
+#, fuzzy
+#| msgid "No Upcoming Events"
+msgid "Skip to upcoming events"
+msgstr "कुनै आगामी कार्यक्रमहरू छैनन्"
+
+msgid "Skip to notices"
+msgstr ""
+
+#, fuzzy
+#| msgid "Newsletter"
+msgid "Skip to newsletter"
+msgstr "समाचारपत्र"
+
+#, fuzzy
+#| msgid "News & Events"
+msgid "News and Events Hero"
+msgstr "समाचार र घटनाहरू"
+
+msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
+msgstr "भञ्ज्याङ्ग सहकारीका पछिल्ला गतिविधिहरूसँग जोडिएर रहनुहोस्"
+
+msgid "Featured Content"
+msgstr "विशेष सामग्री"
+
+msgid "Featured Articles"
+msgstr "विशेष लेखहरू"
+
+#, fuzzy
+#| msgid "Featured News"
+msgid "Featured Events"
+msgstr "विशेष समाचार"
+
+msgid "Latest News"
+msgstr "ताजा समाचार"
+
+msgid ""
+"<span class=\"text-gray-800\">New</span> <span class=\"text-"
+"deuraligreen\">News</span>"
+msgstr ""
+"<span class=\"text-gray-800\">नयाँ</span> <span class=\"text-"
+"deuraligreen\">समाचार</span>"
+
+#, fuzzy
+#| msgid "Featured Articles"
+msgid "Loading articles"
+msgstr "विशेष लेखहरू"
+
+#, fuzzy
+#| msgid "News Articles"
+msgid "No Articles Yet"
+msgstr "समाचार लेखहरू"
+
+#, fuzzy
+#| msgid "Check back soon for upcoming events and activities."
+msgid "Check back soon for the latest news and updates."
+msgstr "आगामी कार्यक्रमहरू र गतिविधिहरूको लागि चाँडै फेरि जाँच गर्नुहोस्।"
+
+msgid "View All Notices"
+msgstr "सबै सूचनाहरू हेर्नुहोस्"
+
 msgid "Upcoming Events"
 msgstr "आगामी कार्यक्रमहरू"
 
-#: apps/news_events/templates/news_events/article_list.html:374
-msgid "Recent Notices"
+msgid ""
+"<span class=\"text-gray-800\">Upcoming</span> <span class=\"text-"
+"bhanjyangred\">Events</span>"
+msgstr ""
+"<span class=\"text-gray-800\">आगामी</span> <span class=\"text-"
+"bhanjyangred\">कार्यक्रमहरू</span>"
+
+#, fuzzy
+#| msgid "Upcoming Events"
+msgid "Loading events"
+msgstr "आगामी कार्यक्रमहरू"
+
+msgid "No Upcoming Events"
+msgstr "कुनै आगामी कार्यक्रमहरू छैनन्"
+
+msgid "Check back soon for upcoming events and activities."
+msgstr "आगामी कार्यक्रमहरू र गतिविधिहरूको लागि चाँडै फेरि जाँच गर्नुहोस्।"
+
+#, fuzzy
+#| msgid "Newsletters"
+msgid "Newsletter Subscription"
+msgstr "समाचारपत्रहरू"
+
+msgid ""
+"Subscribe to our newsletter and never miss important updates, news, and "
+"events from Bhanjyang Cooperative."
+msgstr ""
+"हाम्रो समाचारपत्रको सदस्यता लिनुहोस् र भञ्ज्याङ्ग सहकारीबाट महत्वपूर्ण अपडेटहरू, "
+"समाचारहरू, र कार्यक्रमहरू कहिल्यै नछुटाउनुहोस्।"
+
+msgid "Newsletter subscription form"
+msgstr ""
+
+msgid "Enter your email address"
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+msgid "We respect your privacy and never share your email address."
+msgstr ""
+"हामी तपाईंको गोपनीयतालाई सम्मान गर्छौं र कहिल्यै तपाईंको इमेल ठेगाना साझा गर्दैनौं।"
+
+msgid "Our Impact"
+msgstr "हाम्रो प्रभाव"
+
+msgid "Published Articles"
+msgstr "प्रकाशित लेखहरू"
+
+msgid "Total Views"
+msgstr "कुल हेराइहरू"
+
+msgid "24/7"
+msgstr ""
+
+msgid "Community Access"
+msgstr "समुदाय पहुँच"
+
+#, fuzzy
+#| msgid "Enter your email address"
+msgid "Please enter your email address."
+msgstr "तपाईंको इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+#, fuzzy
+#| msgid "Subscribe"
+msgid "Subscribing..."
+msgstr "सदस्यता लिनुहोस्"
+
+msgid "Subscription failed. Please try again later."
+msgstr ""
+
+msgid "Attached Document"
+msgstr ""
+
+msgid "Click to download or view"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+#, fuzzy
+#| msgid "Recent Notices"
+msgid "Back to Notices"
 msgstr "भर्खरका सूचनाहरू"
 
-#: apps/news_events/templates/news_events/article_list.html:384
-msgid "View All"
-msgstr "सबै हेर्नुहोस्"
+msgid "Attachment"
+msgstr ""
 
-#: apps/news_events/templates/news_events/article_list.html:394
-msgid "No articles found."
+#, fuzzy
+#| msgid "No articles found."
+msgid "No Notices Found"
 msgstr "कुनै लेखहरू फेला परेनन्।"
 
-#: apps/news_events/templates/news_events/notice_list.html:5
-msgid "Notice Board"
-msgstr "सूचना पाटी"
+msgid "There are currently no active notices."
+msgstr ""
 
-#: apps/news_events/templates/news_events/event_list.html:5
-msgid "Events Calendar"
-msgstr "कार्यक्रम पात्रो"
+#, fuzzy
+#| msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
+msgid "Search through news articles and events from Bhanjyang Cooperative."
+msgstr "भञ्ज्याङ्ग सहकारीका पछिल्ला गतिविधिहरूसँग जोडिएर रहनुहोस्"
 
-#: apps/news_events/templates/news_events/article_detail.html:5
-msgid "Article Details"
-msgstr "लेख विवरण"
+msgid "Find articles and events that interest you."
+msgstr ""
 
-#: apps/news_events/templates/news_events/event_detail.html:5
-msgid "Event Details"
-msgstr "कार्यक्रम विवरण"
+#, fuzzy
+#| msgid "Search Articles"
+msgid "Search Term"
+msgstr "लेखहरू खोज्नुहोस्"
 
-#: apps/news_events/templates/news_events/notice_detail.html:5
-msgid "Notice Details"
-msgstr "सूचना विवरण"
+msgid "Enter keywords to search..."
+msgstr ""
 
-#: apps/news_events/templates/news_events/home.html:5
-msgid "Welcome to Bhanjyang News"
-msgstr "भान्ज्याङ समाचारमा स्वागत छ"
+msgid "From Date"
+msgstr ""
 
-#: apps/news_events/templates/news_events/home.html:10
-msgid "Your reliable source for cooperative updates and events."
-msgstr "सहकारी अपडेट र कार्यक्रमहरूको लागि तपाईंको विश्वसनीय स्रोत।"
+#, fuzzy
+#| msgid "End Date"
+msgid "To Date"
+msgstr "अन्त्य मिति"
 
-#: apps/news_events/templates/news_events/home.html:76
-msgid "Stay connected with the latest happenings from Bhanjyang Cooperative"
-msgstr "भान्ज्याङ सहकारीका पछिल्ला गतिविधिहरूसँग जोडिएर रहनुहोस्"
-# Additional template translations for news_events app
+msgid "Sort By"
+msgstr ""
+
+#, fuzzy
+#| msgid "Featured News"
+msgid "Featured First"
+msgstr "विशेष समाचार"
+
+msgid "Clear"
+msgstr ""
+
+#, fuzzy
+#| msgid "Community Access"
+msgid "Quick Access"
+msgstr "समुदाय पहुँच"
+
+#, fuzzy
+#| msgid "View All Articles"
+msgid "All Articles"
+msgstr "सबै लेखहरू हेर्नुहोस्"
+
+msgid "Browse all news articles"
+msgstr ""
+
+#, fuzzy
+#| msgid "View All Events"
+msgid "Browse all events"
+msgstr "सबै कार्यक्रमहरू हेर्नुहोस्"
+
+msgid "See what's coming up"
+msgstr ""
+
+#, fuzzy
+#| msgid "Featured Articles"
+msgid "See featured articles"
+msgstr "विशेष लेखहरू"
+
+msgid "Browse by Category"
+msgstr "श्रेणी अनुसार ब्राउज गर्नुहोस्"
+
+#, fuzzy
+#| msgid "Search Articles"
+msgid "Search Results"
+msgstr "लेखहरू खोज्नुहोस्"
+
+#, fuzzy
+#| msgid ""
+#| "Subscribe to our newsletter and never miss important updates, news, and "
+#| "events from Bhanjyang Cooperative."
+msgid "Search results for news articles and events from Bhanjyang Cooperative."
+msgstr ""
+"हाम्रो समाचारपत्रको सदस्यता लिनुहोस् र भञ्ज्याङ्ग सहकारीबाट महत्वपूर्ण अपडेटहरू, "
+"समाचारहरू, र कार्यक्रमहरू कहिल्यै नछुटाउनुहोस्।"
+
+#, fuzzy
+#| msgid ""
+#| "<span class=\"text-gray-800\">Upcoming</span> <span class=\"text-"
+#| "bhanjyangred\">Events</span>"
+msgid ""
+"<span class=\"text-gray-800\">Search</span> <span class=\"text-"
+"bhanjyangred\">Results</span>"
+msgstr ""
+"<span class=\"text-gray-800\">आगामी</span> <span class=\"text-"
+"bhanjyangred\">कार्यक्रमहरू</span>"
+
+msgid "Results for"
+msgstr ""
+
+#, fuzzy
+#| msgid "Search Articles"
+msgid "Search our content"
+msgstr "लेखहरू खोज्नुहोस्"
+
+msgid "Found"
+msgstr ""
+
+msgid "result"
+msgstr ""
+
+msgid "for"
+msgstr ""
+
+msgid "No Results Found"
+msgstr ""
+
+msgid "We couldn't find any content matching"
+msgstr ""
+
+#, fuzzy
+#| msgid "News Articles"
+msgid "Browse Articles"
+msgstr "समाचार लेखहरू"
+
+#, fuzzy
+#| msgid "News & Events"
+msgid "Browse Events"
+msgstr "समाचार र घटनाहरू"
+
+#, fuzzy
+#| msgid "Search Articles"
+msgid "Search Our Content"
+msgstr "लेखहरू खोज्नुहोस्"
+
+msgid "Enter a search term to find articles and events."
+msgstr ""
+
+msgid "Popular Searches"
+msgstr ""
+
+msgid "Failed to load news page. Please try again later."
+msgstr ""
+
+msgid "Please login to view this article."
+msgstr ""
+
+msgid "Failed to load article. Please try again later."
+msgstr ""
+
+msgid "Failed to load event. Please try again later."
+msgstr ""
+
+msgid "Failed to load articles. Please try again later."
+msgstr ""
+
+msgid "Failed to load events. Please try again later."
+msgstr ""
+
+msgid "Failed to load notices. Please try again later."
+msgstr ""
+
+#, fuzzy
+#| msgid "No articles found."
+msgid "Notice Not Found"
+msgstr "कुनै लेखहरू फेला परेनन्।"
+
+msgid "Failed to load notice. Please try again later."
+msgstr ""
+
+msgid "Invalid email."
+msgstr ""
+
+msgid "Invalid comment data."
+msgstr ""
+
+msgid "Failed to perform search. Please try again later."
+msgstr ""
+
+msgid "Your subscription has been confirmed! Thank you."
+msgstr ""
+
+msgid "Your subscription has already been confirmed."
+msgstr ""
+
+msgid "Invalid confirmation token."
+msgstr ""
+
+msgid "Failed to confirm subscription. Please try again later."
+msgstr ""
+
+msgid "Your subscription has been cancelled."
+msgstr ""
+
+msgid "Invalid token."
+msgstr ""
+
+msgid "Failed to cancel subscription. Please try again later."
+msgstr ""
+
+#~ msgid "View All"
+#~ msgstr "सबै हेर्नुहोस्"
+
+#~ msgid "Events Calendar"
+#~ msgstr "कार्यक्रम पात्रो"
+
+#~ msgid "Article Details"
+#~ msgstr "लेख विवरण"
+
+#~ msgid "Welcome to Bhanjyang News"
+#~ msgstr "भञ्ज्याङ्ग समाचारमा स्वागत छ"
+
+#~ msgid "Your reliable source for cooperative updates and events."
+#~ msgstr "सहकारी अपडेट र कार्यक्रमहरूको लागि तपाईंको विश्वसनीय स्रोत।"
+
+#~ msgid "Leave this field blank"
+#~ msgstr "यो फिल्ड खाली छोड्नुहोस्"
+
+#~ msgid "Do not fill this field"
+#~ msgstr "यो फिल्ड भर्नुहोस्"

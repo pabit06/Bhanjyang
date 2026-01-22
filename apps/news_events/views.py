@@ -49,7 +49,7 @@ class NewsHomeView(NepaliLanguageMixin, View):
                 {'name': _('Home'), 'url': '/'},
                 {'name': _('News & Events'), 'url': '/news-events/'}
             ]
-            return render(request, 'news_events/home.html', context)
+            return render(request, 'news_events/news_events.html', context)
         except Exception as e:
             logger.error(f"Error loading news home page: {e}", exc_info=True)
             messages.error(request, _("Failed to load news page. Please try again later."))
@@ -69,7 +69,7 @@ class NewsHomeView(NepaliLanguageMixin, View):
                 upcoming_events = []
                 categories = []
             
-            return render(request, 'news_events/home.html', {
+            return render(request, 'news_events/news_events.html', {
                 'recent_articles': recent_articles,
                 'upcoming_events': upcoming_events,
                 'featured_content': {'articles': [], 'events': []},

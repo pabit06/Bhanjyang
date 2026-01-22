@@ -23,7 +23,10 @@
 
         <div class="max-w-3xl mx-auto space-y-4" x-data="{ activeAccordion: null }" aria-labelledby="faq-heading" role="region">
             {% for faq in faqs %}
-            <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-deuraligreen/30 transition-colors duration-300">
+            <div class="border border-gray-200 rounded-xl overflow-hidden hover:border-deuraligreen/30 transition-colors duration-300"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="{{ forloop.counter0|add:50 }}">
                 <button @click="activeAccordion = activeAccordion === {{ forloop.counter }} ? null : {{ forloop.counter }}"
                         class="flex items-center justify-between w-full p-5 text-left bg-white hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:ring-offset-2"
                         :aria-expanded="activeAccordion === {{ forloop.counter }}"

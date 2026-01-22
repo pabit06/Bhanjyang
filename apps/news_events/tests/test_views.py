@@ -58,7 +58,7 @@ class NewsEventsViewsTest(TestCase):
         response = self.client.get(reverse('news_events:home'))
         
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'news_events/home.html')
+        self.assertTemplateUsed(response, 'news_events/news_events.html')
         self.assertIn('subscription_form', response.context)
     
     def test_article_list_view(self):

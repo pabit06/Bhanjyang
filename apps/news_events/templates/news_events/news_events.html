@@ -21,6 +21,8 @@
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="preload" href="{% static 'news_events/css/home.css' %}" as="style">
 <link rel="preload" href="{% static 'news_events/js/home.js' %}" as="script">
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 {% endblock extra_head %}
 
 {% block extra_css %}
@@ -65,14 +67,27 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
+        <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full"
+              data-aos="fade-down"
+              data-aos-duration="600"
+              data-aos-delay="100">
             {% trans "News & Events" %}
         </span>
-        <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900">
+        <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl font-bold font-montserrat mb-6 text-gray-900"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="200">
             {% trans "News & Events" %}
         </h1>
-        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"></div>
-        <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        <div class="w-24 h-1 bg-deuraligreen mx-auto rounded-full mb-6"
+             data-aos="fade-up"
+             data-aos-duration="600"
+             data-aos-delay="300"
+             aria-hidden="true"></div>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed"
+           data-aos="fade-up"
+           data-aos-duration="800"
+           data-aos-delay="400">
             {% trans "Stay connected with the latest happenings from Bhanjyang Cooperative" %}
         </p>
     </div>
@@ -92,25 +107,28 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-12">
-            <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full">
+        <div class="text-center mb-12 relative z-20" data-aos="fade-up" data-aos-duration="600">
+            <span class="inline-block font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-white/20 rounded-full text-bhanjyangred" style="color: #DC3545 !important;">
                 {% trans "Featured" %}
             </span>
-            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 text-white">
+            <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4 relative z-20 text-bhanjyangred" style="color: #DC3545 !important;">
                 {% trans "Featured Content" %}
             </h2>
-            <div class="w-24 h-1 bg-white mx-auto rounded-full mb-6"></div>
+            <div class="w-24 h-1 mx-auto rounded-full mb-6 relative z-20 bg-bhanjyangred" style="background-color: #DC3545 !important;"></div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <!-- Featured Articles -->
             {% if featured_content.articles %}
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 max-w-md mx-auto lg:max-w-none">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 max-w-md mx-auto lg:max-w-none"
+                 data-aos="fade-right"
+                 data-aos-duration="800"
+                 data-aos-delay="200">
                 <!-- Card Header -->
                 <div class="bg-gradient-to-r from-bhanjyangred to-red-600 px-6 py-4">
-                    <h3 class="text-xl font-bold text-white flex items-center font-montserrat">
+                    <h3 class="text-xl font-bold flex items-center font-montserrat" style="color: #ffffff !important;">
                         <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mr-3 shadow-lg">
-                            <i class="fas fa-newspaper text-white text-lg"></i>
+                            <i class="fas fa-newspaper text-lg" style="color: #ffffff !important;"></i>
                         </div>
                         {% trans "Featured Articles" %}
                     </h3>
@@ -119,7 +137,10 @@
                 <!-- Card Body -->
                 <div class="p-4 space-y-4">
                     {% for article in featured_content.articles %}
-                    <a href="{{ article.get_absolute_url }}" class="group block">
+                    <a href="{{ article.get_absolute_url }}" class="group block"
+                       data-aos="fade-up"
+                       data-aos-duration="600"
+                       data-aos-delay="{{ forloop.counter0|add:100 }}">
                         <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-100 hover:border-deuraligreen hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                             <div class="flex gap-3">
                                 <!-- Article Image -->
@@ -169,12 +190,15 @@
 
             <!-- Featured Events -->
             {% if featured_content.events %}
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 max-w-md mx-auto lg:max-w-none">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300 max-w-md mx-auto lg:max-w-none"
+                 data-aos="fade-left"
+                 data-aos-duration="800"
+                 data-aos-delay="200">
                 <!-- Card Header -->
                 <div class="bg-gradient-to-r from-bhanjyangred to-red-600 px-6 py-4">
-                    <h3 class="text-xl font-bold text-white flex items-center font-montserrat">
+                    <h3 class="text-xl font-bold flex items-center font-montserrat" style="color: #ffffff !important;">
                         <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center mr-3 shadow-lg">
-                            <i class="fas fa-calendar-alt text-white text-lg"></i>
+                            <i class="fas fa-calendar-alt text-lg" style="color: #ffffff !important;"></i>
                         </div>
                         {% trans "Featured Events" %}
                     </h3>
@@ -183,7 +207,10 @@
                 <!-- Card Body -->
                 <div class="p-4 space-y-4">
                     {% for event in featured_content.events %}
-                    <a href="{{ event.get_absolute_url }}" class="group block">
+                    <a href="{{ event.get_absolute_url }}" class="group block"
+                       data-aos="fade-up"
+                       data-aos-duration="600"
+                       data-aos-delay="{{ forloop.counter0|add:100 }}">
                         <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 border border-gray-100 hover:border-bhanjyangred hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                             <div class="flex gap-3">
                                 <!-- Event Image -->
@@ -250,7 +277,7 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="flex justify-between items-center mb-12">
+        <div class="flex justify-between items-center mb-12" data-aos="fade-up" data-aos-duration="600">
             <div>
                 <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
                     {% trans "Latest News" %}
@@ -287,7 +314,10 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for article in recent_articles %}
-            <article itemscope itemtype="https://schema.org/NewsArticle" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden border-t-4 border-deuraligreen relative">
+            <article itemscope itemtype="https://schema.org/NewsArticle" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col overflow-hidden border-t-4 border-deuraligreen relative"
+                     data-aos="fade-up"
+                     data-aos-duration="600"
+                     data-aos-delay="{{ forloop.counter0|add:100 }}">
                 <!-- Schema.org Metadata -->
                 <meta itemprop="headline" content="{{ article.title }}">
                 <meta itemprop="datePublished" content="{{ article.published_date|date:'c' }}">
@@ -364,7 +394,7 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="flex justify-between items-center mb-12">
+        <div class="flex justify-between items-center mb-12" data-aos="fade-up" data-aos-duration="600">
             <div>
                 <span class="inline-block text-blue-600 font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-blue-100 rounded-full">
                     {% trans "Notices" %}
@@ -383,7 +413,10 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for notice in recent_notices %}
-            <div class="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 {% if notice.is_pinned %}border-yellow-500{% elif notice.notice_type == 'URG' %}border-red-500{% else %}border-blue-500{% endif %} relative overflow-hidden">
+            <div class="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-l-4 {% if notice.is_pinned %}border-yellow-500{% elif notice.notice_type == 'URG' %}border-red-500{% else %}border-blue-500{% endif %} relative overflow-hidden"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="{{ forloop.counter0|add:100 }}">
                 <!-- Card Background Pattern -->
                 <div class="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity duration-300 rounded-xl overflow-hidden">
                     {% static 'images/backgrounds/patterncard.jpg' as pattern_img %}
@@ -457,7 +490,7 @@
     <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="flex justify-between items-center mb-12">
+        <div class="flex justify-between items-center mb-12" data-aos="fade-up" data-aos-duration="600">
             <div>
                 <span class="inline-block text-bhanjyangred font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/10 rounded-full">
                     {% trans "Upcoming Events" %}
@@ -497,7 +530,10 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for event in upcoming_events %}
-            <div itemscope itemtype="https://schema.org/Event" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred relative overflow-hidden">
+            <div itemscope itemtype="https://schema.org/Event" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred relative overflow-hidden"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="{{ forloop.counter0|add:100 }}">
                 <!-- Schema.org Event Metadata -->
                 <meta itemprop="name" content="{{ event.title }}">
                 <meta itemprop="startDate" content="{{ event.event_date|date:'c' }}">
@@ -562,7 +598,9 @@
             </div>
             {% empty %}
             <div class="col-span-full text-center py-12">
-                <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto">
+                <div class="bg-white p-12 rounded-2xl shadow-lg max-w-2xl mx-auto"
+                     data-aos="fade-up"
+                     data-aos-duration="800">
                     <div class="text-6xl text-gray-300 mb-4">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
@@ -588,18 +626,34 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <span class="inline-block font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full" style="color: #1f2937 !important; background-color: #ffffff !important;">
+        <span class="inline-block font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 rounded-full" style="color: #1f2937 !important; background-color: #ffffff !important;"
+              data-aos="fade-down"
+              data-aos-duration="600"
+              data-aos-delay="100">
             {% trans "Newsletter" %}
         </span>
-        <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4" style="color: #1f2937 !important;">
+        <h2 class="text-3xl sm:text-4xl font-bold font-montserrat mb-4" style="color: #1f2937 !important;"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="200">
             {% trans "Stay Updated" %}
         </h2>
-        <div class="w-24 h-1 mx-auto rounded-full mb-6" style="background-color: #1f2937 !important;"></div>
-        <p class="text-lg mb-8 max-w-3xl mx-auto leading-relaxed" style="color: #374151 !important;">
+        <div class="w-24 h-1 mx-auto rounded-full mb-6" style="background-color: #1f2937 !important;"
+             data-aos="fade-up"
+             data-aos-duration="600"
+             data-aos-delay="300"
+             aria-hidden="true"></div>
+        <p class="text-lg mb-8 max-w-3xl mx-auto leading-relaxed" style="color: #374151 !important;"
+           data-aos="fade-up"
+           data-aos-duration="800"
+           data-aos-delay="400">
             {% trans "Subscribe to our newsletter and never miss important updates, news, and events from Bhanjyang Cooperative." %}
         </p>
 
-        <form id="newsletter-form" class="max-w-md mx-auto" data-url="{% url 'news_events:subscribe' %}" aria-label="{% trans 'Newsletter subscription form' %}">
+        <form id="newsletter-form" class="max-w-md mx-auto" data-url="{% url 'news_events:subscribe' %}" aria-label="{% trans 'Newsletter subscription form' %}"
+              data-aos="fade-up"
+              data-aos-duration="800"
+              data-aos-delay="500">
             <input type="hidden" name="csrfmiddlewaretoken" id="newsletter-home-csrf-token" value="{{ csrf_token }}">
             
             <!-- Honeypot Field for Bot Protection -->
@@ -644,7 +698,7 @@
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-bhanjyangred/5 rounded-full -translate-x-1/2 translate-y-1/2 blur-3xl"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-12">
+        <div class="text-center mb-12" data-aos="fade-up" data-aos-duration="600">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full">
                 {% trans "Our Impact" %}
             </span>
@@ -655,7 +709,10 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="100">
                 <div class="mb-6 flex justify-center">
                     <div class="w-16 h-16 bg-deuraligreen/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
                         <i class="fas fa-newspaper text-2xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
@@ -667,7 +724,10 @@
                 <p class="text-gray-700 font-semibold">{% trans "Published Articles" %}</p>
             </div>
 
-            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="200">
                 <div class="mb-6 flex justify-center">
                     <div class="w-16 h-16 bg-bhanjyangred/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-bhanjyangred transition-all duration-300">
                         <i class="fas fa-calendar-alt text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
@@ -679,7 +739,10 @@
                 <p class="text-gray-700 font-semibold">{% trans "Upcoming Events" %}</p>
             </div>
 
-            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center">
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-deuraligreen text-center"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="300">
                 <div class="mb-6 flex justify-center">
                     <div class="w-16 h-16 bg-deuraligreen/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-deuraligreen transition-all duration-300">
                         <i class="fas fa-eye text-2xl text-deuraligreen group-hover:text-white transition-colors duration-300"></i>
@@ -691,7 +754,10 @@
                 <p class="text-gray-700 font-semibold">{% trans "Total Views" %}</p>
             </div>
 
-            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center">
+            <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 border-bhanjyangred text-center"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="400">
                 <div class="mb-6 flex justify-center">
                     <div class="w-16 h-16 bg-bhanjyangred/10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:bg-bhanjyangred transition-all duration-300">
                         <i class="fas fa-users text-2xl text-bhanjyangred group-hover:text-white transition-colors duration-300"></i>
@@ -706,6 +772,30 @@
 {% endblock content %}
 
 {% block extra_js %}
+<!-- AOS Animation Library -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    // Initialize AOS Animation Library
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        if (typeof AOS !== 'undefined') {
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
+        }
+    });
+</script>
 <script>
 // Pass translated messages to JavaScript
 window.newsEventsMessages = {

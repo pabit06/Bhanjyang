@@ -526,7 +526,7 @@ msgid "Address"
 msgstr ""
 
 #: .\apps\home\templates\home\partials\contact_preview.html:34
-msgid "Rupa Rural Municipality, Kaski, Nepal"
+msgid "Rupa Rural Municipality, Ward No 5, Deurali, Kaski"
 msgstr ""
 
 #: .\apps\home\templates\home\partials\contact_preview.html:42

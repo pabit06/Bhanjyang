@@ -1,23 +1,3 @@
-﻿# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 00:06+0545\n"
-"PO-Revision-Date: 2026-01-22 00:25+0545\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ne\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -28,869 +8,658 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-22 00:06+0545\n"
+"POT-Creation-Date: 2026-01-22 13:15+0545\n"
 "PO-Revision-Date: 2026-01-22 00:25+0545\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ne\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\apps\home\forms.py:24
+msgid "Name can only contain letters and spaces."
+msgstr ""
+
 msgid "Your Full Name"
 msgstr ""
 
-#: .\apps\home\forms.py:34 .\apps\home\forms.py:159 .\apps\home\forms.py:200
 msgid "your.email@example.com"
 msgstr ""
 
-#: .\apps\home\forms.py:46
 msgid "Please enter a valid phone number."
 msgstr ""
 
-#: .\apps\home\forms.py:52
 msgid "Your Phone Number (Optional)"
 msgstr ""
 
-#: .\apps\home\forms.py:59 .\apps\home\models.py:339
 msgid "General Inquiry"
 msgstr ""
 
-#: .\apps\home\forms.py:60 .\apps\home\models.py:340
 msgid "Service Information"
 msgstr ""
 
-#: .\apps\home\forms.py:61 .\apps\home\models.py:341
 msgid "Complaint"
 msgstr ""
 
-#: .\apps\home\forms.py:62 .\apps\home\models.py:342
 msgid "Suggestion"
 msgstr ""
 
-#: .\apps\home\forms.py:63 .\apps\home\models.py:343
 msgid "Technical Support"
 msgstr ""
 
-#: .\apps\home\forms.py:74
 msgid "Subject of your inquiry"
 msgstr ""
 
-#: .\apps\home\forms.py:83
 msgid "Please describe your inquiry in detail..."
 msgstr ""
 
-#: .\apps\home\forms.py:93 .\apps\home\forms.py:169
 msgid "Name must be at least 2 characters long."
 msgstr ""
 
-#: .\apps\home\forms.py:100
 msgid "Subject must be at least 5 characters long."
 msgstr ""
 
-#: .\apps\home\forms.py:107
 msgid "Message must be at least 10 characters long."
 msgstr ""
 
-#: .\apps\home\forms.py:120
 msgid "Message contains too many links or email addresses."
 msgstr ""
 
-#: .\apps\home\forms.py:150
 msgid "Your Name (Optional)"
 msgstr ""
 
-#: .\apps\home\forms.py:178
 msgid "Email address is too long."
 msgstr ""
 
-#: .\apps\home\forms.py:196 .\apps\home\forms.py:220
-#: .\apps\home\templates\home\partials\contact_preview.html:72
-#: .\apps\home\templates\home\partials\contact_preview.html:75
 msgid "Your Name"
 msgstr ""
 
-#: .\apps\home\forms.py:204
 msgid "Testimonial Title"
 msgstr ""
 
-#: .\apps\home\forms.py:208
 msgid "Share your experience with Bhanjyang Cooperative..."
 msgstr ""
 
-#: .\apps\home\forms.py:228
-#: .\apps\home\templates\home\partials\contact_preview.html:53
 msgid "Email"
 msgstr ""
 
-#: .\apps\home\forms.py:236
 msgid "Quick message..."
 msgstr ""
 
-#: .\apps\home\models.py:25 .\apps\home\models.py:71 .\apps\home\models.py:150
-#: .\apps\home\models.py:230 .\apps\home\templates\home\preview.html:41
 msgid "Draft"
 msgstr ""
 
-#: .\apps\home\models.py:26 .\apps\home\models.py:72 .\apps\home\models.py:151
-#: .\apps\home\models.py:231 .\apps\home\templates\home\preview.html:44
 msgid "Published"
 msgstr ""
 
-#: .\apps\home\models.py:27 .\apps\home\models.py:73 .\apps\home\models.py:152
-#: .\apps\home\models.py:232 .\apps\home\templates\home\preview.html:42
 msgid "Scheduled"
 msgstr ""
 
-#: .\apps\home\models.py:28 .\apps\home\models.py:74 .\apps\home\models.py:153
-#: .\apps\home\models.py:233 .\apps\home\templates\home\preview.html:43
 msgid "Archived"
 msgstr ""
 
-#: .\apps\home\models.py:30
 msgid "Main title for the home page"
 msgstr ""
 
-#: .\apps\home\models.py:31
 msgid "Subtitle or tagline"
 msgstr ""
 
-#: .\apps\home\models.py:32
 msgid "Main description text"
 msgstr ""
 
-#: .\apps\home\models.py:33
 msgid "Hero background image for slider"
 msgstr ""
 
-#: .\apps\home\models.py:36 .\apps\home\models.py:88 .\apps\home\models.py:162
-#: .\apps\home\models.py:251
 msgid "Status"
 msgstr ""
 
-#: .\apps\home\models.py:36 .\apps\home\models.py:88 .\apps\home\models.py:162
-#: .\apps\home\models.py:251
 msgid "Publication status"
 msgstr ""
 
-#: .\apps\home\models.py:37 .\apps\home\models.py:89 .\apps\home\models.py:163
-#: .\apps\home\models.py:253
 msgid "Scheduled Date"
 msgstr ""
 
-#: .\apps\home\models.py:37
 msgid "Schedule this content to be published at a specific date/time"
 msgstr ""
 
-#: .\apps\home\models.py:38 .\apps\home\models.py:90 .\apps\home\models.py:164
-#: .\apps\home\models.py:254
 msgid "Published Date"
 msgstr ""
 
-#: .\apps\home\models.py:38
 msgid "Date when this content was published"
 msgstr ""
 
-#: .\apps\home\models.py:39 .\apps\home\models.py:91 .\apps\home\models.py:165
-#: .\apps\home\models.py:255
 msgid "Published By"
 msgstr ""
 
-#: .\apps\home\models.py:39
 msgid "User who published this content"
 msgstr ""
 
-#: .\apps\home\models.py:40
 msgid "Display order"
 msgstr ""
 
-#: .\apps\home\models.py:43
 msgid "Primary button text (e.g., 'Explore Services')"
 msgstr ""
 
-#: .\apps\home\models.py:44
 msgid "Primary button URL (e.g., '/services/')"
 msgstr ""
 
-#: .\apps\home\models.py:45
 msgid "Secondary button text (e.g., 'Contact Us')"
 msgstr ""
 
-#: .\apps\home\models.py:46
 msgid "Secondary button URL (e.g., '/contact/')"
 msgstr ""
 
-#: .\apps\home\models.py:55
 msgid "Home Page Content"
 msgstr ""
 
-#: .\apps\home\models.py:56
 msgid "Home Page Contents"
 msgstr ""
 
-#: .\apps\home\models.py:77
 msgid "Job title or role"
 msgstr ""
 
-#: .\apps\home\models.py:78
 msgid "Company or organization"
 msgstr ""
 
-#: .\apps\home\models.py:79
 msgid "Testimonial text"
 msgstr ""
 
-#: .\apps\home\models.py:84
 msgid "Rating from 1 to 5 stars"
 msgstr ""
 
-#: .\apps\home\models.py:86 .\apps\home\models.py:160 .\apps\home\models.py:249
 msgid "Show on home page"
 msgstr ""
 
-#: .\apps\home\models.py:89
 msgid "Schedule this testimonial to be published at a specific date/time"
 msgstr ""
 
-#: .\apps\home\models.py:90
 msgid "Date when this testimonial was published"
 msgstr ""
 
-#: .\apps\home\models.py:91
 msgid "User who published this testimonial"
 msgstr ""
 
-#: .\apps\home\models.py:103
 msgid "Testimonial"
 msgstr ""
 
-#: .\apps\home\models.py:104
-#: .\apps\home\templates\home\partials\testimonials.html:19
 msgid "Testimonials"
 msgstr ""
 
-#: .\apps\home\models.py:155
 msgid "e.g., 'Total Members'"
 msgstr ""
 
-#: .\apps\home\models.py:156
 msgid "e.g., '2,500+' or 'Rs. 50M'"
 msgstr ""
 
-#: .\apps\home\models.py:157
 msgid "Additional context"
 msgstr ""
 
-#: .\apps\home\models.py:158
 msgid "FontAwesome icon class"
 msgstr ""
 
-#: .\apps\home\models.py:159
 msgid "Color theme"
 msgstr ""
 
-#: .\apps\home\models.py:163
 msgid "Schedule this statistic to be published at a specific date/time"
 msgstr ""
 
-#: .\apps\home\models.py:164
 msgid "Date when this statistic was published"
 msgstr ""
 
-#: .\apps\home\models.py:165
 msgid "User who published this statistic"
 msgstr ""
 
-#: .\apps\home\models.py:170
 msgid "Statistic"
 msgstr ""
 
-#: .\apps\home\models.py:171
 msgid "Statistics"
 msgstr ""
 
-#: .\apps\home\models.py:217
 msgid "General"
 msgstr ""
 
-#: .\apps\home\models.py:218
 msgid "Service Update"
 msgstr ""
 
-#: .\apps\home\models.py:219
 msgid "Event"
 msgstr ""
 
-#: .\apps\home\models.py:220
 msgid "Holiday Notice"
 msgstr ""
 
-#: .\apps\home\models.py:221
 msgid "Maintenance"
 msgstr ""
 
-#: .\apps\home\models.py:224
 msgid "Low"
 msgstr ""
 
-#: .\apps\home\models.py:225
 msgid "Medium"
 msgstr ""
 
-#: .\apps\home\models.py:226
 msgid "High"
 msgstr ""
 
-#: .\apps\home\models.py:227
 msgid "Urgent"
 msgstr ""
 
-#: .\apps\home\models.py:237
 msgid "Short summary for cards"
 msgstr ""
 
-#: .\apps\home\models.py:252
 msgid "Publish Date"
 msgstr ""
 
-#: .\apps\home\models.py:252
 msgid "Original publish date"
 msgstr ""
 
-#: .\apps\home\models.py:253
 msgid "Schedule this announcement to be published at a specific date/time"
 msgstr ""
 
-#: .\apps\home\models.py:254
 msgid "Date when this announcement was actually published"
 msgstr ""
 
-#: .\apps\home\models.py:255
 msgid "User who published this announcement"
 msgstr ""
 
-#: .\apps\home\models.py:256
 msgid "When to stop showing"
 msgstr ""
 
-#: .\apps\home\models.py:257
 msgid "Auto Expire"
 msgstr ""
 
-#: .\apps\home\models.py:257
 msgid "Automatically archive this announcement when expiry_date is reached"
 msgstr ""
 
-#: .\apps\home\models.py:261
 msgid "Announcement"
 msgstr ""
 
-#: .\apps\home\models.py:262
 msgid "Announcements"
 msgstr ""
 
-#: .\apps\home\models.py:322
 msgid "Newsletter Subscriber"
 msgstr ""
 
-#: .\apps\home\models.py:323
 msgid "Newsletter Subscribers"
 msgstr ""
 
-#: .\apps\home\models.py:350
 msgid "Response to the inquiry"
 msgstr ""
 
-#: .\apps\home\models.py:354
 msgid "Contact Inquiry"
 msgstr ""
 
-#: .\apps\home\models.py:355
 msgid "Contact Inquiries"
 msgstr ""
 
-#: .\apps\home\models.py:372
 msgid "Page View"
 msgstr ""
 
-#: .\apps\home\models.py:373
 msgid "Page Views"
 msgstr ""
 
-#: .\apps\home\models.py:385
 msgid "Content Type"
 msgstr ""
 
-#: .\apps\home\models.py:386
 msgid "Object ID"
 msgstr ""
 
-#: .\apps\home\models.py:389
 msgid "Variant Name"
 msgstr ""
 
-#: .\apps\home\models.py:389
 msgid "e.g., 'Variant A', 'Variant B'"
 msgstr ""
 
-#: .\apps\home\models.py:390
 msgid "Variant Data"
 msgstr ""
 
-#: .\apps\home\models.py:390
 msgid "Store variant-specific data (title, description, etc.)"
 msgstr ""
 
-#: .\apps\home\models.py:392
 msgid "Active"
 msgstr ""
 
-#: .\apps\home\models.py:392
 msgid "Is this variant currently active?"
 msgstr ""
 
-#: .\apps\home\models.py:393
 msgid "Views"
 msgstr ""
 
-#: .\apps\home\models.py:393
 msgid "Number of times this variant was viewed"
 msgstr ""
 
-#: .\apps\home\models.py:394
 msgid "Conversions"
 msgstr ""
 
-#: .\apps\home\models.py:394
 msgid "Number of conversions (clicks, signups, etc.)"
 msgstr ""
 
-#: .\apps\home\models.py:398
 msgid "Content Variant"
 msgstr ""
 
-#: .\apps\home\models.py:399
 msgid "Content Variants"
 msgstr ""
 
-#: .\apps\home\services.py:218
-msgid "  "
+msgid "पूरै सूचना हेर्नुहोस्"
 msgstr ""
 
-#: .\apps\home\templates\admin\gallery\assign_album.html:4
-#: .\apps\home\templates\admin\gallery\batch_operations.html:4
-#: .\apps\home\templates\admin\gallery\bulk_upload.html:4
 msgid "Django site admin"
 msgstr ""
 
-#: .\apps\home\templates\home\index.html:84
 msgid "Close notice"
 msgstr ""
 
-#: .\apps\home\templates\home\index.html:110
 msgid "Click to Open"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\announcements.html:19
 msgid "Latest Updates"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\announcements.html:22
 msgid "Important Announcements"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\announcements.html:26
 msgid "Stay informed with our latest news and important updates"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\announcements.html:112
 msgid "Read More"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\announcements.html:123
 msgid "No Announcements"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\announcements.html:124
 msgid "Check back soon for important announcements and updates."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\call_to_action.html:19
 msgid "Get Started Today"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\call_to_action.html:22
 msgid "Ready to Begin Your Financial Journey?"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\call_to_action.html:26
 msgid "Join thousands of satisfied members who trust Bhanjyang Cooperative"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\call_to_action.html:29
 msgid ""
 "Experience reliable financial services, competitive rates, and personalized "
 "support designed for your success."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\call_to_action.html:33
-#: .\apps\home\templates\home\partials\contact_preview.html:18
 msgid "Contact Us"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\call_to_action.html:35
-#: .\apps\home\templates\home\partials\services.html:34
 msgid "Learn More"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:18
 msgid "Have Questions?"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:18
 msgid "Get in touch with us for any inquiries or support. We're here to help!"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:25
 msgid "Contact Information"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:33
 msgid "Address"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:34
-msgid "Rupa Rural Municipality, Kaski, Nepal"
-msgstr ""
+msgid "Rupa Rural Municipality, Ward No 5, Deurali, Kaski"
+msgstr "रूपा गाउँपालिका, वडा नं. ५, देउराली, कास्की"
 
-#: .\apps\home\templates\home\partials\contact_preview.html:42
 msgid "Phone"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:66
 msgid "Send Us a Message"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:83
-#: .\apps\home\templates\home\partials\contact_preview.html:86
 msgid "Your Email"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:94
-#: .\apps\home\templates\home\partials\contact_preview.html:97
 msgid "Subject"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:105
-#: .\apps\home\templates\home\partials\contact_preview.html:108
 msgid "Your Message"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\contact_preview.html:119
 msgid "Send Message"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:19
 msgid "Our Features"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:22
 msgid "Why Choose Our Services"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:26
 msgid ""
 "Experience modern banking with features designed for your convenience and "
 "security"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:32
 msgid "Mobile Banking"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:33
 msgid "Bank anywhere, anytime with our convenient mobile banking services"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:38
 msgid "Secure"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:39
 msgid "Bank-level security to protect your financial information"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:44
 msgid "24/7 Support"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:45
 msgid "Always here for you with round-the-clock customer support"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:50
 msgid "Rewards"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\features.html:51
 msgid "Earn rewards and benefits while you save with us"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\gallery_preview.html:19
 msgid "Our Gallery"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\gallery_preview.html:22
 msgid "Moments & Memories"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\gallery_preview.html:26
 msgid ""
 "Capturing our journey and community events that define our cooperative spirit"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\gallery_preview.html:65
 msgid "View Full Gallery"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\hero.html:97
 msgid "Welcome"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\hero.html:100
 msgid "Hero content will appear here once configured in the admin panel."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\hero.html:105
 msgid "Add Hero Content"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:21
 msgid "Our Impact"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:24
 msgid "Bhanjyang Cooperative's Impact in Numbers"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:28
 msgid ""
 "Measuring our success through the growth and prosperity of our community"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:44
 msgid "Growing our community impact."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:53
 msgid "No Statistics Available"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:54
 msgid "Statistics will appear here once configured in the admin panel."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\impact.html:58
 msgid "Add Statistics"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\introduction.html:41
 msgid "Who We Are"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\introduction.html:44
 msgid "Your Trusted Partner in Community Development"
-msgstr ""
+msgstr "सामुदायिक विकासमा तपाईंको विश्वासिलो साझेदार"
 
-#: .\apps\home\templates\home\partials\introduction.html:55
 msgid ""
 "Established with a vision to uplift local communities, we provide accessible "
 "and fair financial solutions. We believe in strengthening the local economy "
 "by empowering individuals and businesses through savings, credit, and expert "
 "financial guidance."
 msgstr ""
+"स्थानीय समुदायहरूलाई उत्थान गर्ने दृष्टिकोणका साथ स्थापना भएको, हामीले सुलभ र न्यायोचित "
+"वित्तीय समाधानहरू प्रदान गर्छौं। हामी बचत, ऋण, र विशेषज्ञ वित्तीय मार्गदर्शनको "
+"माध्यमबाट व्यक्तिहरू र व्यवसायहरूलाई सशक्त बनाएर स्थानीय अर्थतन्त्रलाई बलियो बनाउन "
+"विश्वास गर्छौं।"
 
-#: .\apps\home\templates\home\partials\introduction.html:58
 msgid ""
 "Our commitment goes beyond traditional banking; we are deeply rooted in the "
 "community, striving to make a tangible difference in the lives of our "
 "members."
 msgstr ""
+"हाम्रो प्रतिबद्धता परम्परागत बैंकिङ भन्दा माथि छ; हामी समुदायमा गहिरो रूपमा जरा गाडेका "
+"छौं, र हाम्रा सदस्यहरूको जीवनमा ठोस परिवर्तन ल्याउन प्रयासरत छौं।"
 
-#: .\apps\home\templates\home\partials\introduction.html:70
 msgid "Community Focused"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\introduction.html:71
 msgid "Deeply rooted in local community needs"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\introduction.html:79
 msgid "Trusted & Secure"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\introduction.html:82
 msgid "of reliable service"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\introduction.html:84
 msgid "Years of reliable service"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\introduction.html:93
 msgid "Learn More About Us"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:19
 msgid "Newsletter"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:23
 msgid "Stay Updated"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:27
 msgid "Get the latest news, updates, and exclusive offers"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:30
 msgid "delivered directly to your inbox"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:54
 msgid "Subscribe"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:63
 msgid "Latest News"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:67
 msgid "Exclusive Offers"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\newsletter.html:71
 msgid "No Spam"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\services.html:19
 msgid "Our Services"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\services.html:22
 msgid "Our Key Services"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\services.html:26
 msgid ""
 "Discover comprehensive financial solutions designed to meet your needs and "
 "help you achieve your goals"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\services.html:45
 msgid "No Featured Services"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\services.html:46
 msgid ""
 "Featured services will appear here once configured. Services can be marked "
 "as featured in the admin panel."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\services.html:49
 msgid "View All Services"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\services.html:60
 msgid "View All Services & Rates"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\testimonials.html:22
 msgid "What Our Members Say About Us"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\testimonials.html:26
 msgid ""
 "Hear from our community members about their experiences with Bhanjyang "
 "Cooperative"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\testimonials.html:72
 msgid "No Testimonials Yet"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\testimonials.html:73
 msgid "Testimonials will appear here once added in the admin panel."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\testimonials.html:77
 msgid "Add Testimonial"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:19
 msgid "Why Choose Us"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:22
 msgid "Your Trusted Financial Partner"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:30
 msgid "With over"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:30
 msgid ""
 "we've built a reputation for trust, transparency, and excellent service."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:32
 msgid ""
 "With years of experience, we've built a reputation for trust, transparency, "
 "and excellent service."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:48
 msgid "Secure & Reliable"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:49
 msgid ""
 "Bank-level security and regulatory compliance ensure your funds and data are "
 "always protected."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:60
 msgid "Competitive Rates"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:61
 msgid ""
 "Enjoy some of the best interest rates in the market, helping your savings "
 "grow faster."
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:72
 msgid "Personalized Support"
 msgstr ""
 
-#: .\apps\home\templates\home\partials\why_choose_us.html:73
 msgid ""
 "Our dedicated team provides personalized assistance tailored to your "
 "financial needs."
 msgstr ""
 
-#: .\apps\home\templates\home\preview.html:5
 msgid "Preview"
 msgstr ""
 
-#: .\apps\home\templates\home\preview.html:39
 msgid "PREVIEW MODE"
 msgstr ""
 
-#: .\apps\home\templates\home\preview.html:123
 msgid "Summary:"
 msgstr ""
 
-#: .\apps\home\templates\home\preview.html:135
 msgid "Edit in Admin"
 msgstr ""

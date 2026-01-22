@@ -1,14 +1,22 @@
 <script>
     // Initialize AOS Animation Library
     document.addEventListener('DOMContentLoaded', function() {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
         if (typeof AOS !== 'undefined') {
-            AOS.init({
-                once: true,
-                offset: 100,
-                duration: 800,
-                easing: 'ease-out-cubic',
-                delay: 0
-            });
+            try {
+                AOS.init({
+                    once: true,
+                    offset: 100,
+                    duration: prefersReducedMotion ? 0 : 800,
+                    easing: 'ease-out-cubic',
+                    delay: 0,
+                    disable: prefersReducedMotion ? 'mobile' : false
+                });
+            } catch (error) {
+                console.warn('AOS initialization failed:', error);
+            }
         }
     });
 </script>

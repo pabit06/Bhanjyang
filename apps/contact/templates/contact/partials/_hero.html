@@ -26,10 +26,13 @@
     
     <!-- Content -->
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center z-20 max-w-6xl w-full relative">
-        <div class="animate-fade-in-up">
+        <div data-aos="fade-up" data-aos-duration="800">
             <span class="inline-block text-white font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-bhanjyangred/30 backdrop-blur-sm rounded-full border border-white/40 shadow-lg"
                   style="text-shadow: 0 2px 6px rgba(0,0,0,0.9);"
-                  role="text">
+                  role="text"
+                  data-aos="fade-down"
+                  data-aos-duration="600"
+                  data-aos-delay="100">
                 {% trans "Contact Us" %}
             </span>
             <h1 id="contact-hero-heading" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-montserrat mb-6 sm:mb-8 text-white relative z-20 leading-tight"
@@ -42,10 +45,17 @@
                     1px -1px 0 rgba(0,0,0,0.5),
                     -1px 1px 0 rgba(0,0,0,0.5),
                     1px 1px 0 rgba(0,0,0,0.5);
-                opacity: 1 !important;">
+                opacity: 1 !important;"
+                data-aos="fade-up"
+                data-aos-duration="800"
+                data-aos-delay="200">
                 {% trans "Get In Touch" %}
             </h1>
-            <div class="w-32 h-1 bg-bhanjyangred mx-auto rounded-full mb-6 shadow-lg" aria-hidden="true"></div>
+            <div class="w-32 h-1 bg-bhanjyangred mx-auto rounded-full mb-6 shadow-lg" 
+                 aria-hidden="true"
+                 data-aos="fade-up"
+                 data-aos-duration="600"
+                 data-aos-delay="300"></div>
             <p class="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 text-white relative z-20 text-center"
                 style="text-shadow: 
                     0 2px 4px rgba(0,0,0,0.95), 
@@ -55,7 +65,10 @@
                     1px -1px 0 rgba(0,0,0,0.6),
                     -1px 1px 0 rgba(0,0,0,0.6),
                     1px 1px 0 rgba(0,0,0,0.6);
-                opacity: 1 !important;">
+                opacity: 1 !important;"
+                data-aos="fade-up"
+                data-aos-duration="800"
+                data-aos-delay="400">
                 {% trans "Whether you have a query, feedback, or need assistance, our dedicated team is ready to help." %}
             </p>
         </div>

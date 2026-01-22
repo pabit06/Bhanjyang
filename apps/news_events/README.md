@@ -508,7 +508,7 @@ The app uses Django's caching framework for optimal performance:
 
 All templates are located in `apps/news_events/templates/news_events/`:
 
-1. **home.html** - News and events home page
+1. **news_events.html** - News and events home page
 2. **article_list.html** - Article list page
 3. **article_detail.html** - Article detail page
 4. **event_list.html** - Event list page

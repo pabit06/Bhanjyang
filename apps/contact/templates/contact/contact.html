@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% if page_seo and page_seo.meta_title %}{{ page_seo.meta_title }}{% elif site_info.meta_title %}{{ site_info.meta_title }} - {% trans "Contact" %}{% else %}{{ site_info.cooperative_name_nepali|default:site_info.cooperative_name|default:"भञ्ज्याङ सहकारी" }} - {% trans "Contact" %}{% endif %}{% endblock title %}
+{% block title %}{% if page_seo and page_seo.meta_title %}{{ page_seo.meta_title }}{% elif site_info.meta_title %}{{ site_info.meta_title }} - {% trans "Contact" %}{% else %}{{ site_info.cooperative_name_nepali|default:site_info.cooperative_name|default:"भञ्ज्याङ्ग सहकारी" }} - {% trans "Contact" %}{% endif %}{% endblock title %}
 
 {% block meta_description %}{% if page_seo and page_seo.meta_description %}{{ page_seo.meta_description }}{% elif site_info.meta_description %}{{ site_info.meta_description }}{% else %}{% trans "Contact Bhanjyang Saving & Credit Cooperative Society Ltd. Get in touch with our Main Office and Service Center. Phone, email, and direct message options available." %}{% endif %}{% endblock meta_description %}
 

@@ -1108,7 +1108,7 @@ msgid ""
 msgstr ""
 
 #: .\apps\contact\templates\contact\partials\_office_locations.html:34
-msgid "Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal"
+msgid "Rupa Rural Municipality, Ward No 5, Deurali, Kaski<br>Gandaki Province, Nepal"
 msgstr ""
 
 #: .\apps\contact\templates\contact\partials\_office_locations.html:36

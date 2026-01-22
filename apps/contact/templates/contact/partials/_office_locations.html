@@ -13,7 +13,7 @@
     <div class="absolute bottom-0 right-0 w-96 h-96 bg-bhanjyangred/5 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" aria-hidden="true"></div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center mb-12">
+        <div class="text-center mb-12" data-aos="fade-up" data-aos-duration="600">
             <span class="inline-block text-deuraligreen font-semibold uppercase text-sm mb-4 tracking-wider px-4 py-2 bg-deuraligreen/10 rounded-full"
                   role="text">
                 {% trans "Contact Details" %}
@@ -31,15 +31,25 @@
 
         <!-- Contact Information Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6" aria-labelledby="contact-locations-heading">
-            {% include "components/info_card.html" with icon="fas fa-landmark" title=_("Main Office") color="deuraligreen" content=site_info.address|default:_("Rupa Rural Municipality-5, Deurali, Kaski<br>Gandaki Province, Nepal") link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Rupa+Rural+Municipality+5+Deurali+Kaski" link_text=_("Get Directions") %}
+            <div data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+                {% include "components/info_card.html" with icon="fas fa-landmark" title=_("Main Office") color="deuraligreen" content=site_info.address|default:_("Rupa Rural Municipality, Ward No 5, Deurali, Kaski<br>Gandaki Province, Nepal") link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Rupa+Rural+Municipality+5+Deurali+Kaski" link_text=_("Get Directions") %}
+            </div>
             
-            {% include "components/info_card.html" with icon="fas fa-location-dot" title=_("Service Center") color="bhanjyangred" content=_("Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal") link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Polyang+Branch+Rupa+Rural+Municipality+3+Polyang+Kaski" link_text=_("Get Directions") %}
+            <div data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
+                {% include "components/info_card.html" with icon="fas fa-location-dot" title=_("Service Center") color="bhanjyangred" content=_("Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal") link="https://www.google.com/maps/search/?api=1&query=Bhanjyang+Saving+Credit+Cooperative+Society+Ltd+Polyang+Branch+Rupa+Rural+Municipality+3+Polyang+Kaski" link_text=_("Get Directions") %}
+            </div>
             
-            {% include "components/info_card.html" with icon="fas fa-clock" title=_("Office Hours") color="deuraligreen" content=_("Sunday - Friday: 10:00 - 4:00<br>Saturday: Holiday<br>Public Holidays: Closed") footer_text=_("Service available during office hours.") %}
+            <div data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+                {% include "components/info_card.html" with icon="fas fa-clock" title=_("Office Hours") color="deuraligreen" content=_("Sunday - Friday: 10:00 - 4:00<br>Saturday: Holiday<br>Public Holidays: Closed") footer_text=_("Service available during office hours.") %}
+            </div>
             
-            {% include "components/info_card.html" with icon="fas fa-phone" title=_("Phone Contact") color="deuraligreen" content=_("Main Office:")|add:" <a href='tel:"|add:site_info.phone|default:"+9779856083101"|add:"' class='text-deuraligreen hover:underline font-semibold'>"|add:site_info.phone|default:"+977-9856083101"|add:"</a><br>"|add:_("Service Center:")|add:" <a href='tel:+9779846242424' class='text-deuraligreen hover:underline font-semibold'>+977-9846242424</a>" footer_text=_("Call us for any inquiries.") %}
+            <div data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
+                {% include "components/info_card.html" with icon="fas fa-phone" title=_("Phone Contact") color="deuraligreen" content=_("Main Office:")|add:" <a href='tel:"|add:site_info.phone|default:"+9779856083101"|add:"' class='text-deuraligreen hover:underline font-semibold'>"|add:site_info.phone|default:"+977-9856083101"|add:"</a><br>"|add:_("Service Center:")|add:" <a href='tel:+9779846242424' class='text-deuraligreen hover:underline font-semibold'>+977-9846242424</a>" footer_text=_("Call us for any inquiries.") %}
+            </div>
             
-            {% include "components/info_card.html" with icon="fas fa-envelope-open-text" title=_("Email Contact") color="bhanjyangred" content=_("Inquiry:")|add:" <a href='mailto:"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"' class='text-bhanjyangred hover:underline font-semibold'>"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"</a><br>"|add:_("Support:")|add:" <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>support@bhanjyang.coop.np</a>" footer_text=_("We usually reply within 24 hours.") %}
+            <div data-aos="fade-up" data-aos-duration="600" data-aos-delay="500">
+                {% include "components/info_card.html" with icon="fas fa-envelope-open-text" title=_("Email Contact") color="bhanjyangred" content=_("Inquiry:")|add:" <a href='mailto:"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"' class='text-bhanjyangred hover:underline font-semibold'>"|add:site_info.email|default:"info@bhanjyang.coop.np"|add:"</a><br>"|add:_("Support:")|add:" <a href='mailto:support@bhanjyang.coop.np' class='text-bhanjyangred hover:underline font-semibold'>support@bhanjyang.coop.np</a>" footer_text=_("We usually reply within 24 hours.") %}
+            </div>
         </div>
     </div>
 </section>
