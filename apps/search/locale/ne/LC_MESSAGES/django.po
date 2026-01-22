@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-18 23:19+0545\n"
+"POT-Creation-Date: 2026-01-22 13:15+0545\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,149 +18,112 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\apps\search\templates\search\advanced_search.html:5
 msgid "Advanced Search - Bhanjyang Cooperative"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:25
 msgid "Advanced Search"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:28
 msgid "Find exactly what you're looking for across all our content"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:38
 msgid "Search for anything..."
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:52
-#: .\apps\search\templates\search\search_results.html:64
 msgid "Search"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:76
 msgid "Search Type"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:79
 msgid "All Content"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:80
 msgid "Team Members"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:81
 msgid "Timeline Events"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:82
 msgid "Affiliations"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:87
 msgid "Sort By"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:90
 msgid "Relevance"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:91
 msgid "Date"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:92
 msgid "Title"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:109
 msgid "Start your search"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:110
 msgid "Type keywords above to search team members, events, and more."
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:117
-#: .\apps\search\templates\search\search_results.html:34
 msgid "Search Results"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:125
 msgid "Search Tips"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:195
 msgid "View Details"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:208
 msgid "No results found"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:209
 msgid "We couldn't find any matches for your search."
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:210
 msgid "Clear search and try again"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:219
 msgid "Previous"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:228
 msgid "Next"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:339
 msgid "Company Info"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:340
 msgid "Timeline Event"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:341
 msgid "Affiliation"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:342
 msgid "Leadership"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:343
 msgid "Team Member"
 msgstr ""
 
-#: .\apps\search\templates\search\advanced_search.html:345
 msgid "Content"
 msgstr ""
 
-#: .\apps\search\templates\search\search_results.html:5
 msgid "Search Results - Bhanjyang Cooperative"
 msgstr ""
 
-#: .\apps\search\templates\search\search_results.html:7
 msgid ""
 "Search through Bhanjyang Cooperative's news articles, services, and team "
 "members. Find exactly what you're looking for quickly and easily."
 msgstr ""
 
-#: .\apps\search\templates\search\search_results.html:9
 msgid ""
 "search, bhanjyang cooperative, news search, services search, team search, "
 "find information"
 msgstr ""
 
-#: .\apps\search\templates\search\search_results.html:38
 #, python-format
 msgid "Found %(count)s result%(count|pluralize)s for \"%(query)s\""
 msgstr ""
 
-#: .\apps\search\templates\search\search_results.html:40
 msgid "Search through our news articles, services, and team members"
 msgstr ""

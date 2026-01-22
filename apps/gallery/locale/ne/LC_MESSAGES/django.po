@@ -1,228 +1,166 @@
-#: .\apps\gallery\models.py:37
 msgid "Album cover image (JPG, PNG, WEBP only)"
 msgstr ""
 
-#: .\apps\gallery\models.py:45
 msgid "Leave blank for root album"
 msgstr ""
 
-#: .\apps\gallery\models.py:47 .\apps\gallery\models.py:150
 msgid "Show on home page"
 msgstr ""
 
-#: .\apps\gallery\models.py:55
 msgid "Gallery Album"
 msgstr ""
 
-#: .\apps\gallery\models.py:56
 msgid "Gallery Albums"
 msgstr ""
 
-#: .\apps\gallery\models.py:129
 msgid "Upload images (JPG, PNG, WEBP only, max 10MB)"
 msgstr ""
 
-#: .\apps\gallery\models.py:137
 msgid "Album this image belongs to"
 msgstr ""
 
-#: .\apps\gallery\models.py:142
-#: .\apps\gallery\templates\gallery\gallery.html:103
 msgid "Events"
 msgstr ""
 
-#: .\apps\gallery\models.py:143
-#: .\apps\gallery\templates\gallery\gallery.html:106
 msgid "Team"
 msgstr ""
 
-#: .\apps\gallery\models.py:144
-#: .\apps\gallery\templates\gallery\gallery.html:109
 msgid "Office"
 msgstr ""
 
-#: .\apps\gallery\models.py:145
-#: .\apps\gallery\templates\gallery\gallery.html:112
 msgid "Community"
 msgstr ""
 
-#: .\apps\gallery\models.py:146
 msgid "Awards"
 msgstr ""
 
-#: .\apps\gallery\models.py:155
 msgid "AI-generated tags"
 msgstr ""
 
-#: .\apps\gallery\models.py:156
 msgid "AI-generated description"
 msgstr ""
 
-#: .\apps\gallery\models.py:157
 msgid "AI-detected color palette"
 msgstr ""
 
-#: .\apps\gallery\models.py:158
 msgid "AI-detected objects"
 msgstr ""
 
-#: .\apps\gallery\models.py:159
 msgid "AI-detected scene type"
 msgstr ""
 
-#: .\apps\gallery\models.py:160
 msgid "AI-detected sentiment"
 msgstr ""
 
-#: .\apps\gallery\models.py:161
 msgid "AI quality score (0-1)"
 msgstr ""
 
-#: .\apps\gallery\models.py:164
 msgid "Number of likes"
 msgstr ""
 
-#: .\apps\gallery\models.py:165
 msgid "Number of shares"
 msgstr ""
 
-#: .\apps\gallery\models.py:166
 msgid "Number of views"
 msgstr ""
 
-#: .\apps\gallery\models.py:167
 msgid "Number of comments"
 msgstr ""
 
-#: .\apps\gallery\models.py:168
 msgid "Publicly visible"
 msgstr ""
 
-#: .\apps\gallery\models.py:169
 msgid "Allow comments"
 msgstr ""
 
-#: .\apps\gallery\models.py:170
 msgid "Allow downloads"
 msgstr ""
 
-#: .\apps\gallery\models.py:177
 msgid "Gallery Image"
 msgstr ""
 
-#: .\apps\gallery\models.py:178
 msgid "Gallery Images"
 msgstr ""
 
-#: .\apps\gallery\models.py:622
 msgid "Auto Categorization Rule"
 msgstr ""
 
-#: .\apps\gallery\models.py:623
 msgid "Auto Categorization Rules"
 msgstr ""
 
-#: .\apps\gallery\models.py:706
 msgid "Image Analysis Job"
 msgstr ""
 
-#: .\apps\gallery\models.py:707
 msgid "Image Analysis Jobs"
 msgstr ""
 
-#: .\apps\gallery\templates\admin\gallery\assign_album.html:4
-#: .\apps\gallery\templates\admin\gallery\batch_operations.html:4
-#: .\apps\gallery\templates\admin\gallery\bulk_upload.html:4
 msgid "Django site admin"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:5
 msgid "Gallery - Bhanjyang Cooperative"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:36
 msgid "Gallery"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:39
 msgid "Our Visual Story"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:43
 msgid ""
 "Capturing moments of community, growth, and celebration through the lens of "
 "our cooperative journey."
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:48
 msgid "Photos"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:52
 msgid "Albums"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:73
 msgid "Discover"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:76
 msgid "Discover Our Gallery"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:80
 msgid "Search and filter through our collection of memories"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:89
 msgid "Search photos, albums, or categories..."
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:100
 msgid "All Photos"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:115
 msgid "Activities"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:136
-#: .\apps\gallery\templates\gallery\gallery.html:139
 msgid "Featured Albums"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:143
 msgid "Explore our curated collections of memorable moments"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:166
 msgid "Explore our collection of memorable moments and special events."
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:172
 msgid "photos"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:175
 msgid "View Album"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:221
 msgid "Loading more photos..."
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:229
 msgid "Load More Photos"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:240
 msgid "Analytics"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:244
 msgid "Smart Collections"
 msgstr ""
 
-#: .\apps\gallery\templates\gallery\gallery.html:248
 msgid "Enter VR Gallery"
 msgstr ""

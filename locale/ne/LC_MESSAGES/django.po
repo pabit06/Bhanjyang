@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 13:30+0545\n"
+"POT-Creation-Date: 2026-01-22 13:14+0545\n"
 "PO-Revision-Date: 2026-01-22 00:25+0545\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,307 +18,239 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\templates\400.html:5 .\templates\400.html:61
 msgid "खराब अनुरोध"
 msgstr ""
 
-#: .\templates\400.html:72
 msgid ""
 "माफ गर्नुहोस्, तपाइँको अनुरोधमा त्रुटि छ। कृपया पुन: प्रयास गर्नुहोस् वा सम्पर्क गर्नुहोस्।"
 msgstr ""
 
-#: .\templates\400.html:81 .\templates\404.html:81 .\templates\500.html:84
 msgid "मुख्य पृष्ठमा जानुहोस्"
 msgstr ""
 
-#: .\templates\400.html:87
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "पछाडि जानुहोस्"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\400.html:94 .\templates\404.html:94
 msgid "अन्य उपयोगी लिङ्कहरू:"
 msgstr ""
 
-#: .\templates\400.html:101 .\templates\404.html:101
 msgid "लेखहरू"
 msgstr ""
 
-#: .\templates\400.html:108 .\templates\404.html:122 .\templates\500.html:104
-#: .\templates\offline.html:55
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "सम्पर्क गर्नुहोस्"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\404.html:5 .\templates\404.html:61
 msgid "पृष्ठ फेला परेन"
 msgstr ""
 
-#: .\templates\404.html:72
 msgid ""
 "माफ गर्नुहोस्, तपाईंले खोज्नुभएको पृष्ठ फेला परेन। यो पृष्ठ हटाइएको, सार्नुभएको, वा URL गलत "
 "हुन सक्छ।"
 msgstr ""
 
-#: .\templates\404.html:87
 msgid "समाचार र कार्यक्रम"
 msgstr ""
 
-#: .\templates\404.html:108
 msgid "कार्यक्रमहरू"
 msgstr ""
 
-#: .\templates\404.html:115
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "खोज गर्नुहोस्"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\500.html:5
 msgid "सर्भर त्रुटि"
 msgstr ""
 
-#: .\templates\500.html:65
 msgid "आन्तरिक सर्भर त्रुटि"
 msgstr ""
 
-#: .\templates\500.html:75
 msgid ""
 "माफ गर्नुहोस्, हाम्रो प्रणालीमा केही समस्या देखिएको छ। हाम्रो प्राविधिक टोलीलाई सूचित "
 "गरिएको छ र समस्या समाधान गर्न काम भइरहेको छ।"
 msgstr ""
 
-#: .\templates\500.html:90 .\templates\503.html:81
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "पुन: प्रयास गर्नुहोस्"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\500.html:97
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "यदि समस्या रहिरह्यो भने सम्पर्क गर्नुहोस्:"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\503.html:5 .\templates\503.html:62
 msgid "मर्मत सम्भार भइरहेको छ"
 msgstr ""
 
-#: .\templates\503.html:72
 msgid ""
 "क्षमा गर्नुहोस्, अहिले हामी साइट मर्मत गरिरहेका छौं। कृपया केहि समय पछि पुन: प्रयास "
 "गर्नुहोस्।"
 msgstr ""
 
-#: .\templates\503.html:88
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "जरूरी परेमा सम्पर्क गर्नुहोस्:"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\base.html:153
 #, fuzzy
 #| msgid "Unable to load content"
 msgid "Skip to main content"
 msgstr "सामग्री लोड गर्न असमर्थ"
 
-#: .\templates\base.html:195
 #, fuzzy
 #| msgid "Back to About Us"
 msgid "Back to top"
 msgstr "हाम्रो बारेमा फर्कनुहोस्"
 
-#: .\templates\base.html:197
 msgid "Scroll to top"
 msgstr ""
 
-#: .\templates\csrf_failure.html:5
 msgid "CSRF त्रुटि"
 msgstr ""
 
-#: .\templates\csrf_failure.html:52
 msgid "CSRF प्रमाणिकरण असफल"
 msgstr ""
 
-#: .\templates\csrf_failure.html:57
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "अनुरोध प्रक्रिया रद्द गरियो"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\csrf_failure.html:67
 msgid "यसो किन भयो?"
 msgstr ""
 
-#: .\templates\csrf_failure.html:69
 msgid ""
 "यो सामान्यतया तब हुन्छ जब तपाइँले फारम भर्दा धेरै समय लगाउनुहुन्छ वा तपाइँको ब्राउजरले "
 "कुकीहरू स्वीकार गरिरहेको छैन।"
 msgstr ""
 
-#: .\templates\csrf_failure.html:74
 msgid "प्राविधिक कारण:"
 msgstr ""
 
-#: .\templates\csrf_failure.html:78
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "अब के गर्ने?"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\csrf_failure.html:80
 msgid "पृष्ठ पुन: लोड (Reload) गर्नुहोस् र फेरि प्रयास गर्नुहोस्।"
 msgstr ""
 
-#: .\templates\csrf_failure.html:81
 msgid "यदि तपाइँ फारम भर्दै हुनुहुन्थ्यो भने, तपाइँले फेरि भर्नुपर्ने हुन सक्छ।"
 msgstr ""
 
-#: .\templates\csrf_failure.html:91
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "पृष्ठ पुन: लोड गर्नुहोस्"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\csrf_failure.html:97
 msgid "मुख्य पृष्ठ"
 msgstr ""
 
-#: .\templates\offline.html:28
 msgid "तपाईं अफलाइन हुनुहुन्छ"
 msgstr ""
 
-#: .\templates\offline.html:31
 msgid ""
 "तपाईं इन्टरनेटसँग जोडिएको छैन जस्तो देखिन्छ। चिन्ता नगर्नुहोस्, तपाईंले अझै पनि हाम्रो केही "
 "सामग्रीहरू ब्राउज गर्न सक्नुहुन्छ जुन अफलाइन हेर्नको लागि बचत गरिएको छ।"
 msgstr ""
 
-#: .\templates\offline.html:37
 msgid "अफलाइन उपलब्ध"
 msgstr ""
 
-#: .\templates\offline.html:43
 msgid "हाम्रो बारेमा"
 msgstr ""
 
-#: .\templates\offline.html:49
 msgid "हाम्रो टोली"
 msgstr ""
 
-#: .\templates\offline.html:61
 msgid "फोटो ग्यालेरी"
 msgstr ""
 
-#: .\templates\offline.html:70
 #, fuzzy
 #| msgid "अपलोड गर्ने फाइल।"
 msgid "फेरि प्रयास गर्नुहोस्"
 msgstr "अपलोड गर्ने फाइल।"
 
-#: .\templates\offline.html:74
 msgid "आफ्नो इन्टरनेट कनेक्सन जाँच गर्नुहोस् र फेरि प्रयास गर्नुहोस्"
 msgstr ""
 
-#: .\templates\offline.html:82 .\templates\offline.html:121
 msgid "कनेक्सन जाँच गर्दै..."
 msgstr ""
 
-#: .\templates\offline.html:144
 msgid "कनेक्सन पुनर्स्थापित भयो! पुनर्निर्देशन गर्दै..."
 msgstr ""
 
-#: .\templates\offline.html:152
 msgid "अझै पनि अफलाइन। कृपया आफ्नो इन्टरनेट कनेक्सन जाँच गर्नुहोस्।"
 msgstr ""
 
-#: .\templates\partials\_header.html:17
 msgid "Support"
 msgstr "सहयोग"
 
-#: .\templates\partials\_header.html:20
 msgid "Login"
 msgstr "लगइन"
 
-#: .\templates\partials\_header.html:46 .\templates\partials\_header.html:194
 msgid "Home"
 msgstr "गृह पृष्ठ"
 
-#: .\templates\partials\_header.html:51 .\templates\partials\_header.html:201
 msgid "About Us"
 msgstr "हाम्रो बारेमा"
 
-#: .\templates\partials\_header.html:58 .\templates\partials\_header.html:208
 msgid "Introduction"
 msgstr "परिचय"
 
-#: .\templates\partials\_header.html:61 .\templates\partials\_header.html:211
 msgid "Chairperson Message"
 msgstr "अध्यक्षको सन्देश"
 
-#: .\templates\partials\_header.html:64 .\templates\partials\_header.html:214
 msgid "Manager Commitment"
 msgstr "व्यवस्थापकको प्रतिबद्धता"
 
-#: .\templates\partials\_header.html:67 .\templates\partials\_header.html:217
 msgid "Board of Directors"
 msgstr "सञ्चालक समिति"
 
-#: .\templates\partials\_header.html:70 .\templates\partials\_header.html:220
 msgid "Management"
 msgstr "व्यवस्थापन"
 
-#: .\templates\partials\_header.html:73 .\templates\partials\_header.html:223
 msgid "Affiliations"
 msgstr "सम्बन्धहरू"
 
-#: .\templates\partials\_header.html:76 .\templates\partials\_header.html:226
 msgid "Member Testimonials"
 msgstr "सदस्यहरूको प्रशंसा"
 
-#: .\templates\partials\_header.html:85 .\templates\partials\_header.html:235
 msgid "Services"
 msgstr "सेवाहरू"
 
-#: .\templates\partials\_header.html:92 .\templates\partials\_header.html:242
 msgid "Saving"
 msgstr "बचत"
 
-#: .\templates\partials\_header.html:95 .\templates\partials\_header.html:245
 msgid "Loan"
 msgstr "ऋण"
 
-#: .\templates\partials\_header.html:98 .\templates\partials\_header.html:248
 msgid "Remittance"
 msgstr "विप्रेषण"
 
-#: .\templates\partials\_header.html:101 .\templates\partials\_header.html:251
 msgid "Digital Services"
 msgstr "डिजिटल सेवाहरू"
 
-#: .\templates\partials\_header.html:104 .\templates\partials\_header.html:254
 msgid "Member Relief"
 msgstr "सदस्य राहत"
 
-#: .\templates\partials\_header.html:111 .\templates\partials\_header.html:260
 msgid "News & Events"
 msgstr "समाचार र घटनाहरू"
 
-#: .\templates\partials\_header.html:114 .\templates\partials\_header.html:264
 msgid "Downloads"
 msgstr "डाउनलोडहरू"
 
-#: .\templates\partials\_header.html:117 .\templates\partials\_header.html:268
 msgid "Contact Us"
 msgstr "सम्पर्क"
 
-#: .\templates\partials\_header.html:145 .\templates\partials\_header.html:287
 msgid "Search..."
 msgstr "खोज्नुहोस्..."
 
-#: .\templates\partials\_header.html:279
 msgid "Dark Mode"
 msgstr "अँध्यारो मोड"
 

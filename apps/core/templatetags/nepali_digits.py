@@ -11,10 +11,9 @@ NEP_DIGITS = {
 @register.filter(name='to_nepali_digits')
 def to_nepali_digits(value):
     """
-    Converts English numerals to Nepali numerals if the current language is Nepali.
+    Converts English numerals to Nepali numerals.
+    Always converts to Nepali digits regardless of language setting,
+    as the site defaults to Nepali and numbers should always be in Nepali format.
     """
-    if get_language() != 'ne':
-        return value
-    
     value_str = str(value)
     return ''.join(NEP_DIGITS.get(char, char) for char in value_str)
