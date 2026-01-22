@@ -972,7 +972,6 @@ tests/
 ├── test_performance.py     # Performance tests
 ├── test_view_errors.py     # View error handling tests
 ├── test_context_processors.py  # Context processor tests
-├── test_refactor_verification.py  # Refactor verification tests
 ├── test_file_integrity.py  # File integrity check tests
 └── test_virus_scanning.py  # Virus scanning tests
 ```
