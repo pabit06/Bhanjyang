@@ -1,11 +1,50 @@
+// Convert number to Nepali digits
+function toNepaliDigits(n) {
+    const nepaliDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+    return n.toString().split('').map(char => {
+        const digit = parseInt(char);
+        return (!isNaN(digit) && digit >= 0 && digit <= 9) ? nepaliDigits[digit] : char;
+    }).join('');
+}
+
+// Check if current language is Nepali
+function isNepaliLanguage() {
+    // Check HTML lang attribute
+    const htmlLang = document.documentElement.lang;
+    if (htmlLang === 'ne') return true;
+    
+    // Check cookie
+    const cookieLang = getCookie('django_language');
+    if (cookieLang === 'ne') return true;
+    
+    // Check localStorage
+    const storedLang = localStorage.getItem('site_language');
+    if (storedLang === 'ne') return true;
+    
+    return false;
+}
+
+// Helper function to get cookie
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+}
+
 // Bulk Download Functionality
 function updateSelection() {
     const checkboxes = document.querySelectorAll('.file-checkbox:checked');
     const count = checkboxes.length;
     const countElement = document.getElementById('selected-count');
     const downloadBtn = document.getElementById('bulk-download-btn');
-
-    countElement.textContent = `${count} file${count !== 1 ? 's' : ''} selected`;
+    
+    // Get translated text from data attribute
+    const filesSelectedText = countElement.getAttribute('data-files-selected-text') || 'files selected';
+    
+    // Convert count to Nepali digits if language is Nepali
+    const displayCount = isNepaliLanguage() ? toNepaliDigits(count) : count;
+    countElement.textContent = `${displayCount} ${filesSelectedText}`;
     downloadBtn.disabled = count === 0;
 
     if (count > 0) {
