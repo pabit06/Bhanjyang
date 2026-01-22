@@ -2,13 +2,13 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Digital Services" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "Digital Services" %} - {% trans "Bhanjyang Cooperative" %}{% endblock title %}
 
 {% block meta_description %}{% trans "Access banking services anytime, anywhere with our digital banking platform. Mobile banking, online services, and digital payment solutions for modern banking." %}{% endblock meta_description %}
 
 {% block meta_keywords %}digital banking, mobile banking, online banking, nepal, bhanjyang cooperative, digital services, fintech{% endblock meta_keywords %}
 
-{% block og_title %}{% trans "Digital Services" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{% trans "Digital Services" %} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{% trans "Access banking services anytime, anywhere. Mobile banking, online services, and digital payment solutions." %}{% endblock og_description %}
 
@@ -83,16 +83,15 @@
 
                 <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
                     style="animation-delay: 0.1s;">
-                    <span class="text-gray-200">डिजिटल</span> <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-400 to-purple-400 text-glow">बैंकिङ</span><br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-400 to-purple-400 text-glow">तपाईंको हातमा</span>
+                    <span class="text-gray-200">{% trans "Digital" %}</span> <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-400 to-purple-400 text-glow">{% trans "Banking" %}</span><br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-400 to-purple-400 text-glow">{% trans "At Your Fingertips" %}</span>
                 </h1>
 
                 <!-- Improved Readability: Heavier font, high contrast white -->
                 <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
                     style="animation-delay: 0.2s;">
-                    आधुनिक डिजिटल सेवाहरू मार्फत बैंकिङ सजिलो, सुरक्षित र छिटो बनाउनुहोस्। 
-                    कुनै समय, कुनै ठाउँबाट आफ्नो खाता नियन्त्रण गर्नुहोस्।
+                    {% trans "Make banking easy, secure, and fast through modern digital services. Control your account anytime, anywhere." %}
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up"
@@ -112,11 +111,11 @@
                 <div class="pt-6 flex items-center gap-8 border-t border-white/10 animate-fade-in-up"
                     style="animation-delay: 0.4s;">
                     <div>
-                        <p class="text-3xl font-bold text-white">२४/७</p>
+                        <p class="text-3xl font-bold text-white">{% trans "24/7" %}</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Available" %}</p>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white">१००%</p>
+                        <p class="text-3xl font-bold text-white">{% trans "100%" %}</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Secure" %}</p>
                     </div>
                 </div>
@@ -138,14 +137,12 @@
             <!-- Mobile App Content -->
             <div class="space-y-8">
                 <div>
-                    <span class="text-deuraligreen font-bold tracking-wider uppercase mb-2 block text-sm">हाम्रो गौरव</span>
+                    <span class="text-deuraligreen font-bold tracking-wider uppercase mb-2 block text-sm">{% trans "Our Pride" %}</span>
                     <h2 class="text-4xl md:text-5xl font-bold font-montserrat mb-6 leading-tight">
-                        <span class="text-gray-800">भञ्ज्याङ</span> <span class="text-deuraligreen font-extrabold">स्मार्ट</span> <span class="text-bhanjyangred font-extrabold">एप</span>
+                        <span class="text-gray-800">{% trans "Bhanjyang" %}</span> <span class="text-deuraligreen font-extrabold">{% trans "Smart" %}</span> <span class="text-bhanjyangred font-extrabold">{% trans "App" %}</span>
                     </h2>
                     <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                        संस्थाको आफ्नै "भञ्ज्याङ स्मार्ट एप" मार्फत आफ्ना खाताको विवरण हेर्ने,
-                        फण्ड ट्रान्सफर गर्ने, युटिलिटी बिल भुक्तानी गर्ने, र क्यूआर (QR) पेमेन्ट
-                        गर्ने जस्ता सुविधाहरू लिनुहोस्।
+                        {% trans "Access features like viewing your account details, transferring funds, paying utility bills, and making QR payments through our own 'Bhanjyang Smart App'." %}
                     </p>
                 </div>
 
@@ -156,8 +153,8 @@
                             <i class="fas fa-check-circle text-2xl"></i>
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-bold text-gray-800 mb-1">सजिलो पहुँच</h4>
-                            <p class="text-sm text-gray-600">खाता जानकारी २४ सै घण्टा</p>
+                            <h4 class="font-bold text-gray-800 mb-1">{% trans "Easy Access" %}</h4>
+                            <p class="text-sm text-gray-600">{% trans "Account information 24 hours a day" %}</p>
                         </div>
                     </div>
                     <div class="flex items-start">
@@ -166,8 +163,8 @@
                             <i class="fas fa-money-bill-wave text-2xl"></i>
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-bold text-gray-800 mb-1">फण्ड ट्रान्सफर</h4>
-                            <p class="text-sm text-gray-600">बैंक तथा वित्तीय संस्थामा रकम पठाउन मिल्ने</p>
+                            <h4 class="font-bold text-gray-800 mb-1">{% trans "Fund Transfer" %}</h4>
+                            <p class="text-sm text-gray-600">{% trans "Send money to banks and financial institutions" %}</p>
                         </div>
                     </div>
                     <div class="flex items-start">
@@ -176,8 +173,8 @@
                             <i class="fas fa-lightbulb text-2xl"></i>
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-bold text-gray-800 mb-1">बिल भुक्तानी</h4>
-                            <p class="text-sm text-gray-600">बत्ती, पानी, इन्टरनेटको बिल तिर्न सकिने</p>
+                            <h4 class="font-bold text-gray-800 mb-1">{% trans "Bill Payment" %}</h4>
+                            <p class="text-sm text-gray-600">{% trans "Pay electricity, water, and internet bills" %}</p>
                         </div>
                     </div>
                     <div class="flex items-start">
@@ -186,14 +183,14 @@
                             <i class="fas fa-qrcode text-2xl"></i>
                         </div>
                         <div class="ml-4">
-                            <h4 class="font-bold text-gray-800 mb-1">QR भुक्तानी</h4>
-                            <p class="text-sm text-gray-600">मर्चेन्टहरूमा स्क्यान गरी भुक्तानी गर्न सकिने</p>
+                            <h4 class="font-bold text-gray-800 mb-1">{% trans "QR Payment" %}</h4>
+                            <p class="text-sm text-gray-600">{% trans "Scan and pay at merchants" %}</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="pt-6 border-t border-gray-100">
-                    <h4 class="font-bold text-gray-800 mb-4">डाउनलोड गर्नुहोस्:</h4>
+                    <h4 class="font-bold text-gray-800 mb-4">{% trans "Download:" %}</h4>
                     <div class="flex flex-wrap gap-4">
                         <a href="https://play.google.com/store/apps/details?id=com.devanasoft.bhanjyang&hl=en"
                             target="_blank"
@@ -244,12 +241,11 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
             <h2 class="text-3xl md:text-5xl font-bold text-gray-900 font-montserrat mb-6">
-                <span class="text-gray-800">अन्य</span> <span class="text-deuraligreen font-extrabold">डिजिटल</span> <span class="text-bhanjyangred font-extrabold">सुविधाहरू</span>
+                <span class="text-gray-800">{% trans "Other" %}</span> <span class="text-deuraligreen font-extrabold">{% trans "Digital" %}</span> <span class="text-bhanjyangred font-extrabold">{% trans "Services" %}</span>
             </h2>
             <div class="w-20 h-1.5 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-gray-600 text-lg leading-relaxed">
-                हामी विभिन्न डिजिटल वालेटहरूसँग पनि सहकार्य गर्दछौं, जसबाट तपाईंले सजिलै रकम लोड गर्न र कारोबार गर्न
-                सक्नुहुन्छ।
+                {% trans "We also collaborate with various digital wallets, allowing you to easily load money and conduct transactions." %}
             </p>
         </div>
 
@@ -307,7 +303,7 @@
                     <div class="mt-auto pt-4 border-t border-gray-100 flex gap-2">
                         <a href="{{ service.get_absolute_url }}"
                             class="flex-1 {% if forloop.counter0|divisibleby:2 %}bg-deuraligreen hover:bg-green-700{% else %}bg-bhanjyangred hover:bg-red-700{% endif %} text-white text-center py-2.5 rounded-lg font-bold text-xs transition-all">
-                            विवरण
+                            {% trans "Details" %}
                         </a>
                         <a href="{% url 'contact:contact_view' %}"
                             class="px-3 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
@@ -334,7 +330,7 @@
     <div class="container mx-auto px-4 text-center relative z-10 text-white">
         <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
         <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto">
-            डिजिटल सेवा सुचारु गर्न चाहनुहुन्छ? आजै हाम्रो नजिकको शाखामा सम्पर्क गर्नुहोस् र डिजिटल बैंकिङ्गको फाइदा लिनुहोस्।
+            {% trans "Want to activate digital services? Contact our nearest branch today and enjoy the benefits of digital banking." %}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="tel:+97761561666"
@@ -365,7 +361,7 @@
     "description": "{% trans 'Modern digital banking solutions including mobile banking, digital wallets, and online services for your convenience.' %}",
     "provider": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "Bhanjyang Cooperative",
         "url": "{{ request.scheme }}://{{ request.get_host }}/"
     },
     "serviceType": "DigitalBanking",

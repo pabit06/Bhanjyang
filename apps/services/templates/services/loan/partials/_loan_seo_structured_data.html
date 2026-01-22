@@ -14,7 +14,7 @@ Usage: {% include 'services/loan/partials/_loan_seo_structured_data.html' with s
     "description": "{{ service.description|striptags|truncatewords:50|default:'Loan service from Bhanjyang Cooperative' }}",
     "provider": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "{% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans 'Bhanjyang Cooperative' %}{% endif %}",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "url": "{{ request.scheme }}://{{ request.get_host }}/",
         "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"

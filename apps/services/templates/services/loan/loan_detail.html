@@ -3,13 +3,13 @@
 {% load i18n %}
 {% load nepali_digits %}
 
-{% block title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock %}
+{% block title %}{{ service.english_name }} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock %}
 
 {% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Loan service from Bhanjyang Cooperative with competitive interest rates and flexible repayment options." }}{% endblock meta_description %}
 
 {% block meta_keywords %}loan, {{ service.english_name|lower }}, nepal, bhanjyang cooperative, credit services, emi calculator{% endblock meta_keywords %}
 
-{% block og_title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{{ service.english_name }} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock og_title %}
 
 {% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Loan service with competitive rates and flexible options." }}{% endblock og_description %}
 
@@ -23,7 +23,7 @@
 
 {% block og_type %}website{% endblock og_type %}
 
-{% block twitter_title %}{{ service.english_name }} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+{% block twitter_title %}{{ service.english_name }} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock twitter_title %}
 
 {% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Loan service from Bhanjyang Cooperative." }}{% endblock twitter_description %}
 
@@ -139,5 +139,57 @@
 {% include 'services/loan/partials/_loan_carousel_js.html' with service=service %}
 {% include 'services/loan/partials/_loan_calculator_js.html' with service=service %}
 {% include 'services/loan/partials/_loan_seo_structured_data.html' with service=service %}
+
+<!-- Preserve Nepali digits after page load -->
+<script>
+(function() {
+    // Function to convert English digits to Nepali digits
+    function toNepaliDigits(str) {
+        const nepaliDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+        return str.toString().replace(/\d/g, function(match) {
+            return nepaliDigits[parseInt(match)];
+        });
+    }
+    
+    // Function to preserve Nepali digits in elements
+    function preserveNepaliDigits() {
+        // Find all elements that might contain numbers (interest rates, amounts, etc.)
+        const selectors = [
+            '[class*="interest"]',
+            '[class*="amount"]',
+            '[class*="rate"]',
+            '[class*="tenure"]'
+        ];
+        
+        selectors.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => {
+                const text = el.textContent;
+                // If text contains English digits and percentage or currency symbols, preserve Nepali format
+                if (text && (text.includes('%') || text.includes('NPR') || text.includes('रू'))) {
+                    // Check if it has English digits
+                    if (/\d/.test(text) && !/[०-९]/.test(text)) {
+                        // Convert to Nepali digits
+                        el.textContent = toNepaliDigits(text);
+                    }
+                }
+            });
+        });
+    }
+    
+    // Run after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(preserveNepaliDigits, 500);
+            setTimeout(preserveNepaliDigits, 1000);
+        });
+    } else {
+        setTimeout(preserveNepaliDigits, 500);
+        setTimeout(preserveNepaliDigits, 1000);
+    }
+    
+    // Also run after language changes
+    document.addEventListener('languageChanged', preserveNepaliDigits);
+})();
+</script>
 {% endblock extra_js %}
 

@@ -18,14 +18,14 @@ Usage: {% include 'services/loan/partials/_loan_sidebar.html' with service=servi
             {% if service.minimum_amount %}
             <div class="flex justify-between items-center py-3 border-b border-gray-200">
                 <span class="text-gray-600">{% trans "Minimum Amount" %}</span>
-                <span class="font-semibold">NPR {{ service.minimum_amount|floatformat:0|to_nepali_digits }}</span>
+                <span class="font-semibold">{% trans "NPR" %} {{ service.minimum_amount|floatformat:0|to_nepali_digits }}</span>
             </div>
             {% endif %}
 
             {% if service.maximum_amount %}
             <div class="flex justify-between items-center py-3 border-b border-gray-200">
                 <span class="text-gray-600">{% trans "Maximum Amount" %}</span>
-                <span class="font-semibold">NPR {{ service.maximum_amount|floatformat:0|to_nepali_digits }}</span>
+                <span class="font-semibold">{% trans "NPR" %} {{ service.maximum_amount|floatformat:0|to_nepali_digits }}</span>
             </div>
             {% endif %}
 

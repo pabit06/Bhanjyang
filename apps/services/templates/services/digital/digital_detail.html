@@ -2,13 +2,13 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock %}
+{% block title %}{{ service.nepali_name }} - {% trans "Bhanjyang Cooperative" %}{% endblock %}
 
 {% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Digital banking service from Bhanjyang Cooperative for convenient online and mobile banking." }}{% endblock meta_description %}
 
 {% block meta_keywords %}digital banking, {{ service.english_name|lower }}, nepal, bhanjyang cooperative, mobile banking, online banking{% endblock meta_keywords %}
 
-{% block og_title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{{ service.nepali_name }} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Digital banking service for convenient online and mobile banking." }}{% endblock og_description %}
 
@@ -22,7 +22,7 @@
 
 {% block og_type %}website{% endblock og_type %}
 
-{% block twitter_title %}{{ service.nepali_name }} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+{% block twitter_title %}{{ service.nepali_name }} - {% trans "Bhanjyang Cooperative" %}{% endblock twitter_title %}
 
 {% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Digital banking service from Bhanjyang Cooperative." }}{% endblock twitter_description %}
 
@@ -186,10 +186,9 @@
 
                     <div class="relative z-10 grid md:grid-cols-3 gap-8 items-center">
                         <div class="md:col-span-2">
-                            <h3 class="text-3xl font-bold mb-4 font-mukta">सहकारीको डिजिटल सेवा</h3>
+                            <h3 class="text-3xl font-bold mb-4 font-mukta">{% trans "Cooperative Digital Services" %}</h3>
                             <p class="text-gray-300 mb-8 text-lg leading-relaxed">
-                                Experience banking at your fingertips. Download the Bhanjyang Smart App today for secure
-                                and convenient transactions.
+                                {% trans "Experience banking at your fingertips. Download the Bhanjyang Smart App today for secure and convenient transactions." %}
                             </p>
 
                             <div class="flex flex-wrap gap-4">
@@ -322,7 +321,7 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
-            <span class="text-gray-800">अन्य</span> <span class="text-blue-600 font-extrabold">डिजिटल</span> <span class="text-gray-800">सेवाहरू</span>
+            <span class="text-gray-800">{% trans "Other" %}</span> <span class="text-blue-600 font-extrabold">{% trans "Digital" %}</span> <span class="text-gray-800">{% trans "Services" %}</span>
         </h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for digital in related_digital %}
@@ -400,7 +399,7 @@
     "description": "{{ service.description|striptags|truncatewords:50|default:'Digital banking service from Bhanjyang Cooperative' }}",
     "provider": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "Bhanjyang Cooperative",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "url": "{{ request.scheme }}://{{ request.get_host }}/",
         "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"

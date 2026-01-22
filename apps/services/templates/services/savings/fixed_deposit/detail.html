@@ -3,13 +3,13 @@
 {% load i18n %}
 {% load nepali_digits %}
 
-{% block title %}{{ service.get_duration_months_display }} {% trans "Fixed Deposit" %} - भञ्ज्याङ सहकारी{% endblock %}
+{% block title %}{{ service.get_duration_months_display }} {% trans "Fixed Deposit" %} - {% trans "Bhanjyang Cooperative" %}{% endblock %}
 
 {% block meta_description %}{{ service.description|striptags|truncatewords:30|default:"Fixed deposit account from Bhanjyang Cooperative with competitive interest rates up to" }} {{ service.interest_rate }}% p.a.{% endblock meta_description %}
 
 {% block meta_keywords %}fixed deposit, fd, {{ service.get_duration_months_display|lower }}, nepal, bhanjyang cooperative, interest rates, savings{% endblock meta_keywords %}
 
-{% block og_title %}{{ service.get_duration_months_display }} {% trans "Fixed Deposit" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{{ service.get_duration_months_display }} {% trans "Fixed Deposit" %} - {% trans "Bhanjyang Cooperative" %}{% endblock og_title %}
 
 {% block og_description %}{{ service.description|striptags|truncatewords:25|default:"Fixed deposit with" }} {{ service.interest_rate }}% p.a. interest rate.{% endblock og_description %}
 
@@ -23,7 +23,7 @@
 
 {% block og_type %}website{% endblock og_type %}
 
-{% block twitter_title %}{{ service.get_duration_months_display }} {% trans "Fixed Deposit" %} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+{% block twitter_title %}{{ service.get_duration_months_display }} {% trans "Fixed Deposit" %} - {% trans "Bhanjyang Cooperative" %}{% endblock twitter_title %}
 
 {% block twitter_description %}{{ service.description|striptags|truncatewords:20|default:"Fixed deposit account from Bhanjyang Cooperative." }}{% endblock twitter_description %}
 
@@ -342,7 +342,7 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12 font-montserrat scroll-reveal">
-            <span class="text-gray-800">अन्य</span> <span class="text-orange-600 font-extrabold">आवधिक बचत</span>
+            <span class="text-gray-800">{% trans "Other" %}</span> <span class="text-orange-600 font-extrabold">{% trans "Fixed Deposits" %}</span>
         </h2>
         {% if related_deposits %}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
     "description": "{{ service.description|striptags|truncatewords:50|default:'Fixed deposit account from Bhanjyang Cooperative' }} with {{ service.interest_rate }}% p.a. interest rate",
     "provider": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "Bhanjyang Cooperative",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "url": "{{ request.scheme }}://{{ request.get_host }}/",
         "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"

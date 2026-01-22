@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load i18n %}
+{% load nepali_digits %}
 
-{% block title %}{% trans "Loan Services" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "Loan Services" %} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock title %}
 
 {% block meta_description %}{% trans "Flexible loan options designed to help you achieve your goals. Competitive interest rates starting from 10.5% monthly. Quick approval process with minimal documentation." %}{% endblock meta_description %}
 
 {% block meta_keywords %}loan services, personal loan, business loan, nepal, bhanjyang cooperative, credit services, emi calculator{% endblock meta_keywords %}
 
-{% block og_title %}{% trans "Loan Services" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{% trans "Loan Services" %} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock og_title %}
 
 {% block og_description %}{% trans "Flexible loan options with competitive rates. Quick approval process. Apply today!" %}{% endblock og_description %}
 
@@ -51,8 +52,8 @@
 
                 <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
                     style="animation-delay: 0.1s;">
-                    <span class="text-gray-200">ऋण</span> <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-orange-300 to-red-400 text-glow">सेवाहरू</span>
+                    <span class="text-gray-200">{% trans "Loan" %}</span> <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-red-300 via-orange-300 to-red-400 text-glow">{% trans "Services" %}</span>
                 </h1>
 
                 <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
@@ -78,11 +79,11 @@
                 <div class="pt-6 flex items-center gap-8 border-t border-white/10 animate-fade-in-up"
                     style="animation-delay: 0.4s;">
                     <div>
-                        <p class="text-3xl font-bold text-white">१०.५%</p>
+                        <p class="text-3xl font-bold text-white">{% with rate=10.5 %}{{ rate|to_nepali_digits }}{% endwith %}%</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Interest Rate" %}</p>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white">{{ loan_types|length }}+</p>
+                        <p class="text-3xl font-bold text-white">{{ loan_types|length|to_nepali_digits }}+</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Loan Types" %}</p>
                     </div>
                 </div>
@@ -141,7 +142,7 @@
                     <p class="text-sm font-medium text-gray-500 mb-4 uppercase tracking-wide font-montserrat">{{ loan.english_name }}</p>
 
                     <div class="flex items-baseline mb-4 pb-4 border-b border-gray-100">
-                        <span class="text-4xl font-extrabold text-bhanjyangred">{{ loan.monthly_interest_rate }}%</span>
+                        <span class="text-4xl font-extrabold text-bhanjyangred">{{ loan.monthly_interest_rate|to_nepali_digits }}%</span>
                         <span class="text-gray-500 ml-2 text-sm font-medium">{% trans "Monthly" %}</span>
                     </div>
 
@@ -310,7 +311,7 @@
     "description": "{% trans 'Flexible loan options designed to help you achieve your goals, from business expansion to personal needs.' %}",
     "provider": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "{% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans 'Bhanjyang Cooperative' %}{% endif %}",
         "url": "{{ request.scheme }}://{{ request.get_host }}/"
     },
     "serviceType": "Loan",
@@ -323,6 +324,58 @@
         "serviceUrl": "{{ request.build_absolute_uri }}"
     }
 }
+</script>
+
+<!-- Preserve Nepali digits after page load -->
+<script>
+(function() {
+    // Function to convert English digits to Nepali digits
+    function toNepaliDigits(str) {
+        const nepaliDigits = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+        return str.toString().replace(/\d/g, function(match) {
+            return nepaliDigits[parseInt(match)];
+        });
+    }
+    
+    // Function to preserve Nepali digits in elements
+    function preserveNepaliDigits() {
+        // Find all elements that might contain numbers (interest rates, amounts, etc.)
+        const selectors = [
+            '[class*="interest"]',
+            '[class*="amount"]',
+            '[class*="rate"]',
+            '[class*="tenure"]'
+        ];
+        
+        selectors.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => {
+                const text = el.textContent;
+                // If text contains English digits and percentage or currency symbols, preserve Nepali format
+                if (text && (text.includes('%') || text.includes('NPR') || text.includes('रू'))) {
+                    // Check if it has English digits
+                    if (/\d/.test(text) && !/[०-९]/.test(text)) {
+                        // Convert to Nepali digits
+                        el.textContent = toNepaliDigits(text);
+                    }
+                }
+            });
+        });
+    }
+    
+    // Run after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(preserveNepaliDigits, 500);
+            setTimeout(preserveNepaliDigits, 1000);
+        });
+    } else {
+        setTimeout(preserveNepaliDigits, 500);
+        setTimeout(preserveNepaliDigits, 1000);
+    }
+    
+    // Also run after language changes
+    document.addEventListener('languageChanged', preserveNepaliDigits);
+})();
 </script>
 {% endblock extra_js %}
 

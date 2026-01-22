@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load nepali_digits %}
 {% comment %}
 Loan card partial with proper Tailwind class handling
 Supports bhanjyangred and deuraligreen colors based on loan.color field
@@ -24,7 +25,7 @@ Uses static Tailwind classes that work with JIT compilation
                 </div>
                 
                 <div class="text-right mb-4 pb-4 border-b border-gray-100">
-                    <span class="text-3xl font-extrabold {{ text_class }}">{{ loan.monthly_interest_rate }}%</span>
+                    <span class="text-3xl font-extrabold {{ text_class }}">{{ loan.monthly_interest_rate|to_nepali_digits }}%</span>
                     <p class="text-xs text-gray-500 uppercase tracking-wider font-bold mt-1">{% trans "Monthly Interest" %}</p>
                 </div>
                 
@@ -43,19 +44,19 @@ Uses static Tailwind classes that work with JIT compilation
                         {% if loan.minimum_amount %}
                         <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
                             <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Min Amount" %}</span>
-                            <span class="text-sm font-bold text-gray-800">रू. {{ loan.minimum_amount|floatformat:0 }}</span>
+                            <span class="text-sm font-bold text-gray-800">{% trans "NPR" %} {{ loan.minimum_amount|floatformat:0|to_nepali_digits }}</span>
                         </div>
                         {% endif %}
                         {% if loan.maximum_amount %}
                         <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
                             <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Max Amount" %}</span>
-                            <span class="text-sm font-bold text-gray-800">रू. {{ loan.maximum_amount|floatformat:0 }}</span>
+                            <span class="text-sm font-bold text-gray-800">{% trans "NPR" %} {{ loan.maximum_amount|floatformat:0|to_nepali_digits }}</span>
                         </div>
                         {% endif %}
                         {% if loan.max_tenure_years %}
                         <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
                             <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Max Tenure" %}</span>
-                            <span class="text-sm font-bold text-gray-800">{{ loan.max_tenure_years }} {% trans "Years" %}</span>
+                            <span class="text-sm font-bold text-gray-800">{{ loan.max_tenure_years|to_nepali_digits }} {% trans "Years" %}</span>
                         </div>
                         {% endif %}
                     </div>
@@ -89,7 +90,7 @@ Uses static Tailwind classes that work with JIT compilation
                 </div>
                 
                 <div class="text-right mb-4 pb-4 border-b border-gray-100">
-                    <span class="text-3xl font-extrabold {{ text_class }}">{{ loan.monthly_interest_rate }}%</span>
+                    <span class="text-3xl font-extrabold {{ text_class }}">{{ loan.monthly_interest_rate|to_nepali_digits }}%</span>
                     <p class="text-xs text-gray-500 uppercase tracking-wider font-bold mt-1">{% trans "Monthly Interest" %}</p>
                 </div>
                 
@@ -108,19 +109,19 @@ Uses static Tailwind classes that work with JIT compilation
                         {% if loan.minimum_amount %}
                         <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
                             <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Min Amount" %}</span>
-                            <span class="text-sm font-bold text-gray-800">रू. {{ loan.minimum_amount|floatformat:0 }}</span>
+                            <span class="text-sm font-bold text-gray-800">{% trans "NPR" %} {{ loan.minimum_amount|floatformat:0|to_nepali_digits }}</span>
                         </div>
                         {% endif %}
                         {% if loan.maximum_amount %}
                         <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
                             <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Max Amount" %}</span>
-                            <span class="text-sm font-bold text-gray-800">रू. {{ loan.maximum_amount|floatformat:0 }}</span>
+                            <span class="text-sm font-bold text-gray-800">{% trans "NPR" %} {{ loan.maximum_amount|floatformat:0|to_nepali_digits }}</span>
                         </div>
                         {% endif %}
                         {% if loan.max_tenure_years %}
                         <div class="flex justify-between items-center py-2 px-3 bg-gray-50 rounded-lg">
                             <span class="text-xs text-gray-600 uppercase tracking-wide font-medium">{% trans "Max Tenure" %}</span>
-                            <span class="text-sm font-bold text-gray-800">{{ loan.max_tenure_years }} {% trans "Years" %}</span>
+                            <span class="text-sm font-bold text-gray-800">{{ loan.max_tenure_years|to_nepali_digits }} {% trans "Years" %}</span>
                         </div>
                         {% endif %}
                     </div>

@@ -4,13 +4,13 @@
 {% load remittance_tags %}
 {% load nepali_digits %}
 
-{% block title %}{% trans "Remittance Services" %} - भञ्ज्याङ सहकारी{% endblock title %}
+{% block title %}{% trans "Remittance Services" %} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock title %}
 
 {% block meta_description %}{% trans "Send money from anywhere in the world to Nepal safely and quickly through Bhanjyang Cooperative. We offer competitive exchange rates and multiple payout options including cash, bank deposit, and mobile wallets." %}{% endblock meta_description %}
 
 {% block meta_keywords %}remittance, money transfer, nepal, bhanjyang cooperative, international money transfer, wire transfer, exchange rate, nrb rates{% endblock meta_keywords %}
 
-{% block og_title %}{% trans "Remittance Services" %} - भञ्ज्याङ सहकारी{% endblock og_title %}
+{% block og_title %}{% trans "Remittance Services" %} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock og_title %}
 
 {% block og_description %}{% trans "Send money from anywhere in the world to Nepal safely and quickly. Competitive exchange rates, multiple payout options, and trusted service partners." %}{% endblock og_description %}
 
@@ -18,7 +18,7 @@
 
 {% block og_type %}website{% endblock og_type %}
 
-{% block twitter_title %}{% trans "Remittance Services" %} - भञ्ज्याङ सहकारी{% endblock twitter_title %}
+{% block twitter_title %}{% trans "Remittance Services" %} - {% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans "Bhanjyang Cooperative" %}{% endif %}{% endblock twitter_title %}
 
 {% block twitter_description %}{% trans "Send money from anywhere in the world to Nepal safely and quickly through Bhanjyang Cooperative." %}{% endblock twitter_description %}
 
@@ -97,29 +97,27 @@
 
                 <h1 id="main-content" class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-montserrat leading-tight animate-fade-in-up drop-shadow-2xl"
                     style="animation-delay: 0.1s;">
-                    विदेशको कमाई,<br>
+                    {% trans "Earnings from Abroad," %}<br>
                     <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-glow">स्वदेशमा
-                        रमाई</span>
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500 text-glow">{% trans "Joy at Home" %}</span>
                 </h1>
 
                 <!-- Improved Readability: Heavier font, high contrast white -->
                 <p class="text-lg md:text-xl text-white max-w-2xl leading-relaxed font-medium drop-shadow-md animate-fade-in-up"
                     style="animation-delay: 0.2s;">
-                    विश्वको जुनसुकै कुनाबाट पठाएको माया (पैसा), भञ्ज्याङ सहकारी मार्फत सुरक्षित र छिटो प्राप्त
-                    गर्नुहोस्।
+                    {% trans "Receive money (love) sent from anywhere in the world safely and quickly through Bhanjyang Cooperative." %}
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up"
                     style="animation-delay: 0.3s;">
                     <a href="{% url 'contact:contact_view' %}"
                         class="px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-white font-bold rounded-xl shadow-lg shadow-amber-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 border border-amber-300/30">
-                        <i class="fas fa-paper-plane"></i> सम्पर्क गर्नुहोस्
+                        <i class="fas fa-paper-plane"></i> {% trans "Contact Us" %}
                     </a>
                     <a href="#partners-section"
                         class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 backdrop-blur-md transition-all hover:shadow-lg hover:shadow-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-900"
                         aria-label="{% trans 'Scroll to partners section' %}">
-                        साझेदारहरू
+                        {% trans "Partners" %}
                     </a>
                 </div>
 
@@ -127,11 +125,11 @@
                 <div class="pt-6 flex items-center gap-8 border-t border-white/10 animate-fade-in-up"
                     style="animation-delay: 0.4s;">
                     <div>
-                        <p class="text-3xl font-bold text-white">{% trans "12+" %}</p>
+                        <p class="text-3xl font-bold text-white">{% with count=12 %}{{ count|to_nepali_digits }}{% endwith %}+</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Partners" %}</p>
                     </div>
                     <div>
-                        <p class="text-3xl font-bold text-white">{% trans "200+" %}</p>
+                        <p class="text-3xl font-bold text-white">{% with count=200 %}{{ count|to_nepali_digits }}{% endwith %}+</p>
                         <p class="text-xs text-gray-300 uppercase tracking-wider font-semibold">{% trans "Countries" %}</p>
                     </div>
                 </div>
@@ -212,7 +210,7 @@
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center max-w-3xl mx-auto mb-16 scroll-reveal">
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 font-montserrat mb-6">अन्तर्राष्ट्रिय साझेदारहरू
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 font-montserrat mb-6">{% trans "International Partners" %}
             </h2>
             <div class="w-20 h-1.5 bg-deuraligreen mx-auto rounded-full mb-6"></div>
             <p class="text-gray-600 text-lg leading-relaxed">
@@ -284,7 +282,7 @@
                         <a href="{{ service.get_absolute_url }}"
                             class="flex-1 {% if forloop.counter0|divisibleby:2 %}bg-deuraligreen hover:bg-green-700{% else %}bg-bhanjyangred hover:bg-red-700{% endif %} text-white text-center py-2.5 rounded-lg font-bold text-xs transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 {% if forloop.counter0|divisibleby:2 %}focus:ring-deuraligreen{% else %}focus:ring-bhanjyangred{% endif %}"
                             aria-label="{% trans 'View details for' %} {{ service.english_name }}">
-                            विवरण
+                            {% trans "Details" %}
                         </a>
                         <a href="{% url 'contact:contact_view' %}"
                             class="px-3 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -317,10 +315,10 @@
                     <span
                         class="text-bhanjyangred font-bold tracking-widest uppercase text-sm mb-2 block">{% trans "Process" %}</span>
                     <h2 class="text-4xl md:text-5xl font-bold font-montserrat mb-6 leading-tight">
-                        <span class="text-gray-700">पैसा</span> <span class="text-deuraligreen font-extrabold">प्राप्त</span> <span class="text-gray-700">गर्ने</span> <br><span class="text-deuraligreen font-extrabold">३ सरल</span> <span class="text-bhanjyangred font-extrabold">चरणहरू</span>
+                        <span class="text-gray-700">{% trans "Receive" %}</span> <span class="text-deuraligreen font-extrabold">{% trans "Money" %}</span> <span class="text-gray-700">{% trans "in" %}</span> <br><span class="text-deuraligreen font-extrabold">{% with steps=3 %}{{ steps|to_nepali_digits }}{% endwith %} {% trans "Simple" %}</span> <span class="text-bhanjyangred font-extrabold">{% trans "Steps" %}</span>
                     </h2>
                     <p class="text-gray-500 text-lg mb-8">
-                        तपाईंको पैसा सुरक्षित रूपमा तपाईंको हातमा पुग्न ३ चरण मात्र लाग्छ। कुनै झन्झट छैन।
+                        {% trans "It only takes 3 simple steps for your money to reach your hands safely. No hassle." %}
                     </p>
                     <a href="{% url 'contact:contact_view' %}"
                         class="inline-flex items-center gap-2 text-gray-900 font-bold border-b-2 border-gray-900 pb-1 hover:text-bhanjyangred hover:border-bhanjyangred transition-all">
@@ -349,9 +347,9 @@
                                 class="bg-gray-50 p-6 rounded-3xl w-full group-hover:bg-green-50 transition-colors duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <i class="fas fa-paper-plane text-xl text-deuraligreen"></i>
-                                    <h3 class="text-lg font-bold text-gray-900">प्रेषकले पैसा पठाउनुहुन्छ</h3>
+                                    <h3 class="text-lg font-bold text-gray-900">{% trans "Sender Sends Money" %}</h3>
                         </div>
-                                <p class="text-gray-600 text-sm">तपाईंको आफन्तले विदेशमा रहेको साझेदार एजेन्ट मार्फत पैसा पठाउनुहुन्छ।
+                                <p class="text-gray-600 text-sm">{% trans "Your relative sends money through a partner agent abroad." %}
                         </p>
                     </div>
                 </div>
@@ -366,9 +364,9 @@
                             <div class="bg-gray-50 p-6 rounded-3xl w-full group-hover:bg-red-50 transition-colors duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <i class="fas fa-sms text-xl text-bhanjyangred"></i>
-                                    <h3 class="text-lg font-bold text-gray-900">कोड प्राप्त गर्नुहोस्</h3>
+                                    <h3 class="text-lg font-bold text-gray-900">{% trans "Receive Code" %}</h3>
                         </div>
-                                <p class="text-gray-600 text-sm">तपाईंले एसएमएस वा फोन मार्फत गोप्य पिन/नम्बर प्राप्त गर्नुहुन्छ।</p>
+                                <p class="text-gray-600 text-sm">{% trans "You receive a secret PIN/number via SMS or phone." %}</p>
                     </div>
                 </div>
 
@@ -382,9 +380,9 @@
                                 class="bg-gray-50 p-6 rounded-3xl w-full group-hover:bg-gray-100 transition-colors duration-300">
                                 <div class="flex items-center gap-3 mb-3">
                                     <i class="fas fa-hand-holding-usd text-xl text-gray-900"></i>
-                                    <h3 class="text-lg font-bold text-gray-900">नगद लिनुहोस्</h3>
-                                </div>
-                                <p class="text-gray-600 text-sm">आफ्नो परिचयपत्र लिएर भञ्ज्याङ सहकारीको काउन्टरमा आउनुहोस्।</p>
+                                    <h3 class="text-lg font-bold text-gray-900">{% trans "Collect Cash" %}</h3>
+                        </div>
+                                <p class="text-gray-600 text-sm">{% trans "Come to Bhanjyang Cooperative counter with your ID card." %}</p>
                             </div>
                         </div>
                     </div>
@@ -561,7 +559,7 @@
     <div class="container mx-auto px-4 text-center relative z-10 text-white">
         <h2 class="text-4xl md:text-5xl font-bold mb-8 font-montserrat">{% trans "Your Trust, Our Responsibility" %}</h2>
         <p class="text-lg md:text-xl opacity-90 mb-12 max-w-2xl mx-auto">
-            रेमिट्यान्स सम्बन्धी कुनै पनि जानकारीको लागि हामी सधैं तयार छौं।
+            {% trans "We are always ready to help with any remittance-related information." %}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="tel:+97761561666"
@@ -591,11 +589,11 @@
     "@context": "https://schema.org",
     "@type": "FinancialService",
     "name": "{% trans 'Remittance Services' %}",
-    "alternateName": "रेमिट्यान्स सेवाहरू",
+    "alternateName": "{% trans 'Remittance Services' %}",
     "description": "{% trans 'Global money transfer services through trusted partners. Send money from anywhere in the world to Nepal safely and quickly.' %}",
     "provider": {
         "@type": "CreditUnion",
-        "name": "भञ्ज्याङ सहकारी",
+        "name": "{% if site_info.cooperative_name %}{{ site_info.cooperative_name }}{% else %}{% trans 'Bhanjyang Cooperative' %}{% endif %}",
         "alternateName": "Bhanjyang Saving & Credit Cooperative Society Ltd.",
         "url": "{{ request.scheme }}://{{ request.get_host }}/",
         "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logos/Logo.png' %}"
