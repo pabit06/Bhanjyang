@@ -1,0 +1,121 @@
+/**
+ * Home Page Button Components
+ * 
+ * Enhanced button styles specifically for home page sections
+ */
+
+/* Enhanced Primary Button with Shimmer Effect */
+.btn-home-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(to right, #28A745, #16a34a, #28A745);
+  color: white;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  transform: scale(1);
+  overflow: hidden;
+  border: 2px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-home-primary:hover {
+  box-shadow: 0 25px 50px -12px rgba(40, 167, 69, 0.5);
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-home-primary:active {
+  transform: scale(1.02);
+}
+
+/* Shine/Shimmer Effect */
+.btn-home-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 9999px;
+}
+
+.btn-home-primary:hover::before {
+  opacity: 1;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Glow Effect */
+.btn-home-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #28A745;
+  opacity: 0;
+  filter: blur(2rem);
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.btn-home-primary:hover::after {
+  opacity: 0.3;
+}
+
+/* Button Content */
+.btn-home-primary .btn-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-home-primary .btn-text {
+  transition: letter-spacing 0.3s ease;
+}
+
+.btn-home-primary:hover .btn-text {
+  letter-spacing: 0.05em;
+}
+
+.btn-home-primary .btn-icon {
+  transition: transform 0.3s ease, scale 0.3s ease;
+}
+
+.btn-home-primary:hover .btn-icon {
+  transform: translateX(0.5rem);
+  scale: 1.1;
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .btn-home-primary {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+}

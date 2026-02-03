@@ -254,6 +254,18 @@ msgstr "खोज्नुहोस्..."
 msgid "Dark Mode"
 msgstr "अँध्यारो मोड"
 
+msgid "Welcome to Bhanjyang Cooperative"
+msgstr "भञ्ज्याङ्ग सहकारीमा स्वागत छ"
+
+msgid "Empowering Your Financial Journey in Rupa"
+msgstr "रूपामा तपाईंको वित्तीय यात्रा सशक्त बनाउँदै"
+
+msgid "Bhanjyang Cooperative is dedicated to fostering economic growth and community development in Rupa Rural Municipality through reliable and accessible financial services."
+msgstr "भञ्ज्याङ्ग सहकारी भरपर्दो र पहुँचयोग्य वित्तीय सेवाहरू मार्फत रूपा गाउँपालिकामा आर्थिक वृद्धि र सामुदायिक विकासलाई बढावा दिन समर्पित छ।"
+
+msgid "Explore Services"
+msgstr "सेवाहरू अन्वेषण गर्नुहोस्"
+
 #, fuzzy
 #~| msgid "Contact Us"
 #~ msgid "contact us"
@@ -1812,25 +1824,8 @@ msgstr "अँध्यारो मोड"
 #~ msgid "Page Views"
 #~ msgstr "पृष्ठ दृश्यहरू"
 
-#~ msgid "Welcome to Bhanjyang Cooperative"
-#~ msgstr "भान्ज्याङ सहकारीमा स्वागत छ"
-
-#~ msgid "Empowering Your Financial Journey in Rupa"
-#~ msgstr "रूपामा तपाईंको वित्तीय यात्रा सशक्त बनाउँदै"
-
-#~ msgid ""
-#~ "Bhanjyang Cooperative is dedicated to fostering economic growth and "
-#~ "community development in Rupa Rural Municipality through reliable and "
-#~ "accessible financial services."
-#~ msgstr ""
-#~ "भान्ज्याङ सहकारी भरपर्दो र पहुँचयोग्य वित्तीय सेवाहरू मार्फत रूपा गाउँपालिकामा आर्थिक "
-#~ "वृद्धि र सामुदायिक विकासलाई बढावा दिन समर्पित छ।"
-
 #~ msgid "Explore our financial services"
 #~ msgstr "हाम्रो वित्तीय सेवाहरू अन्वेषण गर्नुहोस्"
-
-#~ msgid "Explore Services"
-#~ msgstr "सेवाहरू अन्वेषण गर्नुहोस्"
 
 #~ msgid "Contact Bhanjyang Cooperative"
 #~ msgstr "भान्ज्याङ सहकारीलाई सम्पर्क गर्नुहोस्"

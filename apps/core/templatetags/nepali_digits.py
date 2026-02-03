@@ -1,5 +1,5 @@
 from django import template
-from django.utils.translation import get_language
+from django.utils.translation import get_language, gettext as _
 
 register = template.Library()
 
@@ -17,3 +17,14 @@ def to_nepali_digits(value):
     """
     value_str = str(value)
     return ''.join(NEP_DIGITS.get(char, char) for char in value_str)
+
+
+@register.filter(name='trans')
+def translate_string(value):
+    """
+    Template filter to translate a string value.
+    Usage: {{ content.title|trans }}
+    """
+    if not value:
+        return value
+    return _(str(value))

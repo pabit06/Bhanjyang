@@ -19,7 +19,7 @@
             <div class="order-2 lg:order-1" data-aos="fade-right">
                 <div class="relative group">
                     <div class="absolute -inset-4 bg-gradient-to-r from-deuraligreen to-bhanjyangred rounded-2xl opacity-20 group-hover:opacity-30 blur-xl transition-opacity duration-500"></div>
-            <img src="{% static 'images/home/office-team.jpg' %}"
+            <img src="{% static 'images/home/who-we-are.png' %}"
                 alt="Bhanjyang Cooperative team members working together in their office"
                         class="relative rounded-2xl shadow-2xl w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500"
                         loading="lazy" decoding="async" width="800" height="600">
@@ -88,10 +88,11 @@
                     </div>
                 </div>
                 
-            <a href="{% url 'about:home' %}"
-                    class="group inline-flex items-center gap-3 bg-deuraligreen text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:bg-green-700 hover:scale-105 transition-all duration-300 transform hover:shadow-2xl">
-                    <span>{% trans "Learn More About Us" %}</span>
-                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>
+            <a href="{% url 'about:home' %}" class="btn-home-primary">
+                    <span class="btn-content">
+                        <span class="btn-text">{% trans "Learn More About Us" %}</span>
+                        <i class="fas fa-arrow-right btn-icon"></i>
+                    </span>
                 </a>
             </div>
         </div>

@@ -352,123 +352,123 @@ msgid "Click to Open"
 msgstr ""
 
 msgid "Latest Updates"
-msgstr ""
+msgstr "नवीनतम अपडेटहरू"
 
 msgid "Important Announcements"
-msgstr ""
+msgstr "महत्त्वपूर्ण घोषणाहरू"
 
 msgid "Stay informed with our latest news and important updates"
-msgstr ""
+msgstr "हाम्रो नवीनतम समाचार र महत्त्वपूर्ण अपडेटहरूसँग सूचित रहनुहोस्"
 
 msgid "Read More"
-msgstr ""
+msgstr "थप पढ्नुहोस्"
 
 msgid "No Announcements"
-msgstr ""
+msgstr "कुनै घोषणाहरू छैनन्"
 
 msgid "Check back soon for important announcements and updates."
-msgstr ""
+msgstr "महत्त्वपूर्ण घोषणाहरू र अपडेटहरूको लागि छिट्टै फेरि जाँच गर्नुहोस्।"
 
 msgid "Get Started Today"
-msgstr ""
+msgstr "आजै सुरु गर्नुहोस्"
 
 msgid "Ready to Begin Your Financial Journey?"
-msgstr ""
+msgstr "तपाईंको वित्तीय यात्रा सुरु गर्न तयार हुनुहुन्छ?"
 
 msgid "Join thousands of satisfied members who trust Bhanjyang Cooperative"
-msgstr ""
+msgstr "भञ्ज्याङ्ग सहकारीमा विश्वास गर्ने हजारौं सन्तुष्ट सदस्यहरूमा सामेल हुनुहोस्"
 
 msgid ""
 "Experience reliable financial services, competitive rates, and personalized "
 "support designed for your success."
-msgstr ""
+msgstr "विश्वसनीय वित्तीय सेवाहरू, प्रतिस्पर्धी दरहरू, र तपाईंको सफलताको लागि डिजाइन गरिएको व्यक्तिगत सहयोगको अनुभव लिनुहोस्।"
 
 msgid "Contact Us"
-msgstr ""
+msgstr "सम्पर्क गर्नुहोस्"
 
 msgid "Learn More"
-msgstr ""
+msgstr "थप जान्नुहोस्"
 
 msgid "Have Questions?"
-msgstr ""
+msgstr "प्रश्नहरू छन्?"
 
 msgid "Get in touch with us for any inquiries or support. We're here to help!"
-msgstr ""
+msgstr "कुनै पनि जानकारी वा सहयोगको लागि हामीलाई सम्पर्क गर्नुहोस्। हामी यहाँ मद्दत गर्न तयार छौं!"
 
 msgid "Contact Information"
-msgstr ""
+msgstr "सम्पर्क विवरण"
 
 msgid "Address"
-msgstr ""
+msgstr "ठेगाना"
 
 msgid "Rupa Rural Municipality, Ward No 5, Deurali, Kaski"
 msgstr "रूपा गाउँपालिका, वडा नं. ५, देउराली, कास्की"
 
 msgid "Phone"
-msgstr ""
+msgstr "फोन"
 
 msgid "Send Us a Message"
-msgstr ""
+msgstr "हामीलाई सन्देश पठाउनुहोस्"
 
 msgid "Your Email"
-msgstr ""
+msgstr "तपाईंको इमेल"
 
 msgid "Subject"
-msgstr ""
+msgstr "विषय"
 
 msgid "Your Message"
-msgstr ""
+msgstr "तपाईंको सन्देश"
 
 msgid "Send Message"
-msgstr ""
+msgstr "सन्देश पठाउनुहोस्"
 
 msgid "Our Features"
-msgstr ""
+msgstr "हाम्रो विशेषताहरू"
 
 msgid "Why Choose Our Services"
-msgstr ""
+msgstr "हाम्रो सेवाहरू किन छान्नुहोस्"
 
 msgid ""
 "Experience modern banking with features designed for your convenience and "
 "security"
-msgstr ""
+msgstr "तपाईंको सुविधा र सुरक्षाको लागि डिजाइन गरिएका विशेषताहरूका साथ आधुनिक बैंकिङको अनुभव लिनुहोस्"
 
 msgid "Mobile Banking"
-msgstr ""
+msgstr "मोबाइल बैंकिङ"
 
 msgid "Bank anywhere, anytime with our convenient mobile banking services"
-msgstr ""
+msgstr "हाम्रो सुविधाजनक मोबाइल बैंकिङ सेवाहरूका साथ कतै पनि, कुनै पनि समयमा बैंकिङ गर्नुहोस्"
 
 msgid "Secure"
-msgstr ""
+msgstr "सुरक्षित"
 
 msgid "Bank-level security to protect your financial information"
-msgstr ""
+msgstr "तपाईंको वित्तीय जानकारी सुरक्षा गर्न बैंक-स्तरको सुरक्षा"
 
 msgid "24/7 Support"
-msgstr ""
+msgstr "२४/७ सहयोग"
 
 msgid "Always here for you with round-the-clock customer support"
-msgstr ""
+msgstr "दिन-रात ग्राहक सहयोगका साथ सधैं यहाँ तपाईंको लागि"
 
 msgid "Rewards"
-msgstr ""
+msgstr "पुरस्कारहरू"
 
 msgid "Earn rewards and benefits while you save with us"
-msgstr ""
+msgstr "हामीसँग बचत गर्दा पुरस्कार र लाभहरू कमाउनुहोस्"
 
 msgid "Our Gallery"
-msgstr ""
+msgstr "हाम्रो ग्यालेरी"
 
 msgid "Moments & Memories"
-msgstr ""
+msgstr "क्षणहरू र सम्झनाहरू"
 
 msgid ""
 "Capturing our journey and community events that define our cooperative spirit"
-msgstr ""
+msgstr "हाम्रो यात्रा र सामुदायिक कार्यक्रमहरू कब्जा गर्दै जुन हाम्रो सहकारी भावनालाई परिभाषित गर्छ"
 
 msgid "View Full Gallery"
-msgstr ""
+msgstr "पूर्ण ग्यालेरी हेर्नुहोस्"
 
 msgid "Welcome"
 msgstr ""
@@ -480,17 +480,17 @@ msgid "Add Hero Content"
 msgstr ""
 
 msgid "Our Impact"
-msgstr ""
+msgstr "हाम्रो प्रभाव"
 
 msgid "Bhanjyang Cooperative's Impact in Numbers"
-msgstr ""
+msgstr "संख्यामा भञ्ज्याङ्ग सहकारीको प्रभाव"
 
 msgid ""
 "Measuring our success through the growth and prosperity of our community"
-msgstr ""
+msgstr "हाम्रो समुदायको वृद्धि र समृद्धिको माध्यमबाट हाम्रो सफलतालाई मापन गर्दै"
 
 msgid "Growing our community impact."
-msgstr ""
+msgstr "हाम्रो सामुदायिक प्रभाव बढाउँदै।"
 
 msgid "No Statistics Available"
 msgstr ""
@@ -502,7 +502,7 @@ msgid "Add Statistics"
 msgstr ""
 
 msgid "Who We Are"
-msgstr ""
+msgstr "हामी को हौं"
 
 msgid "Your Trusted Partner in Community Development"
 msgstr "सामुदायिक विकासमा तपाईंको विश्वासिलो साझेदार"
@@ -527,130 +527,130 @@ msgstr ""
 "छौं, र हाम्रा सदस्यहरूको जीवनमा ठोस परिवर्तन ल्याउन प्रयासरत छौं।"
 
 msgid "Community Focused"
-msgstr ""
+msgstr "समुदाय केन्द्रित"
 
 msgid "Deeply rooted in local community needs"
-msgstr ""
+msgstr "स्थानीय समुदायको आवश्यकतामा गहिरो रूपमा जरा गाडिएको"
 
 msgid "Trusted & Secure"
-msgstr ""
+msgstr "विश्वासिलो र सुरक्षित"
 
 msgid "of reliable service"
-msgstr ""
+msgstr "भरपर्दो सेवा"
 
 msgid "Years of reliable service"
-msgstr ""
+msgstr "भरपर्दो सेवाका वर्षहरू"
 
 msgid "Learn More About Us"
-msgstr ""
+msgstr "हाम्रो बारेमा थप जान्नुहोस्"
 
 msgid "Newsletter"
-msgstr ""
+msgstr "समाचारपत्र"
 
 msgid "Stay Updated"
-msgstr ""
+msgstr "अद्यावधिक रहनुहोस्"
 
 msgid "Get the latest news, updates, and exclusive offers"
-msgstr ""
+msgstr "नवीनतम समाचार, अपडेटहरू, र विशेष प्रस्तावहरू प्राप्त गर्नुहोस्"
 
 msgid "delivered directly to your inbox"
-msgstr ""
+msgstr "तपाईंको इनबक्समा सीधै पठाइनेछ"
 
 msgid "Subscribe"
-msgstr ""
+msgstr "सदस्यता लिनुहोस्"
 
 msgid "Latest News"
-msgstr ""
+msgstr "ताजा समाचार"
 
 msgid "Exclusive Offers"
-msgstr ""
+msgstr "विशेष प्रस्तावहरू"
 
 msgid "No Spam"
-msgstr ""
+msgstr "स्प्याम छैन"
 
 msgid "Our Services"
-msgstr ""
+msgstr "हाम्रो सेवाहरू"
 
 msgid "Our Key Services"
-msgstr ""
+msgstr "हाम्रो मुख्य सेवाहरू"
 
 msgid ""
 "Discover comprehensive financial solutions designed to meet your needs and "
 "help you achieve your goals"
-msgstr ""
+msgstr "तपाईंको आवश्यकताहरू पूरा गर्न र लक्ष्यहरू प्राप्त गर्न डिजाइन गरिएका व्यापक वित्तीय समाधानहरू खोज्नुहोस्"
 
 msgid "No Featured Services"
-msgstr ""
+msgstr "कुनै विशेष सेवाहरू छैनन्"
 
 msgid ""
 "Featured services will appear here once configured. Services can be marked "
 "as featured in the admin panel."
-msgstr ""
+msgstr "कन्फिगर गरिएपछि विशेष सेवाहरू यहाँ देखिनेछन्। सेवाहरूलाई व्यवस्थापक प्यानलमा विशेषको रूपमा चिन्ह लगाउन सकिन्छ।"
 
 msgid "View All Services"
-msgstr ""
+msgstr "सबै सेवाहरू हेर्नुहोस्"
 
 msgid "View All Services & Rates"
-msgstr ""
+msgstr "सबै सेवाहरू र दरहरू हेर्नुहोस्"
 
 msgid "What Our Members Say About Us"
-msgstr ""
+msgstr "हाम्रा सदस्यहरूले हाम्रो बारेमा के भन्छन्"
 
 msgid ""
 "Hear from our community members about their experiences with Bhanjyang "
 "Cooperative"
-msgstr ""
+msgstr "भञ्ज्याङ्ग सहकारीको साथको तिनीहरूको अनुभवहरूको बारेमा हाम्रा सामुदायिक सदस्यहरूबाट सुन्नुहोस्"
 
 msgid "No Testimonials Yet"
-msgstr ""
+msgstr "अझै कुनै प्रशंसा छैन"
 
 msgid "Testimonials will appear here once added in the admin panel."
-msgstr ""
+msgstr "व्यवस्थापक प्यानलमा थपिएपछि प्रशंसाहरू यहाँ देखिनेछन्।"
 
 msgid "Add Testimonial"
-msgstr ""
+msgstr "प्रशंसा थप्नुहोस्"
 
 msgid "Why Choose Us"
-msgstr ""
+msgstr "हामीलाई किन छान्नुहोस्"
 
 msgid "Your Trusted Financial Partner"
-msgstr ""
+msgstr "तपाईंको विश्वासिलो वित्तीय साझेदार"
 
 msgid "With over"
-msgstr ""
+msgstr "भन्दा बढी"
 
 msgid ""
 "we've built a reputation for trust, transparency, and excellent service."
-msgstr ""
+msgstr "हामीले विश्वास, पारदर्शिता, र उत्कृष्ट सेवाको लागि प्रतिष्ठा बनाएका छौं।"
 
 msgid ""
 "With years of experience, we've built a reputation for trust, transparency, "
 "and excellent service."
-msgstr ""
+msgstr "वर्षौंको अनुभवका साथ, हामीले विश्वास, पारदर्शिता, र उत्कृष्ट सेवाको लागि प्रतिष्ठा बनाएका छौं।"
 
 msgid "Secure & Reliable"
-msgstr ""
+msgstr "सुरक्षित र विश्वसनीय"
 
 msgid ""
 "Bank-level security and regulatory compliance ensure your funds and data are "
 "always protected."
-msgstr ""
+msgstr "बैंक-स्तरको सुरक्षा र नियामक अनुपालनले तपाईंको रकम र डाटा सधैं सुरक्षित रहनेछ भनी सुनिश्चित गर्छ।"
 
 msgid "Competitive Rates"
-msgstr ""
+msgstr "प्रतिस्पर्धी दरहरू"
 
 msgid ""
 "Enjoy some of the best interest rates in the market, helping your savings "
 "grow faster."
-msgstr ""
+msgstr "बजारमा उपलब्ध उत्कृष्ट ब्याज दरहरूको आनन्द लिनुहोस्, जसले तपाईंको बचत छिटो बढाउन मद्दत गर्छ।"
 
 msgid "Personalized Support"
-msgstr ""
+msgstr "व्यक्तिगत सहयोग"
 
 msgid ""
 "Our dedicated team provides personalized assistance tailored to your "
 "financial needs."
-msgstr ""
+msgstr "हाम्रो समर्पित टोलीले तपाईंको वित्तीय आवश्यकताहरू अनुसार व्यक्तिगत सहायता प्रदान गर्छ।"
 
 msgid "Preview"
 msgstr ""
