@@ -139,6 +139,22 @@ html {
     }
 }
 
+/* GSAP-compatible classes (CSS-only, no JS) - reduces load */
+@keyframes gsapFadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gsapSlideUp {
+    from { opacity: 0; transform: translateY(80px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.gsap-fade-in {
+    animation: gsapFadeIn 1s ease-out forwards;
+}
+.gsap-slide-up {
+    animation: gsapSlideUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
 /* Rotate Animations */
 @keyframes rotateIn {
     from {

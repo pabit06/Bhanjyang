@@ -83,25 +83,27 @@
     <link href="{% static 'css/about-animations.css' %}" rel="stylesheet">
     <link href="{% static 'css/utilities/advanced-animations.css' %}" rel="stylesheet">
     <link href="{% static 'css/utilities/dark-mode.css' %}" rel="stylesheet">
-    <link href="{% static 'css/pages/gallery-lightbox.css' %}" rel="stylesheet">
 
     {# Component CSS #}
     <link href="{% static 'css/components/buttons.css' %}" rel="stylesheet">
     <link href="{% static 'css/components/cards.css' %}" rel="stylesheet">
     <link href="{% static 'css/components/forms.css' %}" rel="stylesheet">
+    <link href="{% static 'css/components/header.css' %}" rel="stylesheet">
     <link href="{% static 'css/components/map-toggle.css' %}" rel="stylesheet">
     
     {# Nepali Datepicker CSS #}
     <link href="{% static 'vendor/nepali-datepicker/nepali.datepicker.v5.0.6.min.css' %}" rel="stylesheet">
 
-    {# Google Fonts & Font Awesome from CDN for performance #}
+    {# Google Fonts - reduced weights for faster load #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Poppins:wght@400;600;700&family=Montserrat:wght@700;800&display=swap"
         rel="stylesheet">
+    {# Font Awesome - async so it doesn't block first paint #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" /></noscript>
 
     {# Alpine.js for interactive components #}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -213,16 +215,13 @@
 
     {# All page-specific or additional JavaScript should go in this block. #}
     {% block extra_js %}
-    {# Performance Monitoring JavaScript #}
+    {% if debug %}
+    {# Performance Monitoring - development only #}
     <script defer src="{% static 'js/base/performance-monitor.js' %}"></script>
+    {% endif %}
 
     {# Custom Animations JavaScript #}
     <script defer src="{% static 'js/utilities/animations.js' %}"></script>
-    <!-- GSAP CDN for pro-level animations -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous"
-        referrerpolicy="no-referrer"></script>
-    <!-- GSAP Animation Initializer -->
-    <script defer src="{% static 'js/base/gsap-init.js' %}"></script>
 
     <!-- PWA Installer -->
     <script defer src="{% static 'js/utilities/pwa-installer.js' %}"></script>

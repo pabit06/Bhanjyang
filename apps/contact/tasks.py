@@ -21,16 +21,33 @@ try:
     CELERY_AVAILABLE = True
 except ImportError:
     CELERY_AVAILABLE = False
-    # Create a no-op decorator when Celery is not available
-    def shared_task(*args, **kwargs):
-        """No-op decorator when Celery is not installed"""
-        def decorator(func):
-            return func
-        return decorator
 
-# Note: When Celery is available, functions decorated with @shared_task(bind=True)
-# will receive 'self' as first argument. When not available, they work normally.
-# The services.py handles calling .delay() vs direct call based on availability.
+    # No-op decorator when Celery is not installed.
+    # Handles both: @shared_task (no parens → first arg is the function) and @shared_task(...) (options).
+    def shared_task(*args, **kwargs):
+        # @shared_task without parentheses: shared_task(cleanup_old_contact_submissions)
+        if len(args) == 1 and not kwargs and callable(args[0]):
+            func = args[0]
+            def wrapper_no_options(*wargs, **wkwargs):
+                return func(*wargs, **wkwargs)
+            wrapper_no_options.delay = wrapper_no_options
+            return wrapper_no_options
+
+        # @shared_task(bind=True, max_retries=3) etc.: return a decorator
+        bind = kwargs.get('bind', False)
+
+        def decorator(func):
+            def wrapper(*wargs, **wkwargs):
+                if bind:
+                    class DummySelf:
+                        def retry(self, *a, **kw):
+                            logger.warning("Retry called without Celery. Task failed permanently.")
+                            raise kw.get('exc', Exception("Task failed and Celery is not available for retry."))
+                    return func(DummySelf(), *wargs, **wkwargs)
+                return func(*wargs, **wkwargs)
+            wrapper.delay = wrapper
+            return wrapper
+        return decorator
 
 # Admin email recipient
 ADMIN_EMAIL = 'admin@bhanjyang.coop.np'
@@ -54,24 +71,14 @@ Bhanjyang Cooperative Team
 """
 
 
-@shared_task(max_retries=3)
-def send_contact_email(submission_data):
+@shared_task(bind=True, max_retries=3)
+def send_contact_email(self, submission_data):
     """
     Send contact form email to admin.
-    
-    Args:
-        submission_data: Dictionary containing 'subject', 'message', and 'submission_id'
-        
-    Returns:
-        bool: True if email sent successfully, False otherwise
-        
-    Note:
-        When Celery is available, this function can be called with .delay() for async execution.
-        For retry functionality, change decorator to @shared_task(bind=True, max_retries=3)
-        and add 'self' as first parameter, then use self.retry() in exception handling.
+    Will retry up to 3 times if email sending fails (when Celery is active).
     """
     submission_id = submission_data.get('submission_id', 'unknown')
-    
+
     try:
         send_mail(
             subject=submission_data['subject'],
@@ -82,31 +89,20 @@ def send_contact_email(submission_data):
         )
         logger.info(f"Contact email sent successfully for submission {submission_id}")
         return True
-        
+
     except Exception as exc:
         logger.error(f"Failed to send contact email for submission {submission_id}: {exc}")
-        # Note: For retry functionality, use @shared_task(bind=True) and self.retry()
+        if CELERY_AVAILABLE:
+            logger.info(f"Retrying email task for submission {submission_id}...")
+            raise self.retry(exc=exc, countdown=60)
         return False
 
 
-@shared_task(max_retries=3)
-def send_auto_response_email(user_email, user_name, subject, submission_id):
+@shared_task(bind=True, max_retries=3)
+def send_auto_response_email(self, user_email, user_name, subject, submission_id):
     """
     Send auto-response confirmation email to user.
-    
-    Args:
-        user_email: Recipient email address
-        user_name: User's name for personalization
-        subject: Original inquiry subject
-        submission_id: Submission reference ID
-        
-    Returns:
-        bool: True if email sent successfully, False otherwise
-        
-    Note:
-        When Celery is available, this function can be called with .delay() for async execution.
-        For retry functionality, change decorator to @shared_task(bind=True, max_retries=3)
-        and add 'self' as first parameter, then use self.retry() in exception handling.
+    Will retry up to 3 times if email sending fails (when Celery is active).
     """
     try:
         message = AUTO_RESPONSE_TEMPLATE.format(
@@ -114,20 +110,22 @@ def send_auto_response_email(user_email, user_name, subject, submission_id):
             subject=subject,
             submission_id=submission_id
         )
-        
+
         send_mail(
             subject="Thank you for contacting Bhanjyang Cooperative",
             message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[user_email],
-            fail_silently=True,  # Don't fail if auto-response fails
+            fail_silently=False,  # False so we can catch the exception and retry
         )
         logger.info(f"Auto-response sent to {user_email} for submission {submission_id}")
         return True
-        
+
     except Exception as exc:
         logger.error(f"Failed to send auto-response email to {user_email}: {exc}")
-        # Note: For retry functionality, use @shared_task(bind=True) and self.retry()
+        if CELERY_AVAILABLE:
+            logger.info(f"Retrying auto-response task for {user_email}...")
+            raise self.retry(exc=exc, countdown=60)
         return False
 
 
@@ -135,33 +133,24 @@ def send_auto_response_email(user_email, user_name, subject, submission_id):
 def cleanup_old_contact_submissions():
     """
     Clean up old resolved contact submissions.
-    
-    Deletes contact submissions that are:
-    - Older than SUBMISSION_CLEANUP_DAYS (default: 1 year)
-    - Have 'resolved' status
-    
-    Returns:
-        int: Number of deleted submissions
     """
-    # Import here to avoid circular imports
     from .models import ContactSubmission
-    
+
     try:
         cutoff_date = timezone.now() - timedelta(days=SUBMISSION_CLEANUP_DAYS)
-        old_submissions = ContactSubmission.objects.filter(
+
+        deleted_count, _ = ContactSubmission.objects.filter(
             created_at__lt=cutoff_date,
             status='resolved'
-        )
-        
-        count = old_submissions.count()
-        if count > 0:
-            old_submissions.delete()
-            logger.info(f"Cleaned up {count} old contact submissions older than {SUBMISSION_CLEANUP_DAYS} days")
+        ).delete()
+
+        if deleted_count > 0:
+            logger.info(f"Cleaned up {deleted_count} old contact submissions older than {SUBMISSION_CLEANUP_DAYS} days")
         else:
             logger.info("No old contact submissions to clean up")
-            
-        return count
-        
+
+        return deleted_count
+
     except Exception as exc:
         logger.error(f"Failed to cleanup old submissions: {exc}")
         return 0

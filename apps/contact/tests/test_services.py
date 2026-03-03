@@ -7,8 +7,8 @@ from django.utils import timezone
 from unittest.mock import patch, MagicMock
 from datetime import timedelta
 
-from apps.contact.services import ContactService, KYMService, ContactAnalyticsService
-from apps.contact.models import ContactSubmission, KYMSubmission
+from apps.contact.services import ContactService, ContactAnalyticsService
+from apps.contact.models import ContactSubmission
 
 
 class ContactServiceTest(TestCase):
@@ -150,66 +150,6 @@ class ContactServiceTest(TestCase):
                 except AssertionError:
                     raise AssertionError("Neither send_contact_email.delay() nor send_contact_email() was called.")
 
-class KYMServiceTest(TestCase):
-    """Test cases for KYMService"""
-
-    def setUp(self):
-        self.form_data = {
-            'full_name': 'Test User',
-            'dob': '1990-01-01',
-            'gender': 'M',
-            'marital_status': 'Single',
-            'phone': '1234567890',
-            'email': 'test@example.com',
-            'permanent_address': 'Test Address',
-            'district': 'Kaski',
-            'province': 'Gandaki Province',
-            'father_name': 'Father Name',
-            'mother_name': 'Mother Name',
-            'grand_father_name': 'Grandfather Name',
-            'occupation': 'Farmer',
-            'income_source': 'Agriculture',
-            'citizenship_front': SimpleUploadedFile('front.jpg', b'content', content_type='image/jpeg'),
-            'citizenship_back': SimpleUploadedFile('back.jpg', b'content', content_type='image/jpeg'),
-            'passport_photo_upload': SimpleUploadedFile('photo.jpg', b'content', content_type='image/jpeg'),
-            'address_proof_upload': SimpleUploadedFile('proof.pdf', b'content', content_type='application/pdf'),
-        }
-        self.request_meta = {
-            'REMOTE_ADDR': '127.0.0.1',
-            'HTTP_USER_AGENT': 'Test Browser'
-        }
-
-    def test_get_kym_page_context(self):
-        """Test get_kym_page_context returns correct structure"""
-        context = KYMService.get_kym_page_context()
-        
-        self.assertIn('form', context)
-        self.assertIn('breadcrumbs', context)
-        self.assertEqual(len(context['breadcrumbs']), 2)
-        self.assertEqual(context['breadcrumbs'][1]['name'], 'KYM Form')
-
-    def test_create_kym_submission(self):
-        """Test creating a KYM submission"""
-        submission = KYMService.create_kym_submission(self.form_data, {}, self.request_meta)
-        
-        self.assertIsNotNone(submission)
-        self.assertEqual(submission.full_name, 'Test User')
-        self.assertEqual(submission.email, 'test@example.com')
-        self.assertEqual(submission.ip_address, '127.0.0.1')
-
-    def test_create_kym_submission_with_optional_fields(self):
-        """Test creating KYM submission with optional fields"""
-        form_data = self.form_data.copy()
-        form_data['nationality'] = 'Nepali'
-        form_data['spouse_name'] = 'Spouse Name'
-        form_data['estimated_income'] = 50000
-        
-        submission = KYMService.create_kym_submission(form_data, {}, self.request_meta)
-        
-        self.assertEqual(submission.nationality, 'Nepali')
-        self.assertEqual(submission.spouse_name, 'Spouse Name')
-        self.assertEqual(submission.estimated_income, 50000)
-
 
 class ContactAnalyticsServiceTest(TestCase):
     """Test cases for ContactAnalyticsService"""
@@ -271,62 +211,4 @@ class ContactAnalyticsServiceTest(TestCase):
         self.assertEqual(stats['resolved_submissions'], 1)
         self.assertEqual(stats['spam_submissions'], 1)
         self.assertGreaterEqual(stats['recent_submissions'], 1)
-
-    def test_get_kym_stats(self):
-        """Test getting KYM submission statistics"""
-        # Create KYM submissions with different statuses
-        KYMSubmission.objects.create(
-            full_name='Test 1',
-            dob='1990-01-01',
-            gender='M',
-            marital_status='Single',
-            phone='1234567890',
-            email='test1@example.com',
-            permanent_address='Address 1',
-            father_name='Father 1',
-            mother_name='Mother 1',
-            grand_father_name='Grandfather 1',
-            occupation='Farmer',
-            income_source='Agriculture',
-            citizenship_front=SimpleUploadedFile('front1.jpg', b'content', content_type='image/jpeg'),
-            citizenship_back=SimpleUploadedFile('back1.jpg', b'content', content_type='image/jpeg'),
-            passport_photo=SimpleUploadedFile('photo1.jpg', b'content', content_type='image/jpeg'),
-            address_proof=SimpleUploadedFile('proof1.pdf', b'content', content_type='application/pdf'),
-            status='pending',
-            ip_address='127.0.0.1',
-            user_agent='Test Browser'
-        )
-        KYMSubmission.objects.create(
-            full_name='Test 2',
-            dob='1990-01-01',
-            gender='F',
-            marital_status='Married',
-            phone='1234567891',
-            email='test2@example.com',
-            permanent_address='Address 2',
-            father_name='Father 2',
-            mother_name='Mother 2',
-            grand_father_name='Grandfather 2',
-            occupation='Teacher',
-            income_source='Salary',
-            citizenship_front=SimpleUploadedFile('front2.jpg', b'content', content_type='image/jpeg'),
-            citizenship_back=SimpleUploadedFile('back2.jpg', b'content', content_type='image/jpeg'),
-            passport_photo=SimpleUploadedFile('photo2.jpg', b'content', content_type='image/jpeg'),
-            address_proof=SimpleUploadedFile('proof2.pdf', b'content', content_type='application/pdf'),
-            status='approved',
-            ip_address='127.0.0.1',
-            user_agent='Test Browser'
-        )
-        
-        stats = ContactAnalyticsService.get_kym_stats()
-        
-        self.assertIn('total_kym', stats)
-        self.assertIn('pending_kym', stats)
-        self.assertIn('approved_kym', stats)
-        self.assertIn('rejected_kym', stats)
-        
-        self.assertEqual(stats['total_kym'], 2)
-        self.assertEqual(stats['pending_kym'], 1)
-        self.assertEqual(stats['approved_kym'], 1)
-        self.assertEqual(stats['rejected_kym'], 0)
 

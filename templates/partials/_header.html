@@ -1,296 +1,87 @@
 {% load static %}
 {% load i18n %}
-<!-- Top Bar -->
-<div id="top-bar" class="bg-white text-gray-700 py-2 px-4 sm:px-20 text-xs sm:text-sm shadow-md">
-    <div class="container mx-auto flex flex-wrap justify-center sm:justify-between items-center gap-x-2 gap-y-1">
-        <div class="flex items-center space-x-2">
-            <a href="tel:{{ site_info.phone }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
-                <i class="fas fa-phone-alt mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.phone }}</span>
-            </a>
-            <span class="hidden sm:inline-block">|</span> 
-            <a href="mailto:{{ site_info.email }}" class="flex items-center hover:text-deuraligreen transition-colors duration-300">
-                <i class="fas fa-envelope mr-1 text-bhanjyangred"></i> <span class="hidden sm:inline">{{ site_info.email }}</span>
-            </a>
-        </div>
-        <div class="flex items-center space-x-2">
-            <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
-                <i class="fas fa-headset mr-1 text-bhanjyangred"></i> {% trans "Support" %}
-            </a>
-            <a href="#" class="hover:text-deuraligreen transition-colors duration-300 flex items-center">
-                <i class="fas fa-user-circle mr-1 text-bhanjyangred"></i> {% trans "Login" %}
-            </a>
-        </div>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div id="top-bar" class="top-bar" aria-label="Contact info">
+  <div class="top-bar-inner">
+    <div class="top-bar-left">
+      <a href="tel:{{ site_info.phone|default:'+9779856083101' }}" class="top-bar-link">
+        <i class="fas fa-phone-alt top-bar-icon" aria-hidden="true"></i>
+        <span class="top-bar-phone">{{ site_info.phone|default:"+977 9856083101" }}</span>
+      </a>
+      <span class="top-bar-sep" aria-hidden="true">|</span>
+      <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="top-bar-link">
+        <i class="fas fa-envelope top-bar-icon" aria-hidden="true"></i>
+        <span class="top-bar-email">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</span>
+      </a>
     </div>
+    <div class="top-bar-right">
+      <a href="{% url 'contact:contact_view' %}" class="top-bar-link">
+        <i class="fas fa-headset top-bar-icon" aria-hidden="true"></i> {% trans "Support" %}
+      </a>
+    </div>
+  </div>
 </div>
-<!-- Header -->
-<header class="sticky top-0 z-50 bg-white shadow-lg border-t border-gray-200">
-    <!-- logo and navigation -->
-    <nav class="container mx-auto px-4 md:px-20 py-4 flex items-center justify-between relative" role="navigation" aria-label="Main Navigation">
-        <!-- logo -->
-        <a href="{% url 'home:index' %}" class="flex items-center space-x-3 group py-2 flex-shrink-0">
-            <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative Logo"
-                 class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105 md:h-12" 
-                 loading="eager" onerror="this.onerror=null;this.src='https://placehold.co/150x50/27ae60/ffffff?text=Logo';">
-                 <!-- logo text -->
-            <div class="flex flex-col justify-center">
-                <span class="text-2xl font-extrabold text-bhanjyangred group-hover:text-deuraligreen transition-colors duration-300 font-montserrat md:text-4xl">BHANJYANG</span>
-                <span class="text-xs text-deuraligreen group-hover:text-bhanjyangred transition-colors duration-300 tracking-wider uppercase md:text-xs">Saving & Credit Cooperative Ltd.</span>
-            </div>
-        </a>
-        <!-- navigation -->
-        <div class="hidden md:flex items-center space-x-8 font-semibold text-md">
-            {% with request.resolver_match.url_name as url_name %}
-            {% with request.resolver_match.app_name as app_name %}
-            
-            <!-- Home -->
-            <a href="{% url 'home:index' %}" class="nav-link nav-link-underline {% if url_name == 'index' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "Home" %}</a>
-            
-            <!-- About Us -->
-            <div class="group relative">
-                <span class="nav-link nav-link-underline cursor-pointer {% if app_name == 'about' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">
-                    {% trans "About Us" %}
-                </span>
-                <!-- Invisible bridge to maintain hover when moving to dropdown -->
-                <div class="absolute left-0 top-full w-full h-2 pointer-events-none group-hover:pointer-events-auto"></div>
-                <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
-                    <div class="bg-white shadow-lg rounded-md py-2 w-56">
-                        <a href="{% url 'about:introduction' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-book-open mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Introduction" %}
-                        </a>
-                        <a href="{% url 'about:chairperson_message' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-crown mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Chairperson Message" %}
-                        </a>
-                        <a href="{% url 'about:manager_commitment' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Manager Commitment" %}
-                        </a>
-                        <a href="{% url 'about:board_of_directors' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-users mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Board of Directors" %}
-                        </a>
-                        <a href="{% url 'about:management' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Management" %}
-                        </a>
-                        <a href="{% url 'about:affiliations' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-handshake mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Affiliations" %}
-                        </a>
-                        <a href="{% url 'about:member_testimonials' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-comments mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Member Testimonials" %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Services -->
-            <div class="group relative">
-                <span class="nav-link nav-link-underline cursor-pointer {% if app_name == 'services' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">
-                    {% trans "Services" %}
-                </span>
-                <!-- Invisible bridge to maintain hover when moving to dropdown -->
-                <div class="absolute left-0 top-full w-full h-2 pointer-events-none group-hover:pointer-events-auto"></div>
-                <div class="absolute left-0 top-full pt-2 hidden group-hover:block z-50">
-                    <div class="bg-white shadow-lg rounded-md py-2 w-56">
-                        <a href="{% url 'services:savings_list' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-piggy-bank mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Saving" %}
-                        </a>
-                        <a href="{% url 'services:loan_list' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-hand-holding-usd mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Loan" %}
-                        </a>
-                        <a href="{% url 'services:remittance_list' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-money-bill-wave mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Remittance" %}
-                        </a>
-                        <a href="{% url 'services:digital_list' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-mobile-alt mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Digital Services" %}
-                        </a>
-                        <a href="{% url 'services:member_relief_list' %}" class="group flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-bhanjyangred transition-colors">
-                            <i class="fas fa-heart mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors w-4"></i> {% trans "Member Relief" %}
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- News & Events -->
-            <a href="{% url 'news_events:home' %}" class="nav-link nav-link-underline {% if app_name == 'news_events' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "News & Events" %}</a>
-            
-            <!-- Downloads -->
-            <a href="{% url 'downloads:download_center' %}" class="nav-link nav-link-underline {% if app_name == 'downloads' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "Downloads" %}</a>
-            
-            <!-- Contact Us -->
-            <a href="{% url 'contact:contact_view' %}" class="nav-link nav-link-underline {% if app_name == 'contact' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} hover:text-bhanjyangred">{% trans "Contact Us" %}</a>
-
-            {% endwith %}
-            {% endwith %}
-        </div>
-
-        <!-- Search Icon (Expandable) -->
-        <div class="hidden md:flex items-center ml-4 relative">
-            <button id="search-toggle" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2 relative group" aria-label="Toggle search" aria-expanded="false" aria-controls="search-container" title="Search (Ctrl+K)">
-                <i class="fas fa-search text-xl"></i>
-                <!-- Keyboard shortcut hint -->
-                <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                    <kbd class="px-1 py-0.5 bg-gray-800 rounded text-xs" aria-hidden="true">Ctrl</kbd> + <kbd class="px-1 py-0.5 bg-gray-800 rounded text-xs" aria-hidden="true">K</kbd>
-                </span>
-            </button>
-            
-            <!-- Dark Mode Toggle -->
-            <button id="theme-toggle-header" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2 ml-2" aria-label="Toggle dark mode" title="Toggle dark mode">
-                <i class="fas fa-moon text-xl" id="theme-icon"></i>
-            </button>
-            
-            <!-- Language Toggle -->
-            <button id="language-toggle" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2 ml-2" aria-label="Toggle language" title="Toggle language">
-                <i class="fas fa-language text-xl"></i>
-            </button>
-            <!-- Search Input (Hidden by default) -->
-            <div id="search-container" class="hidden absolute right-0 top-full mt-2 bg-white shadow-lg rounded-md p-4 w-80 z-50 transition-all duration-300 opacity-0 transform translate-y-2 scale-95 pointer-events-none">
-                <form action="{% url 'search:advanced_search' %}" method="get" class="flex items-center gap-2">
-                    <input type="text" name="q" id="search-input" placeholder="{% trans 'Search...' %}" class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" autocomplete="off">
-                    <button type="submit" id="search-submit" class="bg-deuraligreen text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors" aria-label="Search">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button type="button" id="search-close" class="text-gray-500 hover:text-gray-700 p-2">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- mobile menu button and dark mode -->
-        <div class="md:hidden flex items-center gap-2">
-            <!-- Language Toggle (Mobile) -->
-            <button id="language-toggle-mobile" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2" aria-label="Toggle language" title="Toggle language">
-                <i class="fas fa-language text-xl"></i>
-            </button>
-            
-            <!-- Dark Mode Toggle (Mobile) -->
-            <button id="theme-toggle-mobile" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2" aria-label="Toggle dark mode" title="Toggle dark mode">
-                <i class="fas fa-moon text-xl" id="theme-icon-mobile"></i>
-            </button>
-            <button id="mobile-menu-button" type="button" class="text-deuraligreen hover:text-green-900 focus:outline-none focus:ring-2 focus:ring-deuraligreen rounded-md p-2" aria-label="Toggle main menu" aria-expanded="false" aria-controls="mobile-menu">
-                <i class="fas fa-bars text-2xl" aria-hidden="true"></i>
-            </button>
-        </div>
+<header class="site-header" id="header">
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <img src="{% static 'images/logos/Logo.png' %}" alt="" class="logo-img" width="180" height="44">
+      <div class="logo-text-block">
+        <span class="logo-name">BHANJYANG</span>
+        <span class="logo-subtitle">Saving & Credit Cooperative</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Main" aria-hidden="false">
+      <ul class="nav-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'about:home' %}">About</a></li>
+        <li><a href="{% url 'services:overview' %}">Services</a></li>
+        <li class="nav-item-has-submenu">
+          <button type="button" class="nav-submenu-trigger" id="media-menu-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="media-submenu">
+            {% trans "Media" %} <i class="fas fa-chevron-down nav-submenu-icon" aria-hidden="true"></i>
+          </button>
+          <ul class="nav-submenu" id="media-submenu" role="menu" aria-label="{% trans 'Media submenu' %}">
+            <li role="none"><a href="{% url 'news_events:home' %}" role="menuitem">{% trans "News/Events" %}</a></li>
+            <li role="none"><a href="{% url 'gallery:gallery' %}" role="menuitem">{% trans "Gallery" %}</a></li>
+            <li role="none"><a href="{% url 'downloads:download_center' %}" role="menuitem">{% trans "Downloads" %}</a></li>
+          </ul>
+        </li>
+        <li><a href="{% url 'contact:contact_view' %}">Contact</a></li>
+      </ul>
     </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-white z-50 transform transition-transform duration-300 ease-in-out -translate-x-full">
-        <div class="flex flex-col h-full">
-            <!-- Mobile Menu Header -->
-            <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
-                <a href="{% url 'home:index' %}" class="flex items-center space-x-2">
-                    <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative Logo" class="h-8 w-auto">
-                    <span class="text-lg font-bold text-bhanjyangred">BHANJYANG</span>
-                </a>
-                <button id="mobile-menu-close" type="button" class="text-gray-700 hover:text-bhanjyangred p-2 transition-colors" aria-label="Close menu">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
-            </div>
-            
-            <!-- Mobile Menu Items -->
-            <nav class="flex-1 overflow-y-auto p-4 bg-gray-50">
-                <div class="space-y-1">
-                    {% with request.resolver_match.url_name as url_name %}
-                    {% with request.resolver_match.app_name as app_name %}
-                    
-                    <a href="{% url 'home:index' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if url_name == 'index' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-home mr-3"></i> {% trans "Home" %}
-                    </a>
-                    
-                    <!-- About Us with Dropdown -->
-                    <div>
-                        <button id="mobile-about-toggle" type="button" class="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'about' %}bg-white text-bhanjyangred{% endif %}" aria-expanded="false" aria-controls="mobile-about-submenu">
-                            <div class="flex items-center">
-                                <i class="fas fa-info-circle mr-3" aria-hidden="true"></i> {% trans "About Us" %}
-                            </div>
-                            <i class="fas fa-chevron-down transition-transform duration-300" id="mobile-about-icon" aria-hidden="true"></i>
-                        </button>
-                        
-                        <div id="mobile-about-submenu" class="hidden ml-4 pl-4 border-l-2 border-gray-200 space-y-1 mt-1">
-                            <a href="{% url 'about:introduction' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-book-open mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Introduction" %}
-                            </a>
-                            <a href="{% url 'about:chairperson_message' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-crown mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Chairperson Message" %}
-                            </a>
-                            <a href="{% url 'about:manager_commitment' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Manager Commitment" %}
-                            </a>
-                            <a href="{% url 'about:board_of_directors' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-users mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Board of Directors" %}
-                            </a>
-                            <a href="{% url 'about:management' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-briefcase mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Management" %}
-                            </a>
-                            <a href="{% url 'about:affiliations' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-handshake mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Affiliations" %}
-                            </a>
-                            <a href="{% url 'about:member_testimonials' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-comments mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Member Testimonials" %}
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <!-- Services with Dropdown -->
-                    <div>
-                        <button id="mobile-services-toggle" type="button" class="w-full flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'services' %}bg-white text-bhanjyangred{% endif %}" aria-expanded="false" aria-controls="mobile-services-submenu">
-                            <div class="flex items-center">
-                                <i class="fas fa-briefcase mr-3" aria-hidden="true"></i> {% trans "Services" %}
-                            </div>
-                            <i class="fas fa-chevron-down transition-transform duration-300" id="mobile-services-icon" aria-hidden="true"></i>
-                        </button>
-                        
-                        <div id="mobile-services-submenu" class="hidden ml-4 pl-4 border-l-2 border-gray-200 space-y-1 mt-1">
-                            <a href="{% url 'services:savings_list' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-piggy-bank mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Saving" %}
-                            </a>
-                            <a href="{% url 'services:loan_list' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-hand-holding-usd mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Loan" %}
-                            </a>
-                            <a href="{% url 'services:remittance_list' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-money-bill-wave mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Remittance" %}
-                            </a>
-                            <a href="{% url 'services:digital_list' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-mobile-alt mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Digital Services" %}
-                            </a>
-                            <a href="{% url 'services:member_relief_list' %}" class="group flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors">
-                                <i class="fas fa-heart mr-2 text-deuraligreen group-hover:text-bhanjyangred transition-colors"></i> {% trans "Member Relief" %}
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <a href="{% url 'news_events:home' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'news_events' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-newspaper mr-3"></i> {% trans "News & Events" %}
-                    </a>
-                    
-                    <a href="{% url 'downloads:download_center' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'downloads' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-download mr-3"></i> {% trans "Downloads" %}
-                    </a>
-                    
-                    <a href="{% url 'contact:contact_view' %}" class="block px-4 py-3 text-gray-700 hover:bg-white hover:text-bhanjyangred rounded-md transition-colors font-medium {% if app_name == 'contact' %}bg-white text-bhanjyangred{% endif %}">
-                        <i class="fas fa-envelope mr-3"></i> {% trans "Contact Us" %}
-                    </a>
-                    
-                    {% endwith %}
-                    {% endwith %}
-                </div>
-                
-                <!-- Mobile Search and Dark Mode -->
-                <div class="mt-6 pt-6 border-t border-gray-200 space-y-4">
-                    <!-- Dark Mode Toggle in Mobile Menu -->
-                    <div class="flex items-center justify-between px-4 py-3 bg-gray-100 rounded-md">
-                        <span class="text-sm font-medium text-gray-700">{% trans "Dark Mode" %}</span>
-                        <button id="theme-toggle-mobile-menu" type="button" class="text-deuraligreen hover:text-bhanjyangred transition-colors duration-300 p-2" aria-label="Toggle dark mode">
-                            <i class="fas fa-moon text-xl" id="theme-icon-mobile-menu"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Search Form -->
-                    <form action="{% url 'search:advanced_search' %}" method="get" class="flex items-center gap-2">
-                        <input type="text" name="q" id="mobile-search-input" placeholder="{% trans 'Search...' %}" class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-deuraligreen focus:border-transparent" autocomplete="off">
-                        <button type="submit" id="mobile-search-submit" class="bg-deuraligreen text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors" aria-label="Search">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-            </nav>
-        </div>
-    </div>
+  </div>
 </header>
+<script>
+(function() {
+  var navBtn = document.getElementById('nav-toggle');
+  var nav = document.getElementById('nav');
+  if (navBtn && nav) {
+    navBtn.addEventListener('click', function() {
+      var open = nav.classList.toggle('is-open');
+      navBtn.setAttribute('aria-expanded', open);
+      navBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+  }
+  var mediaTrigger = document.getElementById('media-menu-trigger');
+  var mediaSubmenu = document.getElementById('media-submenu');
+  if (mediaTrigger && mediaSubmenu) {
+    var mediaLi = mediaTrigger.closest('.nav-item-has-submenu');
+    mediaTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      var open = mediaLi.classList.toggle('is-open');
+      mediaTrigger.setAttribute('aria-expanded', open);
+    });
+    document.addEventListener('click', function(e) {
+      if (!mediaLi.contains(e.target)) {
+        mediaLi.classList.remove('is-open');
+        mediaTrigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+})();
+</script>

@@ -17,10 +17,6 @@ ALLOWED_CONTACT_MIME_TYPES = [
     'image/png'
 ]
 
-# KYM Form File Constants
-ALLOWED_KYM_FILE_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png']
-ALLOWED_KYM_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png']
-
 # Form Field Limits
 MAX_NAME_LENGTH = 100
 MIN_NAME_LENGTH = 2
@@ -50,11 +46,6 @@ FORM_INPUT_CSS = (
     'w-full px-4 py-3 rounded-lg border-2 border-gray-300 '
     'focus:ring-2 focus:ring-deuraligreen/50 focus:border-deuraligreen '
     'bg-white transition-all duration-200'
-)
-
-KYM_INPUT_CSS = (
-    'w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-300 '
-    'focus:outline-none focus:border-deuraligreen transition-colors duration-200'
 )
 
 # Spam Detection

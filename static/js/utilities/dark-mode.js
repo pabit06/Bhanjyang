@@ -8,10 +8,8 @@
     if (savedTheme) {
         initialTheme = savedTheme;
     } else {
-        // Check system preference
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            initialTheme = 'dark';
-        }
+        // Default to light theme (project is "light" by default)
+        initialTheme = 'light';
     }
     
     // Apply theme immediately
@@ -39,8 +37,8 @@ class DarkMode {
         if (savedTheme) {
             this.theme = savedTheme;
         } else {
-            // Check system preference
-            this.theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            // Default to light theme
+            this.theme = 'light';
         }
     }
 

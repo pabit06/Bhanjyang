@@ -44,8 +44,9 @@ class ContactTasksTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
     
     @patch('apps.contact.tasks.send_mail')
-    def test_send_contact_email_failure(self, mock_send_mail):
-        """Test contact email failure handling"""
+    @patch('apps.contact.tasks.CELERY_AVAILABLE', False)
+    def test_send_contact_email_failure(self, mock_send_mail, *_):
+        """Test contact email failure handling (sync path: returns False)"""
         mock_send_mail.side_effect = Exception("Email error")
         result = send_contact_email(self.submission_data)
         self.assertFalse(result)
@@ -82,8 +83,9 @@ class ContactTasksTest(TestCase):
         self.assertIn('24-48 hours', email_body)
     
     @patch('apps.contact.tasks.send_mail')
-    def test_send_auto_response_email_failure(self, mock_send_mail):
-        """Test auto-response email failure handling"""
+    @patch('apps.contact.tasks.CELERY_AVAILABLE', False)
+    def test_send_auto_response_email_failure(self, mock_send_mail, *_):
+        """Test auto-response email failure handling (sync path: returns False)"""
         mock_send_mail.side_effect = Exception("Email error")
         result = send_auto_response_email(
             user_email='test@example.com',
@@ -91,7 +93,6 @@ class ContactTasksTest(TestCase):
             subject='Test Subject',
             submission_id='test_123'
         )
-        # Should not fail even if auto-response fails
         self.assertFalse(result)
     
     def test_cleanup_old_contact_submissions(self):

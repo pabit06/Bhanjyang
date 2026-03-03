@@ -18,7 +18,7 @@ from django.conf import settings
 from io import BytesIO
 from xhtml2pdf import pisa
 
-from .models import ContactSubmission, KYMSubmission
+from .models import ContactSubmission
 from .tasks import send_contact_email, send_auto_response_email
 from .utils.helpers import get_client_ip, get_attachment_filename, format_file_size_display
 from .utils.constants import (
@@ -287,131 +287,14 @@ You can manage it through the admin interface.
 
 
 
-class KYMService:
-    """
-    Service class for handling KYM (Know Your Member) form submissions.
-    
-    KYM forms are used for member registration and verification. This service
-    handles the creation and processing of KYM submissions including document
-    uploads and personal information.
-    
-    Usage:
-        submission = KYMService.create_kym_submission(form_data, files, request.META)
-    """
-    
-    @staticmethod
-    def get_kym_page_context():
-        """
-        Get context data for the KYM form page.
-        
-        Returns:
-            dict: Context dictionary with form and breadcrumbs
-        """
-        from .forms import KYMForm
-        
-        return {
-            'form': KYMForm(),
-            'breadcrumbs': [
-                {'name': 'Home', 'url': '/'},
-                {'name': 'KYM Form', 'url': '/contact/kym-form/'}
-            ]
-        }
-    
-    @staticmethod
-    def create_kym_submission(form_data, files, request_meta):
-        """
-        Create a KYM submission from form data.
-        
-        Args:
-            form_data: Cleaned form data dictionary
-            files: Request.FILES dictionary
-            request_meta: Request.META dictionary for IP and user agent
-            
-        Returns:
-            KYMSubmission: Created submission instance
-        """
-        ip_address = get_client_ip(request_meta)
-        user_agent = request_meta.get('HTTP_USER_AGENT', '')
-        
-        # Generate a unique tracking hash for this submission
-        submission_hash = hashlib.md5(f"{uuid.uuid4()}-{time.time()}".encode()).hexdigest()[:12]
-        
-        kym_submission = KYMSubmission.objects.create(
-            full_name=form_data['full_name'],
-            dob=form_data['dob'],
-            gender=form_data['gender'],
-            marital_status=form_data['marital_status'],
-            nationality=form_data.get('nationality', 'Nepali'),
-            phone=form_data['phone'],
-            email=form_data['email'],
-            permanent_address=form_data['permanent_address'],
-            district=form_data.get('district', 'Kaski'),
-            province=form_data.get('province', 'Gandaki Province'),
-            father_name=form_data['father_name'],
-            mother_name=form_data['mother_name'],
-            spouse_name=form_data.get('spouse_name', ''),
-            grand_father_name=form_data['grand_father_name'],
-            nominee_name=form_data.get('nominee_name', ''),
-            occupation=form_data['occupation'],
-            income_source=form_data['income_source'],
-            estimated_income=form_data.get('estimated_income'),
-            citizenship_front=form_data['citizenship_front'],
-            citizenship_back=form_data['citizenship_back'],
-            passport_photo=form_data['passport_photo_upload'],
-            address_proof=form_data['address_proof_upload'],
-            income_proof=form_data.get('income_proof_upload'),
-            ip_address=ip_address,
-            user_agent=user_agent
-        )
-        
-        logger.info(f"[KYM:{submission_hash}] KYM submission saved with ID: {kym_submission.id} for {kym_submission.email}")
-        return kym_submission
-
-    @staticmethod
-    def generate_kym_pdf(submission_id):
-        """
-        Generate a PDF version of a KYM submission.
-        
-        Args:
-            submission_id: ID of the KYMSubmission
-            
-        Returns:
-            BytesIO: PDF content as characters buffer or None if failed
-        """
-        try:
-            instance = KYMSubmission.objects.get(id=submission_id)
-            template = get_template('contact/pdf/kym_pdf_template.html')
-            context = {
-                'instance': instance,
-                'today': timezone.now(),
-                'STATIC_ROOT': settings.STATIC_ROOT,
-            }
-            html = template.render(context)
-            result = BytesIO()
-            pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
-            
-            if not pdf.err:
-                return result
-            logger.error(f"PDF generation error for KYM {submission_id}: {pdf.err}")
-            return None
-        except KYMSubmission.DoesNotExist:
-            logger.error(f"KYM submission {submission_id} not found for PDF generation")
-            return None
-        except Exception as e:
-            logger.error(f"Unexpected error in PDF generation for KYM {submission_id}: {e}")
-            return None
-
-
 class ContactAnalyticsService:
     """
     Service class for contact analytics and statistics.
     
-    Provides methods to retrieve statistics about contact submissions and
-    KYM submissions for dashboard and reporting purposes.
+    Provides methods to retrieve statistics about contact submissions.
     
     Usage:
         stats = ContactAnalyticsService.get_submission_stats()
-        kym_stats = ContactAnalyticsService.get_kym_stats()
     """
     
     @staticmethod
@@ -439,25 +322,5 @@ class ContactAnalyticsService:
             'resolved_submissions': resolved_submissions,
             'spam_submissions': spam_submissions,
             'recent_submissions': recent_submissions,
-        }
-    
-    @staticmethod
-    def get_kym_stats():
-        """
-        Get statistics about KYM submissions.
-        
-        Returns:
-            dict: Dictionary with various statistics
-        """
-        total_kym = KYMSubmission.objects.count()
-        pending_kym = KYMSubmission.objects.filter(status='pending').count()
-        approved_kym = KYMSubmission.objects.filter(status='approved').count()
-        rejected_kym = KYMSubmission.objects.filter(status='rejected').count()
-        
-        return {
-            'total_kym': total_kym,
-            'pending_kym': pending_kym,
-            'approved_kym': approved_kym,
-            'rejected_kym': rejected_kym,
         }
 

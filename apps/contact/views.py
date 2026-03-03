@@ -20,9 +20,9 @@ except ImportError:
 from apps.core.view_mixins import NepaliLanguageMixin
 from apps.core.error_handling import ErrorResponse
 
-from .forms import ContactForm, KYMForm
-from .models import ContactSubmission, KYMSubmission
-from .services import ContactService, KYMService
+from .forms import ContactForm
+from .models import ContactSubmission
+from .services import ContactService
 from .utils.error_codes import (
     ContactErrorCodes,
     get_status_code_for_error,
@@ -154,119 +154,6 @@ class ContactView(NepaliLanguageMixin, View):
                 error_code=error_code,
                 details={'exception': str(e)} if settings.DEBUG else None
             )
-
-
-class KYMFormView(NepaliLanguageMixin, View):
-    """Know Your Member (KYM) form view"""
-    template_name = 'contact/kym_form.html'
-    
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        """Render KYM form page"""
-        context = {
-            'form': KYMForm(),
-            'breadcrumbs': [
-                {'name': _('Home'), 'url': '/'},
-                {'name': _('Contact'), 'url': '/contact/'},
-                {'name': _('KYM Form'), 'url': '/contact/kym/'}
-            ]
-        }
-        return render(request, self.template_name, context)
-    
-    def _is_ajax_request(self, request: HttpRequest) -> bool:
-        """Check if request is AJAX"""
-        return request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    
-    def post(self, request: HttpRequest, *args: Any, **kwargs: Any) -> JsonResponse:
-        """Handle KYM form submission"""
-        if not self._is_ajax_request(request):
-            logger.warning("Non-AJAX KYM POST request rejected")
-            return ErrorResponse.json_error(
-                message=_('This endpoint only accepts AJAX requests.'),
-                status_code=400,
-                error_code=ContactErrorCodes.AJAX_REQUIRED
-            )
-        
-        form = KYMForm(request.POST, request.FILES)
-        
-        if not form.is_valid():
-            return ErrorResponse.json_error(
-                message=get_user_friendly_message(ContactErrorCodes.KYM_VALIDATION_ERROR),
-                status_code=400,
-                error_code=ContactErrorCodes.KYM_VALIDATION_ERROR,
-                errors=form.errors
-            )
-        
-        try:
-            # Use service to handle submission
-            submission = KYMService.create_kym_submission(form.cleaned_data, request.FILES, request.META)
-            
-            return JsonResponse({
-                'success': True,
-                'message': _('KYM form submitted successfully! We will review your submission and contact you soon.'),
-                'submission_id': submission.id
-            })
-            
-        except Exception as e:
-            logger.error(f"Error processing KYM submission: {e}", exc_info=True)
-            
-            # Capture exception in Sentry if available
-            if SENTRY_AVAILABLE:
-                try:
-                    with sentry_sdk.push_scope() as scope:
-                        scope.set_tag("error_type", "kym_submission")
-                        scope.set_tag("submission_path", request.path)
-                        scope.set_context("request", {
-                            "method": request.method,
-                            "path": request.path,
-                            "user_agent": request.META.get('HTTP_USER_AGENT', ''),
-                            "ip": request.META.get('REMOTE_ADDR', ''),
-                        })
-                        if hasattr(request, 'user') and request.user.is_authenticated:
-                            scope.set_user({"id": request.user.id, "email": request.user.email})
-                        sentry_sdk.capture_exception(e)
-                except Exception as sentry_error:
-                    logger.warning(f"Failed to capture exception in Sentry: {sentry_error}")
-            
-            # Determine error code based on exception type
-            error_code = ContactErrorCodes.KYM_SUBMISSION_ERROR
-            if isinstance(e, ValueError):
-                error_code = ContactErrorCodes.KYM_VALIDATION_ERROR
-            elif 'file' in str(e).lower() or 'upload' in str(e).lower():
-                error_code = ContactErrorCodes.FILE_UPLOAD_ERROR
-            elif 'database' in str(e).lower() or 'db' in str(e).lower():
-                error_code = ContactErrorCodes.DATABASE_ERROR
-            
-            return ErrorResponse.json_error(
-                message=get_user_friendly_message(error_code),
-                status_code=get_status_code_for_error(error_code),
-                error_code=error_code,
-                details={'exception': str(e)} if settings.DEBUG else None
-            )
-
-
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponse
-
-class KYMDownloadPDFView(LoginRequiredMixin, UserPassesTestMixin, View):
-    """View to download KYM submission as PDF (Admin/Staff only)"""
-    
-    def test_func(self) -> bool:
-        return self.request.user.is_staff
-        
-    def get(self, request: HttpRequest, pk: int, *args: Any, **kwargs: Any) -> HttpResponse:
-        pdf_buffer = KYMService.generate_kym_pdf(pk)
-        if not pdf_buffer:
-            from django.contrib import messages
-            messages.error(request, _("Failed to generate PDF for this submission."))
-            from django.shortcuts import redirect
-            return redirect('admin:contact_kymsubmission_changelist')
-            
-        submission = KYMSubmission.objects.get(id=pk)
-        filename = f"KYM_{submission.full_name.replace(' ', '_')}_{submission.id}.pdf"
-        
-        response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{filename}"'
-        return response
 
 
 class PrivacyPolicyView(NepaliLanguageMixin, TemplateView):

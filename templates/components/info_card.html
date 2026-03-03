@@ -2,8 +2,12 @@
 <div class="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-t-4 {% if color == 'bhanjyangred' %}border-bhanjyangred{% else %}border-deuraligreen{% endif %} text-center h-full flex flex-col {{ extra_classes }}">
     <div class="mb-6 flex justify-center">
         {% if icon %}
-        <div class="w-20 h-20 rounded-full {% if color == 'bhanjyangred' %}bg-bhanjyangred/10 group-hover:bg-bhanjyangred{% else %}bg-deuraligreen/10 group-hover:bg-deuraligreen{% endif %} flex items-center justify-center group-hover:scale-110 transition-all duration-300">
-            <i class="{{ icon }} text-3xl {% if color == 'bhanjyangred' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %} group-hover:text-white transition-colors duration-300"></i>
+        <div class="relative w-20 h-20 rounded-full {% if color == 'bhanjyangred' %}bg-bhanjyangred/10 group-hover:bg-bhanjyangred{% else %}bg-deuraligreen/10 group-hover:bg-deuraligreen{% endif %} flex items-center justify-center group-hover:scale-110 transition-all duration-300">
+
+            <i class="{{ icon }} text-3xl absolute transition-opacity duration-300 opacity-100 group-hover:opacity-0 {% if color == 'bhanjyangred' %}text-bhanjyangred{% else %}text-deuraligreen{% endif %}" aria-hidden="true"></i>
+
+            <i class="{{ icon }} text-3xl text-white absolute transition-opacity duration-300 opacity-0 group-hover:opacity-100" aria-hidden="true"></i>
+
         </div>
         {% endif %}
     </div>
@@ -26,7 +30,7 @@
     </div>
     {% endif %}
     
-    <div class="text-gray-700 leading-relaxed mb-4 flex-grow">
+    <div class="text-gray-700 leading-relaxed mb-4 flex-grow break-words min-w-0">
         {% if content %}
             {{ content|safe }}
         {% endif %}
@@ -36,7 +40,7 @@
     <div class="mt-auto pt-4">
         <a href="{{ link }}" class="inline-flex items-center gap-2 {% if color == 'bhanjyangred' %}text-bhanjyangred hover:text-red-700{% else %}text-deuraligreen hover:text-green-700{% endif %} font-semibold transition-colors duration-300 group/link">
             <span>{{ link_text|default:"Learn More" }}</span>
-            <i class="fas fa-arrow-right text-xs transform group-hover/link:translate-x-1 transition-transform duration-200"></i>
+            <i class="fas fa-arrow-right text-xs transform group-hover/link:translate-x-1 transition-transform duration-200" aria-hidden="true"></i>
         </a>
     </div>
     {% endif %}

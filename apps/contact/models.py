@@ -1,7 +1,7 @@
 """
 Models for the Contact app.
 
-This module contains database models for contact form submissions and KYM submissions.
+This module contains database models for contact form submissions.
 """
 import os
 import uuid
@@ -30,24 +30,6 @@ def contact_attachment_path(instance, filename):
     unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext.lower()}"
     timestamp = timezone.now().strftime('%Y/%m/%d')
     return f'contact_attachments/{timestamp}/{unique_filename}'
-
-
-def kym_document_path(instance, filename):
-    """
-    Generate secure upload path for KYM form documents.
-    
-    Args:
-        instance: KYMSubmission instance
-        filename: Original filename
-        
-    Returns:
-        str: Secure file path with timestamp and unique identifier
-    """
-    name, ext = os.path.splitext(filename)
-    sanitized_name = slugify(name) or 'document'
-    unique_filename = f"{sanitized_name}_{uuid.uuid4().hex[:8]}{ext.lower()}"
-    timestamp = timezone.now().strftime('%Y/%m/%d')
-    return f'kym_documents/{timestamp}/{unique_filename}'
 
 
 class ContactSubmission(models.Model):
@@ -199,151 +181,6 @@ class ContactSubmission(models.Model):
                 return f"{size:.1f} {unit}"
             size /= 1024.0
         return f"{size:.1f} TB"
-
-
-class KYMSubmission(models.Model):
-    """
-    Model to store Know Your Member (KYM) form submissions.
-    
-    Used for member registration and verification. Stores personal information,
-    family details, occupation data, and required documents.
-    """
-    
-    STATUS_CHOICES = [
-        ('pending', _('Pending Review')),
-        ('under_review', _('Under Review')),
-        ('approved', _('Approved')),
-        ('rejected', _('Rejected')),
-    ]
-    
-    GENDER_CHOICES = [
-        ('male', _('Male')),
-        ('female', _('Female')),
-        ('other', _('Other'))
-    ]
-    
-    MARITAL_STATUS_CHOICES = [
-        ('single', _('Single')),
-        ('married', _('Married')),
-        ('divorced', _('Divorced')),
-        ('widowed', _('Widowed'))
-    ]
-    
-    # Personal Details
-    full_name = models.CharField(max_length=100)
-    dob = models.DateField(verbose_name=_("Date of Birth"))
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    marital_status = models.CharField(max_length=20, choices=MARITAL_STATUS_CHOICES)
-    nationality = models.CharField(max_length=50, default='Nepali')
-    
-    # Contact Information
-    phone = models.CharField(max_length=20)
-    email = models.EmailField()
-    permanent_address = models.CharField(max_length=255)
-    district = models.CharField(max_length=100, default='Kaski')
-    province = models.CharField(max_length=100, default='Gandaki Province')
-    
-    # Family Details
-    father_name = models.CharField(max_length=100)
-    mother_name = models.CharField(max_length=100)
-    spouse_name = models.CharField(max_length=100, blank=True)
-    grand_father_name = models.CharField(max_length=100)
-    nominee_name = models.CharField(max_length=100, blank=True)
-    
-    # Occupation & Income
-    occupation = models.CharField(max_length=100)
-    income_source = models.CharField(max_length=100)
-    estimated_income = models.DecimalField(
-        max_digits=15,
-        decimal_places=2,
-        null=True,
-        blank=True
-    )
-    
-    # Documents
-    citizenship_front = models.FileField(upload_to=kym_document_path)
-    citizenship_back = models.FileField(upload_to=kym_document_path)
-    passport_photo = models.FileField(upload_to=kym_document_path)
-    address_proof = models.FileField(upload_to=kym_document_path)
-    income_proof = models.FileField(
-        upload_to=kym_document_path,
-        blank=True,
-        null=True
-    )
-    
-    # Technical tracking
-    ip_address = models.GenericIPAddressField()
-    user_agent = models.TextField(blank=True)
-    
-    # Timestamps
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    # Management fields
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='pending'
-    )
-    admin_notes = models.TextField(blank=True)
-    reviewed_at = models.DateTimeField(null=True, blank=True)
-    reviewed_by = models.ForeignKey(
-        'auth.User',
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='kym_reviews'
-    )
-    
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name = _('KYM Submission')
-        verbose_name_plural = _('KYM Submissions')
-        indexes = [
-            models.Index(fields=['status', 'created_at']),
-            models.Index(fields=['email']),
-            models.Index(fields=['phone']),
-            models.Index(fields=['created_at']),
-            models.Index(fields=['full_name']),
-            models.Index(fields=['reviewed_by']),
-            models.Index(fields=['updated_at']),
-            models.Index(fields=['reviewed_at']),
-        ]
-    
-    def __str__(self):
-        return f"{self.full_name} - {self.email} ({self.created_at.strftime('%Y-%m-%d')})"
-    
-    def get_status_display_color(self):
-        """Return CSS color class for status display."""
-        colors = {
-            'pending': 'text-blue-600',
-            'under_review': 'text-yellow-600',
-            'approved': 'text-green-600',
-            'rejected': 'text-red-600',
-        }
-        return colors.get(self.status, 'text-gray-600')
-    
-    def is_recent(self):
-        """Check if submission is from the last 24 hours."""
-        return (timezone.now() - self.created_at).total_seconds() < SECONDS_IN_24_HOURS
-    
-    def mark_as_approved(self, reviewer):
-        """Mark submission as approved."""
-        self.status = 'approved'
-        self.reviewed_at = timezone.now()
-        self.reviewed_by = reviewer
-        self.save(update_fields=['status', 'reviewed_at', 'reviewed_by', 'updated_at'])
-    
-    def mark_as_rejected(self, reviewer, notes=''):
-        """Mark submission as rejected with optional notes."""
-        self.status = 'rejected'
-        self.reviewed_at = timezone.now()
-        self.reviewed_by = reviewer
-        if notes:
-            self.admin_notes = notes
-            self.save(update_fields=['status', 'reviewed_at', 'reviewed_by', 'admin_notes', 'updated_at'])
-        else:
-            self.save(update_fields=['status', 'reviewed_at', 'reviewed_by', 'updated_at'])
 
 
 class OfficeLocation(models.Model):

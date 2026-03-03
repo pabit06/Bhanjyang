@@ -908,6 +908,9 @@ msgstr ""
 msgid "Rupa Rural Municipality, Ward No 5, Deurali, Kaski<br>Gandaki Province, Nepal"
 msgstr "रूपा गाउँपालिका, वडा नं. ५, देउराली, कास्की<br>गण्डकी प्रदेश, नेपाल"
 
+msgid "Polyang Service Center<br>Rupa Rural Municipality-3, Polyang, Kaski<br>Gandaki Province, Nepal"
+msgstr "पोल्याङ सेवा केन्द्र<br>रूपा गाउँपालिका-३, पोल्याङ, कास्की<br>गण्डकी प्रदेश, नेपाल"
+
 msgid ""
 "Bhanjyang SACCOS, Polyang Service Center<br>Rupa Rural Municipality-3, "
 "Polyang, Kaski<br>Gandaki Province, Nepal"

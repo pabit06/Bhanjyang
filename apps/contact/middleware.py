@@ -32,7 +32,7 @@ class ContactRateLimitMiddleware:
     
     Limits:
     - 5 submissions per hour per IP address (contact form)
-    - 3 submissions per hour per IP address (KYM form)
+    - Contact form: 5 per hour per IP
     - 3 submissions per hour per email address (both forms)
     - Integration with IP blacklist system
     """
@@ -49,7 +49,6 @@ class ContactRateLimitMiddleware:
         # Path: (ip_limit_count, limit_window_seconds)
         protected_paths = {
             '/contact/': (5, 3600),          # 5/hour per IP
-            '/contact/kym-form/': (3, 3600), # 3/hour per IP
         }
         
         if request.method == 'POST' and request.path in protected_paths:

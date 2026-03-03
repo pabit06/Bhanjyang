@@ -15,9 +15,7 @@ class ContactErrorCodes:
     INVALID_FILE_TYPE = 'CONTACT_INVALID_FILE_TYPE'
     EMAIL_SEND_ERROR = 'CONTACT_EMAIL_SEND_ERROR'
     DATABASE_ERROR = 'CONTACT_DATABASE_ERROR'
-    KYM_SUBMISSION_ERROR = 'KYM_SUBMISSION_ERROR'
-    KYM_VALIDATION_ERROR = 'KYM_VALIDATION_ERROR'
-    PDF_GENERATION_ERROR = 'KYM_PDF_GENERATION_ERROR'
+    PDF_GENERATION_ERROR = 'PDF_GENERATION_ERROR'
     AJAX_REQUIRED = 'CONTACT_AJAX_REQUIRED'
     INVALID_REQUEST = 'CONTACT_INVALID_REQUEST'
 
@@ -33,8 +31,6 @@ ERROR_STATUS_MAP: Dict[str, int] = {
     ContactErrorCodes.INVALID_FILE_TYPE: 400,
     ContactErrorCodes.EMAIL_SEND_ERROR: 500,
     ContactErrorCodes.DATABASE_ERROR: 500,
-    ContactErrorCodes.KYM_SUBMISSION_ERROR: 500,
-    ContactErrorCodes.KYM_VALIDATION_ERROR: 400,
     ContactErrorCodes.PDF_GENERATION_ERROR: 500,
     ContactErrorCodes.AJAX_REQUIRED: 400,
     ContactErrorCodes.INVALID_REQUEST: 400,
@@ -56,8 +52,6 @@ def get_user_friendly_message(error_code: str) -> str:
         ContactErrorCodes.INVALID_FILE_TYPE: 'File type not allowed. Please check the allowed file types.',
         ContactErrorCodes.EMAIL_SEND_ERROR: 'Your submission was received, but we encountered an error sending the confirmation email.',
         ContactErrorCodes.DATABASE_ERROR: 'A database error occurred. Please try again later.',
-        ContactErrorCodes.KYM_SUBMISSION_ERROR: 'An error occurred while processing your KYM form submission.',
-        ContactErrorCodes.KYM_VALIDATION_ERROR: 'Please check your KYM form and try again.',
         ContactErrorCodes.PDF_GENERATION_ERROR: 'An error occurred while generating the PDF. Please try again.',
         ContactErrorCodes.AJAX_REQUIRED: 'This endpoint only accepts AJAX requests.',
         ContactErrorCodes.INVALID_REQUEST: 'Invalid request. Please try again.',
