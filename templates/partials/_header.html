@@ -1,87 +1,181 @@
 {% load static %}
 {% load i18n %}
-<a href="#main-content" class="skip-link">Skip to main content</a>
+<a href="#main-content" class="skip-link">{% trans "Skip to main content" %}</a>
 
-<div id="top-bar" class="top-bar" aria-label="Contact info">
+{# Top bar #}
+<div id="top-bar" class="top-bar" aria-label="{% trans 'Contact info' %}">
   <div class="top-bar-inner">
     <div class="top-bar-left">
       <a href="tel:{{ site_info.phone|default:'+9779856083101' }}" class="top-bar-link">
         <i class="fas fa-phone-alt top-bar-icon" aria-hidden="true"></i>
-        <span class="top-bar-phone">{{ site_info.phone|default:"+977 9856083101" }}</span>
+        <span>{{ site_info.phone|default:"+977 9856083101" }}</span>
       </a>
       <span class="top-bar-sep" aria-hidden="true">|</span>
       <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="top-bar-link">
         <i class="fas fa-envelope top-bar-icon" aria-hidden="true"></i>
-        <span class="top-bar-email">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</span>
+        <span class="top-bar-email-text">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</span>
       </a>
     </div>
+    <div class="top-bar-center">
+      <span class="top-bar-slogan">
+        <i class="fas fa-quote-left top-bar-slogan-quote" aria-hidden="true"></i>
+        ग्रामिण क्षेत्रमा आर्थिक विकासको आधार, भञ्ज्याङ्ग सहकारी यसको पुर्वाधार
+        <i class="fas fa-quote-right top-bar-slogan-quote" aria-hidden="true"></i>
+      </span>
+    </div>
     <div class="top-bar-right">
-      <a href="{% url 'contact:contact_view' %}" class="top-bar-link">
-        <i class="fas fa-headset top-bar-icon" aria-hidden="true"></i> {% trans "Support" %}
+      <a href="https://facebook.com/cooperativebhanjyang" target="_blank" rel="noopener noreferrer" class="top-bar-social" aria-label="Facebook">
+        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+      </a>
+      <a href="https://tiktok.com/@bhanjyangsaccos" target="_blank" rel="noopener noreferrer" class="top-bar-social" aria-label="TikTok">
+        <i class="fab fa-tiktok" aria-hidden="true"></i>
       </a>
     </div>
   </div>
 </div>
+
+{# Main header #}
 <header class="site-header" id="header">
   <div class="header-inner">
-    <a href="/" class="logo">
-      <img src="{% static 'images/logos/Logo.png' %}" alt="" class="logo-img" width="180" height="44">
+    <a href="{% url 'home:index' %}" class="logo" aria-label="{% trans 'Bhanjyang Cooperative — Home' %}">
+      <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative Logo" class="logo-img" width="180" height="44">
       <div class="logo-text-block">
         <span class="logo-name">BHANJYANG</span>
         <span class="logo-subtitle">Saving & Credit Cooperative</span>
       </div>
     </a>
-    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
-      <span class="nav-toggle-bar"></span>
+
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="{% trans 'Open menu' %}" aria-expanded="false" aria-controls="nav">
+      <span class="nav-toggle-bar bar1"></span>
+      <span class="nav-toggle-bar bar2"></span>
+      <span class="nav-toggle-bar bar3"></span>
     </button>
-    <nav class="nav" id="nav" aria-label="Main" aria-hidden="false">
+
+    <nav class="nav" id="nav" aria-label="{% trans 'Main navigation' %}">
       <ul class="nav-list">
-        <li><a href="/">Home</a></li>
-        <li><a href="{% url 'about:home' %}">About</a></li>
-        <li><a href="{% url 'services:overview' %}">Services</a></li>
+        <li><a href="{% url 'home:index' %}" class="nav-link{% if request.resolver_match.app_name == 'home' %} nav-active{% endif %}" {% if request.resolver_match.app_name == 'home' %}aria-current="page"{% endif %}>{% trans "Home" %}</a></li>
+
+        {# About submenu #}
+        <li class="nav-item-has-submenu">
+          <button type="button" class="nav-submenu-trigger{% if request.resolver_match.app_name == 'about' %} nav-active{% endif %}" id="about-menu-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="about-submenu">
+            {% trans "About" %} <i class="fas fa-chevron-down nav-submenu-icon" aria-hidden="true"></i>
+          </button>
+          <ul class="nav-submenu" id="about-submenu" role="menu" aria-label="{% trans 'About submenu' %}">
+            <li role="none"><a href="{% url 'about:introduction' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-info-circle submenu-icon" aria-hidden="true"></i> {% trans "Introduction" %}</a></li>
+            <li role="none"><a href="{% url 'about:chairperson_message' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-user-tie submenu-icon" aria-hidden="true"></i> {% trans "Chairperson Message" %}</a></li>
+            <li role="none"><a href="{% url 'about:manager_commitment' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-handshake submenu-icon" aria-hidden="true"></i> {% trans "Manager's Commitment" %}</a></li>
+            <li role="none"><a href="{% url 'about:board_of_directors' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-users submenu-icon" aria-hidden="true"></i> {% trans "Board of Directors" %}</a></li>
+            <li role="none"><a href="{% url 'about:management' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-sitemap submenu-icon" aria-hidden="true"></i> {% trans "Management" %}</a></li>
+            <li role="none"><a href="{% url 'about:affiliations' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-link submenu-icon" aria-hidden="true"></i> {% trans "Affiliations" %}</a></li>
+            <li role="none"><a href="{% url 'about:member_testimonials' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-comment-dots submenu-icon" aria-hidden="true"></i> {% trans "Member Testimonials" %}</a></li>
+          </ul>
+        </li>
+
+        {# Services submenu #}
+        <li class="nav-item-has-submenu">
+          <button type="button" class="nav-submenu-trigger{% if request.resolver_match.app_name == 'services' %} nav-active{% endif %}" id="services-menu-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="services-submenu">
+            {% trans "Services" %} <i class="fas fa-chevron-down nav-submenu-icon" aria-hidden="true"></i>
+          </button>
+          <ul class="nav-submenu" id="services-submenu" role="menu" aria-label="{% trans 'Services submenu' %}">
+            <li role="none"><a href="{% url 'services:overview' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-th-large submenu-icon" aria-hidden="true"></i> {% trans "All Services" %}</a></li>
+            <li role="none"><a href="{% url 'services:savings_list' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-piggy-bank submenu-icon" aria-hidden="true"></i> {% trans "Savings" %}</a></li>
+            <li role="none"><a href="{% url 'services:loan_list' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-hand-holding-usd submenu-icon" aria-hidden="true"></i> {% trans "Loans" %}</a></li>
+            <li role="none"><a href="{% url 'services:fixed_deposit_list' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-university submenu-icon" aria-hidden="true"></i> {% trans "Fixed Deposits" %}</a></li>
+            <li role="none"><a href="{% url 'services:remittance_list' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-paper-plane submenu-icon" aria-hidden="true"></i> {% trans "Remittance" %}</a></li>
+            <li role="none"><a href="{% url 'services:digital_list' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-mobile-alt submenu-icon" aria-hidden="true"></i> {% trans "Digital Services" %}</a></li>
+            <li role="none"><a href="{% url 'services:member_relief_list' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-shield-alt submenu-icon" aria-hidden="true"></i> {% trans "Member Relief" %}</a></li>
+          </ul>
+        </li>
         <li class="nav-item-has-submenu">
           <button type="button" class="nav-submenu-trigger" id="media-menu-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="media-submenu">
             {% trans "Media" %} <i class="fas fa-chevron-down nav-submenu-icon" aria-hidden="true"></i>
           </button>
           <ul class="nav-submenu" id="media-submenu" role="menu" aria-label="{% trans 'Media submenu' %}">
-            <li role="none"><a href="{% url 'news_events:home' %}" role="menuitem">{% trans "News/Events" %}</a></li>
-            <li role="none"><a href="{% url 'gallery:gallery' %}" role="menuitem">{% trans "Gallery" %}</a></li>
-            <li role="none"><a href="{% url 'downloads:download_center' %}" role="menuitem">{% trans "Downloads" %}</a></li>
+            <li role="none"><a href="{% url 'news_events:home' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-newspaper submenu-icon" aria-hidden="true"></i> {% trans "News/Events" %}</a></li>
+            <li role="none"><a href="{% url 'gallery:gallery' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-images submenu-icon" aria-hidden="true"></i> {% trans "Gallery" %}</a></li>
+            <li role="none"><a href="{% url 'downloads:download_center' %}" role="menuitem" class="nav-submenu-link"><i class="fas fa-download submenu-icon" aria-hidden="true"></i> {% trans "Downloads" %}</a></li>
           </ul>
         </li>
-        <li><a href="{% url 'contact:contact_view' %}">Contact</a></li>
+        <li><a href="{% url 'contact:contact_view' %}" class="nav-link{% if request.resolver_match.app_name == 'contact' %} nav-active{% endif %}" {% if request.resolver_match.app_name == 'contact' %}aria-current="page"{% endif %}>{% trans "Contact" %}</a></li>
       </ul>
     </nav>
   </div>
 </header>
+
 <script>
-(function() {
+(function () {
+  var header = document.getElementById('header');
   var navBtn = document.getElementById('nav-toggle');
-  var nav = document.getElementById('nav');
+  var nav    = document.getElementById('nav');
+
+  /* --- Scroll effect --- */
+  function onScroll() {
+    if (window.scrollY > 10) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* --- Mobile menu toggle (hamburger → X) --- */
   if (navBtn && nav) {
-    navBtn.addEventListener('click', function() {
+    navBtn.addEventListener('click', function () {
       var open = nav.classList.toggle('is-open');
+      navBtn.classList.toggle('is-open', open);
       navBtn.setAttribute('aria-expanded', open);
       navBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     });
   }
-  var mediaTrigger = document.getElementById('media-menu-trigger');
-  var mediaSubmenu = document.getElementById('media-submenu');
-  if (mediaTrigger && mediaSubmenu) {
-    var mediaLi = mediaTrigger.closest('.nav-item-has-submenu');
-    mediaTrigger.addEventListener('click', function(e) {
+
+  /* --- Generic submenu handler --- */
+  function initSubmenu(triggerId) {
+    var trigger = document.getElementById(triggerId);
+    if (!trigger) return;
+    var li = trigger.closest('.nav-item-has-submenu');
+
+    trigger.addEventListener('click', function (e) {
       e.preventDefault();
-      var open = mediaLi.classList.toggle('is-open');
-      mediaTrigger.setAttribute('aria-expanded', open);
+      // Close other submenus
+      document.querySelectorAll('.nav-item-has-submenu.is-open').forEach(function (el) {
+        if (el !== li) {
+          el.classList.remove('is-open');
+          var t = el.querySelector('[aria-expanded]');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        }
+      });
+      var open = li.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', open);
     });
-    document.addEventListener('click', function(e) {
-      if (!mediaLi.contains(e.target)) {
-        mediaLi.classList.remove('is-open');
-        mediaTrigger.setAttribute('aria-expanded', 'false');
+
+    document.addEventListener('click', function (e) {
+      if (!li.contains(e.target)) {
+        li.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
       }
     });
   }
+
+  initSubmenu('about-menu-trigger');
+  initSubmenu('services-menu-trigger');
+  initSubmenu('media-menu-trigger');
+
+  /* --- ESC closes all submenus and mobile menu --- */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.nav-item-has-submenu.is-open').forEach(function (el) {
+        el.classList.remove('is-open');
+        var t = el.querySelector('[aria-expanded]');
+        if (t) { t.setAttribute('aria-expanded', 'false'); t.focus(); }
+      });
+      if (nav && navBtn) {
+        nav.classList.remove('is-open');
+        navBtn.classList.remove('is-open');
+        navBtn.setAttribute('aria-expanded', 'false');
+        navBtn.setAttribute('aria-label', 'Open menu');
+      }
+    }
+  });
 })();
 </script>

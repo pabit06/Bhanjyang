@@ -1,0 +1,14 @@
+/* ============================================
+   Footer Component Styles
+   ============================================ */
+
+/*
+ * Ensures the footer remains visible even when GSAP initialises
+ * page animations that might temporarily hide elements.
+ * Kept in CSS (not inline) so it can be overridden per-page if needed.
+ */
+.footer-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}

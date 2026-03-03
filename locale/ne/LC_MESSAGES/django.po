@@ -197,6 +197,18 @@ msgstr "लगइन"
 msgid "Home"
 msgstr "गृह पृष्ठ"
 
+msgid "About"
+msgstr "बारेमा"
+
+msgid "Contact"
+msgstr "सम्पर्क"
+
+msgid "Bhanjyang Cooperative — Home"
+msgstr "भञ्ज्याङ्ग सहकारी — गृह पृष्ठ"
+
+msgid "Main navigation"
+msgstr "मुख्य नेभिगेसन"
+
 msgid "About Us"
 msgstr "हाम्रो बारेमा"
 
@@ -265,6 +277,48 @@ msgstr "भञ्ज्याङ्ग सहकारी भरपर्दो 
 
 msgid "Explore Services"
 msgstr "सेवाहरू अन्वेषण गर्नुहोस्"
+
+msgid "Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski."
+msgstr "भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लि. रूपा गाउँपालिका, कास्कीमा भरपर्दो वित्तीय सेवाहरू मार्फत आर्थिक वृद्धि र सामुदायिक विकासलाई बढावा दिन समर्पित छ।"
+
+msgid "Follow us on social media to stay updated and join our online community."
+msgstr "अद्यावधिक रहन र हाम्रो अनलाइन समुदायमा सामेल हुन सामाजिक सञ्जालमा हामीलाई फलो गर्नुहोस्।"
+
+msgid "Quick Links"
+msgstr "द्रुत लिंकहरू"
+
+msgid "Get in Touch"
+msgstr "सम्पर्कमा रहनुहोस्"
+
+msgid "Sun–Fri: 10 AM – 4 PM"
+msgstr "आइत–शुक्र: बिहान १० – बेलुका ४ बजे"
+
+msgid "Locate Us"
+msgstr "हाम्रो स्थान"
+
+msgid "Bhanjyang Cooperative Logo"
+msgstr "भञ्ज्याङ्ग सहकारी लोगो"
+
+msgid "Bhanjyang Cooperative Location on Google Maps"
+msgstr "गुगल म्यापमा भञ्ज्याङ्ग सहकारीको स्थान"
+
+msgid "Bhanjyang Cooperative location map"
+msgstr "भञ्ज्याङ्ग सहकारीको स्थान म्याप"
+
+msgid "Email"
+msgstr "इमेल"
+
+msgid "Viber: 9856083101"
+msgstr "भाइबर: ९८५६०८३१०१"
+
+msgid "WhatsApp: 9856083101"
+msgstr "ह्वाट्सएप: ९८५६०८३१०१"
+
+msgid "Viber"
+msgstr "भाइबर"
+
+msgid "WhatsApp"
+msgstr "ह्वाट्सएप"
 
 #, fuzzy
 #~| msgid "Contact Us"
@@ -344,9 +398,6 @@ msgstr "सेवाहरू अन्वेषण गर्नुहोस्"
 
 #~ msgid "Phone"
 #~ msgstr "फोन"
-
-#~ msgid "Email"
-#~ msgstr "इमेल"
 
 #~ msgid "Website"
 #~ msgstr "वेबसाइट"
@@ -737,9 +788,6 @@ msgstr "सेवाहरू अन्वेषण गर्नुहोस्"
 #~ msgid ""
 #~ "The chairperson message will be available soon. Please check back later."
 #~ msgstr "अध्यक्षको सन्देश चाँडै उपलब्ध हुनेछ। कृपया पछि फेरि जाँच गर्नुहोस्।"
-
-#~ msgid "About"
-#~ msgstr "बारेमा"
 
 #~ msgid "Mission"
 #~ msgstr "उद्देश्य"
@@ -4366,9 +4414,6 @@ msgstr "सेवाहरू अन्वेषण गर्नुहोस्"
 
 #~ msgid "Fees:"
 #~ msgstr "शुल्क:"
-
-#~ msgid "Contact"
-#~ msgstr "सम्पर्क"
 
 #~ msgid "Our most trusted partners for reliable remittance payouts."
 #~ msgstr "विश्वसनीय रेमिट्यान्स भुक्तानीको लागि हाम्रा सबैभन्दा विश्वसनीय साझेदारहरू।"

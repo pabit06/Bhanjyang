@@ -1,96 +1,101 @@
-{% load static %}
+{% load static i18n %}
 
 {# Main Footer Section #}
-{# मुख्य फुटर खण्ड #}
-<footer class="bg-himalwhite text-patrikaslate py-16 mt-1 shadow-inner" style="opacity: 1 !important; visibility: visible !important; display: block !important;">
+<footer class="bg-himalwhite text-patrikaslate py-16 mt-1 shadow-inner footer-visible">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 px-4 sm:px-6 lg:px-8 text-center md:text-left">
-        
+
         {# Cooperative Info #}
         <div class="flex flex-col items-center md:items-start lg:col-span-2 h-full gsap-fade-in">
-            <img src="{% static 'images/logos/Logo.png' %}" alt="Bhanjyang Cooperative Logo" class="block mx-auto h-16 mb-4 gsap-slide-up" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/200x60/eeeeee/333333?text=Logo+Not+Found';">
+            <img src="{% static 'images/logos/Logo.png' %}" alt="{% trans 'Bhanjyang Cooperative Logo' %}" class="block mx-auto md:mx-0 h-16 mb-4 gsap-slide-up" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/200x60/eeeeee/333333?text=Logo+Not+Found';">
             <p class="text-sm leading-relaxed mb-6 text-justify gsap-fade-in">
-                Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski.
+                {% trans "Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski." %}
             </p>
             <p class="text-sm text-gray-600 mb-4 text-center md:text-left gsap-fade-in font-semibold">
-                Follow us on social media to stay updated and join our online community.
+                {% trans "Follow us on social media to stay updated and join our online community." %}
             </p>
             <div class="flex items-center justify-center md:justify-start gap-4 mt-6 md:mt-auto self-center md:self-start">
-                <a href="https://facebook.com/cooperativebhanjyang" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="Facebook"><i class="fab fa-facebook-f text-xl static" aria-hidden="true"></i></a>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="Twitter"><i class="fab fa-twitter text-xl static" aria-hidden="true"></i></a>
-                <a href="https://tiktok.com/@bhanjyangsaccos" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="TikTok"><i class="fab fa-tiktok text-xl static" aria-hidden="true"></i></a>
+                <a href="https://facebook.com/cooperativebhanjyang" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="{% trans 'Facebook' %}"><i class="fab fa-facebook-f text-xl" aria-hidden="true"></i></a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="{% trans 'Twitter' %}"><i class="fab fa-twitter text-xl" aria-hidden="true"></i></a>
+                <a href="https://tiktok.com/@bhanjyangsaccos" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-deuraligreen transition-colors duration-300 transform hover:scale-110 gsap-fade-in" aria-label="{% trans 'TikTok' %}"><i class="fab fa-tiktok text-xl" aria-hidden="true"></i></a>
             </div>
         </div>
 
         {# Quick Links #}
         <div>
-            <h3 class="text-xl font-bold mb-5 text-deuraligreen font-montserrat border-b border-gray-300 pb-2">Quick Links</h3>
+            <h3 class="text-xl font-bold mb-5 text-deuraligreen font-montserrat border-b border-gray-300 pb-2">{% trans "Quick Links" %}</h3>
             <ul class="text-sm space-y-3">
-                <li><a href="{% url 'home:index' %}" class="hover:text-deuraligreen transition-colors duration-300">Home</a></li>
-                <li><a href="{% url 'about:home' %}" class="hover:text-deuraligreen transition-colors duration-300">About Us</a></li>
-                <li><a href="{% url 'services:overview' %}" class="hover:text-deuraligreen transition-colors duration-300">Services</a></li>
-                <li><a href="{% url 'contact:contact_view' %}" class="hover:text-deuraligreen transition-colors duration-300">Contact Us</a></li>
-                <li><a href="{% url 'contact:privacy_policy' %}" class="hover:text-deuraligreen transition-colors duration-300">Privacy Policy</a></li>
+                <li><a href="{% url 'home:index' %}" class="hover:text-deuraligreen transition-colors duration-300">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'about:home' %}" class="hover:text-deuraligreen transition-colors duration-300">{% trans "About Us" %}</a></li>
+                <li><a href="{% url 'services:overview' %}" class="hover:text-deuraligreen transition-colors duration-300">{% trans "Services" %}</a></li>
+                <li><a href="{% url 'contact:contact_view' %}" class="hover:text-deuraligreen transition-colors duration-300">{% trans "Contact Us" %}</a></li>
+                <li><a href="{% url 'contact:privacy_policy' %}" class="hover:text-deuraligreen transition-colors duration-300">{% trans "Privacy Policy" %}</a></li>
             </ul>
         </div>
 
         {# Contact Information #}
         <div>
-            <h3 class="text-xl font-bold mb-5 text-deuraligreen font-montserrat border-b border-gray-300 pb-2">Get in Touch</h3>
+            <h3 class="text-xl font-bold mb-5 text-deuraligreen font-montserrat border-b border-gray-300 pb-2">{% trans "Get in Touch" %}</h3>
             <address class="not-italic">
                 <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
-                    <i class="fas fa-map-marker-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
+                    <i class="fas fa-map-marker-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0" aria-hidden="true"></i>
                     <span>{{ site_info.address|default:'Rupa R.M.-5, Deurali Bazar, Kaski' }}</span>
                 </p>
                 <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
-                    <i class="fas fa-phone-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
-                    <a href="tel:{{ site_info.phone }}" class="hover:underline">{{ site_info.phone }}</a>
+                    <i class="fas fa-phone-alt text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0" aria-hidden="true"></i>
+                    <a href="tel:{{ site_info.phone|default:'+977-000-000000' }}" class="hover:underline">{{ site_info.phone|default:'+977-000-000000' }}</a>
                 </p>
                 <p class="text-sm mb-3 flex items-start justify-center md:justify-start">
-                        <i class="fas fa-envelope text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
-                        <a href="mailto:{{ site_info.email }}" class="hover:underline">{{ site_info.email }}</a>
+                    <i class="fas fa-envelope text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0" aria-hidden="true"></i>
+                    <a href="mailto:{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}" class="hover:underline break-all">{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}</a>
                 </p>
                 <p class="text-sm flex items-start justify-center md:justify-start">
-                        <i class="fas fa-clock text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0"></i>
-                        <span>Sun-Fri: 10 AM - 4 PM</span>
+                    <i class="fas fa-clock text-lg text-deuraligreen mr-3 mt-1 flex-shrink-0" aria-hidden="true"></i>
+                    <span>{% trans "Sun–Fri: 10 AM – 4 PM" %}</span>
                 </p>
+                <div class="flex items-center justify-center md:justify-start gap-3 mt-4">
+                    <a href="viber://chat?number=%2B9779856083101" class="hover:text-[#7360f2] transition-colors duration-300 transform hover:scale-110" aria-label="{% trans 'Viber: 9856083101' %}">
+                        <i class="fab fa-viber text-2xl text-[#7360f2]" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://wa.me/9779856083101" target="_blank" rel="noopener noreferrer" class="hover:text-[#25D366] transition-colors duration-300 transform hover:scale-110" aria-label="{% trans 'WhatsApp: 9856083101' %}">
+                        <i class="fab fa-whatsapp text-2xl text-[#25D366]" aria-hidden="true"></i>
+                    </a>
+                </div>
             </address>
         </div>
-        
+
         {# Google Maps Location #}
         <div class="w-full">
-            <h4 class="text-md font-semibold mb-3 text-deuraligreen font-montserrat">Locate Us:</h4>
-            <iframe 
-                title="Bhanjyang Cooperative Location on Google Maps"
+            <h4 class="text-base font-semibold mb-3 text-deuraligreen font-montserrat">{% trans "Locate Us" %}:</h4>
+            <iframe
+                title="{% trans 'Bhanjyang Cooperative Location on Google Maps' %}"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1479.4716431181132!2d84.15020580099485!3d28.12223403479238!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995a3aea5af600d%3A0xacb415d2023a9c80!2sBhanjyang%20Saving%20%26%20Credit%20Cooperative%20Society%20Ltd.!5e0!3m2!1sen!2snp!4v1704067200000!5m2!1sen!2snp"
                 class="w-full h-[180px] rounded-lg shadow-md"
-                style="border:0;" 
-                allowfullscreen="" 
-                loading="lazy" 
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                aria-label="Bhanjyang Cooperative location map">
+                aria-label="{% trans 'Bhanjyang Cooperative location map' %}">
             </iframe>
         </div>
     </div>
 </footer>
 
 {# Slanted Bottom Bar #}
-{# This section uses `clip-path` to create the angled separation effect. #}
-{# यो खण्डले एङ्गल छुट्याउने प्रभाव सिर्जना गर्न `clip-path` प्रयोग गर्दछ। #}
 <div class="relative w-full text-white overflow-hidden" style="min-height: 5rem;">
-    {# Red Section - Independent #}
+    {# Red Section #}
     <div class="absolute bottom-0 left-0 bg-bhanjyangred flex items-center px-4 sm:px-6 md:px-8 z-10 h-12" style="width: 48.5%; clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);">
         <div class="flex flex-col justify-center py-2">
             <span class="text-xs sm:text-sm md:text-base font-medium">
-                Email: <a href="mailto:{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}" class="hover:underline">{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}</a>
+                {% trans "Email" %}: <a href="mailto:{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}" class="hover:underline">{{ site_info.email|default:'cooperativebhanjyang@gmail.com' }}</a>
             </span>
         </div>
     </div>
-    {# Green Section - Independent #}
-    <div class="absolute bottom-0 right-0 bg-deuraligreen flex items-center px-4 sm:px-6 md:px-8 z-0 justify-end text-right min-h-[5rem] py-4" style="width: 53.5%; clip-path: polygon( 7.5% 0, 100% 0, 100% 100%, 0% 100%);">
+    {# Green Section #}
+    <div class="absolute bottom-0 right-0 bg-deuraligreen flex items-center px-4 sm:px-6 md:px-8 z-0 justify-end text-right min-h-[5rem] py-4" style="width: 53.5%; clip-path: polygon(7.5% 0, 100% 0, 100% 100%, 0% 100%);">
         <div class="flex flex-col justify-center py-2 text-right">
             <span class="text-xs sm:text-sm md:text-base leading-relaxed">
-                "ग्रामिण क्षेत्रमा आर्थिक विकासको आधार, भञ्ज्याङ्ग सहकारी यसको पुर्वाधार"
-             </span>
+                &copy; {% now "Y" %} भञ्ज्याङ्ग बचत तथा ऋण सहकारी संस्था लि.
+            </span>
         </div>
     </div>
 </div>
