@@ -5,18 +5,34 @@
 
 document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------
-    // Hero Background Images
+    // Hero Background Images (memory-friendly: only active slide)
     // -----------------------------------------
-    var bgElements = document.querySelectorAll('.hero-slide-bg, .pattern-bg');
-    bgElements.forEach(function (element) {
-        var bgImage = element.getAttribute('data-bg-image');
-        if (bgImage) {
-            element.style.backgroundImage = 'url(' + bgImage + ')';
+    function setActiveSlideBackground(swiperInstance) {
+        if (!swiperInstance || !swiperInstance.slides) return;
+        var activeIndex = swiperInstance.realIndex;
+        var slides = swiperInstance.slides;
+        for (var i = 0; i < slides.length; i++) {
+            var bgEl = slides[i].querySelector('.hero-slide-bg');
+            if (!bgEl) continue;
+            var bgImage = bgEl.getAttribute('data-bg-image');
+            if (i === activeIndex && bgImage) {
+                bgEl.style.backgroundImage = 'url(' + bgImage + ')';
+            } else {
+                bgEl.style.backgroundImage = '';
+            }
         }
-    });
+    }
+    function setPatternBgOnly() {
+        var patternEls = document.querySelectorAll('.pattern-bg[data-bg-image]');
+        patternEls.forEach(function (el) {
+            var bgImage = el.getAttribute('data-bg-image');
+            if (bgImage) el.style.backgroundImage = 'url(' + bgImage + ')';
+        });
+    }
+    setPatternBgOnly();
 
     // -----------------------------------------
-    // Hero Slider (Swiper)
+    // Hero Slider (Swiper) - lazy-load slide backgrounds to reduce memory
     // -----------------------------------------
     if (document.querySelector(".heroSwiper")) {
         var swiper = new Swiper(".heroSwiper", {
@@ -29,6 +45,14 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             loop: true,
             allowTouchMove: false,
+            on: {
+                init: function () {
+                    setActiveSlideBackground(this);
+                },
+                slideChangeTransitionEnd: function () {
+                    setActiveSlideBackground(this);
+                }
+            }
         });
     }
 

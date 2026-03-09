@@ -326,6 +326,10 @@ class PerformanceMonitoringMiddleware(MiddlewareMixin):
     
     def process_response(self, request, response):
         """Track request performance and create metrics"""
+        # Skip DB writes in DEBUG to avoid slowing down local development
+        if settings.DEBUG and not getattr(settings, 'ENABLE_PERFORMANCE_TRACKING_IN_DEBUG', False):
+            return response
+
         if hasattr(request, '_start_time'):
             # Calculate request duration
             duration = (time.time() - request._start_time) * 1000  # Convert to milliseconds

@@ -7,18 +7,8 @@
 
 /* =========================================
    Hero Background Images
+   Loaded via JS (only active slide) to reduce memory - see remittance.js
    ========================================= */
-.hero-slide-bg-1 {
-    background-image: url('../../images/heroes/remit_hero_1.png');
-}
-
-.hero-slide-bg-2 {
-    background-image: url('../../images/heroes/remit_hero_2.png');
-}
-
-.hero-slide-bg-3 {
-    background-image: url('../../images/heroes/remit_hero_3.png');
-}
 
 /* =========================================
    Animations

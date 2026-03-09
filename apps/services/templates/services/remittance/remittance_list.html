@@ -58,22 +58,19 @@
     <div class="absolute inset-0 z-0">
         <div class="swiper heroSwiper h-full w-full">
             <div class="swiper-wrapper">
-                <!-- Slide 1 -->
+                <!-- Slide 1: only first slide loads image immediately to reduce memory (Safari) -->
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-cover bg-center hero-slide-bg"
                         style="background-image: url('{% static 'images/heroes/remit_hero_1.png' %}');"
                         data-bg-image="{% static 'images/heroes/remit_hero_1.png' %}"></div>
                 </div>
-                <!-- Slide 2 -->
+                <!-- Slide 2 & 3: lazy-load background when slide becomes active -->
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-cover bg-center hero-slide-bg"
-                        style="background-image: url('{% static 'images/heroes/remit_hero_2.png' %}');"
                         data-bg-image="{% static 'images/heroes/remit_hero_2.png' %}"></div>
                 </div>
-                <!-- Slide 3 -->
                 <div class="swiper-slide relative">
                     <div class="absolute inset-0 bg-cover bg-center hero-slide-bg"
-                        style="background-image: url('{% static 'images/heroes/remit_hero_3.png' %}');"
                         data-bg-image="{% static 'images/heroes/remit_hero_3.png' %}"></div>
                 </div>
             </div>

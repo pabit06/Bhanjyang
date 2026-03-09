@@ -172,6 +172,7 @@ This document provides comprehensive guidelines for uploading and managing image
 - Total page image size should not exceed 2MB
 - Use appropriate image dimensions for display size
 - Consider using WebP format for modern browsers (future enhancement)
+- **Browser memory (Safari)**: Very large hero images (e.g. multi‑MB PNGs) or loading many at once can cause Safari to reload the tab (“this webpage was reloaded because it was using significant memory”). Keep hero images under the recommended size (see Quick Reference) and use carousels that lazy‑load only the visible slide.
 
 ---
 
