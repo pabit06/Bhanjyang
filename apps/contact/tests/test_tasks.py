@@ -50,6 +50,17 @@ class ContactTasksTest(TestCase):
         mock_send_mail.side_effect = Exception("Email error")
         result = send_contact_email(self.submission_data)
         self.assertFalse(result)
+
+    @patch('apps.contact.tasks.send_mail')
+    @patch('apps.contact.tasks.CELERY_AVAILABLE', True)
+    def test_send_contact_email_failure_sync_fallback_with_celery_installed(
+        self, mock_send_mail, *_
+    ):
+        """Sync fallback must return False when Celery is installed but not in a worker."""
+        mock_send_mail.side_effect = Exception("Email error")
+        # Direct call mimics ContactService sync fallback when broker is unavailable.
+        result = send_contact_email(self.submission_data)
+        self.assertFalse(result)
     
     @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
     def test_send_auto_response_email(self):
@@ -86,6 +97,21 @@ class ContactTasksTest(TestCase):
     @patch('apps.contact.tasks.CELERY_AVAILABLE', False)
     def test_send_auto_response_email_failure(self, mock_send_mail, *_):
         """Test auto-response email failure handling (sync path: returns False)"""
+        mock_send_mail.side_effect = Exception("Email error")
+        result = send_auto_response_email(
+            user_email='test@example.com',
+            user_name='Test User',
+            subject='Test Subject',
+            submission_id='test_123'
+        )
+        self.assertFalse(result)
+
+    @patch('apps.contact.tasks.send_mail')
+    @patch('apps.contact.tasks.CELERY_AVAILABLE', True)
+    def test_send_auto_response_email_failure_sync_fallback_with_celery_installed(
+        self, mock_send_mail, *_
+    ):
+        """Sync fallback must return False when Celery is installed but not in a worker."""
         mock_send_mail.side_effect = Exception("Email error")
         result = send_auto_response_email(
             user_email='test@example.com',
