@@ -9,13 +9,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------
     function setActiveSlideBackground(swiperInstance) {
         if (!swiperInstance || !swiperInstance.slides) return;
-        var activeIndex = swiperInstance.realIndex;
         var slides = swiperInstance.slides;
         for (var i = 0; i < slides.length; i++) {
             var bgEl = slides[i].querySelector('.hero-slide-bg');
             if (!bgEl) continue;
             var bgImage = bgEl.getAttribute('data-bg-image');
-            if (i === activeIndex && bgImage) {
+            // Use swiper-slide-active, not realIndex: loop mode duplicates slides so
+            // DOM index !== realIndex and backgrounds were cleared on the visible slide.
+            if (slides[i].classList.contains('swiper-slide-active') && bgImage) {
                 bgEl.style.backgroundImage = 'url(' + bgImage + ')';
             } else {
                 bgEl.style.backgroundImage = '';
