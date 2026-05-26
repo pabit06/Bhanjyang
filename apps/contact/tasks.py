@@ -92,7 +92,9 @@ def send_contact_email(self, submission_data):
 
     except Exception as exc:
         logger.error(f"Failed to send contact email for submission {submission_id}: {exc}")
-        if CELERY_AVAILABLE:
+        # Only retry when executing inside a Celery worker (request.id is set).
+        # Sync fallback calls (broker down) must return False, not raise self.retry().
+        if CELERY_AVAILABLE and getattr(getattr(self, 'request', None), 'id', None):
             logger.info(f"Retrying email task for submission {submission_id}...")
             raise self.retry(exc=exc, countdown=60)
         return False
@@ -123,7 +125,7 @@ def send_auto_response_email(self, user_email, user_name, subject, submission_id
 
     except Exception as exc:
         logger.error(f"Failed to send auto-response email to {user_email}: {exc}")
-        if CELERY_AVAILABLE:
+        if CELERY_AVAILABLE and getattr(getattr(self, 'request', None), 'id', None):
             logger.info(f"Retrying auto-response task for {user_email}...")
             raise self.retry(exc=exc, countdown=60)
         return False
