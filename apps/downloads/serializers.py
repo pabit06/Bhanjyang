@@ -13,6 +13,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 from .models import DownloadableFile, FileCategory, PriorityLevel
+from .utils.cdn import CDNManager
 
 User = get_user_model()
 
@@ -111,10 +112,10 @@ class DownloadableFileSerializer(serializers.ModelSerializer):
         ]
     
     def get_file_url(self, obj):
-        """Get absolute file URL."""
+        """Return secure serve URL (not direct /media/ path)."""
         request = self.context.get('request')
         if obj.file and request:
-            return request.build_absolute_uri(obj.file.url)
+            return CDNManager.get_secure_download_url(obj, request)
         return None
     
     def get_thumbnail_url(self, obj):
@@ -161,10 +162,10 @@ class DownloadableFileListSerializer(serializers.ModelSerializer):
         ]
     
     def get_file_url(self, obj):
-        """Get absolute file URL."""
+        """Return secure serve URL (not direct /media/ path)."""
         request = self.context.get('request')
         if obj.file and request:
-            return request.build_absolute_uri(obj.file.url)
+            return CDNManager.get_secure_download_url(obj, request)
         return None
 
 
