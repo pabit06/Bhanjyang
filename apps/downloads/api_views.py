@@ -18,6 +18,8 @@ from rest_framework.permissions import (
     AllowAny
 )
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db import models
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 import logging
@@ -35,6 +37,7 @@ from .services import (
     FileDownloadService,
    DownloadsAnalyticsService
 )
+from .security import AccessControlManager
 from .security_enhanced import (
     SecurityAuditEnhancedLogger,
     RequestValidator
@@ -125,11 +128,22 @@ class DownloadableFileViewSet(viewsets.ModelViewSet):
             models.Q(expires_at__gt=timezone.now())
         )
         
-        # If not admin, exclude login-required files for anonymous users
-        if not self.request.user.is_staff:
-            if not self.request.user.is_authenticated:
+        user = self.request.user
+        if not user.is_staff:
+            if not user.is_authenticated:
                 queryset = queryset.filter(requires_login=False)
-        
+
+            if not AccessControlManager.has_financial_access(user):
+                if user.is_authenticated:
+                    queryset = queryset.exclude(
+                        Q(category=FileCategory.REPORT) & Q(requires_login=False)
+                    )
+                else:
+                    queryset = queryset.exclude(category=FileCategory.REPORT)
+
+            if not AccessControlManager.has_admin_access(user):
+                queryset = queryset.exclude(category=FileCategory.POLICY)
+
         return queryset
     
     @action(detail=True, methods=['post'])
@@ -183,7 +197,7 @@ class DownloadableFileViewSet(viewsets.ModelViewSet):
             'message': 'Download started',
             'file_id': file_obj.id,
             'file_title': file_obj.title,
-            'file_url': request.build_absolute_uri(file_obj.file.url),
+            'file_url': request.build_absolute_uri(response),
             'file_size': file_obj.file_size,
             'download_count': file_obj.download_count + 1
         })
@@ -279,10 +293,6 @@ class DownloadableFileViewSet(viewsets.ModelViewSet):
         stats = DownloadsAnalyticsService.get_download_stats()
         serializer = FileStatsSerializer(stats, context={'request': request})
         return Response(serializer.data)
-
-
-# Add missing import
-from django.db import models
 
 
 # Export ViewSet
