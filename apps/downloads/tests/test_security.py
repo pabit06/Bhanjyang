@@ -419,6 +419,52 @@ class AccessControlManagerTest(TestCase):
         
         self.assertFalse(has_access)
 
+    def test_filter_accessible_queryset_anonymous_excludes_restricted(self):
+        """Anonymous API consumers must not see policy or financial files."""
+        from django.contrib.auth.models import AnonymousUser
+
+        policy = DownloadableFile.objects.create(
+            title='Policy',
+            file=SimpleUploadedFile('policy.pdf', b'p', content_type='application/pdf'),
+            category=FileCategory.POLICY,
+            is_active=True,
+            uploaded_by=self.user,
+        )
+        report = DownloadableFile.objects.create(
+            title='Report',
+            file=SimpleUploadedFile('report.pdf', b'r', content_type='application/pdf'),
+            category=FileCategory.REPORT,
+            is_active=True,
+            uploaded_by=self.user,
+        )
+
+        queryset = AccessControlManager.filter_accessible_queryset(
+            AnonymousUser(),
+            DownloadableFile.objects.filter(is_active=True),
+        )
+        visible_ids = set(queryset.values_list('pk', flat=True))
+
+        self.assertIn(self.file_obj.pk, visible_ids)
+        self.assertNotIn(policy.pk, visible_ids)
+        self.assertNotIn(report.pk, visible_ids)
+
+    def test_filter_accessible_queryset_non_staff_excludes_policy(self):
+        """Authenticated members must not see policy documents in API lists."""
+        policy = DownloadableFile.objects.create(
+            title='Policy',
+            file=SimpleUploadedFile('policy.pdf', b'p', content_type='application/pdf'),
+            category=FileCategory.POLICY,
+            is_active=True,
+            uploaded_by=self.user,
+        )
+
+        queryset = AccessControlManager.filter_accessible_queryset(
+            self.user,
+            DownloadableFile.objects.filter(is_active=True),
+        )
+
+        self.assertNotIn(policy.pk, set(queryset.values_list('pk', flat=True)))
+
 
 class SecurityAuditLoggerTest(TestCase):
     """Test SecurityAuditLogger class"""
