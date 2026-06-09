@@ -247,6 +247,29 @@ class DownloadRateLimiter:
 
 class AccessControlManager:
     """Role-based access control for downloads"""
+
+    @staticmethod
+    def filter_accessible_queryset(user, queryset):
+        """Return only files the user is allowed to discover via list/detail APIs."""
+        from django.db.models import Q
+
+        if getattr(user, 'is_staff', False):
+            return queryset
+
+        if not getattr(user, 'is_authenticated', False):
+            return queryset.filter(requires_login=False).exclude(
+                category__in=['RPT', 'PCY']
+            )
+
+        if not AccessControlManager.has_admin_access(user):
+            queryset = queryset.exclude(category='PCY')
+
+        if not AccessControlManager.has_financial_access(user):
+            queryset = queryset.exclude(
+                Q(category='RPT') & Q(requires_login=False)
+            )
+
+        return queryset
     
     @staticmethod
     def can_download_file(user, file_obj):
