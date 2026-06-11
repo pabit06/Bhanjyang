@@ -9,16 +9,24 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------
     function setActiveSlideBackground(swiperInstance) {
         if (!swiperInstance || !swiperInstance.slides) return;
-        var activeIndex = swiperInstance.realIndex;
         var slides = swiperInstance.slides;
+        // Use activeIndex (DOM position incl. loop clones), not realIndex.
+        // With loop:true, realIndex 0 does not map to slides[0]; comparing them
+        // clears the visible slide background and shows the wrong hero image.
         for (var i = 0; i < slides.length; i++) {
             var bgEl = slides[i].querySelector('.hero-slide-bg');
-            if (!bgEl) continue;
-            var bgImage = bgEl.getAttribute('data-bg-image');
-            if (i === activeIndex && bgImage) {
-                bgEl.style.backgroundImage = 'url(' + bgImage + ')';
-            } else {
+            if (bgEl) {
                 bgEl.style.backgroundImage = '';
+            }
+        }
+        if (slides.length > swiperInstance.activeIndex) {
+            var activeSlide = slides[swiperInstance.activeIndex];
+            var activeBgEl = activeSlide.querySelector('.hero-slide-bg');
+            if (activeBgEl) {
+                var activeBgImage = activeBgEl.getAttribute('data-bg-image');
+                if (activeBgImage) {
+                    activeBgEl.style.backgroundImage = 'url(' + activeBgImage + ')';
+                }
             }
         }
     }
