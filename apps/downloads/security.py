@@ -264,9 +264,7 @@ class AccessControlManager:
             return False, "This file is not available"
         
         # Check user permissions for sensitive files
-        # For RPT files: only check financial access for public files (not requiring login)
-        # If requires_login=True and user is authenticated, allow access
-        if file_obj.category == 'RPT' and not file_obj.requires_login and not AccessControlManager.has_financial_access(user):
+        if file_obj.category == 'RPT' and not AccessControlManager.has_financial_access(user):
             return False, "Insufficient permissions for financial reports"
         
         if file_obj.category == 'PCY' and not AccessControlManager.has_admin_access(user):
