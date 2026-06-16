@@ -9,13 +9,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------
     function setActiveSlideBackground(swiperInstance) {
         if (!swiperInstance || !swiperInstance.slides) return;
-        var activeIndex = swiperInstance.realIndex;
+        // Use activeIndex (not realIndex): with loop:true Swiper inserts duplicate
+        // slides, so DOM index !== realIndex and backgrounds would never load.
+        var activeIdx = swiperInstance.activeIndex;
         var slides = swiperInstance.slides;
         for (var i = 0; i < slides.length; i++) {
             var bgEl = slides[i].querySelector('.hero-slide-bg');
             if (!bgEl) continue;
             var bgImage = bgEl.getAttribute('data-bg-image');
-            if (i === activeIndex && bgImage) {
+            if (i === activeIdx && bgImage) {
                 bgEl.style.backgroundImage = 'url(' + bgImage + ')';
             } else {
                 bgEl.style.backgroundImage = '';
