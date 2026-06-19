@@ -84,7 +84,10 @@ class ContactSubmissionView(View):
         try:
             form = ContactForm(request.POST)
             if form.is_valid():
-                success, message = HomeService.handle_contact_submission(form.cleaned_data)
+                success, message = HomeService.handle_contact_submission(
+                    form.cleaned_data,
+                    request_meta=request.META,
+                )
                 
                 # Check if it's an AJAX request
                 is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'

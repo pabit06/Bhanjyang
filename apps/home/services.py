@@ -432,7 +432,10 @@ class HomeService:
             logger.warning(f"Failed to track view in HomeService: {e}")
 
     @staticmethod
-    def handle_contact_submission(data: Dict[str, Any]) -> tuple[bool, str]:
+    def handle_contact_submission(
+        data: Dict[str, Any],
+        request_meta: Dict[str, Any] | None = None,
+    ) -> tuple[bool, str]:
         """
         Process contact form submission from homepage.
         
@@ -459,17 +462,16 @@ class HomeService:
             try:
                 from apps.contact.services import ContactService
                 
-                # Create a mock request meta for IP and user agent tracking
-                request_meta = {
+                meta = request_meta or {
                     'REMOTE_ADDR': '127.0.0.1',
-                    'HTTP_USER_AGENT': 'HomePage-ContactForm/1.0'
+                    'HTTP_USER_AGENT': 'HomePage-ContactForm/1.0',
                 }
-                
+
                 # Create submission using contact app's service
                 submission = ContactService.create_contact_submission(
                     form_data=data,
                     files={},  # No file attachments from home page form
-                    request_meta=request_meta
+                    request_meta=meta,
                 )
                 
                 # Send notification emails

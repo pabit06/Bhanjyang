@@ -91,8 +91,10 @@ class RateLimitMiddleware(MiddlewareMixin):
             return 'api'
         elif path.startswith('/admin/login/'):
             return 'login'
-        elif path.startswith('/contact/') and request.method == 'POST':
-            # Only apply contact rate limiting to POST requests (form submissions)
+        elif request.method == 'POST' and (
+            path.startswith('/contact/') or path == '/ajax/contact/submit/'
+        ):
+            # Contact form submissions (dedicated page and homepage AJAX endpoint)
             return 'contact'
         elif path.startswith('/search/'):
             return 'search'

@@ -292,6 +292,37 @@ class HomeServiceTest(TestCase):
         self.assertFalse(success)
         self.assertIn('error', message.lower())
 
+    def test_handle_contact_submission_uses_request_meta(self):
+        """Homepage submissions must record the real client IP, not a hardcoded value."""
+        data = {
+            'name': 'Test User',
+            'email': 'test@example.com',
+            'phone': '1234567890',
+            'subject': 'Test Subject',
+            'message': 'Test message',
+            'inquiry_type': 'general',
+        }
+        request_meta = {
+            'REMOTE_ADDR': '203.0.113.42',
+            'HTTP_USER_AGENT': 'Mozilla/5.0 TestBrowser',
+        }
+
+        with patch('apps.contact.services.ContactService.create_contact_submission') as mock_create:
+            with patch('apps.contact.services.ContactService.send_contact_notification_emails'):
+                mock_create.return_value = MagicMock(id=1)
+
+                HomeService.handle_contact_submission(data, request_meta=request_meta)
+
+                mock_create.assert_called_once()
+                self.assertEqual(
+                    mock_create.call_args.kwargs['request_meta']['REMOTE_ADDR'],
+                    '203.0.113.42',
+                )
+                self.assertEqual(
+                    mock_create.call_args.kwargs['request_meta']['HTTP_USER_AGENT'],
+                    'Mozilla/5.0 TestBrowser',
+                )
+
     def test_handle_newsletter_signup_new_subscriber(self):
         """Test newsletter signup for new subscriber"""
         email = 'new@example.com'
