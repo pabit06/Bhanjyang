@@ -6,6 +6,17 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+    replaces = [
+        ('contact', '0001_initial'),
+        ('contact', '0002_contactsubmission_attachment'),
+        ('contact', '0003_add_indexes'),
+        ('contact', '0004_kymsubmission'),
+        ('contact', '0005_add_database_indexes'),
+        ('contact', '0006_add_office_location_model'),
+        ('contact', '0007_privacypolicy'),
+        ('contact', '0008_faq'),
+    ]
+
     initial = True
 
     dependencies = []

@@ -48,7 +48,8 @@ class ContactRateLimitMiddleware:
         # Define protected paths and their specific limits
         # Path: (ip_limit_count, limit_window_seconds)
         protected_paths = {
-            '/contact/': (5, 3600),          # 5/hour per IP
+            '/contact/': (5, 3600),                  # 5/hour per IP (contact page form)
+            '/ajax/contact/submit/': (5, 3600),      # 5/hour per IP (homepage contact form)
         }
         
         if request.method == 'POST' and request.path in protected_paths:
