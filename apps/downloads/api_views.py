@@ -22,7 +22,10 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 import logging
 
+from django.db import models
+
 from .models import DownloadableFile, FileCategory, PriorityLevel
+from .security import AccessControlManager
 from .serializers import (
     DownloadableFileSerializer,
     DownloadableFileListSerializer,
@@ -125,12 +128,10 @@ class DownloadableFileViewSet(viewsets.ModelViewSet):
             models.Q(expires_at__gt=timezone.now())
         )
         
-        # If not admin, exclude login-required files for anonymous users
-        if not self.request.user.is_staff:
-            if not self.request.user.is_authenticated:
-                queryset = queryset.filter(requires_login=False)
-        
-        return queryset
+        return AccessControlManager.filter_accessible_queryset(
+            self.request.user,
+            queryset,
+        )
     
     @action(detail=True, methods=['post'])
     def download(self, request, pk=None):
@@ -183,7 +184,7 @@ class DownloadableFileViewSet(viewsets.ModelViewSet):
             'message': 'Download started',
             'file_id': file_obj.id,
             'file_title': file_obj.title,
-            'file_url': request.build_absolute_uri(file_obj.file.url),
+            'file_url': request.build_absolute_uri(response),
             'file_size': file_obj.file_size,
             'download_count': file_obj.download_count + 1
         })
@@ -279,10 +280,6 @@ class DownloadableFileViewSet(viewsets.ModelViewSet):
         stats = DownloadsAnalyticsService.get_download_stats()
         serializer = FileStatsSerializer(stats, context={'request': request})
         return Response(serializer.data)
-
-
-# Add missing import
-from django.db import models
 
 
 # Export ViewSet
