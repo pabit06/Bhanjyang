@@ -9,7 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // -----------------------------------------
     function setActiveSlideBackground(swiperInstance) {
         if (!swiperInstance || !swiperInstance.slides) return;
-        var activeIndex = swiperInstance.realIndex;
+        // Use activeIndex (DOM position), not realIndex: with loop:true Swiper clones
+        // slides so realIndex no longer matches the visible slide index after the first change.
+        var activeIndex = swiperInstance.activeIndex;
         var slides = swiperInstance.slides;
         for (var i = 0; i < slides.length; i++) {
             var bgEl = slides[i].querySelector('.hero-slide-bg');
