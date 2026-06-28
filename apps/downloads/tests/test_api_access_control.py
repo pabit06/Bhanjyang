@@ -54,7 +54,7 @@ class DownloadsAPIAccessControlTest(TestCase):
             requires_login=False,
         )
 
-        self.list_url = reverse('file-list')
+        self.list_url = reverse('downloads_api:file-list')
 
     def test_anonymous_list_excludes_restricted_categories(self):
         response = self.client.get(self.list_url)
@@ -77,7 +77,7 @@ class DownloadsAPIAccessControlTest(TestCase):
 
     def test_non_staff_cannot_retrieve_policy_document(self):
         self.client.force_authenticate(user=self.user)
-        detail_url = reverse('file-detail', kwargs={'pk': self.policy_doc.pk})
+        detail_url = reverse('downloads_api:file-detail', kwargs={'pk': self.policy_doc.pk})
 
         response = self.client.get(detail_url)
 
@@ -85,7 +85,7 @@ class DownloadsAPIAccessControlTest(TestCase):
 
     def test_download_action_returns_secure_url(self):
         self.client.force_authenticate(user=self.staff_user)
-        download_url = reverse('file-download', kwargs={'pk': self.public_form.pk})
+        download_url = reverse('downloads_api:file-download', kwargs={'pk': self.public_form.pk})
 
         response = self.client.post(download_url)
 
@@ -97,7 +97,7 @@ class DownloadsAPIAccessControlTest(TestCase):
         self.assertNotIn('/media/downloads/', response.data['file_url'])
 
     def test_anonymous_download_financial_report_forbidden(self):
-        download_url = reverse('file-download', kwargs={'pk': self.financial_report.pk})
+        download_url = reverse('downloads_api:file-download', kwargs={'pk': self.financial_report.pk})
 
         response = self.client.post(download_url)
 
