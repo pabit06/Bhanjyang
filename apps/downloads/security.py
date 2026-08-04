@@ -247,6 +247,25 @@ class DownloadRateLimiter:
 
 class AccessControlManager:
     """Role-based access control for downloads"""
+
+    @staticmethod
+    def filter_accessible_queryset(user, queryset):
+        """Return only files the user is allowed to discover via list/detail APIs."""
+        if getattr(user, 'is_staff', False):
+            return queryset
+
+        if not getattr(user, 'is_authenticated', False):
+            return queryset.filter(requires_login=False).exclude(
+                category__in=['RPT', 'PCY']
+            )
+
+        if not AccessControlManager.has_admin_access(user):
+            queryset = queryset.exclude(category='PCY')
+
+        if not AccessControlManager.has_financial_access(user):
+            queryset = queryset.exclude(category='RPT')
+
+        return queryset
     
     @staticmethod
     def can_download_file(user, file_obj):
@@ -264,9 +283,7 @@ class AccessControlManager:
             return False, "This file is not available"
         
         # Check user permissions for sensitive files
-        # For RPT files: only check financial access for public files (not requiring login)
-        # If requires_login=True and user is authenticated, allow access
-        if file_obj.category == 'RPT' and not file_obj.requires_login and not AccessControlManager.has_financial_access(user):
+        if file_obj.category == 'RPT' and not AccessControlManager.has_financial_access(user):
             return False, "Insufficient permissions for financial reports"
         
         if file_obj.category == 'PCY' and not AccessControlManager.has_admin_access(user):
