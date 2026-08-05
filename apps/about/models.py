@@ -145,7 +145,7 @@ class CooperativeInfo(models.Model):
         from django.core.signing import TimestampSigner
         signer = TimestampSigner()
         token = signer.sign(str(self.pk))
-        return reverse('about:preview_content', kwargs={
+        return reverse('about:preview_content_token', kwargs={
             'model_name': 'cooperativeinfo', 'pk': self.pk, 'token': token
         })
     
@@ -268,7 +268,7 @@ class CooperativeTimeline(models.Model):
         from django.core.signing import TimestampSigner
         signer = TimestampSigner()
         token = signer.sign(str(self.pk))
-        return reverse('about:preview_content', kwargs={
+        return reverse('about:preview_content_token', kwargs={
             'model_name': 'cooperativetimeline', 'pk': self.pk, 'token': token
         })
     
@@ -414,7 +414,7 @@ class CooperativeStatistic(models.Model):
         from django.core.signing import TimestampSigner
         signer = TimestampSigner()
         token = signer.sign(str(self.pk))
-        return reverse('about:preview_content', kwargs={
+        return reverse('about:preview_content_token', kwargs={
             'model_name': 'cooperativestatistic', 'pk': self.pk, 'token': token
         })
     
@@ -514,7 +514,7 @@ class CooperativeAffiliation(models.Model):
         from django.core.signing import TimestampSigner
         signer = TimestampSigner()
         token = signer.sign(str(self.pk))
-        return reverse('about:preview_content', kwargs={
+        return reverse('about:preview_content_token', kwargs={
             'model_name': 'cooperativeaffiliation', 'pk': self.pk, 'token': token
         })
     
@@ -611,7 +611,7 @@ class LeadershipMessage(models.Model):
         from django.core.signing import TimestampSigner
         signer = TimestampSigner()
         token = signer.sign(str(self.pk))
-        return reverse('about:preview_content', kwargs={
+        return reverse('about:preview_content_token', kwargs={
             'model_name': 'leadershipmessage', 'pk': self.pk, 'token': token
         })
     
