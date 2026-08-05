@@ -276,14 +276,14 @@
                     </div>
                     
                     <button type="submit" id="execute-btn" disabled>Execute Operation</button>
-                    <a href="{% url 'admin:home_galleryimage_changelist' %}" class="button">Cancel</a>
+                    <a href="{% url 'admin:gallery_galleryimage_changelist' %}" class="button">Cancel</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     const imageGrid = document.getElementById('image-grid');
     const imageItems = document.querySelectorAll('.image-item');

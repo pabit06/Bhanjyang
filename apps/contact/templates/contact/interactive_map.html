@@ -167,7 +167,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="{% static 'js/utilities/advanced-animations.js' %}"></script>
     <script src="{% static 'js/utilities/dark-mode.js' %}"></script>
-    <script>
+    <script nonce="{{ request.csp_nonce }}">
         // Interactive Map Implementation
         class InteractiveMap {
             constructor() {
@@ -278,7 +278,7 @@
                         <p class="text-sm text-gray-600 mb-2">${location.address}</p>
                         <p class="text-sm text-gray-500 mb-3">${location.hours}</p>
                         <div class="flex gap-2">
-                            <button onclick="interactiveMap.showLocationDetails(${JSON.stringify(location).replace(/"/g, '&quot;')})" 
+                            <button type="button" data-action="interactiveMap.showLocationDetails" data-action-args="[${JSON.stringify(location).replace(/"/g, '&quot;')}]" 
                                     class="text-xs bg-deuraligreen text-white px-2 py-1 rounded">
                                 विवरण हेर्नुहोस्
                             </button>

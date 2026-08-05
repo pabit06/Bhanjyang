@@ -98,20 +98,16 @@
                 </div>
                 <div class="flex items-center space-x-2">
                     <!-- Social Share Buttons -->
-                    <button onclick="shareOnFacebook()"
-                        class="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                    <button data-action="shareOnFacebook" class="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
                         <i class="fab fa-facebook-f"></i>
                     </button>
-                    <button onclick="shareOnTwitter()"
-                        class="p-2 bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors">
+                    <button data-action="shareOnTwitter" class="p-2 bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors">
                         <i class="fab fa-twitter"></i>
                     </button>
-                    <button onclick="shareOnLinkedIn()"
-                        class="p-2 bg-blue-700 text-white rounded-full hover:bg-blue-800 transition-colors">
+                    <button data-action="shareOnLinkedIn" class="p-2 bg-blue-700 text-white rounded-full hover:bg-blue-800 transition-colors">
                         <i class="fab fa-linkedin-in"></i>
                     </button>
-                    <button onclick="copyLink()"
-                        class="p-2 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors">
+                    <button data-action="copyLink" class="p-2 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors">
                         <i class="fas fa-link"></i>
                     </button>
                 </div>
@@ -250,7 +246,7 @@
 {% endblock content %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ request.csp_nonce }}">
 // Pass translated messages to JavaScript
 window.newsEventsMessages = {
     linkCopied: "{% trans 'Link copied to clipboard!' %}"
@@ -259,7 +255,7 @@ window.newsEventsMessages = {
 <script src="{% static 'news_events/js/article_detail.js' %}"></script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "NewsArticle",

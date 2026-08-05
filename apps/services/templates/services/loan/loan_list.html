@@ -312,7 +312,7 @@
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
 
 <!-- Initialize AOS Animation Library -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Initialize AOS Animation Library
     document.addEventListener('DOMContentLoaded', function() {
         // Check for reduced motion preference
@@ -336,7 +336,7 @@
 </script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",
@@ -360,7 +360,7 @@
 </script>
 
 <!-- Preserve Nepali digits after page load -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
 (function() {
     // Function to convert English digits to Nepali digits
     function toNepaliDigits(str) {

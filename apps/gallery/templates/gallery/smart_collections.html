@@ -393,7 +393,7 @@
                     <div class="collection-meta">
                         <span class="collection-count">{{ collection_data.image_count }} images</span>
                         <button class="collection-update-btn" 
-                                onclick="updateCollection('{{ collection.id }}')">
+                                data-action="updateCollection" data-action-args='["{{ collection.id }}"]'>
                             <i class="fas fa-sync-alt mr-1"></i>
                             Update
                         </button>
@@ -482,7 +482,7 @@
 
 {% block extra_js %}
 <script src="{% static 'js/utilities/advanced-animations.js' %}"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
 function updateCollection(collectionId) {
     const button = event.target;
     const originalText = button.innerHTML;

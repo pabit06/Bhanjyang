@@ -400,7 +400,7 @@
 <!-- Remittance Services JS (reused for animations) -->
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     const calculateBtn = document.getElementById('calculate-fd');
     const depositAmountInput = document.getElementById('deposit-amount');
@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",

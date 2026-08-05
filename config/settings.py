@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-dev-key-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Environment Variable Validation
 if not DEBUG:
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'csp',  # django-csp; policy + per-request nonce, see CSP_* below
     'drf_spectacular',
     'django_extensions',
     'imagekit',  # Image optimization and processing
@@ -108,6 +109,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'apps.shared_security.middleware.BhanjyangSecurityMiddleware',  # After auth: session integrity checks need request.user
+    'apps.shared_security.middleware.GlobalRateLimitMiddleware',  # Global rate limiting
     'reversion.middleware.RevisionMiddleware',  # Content versioning middleware
     'apps.core.middleware.RateLimitMiddleware',  # Rate limiting (after auth)
     'apps.core.middleware.InputValidationMiddleware',  # Input validation
@@ -291,14 +294,47 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin'
 SECURE_CROSS_ORIGIN_EMBEDDER_POLICY = 'require-corp'
 
 # Content Security Policy (django-csp)
-# Note: 'unsafe-inline' and 'unsafe-eval' reduce security. Consider using nonces/hashes instead.
-CSP_DEFAULT_SRC = ("'self'", "https:", "data:")
-CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https:")  # Removed 'unsafe-eval' for better security
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https:")
-CSP_FONT_SRC = ("'self'", "data:", "https:")
-CSP_IMG_SRC = ("'self'", "data:", "https:")
-CSP_CONNECT_SRC = ("'self'", "https:")
-CSP_FRAME_SRC = ("'self'", "https:")
+#
+# Inline <script> blocks carry nonce="{{ request.csp_nonce }}". Inline handler
+# attributes (onclick=, onerror=) are NOT covered by a nonce, so templates use
+# the data-action/data-fallback contract wired up by static/js/csp-compat.js.
+#
+# A bare "https:" source would let any HTTPS host serve scripts, which cancels
+# out most of the benefit of dropping 'unsafe-inline'. Hosts are listed
+# explicitly instead; add new CDNs here when a template starts using one.
+#
+# CSP_STYLE_SRC still needs 'unsafe-inline' because many templates use inline
+# style="" attributes; migrating those to CSS classes is tracked separately.
+_CDN_HOSTS = [
+    "https://cdn.jsdelivr.net",
+    "https://unpkg.com",
+    "https://cdnjs.cloudflare.com",
+]
+_ANALYTICS_HOSTS = [
+    "https://www.googletagmanager.com",
+    "https://www.google-analytics.com",
+]
+
+CSP_DEFAULT_SRC = ["'self'"]
+CSP_SCRIPT_SRC = ["'self'"] + _CDN_HOSTS + _ANALYTICS_HOSTS
+CSP_STYLE_SRC = ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"] + _CDN_HOSTS
+CSP_INCLUDE_NONCE_IN = ["script-src"]
+CSP_FONT_SRC = ["'self'", "data:", "https://fonts.gstatic.com"] + _CDN_HOSTS
+CSP_IMG_SRC = ["'self'", "data:", "blob:", "https:"]  # user uploads + remote thumbnails
+CSP_CONNECT_SRC = ["'self'"] + _ANALYTICS_HOSTS + [
+    "https://analytics.google.com",
+    "https://stats.g.doubleclick.net",
+]
+CSP_FRAME_SRC = ["'self'", "https://www.google.com"]  # embedded maps
+CSP_FRAME_ANCESTORS = ["'self'"]
+CSP_OBJECT_SRC = ["'none'"]
+CSP_BASE_URI = ["'self'"]
+CSP_FORM_ACTION = ["'self'"]
+CSP_WORKER_SRC = ["'self'"]  # service worker at /static/sw.js
+
+# Set CSP_REPORT_ONLY=True to roll out policy changes without breaking pages:
+# violations are reported to the console instead of being enforced.
+CSP_REPORT_ONLY = config('CSP_REPORT_ONLY', default=False, cast=bool)
 
 
 # File Upload Security
@@ -615,6 +651,31 @@ try:
         )
 except ImportError:
     pass
+
+# Shared Security Settings (apps.shared_security) - see apps/shared_security/INTEGRATION_GUIDE.md
+
+# Number of proxies (nginx, load balancer, CDN) between the client and Django.
+# get_client_ip() only reads this many entries from the right of
+# X-Forwarded-For; the rest is attacker-controlled. Leave at 0 when Django is
+# reachable directly - a wrong value here lets clients forge their own IP, which
+# drives rate limiting and IP blacklisting.
+TRUSTED_PROXY_COUNT = config('TRUSTED_PROXY_COUNT', default=0, cast=int)
+
+SECURITY_EXEMPT_PATHS = ['/admin/', '/static/', '/media/']
+IP_BLACKLIST_DURATION = 86400  # 24 hours
+MAX_VIOLATION_THRESHOLD = 5  # Auto-blacklist after 5 violations
+SESSION_TIMEOUT_MINUTES = 30
+HONEYPOT_FIELD_NAME = 'website'
+
+# Coarse per-IP limits (requests/minute) for endpoints with no dedicated limiter.
+# /contact/ is deliberately absent: apps.contact.ContactRateLimitMiddleware
+# already limits it per IP *and* per email address, and stacking a second
+# limiter on top only feeds MAX_VIOLATION_THRESHOLD, which auto-blacklists the
+# IP for a day.
+GLOBAL_RATE_LIMITS = {
+    r'^/subscribe/.*': 3,  # 3 requests/minute for subscriptions
+    r'^/comment/.*': 10,  # 10 requests/minute for comments
+}
 
 # Downloads Security Settings (Priority 2)
 from datetime import timedelta

@@ -8,6 +8,7 @@ import uuid
 from typing import Union, Dict, Any, Optional
 from django.utils import timezone
 from django.http import HttpRequest
+from apps.shared_security import get_client_ip_from_meta as resolve_client_ip_from_meta
 
 
 def get_client_ip(request_or_meta: Union[HttpRequest, Dict[str, Any]]) -> str:
@@ -20,17 +21,8 @@ def get_client_ip(request_or_meta: Union[HttpRequest, Dict[str, Any]]) -> str:
     Returns:
         str: Client IP address
     """
-    if hasattr(request_or_meta, 'META'):
-        meta = request_or_meta.META
-    else:
-        meta = request_or_meta
-        
-    x_forwarded_for = meta.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0].strip()
-    else:
-        ip = meta.get('REMOTE_ADDR', '')
-    return ip
+    meta = request_or_meta.META if hasattr(request_or_meta, 'META') else request_or_meta
+    return resolve_client_ip_from_meta(meta, default='')
 
 
 def format_file_size_display(size_bytes: int) -> str:

@@ -141,7 +141,7 @@
 {% include 'services/loan/partials/_loan_seo_structured_data.html' with service=service %}
 
 <!-- Preserve Nepali digits after page load -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
 (function() {
     // Function to convert English digits to Nepali digits
     function toNepaliDigits(str) {

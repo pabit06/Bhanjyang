@@ -40,8 +40,8 @@
                         </div>
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-1">{% trans "Phone" %}</h4>
-                                <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
-                                    {{ site_info.phone|default:"+977-9856083101" }}
+                                <a href="tel:{{ site_info.phone }}" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    {{ site_info.phone }}
                                 </a>
                     </div>
                 </div>
@@ -51,8 +51,8 @@
                             </div>
                 <div>
                                 <h4 class="font-semibold text-gray-900 mb-1">{% trans "Email" %}</h4>
-                                <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
-                                    {{ site_info.email|default:"info@bhanjyang.coop.np" }}
+                                <a href="mailto:{{ site_info.email }}" class="text-deuraligreen hover:text-green-700 hover:underline transition-colors duration-300">
+                                    {{ site_info.email }}
                                 </a>
                             </div>
                         </div>

@@ -332,9 +332,15 @@ class NewsArticleListSerializer(serializers.ModelSerializer):
 class EventListSerializer(serializers.ModelSerializer):
     """Lightweight serializer for event lists."""
     event_type_display = serializers.CharField(source='get_event_type_display', read_only=True)
+    # Without this, DRF maps `image_thumbnail` straight to the imagekit
+    # ImageSpecField and serialises the cache-file object itself. The JSON
+    # encoder then tries to read it, imagekit goes looking for a source image,
+    # and every event without one raises MissingSource - a 500 on the whole
+    # list endpoint. Mirror NewsArticleListSerializer and emit a URL string.
+    image_thumbnail = serializers.SerializerMethodField()
     view_count_display = serializers.SerializerMethodField()
     url = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Event
         fields = [
@@ -344,7 +350,18 @@ class EventListSerializer(serializers.ModelSerializer):
             'registration_count', 'view_count_display', 'url'
         ]
         read_only_fields = ['id', 'slug', 'view_count', 'registration_count']
-    
+
+    def get_image_thumbnail(self, obj: Event) -> Optional[str]:
+        """Get thumbnail URL if available."""
+        if not obj.image:
+            return None
+        try:
+            if obj.image_thumbnail:
+                return obj.image_thumbnail.url
+        except (AttributeError, ValueError, Exception):
+            pass
+        return None
+
     def get_url(self, obj: Event) -> str:
         """Get absolute URL for the event."""
         return obj.get_absolute_url()

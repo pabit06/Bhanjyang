@@ -315,7 +315,7 @@
 {% endblock extra_css %}
 
 {% block extra_js %}
-<script type="module">
+<script type="module" nonce="{{ request.csp_nonce }}">
     import NewsEventsService from "{% static 'js/modules/news-events-api.js' %}";
 
     document.addEventListener('alpine:init', () => {

@@ -370,7 +370,7 @@
 <!-- Remittance Services JS (reused for animations) -->
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
     document.addEventListener('DOMContentLoaded', function () {
         const calculateBtn = document.getElementById('calculate-savings');
         const monthlyDepositInput = document.getElementById('monthly-deposit');

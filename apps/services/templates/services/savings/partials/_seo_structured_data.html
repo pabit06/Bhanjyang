@@ -6,7 +6,7 @@ Usage: {% include 'services/savings/partials/_seo_structured_data.html' with ser
 {% endcomment %}
 
 <!-- Enhanced Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",
@@ -50,7 +50,7 @@ Usage: {% include 'services/savings/partials/_seo_structured_data.html' with ser
 
 <!-- BreadcrumbList Schema -->
 {% if breadcrumbs %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

@@ -12,18 +12,17 @@ from django.shortcuts import render
 from django.conf import settings
 from apps.downloads.security_enhanced import RateLimitManager, IPBlacklistManager
 import logging
+from apps.shared_security import (
+    get_client_ip as resolve_client_ip,
+    get_client_ip_from_meta as resolve_client_ip_from_meta,
+)
 
 logger = logging.getLogger(__name__)
 
 
 def get_client_ip(request):
     """Extract client IP from request."""
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
+    return resolve_client_ip(request)
 
 
 class ContactRateLimitMiddleware:
@@ -158,48 +157,33 @@ class ContactRateLimitMiddleware:
 class ContactSecurityHeadersMiddleware:
     """
     Add security headers specifically for contact page.
-    
-    Includes Content Security Policy (CSP) headers for enhanced security.
+
+    Content-Security-Policy is deliberately NOT set here. django-csp
+    (csp.middleware.CSPMiddleware) builds the site-wide policy from the CSP_*
+    settings, including the per-request script nonce. This middleware runs
+    earlier in the response phase, so setting the header here would win -
+    django-csp does not overwrite an existing header - and contact pages would
+    silently fall back to a policy with no nonce and 'unsafe-inline'.
     """
-    
+
     HEADERS = {
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'DENY',
         'X-XSS-Protection': '1; mode=block',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
     }
-    
-    # Content Security Policy for contact forms
-    # Allows inline scripts for form validation, Google Maps, and external resources
-    CSP_POLICY = (
-        "default-src 'self'; "
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://www.google-analytics.com; "
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; "
-        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; "
-        "img-src 'self' data: https: blob:; "
-        "connect-src 'self' https://maps.googleapis.com https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
-        "frame-src https://www.google.com; "
-        "object-src 'none'; "
-        "base-uri 'self'; "
-        "form-action 'self'; "
-        "frame-ancestors 'none';"
-    )
-    
+
     def __init__(self, get_response):
         self.get_response = get_response
-    
+
     def __call__(self, request):
         response = self.get_response(request)
-        
+
         # Apply headers only to contact routes
         if request.path.startswith('/contact/'):
             # Add standard security headers
             for header, value in self.HEADERS.items():
                 if header not in response:
                     response[header] = value
-            
-            # Add Content Security Policy header
-            if 'Content-Security-Policy' not in response:
-                response['Content-Security-Policy'] = self.CSP_POLICY
-        
+
         return response

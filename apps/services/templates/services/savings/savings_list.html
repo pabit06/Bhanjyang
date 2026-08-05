@@ -528,7 +528,7 @@
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
 
 <!-- Initialize AOS Animation Library -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Initialize AOS Animation Library
     document.addEventListener('DOMContentLoaded', function() {
         // Check for reduced motion preference
@@ -552,7 +552,7 @@
 </script>
 
 <!-- Enhanced Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",
@@ -596,7 +596,7 @@
 </script>
 
 <!-- BreadcrumbList Schema -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

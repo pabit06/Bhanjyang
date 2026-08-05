@@ -399,23 +399,22 @@
         {% if images %}
             <div class="advanced-image-grid" id="image-grid">
                 {% for image in images %}
-                <div class="image-card" data-image-id="{{ image.id }}" data-image-index="{{ forloop.counter0 }}" onclick="openImageModal(parseInt(this.dataset.imageIndex) || 0)">
+                <div class="image-card" data-image-id="{{ image.id }}" data-image-index="{{ forloop.counter0 }}" data-action="openImageModal" data-action-args='[{{ forloop.counter0 }}]'>
                     <img src="{{ image.image.url }}" alt="{{ image.title }}" loading="lazy"
-                         data-fallback="{% static 'images/default-news-placeholder.png' %}"
-                         onerror="this.onerror=null;this.src=this.dataset.fallback">
+                         data-fallback="{% static 'images/default-news-placeholder.png' %}">
                     <div class="image-overlay">
                         <div class="image-title">{{ image.title }}</div>
                         {% if image.description %}
                             <div class="image-description">{{ image.description|truncatechars:100 }}</div>
                         {% endif %}
                         <div class="image-actions">
-                            <button class="action-btn" onclick="event.stopPropagation(); shareImage('{{ image.id }}')" title="Share">
+                            <button class="action-btn" type="button" data-action="shareImage" data-action-args='["{{ image.id }}"]' title="Share">
                                 <i class="fas fa-share"></i>
                             </button>
-                            <button class="action-btn" onclick="event.stopPropagation(); downloadImage('{{ image.image.url }}')" title="Download">
+                            <button class="action-btn" type="button" data-action="downloadImage" data-action-args='["{{ image.image.url }}"]' title="Download">
                                 <i class="fas fa-download"></i>
                             </button>
-                            <button class="action-btn" onclick="event.stopPropagation(); toggleFavorite('{{ image.id }}')" title="Favorite">
+                            <button class="action-btn" type="button" data-action="toggleFavorite" data-action-args='["{{ image.id }}"]' title="Favorite">
                                 <i class="fas fa-heart"></i>
                             </button>
                         </div>
@@ -458,13 +457,13 @@
             <h3 class="lightbox-title" id="lightbox-title"></h3>
             <p class="lightbox-description" id="lightbox-description"></p>
             <div class="lightbox-actions">
-                <button class="btn-gradient btn-sm" onclick="shareImage(currentImageId)">
+                <button type="button" class="btn-gradient btn-sm" id="lightbox-share">
                     <i class="fas fa-share mr-2"></i>Share
                 </button>
-                <button class="btn-gradient btn-sm" onclick="downloadImage(currentImageSrc)">
+                <button type="button" class="btn-gradient btn-sm" id="lightbox-download">
                     <i class="fas fa-download mr-2"></i>Download
                 </button>
-                <button class="btn-gradient btn-sm" onclick="toggleFavorite(currentImageId)">
+                <button type="button" class="btn-gradient btn-sm" id="lightbox-favorite">
                     <i class="fas fa-heart mr-2"></i>Favorite
                 </button>
             </div>
@@ -475,7 +474,7 @@
 
 {% block extra_js %}
 <script src="{% static 'js/pages/gallery-advanced.js' %}"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     // Album images data
     // eslint-disable-next-line
@@ -649,7 +648,24 @@ document.addEventListener('DOMContentLoaded', function() {
         // This would typically make an API call to save favorites
         showNotification('Added to favorites!', 'success');
     };
-    
+
+    // Lightbox action buttons. These act on currentImageId/currentImageSrc, which
+    // are scoped to this script, so they are wired here rather than through the
+    // data-action attributes csp-compat.js resolves against window.
+    const lightboxShare = document.getElementById('lightbox-share');
+    const lightboxDownload = document.getElementById('lightbox-download');
+    const lightboxFavorite = document.getElementById('lightbox-favorite');
+
+    if (lightboxShare) {
+        lightboxShare.addEventListener('click', () => window.shareImage(currentImageId));
+    }
+    if (lightboxDownload) {
+        lightboxDownload.addEventListener('click', () => window.downloadImage(currentImageSrc));
+    }
+    if (lightboxFavorite) {
+        lightboxFavorite.addEventListener('click', () => window.toggleFavorite(currentImageId));
+    }
+
     // Show notification function
     function showNotification(message, type = 'info') {
         const notification = document.createElement('div');

@@ -32,9 +32,19 @@ class BaseServiceModel(models.Model):
     def save(self, *args: Any, **kwargs: Any) -> None:
         """Overrides the save method to automatically generate a slug if one doesn't exist."""
         if not self.slug:
-            base_slug = slugify(self.english_name)
+            # slugify() drops non-ASCII, so a Devanagari-only english_name (or a
+            # blank one) yields ''. An empty slug is not just cosmetic: every
+            # listing template links with {% url '..._detail' obj.slug %}, and
+            # reverse() with an empty argument raises NoReverseMatch, taking the
+            # whole page down with a 500. Fall back until we have something.
+            base_slug = (
+                slugify(self.english_name)
+                or slugify(self.english_name, allow_unicode=True)
+                or slugify(self.nepali_name, allow_unicode=True)
+                or self.__class__.__name__.lower()
+            )
             self.slug = base_slug
-            
+
             # Ensure uniqueness by appending id or a counter
             # Get the model class to check for existing slugs
             model_class = self.__class__

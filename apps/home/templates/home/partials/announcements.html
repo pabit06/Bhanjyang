@@ -107,7 +107,7 @@
                     {% endif %}
                 </p>
                 
-                <a href="{% if is_notice %}{{ item.get_absolute_url }}{% else %}{% url 'news_events:article_detail' item.slug %}{% endif %}" 
+                <a href="{% if is_notice %}{{ item.get_absolute_url }}{% else %}{% url 'news_events:article-detail' item.slug %}{% endif %}" 
                    class="inline-flex items-center gap-2 text-deuraligreen hover:text-green-700 font-semibold text-sm transition-colors duration-300">
                     <span>{% trans "Read More" %}</span>
                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform duration-200"></i>

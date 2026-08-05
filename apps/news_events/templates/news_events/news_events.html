@@ -774,7 +774,7 @@
 {% block extra_js %}
 <!-- AOS Animation Library -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Initialize AOS Animation Library
     document.addEventListener('DOMContentLoaded', function() {
         // Check for reduced motion preference
@@ -796,7 +796,7 @@
         }
     });
 </script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
 // Pass translated messages to JavaScript
 window.newsEventsMessages = {
     enterEmail: "{% trans 'Please enter your email address.' %}",
@@ -910,7 +910,7 @@ window.newsEventsMessages = {
 <script src="{% static 'news_events/js/home.js' %}"></script>
 
 <!-- Service Worker Registration -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/static/sw.js')
@@ -921,7 +921,7 @@ if ('serviceWorker' in navigator) {
 </script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "WebPage",

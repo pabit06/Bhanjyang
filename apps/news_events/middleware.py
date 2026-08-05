@@ -13,6 +13,7 @@ import logging
 from django.http import HttpResponseForbidden, JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.utils.deprecation import MiddlewareMixin
+from apps.shared_security import get_client_ip as resolve_client_ip
 from .security_enhanced import (
     IPBlacklistManager,
     SecurityHeadersManager,
@@ -165,12 +166,7 @@ class NewsEventsSecurityMiddleware(MiddlewareMixin):
         Returns:
             Client IP address string
         """
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0].strip()
-        else:
-            ip = request.META.get('REMOTE_ADDR', 'unknown')
-        return ip
+        return resolve_client_ip(request)
 
 
 class RateLimitMiddleware(MiddlewareMixin):

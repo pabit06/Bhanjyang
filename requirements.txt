@@ -20,7 +20,7 @@ drf-spectacular>=0.26.0
 django-two-factor-auth>=1.15.0
 qrcode>=7.4.2
 django-otp>=1.2.0
-django-csp>=3.7.0
+django-csp>=3.7.0,<4.0  # 4.x replaces the CSP_* settings with a CONTENT_SECURITY_POLICY dict; config/settings.py still uses CSP_*
 django-ratelimit>=3.0.0
 bleach>=6.1.0
 

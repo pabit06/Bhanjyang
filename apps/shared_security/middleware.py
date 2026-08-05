@@ -85,8 +85,9 @@ class BhanjyangSecurityMiddleware(MiddlewareMixin):
         except (ValueError, TypeError):
             pass
         
-        # Check session security for authenticated users
-        if request.user.is_authenticated:
+        # Check session security for authenticated users (requires AuthenticationMiddleware)
+        user = getattr(request, 'user', None)
+        if user is not None and user.is_authenticated:
             if not SessionSecurityManager.validate_session_integrity(request):
                 log_security_event(
                     'session_integrity_failure',
@@ -183,7 +184,17 @@ class GlobalRateLimitMiddleware(MiddlewareMixin):
                         'retry_after': 60
                     }, status=429)
                 
-                # Increment counter
-                cache.set(cache_key, request_count + 1, 60)
+                # Increment counter. cache.add() seeds the key with a fresh 60s
+                # TTL only when the window is new; incr() then leaves that TTL
+                # alone, so the window actually closes. Re-setting the TTL on
+                # every request would keep extending it under sustained traffic.
+                if cache.add(cache_key, 1, 60):
+                    continue
+                try:
+                    cache.incr(cache_key)
+                except ValueError:
+                    # Key expired between add() and incr(); the next request
+                    # starts a new window.
+                    pass
         
         return None

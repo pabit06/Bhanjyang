@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
+{% load math_filters %}
 
 {% block title %}News & Events Analytics - {{ block.super }}{% endblock %}
 
@@ -188,7 +189,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     // Trends Chart
     const trendsCtx = document.getElementById('trendsChart').getContext('2d');

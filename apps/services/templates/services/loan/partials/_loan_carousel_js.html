@@ -4,7 +4,7 @@ Carousel JavaScript initialization
 Usage: {% include 'services/loan/partials/_loan_carousel_js.html' with service=service %}
 {% endcomment %}
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Wait for Swiper to load before initializing
     function initSwiperCarousel() {
         if (typeof Swiper === 'undefined') {

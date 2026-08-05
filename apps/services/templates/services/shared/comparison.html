@@ -151,7 +151,7 @@
                         </td>
                         <td class="px-6 py-4">
                             <ul class="text-sm text-gray-600 space-y-1 list-disc list-inside">
-                                {% forfeature in account.features %}
+                                {% for feature in account.features %}
                                 <li>{{ feature }}</li>
                                 {% endfor %}
                             </ul>
@@ -364,7 +364,7 @@
 {% endblock content %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ request.csp_nonce }}">
     document.addEventListener('alpine:init', () => {
         Alpine.data('serviceComparison', () => ({
             serviceType: '',

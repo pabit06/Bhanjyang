@@ -241,8 +241,12 @@ class NewsArticleAdmin(admin.ModelAdmin):
         context = {
             'title': 'Bulk Actions',
             'articles': articles,
+            # The template's two selects are populated from these, not from
+            # `articles`; without them both dropdowns rendered empty.
+            'draft_articles': articles.filter(status=NewsArticle.Status.DRAFT),
+            'published_articles': articles.filter(status=NewsArticle.Status.PUBLISHED),
         }
-        
+
         return render(request, 'admin/news_events/bulk_actions.html', context)
     
     def save_model(self, request, obj, form, change):

@@ -249,7 +249,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 // Auto-resize iframe for better mobile experience
 document.addEventListener('DOMContentLoaded', function() {
     const iframe = document.querySelector('.preview-iframe');

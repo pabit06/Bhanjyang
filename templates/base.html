@@ -102,18 +102,33 @@
         href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;700&family=Poppins:wght@400;600;700&family=Montserrat:wght@700;800&display=swap"
         rel="stylesheet">
     {# Font Awesome - async so it doesn't block first paint #}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'" />
+    <link id="font-awesome-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" media="print" />
+    {# media="print" keeps the fetch off the critical path; flip it to "all" once it lands.
+       Inline (not in csp-compat.js) so the icons apply as soon as the CSS arrives
+       rather than waiting for the deferred bundle. #}
+    <script nonce="{{ request.csp_nonce }}">
+        (function () {
+            var link = document.getElementById('font-awesome-css');
+            if (!link) return;
+            function apply() { link.media = 'all'; }
+            link.addEventListener('load', apply, { once: true });
+            if (link.sheet) apply();  // already cached: the load event fired before this ran
+        })();
+    </script>
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" /></noscript>
 
     {# Alpine.js for interactive components #}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    {# Wires up data-action/data-fallback attributes that replaced inline handlers #}
+    <script defer src="{% static 'js/csp-compat.js' %}"></script>
+
     {# Extra CSS for specific pages #}
     {% block extra_css %}{% endblock extra_css %}
 
     {# Structured Data (JSON-LD) #}
-    <script type="application/ld+json">
+    <script type="application/ld+json" nonce="{{ request.csp_nonce }}">
     {
         "@context": "https://schema.org",
         "@type": "{% block schema_type %}FinancialService{% endblock schema_type %}",
@@ -131,7 +146,7 @@
         },
         "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+977-9856083101",
+            "telephone": "{{ site_info.phone }}",
             "contactType": "customer service",
             "availableLanguage": ["Nepali", "English"]
         },
@@ -254,7 +269,7 @@
 
     {# Enable debug mode for development only #}
     {% if debug %}
-    <script>
+    <script nonce="{{ request.csp_nonce }}">
         window.DEBUG_MODE = true;
     </script>
     {% endif %}

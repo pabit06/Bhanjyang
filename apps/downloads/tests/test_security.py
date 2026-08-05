@@ -1,7 +1,7 @@
 """
 Comprehensive tests for downloads security module
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -190,9 +190,10 @@ class DownloadRateLimiterTest(TestCase):
         request.META['REMOTE_ADDR'] = '127.0.0.1'
         
         # DownloadRateLimiter now uses get_client_ip from utils.helpers internally
-        ip = get_client_ip(request)
-        
-        self.assertEqual(ip, '10.0.0.1')
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(get_client_ip(request), '127.0.0.1')
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip(request), '192.168.1.1')
     
     def test_check_download_rate_limit_first_download(self):
         """Test download rate limit on first download"""

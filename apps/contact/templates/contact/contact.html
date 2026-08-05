@@ -26,7 +26,7 @@
 {% block content %}
 <!-- Schema.org Structured Data -->
 {% if site_info %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "ContactPage",
@@ -35,10 +35,10 @@
     "url": "{{ request.build_absolute_uri }}",
     "mainEntity": {
         "@type": "FinancialService",
-        "name": "{{ site_info.cooperative_name|default:'Bhanjyang Saving & Credit Cooperative Society Ltd.'|escapejs }}",
+        "name": "{{ site_info.cooperative_name|escapejs }}",
         "image": "{% if site_info.logo %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.logo.url }}{% elif site_info.featured_image %}{{ request.scheme }}://{{ request.get_host }}{{ site_info.featured_image.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}{% endif %}",
-        "telephone": "{{ site_info.phone|default:'+977-9856083101' }}",
-        "email": "{{ site_info.email|default:'info@bhanjyang.coop.np' }}",
+        "telephone": "{{ site_info.phone }}",
+        "email": "{{ site_info.email }}",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "{{ site_info.address|truncatewords:10|escapejs }}",

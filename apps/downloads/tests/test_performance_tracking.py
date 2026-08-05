@@ -1,7 +1,7 @@
 """
 Tests for Downloads app performance tracking utilities.
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.contrib.auth.models import User
 from unittest.mock import patch, MagicMock
 
@@ -40,8 +40,11 @@ class PerformanceTrackingTest(TestCase):
             'HTTP_X_FORWARDED_FOR': '203.0.113.1, 192.168.1.1',
             'REMOTE_ADDR': '192.168.1.100'
         }
-        ip = get_client_ip_from_meta(meta)
-        self.assertEqual(ip, '203.0.113.1')
+        # X-Forwarded-For is only read as far as our own proxies reach
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(get_client_ip_from_meta(meta), '192.168.1.100')
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip_from_meta(meta), '192.168.1.1')
     
     @patch('apps.downloads.utils.performance.PERFORMANCE_METRIC_AVAILABLE', False)
     def test_track_performance_decorator_no_metric_model(self):

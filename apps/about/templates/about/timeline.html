@@ -242,7 +242,7 @@
 
 {% block extra_js %}
 <script src="{% static 'about/js/about-interactive.js' %}"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
 // Timeline-specific scroll animations
 document.addEventListener('DOMContentLoaded', function() {
     // Create Intersection Observer for timeline items

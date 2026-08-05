@@ -156,21 +156,12 @@ class AnnouncementAdminTest(HomeAdminTestCase):
         self.announcement.refresh_from_db()
         self.assertFalse(self.announcement.is_featured)
     
-    def test_mark_as_active_action(self):
-        """Test mark as active action"""
-        self.announcement.is_active = False
-        self.announcement.save()
-        queryset = Announcement.objects.filter(id=self.announcement.id)
-        self.admin.mark_as_active(self.request, queryset)
-        self.announcement.refresh_from_db()
-        self.assertTrue(self.announcement.is_active)
-    
-    def test_mark_as_inactive_action(self):
-        """Test mark as inactive action"""
-        queryset = Announcement.objects.filter(id=self.announcement.id)
-        self.admin.mark_as_inactive(self.request, queryset)
-        self.announcement.refresh_from_db()
-        self.assertFalse(self.announcement.is_active)
+    # Removed: test_mark_as_active_action and test_mark_as_inactive_action.
+    # AnnouncementAdmin.actions covers publish/draft/schedule/archive and
+    # feature/unfeature; no active/inactive bulk action was ever added. The
+    # Announcement.is_active field exists, so add these back if that action is
+    # ever written. (GalleryImageAdmin has its own mark_as_active - a different
+    # admin class, not this one.)
 
 
 class NewsletterSubscriberAdminTest(HomeAdminTestCase):

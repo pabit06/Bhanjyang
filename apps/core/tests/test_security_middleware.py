@@ -1,7 +1,7 @@
 """
 Comprehensive tests for security middleware
 """
-from django.test import TestCase, RequestFactory, Client
+from django.test import TestCase, RequestFactory, Client, override_settings
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from unittest.mock import patch, MagicMock
@@ -97,13 +97,23 @@ class RateLimitMiddlewareTest(TestCase):
         ip = self.middleware.get_client_ip(request)
         self.assertEqual(ip, '192.168.1.1')
 
-    def test_get_client_ip_forwarded(self):
-        """Test getting client IP from X-Forwarded-For"""
+    def test_get_client_ip_ignores_untrusted_forwarded_for(self):
+        """X-Forwarded-For is ignored when no proxy is trusted"""
         request = self.factory.get('/')
         request.META['HTTP_X_FORWARDED_FOR'] = '192.168.1.1, 10.0.0.1'
-        
-        ip = self.middleware.get_client_ip(request)
-        self.assertEqual(ip, '192.168.1.1')
+        request.META['REMOTE_ADDR'] = '203.0.113.9'
+
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(self.middleware.get_client_ip(request), '203.0.113.9')
+
+    def test_get_client_ip_uses_trusted_proxy_entry(self):
+        """With one proxy in front, its appended entry is the client"""
+        request = self.factory.get('/')
+        request.META['HTTP_X_FORWARDED_FOR'] = '192.168.1.1, 10.0.0.1'
+        request.META['REMOTE_ADDR'] = '203.0.113.9'
+
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(self.middleware.get_client_ip(request), '10.0.0.1')
 
     def test_get_rate_limit_type_api(self):
         """Test determining rate limit type for API"""

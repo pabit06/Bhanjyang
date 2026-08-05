@@ -31,17 +31,17 @@
                         <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center" aria-hidden="true">
                             <i class="fa-solid fa-phone text-deuraligreen" aria-hidden="true"></i>
                         </div>
-                        <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}"
+                        <a href="tel:{{ site_info.phone }}"
                             class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300"
-                            aria-label="{% trans 'Call us at' %} {{ site_info.phone|default:'+977-9856083101' }}">{{ site_info.phone|default:"+977-9856083101" }}</a>
+                            aria-label="{% trans 'Call us at' %} {{ site_info.phone }}">{{ site_info.phone }}</a>
                     </div>
                     <div class="flex items-center gap-3 text-gray-800" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">
                         <div class="w-10 h-10 bg-deuraligreen/10 rounded-full flex items-center justify-center" aria-hidden="true">
                             <i class="fa-solid fa-envelope text-deuraligreen" aria-hidden="true"></i>
                         </div>
-                        <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}"
+                        <a href="mailto:{{ site_info.email }}"
                             class="text-base font-semibold hover:text-deuraligreen transition-colors duration-300"
-                            aria-label="{% trans 'Email us at' %} {{ site_info.email|default:'info@bhanjyang.coop.np' }}">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</a>
+                            aria-label="{% trans 'Email us at' %} {{ site_info.email }}">{{ site_info.email }}</a>
                     </div>
                 </div>
                 <div class="mt-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">

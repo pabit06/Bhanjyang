@@ -1,7 +1,7 @@
 """
 Tests for downloads utils performance module
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 from unittest.mock import patch, MagicMock
@@ -27,9 +27,13 @@ class UtilsPerformanceTest(TestCase):
         self.request.user = self.user
 
     def test_get_client_ip_from_meta(self):
-        # Test X-Forwarded-For
-        meta = {'HTTP_X_FORWARDED_FOR': '10.0.0.1, 192.168.1.1'}
-        self.assertEqual(get_client_ip_from_meta(meta), '10.0.0.1')
+        # X-Forwarded-For is only read as far as our own proxies reach
+        meta = {'HTTP_X_FORWARDED_FOR': '10.0.0.1, 192.168.1.1',
+                'REMOTE_ADDR': '203.0.113.9'}
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(get_client_ip_from_meta(meta), '203.0.113.9')
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip_from_meta(meta), '192.168.1.1')
         
         # Test Remote-Addr
         meta = {'REMOTE_ADDR': '127.0.0.1'}

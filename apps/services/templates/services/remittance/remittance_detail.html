@@ -368,14 +368,12 @@
                         <!-- Carousel Controls/Container -->
                         <div class="relative group px-4">
                             <!-- Scroll Buttons -->
-                            <button onclick="scrollCarousel('left')"
-                                class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50"
+                            <button data-action="scrollCarousel" data-action-args='["left"]' class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50"
                                 aria-label="Scroll carousel left"
                                 aria-controls="partners-carousel">
                                 <i class="fas fa-chevron-left" aria-hidden="true"></i>
                             </button>
-                            <button onclick="scrollCarousel('right')"
-                                class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50"
+                            <button data-action="scrollCarousel" data-action-args='["right"]' class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg text-deuraligreen p-3 rounded-full z-10 hover:bg-deuraligreen hover:text-white transition-all opacity-0 group-hover:opacity-100 border border-gray-100/50"
                                 aria-label="Scroll carousel right"
                                 aria-controls="partners-carousel">
                                 <i class="fas fa-chevron-right" aria-hidden="true"></i>
@@ -564,7 +562,7 @@
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",

@@ -21,7 +21,7 @@
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <!-- SEO: Schema.org Structured Data -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
@@ -190,13 +190,11 @@
                     {% trans "Bulk Download" %}
                 </h3>
                 <div class="flex items-center space-x-4">
-                    <button type="button" onclick="selectAllFiles()"
-                        class="text-sm text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300"
+                    <button type="button" data-action="selectAllFiles" class="text-sm text-deuraligreen hover:text-green-700 font-semibold transition-colors duration-300"
                         aria-label="{% trans 'Select all files for bulk download' %}">
                         <i class="fas fa-check-square mr-1" aria-hidden="true"></i>{% trans "Select All" %}
                     </button>
-                    <button type="button" onclick="clearSelection()"
-                        class="text-sm text-gray-600 hover:text-gray-800 font-semibold transition-colors duration-300"
+                    <button type="button" data-action="clearSelection" class="text-sm text-gray-600 hover:text-gray-800 font-semibold transition-colors duration-300"
                         aria-label="{% trans 'Clear all selections' %}">
                         <i class="fas fa-square mr-1" aria-hidden="true"></i>{% trans "Clear All" %}
                     </button>
@@ -204,7 +202,7 @@
             </div>
             <div class="flex items-center space-x-4">
                 <span id="selected-count" class="text-sm text-gray-600 font-semibold" data-files-selected-text="{% trans 'files selected' %}">0 {% trans "files selected" %}</span>
-                <button type="button" onclick="downloadSelected()" id="bulk-download-btn" disabled
+                <button type="button" data-action="downloadSelected" id="bulk-download-btn" disabled
                     class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
                     <i class="fas fa-download"></i>
                     <span>{% trans "Download Selected" %}</span>
@@ -305,8 +303,7 @@
 
             {% if category_data.has_more %}
             <div class="text-center mt-8">
-                <button onclick="showMoreFiles('{{ category_code }}')"
-                    class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                <button data-action="showMoreFiles" data-action-args='["{{ category_code }}"]' class="group inline-flex items-center gap-2 bg-deuraligreen hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                     id="show-more-{{ category_code }}">
                     <i class="fas fa-plus"></i>
                     <span>{% blocktrans with count=category_data.remaining_count %}Show More ({{ count }} remaining){% endblocktrans %}</span>
@@ -448,7 +445,7 @@
 {% block extra_js %}
 <!-- AOS Animation Library -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Initialize AOS Animation Library
     document.addEventListener('DOMContentLoaded', function() {
         // Check for reduced motion preference

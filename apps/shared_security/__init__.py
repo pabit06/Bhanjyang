@@ -258,22 +258,13 @@ class SecurityHeadersManager:
     @staticmethod
     def get_security_headers() -> Dict[str, str]:
         """Get recommended security headers"""
+        # CSP is handled by django-csp (csp.middleware.CSPMiddleware); do not set it here.
         return {
             'X-Frame-Options': 'SAMEORIGIN',
             'X-Content-Type-Options': 'nosniff',
             'X-XSS-Protection': '1; mode=block',
             'Referrer-Policy': 'strict-origin-when-cross-origin',
             'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
-            'Content-Security-Policy': (
-                "default-src 'self'; "
-                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com; "
-                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-                "font-src 'self' https://fonts.gstatic.com; "
-                "img-src 'self' data: https:; "
-                "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
-                "frame-src https://www.google.com; "
-                "frame-ancestors 'self';"
-            ),
         }
     
     @staticmethod
@@ -313,10 +304,11 @@ class SessionSecurityManager:
                 f"[SECURITY] User agent mismatch for user {request.user.id}"
             )
             return False
-        
-        # Update last activity
-        session['_last_activity'] = timezone.now().isoformat()
-        
+
+        # NB: _last_activity is owned by check_session_timeout(), which the
+        # middleware calls right after this. Refreshing it here would move the
+        # timestamp to "now" before the timeout is evaluated, so the session
+        # could never expire.
         return True
     
     @staticmethod
@@ -348,14 +340,36 @@ class SessionSecurityManager:
 
 # Utility Functions
 
-def get_client_ip(request: HttpRequest) -> str:
-    """Get client IP address from request (handles proxies)"""
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0].strip()
-    else:
-        ip = request.META.get('REMOTE_ADDR', 'unknown')
-    return ip
+def get_client_ip_from_meta(meta: Dict[str, Any], default: str = 'unknown') -> str:
+    """
+    Resolve the client IP from a request META mapping, honouring
+    X-Forwarded-For only as far as our own proxies actually reach.
+
+    X-Forwarded-For is client-supplied and trivially spoofed. Since this value
+    drives rate limiting, brute-force lockouts and IPBlacklistManager
+    auto-blacklisting, trusting the leftmost entry would let anyone blacklist an
+    arbitrary IP for IP_BLACKLIST_DURATION, and evade their own blacklisting by
+    rotating the header.
+
+    settings.TRUSTED_PROXY_COUNT is the number of proxies we run in front of
+    Django (0 when Django is exposed directly). Proxies append the peer address
+    they saw, so only that many entries counted from the right were written by
+    infrastructure we control; everything to their left came from the caller and
+    is ignored.
+    """
+    trusted_proxies = getattr(settings, 'TRUSTED_PROXY_COUNT', 0)
+    if trusted_proxies > 0:
+        forwarded = meta.get('HTTP_X_FORWARDED_FOR') or ''
+        chain = [part.strip() for part in forwarded.split(',') if part.strip()]
+        if len(chain) >= trusted_proxies:
+            return chain[-trusted_proxies]
+
+    return meta.get('REMOTE_ADDR') or default
+
+
+def get_client_ip(request: HttpRequest, default: str = 'unknown') -> str:
+    """Resolve the client IP for a request. See get_client_ip_from_meta()."""
+    return get_client_ip_from_meta(request.META, default)
 
 
 def log_security_event(
@@ -365,7 +379,7 @@ def log_security_event(
 ):
     """Log security events"""
     event_data = {
-        'timestamp': timestamp timezone.now().isoformat(),
+        'timestamp': timezone.now().isoformat(),
         'event_type': event_type,
         'details': details
     }
