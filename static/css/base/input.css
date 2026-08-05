@@ -443,6 +443,6 @@
   }
 }
 
-. f o n t - m u k t a  
-   f o n t - f a m i l y :   ' M u k t a ' ,   s a n s - s e r i f ;    
- 
+.font-mukta {
+  font-family: 'Mukta', sans-serif;
+}
