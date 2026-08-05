@@ -217,7 +217,7 @@
 <script src="{% static 'home/js/index.js' %}"></script>
 
 <!-- Popup Notice Modal Initialization -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Clean up body overflow if page is unloaded while modal is open (rare edge case)
     window.addEventListener('beforeunload', function() {
         document.body.style.overflow = '';

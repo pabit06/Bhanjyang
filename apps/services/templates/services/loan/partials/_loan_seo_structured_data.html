@@ -5,7 +5,7 @@ SEO Structured Data (JSON-LD) for loan pages
 Usage: {% include 'services/loan/partials/_loan_seo_structured_data.html' with service=service %}
 {% endcomment %}
 
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",

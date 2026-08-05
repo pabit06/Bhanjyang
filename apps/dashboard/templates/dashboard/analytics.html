@@ -237,7 +237,7 @@ traffic trends{% endblock %}
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <img src="{% static 'images/browsers/' %}{{ browser.browser|lower }}.png"
-                                alt="{{ browser.browser }}" class="browser-icon" onerror="this.style.display='none'">
+                                alt="{{ browser.browser }}" class="browser-icon" data-hide-on-error>
                             <span class="font-medium text-gray-900">{{ browser.browser }}</span>
                         </div>
                         <div class="text-right">

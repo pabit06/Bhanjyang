@@ -6,7 +6,7 @@
 
         {# Cooperative Info #}
         <div class="flex flex-col items-center md:items-start lg:col-span-2 h-full gsap-fade-in">
-            <img src="{% static 'images/logos/Logo.png' %}" alt="{% trans 'Bhanjyang Cooperative Logo' %}" class="block mx-auto md:mx-0 h-16 mb-4 gsap-slide-up" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/200x60/eeeeee/333333?text=Logo+Not+Found';">
+            <img src="{% static 'images/logos/Logo.png' %}" alt="{% trans 'Bhanjyang Cooperative Logo' %}" class="block mx-auto md:mx-0 h-16 mb-4 gsap-slide-up" loading="lazy" data-fallback="{% static 'images/default-news-placeholder.png' %}">
             <p class="text-sm leading-relaxed mb-6 text-justify gsap-fade-in">
                 {% trans "Bhanjyang Saving & Credit Cooperative Society Ltd. is dedicated to fostering economic growth and community development through reliable financial services in Rupa Rural Municipality, Kaski." %}
             </p>

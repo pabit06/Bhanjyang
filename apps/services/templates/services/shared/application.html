@@ -231,14 +231,14 @@
                 <div class="bg-white rounded-xl p-6 shadow-lg">
                     <i class="fas fa-phone text-green-600 text-3xl mb-4"></i>
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Call Us</h3>
-                    <a href="tel:{{ site_info.phone|default:'+977-9856083101' }}" class="text-gray-600 hover:text-green-600 transition-colors">{{ site_info.phone|default:"+977-9856083101" }}</a>
+                    <a href="tel:{{ site_info.phone }}" class="text-gray-600 hover:text-green-600 transition-colors">{{ site_info.phone }}</a>
                     <p class="text-sm text-gray-500">Mon-Fri: 9AM-5PM</p>
                 </div>
                 
                 <div class="bg-white rounded-xl p-6 shadow-lg">
                     <i class="fas fa-envelope text-blue-600 text-3xl mb-4"></i>
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Email Us</h3>
-                    <a href="mailto:{{ site_info.email|default:'info@bhanjyang.coop.np' }}" class="text-gray-600 hover:text-blue-600 transition-colors">{{ site_info.email|default:"info@bhanjyang.coop.np" }}</a>
+                    <a href="mailto:{{ site_info.email }}" class="text-gray-600 hover:text-blue-600 transition-colors">{{ site_info.email }}</a>
                     <p class="text-sm text-gray-500">{% trans "24/7 Support" %}</p>
                 </div>
                 
@@ -255,7 +255,7 @@
 {% endblock content %}
 
 {% block extra_js %}
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('service-application-form');
     const submitBtn = form.querySelector('button[type="submit"]');

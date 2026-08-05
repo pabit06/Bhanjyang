@@ -8,7 +8,7 @@ Usage: {% include 'about/partials/_board_structured_data.html' with committees=c
 
 {% if committees %}
 <!-- Organization Schema for Board Structure -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -45,7 +45,7 @@ Usage: {% include 'about/partials/_board_structured_data.html' with committees=c
 {% if committee.is_active %}
 {% for membership in committee.memberships.all|slice:":3" %}
 {% if membership.is_active and membership.position in 'chairman,vice_chairman,secretary' %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -75,7 +75,7 @@ Usage: {% include 'about/partials/_board_structured_data.html' with committees=c
 {% endif %}
 
 <!-- BreadcrumbList Schema -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

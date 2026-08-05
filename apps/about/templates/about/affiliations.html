@@ -149,7 +149,7 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <!-- Initialize AOS Animation Library -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Initialize AOS Animation Library - Ensure it loads properly
     function initAOS() {
         // Check for reduced motion preference

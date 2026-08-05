@@ -191,15 +191,15 @@ functionality{% endblock %}
                             <td class="text-center">
                                 <div class="flex justify-center space-x-2">
                                     <button class="text-blue-600 hover:text-blue-800 text-sm"
-                                        onclick="viewReport({{ report.id }})">
+                                        data-action="viewReport" data-action-args='[{{ report.id }}]'>
                                         <i class="fas fa-eye"></i>
                                     </button>
                                     <button class="text-green-600 hover:text-green-800 text-sm"
-                                        onclick="downloadReport({{ report.id }})">
+                                        data-action="downloadReport" data-action-args='[{{ report.id }}]'>
                                         <i class="fas fa-download"></i>
                                     </button>
                                     <button class="text-red-600 hover:text-red-800 text-sm"
-                                        onclick="deleteReport({{ report.id }})">
+                                        data-action="deleteReport" data-action-args='[{{ report.id }}]'>
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
@@ -231,7 +231,7 @@ functionality{% endblock %}
                                 <div class="text-sm text-gray-500">Load times, database queries, API responses</div>
                             </div>
                         </div>
-                        <button class="btn-secondary text-sm" onclick="generateTemplateReport('performance')">
+                        <button class="btn-secondary text-sm" data-action="generateTemplateReport" data-action-args='["performance"]'>
                             Generate
                         </button>
                     </div>
@@ -246,7 +246,7 @@ functionality{% endblock %}
                                 <div class="text-sm text-gray-500">Page views, user behavior, traffic trends</div>
                             </div>
                         </div>
-                        <button class="btn-secondary text-sm" onclick="generateTemplateReport('analytics')">
+                        <button class="btn-secondary text-sm" data-action="generateTemplateReport" data-action-args='["analytics"]'>
                             Generate
                         </button>
                     </div>
@@ -261,7 +261,7 @@ functionality{% endblock %}
                                 <div class="text-sm text-gray-500">Error logs, types, resolution status</div>
                             </div>
                         </div>
-                        <button class="btn-secondary text-sm" onclick="generateTemplateReport('error')">
+                        <button class="btn-secondary text-sm" data-action="generateTemplateReport" data-action-args='["error"]'>
                             Generate
                         </button>
                     </div>
@@ -276,7 +276,7 @@ functionality{% endblock %}
                                 <div class="text-sm text-gray-500">Custom metrics and date ranges</div>
                             </div>
                         </div>
-                        <button class="btn-secondary text-sm" onclick="generateTemplateReport('custom')">
+                        <button class="btn-secondary text-sm" data-action="generateTemplateReport" data-action-args='["custom"]'>
                             Generate
                         </button>
                     </div>
@@ -327,13 +327,13 @@ functionality{% endblock %}
             <div class="metric-card p-6">
                 <h4 class="text-lg font-semibold text-gray-900 mb-4">Quick Generate</h4>
                 <div class="space-y-3">
-                    <button class="btn-primary w-full" onclick="generateQuickReport('weekly')">
+                    <button class="btn-primary w-full" data-action="generateQuickReport" data-action-args='["weekly"]'>
                         <i class="fas fa-calendar-week mr-2"></i>Weekly Report
                     </button>
-                    <button class="btn-primary w-full" onclick="generateQuickReport('monthly')">
+                    <button class="btn-primary w-full" data-action="generateQuickReport" data-action-args='["monthly"]'>
                         <i class="fas fa-calendar-alt mr-2"></i>Monthly Report
                     </button>
-                    <button class="btn-secondary w-full" onclick="generateQuickReport('error_summary')">
+                    <button class="btn-secondary w-full" data-action="generateQuickReport" data-action-args='["error_summary"]'>
                         <i class="fas fa-exclamation-triangle mr-2"></i>Error Summary
                     </button>
                 </div>
@@ -343,13 +343,13 @@ functionality{% endblock %}
             <div class="metric-card p-6">
                 <h4 class="text-lg font-semibold text-gray-900 mb-4">Export Options</h4>
                 <div class="space-y-3">
-                    <button class="btn-primary w-full" onclick="exportData('pdf')">
+                    <button class="btn-primary w-full" data-action="exportData" data-action-args='["pdf"]'>
                         <i class="fas fa-file-pdf mr-2"></i>Export as PDF
                     </button>
-                    <button class="btn-primary w-full" onclick="exportData('csv')">
+                    <button class="btn-primary w-full" data-action="exportData" data-action-args='["csv"]'>
                         <i class="fas fa-file-csv mr-2"></i>Export as CSV
                     </button>
-                    <button class="btn-secondary w-full" onclick="exportData('excel')">
+                    <button class="btn-secondary w-full" data-action="exportData" data-action-args='["excel"]'>
                         <i class="fas fa-file-excel mr-2"></i>Export as Excel
                     </button>
                 </div>

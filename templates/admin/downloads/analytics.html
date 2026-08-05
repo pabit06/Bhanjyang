@@ -174,7 +174,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 // Category Chart
 const categoryCtx = document.getElementById('categoryChart').getContext('2d');
 const categoryChart = new Chart(categoryCtx, {

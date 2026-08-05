@@ -8,7 +8,7 @@ Usage: {% include 'about/partials/_organization_structured_data.html' with coope
 
 {% if cooperative_info %}
 <!-- Organization Schema -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -68,7 +68,7 @@ Usage: {% include 'about/partials/_organization_structured_data.html' with coope
 </script>
 
 <!-- LocalBusiness Schema (for local SEO) -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -170,7 +170,7 @@ Usage: {% include 'about/partials/_organization_structured_data.html' with coope
 {% endif %}
 
 <!-- BreadcrumbList Schema -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

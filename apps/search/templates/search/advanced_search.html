@@ -238,7 +238,7 @@
 <script src="{% static 'js/utilities/advanced-animations.js' %}"></script>
 <script src="{% static 'js/utilities/dark-mode.js' %}"></script>
 
-<script type="module">
+<script type="module" nonce="{{ request.csp_nonce }}">
     import { SearchService } from "{% static 'js/modules/search-api.js' %}";
 
     document.addEventListener('alpine:init', () => {

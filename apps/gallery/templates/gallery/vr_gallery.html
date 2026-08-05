@@ -256,7 +256,7 @@
 
 {% block extra_js %}
 <script src="{% static 'js/utilities/advanced-animations.js' %}"></script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
 class VRGallery {
     constructor() {
         this.isActive = false;

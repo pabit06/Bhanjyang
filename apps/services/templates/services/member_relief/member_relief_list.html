@@ -73,7 +73,7 @@
                         class="px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2 border border-purple-300/30 touch-target">
                         <i class="fas fa-heart"></i> {% trans "Contact Us" %}
                     </a>
-                    <button onclick="document.getElementById('programs-section').scrollIntoView({behavior: 'smooth'})"
+                    <button data-scroll-to="#programs-section"
                         class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 backdrop-blur-md transition-all hover:shadow-lg hover:shadow-white/10 touch-target"
                         aria-label="Scroll to programs section">
                         {% trans "Programs" %}
@@ -356,7 +356,7 @@
 <script src="{% static 'services/js/remittance.js' %}" defer></script>
 
 <!-- Initialize AOS Animation Library -->
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Initialize AOS Animation Library
     document.addEventListener('DOMContentLoaded', function() {
         // Check for reduced motion preference
@@ -380,7 +380,7 @@
 </script>
 
 <!-- Structured Data (JSON-LD) for SEO -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "FinancialService",

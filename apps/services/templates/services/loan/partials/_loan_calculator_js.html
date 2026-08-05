@@ -4,7 +4,7 @@ Loan calculator JavaScript
 Usage: {% include 'services/loan/partials/_loan_calculator_js.html' with service=service %}
 {% endcomment %}
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
     document.addEventListener('DOMContentLoaded', function () {
         const calculateBtn = document.getElementById('calculate-loan');
         const loanAmountInput = document.getElementById('loan-amount');

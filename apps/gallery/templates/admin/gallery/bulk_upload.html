@@ -258,7 +258,7 @@
         
         <div class="file-input-wrapper">
             <input type="file" name="images" id="file-input" class="file-input" multiple accept="image/*">
-            <button type="button" class="file-input-btn" onclick="document.getElementById('file-input').click()">
+            <button type="button" class="file-input-btn" data-trigger-click="#file-input">
                 <i class="fas fa-folder-open mr-2"></i>Choose Images
             </button>
         </div>
@@ -318,7 +318,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     const uploadArea = document.getElementById('upload-area');
     const fileInput = document.getElementById('file-input');

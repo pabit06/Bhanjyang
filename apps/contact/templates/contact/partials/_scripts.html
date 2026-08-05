@@ -1,4 +1,4 @@
-<script>
+<script nonce="{{ request.csp_nonce }}">
     // Initialize AOS Animation Library
     document.addEventListener('DOMContentLoaded', function() {
         // Check for reduced motion preference
@@ -20,7 +20,7 @@
         }
     });
 </script>
-<script>
+<script nonce="{{ request.csp_nonce }}">
 
 
     // Global toast functions (fallback if not defined elsewhere)

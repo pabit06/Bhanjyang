@@ -8,7 +8,7 @@ Usage: {% include 'about/partials/_management_structured_data.html' with managem
 
 {% if management_team %}
 <!-- Organization Schema for Management Team -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -44,7 +44,7 @@ Usage: {% include 'about/partials/_management_structured_data.html' with managem
 <!-- Individual Person Schemas for Key Staff Members -->
 {% for staff_member in management_team|slice:":5" %}
 {% if staff_member.order <= 3 or staff_member.is_information_officer %}
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -74,7 +74,7 @@ Usage: {% include 'about/partials/_management_structured_data.html' with managem
 {% endif %}
 
 <!-- BreadcrumbList Schema -->
-<script type="application/ld+json">
+<script type="application/ld+json" nonce="{{ request.csp_nonce }}">
 {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

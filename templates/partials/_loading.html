@@ -54,7 +54,7 @@
     }
 </style>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
     (function() {
         const overlay = document.getElementById('loading-overlay');
         const bar = document.getElementById('loading-bar');

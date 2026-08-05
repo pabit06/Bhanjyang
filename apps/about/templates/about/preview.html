@@ -2,7 +2,7 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}{% trans "Preview" %} - {{ content.cooperative_name|default:content.title|default:content }}{% endblock title %}
+{% block title %}{% trans "Preview" %} - {% firstof content.cooperative_name content.title content %}{% endblock title %}
 
 {% block extra_css %}
 <style>
@@ -44,7 +44,7 @@
         {% else %}{% trans "Published" %}{% endif %}
     </span>
     <span style="margin-left: 20px; font-size: 0.9em; opacity: 0.9;">
-        {{ content.cooperative_name|default:content.title|default:content.name|default:content }}
+        {% firstof content.cooperative_name content.title content.name content %}
     </span>
 </div>
 

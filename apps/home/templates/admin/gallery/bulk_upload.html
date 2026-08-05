@@ -168,12 +168,12 @@
         
         <div class="submit-row">
             <button type="submit" class="default" id="upload-btn" disabled>Upload Images</button>
-            <a href="{% url 'admin:home_galleryimage_changelist' %}" class="button">Cancel</a>
+            <a href="{% url 'admin:gallery_galleryimage_changelist' %}" class="button">Cancel</a>
         </div>
     </form>
 </div>
 
-<script>
+<script nonce="{{ request.csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     const uploadArea = document.getElementById('upload-area');
     const fileInput = document.getElementById('file-input');
@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (xhr.status === 200) {
                 showStatus('Images uploaded successfully!', 'success');
                 setTimeout(() => {
-                    window.location.href = '{% url "admin:home_galleryimage_changelist" %}';
+                    window.location.href = '{% url "admin:gallery_galleryimage_changelist" %}';
                 }, 2000);
             } else {
                 showStatus('Error uploading images. Please try again.', 'error');
