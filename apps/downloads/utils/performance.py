@@ -7,6 +7,7 @@ from typing import Dict, Any, Optional
 from functools import wraps
 from django.db import connection
 from django.utils import timezone
+from apps.shared_security import get_client_ip_from_meta as resolve_client_ip_from_meta
 
 try:
     from apps.dashboard.models import PerformanceMetric
@@ -27,12 +28,7 @@ def get_client_ip_from_meta(request_meta: Dict[str, Any]) -> str:
     For general use, prefer get_client_ip from utils.helpers which handles both
     HttpRequest objects and META dictionaries.
     """
-    x_forwarded_for = request_meta.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0].strip()
-    else:
-        ip = request_meta.get('REMOTE_ADDR', '')
-    return ip
+    return resolve_client_ip_from_meta(request_meta, default='')
 
 
 def track_performance(metric_type: str, page_url: Optional[str] = None):

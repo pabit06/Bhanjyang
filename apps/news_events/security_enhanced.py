@@ -351,17 +351,7 @@ class SecurityHeadersManager:
             # Permissions policy
             'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
             
-            # Content Security Policy
-            'Content-Security-Policy': (
-                "default-src 'self'; "
-                "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com; "
-                "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
-                "font-src 'self' https://fonts.gstatic.com; "
-                "img-src 'self' data: https:; "
-                "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
-                "frame-src https://www.google.com; "
-                "frame-ancestors 'self';"
-            ),
+            # Content-Security-Policy is owned by django-csp (see config/settings.py).
             
             # Strict Transport Security (HTTPS only)
             # 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',

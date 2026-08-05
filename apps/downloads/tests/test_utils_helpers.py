@@ -1,7 +1,7 @@
 """
 Tests for downloads utils helpers module
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.utils import timezone
 from datetime import timedelta
 import os
@@ -25,7 +25,13 @@ class UtilsHelpersTest(TestCase):
         # Test with request object
         request = self.factory.get('/')
         request.META['HTTP_X_FORWARDED_FOR'] = '10.0.0.1, 10.0.0.2'
-        self.assertEqual(get_client_ip(request), '10.0.0.1')
+        request.META['REMOTE_ADDR'] = '203.0.113.9'
+        # Untrusted X-Forwarded-For is ignored...
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(get_client_ip(request), '203.0.113.9')
+        # ...and with one proxy in front, its appended entry is the client.
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip(request), '10.0.0.2')
         
         request = self.factory.get('/')
         request.META['REMOTE_ADDR'] = '127.0.0.1'

@@ -8,6 +8,10 @@ import logging
 from django.db import connection
 from django.utils import timezone
 from apps.dashboard.models import PerformanceMetric, UserSession, ErrorLog
+from apps.shared_security import (
+    get_client_ip as resolve_client_ip,
+    get_client_ip_from_meta as resolve_client_ip_from_meta,
+)
 
 
 logger = logging.getLogger('bhanjyang')
@@ -30,12 +34,7 @@ class RateLimitMiddleware(MiddlewareMixin):
     
     def get_client_ip(self, request):
         """Get client IP address"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+        return resolve_client_ip(request)
     
     def get_rate_limit_key(self, request, limit_type='default'):
         """Generate cache key for rate limiting"""
@@ -235,12 +234,7 @@ class InputValidationMiddleware(MiddlewareMixin):
     
     def get_client_ip(self, request):
         """Get client IP address"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+        return resolve_client_ip(request)
 
 class BruteForceProtectionMiddleware(MiddlewareMixin):
     """Protect against brute force attacks"""
@@ -253,12 +247,7 @@ class BruteForceProtectionMiddleware(MiddlewareMixin):
     
     def get_client_ip(self, request):
         """Get client IP address"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+        return resolve_client_ip(request)
     
     def is_ip_blocked(self, ip):
         """Check if IP is blocked due to brute force attempts"""
@@ -396,12 +385,7 @@ class PerformanceMonitoringMiddleware(MiddlewareMixin):
     
     def get_client_ip(self, request):
         """Get the client's IP address"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+        return resolve_client_ip(request)
     
     def get_stack_trace(self, exception):
         """Get stack trace for exception"""

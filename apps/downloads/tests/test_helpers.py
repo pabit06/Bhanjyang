@@ -1,7 +1,7 @@
 """
 Tests for Downloads app helper functions.
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.http import HttpRequest
 from django.utils import timezone
 from datetime import timedelta
@@ -42,10 +42,13 @@ class DownloadsHelpersTest(TestCase):
         request = self.factory.get('/downloads/')
         request.META['HTTP_X_FORWARDED_FOR'] = '203.0.113.1, 192.168.1.1'
         request.META['REMOTE_ADDR'] = '192.168.1.100'
-        
-        ip = get_client_ip(request)
-        # Should return first IP from X-Forwarded-For
-        self.assertEqual(ip, '203.0.113.1')
+
+        # Untrusted X-Forwarded-For is ignored...
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(get_client_ip(request), '192.168.1.100')
+        # ...and with one proxy in front, its appended entry is the client.
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip(request), '192.168.1.1')
     
     def test_format_file_size_display_bytes(self):
         """Test format_file_size_display with bytes"""

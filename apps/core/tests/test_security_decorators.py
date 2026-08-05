@@ -1,7 +1,7 @@
 """
 Comprehensive tests for security decorators
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.http import JsonResponse
@@ -41,12 +41,21 @@ class SecurityManagerTest(TestCase):
         ip = SecurityManager.get_client_ip(request)
         self.assertEqual(ip, '192.168.1.1')
     
-    def test_get_client_ip_forwarded(self):
-        """Test getting client IP from X-Forwarded-For"""
+    def test_get_client_ip_ignores_untrusted_forwarded_for(self):
+        """X-Forwarded-For is ignored when no proxy is trusted"""
         request = self.factory.get('/test/')
         request.META['HTTP_X_FORWARDED_FOR'] = '192.168.1.1, 10.0.0.1'
-        ip = SecurityManager.get_client_ip(request)
-        self.assertEqual(ip, '192.168.1.1')
+        request.META['REMOTE_ADDR'] = '203.0.113.9'
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(SecurityManager.get_client_ip(request), '203.0.113.9')
+
+    def test_get_client_ip_uses_trusted_proxy_entry(self):
+        """With one proxy in front, its appended entry is the client"""
+        request = self.factory.get('/test/')
+        request.META['HTTP_X_FORWARDED_FOR'] = '192.168.1.1, 10.0.0.1'
+        request.META['REMOTE_ADDR'] = '203.0.113.9'
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(SecurityManager.get_client_ip(request), '10.0.0.1')
     
     def test_get_client_ip_empty(self):
         """Test getting client IP when not present"""

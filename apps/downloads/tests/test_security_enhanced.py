@@ -13,7 +13,7 @@ Author: Bhanjyang Dev Team
 Date: January 6, 2026
 """
 
-from django.test import TestCase, RequestFactory, Client
+from django.test import TestCase, RequestFactory, Client, override_settings
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.utils import timezone
@@ -293,10 +293,11 @@ class RequestValidatorTest(TestCase):
         request.META['REMOTE_ADDR'] = '192.168.1.100'
         
         # RequestValidator now uses get_client_ip from utils.helpers internally
-        ip = get_client_ip(request)
-        
-        # Should get first IP from X-Forwarded-For
-        self.assertEqual(ip, '10.0.0.1')
+        # X-Forwarded-For is only read as far as our own proxies reach
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(get_client_ip(request), '192.168.1.100')
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip(request), '192.168.1.100')
 
 
 class SecurityMiddlewareTest(TestCase):

@@ -248,7 +248,9 @@ class SecurityHeadersManagerTest(TestCase):
         self.assertIn('X-Frame-Options', headers)
         self.assertIn('X-Content-Type-Options', headers)
         self.assertIn('X-XSS-Protection', headers)
-        self.assertIn('Content-Security-Policy', headers)
+        # Content-Security-Policy is owned by django-csp, not this manager -
+        # setting it here would shadow the site policy and its script nonce.
+        self.assertNotIn('Content-Security-Policy', headers)
     
     def test_apply_security_headers(self):
         """Test applying headers to response"""

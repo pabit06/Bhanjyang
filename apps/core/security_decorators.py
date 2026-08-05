@@ -6,6 +6,10 @@ from django.utils import timezone
 from .models import APIKey, SecurityLog
 from django.contrib.auth.models import AbstractBaseUser, AnonymousUser
 import logging
+from apps.shared_security import (
+    get_client_ip as resolve_client_ip,
+    get_client_ip_from_meta as resolve_client_ip_from_meta,
+)
 
 logger = logging.getLogger('bhanjyang')
 
@@ -15,10 +19,7 @@ class SecurityManager:
 
     @staticmethod
     def get_client_ip(request: HttpRequest) -> str:
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            return x_forwarded_for.split(',')[0]
-        return request.META.get('REMOTE_ADDR', '')
+        return resolve_client_ip(request, default='')
 
     @staticmethod
     def log_security_event(

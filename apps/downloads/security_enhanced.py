@@ -71,12 +71,20 @@ class IPBlacklistManager:
             return False
         
         if duration is None:
-            duration = getattr(
+            configured = getattr(
                 settings,
                 'IP_BLACKLIST_DURATION',
                 cls.DEFAULT_DURATION
             )
-        
+            # settings.IP_BLACKLIST_DURATION is expressed in seconds, which is
+            # how apps.shared_security reads the same setting. Callers of this
+            # method still pass a timedelta, so accept both.
+            duration = (
+                configured if isinstance(configured, timedelta)
+                else timedelta(seconds=int(configured))
+            )
+
+
         cache_key = f"{cls.BLACKLIST_PREFIX}{ip_address}"
         blacklist_data = {
             'reason': reason,

@@ -2,6 +2,10 @@ from django.utils.deprecation import MiddlewareMixin
 from django.conf import settings
 from django.http import HttpResponse
 import re
+from apps.shared_security import (
+    get_client_ip as resolve_client_ip,
+    get_client_ip_from_meta as resolve_client_ip_from_meta,
+)
 
 
 class SecurityHeadersMiddleware(MiddlewareMixin):
@@ -128,12 +132,7 @@ class RateLimitMiddleware(MiddlewareMixin):
     
     def get_client_ip(self, request):
         """Get client IP address"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+        return resolve_client_ip(request)
     
     def get_rate_limit_type(self, path):
         """Determine rate limit type from path"""
@@ -408,9 +407,4 @@ class SecurityLoggingMiddleware(MiddlewareMixin):
     
     def get_client_ip(self, request):
         """Get client IP address"""
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
+        return resolve_client_ip(request)

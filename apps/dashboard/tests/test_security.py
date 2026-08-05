@@ -1,7 +1,7 @@
 """
 Tests for dashboard app security module
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.utils import timezone
@@ -100,12 +100,21 @@ class SecurityMiddlewareTest(TestCase):
         ip = self.middleware.get_client_ip(request)
         self.assertEqual(ip, '127.0.0.1')
     
-    def test_get_client_ip_with_proxy(self):
-        """Test getting client IP with proxy"""
+    def test_get_client_ip_ignores_untrusted_proxy_header(self):
+        """X-Forwarded-For is ignored when no proxy is trusted"""
         request = self.factory.get('/dashboard/')
         request.META['HTTP_X_FORWARDED_FOR'] = '192.168.1.1, 127.0.0.1'
-        ip = self.middleware.get_client_ip(request)
-        self.assertEqual(ip, '192.168.1.1')
+        request.META['REMOTE_ADDR'] = '203.0.113.9'
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(self.middleware.get_client_ip(request), '203.0.113.9')
+
+    def test_get_client_ip_with_trusted_proxy(self):
+        """With one proxy in front, its appended entry is the client"""
+        request = self.factory.get('/dashboard/')
+        request.META['HTTP_X_FORWARDED_FOR'] = '192.168.1.1, 127.0.0.1'
+        request.META['REMOTE_ADDR'] = '203.0.113.9'
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(self.middleware.get_client_ip(request), '127.0.0.1')
 
 
 class SecurityUtilsTest(TestCase):
@@ -118,24 +127,12 @@ class SecurityUtilsTest(TestCase):
             password='testpass123'
         )
     
-    def test_validate_user_permission(self):
-        """Test validating user permission"""
-        result = SecurityUtils.validate_user_permission(self.user, 'view_dashboard')
-        # Should return True or False depending on permissions
-        self.assertIsInstance(result, bool)
-    
-    def test_check_ip_whitelist(self):
-        """Test checking IP whitelist"""
-        result = SecurityUtils.check_ip_whitelist('127.0.0.1')
-        # Should return True or False
-        self.assertIsInstance(result, bool)
-    
-    def test_validate_session(self):
-        """Test validating session"""
-        result = SecurityUtils.validate_session('test_session_id')
-        # Should return True or False
-        self.assertIsInstance(result, bool)
-    
+    # Removed: test_validate_user_permission, test_check_ip_whitelist and
+    # test_validate_session. SecurityUtils never had those methods - it provides
+    # log_user_action(), check_rate_limit() and get_user_activity_summary().
+    # Permission validation, an IP whitelist and session validation were never
+    # built, so there was nothing for those tests to cover.
+
     def test_log_security_event(self):
         """Test logging security event"""
         SecurityUtils.log_security_event(
@@ -162,31 +159,12 @@ class RoleBasedAccessControlTest(TestCase):
         """Test has_permission"""
         result = self.rbac.has_permission(self.user, 'view_dashboard')
         self.assertIsInstance(result, bool)
-    
-    def test_has_role(self):
-        """Test has_role"""
-        result = self.rbac.has_role(self.user, 'admin')
-        self.assertIsInstance(result, bool)
-    
-    def test_get_user_permissions(self):
-        """Test getting user permissions"""
-        permissions = self.rbac.get_user_permissions(self.user)
-        self.assertIsInstance(permissions, list)
-    
-    def test_get_user_roles(self):
-        """Test getting user roles"""
-        roles = self.rbac.get_user_roles(self.user)
-        self.assertIsInstance(roles, list)
-    
-    def test_assign_role(self):
-        """Test assigning role"""
-        result = self.rbac.assign_role(self.user, 'viewer')
-        # Should return True or False
-        self.assertIsInstance(result, bool)
-    
-    def test_revoke_role(self):
-        """Test revoking role"""
-        result = self.rbac.revoke_role(self.user, 'viewer')
-        # Should return True or False
-        self.assertIsInstance(result, bool)
+
+    # Removed: test_has_role, test_get_user_permissions, test_get_user_roles,
+    # test_assign_role and test_revoke_role. RoleBasedAccessControl only maps
+    # permissions to hard-coded role names in PERMISSIONS and exposes
+    # has_permission()/require_permission(); there is no role storage to assign
+    # to, revoke from or read back. security.py says as much: "For now, all
+    # staff have admin permissions. In production, you'd have a proper role
+    # system." Restore these alongside that role system.
 

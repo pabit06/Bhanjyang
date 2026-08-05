@@ -245,17 +245,23 @@ class DownloadsSecurityMiddleware(MiddlewareMixin):
 
 class SecurityHeadersMiddleware(MiddlewareMixin):
     """
-    Adds security headers to responses including Content Security Policy (CSP).
-    
+    Adds security headers to responses.
+
     Headers added:
     - X-Content-Type-Options: nosniff
     - X-Frame-Options: DENY
     - X-XSS-Protection: 1; mode=block
     - Referrer-Policy: strict-origin-when-cross-origin
     - Permissions-Policy: (restrictive)
-    - Content-Security-Policy: (CSP policy for downloads)
+
+    Content-Security-Policy is deliberately NOT set here. django-csp
+    (csp.middleware.CSPMiddleware) builds the site-wide policy from the CSP_*
+    settings, including the per-request script nonce. This middleware runs
+    earlier in the response phase, so setting the header here would win -
+    django-csp does not overwrite an existing header - and downloads pages would
+    silently fall back to a policy with no nonce and 'unsafe-inline'.
     """
-    
+
     HEADERS = {
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'DENY',
@@ -263,26 +269,7 @@ class SecurityHeadersMiddleware(MiddlewareMixin):
         'Referrer-Policy': 'strict-origin-when-cross-origin',
         'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
     }
-    
-    # Content Security Policy for downloads pages
-    # Allows necessary external resources (CDN, fonts) while maintaining security
-    # Note: frame-src includes 'self' to allow same-origin iframes for PDF previews
-    CSP_POLICY = (
-        "default-src 'self'; "
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' "
-        "https://cdnjs.cloudflare.com https://unpkg.com https://cdn.jsdelivr.net "
-        "https://www.googletagmanager.com https://www.google-analytics.com; "
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; "
-        "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; "
-        "img-src 'self' data: https: blob:; "
-        "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net; "
-        "frame-src 'self' https://www.google.com; "
-        "object-src 'none'; "
-        "base-uri 'self'; "
-        "form-action 'self'; "
-        "frame-ancestors 'none';"
-    )
-    
+
     def process_response(
         self,
         request: HttpRequest,
@@ -305,11 +292,7 @@ class SecurityHeadersMiddleware(MiddlewareMixin):
                 # Don't override existing headers
                 if header not in response:
                     response[header] = value
-            
-            # Add Content Security Policy header
-            if 'Content-Security-Policy' not in response:
-                response['Content-Security-Policy'] = self.CSP_POLICY
-        
+
         return response
 
 

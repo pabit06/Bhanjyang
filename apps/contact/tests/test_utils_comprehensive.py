@@ -1,7 +1,7 @@
 """
 Comprehensive tests for Contact utilities
 """
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, override_settings
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.utils import timezone
@@ -159,25 +159,32 @@ class ContactHelpersTest(TestCase):
         
         self.assertEqual(ip, '192.168.1.1')
     
-    def test_get_client_ip_forwarded(self):
-        """Test getting client IP from X-Forwarded-For header"""
+    def test_get_client_ip_ignores_untrusted_forwarded_for(self):
+        """X-Forwarded-For is ignored when no proxy is trusted"""
         request = self.factory.get('/contact/')
         request.META['HTTP_X_FORWARDED_FOR'] = '10.0.0.1, 192.168.1.1'
         request.META['REMOTE_ADDR'] = '127.0.0.1'
-        
-        ip = get_client_ip(request)
-        
-        self.assertEqual(ip, '10.0.0.1')
+
+        with override_settings(TRUSTED_PROXY_COUNT=0):
+            self.assertEqual(get_client_ip(request), '127.0.0.1')
+
+    def test_get_client_ip_uses_trusted_proxy_entry(self):
+        """With one proxy in front, its appended entry is the client"""
+        request = self.factory.get('/contact/')
+        request.META['HTTP_X_FORWARDED_FOR'] = '10.0.0.1, 192.168.1.1'
+        request.META['REMOTE_ADDR'] = '127.0.0.1'
+
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip(request), '192.168.1.1')
     
     def test_get_client_ip_forwarded_with_spaces(self):
         """Test getting client IP from X-Forwarded-For with spaces"""
         request = self.factory.get('/contact/')
-        request.META['HTTP_X_FORWARDED_FOR'] = '  10.0.0.1  ,  192.168.1.1  '
+        request.META['HTTP_X_FORWARDED_FOR'] = '  192.168.1.1  ,  10.0.0.1  '
         request.META['REMOTE_ADDR'] = '127.0.0.1'
-        
-        ip = get_client_ip(request)
-        
-        self.assertEqual(ip, '10.0.0.1')
+
+        with override_settings(TRUSTED_PROXY_COUNT=1):
+            self.assertEqual(get_client_ip(request), '10.0.0.1')
     
     def test_get_client_ip_no_remote_addr(self):
         """Test getting client IP when REMOTE_ADDR is missing"""
