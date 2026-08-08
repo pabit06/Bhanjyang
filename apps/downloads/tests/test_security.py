@@ -349,6 +349,19 @@ class AccessControlManagerTest(TestCase):
         
         self.assertFalse(can_download)
         self.assertIn('Insufficient permissions', reason)
+
+    def test_can_download_file_financial_report_requires_login_non_staff(self):
+        """Login-required RPT files must still require financial access."""
+        self.file_obj.category = FileCategory.REPORT
+        self.file_obj.requires_login = True
+        self.file_obj.save()
+
+        can_download, reason = AccessControlManager.can_download_file(
+            self.user, self.file_obj
+        )
+
+        self.assertFalse(can_download)
+        self.assertIn('Insufficient permissions', reason)
     
     def test_can_download_file_policy_staff(self):
         """Test downloading policy document as staff"""
@@ -418,6 +431,70 @@ class AccessControlManagerTest(TestCase):
         has_access = AccessControlManager.has_admin_access(self.user)
         
         self.assertFalse(has_access)
+
+    def test_filter_accessible_queryset_anonymous_excludes_restricted(self):
+        """Anonymous API consumers must not see policy or financial files."""
+        from django.contrib.auth.models import AnonymousUser
+
+        policy = DownloadableFile.objects.create(
+            title='Policy',
+            file=SimpleUploadedFile('policy.pdf', b'p', content_type='application/pdf'),
+            category=FileCategory.POLICY,
+            is_active=True,
+            uploaded_by=self.user,
+        )
+        report = DownloadableFile.objects.create(
+            title='Report',
+            file=SimpleUploadedFile('report.pdf', b'r', content_type='application/pdf'),
+            category=FileCategory.REPORT,
+            is_active=True,
+            uploaded_by=self.user,
+        )
+
+        queryset = AccessControlManager.filter_accessible_queryset(
+            AnonymousUser(),
+            DownloadableFile.objects.filter(is_active=True),
+        )
+        visible_ids = set(queryset.values_list('pk', flat=True))
+
+        self.assertIn(self.file_obj.pk, visible_ids)
+        self.assertNotIn(policy.pk, visible_ids)
+        self.assertNotIn(report.pk, visible_ids)
+
+    def test_filter_accessible_queryset_non_staff_excludes_policy(self):
+        """Authenticated members must not see policy documents in API lists."""
+        policy = DownloadableFile.objects.create(
+            title='Policy',
+            file=SimpleUploadedFile('policy.pdf', b'p', content_type='application/pdf'),
+            category=FileCategory.POLICY,
+            is_active=True,
+            uploaded_by=self.user,
+        )
+
+        queryset = AccessControlManager.filter_accessible_queryset(
+            self.user,
+            DownloadableFile.objects.filter(is_active=True),
+        )
+
+        self.assertNotIn(policy.pk, set(queryset.values_list('pk', flat=True)))
+
+    def test_filter_accessible_queryset_non_staff_excludes_login_required_rpt(self):
+        """Login-required RPT files must not appear for users without financial access."""
+        report = DownloadableFile.objects.create(
+            title='Staff Report',
+            file=SimpleUploadedFile('report.pdf', b'r', content_type='application/pdf'),
+            category=FileCategory.REPORT,
+            is_active=True,
+            requires_login=True,
+            uploaded_by=self.user,
+        )
+
+        queryset = AccessControlManager.filter_accessible_queryset(
+            self.user,
+            DownloadableFile.objects.filter(is_active=True),
+        )
+
+        self.assertNotIn(report.pk, set(queryset.values_list('pk', flat=True)))
 
 
 class SecurityAuditLoggerTest(TestCase):
