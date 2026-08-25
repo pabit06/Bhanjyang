@@ -349,6 +349,19 @@ class AccessControlManagerTest(TestCase):
         
         self.assertFalse(can_download)
         self.assertIn('Insufficient permissions', reason)
+
+    def test_can_download_file_financial_report_requires_login_non_staff(self):
+        """Login-required RPT files still require financial access permission."""
+        self.file_obj.category = FileCategory.REPORT
+        self.file_obj.requires_login = True
+        self.file_obj.save()
+
+        can_download, reason = AccessControlManager.can_download_file(
+            self.user, self.file_obj
+        )
+
+        self.assertFalse(can_download)
+        self.assertIn('Insufficient permissions', reason)
     
     def test_can_download_file_policy_staff(self):
         """Test downloading policy document as staff"""
